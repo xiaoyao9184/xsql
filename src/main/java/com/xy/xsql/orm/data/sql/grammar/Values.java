@@ -10,4 +10,7 @@ public class Values implements Element {
 
     public Values(int count) {
     }
+
+    public Values(int count,int groupCount) {
+    }
 }

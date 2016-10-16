@@ -44,4 +44,8 @@ public class Value
     public Value clone() {
         return new Value(this.value);
     }
+
+    public static Value valueOf(com.xy.xsql.orm.data.sql.Value value) {
+        return new Value(value.toValueString());
+    }
 }

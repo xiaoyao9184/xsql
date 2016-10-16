@@ -36,6 +36,10 @@ public class Column
         this.table = new Table(tableName.getRealName(),tableName.getOtherName());
     }
 
+    public Column(Name columnName) {
+        super(columnName.getRealName(),columnName.getOtherName());
+    }
+
     /**
      * 获取Table
      * @return Table
