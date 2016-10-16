@@ -2,9 +2,9 @@ package com.xy.xsql.orm.core;
 
 import com.xy.xsql.orm.annotation.*;
 import com.xy.xsql.orm.data.config.ASqlConfig;
-import com.xy.xsql.orm.data.sql.annotation.*;
-import com.xy.xsql.orm.data.sql.base.Column;
-import com.xy.xsql.orm.data.sql.base.Name;
+import com.xy.xsql.orm.data.entity.*;
+import com.xy.xsql.orm.data.sql.info.Column;
+import com.xy.xsql.orm.data.sql.info.Name;
 import com.xy.xsql.orm.util.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

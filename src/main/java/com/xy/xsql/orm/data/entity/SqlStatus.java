@@ -1,8 +1,8 @@
-package com.xy.xsql.orm.data.sql.annotation;
+package com.xy.xsql.orm.data.entity;
 
 import com.xy.xsql.orm.annotation.EntityColumn;
 import com.xy.xsql.orm.annotation.EntityColumnStatus;
-import com.xy.xsql.orm.data.sql.base.Table;
+import com.xy.xsql.orm.data.sql.info.Table;
 
 import java.lang.reflect.Field;
 

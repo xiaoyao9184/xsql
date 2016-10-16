@@ -3,7 +3,7 @@ package com.xy.xsql.orm.core;
 import com.xy.xsql.orm.annotation.EntityTable;
 import com.xy.xsql.orm.annotation.EntitySql;
 import com.xy.xsql.orm.data.param.EntityParam;
-import com.xy.xsql.orm.data.sql.annotation.SqlEntity;
+import com.xy.xsql.orm.data.entity.SqlEntity;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.ArrayList;

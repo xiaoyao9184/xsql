@@ -1,12 +1,11 @@
-package com.xy.xsql.orm.data.sql.annotation;
+package com.xy.xsql.orm.data.entity;
 
 import com.xy.xsql.orm.annotation.EntityColumn;
 import com.xy.xsql.orm.annotation.EntityColumnParam;
-import com.xy.xsql.orm.core.ASql;
-import com.xy.xsql.orm.data.sql.base.Column;
-import com.xy.xsql.orm.data.sql.base.Param;
-import com.xy.xsql.orm.data.sql.base.Table;
-import com.xy.xsql.orm.data.sql.base.Value;
+import com.xy.xsql.orm.data.sql.info.Column;
+import com.xy.xsql.orm.data.sql.info.Param;
+import com.xy.xsql.orm.data.sql.info.Table;
+import com.xy.xsql.orm.data.sql.info.Value;
 
 import java.lang.reflect.Field;
 

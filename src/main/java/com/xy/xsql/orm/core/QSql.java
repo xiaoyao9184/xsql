@@ -1,9 +1,9 @@
 package com.xy.xsql.orm.core;
 
 import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.base.Column;
-import com.xy.xsql.orm.data.sql.base.Param;
-import com.xy.xsql.orm.data.sql.base.Table;
+import com.xy.xsql.orm.data.sql.info.Column;
+import com.xy.xsql.orm.data.sql.info.Param;
+import com.xy.xsql.orm.data.sql.info.Table;
 import com.xy.xsql.orm.data.sql.grammar.*;
 
 import java.util.ArrayList;

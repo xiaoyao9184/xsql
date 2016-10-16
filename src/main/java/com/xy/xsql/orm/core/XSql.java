@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core;
 
-import com.xy.xsql.orm.data.sql.base.*;
+import com.xy.xsql.orm.data.sql.info.*;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.ArrayList;

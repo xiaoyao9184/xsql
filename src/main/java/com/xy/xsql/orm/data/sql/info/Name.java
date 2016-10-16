@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.data.sql.base;
+package com.xy.xsql.orm.data.sql.info;
 
 import com.xy.xsql.orm.util.CheckUtil;
 

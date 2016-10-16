@@ -2,9 +2,11 @@ package com.xy.xsql.orm.core;
 
 import com.xy.xsql.orm.data.cache.ASqlCache;
 import com.xy.xsql.orm.data.config.ASqlConfig;
+import com.xy.xsql.orm.data.entity.SqlColumn;
+import com.xy.xsql.orm.data.entity.SqlEntity;
+import com.xy.xsql.orm.data.entity.SqlParam;
 import com.xy.xsql.orm.data.param.EntityParam;
-import com.xy.xsql.orm.data.sql.annotation.*;
-import com.xy.xsql.orm.data.sql.base.*;
+import com.xy.xsql.orm.data.sql.info.*;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.*;
