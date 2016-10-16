@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.mapping;
+package com.xy.xsql.orm.mapping.row;
 
 import org.springframework.jdbc.core.RowMapper;
 

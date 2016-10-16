@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.mapping;
+package com.xy.xsql.orm.mapping.row;
 
 import com.xy.xsql.orm.annotation.EntityColumn;
 import com.xy.xsql.orm.annotation.EntitySql;
