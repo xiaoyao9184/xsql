@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.data.sql.info;
 
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.Relationship;
 import com.xy.xsql.orm.data.sql.Value;
 
 /**
@@ -13,14 +14,14 @@ public class Param
 
     protected boolean and;
     protected Column column;
-    protected String relationship;
+    protected Relationship relationship;
     protected Value value;
 
     public Param(){
 
     }
 
-    public Param(boolean and, Column column, String relationship, Value value){
+    public Param(boolean and, Column column, Relationship relationship, Value value){
         this.and = and;
         this.column = column;
         this.relationship = relationship;
@@ -43,11 +44,11 @@ public class Param
         this.column = column;
     }
 
-    public String getRelationship() {
+    public Relationship getRelationship() {
         return relationship;
     }
 
-    public void setRelationship(String relationship) {
+    public void setRelationship(Relationship relationship) {
         this.relationship = relationship;
     }
 

@@ -3,16 +3,18 @@ package com.xy.xsql.orm.data.sql.fun;
 import com.xy.xsql.orm.data.sql.info.Column;
 
 /**
- * Created by xiaoyao9184 on 2016/7/14.
+ * Created by xiaoyao9184 on 2016/10/23.
  */
-public class Count extends Column {
+public class Format extends Column {
     private Column column;
+    private String format;
 
-    public Count(){
+    public Format(){
         this.column = new Column();
     }
 
-    public Count(Column column){
+    public Format(Column column, String format){
         this.column = column;
+        this.format = format;
     }
 }

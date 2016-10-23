@@ -7,20 +7,44 @@ import com.xy.xsql.orm.data.sql.Element;
  */
 public class Join implements Element {
 
-    private boolean left;
+    private JoinType type;
 
     public Join() {
 
     }
 
+    public Join inner(){
+        this.type = JoinType.INNER;
+        return this;
+    }
+
     public Join left(){
-        this.left = true;
+        this.type = JoinType.LEFT;
+        return this;
+    }
+
+    public Join right(){
+        this.type = JoinType.RIGHT;
+        return this;
+    }
+
+    public Join full(){
+        this.type = JoinType.FULL;
         return this;
     }
 
 
-
     public String toString(){
-        return "JOIN";
+        return this.type.name().toUpperCase() + " JOIN";
+    }
+
+    /**
+     * Type
+     */
+    public enum JoinType {
+        INNER,
+        LEFT,
+        RIGHT,
+        FULL
     }
 }
