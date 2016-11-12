@@ -6,13 +6,13 @@ import java.util.List;
  * 分页对象
  * Created by xiaoyao9184 on 2016/1/11.
  */
-public class Page<T> {
+public class Page<DateType> {
     private int pageSize;
     private int pageNumber;
     private int pageCount;  //pageTotal
     private int rowNumber;  //totalStart
     private int rowCount;   //totalCount
-    private List<T> pageList;
+    private List<DateType> pageList;
 
     public Page(){}
 

@@ -11,7 +11,7 @@ import java.util.List;
  * 参数分页对象
  * Created by xiaoyao9184 on 2016/1/11.
  */
-public class ParamPage extends Page {
+public class ParamPage<SrcType,TarType> extends Page<SrcType> {
 
     /**
      * 标识自动填充参数
@@ -24,11 +24,11 @@ public class ParamPage extends Page {
     /**
      * VO类型
      */
-    private Class voClass = null;
+    private Class<TarType> voClass = null;
     /**
      * 已经映射转换完毕
      */
-    private boolean  maped = false;
+    private boolean maped = false;
 
 
     public ParamPage(int pageNo, int pageSize){
