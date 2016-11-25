@@ -10,18 +10,18 @@ import java.lang.reflect.Field;
  * SQL字段
  * Created by xiaoyao9184 on 2016/1/16.
  */
-public class SqlColumn extends Column {
+public class EntityColumn extends Column {
     protected EColumn eColumn;
     protected Field field;
 
-    public SqlColumn(EColumn eColumn, Field field, Table table){
+    public EntityColumn(EColumn eColumn, Field field, Table table){
         super(eColumn.name(),field.getName());
         super.table = table;
         this.eColumn = eColumn;
         this.field = field;
     }
 
-    public SqlColumn(String realName, String otherName) {
+    public EntityColumn(String realName, String otherName) {
         super(realName, otherName);
     }
 

@@ -11,17 +11,17 @@ import java.lang.reflect.Field;
  * SQL排序
  * Created by xiaoyao9184 on 2016/1/16.
  */
-public class SqlOrder extends Order {
+public class EntityOrder extends Order {
 
-    private SqlColumn sqlColumn;
+    private EntityColumn entityColumn;
     protected EOrder eOrder;
 
 
-    public SqlOrder(EOrder eOrder, EColumn eColumn, Field field, Table table){
-        this.sqlColumn = new SqlColumn(eColumn, field, table);
+    public EntityOrder(EOrder eOrder, EColumn eColumn, Field field, Table table){
+        this.entityColumn = new EntityColumn(eColumn, field, table);
         this.eOrder = eOrder;
 
-        super.column = this.sqlColumn;
+        super.column = this.entityColumn;
         super.aes = eOrder.aes();
     }
 
@@ -34,12 +34,12 @@ public class SqlOrder extends Order {
         this.eOrder = eOrder;
     }
 
-    public SqlColumn getSqlColumn() {
-        return sqlColumn;
+    public EntityColumn getEntityColumn() {
+        return entityColumn;
     }
 
-    public void setSqlColumn(SqlColumn sqlColumn) {
-        this.sqlColumn = sqlColumn;
+    public void setEntityColumn(EntityColumn entityColumn) {
+        this.entityColumn = entityColumn;
     }
 
 

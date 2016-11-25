@@ -10,11 +10,11 @@ import java.lang.reflect.Field;
  * 特殊字段：主键
  * Created by xiaoyao9184 on 2016/1/16.
  */
-public class SqlKey extends SqlColumn {
+public class EntityKey extends EntityColumn {
 
     private EKey eKeys;
 
-    public SqlKey(EKey eKeys, EColumn eColumn, Field field, Table table){
+    public EntityKey(EKey eKeys, EColumn eColumn, Field field, Table table){
         super(eColumn, field, table);
         this.eKeys = eKeys;
     }

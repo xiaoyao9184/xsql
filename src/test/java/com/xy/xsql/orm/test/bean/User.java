@@ -21,7 +21,7 @@ public class User {
     @EColumn(name = "code")
     private String code;
 
-    @EBind(main = UserType.class)
+    @ELink(main = UserType.class)
     @EParam
     @EColumn(name = "type")
     private String typeID;

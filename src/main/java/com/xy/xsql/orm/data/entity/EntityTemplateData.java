@@ -8,54 +8,54 @@ import java.util.List;
  * 支持主键、状态字段、基本字段、外键字段、参数字段、排序字段
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class SqlEntityData {
+public class EntityTemplateData {
 
-    private SqlTable tableName = null;
+    private EntityTable tableName = null;
 
-    private List<SqlKey> tableKey = null;
+    private List<EntityKey> tableKey = null;
 
-    private SqlStatus tableStatus = null;
+    private EntityStatus tableStatus = null;
 
     private List<Field> tableField = null;
 
-    private List<SqlColumn> tableColumn = null;
+    private List<EntityColumn> tableColumn = null;
 
-    private List<SqlEntity> tableEntity = null;
+    private List<EntityLink> tableEntity = null;
 
-    private List<SqlParam> tableParam = null;
+    private List<EntityParam> tableParam = null;
 
-    private List<SqlOrder> tableOrder = null;
+    private List<EntityOrder> tableOrder = null;
 
     /**
      * 表名
      */
-    public SqlTable getTableName() {
+    public EntityTable getTableName() {
         return tableName;
     }
 
-    public void setTableName(SqlTable tableName) {
+    public void setTableName(EntityTable tableName) {
         this.tableName = tableName;
     }
 
     /**
      * 特殊字段：主键
      */
-    public List<SqlKey> getTableKey() {
+    public List<EntityKey> getTableKey() {
         return tableKey;
     }
 
-    public void setTableKey(List<SqlKey> tableKey) {
+    public void setTableKey(List<EntityKey> tableKey) {
         this.tableKey = tableKey;
     }
 
     /**
      * 特殊字段：状态
      */
-    public SqlStatus getTableStatus() {
+    public EntityStatus getTableStatus() {
         return tableStatus;
     }
 
-    public void setTableStatus(SqlStatus tableStatus) {
+    public void setTableStatus(EntityStatus tableStatus) {
         this.tableStatus = tableStatus;
     }
 
@@ -73,44 +73,44 @@ public class SqlEntityData {
     /**
      * 字段集合(标注为TableColumn)
      */
-    public List<SqlColumn> getTableColumn() {
+    public List<EntityColumn> getTableColumn() {
         return tableColumn;
     }
 
-    public void setTableColumn(List<SqlColumn> tableColumn) {
+    public void setTableColumn(List<EntityColumn> tableColumn) {
         this.tableColumn = tableColumn;
     }
 
     /**
      * 相关实体集合(标注为TableEntity)
      */
-    public List<SqlEntity> getTableEntity() {
+    public List<EntityLink> getTableEntity() {
         return tableEntity;
     }
 
-    public void setTableEntity(List<SqlEntity> tableEntity) {
+    public void setTableEntity(List<EntityLink> tableEntity) {
         this.tableEntity = tableEntity;
     }
 
     /**
      * 查询条件集合(标注为TableParam)
      */
-    public List<SqlParam> getTableParam() {
+    public List<EntityParam> getTableParam() {
         return tableParam;
     }
 
-    public void setTableParam(List<SqlParam> tableParam) {
+    public void setTableParam(List<EntityParam> tableParam) {
         this.tableParam = tableParam;
     }
 
     /**
      * 查询排序集合(标注为TableOrder)
      */
-    public List<SqlOrder> getTableOrder() {
+    public List<EntityOrder> getTableOrder() {
         return tableOrder;
     }
 
-    public void setTableOrder(List<SqlOrder> tableOrder) {
+    public void setTableOrder(List<EntityOrder> tableOrder) {
         this.tableOrder = tableOrder;
     }
 }

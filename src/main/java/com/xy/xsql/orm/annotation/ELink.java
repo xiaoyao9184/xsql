@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EBind {
+public @interface ELink {
 
     /**
      * 关联实体

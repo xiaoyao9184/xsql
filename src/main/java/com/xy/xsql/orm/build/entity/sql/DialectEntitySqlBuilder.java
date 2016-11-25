@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.build.entity.sql;
 
 import com.xy.xsql.orm.data.config.EntitySqlBuilderConfig;
-import com.xy.xsql.orm.data.entity.SqlEntityData;
+import com.xy.xsql.orm.data.entity.EntityTemplateData;
 
 /**
  * Entity Sql Builder
@@ -19,10 +19,10 @@ public interface DialectEntitySqlBuilder {
 
     /**
      * cache elementsSentence for later
-     * @param data SqlEntityData
+     * @param data EntityTemplateData
      * @return DialectEntitySqlBuilder
      */
-    DialectEntitySqlBuilder cacheData(SqlEntityData data);
+    DialectEntitySqlBuilder cacheData(EntityTemplateData data);
 
      /**
      * one table insert

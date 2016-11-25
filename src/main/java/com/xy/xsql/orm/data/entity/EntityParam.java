@@ -14,30 +14,30 @@ import java.lang.reflect.Field;
  * SQL参数
  * Created by xiaoyao9184 on 2016/1/16.
  */
-public class SqlParam extends Param {
+public class EntityParam extends Param {
 
-    private SqlColumn sqlColumn;
+    private EntityColumn entityColumn;
     private EParam eParam;
 
 
-    public SqlParam(EParam eParam, EColumn eColumn, Field field, Table table){
-        this.sqlColumn = new SqlColumn(eColumn, field, table);
+    public EntityParam(EParam eParam, EColumn eColumn, Field field, Table table){
+        this.entityColumn = new EntityColumn(eColumn, field, table);
         this.eParam = eParam;
 
         super.and = eParam.and();
-        super.column = this.sqlColumn;
+        super.column = this.entityColumn;
         super.relationship = OperatorEnum.valueOf(eParam.relationship());
         super.value = new Value(eParam.value());
     }
 
-    public SqlParam(Boolean and, Column column, String relationship){
+    public EntityParam(Boolean and, Column column, String relationship){
         super.and = and;
         super.column = column;
         super.relationship = OperatorEnum.valueOf(relationship);
         super.value = new Value();
     }
 
-    public SqlParam(Boolean and, Column column, String relationship, String value){
+    public EntityParam(Boolean and, Column column, String relationship, String value){
         super.and = and;
         super.column = column;
         super.relationship = OperatorEnum.valueOf(relationship);
@@ -52,12 +52,12 @@ public class SqlParam extends Param {
         this.eParam = eParam;
     }
 
-    public SqlColumn getSqlColumn() {
-        return sqlColumn;
+    public EntityColumn getEntityColumn() {
+        return entityColumn;
     }
 
-    public void setSqlColumn(SqlColumn sqlColumn) {
-        this.sqlColumn = sqlColumn;
+    public void setEntityColumn(EntityColumn entityColumn) {
+        this.entityColumn = entityColumn;
     }
 
 

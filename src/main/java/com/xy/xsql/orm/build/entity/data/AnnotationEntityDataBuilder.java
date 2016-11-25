@@ -14,10 +14,10 @@ import java.util.List;
 
 /**
  * AnnotationEntityDataBuilder
- * build SqlEntityData by class with Annotation
+ * build EntityTemplateData by class with Annotation
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEntityData> {
+public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityTemplateData> {
 
     private Logger log;
 
@@ -31,7 +31,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
     private boolean scanOrder;
 
     //tar
-    private SqlEntityData data;
+    private EntityTemplateData data;
 
     /**
      *
@@ -113,7 +113,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
 
 
     @Override
-    public SqlEntityData build(Class<?> aClass) {
+    public EntityTemplateData build(Class<?> aClass) {
         this.annotationClass = aClass;
         this.initData();
 
@@ -127,7 +127,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
      */
     private void initData() {
         this.log.info("init elementsSentence form class " + this.annotationClass);
-        this.data = new SqlEntityData();
+        this.data = new EntityTemplateData();
         this.data.setTableName(this.initTable());
         this.data.setTableField(this.initField());
         this.data.setTableColumn(this.initColumn(this.data.getTableName()));
@@ -137,7 +137,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
             this.data.setTableStatus(this.initColumnStatus(this.data.getTableName(), this.data.getTableColumn()));
         }
         if(scanEntity){
-            this.data.setTableEntity(this.initBind(this.data.getTableName(), this.data.getTableColumn()));
+            this.data.setTableEntity(this.initLink(this.data.getTableName(), this.data.getTableColumn()));
         }
         if(scanParam){
             this.data.setTableParam(this.initColumnParam(this.data.getTableName(), this.data.getTableColumn()));
@@ -154,12 +154,12 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
      * @see ETable
      * @return 表名 对象（不允许空表名）
      */
-    private SqlTable initTable() {
+    private EntityTable initTable() {
         Annotation[] annotations = annotationClass.getAnnotations();
         for (Annotation annotation : annotations) {
             if (annotation instanceof ETable) {
                 ETable eTable = (ETable) annotation;
-                return new SqlTable(eTable, this.tablePrefix);
+                return new EntityTable(eTable, this.tablePrefix);
             }
         }
         throw new UnsupportedOperationException(annotationClass.getName() + " 未使用@" + ETable.class.getSimpleName() + "标注或未设置标注属性：name！");
@@ -192,8 +192,8 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
      * 初始化字段：数据库字段
      * @see EColumn
      */
-    private List<SqlColumn> initColumn(SqlTable sqlTable){
-        List<SqlColumn> list = new ArrayList<>();
+    private List<EntityColumn> initColumn(EntityTable entityTable){
+        List<EntityColumn> list = new ArrayList<>();
 
         Field[] fields = annotationClass.getDeclaredFields();
         for (Field field : fields) {
@@ -201,7 +201,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
             for (Annotation annotation : annotations) {
                 if (annotation instanceof EColumn) {
                     EColumn eColumn = (EColumn)annotation;
-                    list.add(new SqlColumn(eColumn,field,sqlTable));
+                    list.add(new EntityColumn(eColumn,field, entityTable));
                 }
             }
         }
@@ -216,18 +216,18 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
      * @see EStatus
      * @return 注解
      */
-    private SqlStatus initColumnStatus(SqlTable sqlTable, List<SqlColumn> sqlColumnList) {
-        SqlStatus sqlStatus;
-        for (SqlColumn sqlColumn: sqlColumnList) {
-            Annotation[] annotations = sqlColumn.getField().getAnnotations();
+    private EntityStatus initColumnStatus(EntityTable entityTable, List<EntityColumn> entityColumnList) {
+        EntityStatus sqlStatus;
+        for (EntityColumn entityColumn : entityColumnList) {
+            Annotation[] annotations = entityColumn.getField().getAnnotations();
             for (Annotation annotation: annotations) {
                 if(annotation instanceof EStatus) {
                     EStatus eStatus = (EStatus)annotation;
-                    sqlStatus = new SqlStatus(
+                    sqlStatus = new EntityStatus(
                             eStatus,
-                            sqlColumn.geteColumn(),
-                            sqlColumn.getField(),
-                            sqlTable);
+                            entityColumn.geteColumn(),
+                            entityColumn.getField(),
+                            entityTable);
                     return sqlStatus;
                 }
             }
@@ -240,18 +240,18 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
      * @see EKey
      * @return 键 集合
      */
-    private List<SqlKey> initColumnKey(SqlTable sqlTable, List<SqlColumn> sqlColumnList) {
-        List<SqlKey> list = new ArrayList<>();
-        for (SqlColumn sqlColumn: sqlColumnList) {
-            Annotation[] annotations = sqlColumn.getField().getAnnotations();
+    private List<EntityKey> initColumnKey(EntityTable entityTable, List<EntityColumn> entityColumnList) {
+        List<EntityKey> list = new ArrayList<>();
+        for (EntityColumn entityColumn : entityColumnList) {
+            Annotation[] annotations = entityColumn.getField().getAnnotations();
             for (Annotation annotation: annotations) {
                 if (annotation instanceof EKey) {
                     EKey eKey = (EKey)annotation;
-                    list.add(new SqlKey(
+                    list.add(new EntityKey(
                             eKey,
-                            sqlColumn.geteColumn(),
-                            sqlColumn.getField(),
-                            sqlTable));
+                            entityColumn.geteColumn(),
+                            entityColumn.getField(),
+                            entityTable));
 
                     if(!supportMultipleKey){
                         return list;
@@ -267,23 +267,23 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
 
     /**
      * 初始化字段：相关实体
-     * @see EBind
+     * @see ELink
      * @return 相关实体 集合
      */
-    private List<SqlEntity> initBind(SqlTable sqlTable, List<SqlColumn> sqlColumnList) {
-        List<SqlEntity> list = new ArrayList<>();
-        list.add(new SqlEntity(this.annotationClass));
-        for (SqlColumn sqlColumn: sqlColumnList) {
-            Annotation[] annotations = sqlColumn.getField().getAnnotations();
+    private List<EntityLink> initLink(EntityTable entityTable, List<EntityColumn> entityColumnList) {
+        List<EntityLink> list = new ArrayList<>();
+        list.add(new EntityLink(this.annotationClass));
+        for (EntityColumn entityColumn : entityColumnList) {
+            Annotation[] annotations = entityColumn.getField().getAnnotations();
             for (Annotation annotation: annotations) {
-                if(annotation instanceof EBind) {
-                    EBind eBind = (EBind)annotation;
-                    SqlEntity sqlEntity = new SqlEntity(
-                            eBind,
-                            sqlColumn.geteColumn(),
-                            sqlColumn.getField(),
-                            sqlTable);
-                    list.add(sqlEntity);
+                if(annotation instanceof ELink) {
+                    ELink eLink = (ELink)annotation;
+                    EntityLink entityLink = new EntityLink(
+                            eLink,
+                            entityColumn.geteColumn(),
+                            entityColumn.getField(),
+                            entityTable);
+                    list.add(entityLink);
                 }
             }
         }
@@ -295,19 +295,19 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
      * @see EParam
      * @return 查询参数 集合
      */
-    private List<SqlParam> initColumnParam(SqlTable sqlTable, List<SqlColumn> sqlColumnList){
-        List<SqlParam> list = new ArrayList<>();
-        for (SqlColumn sqlColumn: sqlColumnList) {
-            Annotation[] annotations = sqlColumn.getField().getAnnotations();
+    private List<EntityParam> initColumnParam(EntityTable entityTable, List<EntityColumn> entityColumnList){
+        List<EntityParam> list = new ArrayList<>();
+        for (EntityColumn entityColumn : entityColumnList) {
+            Annotation[] annotations = entityColumn.getField().getAnnotations();
             for (Annotation annotation: annotations) {
                 if(annotation instanceof EParam) {
                     EParam eParam = (EParam)annotation;
-                    SqlParam sqlParam = new SqlParam(
+                    EntityParam entityParam = new EntityParam(
                             eParam,
-                            sqlColumn.geteColumn(),
-                            sqlColumn.getField(),
-                            sqlTable);
-                    list.add(sqlParam);
+                            entityColumn.geteColumn(),
+                            entityColumn.getField(),
+                            entityTable);
+                    list.add(entityParam);
                 }
             }
         }
@@ -319,19 +319,19 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,SqlEnti
      * @see EOrder
      * @return 查询排序 集合
      */
-    private List<SqlOrder> initColumnOrder(SqlTable sqlTable, List<SqlColumn> sqlColumnList){
-        List<SqlOrder> list = new ArrayList<>();
-        for (SqlColumn sqlColumn: sqlColumnList) {
-            Annotation[] annotations = sqlColumn.getField().getAnnotations();
+    private List<EntityOrder> initColumnOrder(EntityTable entityTable, List<EntityColumn> entityColumnList){
+        List<EntityOrder> list = new ArrayList<>();
+        for (EntityColumn entityColumn : entityColumnList) {
+            Annotation[] annotations = entityColumn.getField().getAnnotations();
             for (Annotation annotation: annotations) {
                 if(annotation instanceof EOrder) {
                     EOrder eOrder = (EOrder)annotation;
-                    SqlOrder sqlOrder = new SqlOrder(
+                    EntityOrder entityOrder = new EntityOrder(
                             eOrder,
-                            sqlColumn.geteColumn(),
-                            sqlColumn.getField(),
-                            sqlTable);
-                    list.add(sqlOrder);
+                            entityColumn.geteColumn(),
+                            entityColumn.getField(),
+                            entityTable);
+                    list.add(entityOrder);
                 }
             }
         }

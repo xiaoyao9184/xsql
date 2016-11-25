@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.build.entity.data;
 
-import com.xy.xsql.orm.data.entity.SqlEntityData;
+import com.xy.xsql.orm.data.entity.EntityTemplateData;
 import com.xy.xsql.orm.test.bean.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class AnnotationEntityDataBuilderTest {
     @Test
     public void testBuild(){
         AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder();
-        SqlEntityData data = builder.build(User.class);
+        EntityTemplateData data = builder.build(User.class);
         assert data != null;
         assert data.getTableName().getName().equals("b_user");
     }
@@ -39,7 +39,7 @@ public class AnnotationEntityDataBuilderTest {
                 .scanParam(true)
                 .scanOrder(true);
 
-        SqlEntityData data = builder.build(User.class);
+        EntityTemplateData data = builder.build(User.class);
         assert data != null;
         assert data.getTableStatus() != null;
     }

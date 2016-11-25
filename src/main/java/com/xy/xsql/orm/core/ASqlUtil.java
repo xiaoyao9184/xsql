@@ -2,8 +2,8 @@ package com.xy.xsql.orm.core;
 
 import com.xy.xsql.orm.annotation.ETable;
 import com.xy.xsql.orm.annotation.ESql;
+import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.param.EntityParam;
-import com.xy.xsql.orm.data.entity.SqlEntity;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ASqlUtil {
 
     /**
-     * 根据 SqlEntity 创建 EntityParam
-     * @param sqlEntityList SqlEntity List
+     * 根据 EntityLink 创建 EntityParam
+     * @param entityLinkList EntityLink List
      * @param entityParamList EntityParam List
      * @param defaultEnable Default Enable
      * @return EntityParam List
      */
-    public static List<EntityParam> createFullEntityParam(List<SqlEntity> sqlEntityList, List<EntityParam> entityParamList, boolean defaultEnable){
+    public static List<EntityParam> createFullEntityParam(List<EntityLink> entityLinkList, List<EntityParam> entityParamList, boolean defaultEnable){
         List<EntityParam> result = new ArrayList<>();
         //类 当前数量
         Map<Class,AtomicInteger> entityClassNowIndexMap = new HashMap<>();
@@ -36,16 +36,16 @@ public class ASqlUtil {
         Map<String,EntityParam> columnNameMap = new HashMap<>();
 
         //默认
-        for (SqlEntity sqlEntity: sqlEntityList) {
+        for (EntityLink entityLink : entityLinkList) {
             EntityParam entityParam = new EntityParam();
-            Class clazz = sqlEntity.getClazz();
+            Class clazz = entityLink.getClazz();
             entityParam.setClazz(clazz);
             String name = null;
-            if(sqlEntity.isCoreBean()){
+            if(entityLink.isCoreBean()){
                 entityParam.setUse(true);
             }else{
                 entityParam.setUse(defaultEnable);
-                name = sqlEntity.getSqlColumn().getName();
+                name = entityLink.getEntityColumn().getName();
             }
             //in ColumnMap
             entityParam.setBindColumnName(name);

@@ -10,10 +10,10 @@ import java.lang.reflect.Field;
  * 特殊字段：状态
  * Created by xiaoyao9184 on 2016/1/16.
  */
-public class SqlStatus extends SqlColumn {
+public class EntityStatus extends EntityColumn {
     private EStatus eStatus;
 
-    public SqlStatus(EStatus eStatus, EColumn eColumn, Field field, Table table) {
+    public EntityStatus(EStatus eStatus, EColumn eColumn, Field field, Table table) {
         super(eColumn, field, table);
         this.eStatus = eStatus;
     }

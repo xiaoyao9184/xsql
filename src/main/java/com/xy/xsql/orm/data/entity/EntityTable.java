@@ -7,18 +7,18 @@ import com.xy.xsql.orm.data.sql.element.info.Table;
  * SQL表
  * Created by xiaoyao9184 on 2016/1/16.
  */
-public class SqlTable extends Table {
+public class EntityTable extends Table {
     private ETable eTable;
     private String prefix;
 
-    public SqlTable(ETable eTable, String prefix){
+    public EntityTable(ETable eTable, String prefix){
         super(eTable.name(), eTable.otherName());
         this.eTable = eTable;
         this.prefix = prefix == null ? "" : prefix;
         super.setName(this.prefix + super.getName());
     }
 
-    public SqlTable(String name, String prefix){
+    public EntityTable(String name, String prefix){
         super(prefix + name, name);
         this.prefix = prefix;
     }

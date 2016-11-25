@@ -3,8 +3,8 @@ package com.xy.xsql.orm.build.entity.sql;
 import com.xy.xsql.orm.annotation.EStatus;
 import com.xy.xsql.orm.core.XSql;
 import com.xy.xsql.orm.data.config.EntitySqlBuilderConfig;
-import com.xy.xsql.orm.data.entity.SqlColumn;
-import com.xy.xsql.orm.data.entity.SqlEntityData;
+import com.xy.xsql.orm.data.entity.EntityColumn;
+import com.xy.xsql.orm.data.entity.EntityTemplateData;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
 
     protected EntitySqlBuilderConfig config;
     
-    protected SqlEntityData data;
+    protected EntityTemplateData data;
 
     public BaseDialectEntitySqlBuilder(){
         this.log = LoggerFactory.getLogger(this.getClass());
@@ -46,7 +46,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
     }
 
     @Override
-    public DialectEntitySqlBuilder cacheData(SqlEntityData data) {
+    public DialectEntitySqlBuilder cacheData(EntityTemplateData data) {
         this.data = data;
         return this;
     }
@@ -64,8 +64,8 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
     @Override
     public String sqlInsert(){
         List<String> list = new ArrayList<>();
-        for (SqlColumn sqlColumn : this.data.getTableColumn()) {
-            list.add(sqlColumn.getName());
+        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+            list.add(entityColumn.getName());
         }
 
         XSql sql = new XSql()
@@ -81,8 +81,8 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlUpdateById(){
         List<String> list = new ArrayList<>();
-        for (SqlColumn sqlColumn : this.data.getTableColumn()) {
-            list.add(sqlColumn.getName());
+        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+            list.add(entityColumn.getName());
         }
 
         XSql sql = new XSql()
@@ -157,8 +157,8 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlInsert(int count){
         List<String> list = new ArrayList<>();
-        for (SqlColumn sqlColumn : this.data.getTableColumn()) {
-            list.add(sqlColumn.getName());
+        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+            list.add(entityColumn.getName());
         }
 
         XSql sql = new XSql()
@@ -182,11 +182,11 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
         }
 
         List<String> list = new ArrayList<>();
-        for (SqlColumn sqlColumn : this.data.getTableColumn()) {
-            list.add(sqlColumn.getName());
+        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+            list.add(entityColumn.getName());
         }
         List<String> caseWhen = new ArrayList<>();
-        for (SqlColumn sqlColumn : this.data.getTableColumn()) {
+        for (EntityColumn entityColumn : this.data.getTableColumn()) {
             XSql sql = new XSql()
                     .caseStart(this.data.getTableKey().get(0).getName())
                     .whenThen(count)
