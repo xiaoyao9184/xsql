@@ -20,6 +20,11 @@ public class Table
     private String schemaName;
     private Sentence sentence;
 
+
+    public Table() {
+        super();
+    }
+
     public Table(String name) {
         super(name);
     }

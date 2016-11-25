@@ -14,6 +14,9 @@ public abstract class Name<THIS> extends Alias<THIS>
      */
     protected String name;
 
+    public Name() {
+        super();
+    }
 
     public Name(String name){
         super(null);
@@ -94,7 +97,7 @@ public abstract class Name<THIS> extends Alias<THIS>
 //    @SuppressWarnings({"RedundantStringConstructorCall", "CloneDoesntCallSuperClone"})
 //    @Override
 //    public Name clone() {
-//        return new Name(this.name,this.otherName);
+//        return new Name(this.name,this.aliasName);
 //    }
 
 }

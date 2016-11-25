@@ -9,6 +9,9 @@ public class Alias<THIS> implements Element {
 
     protected String aliasName;
 
+    public Alias() {
+    }
+
     public Alias(String aliasName){
         this.aliasName = aliasName;
     }
