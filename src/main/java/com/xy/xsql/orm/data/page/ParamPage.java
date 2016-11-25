@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.page;
 
-import com.xy.xsql.orm.annotation.EntitySql;
+import com.xy.xsql.orm.annotation.ESql;
 import com.xy.xsql.orm.data.param.EntityParam;
 import com.xy.xsql.orm.model.BaseRowNumberList;
 
@@ -114,6 +114,6 @@ public class ParamPage<SrcType,TarType> extends Page<SrcType> {
      * @return
      */
     public boolean isListSqlVo() {
-        return this.voClass != null && this.voClass.getAnnotation(EntitySql.class) != null;
+        return this.voClass != null && this.voClass.getAnnotation(ESql.class) != null;
     }
 }

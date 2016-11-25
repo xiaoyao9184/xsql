@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
+import com.xy.xsql.orm.annotation.EColumn;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
@@ -11,13 +11,13 @@ import java.lang.reflect.Field;
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class SqlColumn extends Column {
-    protected EntityColumn entityColumn;
+    protected EColumn eColumn;
     protected Field field;
 
-    public SqlColumn(EntityColumn entityColumn, Field field, Table table){
-        super(entityColumn.name(),field.getName());
+    public SqlColumn(EColumn eColumn, Field field, Table table){
+        super(eColumn.name(),field.getName());
         super.table = table;
-        this.entityColumn = entityColumn;
+        this.eColumn = eColumn;
         this.field = field;
     }
 
@@ -26,12 +26,12 @@ public class SqlColumn extends Column {
     }
 
 
-    public EntityColumn getEntityColumn() {
-        return entityColumn;
+    public EColumn geteColumn() {
+        return eColumn;
     }
 
-    public void setEntityColumn(EntityColumn entityColumn) {
-        this.entityColumn = entityColumn;
+    public void seteColumn(EColumn eColumn) {
+        this.eColumn = eColumn;
     }
 
     public Field getField() {

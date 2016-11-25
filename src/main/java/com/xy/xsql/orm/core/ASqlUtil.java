@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core;
 
-import com.xy.xsql.orm.annotation.EntityTable;
-import com.xy.xsql.orm.annotation.EntitySql;
+import com.xy.xsql.orm.annotation.ETable;
+import com.xy.xsql.orm.annotation.ESql;
 import com.xy.xsql.orm.data.param.EntityParam;
 import com.xy.xsql.orm.data.entity.SqlEntity;
 import com.xy.xsql.orm.util.CheckUtil;
@@ -121,14 +121,14 @@ public class ASqlUtil {
      * @return SQL
      */
     public static String createSqlByClass(Class clazz, Object...args) throws Exception {
-        EntitySql entitySql = (EntitySql) clazz.getAnnotation(EntitySql.class);
-        if(entitySql != null){
-            return createSqlByVo(entitySql,clazz,args);
+        ESql eSql = (ESql) clazz.getAnnotation(ESql.class);
+        if(eSql != null){
+            return createSqlByVo(eSql,clazz,args);
         }
 
-        EntityTable entityTable = (EntityTable) clazz.getAnnotation(EntityTable.class);
-        if(entityTable != null){
-            return createSqlByPo(entityTable,clazz,args);
+        ETable eTable = (ETable) clazz.getAnnotation(ETable.class);
+        if(eTable != null){
+            return createSqlByPo(eTable,clazz,args);
         }
 
         return null;
@@ -136,33 +136,33 @@ public class ASqlUtil {
 
     /**
      * 通过VO标注生成SQL语句
-     * @param entitySql 标注
+     * @param eSql 标注
      * @param clazz SQLVO
      * @param args NULL或空 不使用参数
      * @return SQL
      */
-    public static String createSqlByVo(EntitySql entitySql, Class clazz, Object...args) throws Exception {
+    public static String createSqlByVo(ESql eSql, Class clazz, Object...args) throws Exception {
         String sql;
-        if (CheckUtil.isNullOrEmpty(entitySql.sql())){
-            EntityTable entityTable = (EntityTable) clazz.getAnnotation(EntityTable.class);
-            if(entityTable != null){
-                sql = "SELECT * FROM " + entityTable.name();
+        if (CheckUtil.isNullOrEmpty(eSql.sql())){
+            ETable eTable = (ETable) clazz.getAnnotation(ETable.class);
+            if(eTable != null){
+                sql = "SELECT * FROM " + eTable.name();
             }else{
                 throw new UnsupportedOperationException(clazz.getName() + " 没有表名，无法生成SQL！");
             }
         }
-        sql = entitySql.sql();
+        sql = eSql.sql();
 
-        if(entitySql.args().length == 0){
+        if(eSql.args().length == 0){
             // TODO: 2016/6/21 空参数，不代表没有参数
-        }else if(entitySql.args().length >= args.length){
+        }else if(eSql.args().length >= args.length){
             int index = 0;
             for (Object arg: args) {
                 if(CheckUtil.isNull(arg)){
                 }else if (arg instanceof String &&
                         CheckUtil.isNullOrEmpty((String)arg)) {
                 }else{
-                    sql = sql + entitySql.args()[index];
+                    sql = sql + eSql.args()[index];
                 }
                 index++;
             }
@@ -175,12 +175,12 @@ public class ASqlUtil {
 
     /**
      * 通过PO标注生成SQL语句
-     * @param entityTable
+     * @param eTable
      * @param clazz
      * @param args
      * @return SQL
      */
-    public static String createSqlByPo(EntityTable entityTable, Class clazz, Object...args) throws Exception {
+    public static String createSqlByPo(ETable eTable, Class clazz, Object...args) throws Exception {
         A2Sql aSql = new A2Sql(clazz);
         List<EntityParam> entityParams = new ArrayList<>();
         entityParams.add(new EntityParam(args));

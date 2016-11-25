@@ -6,16 +6,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 字段实体绑定 注解
- * Created by xiaoyao9184 on 2016/1/15.
+ * 字段：排序 注解
+ * Created by xiaoyao9184 on 2016/4/25.
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EntityBind {
+public @interface EOrder {
 
     /**
-     * 关联实体
+     * 正序
      */
-    Class main();
+    boolean aes() default true;
 
 }

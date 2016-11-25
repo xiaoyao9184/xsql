@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
-import com.xy.xsql.orm.annotation.EntityBind;
+import com.xy.xsql.orm.annotation.EColumn;
+import com.xy.xsql.orm.annotation.EBind;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
 import java.lang.reflect.Field;
@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
  */
 public class SqlEntity {
     private SqlColumn sqlColumn;
-    private EntityBind entityBind;
+    private EBind eBind;
     private Class clazz;
 
     public SqlEntity(Class entityClass){
@@ -20,20 +20,20 @@ public class SqlEntity {
         this.clazz = entityClass;
     }
 
-    public SqlEntity(EntityBind entityBind, EntityColumn entityColumn, Field field, Table table){
-        this.sqlColumn = new SqlColumn(entityColumn, field, table);
-        this.entityBind = entityBind;
+    public SqlEntity(EBind eBind, EColumn eColumn, Field field, Table table){
+        this.sqlColumn = new SqlColumn(eColumn, field, table);
+        this.eBind = eBind;
 
-        this.clazz = entityBind.main();
+        this.clazz = eBind.main();
     }
 
 
-    public EntityBind getEntityBind() {
-        return entityBind;
+    public EBind geteBind() {
+        return eBind;
     }
 
-    public void setEntityBind(EntityBind entityBind) {
-        this.entityBind = entityBind;
+    public void seteBind(EBind eBind) {
+        this.eBind = eBind;
     }
 
     public SqlColumn getSqlColumn() {

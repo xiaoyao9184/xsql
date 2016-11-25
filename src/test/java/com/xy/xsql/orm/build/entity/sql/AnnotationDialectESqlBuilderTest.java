@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationDialectEntitySqlBuilderTest {
+public class AnnotationDialectESqlBuilderTest {
 
     /**
      * Default build

@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EntityColumnStatus {
+public @interface EStatus {
 
     /**
      * 删除标识

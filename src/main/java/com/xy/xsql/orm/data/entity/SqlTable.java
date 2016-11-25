@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EntityTable;
+import com.xy.xsql.orm.annotation.ETable;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
 /**
@@ -8,12 +8,12 @@ import com.xy.xsql.orm.data.sql.element.info.Table;
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class SqlTable extends Table {
-    private EntityTable entityTable;
+    private ETable eTable;
     private String prefix;
 
-    public SqlTable(EntityTable entityTable, String prefix){
-        super(entityTable.name(), entityTable.otherName());
-        this.entityTable = entityTable;
+    public SqlTable(ETable eTable, String prefix){
+        super(eTable.name(), eTable.otherName());
+        this.eTable = eTable;
         this.prefix = prefix == null ? "" : prefix;
         super.setName(this.prefix + super.getName());
     }
@@ -24,12 +24,12 @@ public class SqlTable extends Table {
     }
 
 
-    public EntityTable getEntityTable() {
-        return entityTable;
+    public ETable geteTable() {
+        return eTable;
     }
 
-    public void setEntityTable(EntityTable entityTable) {
-        this.entityTable = entityTable;
+    public void seteTable(ETable eTable) {
+        this.eTable = eTable;
     }
 
     public String getPrefix() {

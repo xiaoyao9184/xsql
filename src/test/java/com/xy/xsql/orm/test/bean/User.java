@@ -6,28 +6,28 @@ import com.xy.xsql.orm.annotation.*;
  * TEST
  * Created by xiaoyao9184 on 2016/6/26.
  */
-@EntityTable(name = "b_user", otherName = "u")
+@ETable(name = "b_user", otherName = "u")
 public class User {
 
-    @EntityColumnKey
-    @EntityColumn(name = "id")
+    @EKey
+    @EColumn(name = "id")
     private String id;
 
-    @EntityColumnParam
-    @EntityColumn(name = "name")
+    @EParam
+    @EColumn(name = "name")
     private String name;
 
-    @EntityColumnParam
-    @EntityColumn(name = "code")
+    @EParam
+    @EColumn(name = "code")
     private String code;
 
-    @EntityBind(main = UserType.class)
-    @EntityColumnParam
-    @EntityColumn(name = "type")
+    @EBind(main = UserType.class)
+    @EParam
+    @EColumn(name = "type")
     private String typeID;
 
-    @EntityColumnStatus()
-    @EntityColumn(name = "status")
+    @EStatus()
+    @EColumn(name = "status")
     private int status;
 
     public String getId() {

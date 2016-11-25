@@ -6,16 +6,21 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 字段：排序 注解
- * Created by xiaoyao9184 on 2016/4/25.
+ * 实体表 注解
+ * Created by xiaoyao9184 on 2016/6/26.
  */
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EntityColumnOrder {
+public @interface ETable {
 
     /**
-     * 正序
+     * 表名
      */
-    boolean aes() default true;
+    String name() default "";
+
+    /**
+     * 别名
+     */
+    String otherName() default "";
 
 }

@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EntitySql {
+public @interface ESql {
 
     /**
      * 查询sql

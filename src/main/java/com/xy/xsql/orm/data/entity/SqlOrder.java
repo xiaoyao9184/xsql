@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
-import com.xy.xsql.orm.annotation.EntityColumnOrder;
+import com.xy.xsql.orm.annotation.EColumn;
+import com.xy.xsql.orm.annotation.EOrder;
 import com.xy.xsql.orm.data.sql.element.info.Order;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
@@ -14,24 +14,24 @@ import java.lang.reflect.Field;
 public class SqlOrder extends Order {
 
     private SqlColumn sqlColumn;
-    protected EntityColumnOrder entityColumnOrder;
+    protected EOrder eOrder;
 
 
-    public SqlOrder(EntityColumnOrder entityColumnOrder, EntityColumn entityColumn, Field field, Table table){
-        this.sqlColumn = new SqlColumn(entityColumn, field, table);
-        this.entityColumnOrder = entityColumnOrder;
+    public SqlOrder(EOrder eOrder, EColumn eColumn, Field field, Table table){
+        this.sqlColumn = new SqlColumn(eColumn, field, table);
+        this.eOrder = eOrder;
 
         super.column = this.sqlColumn;
-        super.aes = entityColumnOrder.aes();
+        super.aes = eOrder.aes();
     }
 
 
-    public EntityColumnOrder getEntityColumnOrder() {
-        return entityColumnOrder;
+    public EOrder geteOrder() {
+        return eOrder;
     }
 
-    public void setEntityColumnOrder(EntityColumnOrder entityColumnOrder) {
-        this.entityColumnOrder = entityColumnOrder;
+    public void seteOrder(EOrder eOrder) {
+        this.eOrder = eOrder;
     }
 
     public SqlColumn getSqlColumn() {

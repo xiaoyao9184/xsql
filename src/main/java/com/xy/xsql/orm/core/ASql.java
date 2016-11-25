@@ -135,23 +135,23 @@ public class ASql {
 
     /**
      * 初始化表：名称
-     * @see EntityTable
+     * @see ETable
      * @return 表名 对象（不允许空表名）
      */
     private SqlTable initTable() {
         Annotation[] annotations = clazz.getAnnotations();
         for (Annotation annotation : annotations) {
-            if (annotation instanceof EntityTable) {
-                EntityTable entityTable = (EntityTable) annotation;
-                return new SqlTable(entityTable, config.getTablePrefix());
+            if (annotation instanceof ETable) {
+                ETable eTable = (ETable) annotation;
+                return new SqlTable(eTable, config.getTablePrefix());
             }
         }
-        throw new UnsupportedOperationException(clazz.getName() + " 未使用@" + EntityTable.class.getSimpleName() + "标注或未设置标注属性：name！");
+        throw new UnsupportedOperationException(clazz.getName() + " 未使用@" + ETable.class.getSimpleName() + "标注或未设置标注属性：name！");
     }
 
     /**
      * 初始化字段：数据库字段
-     * @see EntityColumn
+     * @see EColumn
      */
     private List<SqlColumn> initColumn(){
         this.tableField = new ArrayList<>();
@@ -161,22 +161,22 @@ public class ASql {
         for (Field field : fields) {
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation : annotations) {
-                if (annotation instanceof EntityColumn) {
-                    EntityColumn entityColumn = (EntityColumn)annotation;
+                if (annotation instanceof EColumn) {
+                    EColumn eColumn = (EColumn)annotation;
                     this.tableField.add(field);
-                    list.add(new SqlColumn(entityColumn,field,this.tableName));
+                    list.add(new SqlColumn(eColumn,field,this.tableName));
                 }
             }
         }
         if(CheckUtil.isNullOrEmpty(list)){
-            throw new UnsupportedOperationException(clazz.getName() + " 未有任何字段使用@" + EntityColumn.class.getSimpleName() + "标注！");
+            throw new UnsupportedOperationException(clazz.getName() + " 未有任何字段使用@" + EColumn.class.getSimpleName() + "标注！");
         }
         return list;
     }
 
     /**
      * 初始化字段：假删除
-     * @see EntityColumnStatus
+     * @see EStatus
      * @return 注解
      */
     private SqlStatus initColumnStatus() {
@@ -184,24 +184,24 @@ public class ASql {
         for (Field field: this.tableField) {
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation: annotations) {
-                if(annotation instanceof EntityColumnStatus) {
-                    EntityColumnStatus entityColumnStatus = (EntityColumnStatus)annotation;
-                    EntityColumn entityColumn = field.getAnnotation(EntityColumn.class);
-                    sqlStatus = new SqlStatus(entityColumnStatus, entityColumn, field, this.tableName);
+                if(annotation instanceof EStatus) {
+                    EStatus eStatus = (EStatus)annotation;
+                    EColumn eColumn = field.getAnnotation(EColumn.class);
+                    sqlStatus = new SqlStatus(eStatus, eColumn, field, this.tableName);
                     break;
                 }
             }
         }
         if(config.isOnlySelectUseStatus() &&
                 CheckUtil.isNull(sqlStatus)){
-            throw new UnsupportedOperationException(clazz.getName() + " 未有任何字段使用@" + EntityColumnStatus.class.getSimpleName() + "标注！这与设置冲突！");
+            throw new UnsupportedOperationException(clazz.getName() + " 未有任何字段使用@" + EStatus.class.getSimpleName() + "标注！这与设置冲突！");
         }
         return sqlStatus;
     }
 
     /**
      * 初始化字段：主键
-     * @see EntityColumnKey
+     * @see EKey
      * @return
      */
     private List<SqlKey> initColumnKey() {
@@ -209,13 +209,13 @@ public class ASql {
         for (Field field: this.tableField) {
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation: annotations) {
-                if (annotation instanceof EntityColumnKey) {
-                    EntityColumnKey entityColumnKey = (EntityColumnKey)annotation;
-                    EntityColumn entityColumn = field.getAnnotation(EntityColumn.class);
-                    if(entityColumn == null){
-                        throw new UnsupportedOperationException("不支持在非@" + EntityColumn.class.getSimpleName() + "标注的字段上使用@" + EntityColumnKey.class.getSimpleName() + "标注！");
+                if (annotation instanceof EKey) {
+                    EKey eKey = (EKey)annotation;
+                    EColumn eColumn = field.getAnnotation(EColumn.class);
+                    if(eColumn == null){
+                        throw new UnsupportedOperationException("不支持在非@" + EColumn.class.getSimpleName() + "标注的字段上使用@" + EKey.class.getSimpleName() + "标注！");
                     }
-                    list.add(new SqlKey(entityColumnKey, entityColumn, field, this.tableName));
+                    list.add(new SqlKey(eKey, eColumn, field, this.tableName));
                 }
             }
         }
@@ -227,7 +227,7 @@ public class ASql {
 
     /**
      * 初始化字段：相关实体
-     * @see EntityBind
+     * @see EBind
      * @return 相关实体 集合
      */
     private List<SqlEntity> initBind() {
@@ -236,13 +236,13 @@ public class ASql {
         for (Field field: this.tableField) {
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation: annotations) {
-                if(annotation instanceof EntityBind) {
-                    EntityBind entityBind = (EntityBind)annotation;
-                    EntityColumn entityColumn = field.getAnnotation(EntityColumn.class);
-                    if(entityColumn == null){
-                        throw new UnsupportedOperationException("不支持在非@" + EntityColumn.class.getSimpleName() + "标注的字段上使用@" + EntityBind.class.getSimpleName() + "标注！");
+                if(annotation instanceof EBind) {
+                    EBind eBind = (EBind)annotation;
+                    EColumn eColumn = field.getAnnotation(EColumn.class);
+                    if(eColumn == null){
+                        throw new UnsupportedOperationException("不支持在非@" + EColumn.class.getSimpleName() + "标注的字段上使用@" + EBind.class.getSimpleName() + "标注！");
                     }
-                    SqlEntity sqlEntity = new SqlEntity(entityBind, entityColumn, field, this.tableName);
+                    SqlEntity sqlEntity = new SqlEntity(eBind, eColumn, field, this.tableName);
                     list.add(sqlEntity);
                 }
             }
@@ -252,7 +252,7 @@ public class ASql {
 
     /**
      * 初始化字段：参数
-     * @see EntityColumnParam
+     * @see EParam
      * @return 查询参数 集合
      */
     private List<SqlParam> initColumnParam(){
@@ -260,13 +260,13 @@ public class ASql {
         for (Field field: this.tableField) {
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation: annotations) {
-                if(annotation instanceof EntityColumnParam) {
-                    EntityColumnParam entityColumnParam = (EntityColumnParam)annotation;
-                    EntityColumn entityColumn = field.getAnnotation(EntityColumn.class);
-                    if(entityColumn == null){
-                        throw new UnsupportedOperationException("不支持在非@" + EntityColumn.class.getSimpleName() + "标注的字段上使用@" + EntityColumnParam.class.getSimpleName() + "标注！");
+                if(annotation instanceof EParam) {
+                    EParam eParam = (EParam)annotation;
+                    EColumn eColumn = field.getAnnotation(EColumn.class);
+                    if(eColumn == null){
+                        throw new UnsupportedOperationException("不支持在非@" + EColumn.class.getSimpleName() + "标注的字段上使用@" + EParam.class.getSimpleName() + "标注！");
                     }
-                    SqlParam sqlParam = new SqlParam(entityColumnParam, entityColumn, field, this.tableName);
+                    SqlParam sqlParam = new SqlParam(eParam, eColumn, field, this.tableName);
                     list.add(sqlParam);
                 }
             }
@@ -276,7 +276,7 @@ public class ASql {
 
     /**
      * 初始化字段：排序
-     * @see EntityColumnOrder
+     * @see EOrder
      * @return 查询排序 集合
      */
     private List<SqlOrder> initColumnOrder(){
@@ -284,13 +284,13 @@ public class ASql {
         for (Field field: this.tableField) {
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation: annotations) {
-                if(annotation instanceof EntityColumnOrder) {
-                    EntityColumnOrder entityColumnOrder = (EntityColumnOrder)annotation;
-                    EntityColumn entityColumn = field.getAnnotation(EntityColumn.class);
-                    if(entityColumn == null){
-                        throw new UnsupportedOperationException("不支持在非@" + EntityColumn.class.getSimpleName() + "标注的字段上使用@" + EntityColumnOrder.class.getSimpleName() + "标注！");
+                if(annotation instanceof EOrder) {
+                    EOrder eOrder = (EOrder)annotation;
+                    EColumn eColumn = field.getAnnotation(EColumn.class);
+                    if(eColumn == null){
+                        throw new UnsupportedOperationException("不支持在非@" + EColumn.class.getSimpleName() + "标注的字段上使用@" + EOrder.class.getSimpleName() + "标注！");
                     }
-                    SqlOrder sqlOrder = new SqlOrder(entityColumnOrder, entityColumn, field, this.tableName);
+                    SqlOrder sqlOrder = new SqlOrder(eOrder, eColumn, field, this.tableName);
                     list.add(sqlOrder);
                 }
             }
@@ -381,11 +381,11 @@ public class ASql {
      */
     public String createUpdateStatusSql(){
         if(this.tableStatus == null){
-            throw new UnsupportedOperationException("没有任何字段被标注为@" + EntityColumnStatus.class.getSimpleName());
+            throw new UnsupportedOperationException("没有任何字段被标注为@" + EStatus.class.getSimpleName());
         }
         XSql sql = new XSql()
                 .update(this.tableName.getName())
-                .set(this.tableStatus.getEntityColumn().name())
+                .set(this.tableStatus.geteColumn().name())
                 .where(this.tableKey.get(0).getName(),"=");
         for(int i = 1; i < this.tableKey.size(); i++){
             sql.and(this.tableKey.get(i).getName(),"=");
@@ -511,7 +511,7 @@ public class ASql {
      */
     public String createUpdateAllStatusSql(int count){
         if(this.tableStatus == null){
-            throw new UnsupportedOperationException("没有任何字段被标注为@" + EntityColumnStatus.class.getSimpleName());
+            throw new UnsupportedOperationException("没有任何字段被标注为@" + EStatus.class.getSimpleName());
         }
         if(this.tableKey.size() > 1){
             throw new UnsupportedOperationException("联合主键不提供批量更新状态操作！");
@@ -522,7 +522,7 @@ public class ASql {
 
         XSql sql = new XSql()
                 .update(this.tableName.getName())
-                .set(this.tableStatus.getEntityColumn().name())
+                .set(this.tableStatus.geteColumn().name())
                 .where()
                 .in(this.tableKey.get(0).getName(),count);
 

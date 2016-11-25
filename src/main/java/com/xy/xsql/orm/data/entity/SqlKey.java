@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
-import com.xy.xsql.orm.annotation.EntityColumnKey;
+import com.xy.xsql.orm.annotation.EColumn;
+import com.xy.xsql.orm.annotation.EKey;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
 import java.lang.reflect.Field;
@@ -12,19 +12,19 @@ import java.lang.reflect.Field;
  */
 public class SqlKey extends SqlColumn {
 
-    private EntityColumnKey entityColumnKeys;
+    private EKey eKeys;
 
-    public SqlKey(EntityColumnKey entityColumnKeys, EntityColumn entityColumn, Field field, Table table){
-        super(entityColumn, field, table);
-        this.entityColumnKeys = entityColumnKeys;
+    public SqlKey(EKey eKeys, EColumn eColumn, Field field, Table table){
+        super(eColumn, field, table);
+        this.eKeys = eKeys;
     }
 
 
-    public EntityColumnKey getEntityColumnKeys() {
-        return entityColumnKeys;
+    public EKey geteKeys() {
+        return eKeys;
     }
 
-    public void setEntityColumnKeys(EntityColumnKey entityColumnKeys) {
-        this.entityColumnKeys = entityColumnKeys;
+    public void seteKeys(EKey eKeys) {
+        this.eKeys = eKeys;
     }
 }

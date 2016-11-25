@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
-import com.xy.xsql.orm.annotation.EntityColumnStatus;
+import com.xy.xsql.orm.annotation.EColumn;
+import com.xy.xsql.orm.annotation.EStatus;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
 import java.lang.reflect.Field;
@@ -11,19 +11,19 @@ import java.lang.reflect.Field;
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class SqlStatus extends SqlColumn {
-    private EntityColumnStatus entityColumnStatus;
+    private EStatus eStatus;
 
-    public SqlStatus(EntityColumnStatus entityColumnStatus, EntityColumn entityColumn, Field field, Table table) {
-        super(entityColumn, field, table);
-        this.entityColumnStatus = entityColumnStatus;
+    public SqlStatus(EStatus eStatus, EColumn eColumn, Field field, Table table) {
+        super(eColumn, field, table);
+        this.eStatus = eStatus;
     }
 
-    public EntityColumnStatus getEntityColumnStatus() {
-        return entityColumnStatus;
+    public EStatus geteStatus() {
+        return eStatus;
     }
 
-    public void setEntityColumnStatus(EntityColumnStatus entityColumnStatus) {
-        this.entityColumnStatus = entityColumnStatus;
+    public void seteStatus(EStatus eStatus) {
+        this.eStatus = eStatus;
     }
 
 }

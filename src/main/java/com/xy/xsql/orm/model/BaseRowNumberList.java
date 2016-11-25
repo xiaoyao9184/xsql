@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.model;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
+import com.xy.xsql.orm.annotation.EColumn;
 
 /**
  * 基本行集合
@@ -8,7 +8,7 @@ import com.xy.xsql.orm.annotation.EntityColumn;
  */
 public class BaseRowNumberList {
 
-    @EntityColumn(name = "rowNumber")
+    @EColumn(name = "rowNumber")
     private int rowNumber;
 
     public int getRowNumber() {

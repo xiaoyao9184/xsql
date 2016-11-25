@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.mapping.row;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
-import com.xy.xsql.orm.annotation.EntitySql;
+import com.xy.xsql.orm.annotation.EColumn;
+import com.xy.xsql.orm.annotation.ESql;
 import com.xy.xsql.orm.model.BaseRowNumberList;
 import com.xy.xsql.orm.util.CheckUtil;
 import org.apache.commons.beanutils.BeanUtils;
@@ -62,12 +62,12 @@ public class BaseMapper {
         for (Field field: fields) {
             String mapName = null;
             Object mapValue = null;
-            EntitySql entitySql = clazz.getAnnotation(EntitySql.class);
-            if (entitySql == null) {
+            ESql eSql = clazz.getAnnotation(ESql.class);
+            if (eSql == null) {
                 if(field.getAnnotations().length > 0){
-                    EntityColumn entityColumn = field.getAnnotation(EntityColumn.class);
-                    if(entityColumn != null){
-                        mapName = entityColumn.name();
+                    EColumn eColumn = field.getAnnotation(EColumn.class);
+                    if(eColumn != null){
+                        mapName = eColumn.name();
                     }
                 }
             }
@@ -112,12 +112,12 @@ public class BaseMapper {
         for (Field field: fields) {
             String rsName = null;
             Object rsValue = null;
-            EntitySql entitySql = clazz.getAnnotation(EntitySql.class);
-            if (entitySql == null) {
+            ESql eSql = clazz.getAnnotation(ESql.class);
+            if (eSql == null) {
                 if(field.getAnnotations().length > 0){
-                    EntityColumn entityColumn = field.getAnnotation(EntityColumn.class);
-                    if(entityColumn != null){
-                        rsName = entityColumn.name();
+                    EColumn eColumn = field.getAnnotation(EColumn.class);
+                    if(eColumn != null){
+                        rsName = eColumn.name();
                     }
                 }
             }

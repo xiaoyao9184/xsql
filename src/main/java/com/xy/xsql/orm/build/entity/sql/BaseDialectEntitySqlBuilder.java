@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.build.entity.sql;
 
-import com.xy.xsql.orm.annotation.EntityColumnStatus;
+import com.xy.xsql.orm.annotation.EStatus;
 import com.xy.xsql.orm.core.XSql;
 import com.xy.xsql.orm.data.config.EntitySqlBuilderConfig;
 import com.xy.xsql.orm.data.entity.SqlColumn;
@@ -137,11 +137,11 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlUpdateStatusById(){
         if(this.data.getTableStatus() == null){
-            throw new UnsupportedOperationException("没有任何字段被标注为@" + EntityColumnStatus.class.getSimpleName());
+            throw new UnsupportedOperationException("没有任何字段被标注为@" + EStatus.class.getSimpleName());
         }
         XSql sql = new XSql()
                 .update(this.data.getTableName().getName())
-                .set(this.data.getTableStatus().getEntityColumn().name())
+                .set(this.data.getTableStatus().geteColumn().name())
                 .where(this.data.getTableKey().get(0).getName(),"=");
         for(int i = 1; i < this.data.getTableKey().size(); i++){
             sql.and(this.data.getTableKey().get(i).getName(),"=");
@@ -267,7 +267,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlUpdateStatusByIds(int count){
         if(this.data.getTableStatus() == null){
-            throw new UnsupportedOperationException("没有任何字段被标注为@" + EntityColumnStatus.class.getSimpleName());
+            throw new UnsupportedOperationException("没有任何字段被标注为@" + EStatus.class.getSimpleName());
         }
         if(this.data.getTableKey().size() > 1){
             throw new UnsupportedOperationException("联合主键不提供批量更新状态操作！");
@@ -278,7 +278,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
 
         XSql sql = new XSql()
                 .update(this.data.getTableName().getName())
-                .set(this.data.getTableStatus().getEntityColumn().name())
+                .set(this.data.getTableStatus().geteColumn().name())
                 .where()
                 .in(this.data.getTableKey().get(0).getName(),count);
 

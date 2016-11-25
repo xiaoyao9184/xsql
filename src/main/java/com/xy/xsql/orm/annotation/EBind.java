@@ -6,21 +6,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 实体表 注解
- * Created by xiaoyao9184 on 2016/6/26.
+ * 字段实体绑定 注解
+ * Created by xiaoyao9184 on 2016/1/15.
  */
-@Target({ElementType.TYPE})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EntityTable {
+public @interface EBind {
 
     /**
-     * 表名
+     * 关联实体
      */
-    String name() default "";
-
-    /**
-     * 别名
-     */
-    String otherName() default "";
+    Class main();
 
 }

@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EntityColumn;
-import com.xy.xsql.orm.annotation.EntityColumnParam;
+import com.xy.xsql.orm.annotation.EColumn;
+import com.xy.xsql.orm.annotation.EParam;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Param;
@@ -17,17 +17,17 @@ import java.lang.reflect.Field;
 public class SqlParam extends Param {
 
     private SqlColumn sqlColumn;
-    private EntityColumnParam entityColumnParam;
+    private EParam eParam;
 
 
-    public SqlParam(EntityColumnParam entityColumnParam, EntityColumn entityColumn, Field field, Table table){
-        this.sqlColumn = new SqlColumn(entityColumn, field, table);
-        this.entityColumnParam = entityColumnParam;
+    public SqlParam(EParam eParam, EColumn eColumn, Field field, Table table){
+        this.sqlColumn = new SqlColumn(eColumn, field, table);
+        this.eParam = eParam;
 
-        super.and = entityColumnParam.and();
+        super.and = eParam.and();
         super.column = this.sqlColumn;
-        super.relationship = OperatorEnum.valueOf(entityColumnParam.relationship());
-        super.value = new Value(entityColumnParam.value());
+        super.relationship = OperatorEnum.valueOf(eParam.relationship());
+        super.value = new Value(eParam.value());
     }
 
     public SqlParam(Boolean and, Column column, String relationship){
@@ -44,12 +44,12 @@ public class SqlParam extends Param {
         super.value = new Value(value);
     }
 
-    public EntityColumnParam getEntityColumnParam() {
-        return entityColumnParam;
+    public EParam geteParam() {
+        return eParam;
     }
 
-    public void setEntityColumnParam(EntityColumnParam entityColumnParam) {
-        this.entityColumnParam = entityColumnParam;
+    public void seteParam(EParam eParam) {
+        this.eParam = eParam;
     }
 
     public SqlColumn getSqlColumn() {
