@@ -6,7 +6,11 @@ import com.xy.xsql.orm.data.entity.SqlColumn;
 import com.xy.xsql.orm.data.entity.SqlEntity;
 import com.xy.xsql.orm.data.entity.SqlParam;
 import com.xy.xsql.orm.data.param.EntityParam;
-import com.xy.xsql.orm.data.sql.info.*;
+import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.info.Column;
+import com.xy.xsql.orm.data.sql.element.info.Order;
+import com.xy.xsql.orm.data.sql.element.info.Param;
+import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.*;
@@ -84,20 +88,20 @@ public class A2Sql extends ASql {
                     //切断实体关系
                     //实体没有参数、实体参数为NULL、实体设置为隐藏
                     //仅仅在手动设置时才会出现这种情况
-                    log.info("cut column[" + sqlEntity.getSqlColumn().getRealName() + "] entity's columns");
+                    log.info("cut column[" + sqlEntity.getSqlColumn().getName() + "] entity's columns");
                 }else{
                     A2Sql a2Sql = getChildA2Sql(sqlEntity.getClazz());
                     Table customTable = a2Sql.tableName.clone();
                     //指定'主实体字段名'为表别名
-                    customTable.setOtherName(sqlEntity.getSqlColumn().getRealName());
+                    customTable.setAliasName(sqlEntity.getSqlColumn().getName());
                     for (SqlColumn customSqlColumn: a2Sql.tableColumn) {
                         Column customColumn = customSqlColumn.clone();
                         customColumn.setTable(customTable);
                         //指定'主实体字段名'+'等级连接字符串'+'字段名'为字段别名
-                        customColumn.setOtherName(
-                                customTable.getOtherName() +
+                        customColumn.setAliasName(
+                                customTable.getAliasName() +
                                 this.config.getLevelString() +
-                                customColumn.getRealName());
+                                customColumn.getName());
                         customColumnList.add(customColumn);
                     }
                 }
@@ -126,12 +130,12 @@ public class A2Sql extends ASql {
                     //切断实体关系
                     //实体没有参数、实体参数为NULL、实体设置为隐藏
                     //仅仅在手动设置时才会出现这种情况
-                    log.info("cut column[" + sqlEntity.getSqlColumn().getRealName() + "] entity's table");
+                    log.info("cut column[" + sqlEntity.getSqlColumn().getName() + "] entity's table");
                 }else{
                     A2Sql a2Sql = getChildA2Sql(sqlEntity.getClazz());
                     //指定'主实体字段名'为表别名
                     Table table = a2Sql.tableName.clone();
-                    table.setOtherName(sqlEntity.getSqlColumn().getRealName());
+                    table.setAliasName(sqlEntity.getSqlColumn().getName());
                     Column customColumn = a2Sql.tableKey.get(0).clone();
                     customColumn.setTable(table);
 
@@ -139,7 +143,7 @@ public class A2Sql extends ASql {
                     Param param = new Param();
                     param.setAnd(true);
                     param.setColumn(customColumn);
-                    param.setRelationship("=");
+                    param.setRelationship(OperatorEnum.EQUAL);
                     param.setValue(sqlEntity.getSqlColumn());
                     customParamList.add(param);
 
@@ -168,7 +172,7 @@ public class A2Sql extends ASql {
                 //切断实体关系
                 //实体没有参数、实体参数为NULL、实体设置为隐藏
                 //仅仅在手动设置时才会出现这种情况
-                log.info("cut column[" + sqlEntity.getSqlColumn().getRealName() + "] entity's params");
+                log.info("cut column[" + sqlEntity.getSqlColumn().getName() + "] entity's params");
             }else{
                 EntityParam entityParam = entityParams.get(index);
                 if(sqlEntity.isCoreBean()){
@@ -187,7 +191,7 @@ public class A2Sql extends ASql {
                                 CheckUtil.isNull(entityParam.getArgs()[argsIndex])){
                             //切断参数
                             //实际参数 未设置 忽略
-                            log.info("cut main entity's column[" + customSqlParam.getColumn().getRealName() + "] argument, arg is not set");
+                            log.info("cut main entity's column[" + customSqlParam.getColumn().getName() + "] argument, arg is not set");
                             argsIndex++;
                         }else{
                             customParamList.add(customSqlParam);
@@ -201,14 +205,14 @@ public class A2Sql extends ASql {
                                 entityParam.getArgs(),
                                 a2Sql.tableParam.size(),
                                 entityParam.getArgs().length);
-                        log.info("column[" + sqlEntity.getSqlColumn().getRealName() + "] entity's arguments are out of bounds, ignore " + Arrays.toString(notUse));
+                        log.info("column[" + sqlEntity.getSqlColumn().getName() + "] entity's arguments are out of bounds, ignore " + Arrays.toString(notUse));
                     }
                     int argsIndex = 0;
                     for (SqlParam customSqlParam: a2Sql.tableParam) {
                         if(!customSqlParam.isNeedValue()){
                             Table customTable = a2Sql.tableName.clone();
                             //指定'主实体字段名'为表别名
-                            customTable.setOtherName(sqlEntity.getSqlColumn().getRealName());
+                            customTable.setAliasName(sqlEntity.getSqlColumn().getName());
                             Param param = customSqlParam.clone();
                             param.getColumn().setTable(customTable);
                             customParamList.add(customSqlParam);
@@ -216,12 +220,12 @@ public class A2Sql extends ASql {
                                 CheckUtil.isNull(entityParam.getArgs()[argsIndex])){
                             //切断参数
                             //实际参数 未设置 忽略
-                            log.info("cut column[" + sqlEntity.getSqlColumn().getRealName() + "] entity's column[" + customSqlParam.getColumn().getRealName() + "] argument, arg is not set");
+                            log.info("cut column[" + sqlEntity.getSqlColumn().getName() + "] entity's column[" + customSqlParam.getColumn().getName() + "] argument, arg is not set");
                             argsIndex++;
                         }else{
                             Table customTable = a2Sql.tableName.clone();
                             //指定'主实体字段名'为表别名
-                            customTable.setOtherName(sqlEntity.getSqlColumn().getRealName());
+                            customTable.setAliasName(sqlEntity.getSqlColumn().getName());
                             Param param = customSqlParam.clone();
                             param.getColumn().setTable(customTable);
                             customParamList.add(param);
@@ -252,7 +256,7 @@ public class A2Sql extends ASql {
                 //切断实体关系
                 //实体没有参数、实体参数为NULL、实体设置为隐藏
                 //仅仅在手动设置时才会出现这种情况
-                log.info("cut column[" + sqlEntity.getSqlColumn().getRealName() + "] entity's orders");
+                log.info("cut column[" + sqlEntity.getSqlColumn().getName() + "] entity's orders");
             }else{
                 if(sqlEntity.isCoreBean()){
                     customOrderList.addAll(this.tableOrder);
@@ -340,7 +344,7 @@ public class A2Sql extends ASql {
         }
 
         XSql xSql = new XSql()
-                .delete(this.tableName.getOtherName())
+                .delete(this.tableName.getAliasName())
                 .from(this.tableName)
                 .leftjoin(createLeftJoinParam(entityParams))
                 .where(createWhereParam(entityParams));

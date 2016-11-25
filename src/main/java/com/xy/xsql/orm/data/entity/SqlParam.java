@@ -2,10 +2,11 @@ package com.xy.xsql.orm.data.entity;
 
 import com.xy.xsql.orm.annotation.EntityColumn;
 import com.xy.xsql.orm.annotation.EntityColumnParam;
-import com.xy.xsql.orm.data.sql.info.Column;
-import com.xy.xsql.orm.data.sql.info.Param;
-import com.xy.xsql.orm.data.sql.info.Table;
-import com.xy.xsql.orm.data.sql.info.Value;
+import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.info.Column;
+import com.xy.xsql.orm.data.sql.element.info.Param;
+import com.xy.xsql.orm.data.sql.element.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.Value;
 
 import java.lang.reflect.Field;
 
@@ -25,21 +26,21 @@ public class SqlParam extends Param {
 
         super.and = entityColumnParam.and();
         super.column = this.sqlColumn;
-        super.relationship = entityColumnParam.relationship();
+        super.relationship = OperatorEnum.valueOf(entityColumnParam.relationship());
         super.value = new Value(entityColumnParam.value());
     }
 
     public SqlParam(Boolean and, Column column, String relationship){
         super.and = and;
         super.column = column;
-        super.relationship = relationship;
+        super.relationship = OperatorEnum.valueOf(relationship);
         super.value = new Value();
     }
 
     public SqlParam(Boolean and, Column column, String relationship, String value){
         super.and = and;
         super.column = column;
-        super.relationship = relationship;
+        super.relationship = OperatorEnum.valueOf(relationship);
         super.value = new Value(value);
     }
 
@@ -65,7 +66,7 @@ public class SqlParam extends Param {
      * @return 是/否
      */
     public boolean isNeedValue(){
-        return this.value.isUnKnowValue();
+        return this.value.toString().contains("?");
     }
 
 

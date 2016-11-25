@@ -45,7 +45,7 @@ public class ASqlUtil {
                 entityParam.setUse(true);
             }else{
                 entityParam.setUse(defaultEnable);
-                name = sqlEntity.getSqlColumn().getRealName();
+                name = sqlEntity.getSqlColumn().getName();
             }
             //in ColumnMap
             entityParam.setBindColumnName(name);

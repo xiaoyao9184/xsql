@@ -24,7 +24,7 @@ public class AnnotationEntityDataBuilderTest {
         AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder();
         SqlEntityData data = builder.build(User.class);
         assert data != null;
-        assert data.getTableName().getRealName().equals("b_user");
+        assert data.getTableName().getName().equals("b_user");
     }
 
     /**

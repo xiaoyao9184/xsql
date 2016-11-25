@@ -3,8 +3,8 @@ package com.xy.xsql.orm.core;
 import com.xy.xsql.orm.annotation.*;
 import com.xy.xsql.orm.data.config.ASqlConfig;
 import com.xy.xsql.orm.data.entity.*;
-import com.xy.xsql.orm.data.sql.info.Column;
-import com.xy.xsql.orm.data.sql.info.Name;
+import com.xy.xsql.orm.data.sql.element.info.Column;
+import com.xy.xsql.orm.data.sql.element.info.Name;
 import com.xy.xsql.orm.util.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,7 +104,7 @@ public class ASql {
  */
 
     public Name getSqlTableName() {
-        return this.tableName.toName();
+        return this.tableName;
     }
 
     public void setConfig(ASqlConfig config){
@@ -309,11 +309,11 @@ public class ASql {
     public String createInsertSql(){
         List<String> list = new ArrayList<>();
         for (SqlColumn sqlColumn : this.tableColumn) {
-            list.add(sqlColumn.getRealName());
+            list.add(sqlColumn.getName());
         }
 
         XSql sql = new XSql()
-                .insert(this.tableName.getRealName())
+                .insert(this.tableName.getName())
                 .values(list);
 
         return sql.toSql();
@@ -326,15 +326,15 @@ public class ASql {
     public String createUpdateSql(){
         List<String> list = new ArrayList<>();
         for (SqlColumn sqlColumn : this.tableColumn) {
-            list.add(sqlColumn.getRealName());
+            list.add(sqlColumn.getName());
         }
 
         XSql sql = new XSql()
-                .update(this.tableName.getRealName())
+                .update(this.tableName.getName())
                 .set(list)
-                .where(this.tableKey.get(0).getRealName(),"=");
+                .where(this.tableKey.get(0).getName(),"=");
         for(int i = 1; i < this.tableKey.size(); i++){
-            sql.and(this.tableKey.get(i).getRealName(),"=");
+            sql.and(this.tableKey.get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -350,10 +350,10 @@ public class ASql {
 
         XSql sql = new XSql()
                 .select(list)
-                .from(this.tableName.getRealName())
-                .where(this.tableKey.get(0).getRealName(),"=");
+                .from(this.tableName.getName())
+                .where(this.tableKey.get(0).getName(),"=");
         for(int i = 1; i < this.tableKey.size(); i++){
-            sql.and(this.tableKey.get(i).getRealName(),"=");
+            sql.and(this.tableKey.get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -366,10 +366,10 @@ public class ASql {
     public String createDeleteSql(){
         XSql sql = new XSql()
                 .delete()
-                .from(this.tableName.getRealName())
-                .where(this.tableKey.get(0).getRealName(),"=");
+                .from(this.tableName.getName())
+                .where(this.tableKey.get(0).getName(),"=");
         for(int i = 1; i < this.tableKey.size(); i++){
-            sql.and(this.tableKey.get(i).getRealName(),"=");
+            sql.and(this.tableKey.get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -384,11 +384,11 @@ public class ASql {
             throw new UnsupportedOperationException("没有任何字段被标注为@" + EntityColumnStatus.class.getSimpleName());
         }
         XSql sql = new XSql()
-                .update(this.tableName.getRealName())
+                .update(this.tableName.getName())
                 .set(this.tableStatus.getEntityColumn().name())
-                .where(this.tableKey.get(0).getRealName(),"=");
+                .where(this.tableKey.get(0).getName(),"=");
         for(int i = 1; i < this.tableKey.size(); i++){
-            sql.and(this.tableKey.get(i).getRealName(),"=");
+            sql.and(this.tableKey.get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -402,11 +402,11 @@ public class ASql {
     public String createInsertAllSql(int count){
         List<String> list = new ArrayList<>();
         for (SqlColumn sqlColumn : this.tableColumn) {
-            list.add(sqlColumn.getRealName());
+            list.add(sqlColumn.getName());
         }
 
         XSql sql = new XSql()
-                .insert(this.tableName.getRealName())
+                .insert(this.tableName.getName())
                 .values(list,count);
 
         return sql.toSql();
@@ -427,22 +427,22 @@ public class ASql {
 
         List<String> list = new ArrayList<>();
         for (SqlColumn sqlColumn : this.tableColumn) {
-            list.add(sqlColumn.getRealName());
+            list.add(sqlColumn.getName());
         }
         List<String> caseWhen = new ArrayList<>();
         for (SqlColumn sqlColumn : this.tableColumn) {
             XSql sql = new XSql()
-                    .caseStart(this.tableKey.get(0).getRealName())
+                    .caseStart(this.tableKey.get(0).getName())
                     .whenThen(count)
                     .caseEnd();
             caseWhen.add(sql.toSql());
         }
 
         XSql sql = new XSql()
-                .update(this.tableName.getRealName())
+                .update(this.tableName.getName())
                 .set(list,caseWhen)
                 .where()
-                .in(this.tableKey.get(0).getRealName(),count);
+                .in(this.tableKey.get(0).getName(),count);
 
         return sql.toSql();
     }
@@ -458,9 +458,9 @@ public class ASql {
 
         XSql sql = new XSql()
                 .select(list)
-                .from(this.tableName.getRealName());
+                .from(this.tableName.getName());
         if(config.isOnlySelectUseStatus()){
-            sql.where(this.tableStatus.getRealName(),"=");
+            sql.where(this.tableStatus.getName(),"=");
         }
 
         return sql.toSql();
@@ -474,9 +474,9 @@ public class ASql {
         XSql sql = new XSql()
                 .select()
                 .funCount()
-                .from(this.tableName.getRealName());
+                .from(this.tableName.getName());
         if(config.isOnlySelectUseStatus()){
-            sql.where(this.tableStatus.getRealName(),"=");
+            sql.where(this.tableStatus.getName(),"=");
         }
 
         return sql.toSql();
@@ -497,9 +497,9 @@ public class ASql {
 
         XSql sql = new XSql()
                 .delete()
-                .from(this.tableName.getRealName())
+                .from(this.tableName.getName())
                 .where()
-                .in(this.tableKey.get(0).getRealName(),count);
+                .in(this.tableKey.get(0).getName(),count);
 
         return sql.toSql();
     }
@@ -521,10 +521,10 @@ public class ASql {
         }
 
         XSql sql = new XSql()
-                .update(this.tableName.getRealName())
+                .update(this.tableName.getName())
                 .set(this.tableStatus.getEntityColumn().name())
                 .where()
-                .in(this.tableKey.get(0).getRealName(),count);
+                .in(this.tableKey.get(0).getName(),count);
 
         return sql.toSql();
     }

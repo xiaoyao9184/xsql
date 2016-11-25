@@ -6,7 +6,7 @@ import com.xy.xsql.orm.annotation.*;
  * TEST
  * Created by xiaoyao9184 on 2016/6/26.
  */
-@EntityTable(name = "b_user",otherName = "u")
+@EntityTable(name = "b_user", otherName = "u")
 public class User {
 
     @EntityColumnKey

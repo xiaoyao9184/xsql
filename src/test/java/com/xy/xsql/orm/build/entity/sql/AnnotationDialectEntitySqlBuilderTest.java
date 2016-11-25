@@ -1,7 +1,6 @@
 package com.xy.xsql.orm.build.entity.sql;
 
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuilderConfig;
-import com.xy.xsql.orm.data.config.EntitySqlBuilderConfig;
 import com.xy.xsql.orm.mapping.type.AllVarCharTypeMapper;
 import com.xy.xsql.orm.test.bean.User;
 import org.junit.Test;
@@ -46,7 +45,7 @@ public class AnnotationDialectEntitySqlBuilderTest {
     public static class TestDialectDialectEntitySqlBuilder extends BaseDialectEntitySqlBuilder {
         @Override
         public String sqlSelectById(){
-            return "SELECT * FORM " + super.data.getTableName().getRealName();
+            return "SELECT * FORM " + super.data.getTableName().getName();
         }
     }
 }

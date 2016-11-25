@@ -2,7 +2,7 @@ package com.xy.xsql.orm.data.entity;
 
 import com.xy.xsql.orm.annotation.EntityColumn;
 import com.xy.xsql.orm.annotation.EntityColumnStatus;
-import com.xy.xsql.orm.data.sql.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.Table;
 
 import java.lang.reflect.Field;
 

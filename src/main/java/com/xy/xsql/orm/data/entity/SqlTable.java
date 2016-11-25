@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
 import com.xy.xsql.orm.annotation.EntityTable;
-import com.xy.xsql.orm.data.sql.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.Table;
 
 /**
  * SQL表
@@ -15,7 +15,7 @@ public class SqlTable extends Table {
         super(entityTable.name(), entityTable.otherName());
         this.entityTable = entityTable;
         this.prefix = prefix == null ? "" : prefix;
-        super.setRealName(this.prefix + super.getRealName());
+        super.setName(this.prefix + super.getName());
     }
 
     public SqlTable(String name, String prefix){

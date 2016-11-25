@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core;
 
-import com.xy.xsql.orm.data.sql.info.*;
+import com.xy.xsql.orm.data.sql.element.info.*;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.ArrayList;
@@ -67,9 +67,9 @@ public class XSql {
             if(i != 0){
                 sql.append("\n\t, ");
             }
-            sql.append(column.toTableColumn());
+            sql.append(column.getFullName());
             if(column.isUseOtherName()){
-                this.as(column.getOtherName());
+                this.as(column.getAliasName());
             }
         }
         sql.append("\n");
@@ -137,7 +137,7 @@ public class XSql {
     public XSql insert (Table table){
         sql.append("INSERT INTO\n");
         sql.append("\t");
-        sql.append(table.getRealName());
+        sql.append(table.getName());
         sql.append("\n");
         return this;
     }
@@ -351,7 +351,7 @@ public class XSql {
     public XSql delete(Table table){
         sql.append("DELETE\n");
         sql.append("\t");
-        sql.append(table.getOtherName());
+        sql.append(table.getAliasName());
         sql.append("\n");
         return this;
     }
@@ -372,7 +372,7 @@ public class XSql {
             if(i != 0){
                 sql.append(", ");
             }
-            sql.append(tableList.get(i).getOtherName());
+            sql.append(tableList.get(i).getAliasName());
         }
         sql.append("\n");
         return this;
@@ -534,10 +534,10 @@ public class XSql {
         sql.append("\t");
         sql.append("ON ");
         sql.append(tableName.toPrefixSql());
-        sql.append(columnName.getRealName());
+        sql.append(columnName.getName());
         sql.append(" = ");
         sql.append(leftTableName.toPrefixSql());
-        sql.append(leftColumnName.getRealName());
+        sql.append(leftColumnName.getName());
         sql.append("\n");
         return this;
     }
@@ -552,7 +552,7 @@ public class XSql {
     public XSql on(Column column, com.xy.xsql.orm.data.sql.Value value) {
         sql.append("\t");
         sql.append("ON ");
-        sql.append(column.toTableColumn());
+        sql.append(column.getFullName());
         sql.append(" = ");
         sql.append(value.toValueString());
         sql.append("\n");
@@ -568,11 +568,11 @@ public class XSql {
     public XSql on(Param param) {
         sql.append("\t");
         sql.append("ON ");
-        sql.append(param.getColumn().toTableColumn());
+        sql.append(param.getColumn().toPrefixSql());
         sql.append(" ");
         sql.append(param.getRelationship());
         sql.append(" ");
-        sql.append(param.getValue().toValueString());
+        sql.append(param.getValue());
         sql.append("\n");
         return this;
     }
@@ -617,21 +617,21 @@ public class XSql {
         for (int i = 0; i < paramList.size(); i++) {
             Param param = paramList.get(i);
             if(i == 0){
-                sql.append(param.getColumn().toTableColumn());
+                sql.append(param.getColumn().getFullName());
                 sql.append(" ");
                 sql.append(param.getRelationship());
                 sql.append(" ");
-                sql.append(param.getValue().toValueString());
+                sql.append(param.getValue());
                 sql.append("\n");
             }else{
                 if(param.isAnd()){
-                    and(param.getColumn().toTableColumn(),
-                            param.getRelationship(),
-                            param.getValue().toValueString());
+                    and(param.getColumn().getFullName(),
+                            param.getRelationship().toString(),
+                            param.getValue().toString());
                 }else{
-                    or(param.getColumn().toTableColumn(),
-                            param.getRelationship(),
-                            param.getValue().toValueString());
+                    or(param.getColumn().getFullName(),
+                            param.getRelationship().toString(),
+                            param.getValue().toString());
                 }
             }
         }
@@ -789,7 +789,7 @@ public class XSql {
             if(i != 0){
                 sql.append(", ");
             }
-            sql.append(orderList.get(i).getColumn().getRealName());
+            sql.append(orderList.get(i).getColumn().getName());
             if(orderList.get(i).isAes()){
                 sql.append(" AES");
             }else{
