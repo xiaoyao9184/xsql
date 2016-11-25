@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.data.sql.info;
+package com.xy.xsql.orm.data.sql.element.info;
 
 import com.xy.xsql.orm.data.sql.Element;
 

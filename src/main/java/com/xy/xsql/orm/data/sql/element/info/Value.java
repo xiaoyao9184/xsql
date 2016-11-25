@@ -1,6 +1,9 @@
-package com.xy.xsql.orm.data.sql.info;
+package com.xy.xsql.orm.data.sql.element.info;
 
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.Sentence;
+
+import java.util.List;
 
 /**
  * 值
@@ -11,6 +14,7 @@ public class Value
         implements Element, com.xy.xsql.orm.data.sql.Value, Cloneable {
 
     protected String value;
+    protected Sentence valueSentence;
 
     public Value(){
         this.value = "?";
@@ -20,19 +24,30 @@ public class Value
         this.value = value;
     }
 
+    public Value(Sentence valueSentence){
+        this.value = null;
+        this.valueSentence = valueSentence;
+    }
+
     @Override
     public boolean isUnKnowValue() {
         return value.contains("?");
     }
 
-
     @Override
     public String toValueString(){
-        if(isUnKnowValue()){
+        if(isUnKnowValue()) {
             return value;
+        }else if(this.valueSentence == null){
+            return null;
         }else{
             return "'" + value + "'";
         }
+    }
+
+    @Override
+    public String toString(){
+        return this.value;
     }
 
     /**
@@ -47,5 +62,10 @@ public class Value
 
     public static Value valueOf(com.xy.xsql.orm.data.sql.Value value) {
         return new Value(value.toValueString());
+    }
+
+    @Override
+    public List<Element> toElementList() {
+        return null;
     }
 }

@@ -1,8 +1,9 @@
-package com.xy.xsql.orm.data.sql.info;
+package com.xy.xsql.orm.data.sql.element.info;
 
 import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Relationship;
+import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.Value;
+import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 
 /**
  * 参数
@@ -14,14 +15,14 @@ public class Param
 
     protected boolean and;
     protected Column column;
-    protected Relationship relationship;
-    protected Value value;
+    protected OperatorEnum relationship;
+    protected Expression value;
 
     public Param(){
 
     }
 
-    public Param(boolean and, Column column, Relationship relationship, Value value){
+    public Param(boolean and, Column column, OperatorEnum relationship, Expression value){
         this.and = and;
         this.column = column;
         this.relationship = relationship;
@@ -44,19 +45,19 @@ public class Param
         this.column = column;
     }
 
-    public Relationship getRelationship() {
+    public OperatorEnum getRelationship() {
         return relationship;
     }
 
-    public void setRelationship(Relationship relationship) {
+    public void setRelationship(OperatorEnum relationship) {
         this.relationship = relationship;
     }
 
-    public Value getValue() {
+    public Expression getValue() {
         return value;
     }
 
-    public void setValue(Value value) {
+    public void setValue(Expression value) {
         this.value = value;
     }
 
