@@ -5,12 +5,12 @@ package com.xy.xsql.orm.build;
  * for all builder
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public interface BaseBuilder<T,E> {
+public interface BaseBuilder<SrcType, TarType> {
 
     /**
      * build
-     * @param t Src
+     * @param srcType Src
      * @return Tar
      */
-    E build(T t);
+    TarType build(SrcType srcType);
 }
