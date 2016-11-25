@@ -1,8 +1,7 @@
-package com.xy.xsql.orm.data.sql.sentence;
-
-import com.xy.xsql.orm.data.sql.Element;
+package com.xy.xsql.orm.data.sql;
 
 /**
+ * Sentence
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public abstract class Sentence<T> implements Element  {
