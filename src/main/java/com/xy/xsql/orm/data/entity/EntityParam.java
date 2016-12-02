@@ -76,6 +76,15 @@ public class EntityParam extends Param implements Cloneable {
     }
 
 
+
+    /**
+     * 获取第一个参数
+     * @return 参数
+     */
+    public Object getArg() {
+        return this.args == null ? null : this.args[0];
+    }
+
     @Override
     public EntityParam clone(){
         EntityParam result = new EntityParam()
