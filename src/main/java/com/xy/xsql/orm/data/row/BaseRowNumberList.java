@@ -3,7 +3,7 @@ package com.xy.xsql.orm.data.row;
 import com.xy.xsql.orm.annotation.EColumn;
 
 /**
- * 基本行集合
+ * BaseRowNumberList
  * Created by xiaoyao9184 on 2016/6/21.
  */
 public class BaseRowNumberList {
