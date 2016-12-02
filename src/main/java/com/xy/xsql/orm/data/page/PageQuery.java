@@ -1,13 +1,15 @@
 package com.xy.xsql.orm.data.page;
 
 /**
+ * PageQuery
  * Created by xiaoyao9184 on 2016/12/1.
  */
-public class PageQuery<LISTTYPE> {
+public class PageQuery<ROWTYPE> {
     protected Integer pageStart;
     protected Integer pageSize;
-    protected Class<LISTTYPE> tarClass;
+    protected Class<ROWTYPE> tarClass;
     protected boolean startWithZero = true;
+
 
     public Integer getPageStart() {
         return pageStart;
@@ -25,15 +27,15 @@ public class PageQuery<LISTTYPE> {
         this.pageSize = pageSize;
     }
 
-    public Class<LISTTYPE> getTarClass() {
+    public Class<ROWTYPE> getTarClass() {
         return tarClass;
     }
 
-    public void setTarClass(Class<LISTTYPE> tarClass) {
+    public void setTarClass(Class<ROWTYPE> tarClass) {
         this.tarClass = tarClass;
     }
 
-    public PageQuery<LISTTYPE> withTarClass(Class<LISTTYPE> tarClass) {
+    public PageQuery<ROWTYPE> withTarClass(Class<ROWTYPE> tarClass) {
         this.tarClass = tarClass;
         return this;
     }
@@ -52,7 +54,7 @@ public class PageQuery<LISTTYPE> {
      * @param startWithZero start zero
      * @return This
      */
-    public PageQuery<LISTTYPE> withStartWithZero(boolean startWithZero) {
+    public PageQuery<ROWTYPE> withStartWithZero(boolean startWithZero) {
         this.startWithZero = startWithZero;
         return this;
     }
@@ -62,7 +64,7 @@ public class PageQuery<LISTTYPE> {
      * @param pageSize Page Size
      * @return This
      */
-    public PageQuery<LISTTYPE> withPageSize(Integer pageSize) {
+    public PageQuery<ROWTYPE> withPageSize(Integer pageSize) {
         this.pageSize = pageSize;
         return this;
     }
@@ -72,7 +74,7 @@ public class PageQuery<LISTTYPE> {
      * @param pageStart Page Start
      * @return This
      */
-    public PageQuery<LISTTYPE> withPageNo(Integer pageStart) {
+    public PageQuery<ROWTYPE> withPageNo(Integer pageStart) {
         this.pageStart = pageStart;
         return this;
     }

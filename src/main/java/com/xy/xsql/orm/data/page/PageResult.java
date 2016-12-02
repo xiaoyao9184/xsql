@@ -3,21 +3,22 @@ package com.xy.xsql.orm.data.page;
 import java.util.List;
 
 /**
+ * PageResult
  * Created by xiaoyao9184 on 2016/12/1.
  */
-public class PageResult<LISTTYPE> {
-    private List<LISTTYPE> rowData;
+public class PageResult<ROWTYPE> {
+    private List<ROWTYPE> rowData;
     private Integer rowNumber;
     private Integer rowCount;
     private Integer pageNumber;
     private Integer pageCount;
 
 
-    public List<LISTTYPE> getRowData() {
+    public List<ROWTYPE> getRowData() {
         return rowData;
     }
 
-    public void setRowData(List<LISTTYPE> rowData) {
+    public void setRowData(List<ROWTYPE> rowData) {
         this.rowData = rowData;
     }
 
@@ -59,7 +60,7 @@ public class PageResult<LISTTYPE> {
      * @param rowData Row Data
      * @return This
      */
-    public PageResult<LISTTYPE> withRowData(List<LISTTYPE> rowData) {
+    public PageResult<ROWTYPE> withRowData(List<ROWTYPE> rowData) {
         this.rowData = rowData;
         return this;
     }
@@ -69,7 +70,7 @@ public class PageResult<LISTTYPE> {
      * @param rowCount Row Count
      * @return This
      */
-    public PageResult<LISTTYPE> withRowCount(Integer rowCount) {
+    public PageResult<ROWTYPE> withRowCount(Integer rowCount) {
         this.rowCount = rowCount;
         return this;
     }
@@ -79,7 +80,7 @@ public class PageResult<LISTTYPE> {
      * @param pageCount Page Count
      * @return This
      */
-    public PageResult<LISTTYPE> withPageCount(Integer pageCount) {
+    public PageResult<ROWTYPE> withPageCount(Integer pageCount) {
         this.pageCount = pageCount;
         return this;
     }
@@ -89,7 +90,7 @@ public class PageResult<LISTTYPE> {
      * @param rowNumber Row Number
      * @return This
      */
-    public PageResult<LISTTYPE> withRowNumber(Integer rowNumber) {
+    public PageResult<ROWTYPE> withRowNumber(Integer rowNumber) {
         this.rowNumber = rowNumber;
         return this;
     }
@@ -99,7 +100,7 @@ public class PageResult<LISTTYPE> {
      * @param pageNumber Page Number
      * @return This
      */
-    public PageResult<LISTTYPE> withPageNumber(Integer pageNumber) {
+    public PageResult<ROWTYPE> withPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
         return this;
     }
