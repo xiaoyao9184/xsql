@@ -14,6 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -184,5 +185,29 @@ public class BaseMapper {
             }
         }
         return newInstance;
+    }
+
+
+    /**
+     * ResultSet -> Map
+     * @param rs ResultSet
+     * @param rowIndex Row Index
+     * @param pageRowNumberName Row Index
+     * @return Map
+     */
+    public static Map<String,Object> build(ResultSet rs, int rowIndex, String pageRowNumberName) throws SQLException {
+        Map<String,Object> result = new HashMap<>();
+        if(pageRowNumberName != null && !pageRowNumberName.isEmpty()){
+            result.put(pageRowNumberName,rowIndex+1);
+        }
+
+        ResultSetMetaData meta = rs.getMetaData();
+        for (int i = 1; i <= meta.getColumnCount(); i++) {
+            String key = meta.getColumnName(i);
+            Object value = rs.getObject(key);
+            result.put(key, value);
+        }
+
+        return result;
     }
 }
