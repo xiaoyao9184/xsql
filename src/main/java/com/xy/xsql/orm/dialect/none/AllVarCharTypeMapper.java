@@ -1,4 +1,6 @@
-package com.xy.xsql.orm.mapping.type;
+package com.xy.xsql.orm.dialect.none;
+
+import com.xy.xsql.orm.mapping.type.TypeMapper;
 
 /**
  * all JAVA type to JDBC VARCHAR
