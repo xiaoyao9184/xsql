@@ -49,4 +49,8 @@ public enum Relationships {
     public void setParameterCount(Integer parameterCount) {
         this.parameterCount = parameterCount;
     }
+
+    public String getName() {
+        return this.operator.toString();
+    }
 }
