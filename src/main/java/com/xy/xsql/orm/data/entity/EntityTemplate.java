@@ -13,7 +13,7 @@ public class EntityTemplate {
 
     private EntityTable table = null;
 
-    private List<EntityColumn> keyList = null;
+    private List<EntityColumn> keys = null;
 
     private EntityColumn status = null;
 
@@ -49,11 +49,11 @@ public class EntityTemplate {
      * 特殊字段：主键
      */
     public List<EntityColumn> getKeys() {
-        return keyList;
+        return keys;
     }
 
     public void setKeys(List<EntityColumn> keyList) {
-        this.keyList = keyList;
+        this.keys = keyList;
     }
 
     /**
@@ -148,7 +148,7 @@ public class EntityTemplate {
      * @return This
      */
     public EntityTemplate withKeys(List<EntityColumn> entityColumns) {
-        this.keyList = entityColumns;
+        this.keys = entityColumns;
         return this;
     }
 
