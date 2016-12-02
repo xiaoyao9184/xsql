@@ -3,7 +3,7 @@ package com.xy.xsql.orm.data.entity;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
 /**
- * SQL表
+ * EntityTable
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class EntityTable extends Table {
@@ -30,11 +30,4 @@ public class EntityTable extends Table {
         return this;
     }
 
-    /**
-     * 变为 Table
-     * @return Table
-     */
-    public Table toTable(){
-        return this;
-    }
 }

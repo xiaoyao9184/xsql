@@ -3,7 +3,7 @@ package com.xy.xsql.orm.data.entity;
 import com.xy.xsql.orm.data.sql.element.info.Order;
 
 /**
- * SQL排序
+ * EntityOrder
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class EntityOrder extends Order {
@@ -37,15 +37,5 @@ public class EntityOrder extends Order {
         this.aes = aes;
         return this;
     }
-
-
-    /**
-     * 变为 Order
-     * @return Order
-     */
-    public Order toOrder(){
-        return this;
-    }
-
 
 }

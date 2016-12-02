@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
 /**
- * SQL实体
+ * EntityLink
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class EntityLink {
@@ -37,10 +37,6 @@ public class EntityLink {
         return this;
     }
 
-    /**
-     * 是否是主实体
-     * @return 是/否
-     */
     @Deprecated
     public boolean isCoreBean(){
         return entityColumn == null;

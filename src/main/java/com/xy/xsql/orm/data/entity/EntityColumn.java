@@ -3,7 +3,7 @@ package com.xy.xsql.orm.data.entity;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 
 /**
- * SQL字段
+ * EntityColumn
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class EntityColumn extends Column {
@@ -27,26 +27,42 @@ public class EntityColumn extends Column {
         this.length = length;
     }
 
+
+    /**
+     * set column name
+     * @param name Name
+     * @return This
+     */
     @Override
     public EntityColumn withName(String name) {
         this.name = name;
         return this;
     }
 
+    /**
+     * set column alias name
+     * @param aliasName Alias Name
+     * @return This
+     */
     @Override
     public EntityColumn withAliasName(String aliasName) {
         this.aliasName = aliasName;
         return this;
     }
 
+    /**
+     * set table
+     * @param table EntityTable
+     * @return This
+     */
     public EntityColumn withTable(EntityTable table) {
         this.table = table;
         return this;
     }
 
     /**
-     * 设置 类型
-     * @param type 类型
+     * set column type
+     * @param type Column Type
      * @return This
      */
     public EntityColumn withType(String type) {
@@ -55,8 +71,8 @@ public class EntityColumn extends Column {
     }
 
     /**
-     * 设置 长度
-     * @param length 长度
+     * set column length
+     * @param length Column Length
      * @return This
      */
     public EntityColumn withLength(Integer length) {
@@ -64,11 +80,4 @@ public class EntityColumn extends Column {
         return this;
     }
 
-    /**
-     * 变为 Column
-     * @return Column
-     */
-    public Column toColumn(){
-        return this;
-    }
 }

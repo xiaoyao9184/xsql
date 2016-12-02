@@ -13,14 +13,6 @@ public class EntityParam extends Param implements Cloneable {
     private Object[] args;
 
 
-    /**
-     * 是否是关联参数（需要设置参数值，即包含 ? 号）
-     * @return 是/否
-     */
-    public boolean isNeedValue(){
-        return this.valueExpression.toString().contains("?");
-    }
-
 
 
     @Override
@@ -32,9 +24,18 @@ public class EntityParam extends Param implements Cloneable {
         return relationship;
     }
 
+    public void setRelationship(Relationships relationship) {
+        this.relationship = relationship;
+    }
+
     public Object[] getArgs() {
         return args;
     }
+
+    public void setArgs(Object[] args) {
+        this.args = args;
+    }
+
 
     /**
      * set EntityColumn
@@ -68,21 +69,27 @@ public class EntityParam extends Param implements Cloneable {
 
 
     /**
-     * 变为 Param
-     * @return Param
-     */
-    public Param toParam(){
-        return this;
-    }
-
-
-
-    /**
-     * 获取第一个参数
-     * @return 参数
+     * get first arg
+     * @return arg
      */
     public Object getArg() {
         return this.args == null ? null : this.args[0];
+    }
+
+    /**
+     * get args count
+     * @return count
+     */
+    public int getArgsCount(){
+        return this.args == null ? 0 : this.args.length;
+    }
+
+    /**
+     * placeholder must need arg value
+     * @return True/False
+     */
+    public boolean isNeedValue(){
+        return this.valueExpression.toString().contains("?");
     }
 
     @Override
