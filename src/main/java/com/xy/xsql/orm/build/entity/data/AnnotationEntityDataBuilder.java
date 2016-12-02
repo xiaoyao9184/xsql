@@ -17,13 +17,19 @@ import java.util.List;
  * build EntityTemplateData by class with Annotation
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityTemplateData> {
+public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityTemplateData>, Cloneable {
 
     private Logger log;
 
     //config
     private Class<?> annotationClass;
+    private List<Field> annotationClassFields;
+
+    private EntityTable table;
+    private List<EntityColumn> columns;
+
     private String tablePrefix;
+    private String aliasNamePrefix;
     private boolean supportMultipleKey;
     private boolean scanStatus;
     private boolean scanEntity;
@@ -57,6 +63,17 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
         this.tablePrefix = tablePrefix;
         return this;
     }
+
+    /**
+     * Config SqlDialectBuilder
+     * @param aliasNamePrefix Alias Name Prefix
+     * @return This
+     */
+    public AnnotationEntityDataBuilder aliasNamePrefix(String aliasNamePrefix){
+        this.aliasNamePrefix = aliasNamePrefix;
+        return this;
+    }
+
 
     /**
      * Config true if you want turn on Multiple Key support
@@ -127,43 +144,39 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      */
     private void initData() {
         this.log.info("init elementsSentence form class " + this.annotationClass);
-        this.data = new EntityTemplateData();
-        this.data.setTableName(this.initTable());
-        this.data.setTableField(this.initField());
-        this.data.setTableColumn(this.initColumn(this.data.getTableName()));
 
-        this.data.setTableKey(this.initColumnKey(this.data.getTableName(), this.data.getTableColumn()));
+        if(this.tablePrefix == null){
+            this.tablePrefix = "";
+        }
+
+        if(this.aliasNamePrefix == null){
+            this.aliasNamePrefix = "";
+        }
+
+        annotationClassFields = this.initField();
+        table = this.initTable();
+        columns = this.initColumn();
+
+        this.data = new EntityTemplateData()
+                .withTable(table)
+                .withColumns(columns)
+                .withKeys(this.initColumnKey());
         if(scanStatus){
-            this.data.setTableStatus(this.initColumnStatus(this.data.getTableName(), this.data.getTableColumn()));
+            this.data.setStatus(this.initColumnStatus());
         }
         if(scanEntity){
-            this.data.setTableEntity(this.initLink(this.data.getTableName(), this.data.getTableColumn()));
+            this.data.setLinks(this.initLink());
         }
         if(scanParam){
-            this.data.setTableParam(this.initColumnParam(this.data.getTableName(), this.data.getTableColumn()));
+            this.data.setParams(this.initColumnParam());
         }
         if(scanOrder){
-            this.data.setTableOrder(this.initColumnOrder(this.data.getTableName(), this.data.getTableColumn()));
+            this.data.setOrders(this.initColumnOrder());
         }
 
         this.log.info("init elementsSentence done.");
     }
 
-    /**
-     * 初始化表：名称
-     * @see ETable
-     * @return 表名 对象（不允许空表名）
-     */
-    private EntityTable initTable() {
-        Annotation[] annotations = annotationClass.getAnnotations();
-        for (Annotation annotation : annotations) {
-            if (annotation instanceof ETable) {
-                ETable eTable = (ETable) annotation;
-                return new EntityTable(eTable, this.tablePrefix);
-            }
-        }
-        throw new UnsupportedOperationException(annotationClass.getName() + " 未使用@" + ETable.class.getSimpleName() + "标注或未设置标注属性：name！");
-    }
 
     /**
      * 初始化字段
@@ -188,23 +201,45 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
         return list;
     }
 
+
+
+    /**
+     * 初始化表：名称
+     * @see ETable
+     * @return 表名 对象（不允许空表名）
+     */
+    private EntityTable initTable() {
+        ETable eTable = annotationClass.getAnnotation(ETable.class);
+        if(eTable != null){
+            return new EntityTable()
+                    .withName(this.tablePrefix + eTable.name())
+                    .withAliasName(this.aliasNamePrefix + eTable.aliasName());
+        }
+        throw new UnsupportedOperationException(annotationClass.getName() + " 未使用@" + ETable.class.getSimpleName() + "标注或未设置标注属性：name！");
+    }
+
     /**
      * 初始化字段：数据库字段
      * @see EColumn
      */
-    private List<EntityColumn> initColumn(EntityTable entityTable){
+    private List<EntityColumn> initColumn(){
         List<EntityColumn> list = new ArrayList<>();
 
-        Field[] fields = annotationClass.getDeclaredFields();
-        for (Field field : fields) {
-            Annotation[] annotations = field.getAnnotations();
-            for (Annotation annotation : annotations) {
-                if (annotation instanceof EColumn) {
-                    EColumn eColumn = (EColumn)annotation;
-                    list.add(new EntityColumn(eColumn,field, entityTable));
+        for (Field field : this.annotationClassFields) {
+            EColumn eColumn = field.getAnnotation(EColumn.class);
+            if(eColumn != null){
+                String aliasName = eColumn.aliasName();
+                if(aliasName.isEmpty()){
+                    aliasName = field.getName();
                 }
+
+                list.add(new EntityColumn()
+                            .withName(eColumn.name())
+                            .withAliasName(this.aliasNamePrefix + aliasName)
+                            .withTable(this.table));
             }
         }
+
         if(CheckUtil.isNullOrEmpty(list)){
             throw new UnsupportedOperationException(annotationClass.getName() + " 未有任何字段使用@" + EColumn.class.getSimpleName() + "标注！");
         }
@@ -216,23 +251,17 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @see EStatus
      * @return 注解
      */
-    private EntityStatus initColumnStatus(EntityTable entityTable, List<EntityColumn> entityColumnList) {
-        EntityStatus sqlStatus;
-        for (EntityColumn entityColumn : entityColumnList) {
-            Annotation[] annotations = entityColumn.getField().getAnnotations();
-            for (Annotation annotation: annotations) {
-                if(annotation instanceof EStatus) {
-                    EStatus eStatus = (EStatus)annotation;
-                    sqlStatus = new EntityStatus(
-                            eStatus,
-                            entityColumn.geteColumn(),
-                            entityColumn.getField(),
-                            entityTable);
-                    return sqlStatus;
-                }
+    private EntityColumn initColumnStatus() {
+        int index = 0;
+        for (Field field : this.annotationClassFields) {
+            EStatus eStatus = field.getAnnotation(EStatus.class);
+            if(eStatus != null){
+                return this.columns.get(index);
             }
+            index++;
         }
-        return null;
+
+        throw new UnsupportedOperationException(annotationClass.getName() + " 未有任何字段使用@" + EStatus.class.getSimpleName() + "标注！");
     }
 
     /**
@@ -240,27 +269,20 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @see EKey
      * @return 键 集合
      */
-    private List<EntityKey> initColumnKey(EntityTable entityTable, List<EntityColumn> entityColumnList) {
-        List<EntityKey> list = new ArrayList<>();
-        for (EntityColumn entityColumn : entityColumnList) {
-            Annotation[] annotations = entityColumn.getField().getAnnotations();
-            for (Annotation annotation: annotations) {
-                if (annotation instanceof EKey) {
-                    EKey eKey = (EKey)annotation;
-                    list.add(new EntityKey(
-                            eKey,
-                            entityColumn.geteColumn(),
-                            entityColumn.getField(),
-                            entityTable));
+    private List<EntityColumn> initColumnKey() {
+        List<EntityColumn> list = new ArrayList<>();
 
-                    if(!supportMultipleKey){
-                        return list;
-                    }
-                }
+        int index = 0;
+        for (Field field : this.annotationClassFields) {
+            EKey eKey = field.getAnnotation(EKey.class);
+            if(eKey != null){
+                list.add(this.columns.get(index));
             }
+            index++;
         }
-        if(list.size() == 0){
-            throw new UnsupportedOperationException("实体没有主键");
+
+        if(CheckUtil.isNullOrEmpty(list)){
+            throw new UnsupportedOperationException(annotationClass.getName() + " 未有任何字段使用@" + EKey.class.getSimpleName() + "标注！");
         }
         return list;
     }
@@ -270,22 +292,27 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @see ELink
      * @return 相关实体 集合
      */
-    private List<EntityLink> initLink(EntityTable entityTable, List<EntityColumn> entityColumnList) {
+    private List<EntityLink> initLink() {
         List<EntityLink> list = new ArrayList<>();
-        list.add(new EntityLink(this.annotationClass));
-        for (EntityColumn entityColumn : entityColumnList) {
-            Annotation[] annotations = entityColumn.getField().getAnnotations();
-            for (Annotation annotation: annotations) {
-                if(annotation instanceof ELink) {
-                    ELink eLink = (ELink)annotation;
-                    EntityLink entityLink = new EntityLink(
-                            eLink,
-                            entityColumn.geteColumn(),
-                            entityColumn.getField(),
-                            entityTable);
-                    list.add(entityLink);
-                }
+
+        int index = 0;
+        for (Field field : this.annotationClassFields) {
+            ELink eLink = field.getAnnotation(ELink.class);
+            if(eLink != null){
+                EntityColumn entityColumn = this.columns.get(index);
+                EntityTemplateData entityTemplateData = this.clone()
+                        .aliasNamePrefix(entityColumn.getAliasName())
+                        .build(eLink.value());
+
+                list.add(new EntityLink()
+                                .withColumn(entityColumn)
+                                .withTemplate(entityTemplateData));
             }
+            index++;
+        }
+
+        if(CheckUtil.isNullOrEmpty(list)){
+            log.debug(annotationClass.getName() + " 未有任何字段使用@" + ELink.class.getSimpleName() + "标注！");
         }
         return list;
     }
@@ -295,21 +322,24 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @see EParam
      * @return 查询参数 集合
      */
-    private List<EntityParam> initColumnParam(EntityTable entityTable, List<EntityColumn> entityColumnList){
+    private List<EntityParam> initColumnParam(){
         List<EntityParam> list = new ArrayList<>();
-        for (EntityColumn entityColumn : entityColumnList) {
-            Annotation[] annotations = entityColumn.getField().getAnnotations();
-            for (Annotation annotation: annotations) {
-                if(annotation instanceof EParam) {
-                    EParam eParam = (EParam)annotation;
-                    EntityParam entityParam = new EntityParam(
-                            eParam,
-                            entityColumn.geteColumn(),
-                            entityColumn.getField(),
-                            entityTable);
-                    list.add(entityParam);
-                }
+
+        int index = 0;
+        for (Field field : this.annotationClassFields) {
+            EParam eParam = field.getAnnotation(EParam.class);
+            if(eParam != null){
+                EntityColumn entityColumn = this.columns.get(index);
+
+                list.add(new EntityParam()
+                                .withColumn(entityColumn)
+                                .withRelationship(eParam.relationship())
+                                .withArgs(eParam.value()));
             }
+        }
+
+        if(CheckUtil.isNullOrEmpty(list)){
+            log.debug(annotationClass.getName() + " 未有任何字段使用@" + EParam.class.getSimpleName() + "标注！");
         }
         return list;
     }
@@ -319,23 +349,39 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @see EOrder
      * @return 查询排序 集合
      */
-    private List<EntityOrder> initColumnOrder(EntityTable entityTable, List<EntityColumn> entityColumnList){
+    private List<EntityOrder> initColumnOrder(){
         List<EntityOrder> list = new ArrayList<>();
-        for (EntityColumn entityColumn : entityColumnList) {
-            Annotation[] annotations = entityColumn.getField().getAnnotations();
-            for (Annotation annotation: annotations) {
-                if(annotation instanceof EOrder) {
-                    EOrder eOrder = (EOrder)annotation;
-                    EntityOrder entityOrder = new EntityOrder(
-                            eOrder,
-                            entityColumn.geteColumn(),
-                            entityColumn.getField(),
-                            entityTable);
-                    list.add(entityOrder);
-                }
+
+        int index = 0;
+        for (Field field : this.annotationClassFields) {
+            EOrder eOrder = field.getAnnotation(EOrder.class);
+            if(eOrder != null){
+                EntityColumn entityColumn = this.columns.get(index);
+
+                list.add(new EntityOrder()
+                        .withColumn(entityColumn)
+                        .withAes(eOrder.aes()));
             }
+        }
+
+        if(CheckUtil.isNullOrEmpty(list)){
+            log.debug(annotationClass.getName() + " 未有任何字段使用@" + EOrder.class.getSimpleName() + "标注！");
         }
         return list;
     }
 
+
+    @SuppressWarnings("CloneDoesntCallSuperClone")
+    @Override
+    public AnnotationEntityDataBuilder clone(){
+        return new AnnotationEntityDataBuilder()
+                .tablePrefix(this.tablePrefix)
+                .aliasNamePrefix(this.aliasNamePrefix)
+                .supportMultipleKey(this.supportMultipleKey)
+                .scanStatus(this.scanStatus)
+                .scanParam(this.scanParam)
+                .scanOrder(this.scanOrder)
+                .scanEntity(this.scanEntity);
+
+    }
 }

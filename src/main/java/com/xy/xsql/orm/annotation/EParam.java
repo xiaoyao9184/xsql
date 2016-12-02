@@ -14,23 +14,13 @@ import java.lang.annotation.Target;
 public @interface EParam {
 
     /**
-     * 条件
-     */
-    boolean and() default true;
-
-    /**
-     * 字段(仅在非Column标注时使用)
-     */
-    String field() default "";
-
-    /**
      * 关系
      */
-    String relationship() default "=";
+    Relationships relationship() default Relationships.EQUAL;
 
     /**
      * 值
      */
-    String value() default "?";
+    String[] value() default { "" };
 
 }

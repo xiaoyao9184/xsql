@@ -2,8 +2,8 @@ package com.xy.xsql.orm.core;
 
 import com.xy.xsql.orm.data.cache.ASqlCache;
 import com.xy.xsql.orm.data.config.ASqlConfig;
-import com.xy.xsql.orm.data.param.EntityParam;
-import com.xy.xsql.orm.data.param.EntityParamTree;
+import com.xy.xsql.orm.data.param.EntitySiteParam;
+import com.xy.xsql.orm.data.param.EntitySiteParamTree;
 import com.xy.xsql.orm.test.bean.User;
 import com.xy.xsql.orm.test.bean.UserType;
 import org.junit.Before;
@@ -35,7 +35,7 @@ public class TestA2Sql {
      */
     @Test
     public void treeParam(){
-        EntityParamTree entityParamTree = new EntityParamTree(User.class,"name1","code1");
+        EntitySiteParamTree entityParamTree = new EntitySiteParamTree(User.class,"name1","code1");
 
         assert entityParamTree.getChild().size() == 0;
 
@@ -49,22 +49,22 @@ public class TestA2Sql {
      */
     @Test
     public void fullParam(){
-        List<EntityParam> params = new ArrayList<>();
+        List<EntitySiteParam> params = new ArrayList<>();
         params = aSql.fillEntityParam(params,false);
         assert params.size() == 2;
-        for (EntityParam param: params) {
+        for (EntitySiteParam param: params) {
             if(!param.isUseColumn()){
-                assert param.isUse();
+                assert param.isUseLink();
             }else{
-                assert !param.isUse();
+                assert !param.isUseLink();
             }
         }
 
         params.clear();
         params = aSql.fillEntityParam(params,true);
         assert params.size() == 2;
-        for (EntityParam param: params) {
-            assert param.isUse();
+        for (EntitySiteParam param: params) {
+            assert param.isUseLink();
         }
     }
 
@@ -74,7 +74,7 @@ public class TestA2Sql {
      */
     @Test
     public void fullSelect() throws Exception {
-        List<EntityParam> params = new ArrayList<>();
+        List<EntitySiteParam> params = new ArrayList<>();
         params = aSql.fillEntityParam(params,true);
         String sql = aSql.createFullSelectSql(params);
         assert sql.equals("SELECT\n" +
@@ -123,7 +123,7 @@ public class TestA2Sql {
      */
     @Test
     public void fullDelete() throws Exception {
-        List<EntityParam> params = new ArrayList<>();
+        List<EntitySiteParam> params = new ArrayList<>();
         params = aSql.fillEntityParam(params,true);
         String sql = aSql.createFullDeleteSql(params);
         assert sql.equals("DELETE\n" +
@@ -141,11 +141,12 @@ public class TestA2Sql {
      */
     @Test
     public void customizeSelect() throws Exception {
-        List<EntityParam> params = new ArrayList<>();
-        //not use UserType
-        EntityParam typeEntityParam = new EntityParam(UserType.class);
-        typeEntityParam.setUse(false);
-        params.add(typeEntityParam);
+        List<EntitySiteParam> params = new ArrayList<>();
+        //not useLink UserType
+        EntitySiteParam typeEntitySiteParam = new EntitySiteParam()
+                .withLinkClass(UserType.class);
+        typeEntitySiteParam.setUseLink(false);
+        params.add(typeEntitySiteParam);
         params = aSql.fillEntityParam(params,true);
 
         String sql = aSql.createFullSelectSql(params);
@@ -160,10 +161,10 @@ public class TestA2Sql {
 
 
         params.clear();
-        //use User args
-        EntityParam mainEntityParam = new EntityParam();
-        mainEntityParam.addArgs("name1","code1","type1");
-        params.add(mainEntityParam);
+        //useLink User args
+        EntitySiteParam mainEntitySiteParam = new EntitySiteParam();
+        mainEntitySiteParam.withArgs("name1","code1","type1");
+        params.add(mainEntitySiteParam);
         params = aSql.fillEntityParam(params,true);
 
         sql = aSql.createFullSelectSql(params);
@@ -192,13 +193,13 @@ public class TestA2Sql {
 
 
         params.clear();
-        //use User & User args
-        mainEntityParam = new EntityParam();
-        mainEntityParam.addArgs("name1","code1","type1");
-        params.add(mainEntityParam);
-        typeEntityParam.setUse(true);
-        typeEntityParam.addArgs("name1",null,100);
-        params.add(typeEntityParam);
+        //useLink User & User args
+        mainEntitySiteParam = new EntitySiteParam();
+        mainEntitySiteParam.withArgs("name1","code1","type1");
+        params.add(mainEntitySiteParam);
+        typeEntitySiteParam.setUseLink(true);
+        typeEntitySiteParam.withArgs("name1",null,100);
+        params.add(typeEntitySiteParam);
         params = aSql.fillEntityParam(params,true);
 
         sql = aSql.createFullSelectSql(params);

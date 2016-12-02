@@ -6,7 +6,7 @@ import com.xy.xsql.orm.annotation.*;
  * TEST
  * Created by xiaoyao9184 on 2016/6/26.
  */
-@ETable(name = "b_user", otherName = "u")
+@ETable(name = "b_user_log", aliasName = "u")
 public class User {
 
     @EKey
@@ -21,7 +21,7 @@ public class User {
     @EColumn(name = "code")
     private String code;
 
-    @ELink(main = UserType.class)
+    @ELink(value = UserType.class)
     @EParam
     @EColumn(name = "type")
     private String typeID;

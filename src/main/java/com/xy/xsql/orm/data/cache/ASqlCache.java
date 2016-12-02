@@ -1,6 +1,8 @@
 package com.xy.xsql.orm.data.cache;
 
-import com.xy.xsql.orm.core.ASql;
+import com.xy.xsql.orm.build.entity.data.AnnotationEntityDataBuilder;
+import com.xy.xsql.orm.build.entity.sql.BaseDialectEntitySqlBuilder;
+import com.xy.xsql.orm.build.entity.sql.DialectEntitySqlBuilder;
 import com.xy.xsql.orm.data.config.ASqlConfig;
 
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +35,7 @@ public class ASqlCache {
      * @throws InvocationTargetException
      */
     @SuppressWarnings("unchecked")
-    public static <T extends ASql> T create(ASqlConfig config, Class<T> aSqlClass) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public static <T extends DialectEntitySqlBuilder> T create(ASqlConfig config, Class<T> aSqlClass) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         if(ASqlCache.aSqlMap2.containsKey(config.getClazz())){
             return (T) ASqlCache.aSqlMap2.get(config.getClazz());
         }else{
@@ -55,7 +57,7 @@ public class ASqlCache {
      * @throws InvocationTargetException
      */
     @SuppressWarnings("unchecked")
-    public static <T extends ASql> T create(Class clazz, Class<T> aSqlClass) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public static <T extends DialectEntitySqlBuilder> T create(Class clazz, Class<T> aSqlClass) throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         if(ASqlCache.aSqlMap2.containsKey(clazz)){
             return (T) ASqlCache.aSqlMap2.get(clazz);
         }else{
@@ -72,11 +74,12 @@ public class ASqlCache {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public static ASql create(Class clazz) throws IllegalAccessException, InstantiationException {
+    public static DialectEntitySqlBuilder create(Class clazz) throws IllegalAccessException, InstantiationException {
         if(ASqlCache.aSqlMap2.containsKey(clazz)){
-            return (ASql) ASqlCache.aSqlMap2.get(clazz);
+            return (DialectEntitySqlBuilder) ASqlCache.aSqlMap2.get(clazz);
         }else{
-            ASql aSql = new ASql(clazz);
+            DialectEntitySqlBuilder aSql = new BaseDialectEntitySqlBuilder()
+                    .cacheData(new AnnotationEntityDataBuilder().build(clazz));
             ASqlCache.aSqlMap2.put(clazz,aSql);
             return aSql;
         }

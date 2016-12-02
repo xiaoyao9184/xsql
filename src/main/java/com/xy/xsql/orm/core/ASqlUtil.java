@@ -3,7 +3,7 @@ package com.xy.xsql.orm.core;
 import com.xy.xsql.orm.annotation.ETable;
 import com.xy.xsql.orm.annotation.ESql;
 import com.xy.xsql.orm.data.entity.EntityLink;
-import com.xy.xsql.orm.data.param.EntityParam;
+import com.xy.xsql.orm.data.param.EntitySiteParam;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.ArrayList;
@@ -20,73 +20,74 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ASqlUtil {
 
     /**
-     * 根据 EntityLink 创建 EntityParam
+     * 根据 EntityLink 创建 EntitySiteParam
      * @param entityLinkList EntityLink List
-     * @param entityParamList EntityParam List
+     * @param entitySiteParamList EntitySiteParam List
      * @param defaultEnable Default Enable
-     * @return EntityParam List
+     * @return EntitySiteParam List
      */
-    public static List<EntityParam> createFullEntityParam(List<EntityLink> entityLinkList, List<EntityParam> entityParamList, boolean defaultEnable){
-        List<EntityParam> result = new ArrayList<>();
+    @Deprecated
+    public static List<EntitySiteParam> createFullEntityParam(List<EntityLink> entityLinkList, List<EntitySiteParam> entitySiteParamList, boolean defaultEnable){
+        List<EntitySiteParam> result = new ArrayList<>();
         //类 当前数量
         Map<Class,AtomicInteger> entityClassNowIndexMap = new HashMap<>();
-        //类 EntityParam 映射
-        Map<Class,List<EntityParam>> entityClassMap = new HashMap<>();
-        //字段名 EntityParam 映射
-        Map<String,EntityParam> columnNameMap = new HashMap<>();
+        //类 EntitySiteParam 映射
+        Map<Class,List<EntitySiteParam>> entityClassMap = new HashMap<>();
+        //字段名 EntitySiteParam 映射
+        Map<String,EntitySiteParam> columnNameMap = new HashMap<>();
 
         //默认
         for (EntityLink entityLink : entityLinkList) {
-            EntityParam entityParam = new EntityParam();
-            Class clazz = entityLink.getClazz();
-            entityParam.setClazz(clazz);
+            EntitySiteParam entitySiteParam = new EntitySiteParam();
+            Class clazz = null; //entityLink.getEntityTemplateData().getClazz();
+            entitySiteParam.setLinkEntityClass(clazz);
             String name = null;
             if(entityLink.isCoreBean()){
-                entityParam.setUse(true);
+                entitySiteParam.setUseLink(true);
             }else{
-                entityParam.setUse(defaultEnable);
+                entitySiteParam.setUseLink(defaultEnable);
                 name = entityLink.getEntityColumn().getName();
             }
             //in ColumnMap
-            entityParam.setBindColumnName(name);
-            columnNameMap.put(name,entityParam);
+            entitySiteParam.setLinkColumnName(name);
+            columnNameMap.put(name, entitySiteParam);
             //in ClassMap
             if(entityClassMap.containsKey(clazz)){
-                entityClassMap.get(clazz).add(entityParam);
+                entityClassMap.get(clazz).add(entitySiteParam);
             }else{
-                List<EntityParam> list = new ArrayList<>();
-                list.add(entityParam);
+                List<EntitySiteParam> list = new ArrayList<>();
+                list.add(entitySiteParam);
                 entityClassMap.put(clazz,list);
             }
             entityClassNowIndexMap.put(clazz,new AtomicInteger());
 
-            result.add(entityParam);
+            result.add(entitySiteParam);
         }
 
         //自定义修改
-        for (EntityParam entityParam: entityParamList) {
-            if(entityParam.isUseColumn()){
-                if(columnNameMap.containsKey(entityParam.getBindColumnName())){
-                    EntityParam indexEntityParam = columnNameMap.get(entityParam.getBindColumnName());
-                    int index = result.indexOf(indexEntityParam);
-                    result.set(index,entityParam);
+        for (EntitySiteParam entitySiteParam : entitySiteParamList) {
+            if(entitySiteParam.isUseColumn()){
+                if(columnNameMap.containsKey(entitySiteParam.getLinkColumnName())){
+                    EntitySiteParam indexEntitySiteParam = columnNameMap.get(entitySiteParam.getLinkColumnName());
+                    int index = result.indexOf(indexEntitySiteParam);
+                    result.set(index, entitySiteParam);
                 }else{
-                    throw new UnsupportedOperationException("参数非法，未找到与 " + entityParam.getBindColumnName() + " 相关的实体，可能名称错误！");
+                    throw new UnsupportedOperationException("参数非法，未找到与 " + entitySiteParam.getLinkColumnName() + " 相关的实体，可能名称错误！");
                 }
-            }else if(entityParam.isUseClass()){
-                if(entityClassMap.containsKey(entityParam.getClazz())){
-                    AtomicInteger classIndex = entityClassNowIndexMap.get(entityParam.getClazz());
-                    EntityParam indexEntityParam = entityClassMap.get(entityParam.getClazz()).get(classIndex.get());
-                    int index = result.indexOf(indexEntityParam);
-                    result.set(index,entityParam);
+            }else if(entitySiteParam.isUseClass()){
+                if(entityClassMap.containsKey(entitySiteParam.getLinkEntityClass())){
+                    AtomicInteger classIndex = entityClassNowIndexMap.get(entitySiteParam.getLinkEntityClass());
+                    EntitySiteParam indexEntitySiteParam = entityClassMap.get(entitySiteParam.getLinkEntityClass()).get(classIndex.get());
+                    int index = result.indexOf(indexEntitySiteParam);
+                    result.set(index, entitySiteParam);
                     classIndex.getAndIncrement();
                 }else{
-                    throw new UnsupportedOperationException("参数非法，未找到与 " + entityParam.getClazz() + " 相关的实体，可能名称错误！");
+                    throw new UnsupportedOperationException("参数非法，未找到与 " + entitySiteParam.getLinkEntityClass() + " 相关的实体，可能名称错误！");
                 }
             }else{
                 //核心实体
-                entityParam.setUse(true);
-                result.set(0,entityParam);
+                entitySiteParam.setUseLink(true);
+                result.set(0, entitySiteParam);
             }
         }
 
@@ -96,13 +97,13 @@ public class ASqlUtil {
 
     /**
      * 获取参数
-     * @param param EntityParam List
+     * @param param EntitySiteParam List
      * @param removeNull 是/否删除NULL参数
      * @return Object Array
      */
-    public static Object[] getArgsByParam(List<EntityParam> param, boolean removeNull) {
+    public static Object[] getArgsByParam(List<EntitySiteParam> param, boolean removeNull) {
         List<Object> list = new ArrayList<>();
-        for (EntityParam kv: param) {
+        for (EntitySiteParam kv: param) {
             if(kv.isUseArgs()){
                 if(removeNull){
                     list.addAll(kv.toNoNullArgsList());
@@ -182,9 +183,10 @@ public class ASqlUtil {
      */
     public static String createSqlByPo(ETable eTable, Class clazz, Object...args) throws Exception {
         A2Sql aSql = new A2Sql(clazz);
-        List<EntityParam> entityParams = new ArrayList<>();
-        entityParams.add(new EntityParam(args));
-        return aSql.createFullSelectSql(entityParams);
+        List<EntitySiteParam> entitySiteParams = new ArrayList<>();
+        entitySiteParams.add(new EntitySiteParam()
+                .withArgs(args));
+        return aSql.createFullSelectSql(entitySiteParams);
     }
 
     /**

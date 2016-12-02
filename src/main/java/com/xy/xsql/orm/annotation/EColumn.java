@@ -18,4 +18,19 @@ public @interface EColumn {
      */
     String name() default "";
 
+    /**
+     * 别名
+     */
+    String aliasName() default "";
+
+    /**
+     * 长度
+     */
+    int length() default 255;
+
+    /**
+     * 类型
+     */
+    String type() default "VARCHAR";
+
 }

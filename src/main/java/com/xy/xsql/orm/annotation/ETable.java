@@ -21,6 +21,6 @@ public @interface ETable {
     /**
      * 别名
      */
-    String otherName() default "";
+    String aliasName() default "";
 
 }

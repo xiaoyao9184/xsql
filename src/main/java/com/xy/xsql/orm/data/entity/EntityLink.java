@@ -1,64 +1,48 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EColumn;
-import com.xy.xsql.orm.annotation.ELink;
-import com.xy.xsql.orm.data.sql.element.info.Table;
-
-import java.lang.reflect.Field;
-
 /**
  * SQL实体
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class EntityLink {
     private EntityColumn entityColumn;
-    private ELink eLink;
-    private Class clazz;
+    private EntityTemplateData entityTemplateData;
 
-    public EntityLink(Class entityClass){
-        this.entityColumn = null;
-        this.clazz = entityClass;
-    }
-
-    public EntityLink(ELink eLink, EColumn eColumn, Field field, Table table){
-        this.entityColumn = new EntityColumn(eColumn, field, table);
-        this.eLink = eLink;
-
-        this.clazz = eLink.main();
-    }
-
-
-    public ELink geteLink() {
-        return eLink;
-    }
-
-    public void seteLink(ELink eLink) {
-        this.eLink = eLink;
-    }
 
     public EntityColumn getEntityColumn() {
         return entityColumn;
     }
 
-    public void setEntityColumn(EntityColumn entityColumn) {
+    public EntityTemplateData getEntityTemplateData() {
+        return entityTemplateData;
+    }
+
+    /**
+     * set column
+     * @param entityColumn EntityColumn
+     * @return This
+     */
+    public EntityLink withColumn(EntityColumn entityColumn) {
         this.entityColumn = entityColumn;
+        return this;
     }
 
-    public Class getClazz() {
-        return clazz;
+    /**
+     * set data
+     * @param entityTemplateData EntityTemplateData
+     * @return This
+     */
+    public EntityLink withTemplate(EntityTemplateData entityTemplateData) {
+        this.entityTemplateData = entityTemplateData;
+        return this;
     }
-
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
-    }
-
 
     /**
      * 是否是主实体
      * @return 是/否
      */
+    @Deprecated
     public boolean isCoreBean(){
         return entityColumn == null;
     }
-
 }

@@ -24,7 +24,7 @@ public class AnnotationEntityDataBuilderTest {
         AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder();
         EntityTemplateData data = builder.build(User.class);
         assert data != null;
-        assert data.getTableName().getName().equals("b_user");
+        assert data.getTable().getName().equals("b_user");
     }
 
     /**
@@ -41,7 +41,7 @@ public class AnnotationEntityDataBuilderTest {
 
         EntityTemplateData data = builder.build(User.class);
         assert data != null;
-        assert data.getTableStatus() != null;
+        assert data.getStatus() != null;
     }
 
 }

@@ -1,11 +1,6 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.EColumn;
-import com.xy.xsql.orm.annotation.EOrder;
 import com.xy.xsql.orm.data.sql.element.info.Order;
-import com.xy.xsql.orm.data.sql.element.info.Table;
-
-import java.lang.reflect.Field;
 
 /**
  * SQL排序
@@ -13,33 +8,34 @@ import java.lang.reflect.Field;
  */
 public class EntityOrder extends Order {
 
-    private EntityColumn entityColumn;
-    protected EOrder eOrder;
-
-
-    public EntityOrder(EOrder eOrder, EColumn eColumn, Field field, Table table){
-        this.entityColumn = new EntityColumn(eColumn, field, table);
-        this.eOrder = eOrder;
-
-        super.column = this.entityColumn;
-        super.aes = eOrder.aes();
+    /**
+     * get EntityColumn
+     * @return EntityColumn
+     */
+    @Override
+    public EntityColumn getColumn() {
+        return (EntityColumn) column;
     }
 
-
-    public EOrder geteOrder() {
-        return eOrder;
+    /**
+     * set EntityColumn
+     * @param entityColumn EntityColumn
+     * @return This
+     */
+    public EntityOrder withColumn(EntityColumn entityColumn){
+        this.column = entityColumn;
+        return this;
     }
 
-    public void seteOrder(EOrder eOrder) {
-        this.eOrder = eOrder;
-    }
-
-    public EntityColumn getEntityColumn() {
-        return entityColumn;
-    }
-
-    public void setEntityColumn(EntityColumn entityColumn) {
-        this.entityColumn = entityColumn;
+    /**
+     * set Aes flag
+     * @param aes Aes flag
+     * @return This
+     */
+    @Override
+    public EntityOrder withAes(boolean aes){
+        this.aes = aes;
+        return this;
     }
 
 
@@ -50,4 +46,6 @@ public class EntityOrder extends Order {
     public Order toOrder(){
         return this;
     }
+
+
 }

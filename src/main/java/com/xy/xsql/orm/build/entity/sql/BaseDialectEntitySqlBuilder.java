@@ -64,12 +64,12 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
     @Override
     public String sqlInsert(){
         List<String> list = new ArrayList<>();
-        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+        for (EntityColumn entityColumn : this.data.getColumns()) {
             list.add(entityColumn.getName());
         }
 
         XSql sql = new XSql()
-                .insert(this.data.getTableName().getName())
+                .insert(this.data.getTable().getName())
                 .values(list);
 
         return sql.toSql();
@@ -81,16 +81,16 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlUpdateById(){
         List<String> list = new ArrayList<>();
-        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+        for (EntityColumn entityColumn : this.data.getColumns()) {
             list.add(entityColumn.getName());
         }
 
         XSql sql = new XSql()
-                .update(this.data.getTableName().getName())
+                .update(this.data.getTable().getName())
                 .set(list)
-                .where(this.data.getTableKey().get(0).getName(),"=");
-        for(int i = 1; i < this.data.getTableKey().size(); i++){
-            sql.and(this.data.getTableKey().get(i).getName(),"=");
+                .where(this.data.getKeys().get(0).getName(),"=");
+        for(int i = 1; i < this.data.getKeys().size(); i++){
+            sql.and(this.data.getKeys().get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -102,14 +102,14 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlSelectById(){
         List<Column> list = new ArrayList<>();
-        list.addAll(this.data.getTableColumn());
+        list.addAll(this.data.getColumns());
 
         XSql sql = new XSql()
                 .select(list)
-                .from(this.data.getTableName().getName())
-                .where(this.data.getTableKey().get(0).getName(),"=");
-        for(int i = 1; i < this.data.getTableKey().size(); i++){
-            sql.and(this.data.getTableKey().get(i).getName(),"=");
+                .from(this.data.getTable().getName())
+                .where(this.data.getKeys().get(0).getName(),"=");
+        for(int i = 1; i < this.data.getKeys().size(); i++){
+            sql.and(this.data.getKeys().get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -122,10 +122,10 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
     public String sqlDeleteById(){
         XSql sql = new XSql()
                 .delete()
-                .from(this.data.getTableName().getName())
-                .where(this.data.getTableKey().get(0).getName(),"=");
-        for(int i = 1; i < this.data.getTableKey().size(); i++){
-            sql.and(this.data.getTableKey().get(i).getName(),"=");
+                .from(this.data.getTable().getName())
+                .where(this.data.getKeys().get(0).getName(),"=");
+        for(int i = 1; i < this.data.getKeys().size(); i++){
+            sql.and(this.data.getKeys().get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -136,15 +136,15 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      * @return SQL with (+)? , + is 1 or more , is keys count
      */
     public String sqlUpdateStatusById(){
-        if(this.data.getTableStatus() == null){
+        if(this.data.getStatus() == null){
             throw new UnsupportedOperationException("没有任何字段被标注为@" + EStatus.class.getSimpleName());
         }
         XSql sql = new XSql()
-                .update(this.data.getTableName().getName())
-                .set(this.data.getTableStatus().geteColumn().name())
-                .where(this.data.getTableKey().get(0).getName(),"=");
-        for(int i = 1; i < this.data.getTableKey().size(); i++){
-            sql.and(this.data.getTableKey().get(i).getName(),"=");
+                .update(this.data.getTable().getName())
+                .set(this.data.getStatus().getName())
+                .where(this.data.getKeys().get(0).getName(),"=");
+        for(int i = 1; i < this.data.getKeys().size(); i++){
+            sql.and(this.data.getKeys().get(i).getName(),"=");
         }
 
         return sql.toSql();
@@ -157,12 +157,12 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlInsert(int count){
         List<String> list = new ArrayList<>();
-        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+        for (EntityColumn entityColumn : this.data.getColumns()) {
             list.add(entityColumn.getName());
         }
 
         XSql sql = new XSql()
-                .insert(this.data.getTableName().getName())
+                .insert(this.data.getTable().getName())
                 .values(list,count);
 
         return sql.toSql();
@@ -174,7 +174,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      * @return SQL with (count)?
      */
     public String sqlUpdate(int count){
-        if(this.data.getTableKey().size() > 1){
+        if(this.data.getKeys().size() > 1){
             throw new UnsupportedOperationException("联合主键不提供批量更新操作！");
         }
         if(count < 1){
@@ -182,23 +182,23 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
         }
 
         List<String> list = new ArrayList<>();
-        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+        for (EntityColumn entityColumn : this.data.getColumns()) {
             list.add(entityColumn.getName());
         }
         List<String> caseWhen = new ArrayList<>();
-        for (EntityColumn entityColumn : this.data.getTableColumn()) {
+        for (EntityColumn entityColumn : this.data.getColumns()) {
             XSql sql = new XSql()
-                    .caseStart(this.data.getTableKey().get(0).getName())
+                    .caseStart(this.data.getKeys().get(0).getName())
                     .whenThen(count)
                     .caseEnd();
             caseWhen.add(sql.toSql());
         }
 
         XSql sql = new XSql()
-                .update(this.data.getTableName().getName())
+                .update(this.data.getTable().getName())
                 .set(list,caseWhen)
                 .where()
-                .in(this.data.getTableKey().get(0).getName(),count);
+                .in(this.data.getKeys().get(0).getName(),count);
 
         return sql.toSql();
     }
@@ -210,13 +210,13 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      */
     public String sqlSelectByStatus(){
         List<Column> list = new ArrayList<>();
-        list.addAll(this.data.getTableColumn());
+        list.addAll(this.data.getColumns());
 
         XSql sql = new XSql()
                 .select(list)
-                .from(this.data.getTableName().getName());
+                .from(this.data.getTable().getName());
         if(config.isOnlySelectUseStatus()){
-            sql.where(this.data.getTableStatus().getName(),"=");
+            sql.where(this.data.getStatus().getName(),"=");
         }
 
         return sql.toSql();
@@ -230,9 +230,9 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
         XSql sql = new XSql()
                 .select()
                 .funCount()
-                .from(this.data.getTableName().getName());
+                .from(this.data.getTable().getName());
         if(config.isOnlySelectUseStatus()){
-            sql.where(this.data.getTableStatus().getName(),"=");
+            sql.where(this.data.getStatus().getName(),"=");
         }
 
         return sql.toSql();
@@ -244,7 +244,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      * @return SQL with (count)?
      */
     public String sqlDeleteByIds(int count){
-        if(this.data.getTableKey().size() > 1){
+        if(this.data.getKeys().size() > 1){
             throw new UnsupportedOperationException("联合主键不提供批量删除操作！");
         }
         if(count < 1){
@@ -253,9 +253,9 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
 
         XSql sql = new XSql()
                 .delete()
-                .from(this.data.getTableName().getName())
+                .from(this.data.getTable().getName())
                 .where()
-                .in(this.data.getTableKey().get(0).getName(),count);
+                .in(this.data.getKeys().get(0).getName(),count);
 
         return sql.toSql();
     }
@@ -266,10 +266,10 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
      * @return SQL with (count)?
      */
     public String sqlUpdateStatusByIds(int count){
-        if(this.data.getTableStatus() == null){
+        if(this.data.getStatus() == null){
             throw new UnsupportedOperationException("没有任何字段被标注为@" + EStatus.class.getSimpleName());
         }
-        if(this.data.getTableKey().size() > 1){
+        if(this.data.getKeys().size() > 1){
             throw new UnsupportedOperationException("联合主键不提供批量更新状态操作！");
         }
         if(count < 1){
@@ -277,10 +277,10 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
         }
 
         XSql sql = new XSql()
-                .update(this.data.getTableName().getName())
-                .set(this.data.getTableStatus().geteColumn().name())
+                .update(this.data.getTable().getName())
+                .set(this.data.getStatus().getName())
                 .where()
-                .in(this.data.getTableKey().get(0).getName(),count);
+                .in(this.data.getKeys().get(0).getName(),count);
 
         return sql.toSql();
     }

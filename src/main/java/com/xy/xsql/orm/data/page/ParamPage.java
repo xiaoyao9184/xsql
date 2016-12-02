@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.data.page;
 
 import com.xy.xsql.orm.annotation.ESql;
-import com.xy.xsql.orm.data.param.EntityParam;
+import com.xy.xsql.orm.data.param.EntitySiteParam;
 import com.xy.xsql.orm.model.BaseRowNumberList;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class ParamPage<SrcType,TarType> extends Page<SrcType> {
     /**
      * 实体参数
      */
-    private List<EntityParam> beanArgs = new ArrayList<>();
+    private List<EntitySiteParam> beanArgs = new ArrayList<>();
     /**
      * VO类型
      */
@@ -44,11 +44,11 @@ public class ParamPage<SrcType,TarType> extends Page<SrcType> {
         this.autoFill = autoFill;
     }
 
-    public List<EntityParam> getBeanArgs() {
+    public List<EntitySiteParam> getBeanArgs() {
         return beanArgs;
     }
 
-    public void setBeanArgs(List<EntityParam> beanArgs) {
+    public void setBeanArgs(List<EntitySiteParam> beanArgs) {
         this.beanArgs = beanArgs;
     }
 
@@ -73,7 +73,8 @@ public class ParamPage<SrcType,TarType> extends Page<SrcType> {
      * @param args
      */
     public void addArg(Object...args){
-        beanArgs.add(new EntityParam(args));
+        beanArgs.add(new EntitySiteParam()
+                .withArgs(args));
     }
 
     /**
@@ -82,7 +83,9 @@ public class ParamPage<SrcType,TarType> extends Page<SrcType> {
      * @param args 参数
      */
     public void addBeanArg(Class beanClass, Object...args){
-        beanArgs.add(new EntityParam(beanClass,args));
+        beanArgs.add(new EntitySiteParam()
+                .withLinkClass(beanClass)
+                .withArgs(args));
     }
 
     /**
@@ -91,14 +94,16 @@ public class ParamPage<SrcType,TarType> extends Page<SrcType> {
      * @param args 参数
      */
     public void addBeanArg(String classColumn, Object...args){
-        beanArgs.add(new EntityParam(classColumn,args));
+        beanArgs.add(new EntitySiteParam()
+                .withLinkColumnName(classColumn)
+                .withArgs(args));
     }
 
     /**
      * 复位参数
      */
     public void restArg(){
-        this.beanArgs = new ArrayList<EntityParam>();
+        this.beanArgs = new ArrayList<EntitySiteParam>();
     }
 
     /**

@@ -45,7 +45,7 @@ public class AnnotationDialectESqlBuilderTest {
     public static class TestDialectDialectEntitySqlBuilder extends BaseDialectEntitySqlBuilder {
         @Override
         public String sqlSelectById(){
-            return "SELECT * FORM " + super.data.getTableName().getName();
+            return "SELECT * FORM " + super.data.getTable().getName();
         }
     }
 }

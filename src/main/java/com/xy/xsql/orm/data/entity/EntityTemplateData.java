@@ -1,6 +1,5 @@
 package com.xy.xsql.orm.data.entity;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -10,107 +9,135 @@ import java.util.List;
  */
 public class EntityTemplateData {
 
-    private EntityTable tableName = null;
+    private EntityTable table = null;
 
-    private List<EntityKey> tableKey = null;
+    private List<EntityColumn> keyList = null;
 
-    private EntityStatus tableStatus = null;
+    private EntityColumn status = null;
 
-    private List<Field> tableField = null;
+    private List<EntityColumn> columns = null;
 
-    private List<EntityColumn> tableColumn = null;
+    private List<EntityLink> links = null;
 
-    private List<EntityLink> tableEntity = null;
+    private List<EntityParam> params = null;
 
-    private List<EntityParam> tableParam = null;
-
-    private List<EntityOrder> tableOrder = null;
+    private List<EntityOrder> orders = null;
 
     /**
      * 表名
      */
-    public EntityTable getTableName() {
-        return tableName;
+    public EntityTable getTable() {
+        return table;
     }
 
-    public void setTableName(EntityTable tableName) {
-        this.tableName = tableName;
+    public void setTable(EntityTable table) {
+        this.table = table;
     }
 
     /**
      * 特殊字段：主键
      */
-    public List<EntityKey> getTableKey() {
-        return tableKey;
+    public List<EntityColumn> getKeys() {
+        return keyList;
     }
 
-    public void setTableKey(List<EntityKey> tableKey) {
-        this.tableKey = tableKey;
+    public void setKeys(List<EntityColumn> keyList) {
+        this.keyList = keyList;
     }
 
     /**
      * 特殊字段：状态
      */
-    public EntityStatus getTableStatus() {
-        return tableStatus;
+    public EntityColumn getStatus() {
+        return status;
     }
 
-    public void setTableStatus(EntityStatus tableStatus) {
-        this.tableStatus = tableStatus;
-    }
-
-    /**
-     * 字段集合
-     */
-    public List<Field> getTableField() {
-        return tableField;
-    }
-
-    public void setTableField(List<Field> tableField) {
-        this.tableField = tableField;
+    public void setStatus(EntityColumn status) {
+        this.status = status;
     }
 
     /**
      * 字段集合(标注为TableColumn)
      */
-    public List<EntityColumn> getTableColumn() {
-        return tableColumn;
+    public List<EntityColumn> getColumns() {
+        return columns;
     }
 
-    public void setTableColumn(List<EntityColumn> tableColumn) {
-        this.tableColumn = tableColumn;
+    public void setColumns(List<EntityColumn> columns) {
+        this.columns = columns;
     }
 
     /**
      * 相关实体集合(标注为TableEntity)
      */
-    public List<EntityLink> getTableEntity() {
-        return tableEntity;
+    public List<EntityLink> getLinks() {
+        return links;
     }
 
-    public void setTableEntity(List<EntityLink> tableEntity) {
-        this.tableEntity = tableEntity;
+    public void setLinks(List<EntityLink> links) {
+        this.links = links;
     }
 
     /**
      * 查询条件集合(标注为TableParam)
      */
-    public List<EntityParam> getTableParam() {
-        return tableParam;
+    public List<EntityParam> getParams() {
+        return params;
     }
 
-    public void setTableParam(List<EntityParam> tableParam) {
-        this.tableParam = tableParam;
+    public void setParams(List<EntityParam> params) {
+        this.params = params;
     }
 
     /**
      * 查询排序集合(标注为TableOrder)
      */
-    public List<EntityOrder> getTableOrder() {
-        return tableOrder;
+    public List<EntityOrder> getOrders() {
+        return orders;
     }
 
-    public void setTableOrder(List<EntityOrder> tableOrder) {
-        this.tableOrder = tableOrder;
+    public void setOrders(List<EntityOrder> orders) {
+        this.orders = orders;
+    }
+
+
+    /**
+     * set table
+     * @param table EntityTable
+     * @return This
+     */
+    public EntityTemplateData withTable(EntityTable table) {
+        this.table = table;
+        return this;
+    }
+
+    /**
+     * set column
+     * @param columns EntityColumn List
+     * @return This
+     */
+    public EntityTemplateData withColumns(List<EntityColumn> columns) {
+        this.columns = columns;
+        return this;
+    }
+
+    /**
+     * set key
+     * @param entityColumns EntityColumn List
+     * @return This
+     */
+    public EntityTemplateData withKeys(List<EntityColumn> entityColumns) {
+        this.keyList = entityColumns;
+        return this;
+    }
+
+    /**
+     * set status
+     * @param entityStatus EntityColumn
+     * @return This
+     */
+    public EntityTemplateData withKeys(EntityColumn entityStatus) {
+        this.status = entityStatus;
+        return this;
     }
 }

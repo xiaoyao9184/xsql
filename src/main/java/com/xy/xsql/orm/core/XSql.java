@@ -52,7 +52,7 @@ public class XSql {
 
     /**
      * SELECT with TABLE.COLUMN
-     * default use table other name and column real name
+     * default useLink table other name and column real name
      * @param columnList Column List
      * @return This
      */
@@ -93,7 +93,7 @@ public class XSql {
      * http://www.w3school.com.cn/sql/sql_top.asp
      * @see #select()
      * @param count count or percent
-     * @param percent true: use percent ;false:use count
+     * @param percent true: useLink percent ;false:useLink count
      * @return This
      */
     public XSql top(int count, boolean percent){
@@ -130,7 +130,7 @@ public class XSql {
 
     /**
      * INSERT INTO with TABLE
-     * default use real name
+     * default useLink real name
      * @param table Table
      * @return This
      */
@@ -344,7 +344,7 @@ public class XSql {
 
     /**
      * DELETE with TABLE
-     * default use other name
+     * default useLink other name
      * @param table Table
      * @return This
      */
@@ -358,7 +358,7 @@ public class XSql {
 
     /**
      * DELETE with TABLE
-     * default use other name
+     * default useLink other name
      * @param tableList Table List
      * @return This
      */
@@ -445,7 +445,7 @@ public class XSql {
 
     /**
      * FORM with XSQL
-     * default format to as sql, use sub sql
+     * default format to as sql, useLink sub sql
      * @param xSql XSql
      * @return This
      */
@@ -570,9 +570,9 @@ public class XSql {
         sql.append("ON ");
         sql.append(param.getColumn().toPrefixSql());
         sql.append(" ");
-        sql.append(param.getRelationship());
+        sql.append(param.getRelationshipOperator());
         sql.append(" ");
-        sql.append(param.getValue());
+        sql.append(param.getValueExpression());
         sql.append("\n");
         return this;
     }
@@ -587,7 +587,7 @@ public class XSql {
     }
 
     /**
-     * WHERE with COLUMN relationship and ?
+     * WHERE with COLUMN relationshipOperator and ?
      * @param columnName Column Name
      * @param relationship Relationship
      * @return This
@@ -619,19 +619,19 @@ public class XSql {
             if(i == 0){
                 sql.append(param.getColumn().getFullName());
                 sql.append(" ");
-                sql.append(param.getRelationship());
+                sql.append(param.getRelationshipOperator());
                 sql.append(" ");
-                sql.append(param.getValue());
+                sql.append(param.getValueExpression());
                 sql.append("\n");
             }else{
                 if(param.isAnd()){
                     and(param.getColumn().getFullName(),
-                            param.getRelationship().toString(),
-                            param.getValue().toString());
+                            param.getRelationshipOperator().toString(),
+                            param.getValueExpression().toString());
                 }else{
                     or(param.getColumn().getFullName(),
-                            param.getRelationship().toString(),
-                            param.getValue().toString());
+                            param.getRelationshipOperator().toString(),
+                            param.getValueExpression().toString());
                 }
             }
         }

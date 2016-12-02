@@ -22,6 +22,7 @@ public @interface ESql {
      * 参数sql
      * 通过判断此项判断参数量，根据实际参数自动隐藏条件
      */
+    @Deprecated
     String[] args() default {};
 
 }

@@ -6,7 +6,7 @@ import com.xy.xsql.orm.annotation.*;
  * TEST
  * Created by xiaoyao9184 on 2016/6/26.
  */
-@ETable(name = "b_user_type", otherName = "ut")
+@ETable(name = "b_user_type", aliasName = "ut")
 public class UserType {
 
     @EKey

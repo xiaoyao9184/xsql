@@ -16,6 +16,6 @@ public @interface ELink {
     /**
      * 关联实体
      */
-    Class main();
+    Class value();
 
 }

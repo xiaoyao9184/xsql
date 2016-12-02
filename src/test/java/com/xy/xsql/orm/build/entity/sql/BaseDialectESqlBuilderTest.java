@@ -25,7 +25,7 @@ public class BaseDialectESqlBuilderTest {
         AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder();
         EntityTemplateData data = builder.build(User.class);
         assert data != null;
-        assert data.getTableName().getName().equals("b_user");
+        assert data.getTable().getName().equals("b_user");
     }
 
     /**
@@ -42,7 +42,7 @@ public class BaseDialectESqlBuilderTest {
 
         EntityTemplateData data = builder.build(User.class);
         assert data != null;
-        assert data.getTableStatus() != null;
+        assert data.getStatus() != null;
     }
 
 }
