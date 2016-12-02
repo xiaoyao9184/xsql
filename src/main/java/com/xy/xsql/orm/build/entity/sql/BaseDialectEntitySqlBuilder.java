@@ -4,7 +4,7 @@ import com.xy.xsql.orm.annotation.EStatus;
 import com.xy.xsql.orm.core.XSql;
 import com.xy.xsql.orm.data.config.EntitySqlBuilderConfig;
 import com.xy.xsql.orm.data.entity.EntityColumn;
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
 
     protected EntitySqlBuilderConfig config;
     
-    protected EntityTemplateData data;
+    protected EntityTemplate data;
 
     public BaseDialectEntitySqlBuilder(){
         this.log = LoggerFactory.getLogger(this.getClass());
@@ -46,7 +46,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
     }
 
     @Override
-    public DialectEntitySqlBuilder cacheData(EntityTemplateData data) {
+    public DialectEntitySqlBuilder cacheData(EntityTemplate data) {
         this.data = data;
         return this;
     }

@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.build.entity.sql.agreement;
 
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.ArgSql;
 
 /**
@@ -15,6 +15,6 @@ public interface SqlEntitySearchArg {
      * @param args 参数
      * @return SQL + 参数
      */
-    ArgSql getSelectByArgsSql(EntityTemplateData entityData, Object... args);
+    ArgSql getSelectByArgsSql(EntityTemplate entityData, Object... args);
 
 }

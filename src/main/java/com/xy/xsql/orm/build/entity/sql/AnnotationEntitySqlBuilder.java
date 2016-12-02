@@ -3,7 +3,7 @@ package com.xy.xsql.orm.build.entity.sql;
 import com.xy.xsql.orm.build.BaseBuilder;
 import com.xy.xsql.orm.build.entity.data.AnnotationEntityDataBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuilderConfig;
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
     /**
      * Data
      */
-    private EntityTemplateData data;
+    private EntityTemplate data;
 
     /**
      * SqlBuilder

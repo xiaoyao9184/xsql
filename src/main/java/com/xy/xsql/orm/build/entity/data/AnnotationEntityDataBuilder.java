@@ -14,10 +14,10 @@ import java.util.List;
 
 /**
  * AnnotationEntityDataBuilder
- * build EntityTemplateData by class with Annotation
+ * build EntityTemplate by class with Annotation
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityTemplateData>, Cloneable {
+public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityTemplate>, Cloneable {
 
     private Logger log;
 
@@ -37,7 +37,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
     private boolean scanOrder;
 
     //tar
-    private EntityTemplateData data;
+    private EntityTemplate data;
 
     /**
      *
@@ -130,7 +130,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
 
 
     @Override
-    public EntityTemplateData build(Class<?> aClass) {
+    public EntityTemplate build(Class<?> aClass) {
         this.annotationClass = aClass;
         this.initData();
 
@@ -157,7 +157,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
         table = this.initTable();
         columns = this.initColumn();
 
-        this.data = new EntityTemplateData()
+        this.data = new EntityTemplate()
                 .withClass(annotationClass)
                 .withTable(table)
                 .withColumns(columns)
@@ -301,13 +301,13 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
             ELink eLink = field.getAnnotation(ELink.class);
             if(eLink != null){
                 EntityColumn entityColumn = this.columns.get(index);
-                EntityTemplateData entityTemplateData = this.clone()
+                EntityTemplate entityTemplate = this.clone()
                         .aliasNamePrefix(entityColumn.getAliasName())
                         .build(eLink.value());
 
                 list.add(new EntityLink()
                                 .withColumn(entityColumn)
-                                .withTemplate(entityTemplateData));
+                                .withTemplate(entityTemplate));
             }
             index++;
         }

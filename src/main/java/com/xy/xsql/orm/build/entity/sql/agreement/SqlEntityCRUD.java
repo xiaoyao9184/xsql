@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.build.entity.sql.agreement;
 
 
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 /**
  * 单/多数据 增删该查 ID操作
@@ -14,7 +14,7 @@ public interface SqlEntityCRUD {
      * @param entityData 实体 信息
      * @return SQL
      */
-    String getInsertSql(EntityTemplateData entityData);
+    String getInsertSql(EntityTemplate entityData);
 
     /**
      * 插入
@@ -22,14 +22,14 @@ public interface SqlEntityCRUD {
      * @param entityCount 实体 数量
      * @return SQL
      */
-    String getInsertByEntityCountSql(EntityTemplateData entityData, int entityCount);
+    String getInsertByEntityCountSql(EntityTemplate entityData, int entityCount);
 
     /**
      * 获取
      * @param entityData 实体 信息
      * @return SQL
      */
-    String getSelectByIdSql(EntityTemplateData entityData);
+    String getSelectByIdSql(EntityTemplate entityData);
 
     /**
      * 获取
@@ -37,14 +37,14 @@ public interface SqlEntityCRUD {
      * @param idCount ID 数量
      * @return SQL
      */
-    String getSelectByIdsSql(EntityTemplateData entityData, int idCount);
+    String getSelectByIdsSql(EntityTemplate entityData, int idCount);
 
     /**
      * 更新
      * @param entityData 实体 信息
      * @return SQL
      */
-    String getUpdateByIdSql(EntityTemplateData entityData);
+    String getUpdateByIdSql(EntityTemplate entityData);
 
     /**
      * 更新
@@ -52,14 +52,14 @@ public interface SqlEntityCRUD {
      * @param idCount ID 数量
      * @return SQL
      */
-    String getUpdateByIdsSql(EntityTemplateData entityData, int idCount);
+    String getUpdateByIdsSql(EntityTemplate entityData, int idCount);
 
     /**
      * 删除
      * @param entityData 实体 信息
      * @return SQL
      */
-    String getDeleteByIdSql(EntityTemplateData entityData);
+    String getDeleteByIdSql(EntityTemplate entityData);
 
     /**
      * 删除
@@ -67,6 +67,6 @@ public interface SqlEntityCRUD {
      * @param idCount ID 数量
      * @return SQL
      */
-    String getDeleteByIdsSql(EntityTemplateData entityData, int idCount);
+    String getDeleteByIdsSql(EntityTemplate entityData, int idCount);
 
 }

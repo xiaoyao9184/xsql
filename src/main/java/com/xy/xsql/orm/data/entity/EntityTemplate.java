@@ -7,7 +7,7 @@ import java.util.List;
  * 支持主键、状态字段、基本字段、外键字段、参数字段、排序字段
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class EntityTemplateData {
+public class EntityTemplate {
 
     private Class clazz;
 
@@ -117,7 +117,7 @@ public class EntityTemplateData {
      * @param clazz Class
      * @return This
      */
-    public EntityTemplateData withClass(Class clazz) {
+    public EntityTemplate withClass(Class clazz) {
         this.clazz = clazz;
         return this;
     }
@@ -127,7 +127,7 @@ public class EntityTemplateData {
      * @param table EntityTable
      * @return This
      */
-    public EntityTemplateData withTable(EntityTable table) {
+    public EntityTemplate withTable(EntityTable table) {
         this.table = table;
         return this;
     }
@@ -137,7 +137,7 @@ public class EntityTemplateData {
      * @param columns EntityColumn List
      * @return This
      */
-    public EntityTemplateData withColumns(List<EntityColumn> columns) {
+    public EntityTemplate withColumns(List<EntityColumn> columns) {
         this.columns = columns;
         return this;
     }
@@ -147,7 +147,7 @@ public class EntityTemplateData {
      * @param entityColumns EntityColumn List
      * @return This
      */
-    public EntityTemplateData withKeys(List<EntityColumn> entityColumns) {
+    public EntityTemplate withKeys(List<EntityColumn> entityColumns) {
         this.keyList = entityColumns;
         return this;
     }
@@ -157,7 +157,7 @@ public class EntityTemplateData {
      * @param entityStatus EntityColumn
      * @return This
      */
-    public EntityTemplateData withKeys(EntityColumn entityStatus) {
+    public EntityTemplate withKeys(EntityColumn entityStatus) {
         this.status = entityStatus;
         return this;
     }

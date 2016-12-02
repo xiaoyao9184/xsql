@@ -3,7 +3,7 @@ package com.xy.xsql.orm.build.entity.data;
 import com.xy.xsql.orm.build.BaseBuilder;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityParam;
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.EntityTemplateDataArgTree;
 import com.xy.xsql.orm.util.CheckUtil;
 import org.apache.commons.logging.Log;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/11/25.
  */
-public class EntityParamExpander implements BaseBuilder<EntityTemplateData,List<EntityParam>> {
+public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<EntityParam>> {
 
     protected static final Log log = LogFactory.getLog(EntityParamExpander.class);
 
@@ -27,7 +27,7 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplateData,List<
     }
 
     @Override
-    public List<EntityParam> build(EntityTemplateData entityData) {
+    public List<EntityParam> build(EntityTemplate entityData) {
         List<EntityParam> result = new ArrayList<>();
         Integer deep = 0;
         result.addAll(this.buildSub(entityData,deep,this.entityDataTreeArg));
@@ -35,7 +35,7 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplateData,List<
         return result;
     }
 
-    public List<EntityParam> buildSub(EntityTemplateData entityData, Integer deep, EntityTemplateDataArgTree entityDataTreeArg){
+    public List<EntityParam> buildSub(EntityTemplate entityData, Integer deep, EntityTemplateDataArgTree entityDataTreeArg){
         List<EntityParam> result = new ArrayList<>();
         int index = 0;
         for (EntityParam param: entityData.getParams()) {
@@ -56,10 +56,10 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplateData,List<
         if(entityData.getLinks() != null){
             index = 0;
             for (EntityLink entityLinkEntity: entityData.getLinks()) {
-                if(entityLinkEntity.getEntityTemplateData() == null){
+                if(entityLinkEntity.getEntityTemplate() == null){
                     continue;
                 }
-                EntityTemplateData entityDataSub = entityLinkEntity.getEntityTemplateData();
+                EntityTemplate entityDataSub = entityLinkEntity.getEntityTemplate();
                 EntityTemplateDataArgTree entityDataTreeArgSub = entityDataTreeArg.getSubTree(index,entityDataSub.getClazz());
                 deep++;
                 List<EntityParam> resultSub = this.buildSub(

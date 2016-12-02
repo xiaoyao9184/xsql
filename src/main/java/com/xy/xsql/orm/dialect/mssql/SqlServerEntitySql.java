@@ -10,7 +10,7 @@ import com.xy.xsql.orm.build.entity.sql.agreement.*;
 import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityParam;
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.ArgSql;
 import com.xy.xsql.orm.data.param.EntityTemplateDataArgTree;
 import com.xy.xsql.orm.util.CheckUtil;
@@ -37,7 +37,7 @@ public class SqlServerEntitySql
         SqlPage {
 
     @Override
-    public String getCreateTableSql(EntityTemplateData entityData) {
+    public String getCreateTableSql(EntityTemplate entityData) {
         StringBuilder sb = new StringBuilder()
                 .append("CREATE TABLE")
                 .append("\n")
@@ -71,7 +71,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getDropTableSql(EntityTemplateData entityData) {
+    public String getDropTableSql(EntityTemplate entityData) {
         return new StringBuilder()
                 .append("DROP TABLE")
                 .append("\n")
@@ -81,7 +81,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getAlterTableSql(EntityTemplateData entityDataOld, EntityTemplateData entityDataNew) {
+    public String getAlterTableSql(EntityTemplate entityDataOld, EntityTemplate entityDataNew) {
         //比较字段
         List<EntityColumn> DropList = EntityUtil.lostList(entityDataOld.getColumns(),entityDataNew.getColumns());
         List<EntityColumn> AddList = EntityUtil.lostList(entityDataNew.getColumns(),entityDataOld.getColumns());
@@ -171,7 +171,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getTableCountSql(EntityTemplateData entityData) {
+    public String getTableCountSql(EntityTemplate entityData) {
         return new StringBuilder()
                 .append("SELECT\n")
                 .append("COUNT(name)\n")
@@ -188,7 +188,7 @@ public class SqlServerEntitySql
 
 
     @Override
-    public String getInsertSql(EntityTemplateData entityData) {
+    public String getInsertSql(EntityTemplate entityData) {
         StringBuilder sb = new StringBuilder()
                 .append("INSERT INTO")
                 .append("\n")
@@ -223,7 +223,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getInsertByEntityCountSql(EntityTemplateData entityData, int entityCount){
+    public String getInsertByEntityCountSql(EntityTemplate entityData, int entityCount){
         if(entityCount == 1){
             return getInsertSql(entityData);
         }
@@ -266,7 +266,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getSelectByIdSql(EntityTemplateData entityData){
+    public String getSelectByIdSql(EntityTemplate entityData){
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
                 .append("\n");
@@ -295,7 +295,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getSelectByIdsSql(EntityTemplateData entityData, int idCount){
+    public String getSelectByIdsSql(EntityTemplate entityData, int idCount){
         if(idCount == 1){
             return getSelectByIdSql(entityData);
         }
@@ -334,7 +334,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getUpdateByIdSql(EntityTemplateData entityData) {
+    public String getUpdateByIdSql(EntityTemplate entityData) {
         StringBuilder sb = new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
@@ -364,7 +364,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getUpdateByIdsSql(EntityTemplateData entityData, int idCount) {
+    public String getUpdateByIdsSql(EntityTemplate entityData, int idCount) {
         if(idCount == 1){
             return getUpdateByIdSql(entityData);
         }
@@ -408,7 +408,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getDeleteByIdSql(EntityTemplateData entityData) {
+    public String getDeleteByIdSql(EntityTemplate entityData) {
         return new StringBuilder()
                 .append("DELETE FROM")
                 .append("\n")
@@ -423,7 +423,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getDeleteByIdsSql(EntityTemplateData entityData, int idCount) {
+    public String getDeleteByIdsSql(EntityTemplate entityData, int idCount) {
         if(idCount == 1){
             return getDeleteByIdSql(entityData);
         }
@@ -446,7 +446,7 @@ public class SqlServerEntitySql
 
 
     @Override
-    public String getUpdateStatusByIdSql(EntityTemplateData entityData){
+    public String getUpdateStatusByIdSql(EntityTemplate entityData){
         if(entityData.getStatus() == null){
             throw new UnsupportedOperationException("没有Status字段！");
         }
@@ -470,7 +470,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public String getUpdateStatusByIdsSql(EntityTemplateData entityData, int idCount){
+    public String getUpdateStatusByIdsSql(EntityTemplate entityData, int idCount){
         if(idCount == 1){
             return getUpdateStatusByIdSql(entityData);
         }
@@ -505,7 +505,7 @@ public class SqlServerEntitySql
 
 
     @Override
-    public ArgSql getSelectByArgsSql(EntityTemplateData entityData, Object... args){
+    public ArgSql getSelectByArgsSql(EntityTemplate entityData, Object... args){
         if(args.length > entityData.getParams().size()){
             throw new UnsupportedOperationException(entityData.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -568,7 +568,7 @@ public class SqlServerEntitySql
 
 
     @Override
-    public ArgSql getSelectJoinByArgsSql(EntityTemplateData entityData, Object... args) {
+    public ArgSql getSelectJoinByArgsSql(EntityTemplate entityData, Object... args) {
         if(args.length > entityData.getParams().size()){
             throw new UnsupportedOperationException(entityData.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -606,7 +606,7 @@ public class SqlServerEntitySql
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
                 .build(entityData);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplateData entityDataSub = entityLinkEntity.getEntityTemplateData();
+            EntityTemplate entityDataSub = entityLinkEntity.getEntityTemplate();
             EntityColumn entityColumn = entityLinkEntity.getEntityColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
@@ -664,7 +664,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public ArgSql getSelectJoinByTreeArgSql(EntityTemplateData entityData, EntityTemplateDataArgTree entityDataTreeArg) {
+    public ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateDataArgTree entityDataTreeArg) {
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
@@ -698,7 +698,7 @@ public class SqlServerEntitySql
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
                 .build(entityData);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplateData entityDataSub = entityLinkEntity.getEntityTemplateData();
+            EntityTemplate entityDataSub = entityLinkEntity.getEntityTemplate();
             EntityColumn entityColumn = entityLinkEntity.getEntityColumn();
             sb.append("LEFT JOIN")
                     .append("\n")

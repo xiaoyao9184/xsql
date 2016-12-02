@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.util;
 
 import com.xy.xsql.orm.data.entity.EntityColumn;
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,19 +14,19 @@ import java.util.Map;
 public class EntityUtil {
 
     /**
-     * Comparison EntityTemplateData with table name, remove if one of them not exist
-     * @param srcList EntityTemplateData List 1
-     * @param src2List EntityTemplateData List 2
-     * @return EntityTemplateData Map
+     * Comparison EntityTemplate with table name, remove if one of them not exist
+     * @param srcList EntityTemplate List 1
+     * @param src2List EntityTemplate List 2
+     * @return EntityTemplate Map
      */
-    public static Map<EntityTemplateData,EntityTemplateData> entityDataAllHaveMap(List<EntityTemplateData> srcList, List<EntityTemplateData> src2List){
-        Map<EntityTemplateData,EntityTemplateData> alterMap = new HashMap<>();
-        for (EntityTemplateData EntityTemplateData: srcList) {
-            for (EntityTemplateData entityData1: src2List) {
-                if(EntityTemplateData.getTable().getName().equals(
+    public static Map<EntityTemplate,EntityTemplate> entityDataAllHaveMap(List<EntityTemplate> srcList, List<EntityTemplate> src2List){
+        Map<EntityTemplate,EntityTemplate> alterMap = new HashMap<>();
+        for (EntityTemplate EntityTemplate : srcList) {
+            for (EntityTemplate entityData1: src2List) {
+                if(EntityTemplate.getTable().getName().equals(
                         entityData1.getTable().getName()
                 )){
-                    alterMap.put(EntityTemplateData,entityData1);
+                    alterMap.put(EntityTemplate,entityData1);
                     break;
                 }
             }
@@ -36,18 +36,18 @@ public class EntityUtil {
     }
 
     /**
-     * Comparison EntityTemplateData with table name, keep rather List if target List not exist
-     * @param tarList EntityTemplateData target List
-     * @param ratherList EntityTemplateData rather List
-     * @return EntityTemplateData List
+     * Comparison EntityTemplate with table name, keep rather List if target List not exist
+     * @param tarList EntityTemplate target List
+     * @param ratherList EntityTemplate rather List
+     * @return EntityTemplate List
      */
-    public static List<EntityTemplateData> entityDataLostList(List<EntityTemplateData> tarList, List<EntityTemplateData> ratherList) {
-        List<EntityTemplateData> lostList = new ArrayList<>();
+    public static List<EntityTemplate> entityDataLostList(List<EntityTemplate> tarList, List<EntityTemplate> ratherList) {
+        List<EntityTemplate> lostList = new ArrayList<>();
         boolean haved = false;
-        for (EntityTemplateData entityTemplateData: ratherList) {
-            for (EntityTemplateData entityTemplateData1: tarList) {
-                if(entityTemplateData.getTable().getName().equals(
-                        entityTemplateData1.getTable().getName()
+        for (EntityTemplate entityTemplate : ratherList) {
+            for (EntityTemplate entityTemplate1 : tarList) {
+                if(entityTemplate.getTable().getName().equals(
+                        entityTemplate1.getTable().getName()
                 )){
                     haved = true;
                     break;
@@ -55,7 +55,7 @@ public class EntityUtil {
             }
 
             if(!haved){
-                lostList.add(entityTemplateData);
+                lostList.add(entityTemplate);
             }
 
             haved = false;

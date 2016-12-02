@@ -4,7 +4,7 @@ import com.xy.xsql.orm.build.entity.sql.BaseDialectEntitySqlBuilder;
 import com.xy.xsql.orm.build.entity.sql.DialectMultiEntitySqlBuilder;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityParam;
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.EntitySiteParam;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
@@ -46,7 +46,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 //仅仅在手动设置时才会出现这种情况
                 log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's columns");
             }else{
-                EntityTemplateData dataLink = entityLink.getEntityTemplateData();
+                EntityTemplate dataLink = entityLink.getEntityTemplate();
                 customColumnList.addAll(dataLink.getColumns());
             }
             count++;
@@ -74,7 +74,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 //仅仅在手动设置时才会出现这种情况
                 log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's table");
             }else{
-                EntityTemplateData dataLink = entityLink.getEntityTemplateData();
+                EntityTemplate dataLink = entityLink.getEntityTemplate();
 
                 List<Param> onEqualParamList = new ArrayList<>();
                 Param param = new Param()
@@ -138,7 +138,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                         }
                     }
                 }else{
-                    EntityTemplateData dataLink = entityLink.getEntityTemplateData();
+                    EntityTemplate dataLink = entityLink.getEntityTemplate();
                     if(dataLink.getParams().size() < entitySiteParam.getArgs().length){
                         Object[] notUse = Arrays.copyOfRange(
                                 entitySiteParam.getArgs(),
@@ -188,7 +188,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 //仅仅在手动设置时才会出现这种情况
                 log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's orders");
             }else{
-                EntityTemplateData dataLink = entityLink.getEntityTemplateData();
+                EntityTemplate dataLink = entityLink.getEntityTemplate();
                 customOrderList.addAll(dataLink.getOrders());
             }
             count++;

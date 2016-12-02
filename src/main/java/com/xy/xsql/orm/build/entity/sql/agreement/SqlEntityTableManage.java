@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.build.entity.sql.agreement;
 
 
-import com.xy.xsql.orm.data.entity.EntityTemplateData;
+import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 /**
  * 表结构
@@ -14,21 +14,21 @@ public interface SqlEntityTableManage {
      * @param entityData 实体信息
      * @return SQL
      */
-    String getTableCountSql(EntityTemplateData entityData);
+    String getTableCountSql(EntityTemplate entityData);
 
     /**
      * 创建表
      * @param entityData 实体信息
      * @return SQL
      */
-    String getCreateTableSql(EntityTemplateData entityData);
+    String getCreateTableSql(EntityTemplate entityData);
 
     /**
      * 删除表
      * @param entityData 实体信息
      * @return SQL
      */
-    String getDropTableSql(EntityTemplateData entityData);
+    String getDropTableSql(EntityTemplate entityData);
 
     /**
      * 修改表字段
@@ -36,5 +36,5 @@ public interface SqlEntityTableManage {
      * @param entityDataNew 实体信息
      * @return SQL
      */
-    String getAlterTableSql(EntityTemplateData entityDataOld, EntityTemplateData entityDataNew);
+    String getAlterTableSql(EntityTemplate entityDataOld, EntityTemplate entityDataNew);
 }
