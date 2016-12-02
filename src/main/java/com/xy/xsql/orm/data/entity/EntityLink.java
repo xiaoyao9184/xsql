@@ -6,15 +6,15 @@ package com.xy.xsql.orm.data.entity;
  */
 public class EntityLink {
     private EntityColumn entityColumn;
-    private EntityTemplateData entityTemplateData;
+    private EntityTemplate entityTemplate;
 
 
     public EntityColumn getEntityColumn() {
         return entityColumn;
     }
 
-    public EntityTemplateData getEntityTemplateData() {
-        return entityTemplateData;
+    public EntityTemplate getEntityTemplate() {
+        return entityTemplate;
     }
 
     /**
@@ -29,11 +29,11 @@ public class EntityLink {
 
     /**
      * set data
-     * @param entityTemplateData EntityTemplateData
+     * @param entityTemplate EntityTemplate
      * @return This
      */
-    public EntityLink withTemplate(EntityTemplateData entityTemplateData) {
-        this.entityTemplateData = entityTemplateData;
+    public EntityLink withTemplate(EntityTemplate entityTemplate) {
+        this.entityTemplate = entityTemplate;
         return this;
     }
 
