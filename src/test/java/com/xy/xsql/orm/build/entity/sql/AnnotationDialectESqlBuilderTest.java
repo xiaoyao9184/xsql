@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.build.entity.sql;
 
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuilderConfig;
-import com.xy.xsql.orm.mapping.type.AllVarCharTypeMapper;
+import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
 import com.xy.xsql.orm.test.bean.User;
 import org.junit.Test;
 

@@ -34,4 +34,19 @@ public enum Relationships {
         this.parameterCount = parameterCount;
     }
 
+    public OperatorEnum getOperator() {
+        return operator;
+    }
+
+    public void setOperator(OperatorEnum operator) {
+        this.operator = operator;
+    }
+
+    public Integer getParameterCount() {
+        return parameterCount;
+    }
+
+    public void setParameterCount(Integer parameterCount) {
+        this.parameterCount = parameterCount;
+    }
 }

@@ -158,6 +158,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
         columns = this.initColumn();
 
         this.data = new EntityTemplateData()
+                .withClass(annotationClass)
                 .withTable(table)
                 .withColumns(columns)
                 .withKeys(this.initColumnKey());

@@ -4,7 +4,7 @@ import com.xy.xsql.orm.build.BaseBuilder;
 import com.xy.xsql.orm.build.entity.data.AnnotationEntityDataBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuilderConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplateData;
-import com.xy.xsql.orm.mapping.type.AllVarCharTypeMapper;
+import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

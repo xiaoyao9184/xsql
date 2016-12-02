@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class EntityTemplateData {
 
+    private Class clazz;
+
     private EntityTable table = null;
 
     private List<EntityColumn> keyList = null;
@@ -22,6 +24,15 @@ public class EntityTemplateData {
     private List<EntityParam> params = null;
 
     private List<EntityOrder> orders = null;
+
+
+    public Class getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Class clazz) {
+        this.clazz = clazz;
+    }
 
     /**
      * 表名
@@ -102,6 +113,16 @@ public class EntityTemplateData {
 
 
     /**
+     * set class
+     * @param clazz Class
+     * @return This
+     */
+    public EntityTemplateData withClass(Class clazz) {
+        this.clazz = clazz;
+        return this;
+    }
+
+    /**
      * set table
      * @param table EntityTable
      * @return This
@@ -140,4 +161,5 @@ public class EntityTemplateData {
         this.status = entityStatus;
         return this;
     }
+
 }
