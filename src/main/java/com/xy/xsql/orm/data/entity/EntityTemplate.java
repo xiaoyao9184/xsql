@@ -3,8 +3,8 @@ package com.xy.xsql.orm.data.entity;
 import java.util.List;
 
 /**
- *
- * 支持主键、状态字段、基本字段、外键字段、参数字段、排序字段
+ * EntityTemplate
+ * Entity class can describe SQL table, Sufficient information can generate SQL statements
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class EntityTemplate {
@@ -26,6 +26,9 @@ public class EntityTemplate {
     private List<EntityOrder> orders = null;
 
 
+    /**
+     * Entity Class
+     */
     public Class getClazz() {
         return clazz;
     }
@@ -35,7 +38,7 @@ public class EntityTemplate {
     }
 
     /**
-     * 表名
+     * Table
      */
     public EntityTable getTable() {
         return table;
@@ -46,7 +49,7 @@ public class EntityTemplate {
     }
 
     /**
-     * 特殊字段：主键
+     * Special Column：Key
      */
     public List<EntityColumn> getKeys() {
         return keys;
@@ -57,7 +60,7 @@ public class EntityTemplate {
     }
 
     /**
-     * 特殊字段：状态
+     * Special Column：Status
      */
     public EntityColumn getStatus() {
         return status;
@@ -68,7 +71,7 @@ public class EntityTemplate {
     }
 
     /**
-     * 字段集合(标注为TableColumn)
+     * Columns
      */
     public List<EntityColumn> getColumns() {
         return columns;
@@ -79,7 +82,7 @@ public class EntityTemplate {
     }
 
     /**
-     * 相关实体集合(标注为TableEntity)
+     * Column Link to EntityTemplate
      */
     public List<EntityLink> getLinks() {
         return links;
@@ -90,7 +93,7 @@ public class EntityTemplate {
     }
 
     /**
-     * 查询条件集合(标注为TableParam)
+     * Params
      */
     public List<EntityParam> getParams() {
         return params;
@@ -101,7 +104,7 @@ public class EntityTemplate {
     }
 
     /**
-     * 查询排序集合(标注为TableOrder)
+     * Orders
      */
     public List<EntityOrder> getOrders() {
         return orders;
@@ -154,11 +157,41 @@ public class EntityTemplate {
 
     /**
      * set status
-     * @param entityStatus EntityColumn
+     * @param status EntityColumn
      * @return This
      */
-    public EntityTemplate withKeys(EntityColumn entityStatus) {
-        this.status = entityStatus;
+    public EntityTemplate withStatus(EntityColumn status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * set links
+     * @param links EntityColumn
+     * @return This
+     */
+    public EntityTemplate withLinks(List<EntityLink> links) {
+        this.links = links;
+        return this;
+    }
+
+    /**
+     * set params
+     * @param params EntityParam List
+     * @return This
+     */
+    public EntityTemplate withParams(List<EntityParam> params) {
+        this.params = params;
+        return this;
+    }
+
+    /**
+     * set orders
+     * @param orders EntityOrder List
+     * @return This
+     */
+    public EntityTemplate withOrders(List<EntityOrder> orders) {
+        this.orders = orders;
         return this;
     }
 
