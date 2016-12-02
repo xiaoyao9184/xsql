@@ -4,94 +4,91 @@ import java.util.Collection;
 import java.util.regex.Pattern;
 
 /**
- * 检验
- * Created by qyw on 2016/1/15.
+ * Check
+ * Created by xiaoyao9184 on 2016/1/15.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class CheckUtil {
 
     /**
-     * 检验是否是NULL
-     * @param obj
-     * @return
+     * Check Object NULL or Empty
+     * @param obj Object
+     * @return True/False
      */
     public static boolean isNull(Object obj){
         return  (obj == null);
     }
 
     /**
-     * 检验是否是NULL或空
-     * @param str
-     * @return
+     * Check Object in Array with index is NULL or Empty
+     * @param objArray Object Array
+     * @param index Index
+     * @return True/False
+     */
+    public static boolean isNull(Object[] objArray, int index) {
+        return objArray == null ||
+                (index + 1) > objArray.length ||
+                CheckUtil.isNull(objArray[index]);
+    }
+
+    /**
+     * Check String is NULL or Empty
+     * @param str String
+     * @return True/False
      */
     public static boolean isNullOrEmpty(String str){
-        if(str == null ||
-                str.length() == 0){
-            return true;
-        }
-        return false;
+        return str == null ||
+                str.length() == 0;
     }
 
     /**
-     * 检验是否是NULL或空
-     * @param charSequence
-     * @return
+     * Check CharSequence is NULL or Empty
+     * @param charSequence CharSequence
+     * @return True/False
      */
     public static boolean isNullOrEmpty(CharSequence charSequence){
-        if(charSequence == null ||
-                charSequence.length() == 0){
-            return true;
-        }
-        return false;
+        return charSequence == null ||
+                charSequence.length() == 0;
     }
 
     /**
-     * 检验是否是NULL或空
-     * @param collection
-     * @return
+     * Check Collection is NULL or Empty
+     * @param collection Collection
+     * @return True/False
      */
     public static boolean isNullOrEmpty(Collection collection){
-        if(collection == null ||
-                collection.size() == 0){
-            return true;
-        }
-        return false;
+        return collection == null ||
+                collection.size() == 0;
     }
 
     /**
-     * 检验是否是NULL或空
-     * @param str
-     * @return
+     * Check String Array is NULL or Empty
+     * @param str String Array
+     * @return True/False
      */
     public static boolean isNullOrEmpty(String[] str){
-        if(str == null ||
-                str.length == 0){
-            return true;
-        }
-        return false;
+        return str == null ||
+                str.length == 0;
     }
 
     /**
-     * 检验是否是NULL或空格符
-     * @param str
-     * @return
+     * Check String is white space
+     * @param str String
+     * @return True/False
      */
     public static boolean isNullOrWhiteSpace(String str){
-        if(str == null ||
-                Pattern.matches("^ *$",str)){
-            return true;
-        }
-        return false;
+        return str == null ||
+                Pattern.matches("^ *$", str);
     }
 
     /**
-     * 验证是否是 Boolean:true 或 Integer:0
-     * @param obj
-     * @return
+     * Check is start
+     * @param obj Object
+     * @return True/False
      */
     public static boolean isStart(Object obj){
         if(obj instanceof Boolean){
-            Boolean bool = (Boolean)obj;
-            return bool;
+            return (Boolean)obj;
         }
         if(obj instanceof Number){
             Number i = (Number)obj;
@@ -101,12 +98,13 @@ public class CheckUtil {
     }
 
     /**
-     * 验证是否是 Boolean:true 或 Integer:0
-     * @param objs
-     * @return
+     * Check all is start
+     * @see #isStart(Object...)
+     * @param objArray Object Array
+     * @return True/False
      */
-    public static boolean isStart(Object... objs){
-        for (Object obj: objs) {
+    public static boolean isStart(Object... objArray){
+        for (Object obj: objArray) {
             if(isStart(obj)){
                 return false;
             }
