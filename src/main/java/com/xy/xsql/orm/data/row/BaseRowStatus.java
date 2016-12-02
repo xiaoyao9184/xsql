@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.model;
+package com.xy.xsql.orm.data.row;
 
 /**
  * 基本行状态

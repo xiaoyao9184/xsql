@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.mapping.row;
 
-import com.xy.xsql.orm.model.BaseRowNumberList;
+import com.xy.xsql.orm.data.row.BaseRowNumberList;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.model;
+package com.xy.xsql.orm.data.row;
 
 import com.xy.xsql.orm.annotation.EColumn;
 

@@ -2,7 +2,7 @@ package com.xy.xsql.orm.mapping.row;
 
 import com.xy.xsql.orm.annotation.EColumn;
 import com.xy.xsql.orm.annotation.ESql;
-import com.xy.xsql.orm.model.BaseRowNumberList;
+import com.xy.xsql.orm.data.row.BaseRowNumberList;
 import com.xy.xsql.orm.util.CheckUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
