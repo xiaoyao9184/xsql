@@ -2,7 +2,6 @@ package com.xy.xsql.orm.data.sql.element.info;
 
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.Value;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 
 /**
@@ -15,18 +14,18 @@ public class Param
 
     protected boolean and;
     protected Column column;
-    protected OperatorEnum relationship;
-    protected Expression value;
+    protected OperatorEnum relationshipOperator;
+    protected Expression valueExpression;
 
     public Param(){
 
     }
 
-    public Param(boolean and, Column column, OperatorEnum relationship, Expression value){
+    public Param(boolean and, Column column, OperatorEnum relationshipOperator, Expression valueExpression){
         this.and = and;
         this.column = column;
-        this.relationship = relationship;
-        this.value = value;
+        this.relationshipOperator = relationshipOperator;
+        this.valueExpression = valueExpression;
     }
 
     public boolean isAnd() {
@@ -45,20 +44,61 @@ public class Param
         this.column = column;
     }
 
-    public OperatorEnum getRelationship() {
-        return relationship;
+    public OperatorEnum getRelationshipOperator() {
+        return relationshipOperator;
     }
 
-    public void setRelationship(OperatorEnum relationship) {
-        this.relationship = relationship;
+    public void setRelationshipOperator(OperatorEnum relationshipOperator) {
+        this.relationshipOperator = relationshipOperator;
     }
 
-    public Expression getValue() {
-        return value;
+    public Expression getValueExpression() {
+        return valueExpression;
     }
 
-    public void setValue(Expression value) {
-        this.value = value;
+    public void setValueExpression(Expression valueExpression) {
+        this.valueExpression = valueExpression;
+    }
+
+
+    /**
+     * set And flag
+     * @param and And flag
+     * @return This
+     */
+    public Param withAnd(boolean and) {
+        this.and = and;
+        return this;
+    }
+
+    /**
+     * set Column
+     * @param column Column
+     * @return This
+     */
+    public Param withColumn(Column column) {
+        this.column = column;
+        return this;
+    }
+
+    /**
+     * set OperatorEnum relationshipOperator
+     * @param relationship OperatorEnum
+     * @return This
+     */
+    public Param withRelationship(OperatorEnum relationship) {
+        this.relationshipOperator = relationship;
+        return this;
+    }
+
+    /**
+     * set Expression valueExpression
+     * @param value Expression
+     * @return This
+     */
+    public Param withValue(Expression value) {
+        this.valueExpression = value;
+        return this;
     }
 
 
@@ -69,6 +109,6 @@ public class Param
     @SuppressWarnings({"RedundantStringConstructorCall", "CloneDoesntCallSuperClone"})
     @Override
     public Param clone() {
-        return new Param(this.and, this.column.clone(), this.relationship, this.value);
+        return new Param(this.and, this.column.clone(), this.relationshipOperator, this.valueExpression);
     }
 }

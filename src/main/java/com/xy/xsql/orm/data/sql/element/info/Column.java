@@ -60,6 +60,11 @@ public class Column
     }
 
 
+    /**
+     * set Table
+     * @param table Table
+     * @return This
+     */
     private Column withTable(Table table) {
         this.table = table;
         return this;

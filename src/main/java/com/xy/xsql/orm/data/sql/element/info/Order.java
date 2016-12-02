@@ -37,6 +37,25 @@ public class Order
         this.aes = aes;
     }
 
+    /**
+     * set Column
+     * @param column Column
+     * @return This
+     */
+    public Order withColumn(Column column){
+        this.column = column;
+        return this;
+    }
+
+    /**
+     * set Aes flag
+     * @param aes Aes flag
+     * @return This
+     */
+    public Order withAes(boolean aes){
+        this.aes = aes;
+        return this;
+    }
 
     /**
      * 克隆
