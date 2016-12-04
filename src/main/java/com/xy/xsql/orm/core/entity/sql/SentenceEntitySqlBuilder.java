@@ -3,7 +3,7 @@ package com.xy.xsql.orm.core.entity.sql;
 import com.xy.xsql.orm.annotation.EStatus;
 import com.xy.xsql.orm.core.sentence.data.CodeSentenceDataBuilder;
 import com.xy.xsql.orm.core.sentence.sql.ElementsSentenceSqlBuilder;
-import com.xy.xsql.orm.data.config.DialectEntitySqlBuildConfig;
+import com.xy.xsql.orm.data.config.EntityDialectSqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/1/13.
  */
 @SuppressWarnings({"StringBufferReplaceableByString", "JavaDoc", "unused", "StatementWithEmptyBody", "WeakerAccess"})
-public class SentenceEntitySqlBuilder extends BaseEntitySqlBuilder {
+public class SentenceEntitySqlBuilder extends StringEntitySqlBuilder {
 
 /*
  * Fields
@@ -37,7 +37,7 @@ public class SentenceEntitySqlBuilder extends BaseEntitySqlBuilder {
  */
 
     @Override
-    public SentenceEntitySqlBuilder cacheConfig(DialectEntitySqlBuildConfig config) {
+    public SentenceEntitySqlBuilder cacheConfig(EntityDialectSqlBuildConfig config) {
         this.config = config;
 
         if(this.config.isUseSentenceBuilder()){

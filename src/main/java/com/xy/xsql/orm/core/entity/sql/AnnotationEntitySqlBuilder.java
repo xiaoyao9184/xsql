@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.core.entity.sql;
 
 import com.xy.xsql.orm.core.ConfigBuilder;
+import com.xy.xsql.orm.core.ConfigChild;
 import com.xy.xsql.orm.core.entity.template.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
@@ -14,11 +15,12 @@ import org.slf4j.LoggerFactory;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class AnnotationEntitySqlBuilder implements
+        ConfigChild<AnnotationEntitySqlBuildConfig>,
         ConfigBuilder<
                 AnnotationEntitySqlBuilder,
                 AnnotationEntitySqlBuildConfig,
                 Class<?>,
-                EntitySqlBuilder> {
+                AnnotationEntitySqlBuilder> {
 
     //Fields
 
@@ -59,20 +61,28 @@ public class AnnotationEntitySqlBuilder implements
     }
 
 
-    //Config
+    //ConfigInOut
     @Override
     public AnnotationEntitySqlBuilder config(AnnotationEntitySqlBuildConfig config) {
+        this.config = config;
+        return this;
+    }
+
+    //Build
+    @Override
+    public AnnotationEntitySqlBuilder build(Class<?> aClass) {
         if(config == null){
             this.config = new AnnotationEntitySqlBuildConfig()
-                    .withDialectEntitySqlBuilder(BaseEntitySqlBuilder.class)
-                    .withTypeMapper(new AllVarCharTypeMapper());
-        }else{
-            this.config = config;
+                    .withDialectEntitySqlBuilder(StringEntitySqlBuilder.class)
+                    .configTemplate()
+                    .withTypeMapper(new AllVarCharTypeMapper())
+                    .out();
         }
-
-        //create EntityTemplateBuilder and config it
-        this.entityTemplateBuilder = new AnnotationEntityTemplateBuilder()
-                .config(this.config);
+        if(this.entityTemplateBuilder == null){
+            //create EntityTemplateBuilder and config it
+            this.entityTemplateBuilder = new AnnotationEntityTemplateBuilder()
+                    .config(this.config.getTemplateConfig());
+        }
 
         //create EntitySqlBuilder
         try {
@@ -80,20 +90,7 @@ public class AnnotationEntitySqlBuilder implements
             this.entitySqlBuilder = (EntitySqlBuilder) dialectEntitySqlBuilderClass.newInstance();
         } catch (Exception e) {
             log.error("Cant create Dialect EntitySqlBuilder, create default.",e);
-            this.entitySqlBuilder = new BaseEntitySqlBuilder();
-        }
-
-        //config EntitySqlBuilder
-        this.entitySqlBuilder.cacheConfig(this.config.toEntitySqlBuilderConfig());
-
-        return this;
-    }
-
-    //Build
-    @Override
-    public EntitySqlBuilder build(Class<?> aClass) {
-        if(this.entityTemplateBuilder == null){
-            this.config(null);
+            this.entitySqlBuilder = new StringEntitySqlBuilder();
         }
 
         if(this.entityClass == null ||
@@ -102,8 +99,30 @@ public class AnnotationEntitySqlBuilder implements
 
             this.entityTemplate = entityTemplateBuilder.build(aClass);
             this.entitySqlBuilder.cacheTemplate(this.entityTemplate);
+            this.entitySqlBuilder.cacheConfig(this.config.getDialectConfig());
+            this.entitySqlBuilder.build(null);
         }
-        return entitySqlBuilder;
+//        return entitySqlBuilder;
+        return this;
+    }
+
+    //Config Child
+    @Override
+    public AnnotationEntitySqlBuildConfig configStart() {
+        if(this.config == null){
+            this.config = new AnnotationEntitySqlBuildConfig();
+        }
+        return this.config.in(this);
+    }
+
+    /**
+     * To Real Type
+     * @param <T> T
+     * @return T
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T to(){
+        return (T) entitySqlBuilder;
     }
 
 }

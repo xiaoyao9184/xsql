@@ -47,7 +47,7 @@ public class AnnotationEntityTemplateBuilderTest {
                     .withScanParam(true)
                     .withScanOrder(true)
                     .withScanLink(true)
-                    .done();
+                    .out();
 
         EntityTemplate data = builder.build(User.class);
         Assert.assertNotNull(data);

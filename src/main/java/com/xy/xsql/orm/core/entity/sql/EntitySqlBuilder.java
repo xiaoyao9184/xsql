@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.entity.sql;
 
 import com.xy.xsql.orm.core.BaseBuilder;
-import com.xy.xsql.orm.data.config.DialectEntitySqlBuildConfig;
+import com.xy.xsql.orm.data.config.EntityDialectSqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 /**
@@ -14,10 +14,10 @@ public interface EntitySqlBuilder extends BaseBuilder<Void,Void>{
 
     /**
      * cache config for later
-     * @param config DialectEntitySqlBuildConfig
+     * @param config EntityDialectSqlBuildConfig
      * @return EntitySqlBuilder
      */
-    EntitySqlBuilder cacheConfig(DialectEntitySqlBuildConfig config);
+    EntitySqlBuilder cacheConfig(EntityDialectSqlBuildConfig config);
 
     /**
      * cache elementsSentence for later
@@ -33,7 +33,11 @@ public interface EntitySqlBuilder extends BaseBuilder<Void,Void>{
      */
     Boolean isSupport(Class<?> agreementClass);
 
-
+    /**
+     * Build
+     * @param aVoid NULL
+     * @return NULL
+     */
     Void build(Void aVoid);
 
     /**

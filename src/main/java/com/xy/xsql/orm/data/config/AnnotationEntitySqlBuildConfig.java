@@ -1,15 +1,24 @@
 package com.xy.xsql.orm.data.config;
 
+import com.xy.xsql.orm.core.ConfigInOut;
+import com.xy.xsql.orm.core.entity.sql.AnnotationEntitySqlBuilder;
 import com.xy.xsql.orm.core.entity.sql.EntitySqlBuilder;
-import com.xy.xsql.orm.mapping.type.TypeMapper;
 
 /**
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntitySqlBuildConfig extends AnnotationEntityTemplateBuildConfig {
+public class AnnotationEntitySqlBuildConfig implements
+        ConfigInOut<AnnotationEntitySqlBuildConfig,AnnotationEntitySqlBuilder>,
+        Cloneable {
 
     private boolean onlySelectUseStatus;
     private Class<? extends EntitySqlBuilder> dialectEntitySqlBuilder;
+    private EntityDialectSqlBuildConfig<AnnotationEntitySqlBuildConfig> entityDialectSqlBuildConfig;
+    private AnnotationEntityTemplateBuildConfig<AnnotationEntitySqlBuildConfig> entityTemplateBuildConfig;
+
+    //
+    private AnnotationEntitySqlBuilder builder;
+
 
     public boolean isOnlySelectUseStatus() {
         return onlySelectUseStatus;
@@ -19,10 +28,20 @@ public class AnnotationEntitySqlBuildConfig extends AnnotationEntityTemplateBuil
         return dialectEntitySqlBuilder;
     }
 
+    public EntityDialectSqlBuildConfig<AnnotationEntitySqlBuildConfig> getDialectConfig() {
+        return entityDialectSqlBuildConfig;
+    }
+
+    public AnnotationEntityTemplateBuildConfig<AnnotationEntitySqlBuildConfig> getTemplateConfig() {
+        return entityTemplateBuildConfig;
+    }
+
+
+
 
     /**
-     * Config Only Select Use Status
-     * @param onlySelectUseStatus
+     * ConfigInOut Only Select Use Status
+     * @param onlySelectUseStatus Only Select Use Status
      * @return This
      */
     public AnnotationEntitySqlBuildConfig withOnlySelectUseStatus(boolean onlySelectUseStatus) {
@@ -31,7 +50,7 @@ public class AnnotationEntitySqlBuildConfig extends AnnotationEntityTemplateBuil
     }
 
     /**
-     * Config EntitySqlBuilder
+     * ConfigInOut EntitySqlBuilder
      * @param dialectEntitySqlBuilder EntitySqlBuilder
      * @return This
      */
@@ -41,121 +60,75 @@ public class AnnotationEntitySqlBuildConfig extends AnnotationEntityTemplateBuil
     }
 
     /**
-     * Config TypeMapper
-     * @param typeMapper TypeMapper
+     * Set Sub config AnnotationEntityTemplateBuildConfig
+     * @param entityDialectSqlBuildConfig AnnotationEntityTemplateBuildConfig with AnnotationEntitySqlBuildConfig
      * @return This
      */
-    @Override
-    public AnnotationEntitySqlBuildConfig withTypeMapper(TypeMapper<Class<?>,String> typeMapper){
-        this.typeMapper = typeMapper;
+    public AnnotationEntitySqlBuildConfig withDialectEntitySqlBuildConfig(EntityDialectSqlBuildConfig<AnnotationEntitySqlBuildConfig> entityDialectSqlBuildConfig) {
+        this.entityDialectSqlBuildConfig = entityDialectSqlBuildConfig;
         return this;
     }
 
     /**
-     * Config Prefix Suffix Separator
-     * @param separator Prefix Suffix Separator
+     * Set Sub config AnnotationEntityTemplateBuildConfig
+     * @param entityTemplateBuildConfig AnnotationEntityTemplateBuildConfig with AnnotationEntitySqlBuildConfig
      * @return This
      */
-    @Override
-    public AnnotationEntitySqlBuildConfig withSeparator(String separator) {
-        this.separator = separator;
+    public AnnotationEntitySqlBuildConfig withEntityTemplateBuildConfig(AnnotationEntityTemplateBuildConfig<AnnotationEntitySqlBuildConfig> entityTemplateBuildConfig) {
+        this.entityTemplateBuildConfig = entityTemplateBuildConfig;
         return this;
+    }
+
+
+
+    @Deprecated
+    public EntityDialectSqlBuildConfig toEntitySqlBuilderConfig(){
+        return new EntityDialectSqlBuildConfig()
+                .withOnlySelectUseStatus(this.onlySelectUseStatus);
     }
 
     /**
-     * Config Name Prefix
-     * @param namePrefix Name Prefix
-     * @return This
+     * Config EntityDialectSqlBuildConfig
+     * @return EntityDialectSqlBuildConfig with This
      */
-    @Override
-    public AnnotationEntitySqlBuildConfig withNamePrefix(String namePrefix){
-        this.namePrefix = namePrefix;
-        return this;
+    public EntityDialectSqlBuildConfig<AnnotationEntitySqlBuildConfig> configDialect() {
+        if(this.entityDialectSqlBuildConfig == null){
+            this.entityDialectSqlBuildConfig = new EntityDialectSqlBuildConfig<>();
+        }
+        return this.entityDialectSqlBuildConfig.in(this);
     }
 
     /**
-     * Config Name Suffix
-     * @param nameSuffix Name Suffix
-     * @return This
+     * Config AnnotationEntityTemplateBuildConfig
+     * @return AnnotationEntityTemplateBuildConfig with This
      */
-    @Override
-    public AnnotationEntitySqlBuildConfig withNameSuffix(String nameSuffix){
-        this.nameSuffix = nameSuffix;
-        return this;
-    }
-
-    /**
-     * Config Alias Name Prefix
-     * @param aliasNamePrefix Alias Name Prefix
-     * @return This
-     */
-    @Override
-    public AnnotationEntitySqlBuildConfig withAliasNamePrefix(String aliasNamePrefix){
-        this.aliasNamePrefix = aliasNamePrefix;
-        return this;
-    }
-
-    /**
-     * Config true if you want turn on Multiple Key support
-     * @param yesNo Yes/No
-     * @return This
-     */
-    @Override
-    public AnnotationEntitySqlBuildConfig withSupportMultipleKey(Boolean yesNo){
-        this.supportMultipleKey = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Status
-     * @param yesNo Yes/No
-     * @return This
-     */
-    @Override
-    public AnnotationEntitySqlBuildConfig withScanStatus(Boolean yesNo){
-        this.scanStatus = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Entity
-     * @param yesNo Yes/No
-     * @return This
-     */
-    @Override
-    public AnnotationEntitySqlBuildConfig withScanLink(Boolean yesNo){
-        this.scanLink = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Param
-     * @param yesNo Yes/No
-     * @return This
-     */
-    @Override
-    public AnnotationEntitySqlBuildConfig withScanParam(Boolean yesNo){
-        this.scanParam = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Order
-     * @param yesNo Yes/No
-     * @return This
-     */
-    @Override
-    public AnnotationEntityTemplateBuildConfig withScanOrder(Boolean yesNo){
-        this.scanOrder = yesNo;
-        return this;
+    public AnnotationEntityTemplateBuildConfig<AnnotationEntitySqlBuildConfig> configTemplate() {
+        if(this.entityTemplateBuildConfig == null){
+            this.entityTemplateBuildConfig = new AnnotationEntityTemplateBuildConfig<>();
+        }
+        return this.entityTemplateBuildConfig.in(this);
     }
 
 
+    @Override
+    public AnnotationEntitySqlBuildConfig in(AnnotationEntitySqlBuilder annotationEntitySqlBuilder) {
+        this.builder = annotationEntitySqlBuilder;
+        return this;
+    }
 
+    @Override
+    public AnnotationEntitySqlBuilder out() {
+        return this.builder;
+    }
 
-    public DialectEntitySqlBuildConfig toEntitySqlBuilderConfig(){
-        return new DialectEntitySqlBuildConfig()
-                .onlySelectUseStatus(this.onlySelectUseStatus);
+    @SuppressWarnings("CloneDoesntCallSuperClone")
+    @Override
+    public AnnotationEntitySqlBuildConfig clone(){
+        return new AnnotationEntitySqlBuildConfig()
+                .withOnlySelectUseStatus(this.onlySelectUseStatus)
+                .withDialectEntitySqlBuilder(this.dialectEntitySqlBuilder)
+                .withEntityTemplateBuildConfig(this.entityTemplateBuildConfig.clone())
+                .withDialectEntitySqlBuildConfig(this.entityDialectSqlBuildConfig.clone());
     }
 
 }

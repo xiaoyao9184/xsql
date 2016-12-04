@@ -4,6 +4,7 @@ import com.xy.xsql.orm.annotation.*;
 import com.xy.xsql.orm.core.ConfigBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntityTemplateBuildConfig;
 import com.xy.xsql.orm.data.entity.*;
+import com.xy.xsql.orm.mapping.type.TypeMapper;
 import com.xy.xsql.orm.util.CheckUtil;
 import com.xy.xsql.orm.util.StringUtil;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ public class AnnotationEntityTemplateBuilder implements
     private Logger log;
 
     //config
-    private AnnotationEntityTemplateBuildConfig config;
+    private AnnotationEntityTemplateBuildConfig<AnnotationEntityTemplateBuilder> config;
     //cache
     private Class<?> annotationClass;
     private List<Field> annotationClassFields;
@@ -49,8 +50,11 @@ public class AnnotationEntityTemplateBuilder implements
      * Go into config
      * @return AnnotationEntityTemplateBuildConfig
      */
-    public AnnotationEntityTemplateBuildConfig configStart() {
-        return this.config.start(this);
+    public AnnotationEntityTemplateBuildConfig<AnnotationEntityTemplateBuilder> configStart() {
+        if(this.config == null){
+            this.config = new AnnotationEntityTemplateBuildConfig<>();
+        }
+        return this.config.in(this);
     }
     
     @Override
@@ -74,6 +78,9 @@ public class AnnotationEntityTemplateBuilder implements
      */
     private void initData() {
         this.log.info("init elementsSentence form class " + this.annotationClass);
+        if(this.config == null){
+            this.config = new AnnotationEntityTemplateBuildConfig<>();
+        }
         this.config.initDefault();
         this.annotationClassFields = this.initField();
         this.table = this.initTable();
@@ -97,7 +104,7 @@ public class AnnotationEntityTemplateBuilder implements
             this.data.setOrders(this.initOrder());
         }
 
-        this.log.info("init elementsSentence done.");
+        this.log.info("init elementsSentence out.");
     }
 
 
@@ -160,7 +167,8 @@ public class AnnotationEntityTemplateBuilder implements
 
                 String name = StringUtil.join(this.config.getSeparator(),this.config.getNamePrefix(),eColumn.name(),this.config.getNameSuffix());
                 aliasName = StringUtil.join(this.config.getSeparator(),this.config.getAliasNamePrefix(),aliasName);
-                String type = this.config.getTypeMapper().mapType(field.getType());
+                TypeMapper<Class<?>, String> mapper = this.config.getTypeMapper();
+                String type = mapper.mapType(field.getType());
                 Integer len = -1;
                 if(this.config.getTypeMapper().isSupportLength(field.getType())){
                     len = eColumn.length();
@@ -241,7 +249,7 @@ public class AnnotationEntityTemplateBuilder implements
                 EntityTemplate entityTemplate = this.clone()
                         .configStart()
                             .withAliasNamePrefix(entityColumn.getAliasName())
-                            .done()
+                            .out()
                         .build(eLink.value());
 
                 list.add(new EntityLink()

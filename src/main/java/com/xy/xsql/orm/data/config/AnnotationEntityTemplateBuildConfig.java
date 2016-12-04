@@ -1,15 +1,14 @@
 package com.xy.xsql.orm.data.config;
 
-import com.xy.xsql.orm.core.Config;
-import com.xy.xsql.orm.core.entity.template.AnnotationEntityTemplateBuilder;
+import com.xy.xsql.orm.core.ConfigInOut;
 import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
 import com.xy.xsql.orm.mapping.type.TypeMapper;
 
 /**
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntityTemplateBuildConfig implements
-        Config<AnnotationEntityTemplateBuildConfig,AnnotationEntityTemplateBuilder>,
+public class AnnotationEntityTemplateBuildConfig<Father> implements
+        ConfigInOut<AnnotationEntityTemplateBuildConfig,Father>,
         Cloneable {
 
     protected TypeMapper<Class<?>, String> typeMapper;
@@ -24,6 +23,8 @@ public class AnnotationEntityTemplateBuildConfig implements
     protected boolean scanParam;
     protected boolean scanOrder;
 
+    //
+    private Father father;
 
     public AnnotationEntityTemplateBuildConfig(){
         this.supportMultipleKey = false;
@@ -85,53 +86,53 @@ public class AnnotationEntityTemplateBuildConfig implements
      * @param typeMapper TypeMapper
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withTypeMapper(TypeMapper<Class<?>,String> typeMapper){
+    public AnnotationEntityTemplateBuildConfig<Father> withTypeMapper(TypeMapper<Class<?>,String> typeMapper){
         this.typeMapper = typeMapper;
         return this;
     }
 
     /**
-     * Config SqlDialectBuilder
+     * ConfigInOut SqlDialectBuilder
      * @param separator Prefix Suffix Separator
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withSeparator(String separator) {
+    public AnnotationEntityTemplateBuildConfig<Father> withSeparator(String separator) {
         this.separator = separator;
         return this;
     }
 
     /**
-     * Config SqlDialectBuilder
+     * ConfigInOut SqlDialectBuilder
      * @param namePrefix Name Prefix
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withNamePrefix(String namePrefix){
+    public AnnotationEntityTemplateBuildConfig<Father> withNamePrefix(String namePrefix){
         this.namePrefix = namePrefix;
         return this;
     }
 
     /**
-     * Config SqlDialectBuilder
+     * ConfigInOut SqlDialectBuilder
      * @param nameSuffix Alias Name Suffix
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withNameSuffix(String nameSuffix){
+    public AnnotationEntityTemplateBuildConfig<Father> withNameSuffix(String nameSuffix){
         this.nameSuffix = nameSuffix;
         return this;
     }
 
     /**
-     * Config SqlDialectBuilder
+     * ConfigInOut SqlDialectBuilder
      * @param aliasNamePrefix Alias Name Prefix
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withAliasNamePrefix(String aliasNamePrefix){
+    public AnnotationEntityTemplateBuildConfig<Father> withAliasNamePrefix(String aliasNamePrefix){
         this.aliasNamePrefix = aliasNamePrefix;
         return this;
     }
 
 //    /**
-//     * Config SqlDialectBuilder
+//     * ConfigInOut SqlDialectBuilder
 //     * @param aliasNameSuffix Alias Name Suffix
 //     * @return This
 //     */
@@ -141,52 +142,65 @@ public class AnnotationEntityTemplateBuildConfig implements
 //    }
 
     /**
-     * Config true if you want turn on Multiple Key support
+     * ConfigInOut true if you want turn on Multiple Key support
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withSupportMultipleKey(Boolean yesNo){
+    public AnnotationEntityTemplateBuildConfig<Father> withSupportMultipleKey(Boolean yesNo){
         this.supportMultipleKey = yesNo;
         return this;
     }
 
     /**
-     * Config true if you want scan Status
+     * ConfigInOut true if you want scan Status
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withScanStatus(Boolean yesNo){
+    public AnnotationEntityTemplateBuildConfig<Father> withScanStatus(Boolean yesNo){
         this.scanStatus = yesNo;
         return this;
     }
 
 
     /**
-     * Config true if you want scan Entity
+     * ConfigInOut true if you want scan Entity
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withScanLink(Boolean yesNo){
+    public AnnotationEntityTemplateBuildConfig<Father> withScanLink(Boolean yesNo){
         this.scanLink = yesNo;
         return this;
     }
 
     /**
-     * Config true if you want scan Param
+     * ConfigInOut true if you want scan Param
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withScanParam(Boolean yesNo){
+    public AnnotationEntityTemplateBuildConfig<Father> withScanParam(Boolean yesNo){
         this.scanParam = yesNo;
         return this;
     }
 
     /**
-     * Config true if you want scan Order
+     * ConfigInOut true if you want scan Order
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityTemplateBuildConfig withScanOrder(Boolean yesNo){
+    public AnnotationEntityTemplateBuildConfig<Father> withScanOrder(Boolean yesNo){
+        this.scanOrder = yesNo;
+        return this;
+    }
+
+    /**
+     * ConfigInOut true if you want scan All
+     * @param yesNo Yes/No
+     * @return This
+     */
+    public AnnotationEntityTemplateBuildConfig<Father> withScanAll(Boolean yesNo) {
+        this.scanLink = yesNo;
+        this.scanStatus = yesNo;
+        this.scanParam = yesNo;
         this.scanOrder = yesNo;
         return this;
     }
@@ -199,23 +213,23 @@ public class AnnotationEntityTemplateBuildConfig implements
     }
 
 
-    private AnnotationEntityTemplateBuilder builder;
 
     @Override
-    public AnnotationEntityTemplateBuildConfig start(AnnotationEntityTemplateBuilder annotationEntityTemplateBuilder) {
-        this.builder = annotationEntityTemplateBuilder;
+    public AnnotationEntityTemplateBuildConfig<Father> in(Father father) {
+        this.father = father;
         return this;
     }
 
     @Override
-    public AnnotationEntityTemplateBuilder done() {
-        return this.builder;
+    public Father out() {
+        return this.father;
     }
+
 
     @SuppressWarnings("CloneDoesntCallSuperClone")
     @Override
-    public AnnotationEntityTemplateBuildConfig clone(){
-        return new AnnotationEntityTemplateBuildConfig()
+    public AnnotationEntityTemplateBuildConfig<Father> clone(){
+        return new AnnotationEntityTemplateBuildConfig<Father>()
                 .withNamePrefix(this.namePrefix)
                 .withNameSuffix(this.nameSuffix)
                 .withAliasNamePrefix(this.aliasNamePrefix)
@@ -226,4 +240,5 @@ public class AnnotationEntityTemplateBuildConfig implements
                 .withScanOrder(this.scanOrder)
                 .withScanLink(this.scanLink);
     }
+
 }
