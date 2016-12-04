@@ -6,6 +6,7 @@ import com.xy.xsql.orm.core.entity.template.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
+import com.xy.xsql.orm.dialect.none.BaseEntitySql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,8 +76,12 @@ public class AnnotationEntitySqlBuilder implements
             this.config = new AnnotationEntitySqlBuildConfig()
                     .withDialectEntitySqlBuilder(StringEntitySqlBuilder.class)
                     .configTemplate()
-                    .withTypeMapper(new AllVarCharTypeMapper())
-                    .out();
+                        .withTypeMapper(new AllVarCharTypeMapper())
+                        .withScanAll(true)
+                        .out()
+                    .configDialect()
+                        .withAllInThisDialectClass(BaseEntitySql.class)
+                        .out();
         }
         if(this.entityTemplateBuilder == null){
             //create EntityTemplateBuilder and config it

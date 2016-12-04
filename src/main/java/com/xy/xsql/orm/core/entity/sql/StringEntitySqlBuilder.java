@@ -1,6 +1,5 @@
 package com.xy.xsql.orm.core.entity.sql;
 
-import com.sun.applet2.AppletParameters;
 import com.xy.xsql.orm.core.entity.sql.agreement.*;
 import com.xy.xsql.orm.data.config.EntityDialectSqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
