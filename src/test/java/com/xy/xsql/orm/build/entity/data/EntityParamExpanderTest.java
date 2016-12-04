@@ -18,9 +18,14 @@ public class EntityParamExpanderTest {
     private List<EntityParam> params;
     private EntityTemplateTreeArg treeArg;
 
+    /**
+     * EntityTemplate Tree:
+     * Byte
+     *   Integer
+     */
     @Before
     public void init(){
-        EntityTable table = new EntityTable().withName("Short");
+        EntityTable table = new EntityTable().withName("Integer&Byte");
 
         List<EntityColumn> columns = new ArrayList<>();
         columns.add(new EntityColumn()
@@ -57,27 +62,23 @@ public class EntityParamExpanderTest {
                 .withColumn(columns.get(4)));
 
 
-
-
-        EntityTemplate entityTemplate2 = new EntityTemplate()
+        EntityTemplate template4Integer = new EntityTemplate()
                 .withClass(Integer.class)
-                .withTable(new EntityTable().withName("Integer"))
+                .withTable(table)
                 .withColumns(columns)
                 .withParams(params)
                 .withKey(columns.get(0));
 
-        List<EntityLink> links = new ArrayList<>();
-        links.add(new EntityLink().withColumn(columns.get(2)).withTemplate(entityTemplate2));
+        List<EntityLink> linkList4Byte = new ArrayList<>();
+        linkList4Byte.add(new EntityLink().withColumn(columns.get(2)).withTemplate(template4Integer));
 
         entityTemplate = new EntityTemplate()
-                .withClass(Short.class)
+                .withClass(Byte.class)
                 .withTable(table)
                 .withColumns(columns)
                 .withParams(params)
                 .withKey(columns.get(0))
-                .withLinks(links);
-
-
+                .withLinks(linkList4Byte);
 
         treeArg = new EntityTemplateTreeArg()
                 .withClass(Short.class)
@@ -88,7 +89,7 @@ public class EntityParamExpanderTest {
     }
 
     @Test
-    public void TestExpandAll(){
+    public void testExpandAll(){
         List<EntityParam> listAssert = new EntityParamExpander()
                 .withTreeArg(treeArg)
                 .build(entityTemplate);
@@ -139,7 +140,7 @@ public class EntityParamExpanderTest {
     }
 
     @Test
-    public void TestExpandDeep0(){
+    public void testExpandDeep0(){
         List<EntityParam> listAssert = new EntityParamExpander()
                 .withDeepMax(0)
                 .withTreeArg(treeArg)

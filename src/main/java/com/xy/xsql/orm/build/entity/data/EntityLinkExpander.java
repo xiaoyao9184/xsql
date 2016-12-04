@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.build.entity.data;
 
 import com.xy.xsql.orm.build.BaseBuilder;
+import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import org.apache.commons.logging.Log;
@@ -16,19 +17,49 @@ import java.util.List;
 public class EntityLinkExpander implements BaseBuilder<EntityTemplate,List<EntityLink>> {
 
     protected static final Log log = LogFactory.getLog(EntityLinkExpander.class);
+    private Integer deepMax;
 
+    /**
+     * Set Max Deep
+     * @param deepMax Max Deep
+     * @return This
+     */
+    public EntityLinkExpander withDeepMax(Integer deepMax) {
+        this.deepMax = deepMax;
+        return this;
+    }
 
     @Override
-    public List<EntityLink> build(EntityTemplate entityData) {
+    public List<EntityLink> build(EntityTemplate entityTemplate) {
+        if(this.deepMax == null || this.deepMax < 0){
+            this.deepMax = -1;
+        }
         List<EntityLink> result = new ArrayList<>();
-        if(entityData.getLinks() != null){
-            result.addAll(entityData.getLinks());
+        Integer deep = 0;
+        result.addAll(this.buildSub(entityTemplate,deep));
+        return result;
+    }
 
-            for (EntityLink entityLinkEntity: entityData.getLinks()) {
-                if(entityLinkEntity.getTemplate() == null){
+    private List<EntityLink> buildSub(EntityTemplate entityTemplate, Integer deep) {
+        List<EntityLink> result = new ArrayList<>();
+        if(entityTemplate.getLinks() != null){
+            result.addAll(entityTemplate.getLinks());
+
+            if(this.deepMax != -1 &&
+                    this.deepMax <= deep){
+                return result;
+            }
+
+            for (EntityLink entityLink: entityTemplate.getLinks()) {
+                if(entityLink.getTemplate() == null){
                     continue;
                 }
-                List<EntityLink> resultSub = this.build(entityLinkEntity.getTemplate());
+                EntityTemplate entityTemplateSub = entityLink.getTemplate();
+                deep++;
+                List<EntityLink> resultSub = this.buildSub(
+                        entityTemplateSub,
+                        deep);
+                deep--;
                 result.addAll(resultSub);
             }
         }

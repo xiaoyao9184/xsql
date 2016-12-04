@@ -83,7 +83,7 @@ public class EntityParamFilterTest {
     }
 
     @Test
-    public void TestFilterAll(){
+    public void testFilterAll(){
         List<EntityParam> listAssert = new EntityParamFilter()
                 .withArgs(1,2,3,4,5)
                 .build(listAllNeedValue);
@@ -110,7 +110,7 @@ public class EntityParamFilterTest {
     }
 
     @Test
-    public void TestFilterNotNullArg(){
+    public void testFilterNotNullArg(){
         List<EntityParam> listAssert = new EntityParamFilter()
                 .withArgs(1,null,3,null,5)
                 .build(listAllNeedValue);
@@ -129,7 +129,7 @@ public class EntityParamFilterTest {
     }
 
     @Test
-    public void TestFilterWithDefaultArg(){
+    public void testFilterWithDefaultArg(){
         List<EntityParam> listAssert = new EntityParamFilter()
                 .withArgs(1,3,5)
                 .build(listHalfNeedValue);

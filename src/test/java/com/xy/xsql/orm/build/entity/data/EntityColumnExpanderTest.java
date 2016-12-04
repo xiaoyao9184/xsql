@@ -1,11 +1,10 @@
 package com.xy.xsql.orm.build.entity.data;
 
 
-import com.xy.xsql.orm.data.entity.EntityColumn;
-import com.xy.xsql.orm.data.entity.EntityLink;
-import com.xy.xsql.orm.data.entity.EntityTable;
-import com.xy.xsql.orm.data.entity.EntityTemplate;
+import com.xy.xsql.orm.data.entity.*;
+import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -16,43 +15,73 @@ import java.util.List;
  */
 public class EntityColumnExpanderTest {
 
-    @Test
-    public void testExpand(){
+    private EntityTemplate entityTemplate;
 
+    /**
+     * EntityTemplate Tree:
+     * Byte
+     *   Integer
+     *     Float
+     *     Double
+     */
+    @Before
+    public void init(){
         List<EntityColumn> listColumn = new ArrayList<>();
         listColumn.add(new EntityColumn());
         listColumn.add(new EntityColumn());
 
-        EntityTemplate entityTemplateLong = new EntityTemplate()
-                .withClass(Long.class)
+        EntityTemplate template4Float = new EntityTemplate()
+                .withClass(Float.class)
+                .withTable(new EntityTable().withName("Float"))
                 .withColumns(listColumn);
 
-        EntityTemplate entityTemplateShort = new EntityTemplate()
-                .withClass(Short.class)
+        EntityTemplate template4Double = new EntityTemplate()
+                .withClass(Double.class)
+                .withTable(new EntityTable().withName("Float"))
                 .withColumns(listColumn);
 
-        List<EntityLink> listInteger = new ArrayList<>();
-        listInteger.add(new EntityLink().withTemplate(entityTemplateLong));
-        listInteger.add(new EntityLink().withTemplate(entityTemplateShort));
+        List<EntityLink> linkList4Integer = new ArrayList<>();
+        linkList4Integer.add(new EntityLink().withTemplate(template4Float));
+        linkList4Integer.add(new EntityLink().withTemplate(template4Double));
 
-        EntityTemplate entityTemplateInteger = new EntityTemplate()
+        EntityTemplate template4Integer = new EntityTemplate()
                 .withClass(Integer.class)
                 .withTable(new EntityTable().withName("Integer"))
-                .withLinks(listInteger)
+                .withLinks(linkList4Integer)
                 .withColumns(listColumn);
 
-        List<EntityLink> list = new ArrayList<>();
-        list.add(new EntityLink().withTemplate(entityTemplateInteger));
+        List<EntityLink> linkList4Byte = new ArrayList<>();
+        linkList4Byte.add(new EntityLink().withTemplate(template4Integer));
 
-        EntityTemplate entityTemplate = new EntityTemplate()
+        entityTemplate = new EntityTemplate()
                 .withClass(Byte.class)
                 .withTable(new EntityTable().withName("Byte"))
-                .withLinks(list)
+                .withLinks(linkList4Byte)
                 .withColumns(listColumn);
+    }
 
+    @Test
+    public void testExpandAll(){
         List<EntityColumn> listAssert = new EntityColumnExpander()
                 .build(entityTemplate);
 
         Assert.assertEquals(listAssert.size(),8);
     }
+
+    @Test
+    public void testExpandDeep(){
+        List<EntityColumn> listAssert = new EntityColumnExpander()
+                .withDeepMax(0)
+                .build(entityTemplate);
+
+        Assert.assertEquals(listAssert.size(),2);
+
+
+        List<EntityColumn> listAssert2 = new EntityColumnExpander()
+                .withDeepMax(1)
+                .build(entityTemplate);
+
+        Assert.assertEquals(listAssert2.size(),4);
+    }
+
 }

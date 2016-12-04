@@ -64,7 +64,6 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
         List<EntityParam> result = new ArrayList<>();
         Integer deep = 0;
         result.addAll(this.buildSub(entityTemplate,deep,this.entityDataTreeArg));
-
         return result;
     }
 
@@ -97,6 +96,7 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
                         entityTemplateSub,
                         deep,
                         entityDataTreeArgSub);
+                deep--;
                 result.addAll(resultSub);
                 index++;
             }

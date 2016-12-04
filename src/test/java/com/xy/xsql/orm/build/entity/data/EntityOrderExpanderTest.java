@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.build.entity.data;
 
 import com.xy.xsql.orm.data.entity.EntityLink;
+import com.xy.xsql.orm.data.entity.EntityOrder;
 import com.xy.xsql.orm.data.entity.EntityTable;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import org.junit.Assert;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/12/2.
  */
-public class EntityLinkExpanderTest {
+public class EntityOrderExpanderTest {
 
     private EntityTemplate entityTemplate;
 
@@ -26,22 +27,29 @@ public class EntityLinkExpanderTest {
      */
     @Before
     public void init(){
+        List<EntityOrder> orderList = new ArrayList<>();
+        orderList.add(new EntityOrder());
+        orderList.add(new EntityOrder());
+
         EntityTemplate template4Float = new EntityTemplate()
                 .withClass(Float.class)
-                .withTable(new EntityTable().withName("Float"));
+                .withTable(new EntityTable().withName("Float"))
+                .withOrders(orderList);
 
         EntityTemplate template4Double = new EntityTemplate()
                 .withClass(Double.class)
-                .withTable(new EntityTable().withName("Double"));
+                .withTable(new EntityTable().withName("Double"))
+                .withOrders(orderList);
 
-        List<EntityLink> list4Integer = new ArrayList<>();
-        list4Integer.add(new EntityLink().withTemplate(template4Float));
-        list4Integer.add(new EntityLink().withTemplate(template4Double));
+        List<EntityLink> linkList4Integer = new ArrayList<>();
+        linkList4Integer.add(new EntityLink().withTemplate(template4Float));
+        linkList4Integer.add(new EntityLink().withTemplate(template4Double));
 
         EntityTemplate template4Integer = new EntityTemplate()
                 .withClass(Integer.class)
                 .withTable(new EntityTable().withName("Integer"))
-                .withLinks(list4Integer);
+                .withLinks(linkList4Integer)
+                .withOrders(orderList);
 
         List<EntityLink> linkList4Byte = new ArrayList<>();
         linkList4Byte.add(new EntityLink().withTemplate(template4Integer));
@@ -49,31 +57,32 @@ public class EntityLinkExpanderTest {
         entityTemplate = new EntityTemplate()
                 .withClass(Byte.class)
                 .withTable(new EntityTable().withName("Byte"))
-                .withLinks(linkList4Byte);
+                .withLinks(linkList4Byte)
+                .withOrders(orderList);
     }
 
     @Test
     public void testExpandAll(){
-        List<EntityLink> listAssert = new EntityLinkExpander()
+        List<EntityOrder> listAssert = new EntityOrderExpander()
                 .build(entityTemplate);
 
-        Assert.assertEquals(listAssert.size(),3);
+        Assert.assertEquals(listAssert.size(),8);
     }
 
 
     @Test
     public void testExpandDeep(){
-        List<EntityLink> listAssert = new EntityLinkExpander()
+        List<EntityOrder> listAssert = new EntityOrderExpander()
                 .withDeepMax(0)
                 .build(entityTemplate);
 
-        Assert.assertEquals(listAssert.size(),1);
+        Assert.assertEquals(listAssert.size(),2);
 
 
-        List<EntityLink> listAssert1 = new EntityLinkExpander()
+        List<EntityOrder> listAssert1 = new EntityOrderExpander()
                 .withDeepMax(1)
                 .build(entityTemplate);
 
-        Assert.assertEquals(listAssert1.size(),3);
+        Assert.assertEquals(listAssert1.size(),4);
     }
 }
