@@ -2,7 +2,7 @@ package com.xy.xsql.orm.build.entity.sql;
 
 import com.xy.xsql.orm.annotation.EStatus;
 import com.xy.xsql.orm.core.XSql;
-import com.xy.xsql.orm.data.config.EntitySqlBuilderConfig;
+import com.xy.xsql.orm.data.config.DialectEntitySqlBuilderConfig;
 import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.sql.element.info.Column;
@@ -26,7 +26,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
 
     protected Logger log;
 
-    protected EntitySqlBuilderConfig config;
+    protected DialectEntitySqlBuilderConfig config;
     
     protected EntityTemplate data;
 
@@ -40,7 +40,7 @@ public class BaseDialectEntitySqlBuilder implements DialectEntitySqlBuilder {
  */
 
     @Override
-    public BaseDialectEntitySqlBuilder cacheConfig(EntitySqlBuilderConfig config) {
+    public BaseDialectEntitySqlBuilder cacheConfig(DialectEntitySqlBuilderConfig config) {
         this.config = config;
         return this;
     }

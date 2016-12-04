@@ -21,7 +21,7 @@ public class EntitySiteParamFillerTest {
     @Test
     public void testDeep2WithNoParam(){
         EntityTemplate data = new AnnotationEntityTemplateBuilder()
-                .scanEntity(true)
+                .withScanEntity(true)
                 .build(User.class);
 
         List<EntitySiteParam> paramsUser = new ArrayList<>();
@@ -50,8 +50,8 @@ public class EntitySiteParamFillerTest {
     @Test
     public void testDeep3WithParam(){
         EntityTemplate data = new AnnotationEntityTemplateBuilder()
-                .scanEntity(true)
-                .scanParam(true)
+                .withScanEntity(true)
+                .withScanParam(true)
                 .build(UserLog.class);
 
         List<EntitySiteParam> paramsUserLog = new ArrayList<>();

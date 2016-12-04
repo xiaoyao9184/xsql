@@ -30,9 +30,9 @@ public class AnnotationDialectESqlBuilderTest {
 
         AnnotationEntitySqlBuilder builder = new AnnotationEntitySqlBuilder()
                 .config(config
-                        .dialectEntitySqlBuilder(TestDialectDialectEntitySqlBuilder.class)
-                        .typeMapper(AllVarCharTypeMapper.class)
-                        .onlySelectUseStatus(true));
+                        .withDialectEntitySqlBuilder(TestDialectDialectEntitySqlBuilder.class)
+                        .withTypeMapper(new AllVarCharTypeMapper())
+                        .withOnlySelectUseStatus(true));
         DialectEntitySqlBuilder sqlBuilder = builder.build(User.class);
         assert sqlBuilder != null;
         assert sqlBuilder.sqlSelectById().equals("SELECT * FORM b_user");

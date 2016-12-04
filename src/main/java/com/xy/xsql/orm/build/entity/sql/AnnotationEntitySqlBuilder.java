@@ -30,7 +30,7 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
     /**
      * DataBuilder
      */
-    private AnnotationEntityTemplateBuilder entityDataBuilder;
+    private AnnotationEntityTemplateBuilder entityTemplateBuilder;
 
     /**
      * Class
@@ -57,26 +57,31 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
     //Config
     /**
      * config
-     * @param config EntitySqlBuilderConfig
+     * @param config DialectEntitySqlBuilderConfig
      * @return This
      */
     public AnnotationEntitySqlBuilder config(AnnotationEntitySqlBuilderConfig config) {
         if(config == null){
             this.config = new AnnotationEntitySqlBuilderConfig()
-                    .typeMapper(AllVarCharTypeMapper.class)
-                    .dialectEntitySqlBuilder(BaseDialectEntitySqlBuilder.class);
+                    .withDialectEntitySqlBuilder(BaseDialectEntitySqlBuilder.class)
+                    .withTypeMapper(new AllVarCharTypeMapper());
         }else{
             this.config = config;
         }
 
         //create EntityDataBuilder and config it
-        this.entityDataBuilder = new AnnotationEntityTemplateBuilder()
-                .tablePrefix(this.config.getTablePrefix())
-                .supportMultipleKey(this.config.isSupportMultipleKey())
-                .scanStatus(this.config.isScanStatus())
-                .scanParam(this.config.isScanParam())
-                .scanOrder(this.config.isScanOrder())
-                .scanEntity(this.config.isScanEntity());
+        this.entityTemplateBuilder = new AnnotationEntityTemplateBuilder()
+                .withTypeMapper(this.config.getTypeMapper())
+                .withSeparator(this.config.getSeparator())
+                .withNamePrefix(this.config.getNamePrefix())
+                .withNameSuffix(this.config.getNamePrefix())
+                .withAliasNamePrefix(this.config.getAliasNamePrefix())
+//                .withAliasNameSuffix(this.config.getAliasNameSuffix())
+                .withSupportMultipleKey(this.config.isSupportMultipleKey())
+                .withScanStatus(this.config.isScanStatus())
+                .withScanParam(this.config.isScanParam())
+                .withScanOrder(this.config.isScanOrder())
+                .withScanEntity(this.config.isScanEntity());
 
         //create DialectEntitySqlBuilder
         try {
@@ -97,7 +102,7 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
     //Build
     @Override
     public DialectEntitySqlBuilder build(Class<?> aClass) {
-        if(this.entityDataBuilder == null){
+        if(this.entityTemplateBuilder == null){
             this.config(null);
         }
 
@@ -105,7 +110,7 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
                 !this.entityClass.equals(aClass)){
             this.entityClass = aClass;
 
-            this.data = entityDataBuilder.build(aClass);
+            this.data = entityTemplateBuilder.build(aClass);
             this.dialectEntitySqlBuilder.cacheData(this.data);
         }
         return dialectEntitySqlBuilder;

@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.build.entity.sql;
 
-import com.xy.xsql.orm.data.config.EntitySqlBuilderConfig;
+import com.xy.xsql.orm.data.config.DialectEntitySqlBuilderConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 /**
@@ -12,10 +12,10 @@ public interface DialectEntitySqlBuilder {
 
     /**
      * cache config for later
-     * @param config EntitySqlBuilderConfig
+     * @param config DialectEntitySqlBuilderConfig
      * @return DialectEntitySqlBuilder
      */
-    DialectEntitySqlBuilder cacheConfig(EntitySqlBuilderConfig config);
+    DialectEntitySqlBuilder cacheConfig(DialectEntitySqlBuilderConfig config);
 
     /**
      * cache elementsSentence for later

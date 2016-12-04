@@ -6,7 +6,7 @@ import com.xy.xsql.orm.annotation.*;
  * TEST
  * Created by xiaoyao9184 on 2016/6/26.
  */
-@ETable(name = "b_user_log", aliasName = "u")
+@ETable(name = "b_user", aliasName = "u")
 public class User {
 
     @EKey
@@ -29,6 +29,10 @@ public class User {
     @EStatus()
     @EColumn(name = "status")
     private int status;
+
+    @EOrder()
+    @EColumn(name = "time")
+    private int time;
 
     public String getId() {
         return id;
@@ -68,5 +72,13 @@ public class User {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }
