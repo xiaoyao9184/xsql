@@ -28,7 +28,7 @@ public class EntityLink {
     }
 
     /**
-     * set data
+     * set template
      * @param entityTemplate EntityTemplate
      * @return This
      */

@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.build.entity.data;
+package com.xy.xsql.orm.build.entity.template;
 
 import com.xy.xsql.orm.annotation.*;
 import com.xy.xsql.orm.build.BaseBuilder;

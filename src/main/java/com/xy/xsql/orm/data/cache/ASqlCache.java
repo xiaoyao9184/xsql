@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.cache;
 
-import com.xy.xsql.orm.build.entity.data.AnnotationEntityTemplateBuilder;
+import com.xy.xsql.orm.build.entity.template.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.build.entity.sql.BaseDialectEntitySqlBuilder;
 import com.xy.xsql.orm.build.entity.sql.DialectEntitySqlBuilder;
 import com.xy.xsql.orm.data.config.ASqlConfig;

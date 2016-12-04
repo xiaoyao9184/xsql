@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.build.entity.data;
+package com.xy.xsql.orm.build.entity.template;
 
 import com.xy.xsql.orm.build.BaseBuilder;
 import com.xy.xsql.orm.data.entity.EntityLink;
@@ -15,6 +15,7 @@ import java.util.List;
  * 填充器
  * Created by xiaoyao9184 on 2016/11/25.
  */
+@Deprecated
 public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<EntitySiteParam>>, Cloneable {
 
 

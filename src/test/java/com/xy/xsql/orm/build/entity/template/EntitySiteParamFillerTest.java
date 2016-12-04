@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.build.entity.data;
+package com.xy.xsql.orm.build.entity.template;
 
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.EntitySiteParam;
@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/11/28.
  */
+@Deprecated
 public class EntitySiteParamFillerTest {
 
 
