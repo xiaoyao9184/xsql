@@ -50,11 +50,11 @@ public class AnnotationEntityTemplateBuilderTest {
         EntityTemplate data = builder.build(User.class);
         Assert.assertNotNull(data);
         Assert.assertEquals(data.getTable().getName(),"prefix_b_user_suffix");
-//        Assert.assertEquals(data.getTable().getAliasName(),"p_u_s");
+//        Assert.assertEquals(template.getTable().getAliasName(),"p_u_s");
         Assert.assertEquals(data.getTable().getAliasName(),"p_u");
 
         Assert.assertEquals(data.getColumns().get(3).getName(),"prefix_type_suffix");
-//        Assert.assertEquals(data.getColumns().get(3).getAliasName(),"p_typeID_s");
+//        Assert.assertEquals(template.getColumns().get(3).getAliasName(),"p_typeID_s");
         Assert.assertEquals(data.getColumns().get(3).getAliasName(),"p_typeID");
         Assert.assertEquals(data.getKeys().get(0).getName(),"prefix_id_suffix");
         Assert.assertEquals(data.getStatus().getName(),"prefix_status_suffix");

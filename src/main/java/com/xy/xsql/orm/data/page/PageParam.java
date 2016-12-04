@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 参数分页对象
+ * Page with arg
  * Created by xiaoyao9184 on 2016/1/11.
  */
-public class ParamPage<SrcType,TarType> extends Page<SrcType> {
+public class PageParam<SrcType,TarType> extends Page<SrcType> {
 
     /**
      * 标识自动填充参数
@@ -31,10 +31,6 @@ public class ParamPage<SrcType,TarType> extends Page<SrcType> {
     private boolean maped = false;
 
 
-    public ParamPage(int pageNo, int pageSize){
-        super.setPageSize(pageSize);
-        super.setPageNumber(pageNo);
-    }
 
     public boolean isAutoFill() {
         return autoFill;

@@ -5,7 +5,7 @@ import com.xy.xsql.orm.mapping.type.TypeMapper;
 /**
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class DialectEntitySqlBuilderConfig extends AnnotationEntityTemplateBuilderConfig {
+public class DialectEntitySqlBuildConfig extends AnnotationEntityTemplateBuildConfig {
 
     private boolean useSentenceBuilder;
     private boolean onlySelectUseStatus;
@@ -15,7 +15,7 @@ public class DialectEntitySqlBuilderConfig extends AnnotationEntityTemplateBuild
         return useSentenceBuilder;
     }
 
-    public DialectEntitySqlBuilderConfig useSentenceBuilder(boolean useSentenceBuilder) {
+    public DialectEntitySqlBuildConfig useSentenceBuilder(boolean useSentenceBuilder) {
         this.useSentenceBuilder = useSentenceBuilder;
         return this;
     }
@@ -24,7 +24,7 @@ public class DialectEntitySqlBuilderConfig extends AnnotationEntityTemplateBuild
         return onlySelectUseStatus;
     }
 
-    public DialectEntitySqlBuilderConfig onlySelectUseStatus(boolean onlySelectUseStatus) {
+    public DialectEntitySqlBuildConfig onlySelectUseStatus(boolean onlySelectUseStatus) {
         this.onlySelectUseStatus = onlySelectUseStatus;
         return this;
     }
@@ -33,7 +33,7 @@ public class DialectEntitySqlBuilderConfig extends AnnotationEntityTemplateBuild
         return typeMapper;
     }
 
-    public DialectEntitySqlBuilderConfig typeMapperClass(Class<? extends TypeMapper> typeMapper) {
+    public DialectEntitySqlBuildConfig typeMapperClass(Class<? extends TypeMapper> typeMapper) {
         this.typeMapper = typeMapper;
         return this;
     }

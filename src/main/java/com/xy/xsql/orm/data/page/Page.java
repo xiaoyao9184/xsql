@@ -1,94 +1,47 @@
 package com.xy.xsql.orm.data.page;
 
-import java.util.List;
-
 /**
- * 分页对象
+ * Page
  * Created by xiaoyao9184 on 2016/1/11.
  */
-public class Page<DateType> {
-    private int pageSize;
-    private int pageNumber;
-    private int pageCount;  //pageTotal
-    private int rowNumber;  //totalStart
-    private int rowCount;   //totalCount
-    private List<DateType> pageList;
+public class Page<ROWTYPE> {
+    private PageQuery<ROWTYPE> query;
+    private PageResult<ROWTYPE> result;
 
-    public Page(){}
 
-    /**
-     * 创建查询Page
-     * @param pageNumber 开始页号
-     * @param pageSize 页大小
-     */
-    public Page(int pageNumber, int pageSize){
-        this.setPageSize(pageSize);
-        this.setPageNumber(pageNumber);
+    public PageQuery<ROWTYPE> getQuery() {
+        return query;
+    }
+
+    public void setQuery(PageQuery<ROWTYPE> query) {
+        this.query = query;
+    }
+
+    public PageResult<ROWTYPE> getResult() {
+        return result;
+    }
+
+    public void setResult(PageResult<ROWTYPE> result) {
+        this.result = result;
     }
 
     /**
-     * 创建查询Page
-     * @deprecated 不建议使用，但请保留
-     * @param rowNumber 开始行号
-     * @param pageSize 页大小
+     * set PageQuery
+     * @param query PageQuery
+     * @return This
      */
-    @Deprecated
-    public Page(long rowNumber, int pageSize){
-        this.setPageSize(pageSize);
-        if(rowNumber != 0){
-            long pn = rowNumber / pageSize;
-            if(pn > Integer.MAX_VALUE){
-                pn = Integer.MAX_VALUE;
-            }
-            this.setPageNumber((int)pn);
-        }
+    public Page<ROWTYPE> withPageQuery(PageQuery<ROWTYPE> query) {
+        this.query = query;
+        return this;
     }
 
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getPageNumber() {
-        return pageNumber;
-    }
-
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    public void setRowCount(int rowCount) {
-        this.rowCount = rowCount;
-    }
-
-    public int getPageCount() {
-        return pageCount;
-    }
-
-    public void setPageCount(int pageCount) {
-        this.pageCount = pageCount;
-    }
-
-    public List getPageList() {
-        return pageList;
-    }
-
-    public void setPageList(List pageList) {
-        this.pageList = pageList;
-    }
-
-    public int getRowNumber() {
-        return rowNumber;
-    }
-
-    public void setRowNumber(int rowNumber) {
-        this.rowNumber = rowNumber;
+    /**
+     * set PageResult
+     * @param result PageResult
+     * @return This
+     */
+    public Page<ROWTYPE> withPageResult(PageResult<ROWTYPE> result) {
+        this.result = result;
+        return this;
     }
 }

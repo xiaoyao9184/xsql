@@ -28,9 +28,9 @@ public class BaseMapper {
         ConvertUtils.register(new BigDecimalConverter(BigDecimal.ZERO), BigDecimal.class);
 //        ConvertUtils.register(new DateConverter(null), java.util.Date.class);
 //
-//        ConvertUtils.register(new SqlTimestampConverter(null), java.sql.Timestamp.class);
-//        ConvertUtils.register(new SqlDateConverter(null), java.sql.Date.class);
-//        ConvertUtils.register(new SqlTimeConverter(null), java.sql.Time.class);
+//        ConvertUtils.register(new SqlTimestampConverter(null), java.entitySql.Timestamp.class);
+//        ConvertUtils.register(new SqlDateConverter(null), java.entitySql.Date.class);
+//        ConvertUtils.register(new SqlTimeConverter(null), java.entitySql.Time.class);
     }
 
     /**

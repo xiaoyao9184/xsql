@@ -409,7 +409,7 @@ public class XSql {
 
     /**
      * FORM with TABLE
-     * default format to as sql
+     * default format to as entitySql
      * @param table Table
      * @return This
      */
@@ -423,7 +423,7 @@ public class XSql {
 
     /**
      * FORM with TABLE
-     * default format to as sql
+     * default format to as entitySql
      * @param tableList Table List
      * @return This
      */
@@ -445,7 +445,7 @@ public class XSql {
 
     /**
      * FORM with XSQL
-     * default format to as sql, useLink subs sql
+     * default format to as entitySql, useLink subs entitySql
      * @param xSql XSql
      * @return This
      */
@@ -492,7 +492,7 @@ public class XSql {
 
     /**
      * LEFT JOIN with TABLE
-     * default format to as sql
+     * default format to as entitySql
      * @param table Table
      * @return This
      */
@@ -872,7 +872,7 @@ public class XSql {
      */
     public XSql caseEnd() {
         sql.append("END");
-//        sql.append("\n");
+//        entitySql.append("\n");
         return this;
     }
 
@@ -891,7 +891,7 @@ public class XSql {
 
 
     /**
-     * append sql string
+     * append entitySql string
      * @param sqlString SQL String
      * @return This
      */

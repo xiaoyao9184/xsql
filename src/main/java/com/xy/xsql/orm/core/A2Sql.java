@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core;
 
-import com.xy.xsql.orm.build.entity.sql.BaseDialectEntitySqlBuilder;
+import com.xy.xsql.orm.build.entity.sql.BaseEntitySqlBuilder;
 import com.xy.xsql.orm.build.entity.sql.DialectMultiEntitySqlBuilder;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityParam;
@@ -20,7 +20,7 @@ import java.util.*;
  * Created by xiaoyao9184 on 2016/1/13.
  */
 @SuppressWarnings({"StringBufferReplaceableByString", "JavaDoc", "unused", "StatementWithEmptyBody", "WeakerAccess"})
-public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEntitySqlBuilder {
+public class A2Sql extends BaseEntitySqlBuilder implements DialectMultiEntitySqlBuilder {
 
 
     public A2Sql(Class clazz) {
@@ -34,10 +34,10 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
      */
     private List<Column> createSelectColumn(List<EntitySiteParam> entitySiteParams){
         List<Column> customColumnList = new ArrayList<>();
-        customColumnList.addAll(this.data.getColumns());
+        customColumnList.addAll(this.template.getColumns());
         int index = 0;
         int count = 0;
-        for (EntityLink entityLink : this.data.getLinks()) {
+        for (EntityLink entityLink : this.template.getLinks()) {
             if((index+1) > entitySiteParams.size() ||
                     CheckUtil.isNull(entitySiteParams.get(index)) ||
                     !entitySiteParams.get(index).isUseLink()){
@@ -65,7 +65,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
         Map<Table,List<Param>> customTableParamMap = new HashMap<>();
         int index = 0;
         int count = 0;
-        for (EntityLink entityLink : this.data.getLinks()) {
+        for (EntityLink entityLink : this.template.getLinks()) {
             if((index+1) > entitySiteParams.size() ||
                     CheckUtil.isNull(entitySiteParams.get(index)) ||
                     !entitySiteParams.get(index).isUseLink()){
@@ -103,7 +103,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
         List<Param> customParamList = new ArrayList<>();
         int index = 0;
         int count = 0;
-        for (EntityLink entityLink : this.data.getLinks()) {
+        for (EntityLink entityLink : this.template.getLinks()) {
             if((index+1) > entitySiteParams.size() ||
                     CheckUtil.isNull(entitySiteParams.get(index)) ||
                     !entitySiteParams.get(index).isUseLink()){
@@ -115,15 +115,15 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 EntitySiteParam entitySiteParam = entitySiteParams.get(index);
 
                 if(entityLink.isCoreBean()){
-                    if(this.data.getParams().size() < entitySiteParam.getArgs().length){
+                    if(this.template.getParams().size() < entitySiteParam.getArgs().length){
                         Object[] notUse = Arrays.copyOfRange(
                                 entitySiteParam.getArgs(),
-                                this.data.getParams().size()-1,
+                                this.template.getParams().size()-1,
                                 entitySiteParam.getArgs().length);
                         log.info("valueExpression entity's arguments are out of bounds, ignore " + Arrays.toString(notUse));
                     }
                     int argsIndex = 0;
-                    for (EntityParam customEntityParam : this.data.getParams()) {
+                    for (EntityParam customEntityParam : this.template.getParams()) {
                         if(!customEntityParam.isNeedValue()){
                             customParamList.add(customEntityParam);
                         }else if((argsIndex+1) > entitySiteParam.getArgs().length ||
@@ -176,10 +176,10 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
      */
     private List<Order> createOrder(List<EntitySiteParam> entitySiteParams){
         List<Order> customOrderList = new ArrayList<>();
-        customOrderList.addAll(this.data.getOrders());
+        customOrderList.addAll(this.template.getOrders());
         int index = 0;
         int count = 0;
-        for (EntityLink entityLink : this.data.getLinks()) {
+        for (EntityLink entityLink : this.template.getLinks()) {
             if((index+1) > entitySiteParams.size() ||
                     CheckUtil.isNull(entitySiteParams.get(index)) ||
                     !entitySiteParams.get(index).isUseLink()){
@@ -215,13 +215,13 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
      * @throws Exception
      */
     public String createFullSelectSql(List<EntitySiteParam> entitySiteParams) {
-        if(entitySiteParams.size() > this.data.getLinks().size()){
+        if(entitySiteParams.size() > this.template.getLinks().size()){
             throw new UnsupportedOperationException("实际实体数量大于标注的实体数量，无法生成SQL！");
         }
 
         XSql xSql = new XSql()
                 .select(createSelectColumn(entitySiteParams))
-                .from(this.data.getTable().getName())
+                .from(this.template.getTable().getName())
                 .leftjoin(createLeftJoinParam(entitySiteParams))
                 .where(createWhereParam(entitySiteParams))
                 .orderBy(createOrder(entitySiteParams));
@@ -237,7 +237,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
      * @throws Exception
      */
     public String createFullSelectCountSql(List<EntitySiteParam> entitySiteParams) {
-        if(entitySiteParams.size() > this.data.getLinks().size()){
+        if(entitySiteParams.size() > this.template.getLinks().size()){
             throw new UnsupportedOperationException("实际实体数量大于标注的实体数量，无法生成SQL！");
         }
         for (EntitySiteParam entitySiteParam : entitySiteParams) {
@@ -246,7 +246,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
 
         XSql xSql = new XSql()
                 .select(createSelectColumn(entitySiteParams))
-                .from(this.data.getTable().getName())
+                .from(this.template.getTable().getName())
                 .leftjoin(createLeftJoinParam(entitySiteParams))
                 .where(createWhereParam(entitySiteParams));
 
@@ -265,13 +265,13 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
      * @throws Exception
      */
     public String createFullDeleteSql(List<EntitySiteParam> entitySiteParams) {
-        if(entitySiteParams.size() > this.data.getLinks().size()){
+        if(entitySiteParams.size() > this.template.getLinks().size()){
             throw new UnsupportedOperationException("实际实体数量大于标注的实体数量，无法生成SQL！");
         }
 
         XSql xSql = new XSql()
-                .delete(this.data.getTable().getAliasName())
-                .from(this.data.getTable().getName())
+                .delete(this.template.getTable().getAliasName())
+                .from(this.template.getTable().getName())
                 .leftjoin(createLeftJoinParam(entitySiteParams))
                 .where(createWhereParam(entitySiteParams));
 
@@ -286,7 +286,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
      */
     @Deprecated
     public List<EntitySiteParam> fillEntityParam(List<EntitySiteParam> entitySiteParamList, boolean defaultEnable){
-        return ASqlUtil.createFullEntityParam(this.data.getLinks(), entitySiteParamList,defaultEnable);
+        return ASqlUtil.createFullEntityParam(this.template.getLinks(), entitySiteParamList,defaultEnable);
     }
 
 }

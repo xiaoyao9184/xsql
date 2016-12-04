@@ -1,21 +1,21 @@
 package com.xy.xsql.orm.data.config;
 
-import com.xy.xsql.orm.build.entity.sql.DialectEntitySqlBuilder;
+import com.xy.xsql.orm.build.entity.sql.EntitySqlBuilder;
 import com.xy.xsql.orm.mapping.type.TypeMapper;
 
 /**
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBuilderConfig {
+public class AnnotationEntitySqlBuildConfig extends AnnotationEntityTemplateBuildConfig {
 
     private boolean onlySelectUseStatus;
-    private Class<? extends DialectEntitySqlBuilder> dialectEntitySqlBuilder;
+    private Class<? extends EntitySqlBuilder> dialectEntitySqlBuilder;
 
     public boolean isOnlySelectUseStatus() {
         return onlySelectUseStatus;
     }
 
-    public Class<? extends DialectEntitySqlBuilder> getDialectEntitySqlBuilder() {
+    public Class<? extends EntitySqlBuilder> getDialectEntitySqlBuilder() {
         return dialectEntitySqlBuilder;
     }
 
@@ -25,17 +25,17 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @param onlySelectUseStatus
      * @return This
      */
-    public AnnotationEntitySqlBuilderConfig withOnlySelectUseStatus(boolean onlySelectUseStatus) {
+    public AnnotationEntitySqlBuildConfig withOnlySelectUseStatus(boolean onlySelectUseStatus) {
         this.onlySelectUseStatus = onlySelectUseStatus;
         return this;
     }
 
     /**
-     * Config DialectEntitySqlBuilder
-     * @param dialectEntitySqlBuilder DialectEntitySqlBuilder
+     * Config EntitySqlBuilder
+     * @param dialectEntitySqlBuilder EntitySqlBuilder
      * @return This
      */
-    public AnnotationEntitySqlBuilderConfig withDialectEntitySqlBuilder(Class<? extends DialectEntitySqlBuilder> dialectEntitySqlBuilder) {
+    public AnnotationEntitySqlBuildConfig withDialectEntitySqlBuilder(Class<? extends EntitySqlBuilder> dialectEntitySqlBuilder) {
         this.dialectEntitySqlBuilder = dialectEntitySqlBuilder;
         return this;
     }
@@ -46,7 +46,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withTypeMapper(TypeMapper<Class<?>,String> typeMapper){
+    public AnnotationEntitySqlBuildConfig withTypeMapper(TypeMapper<Class<?>,String> typeMapper){
         this.typeMapper = typeMapper;
         return this;
     }
@@ -57,7 +57,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withSeparator(String separator) {
+    public AnnotationEntitySqlBuildConfig withSeparator(String separator) {
         this.separator = separator;
         return this;
     }
@@ -68,7 +68,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withNamePrefix(String namePrefix){
+    public AnnotationEntitySqlBuildConfig withNamePrefix(String namePrefix){
         this.namePrefix = namePrefix;
         return this;
     }
@@ -79,7 +79,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withNameSuffix(String nameSuffix){
+    public AnnotationEntitySqlBuildConfig withNameSuffix(String nameSuffix){
         this.nameSuffix = nameSuffix;
         return this;
     }
@@ -90,19 +90,8 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withAliasNamePrefix(String aliasNamePrefix){
+    public AnnotationEntitySqlBuildConfig withAliasNamePrefix(String aliasNamePrefix){
         this.aliasNamePrefix = aliasNamePrefix;
-        return this;
-    }
-
-    /**
-     * Config Alias Name Suffix
-     * @param aliasNameSuffix Alias Name Suffix
-     * @return This
-     */
-    @Override
-    public AnnotationEntitySqlBuilderConfig withAliasNameSuffix(String aliasNameSuffix){
-        this.aliasNameSuffix = aliasNameSuffix;
         return this;
     }
 
@@ -112,7 +101,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withSupportMultipleKey(Boolean yesNo){
+    public AnnotationEntitySqlBuildConfig withSupportMultipleKey(Boolean yesNo){
         this.supportMultipleKey = yesNo;
         return this;
     }
@@ -123,7 +112,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withScanStatus(Boolean yesNo){
+    public AnnotationEntitySqlBuildConfig withScanStatus(Boolean yesNo){
         this.scanStatus = yesNo;
         return this;
     }
@@ -134,8 +123,8 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withScanEntity(Boolean yesNo){
-        this.scanEntity = yesNo;
+    public AnnotationEntitySqlBuildConfig withScanLink(Boolean yesNo){
+        this.scanLink = yesNo;
         return this;
     }
 
@@ -145,7 +134,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntitySqlBuilderConfig withScanParam(Boolean yesNo){
+    public AnnotationEntitySqlBuildConfig withScanParam(Boolean yesNo){
         this.scanParam = yesNo;
         return this;
     }
@@ -156,7 +145,7 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
      * @return This
      */
     @Override
-    public AnnotationEntityTemplateBuilderConfig withScanOrder(Boolean yesNo){
+    public AnnotationEntityTemplateBuildConfig withScanOrder(Boolean yesNo){
         this.scanOrder = yesNo;
         return this;
     }
@@ -164,8 +153,8 @@ public class AnnotationEntitySqlBuilderConfig extends AnnotationEntityTemplateBu
 
 
 
-    public DialectEntitySqlBuilderConfig toEntitySqlBuilderConfig(){
-        return new DialectEntitySqlBuilderConfig()
+    public DialectEntitySqlBuildConfig toEntitySqlBuilderConfig(){
+        return new DialectEntitySqlBuildConfig()
                 .onlySelectUseStatus(this.onlySelectUseStatus);
     }
 

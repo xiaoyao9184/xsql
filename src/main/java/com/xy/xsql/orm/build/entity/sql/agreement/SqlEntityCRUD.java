@@ -9,6 +9,16 @@ import com.xy.xsql.orm.data.entity.EntityTemplate;
  */
 public interface SqlEntityCRUD {
 
+    String InsertSql = "getInsertSql";
+    String InsertByEntityCountSql = "getInsertByEntityCountSql";
+    String SelectByIdSql = "getSelectByIdSql";
+    String SelectByIdsSql = "getSelectByIdsSql";
+    String UpdateByIdSql = "getUpdateByIdSql";
+    String UpdateByIdsSql = "getUpdateByIdsSql";
+    String DeleteByIdSql = "getDeleteByIdSql";
+    String DeleteByIdsSql = "getDeleteByIdsSql";
+
+
     /**
      * 插入
      * @param entityData 实体 信息

@@ -1,10 +1,9 @@
 package com.xy.xsql.orm.build.entity.template;
 
 import com.xy.xsql.orm.annotation.*;
-import com.xy.xsql.orm.build.BaseBuilder;
+import com.xy.xsql.orm.build.ConfigBuilder;
+import com.xy.xsql.orm.data.config.AnnotationEntityTemplateBuildConfig;
 import com.xy.xsql.orm.data.entity.*;
-import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
-import com.xy.xsql.orm.mapping.type.TypeMapper;
 import com.xy.xsql.orm.util.CheckUtil;
 import com.xy.xsql.orm.util.StringUtil;
 import org.slf4j.Logger;
@@ -20,26 +19,19 @@ import java.util.List;
  * build EntityTemplate by class with Annotation
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,EntityTemplate>, Cloneable {
+public class AnnotationEntityTemplateBuilder implements
+        ConfigBuilder<
+                AnnotationEntityTemplateBuilder,
+                AnnotationEntityTemplateBuildConfig,
+                Class<?>,EntityTemplate>, 
+        Cloneable {
 
     private Logger log;
 
     //config
-    private Class<?> annotationClass;
-
-    private TypeMapper<Class<?>, String> typeMapper;
-    private String separator;
-    private String namePrefix;
-    private String nameSuffix;
-    private String aliasNamePrefix;
-    private String aliasNameSuffix;
-    private boolean supportMultipleKey;
-    private boolean scanStatus;
-    private boolean scanEntity;
-    private boolean scanParam;
-    private boolean scanOrder;
-
+    private AnnotationEntityTemplateBuildConfig config;
     //cache
+    private Class<?> annotationClass;
     private List<Field> annotationClassFields;
     private EntityTable table;
     private List<EntityColumn> columns;
@@ -50,128 +42,22 @@ public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,Ent
      */
     public AnnotationEntityTemplateBuilder(){
         this.log = LoggerFactory.getLogger(this.getClass());
-
-        this.supportMultipleKey = false;
-        this.scanStatus = false;
-        this.scanEntity = false;
-        this.scanParam = false;
-        this.scanOrder = false;
-        this.separator = "_";
     }
 
-
-    //Config
-    /**
-     * Config TypeMapper
-     * @param typeMapper TypeMapper
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withTypeMapper(TypeMapper<Class<?>,String> typeMapper){
-        this.typeMapper = typeMapper;
-        return this;
-    }
 
     /**
-     * Config Prefix Suffix Separator
-     * @param separator Prefix Suffix Separator
-     * @return This
+     * Go into config
+     * @return AnnotationEntityTemplateBuildConfig
      */
-    public AnnotationEntityTemplateBuilder withSeparator(String separator) {
-        this.separator = separator;
+    public AnnotationEntityTemplateBuildConfig configStart() {
+        return this.config.start(this);
+    }
+    
+    @Override
+    public AnnotationEntityTemplateBuilder config(AnnotationEntityTemplateBuildConfig config) {
+        this.config = config;
         return this;
     }
-
-    /**
-     * Config Name Prefix
-     * @param namePrefix Name Prefix
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withNamePrefix(String namePrefix){
-        this.namePrefix = namePrefix;
-        return this;
-    }
-
-    /**
-     * Config Name Suffix
-     * @param nameSuffix Name Suffix
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withNameSuffix(String nameSuffix){
-        this.nameSuffix = nameSuffix;
-        return this;
-    }
-
-    /**
-     * Config Alias Name Prefix
-     * @param aliasNamePrefix Alias Name Prefix
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withAliasNamePrefix(String aliasNamePrefix){
-        this.aliasNamePrefix = aliasNamePrefix;
-        return this;
-    }
-
-//    /**
-//     * Config Alias Name Suffix
-//     * @param aliasNameSuffix Alias Name Suffix
-//     * @return This
-//     */
-//    public AnnotationEntityTemplateBuilder withAliasNameSuffix(String aliasNameSuffix){
-//        this.aliasNameSuffix = aliasNameSuffix;
-//        return this;
-//    }
-
-    /**
-     * Config true if you want turn on Multiple Key support
-     * @param yesNo Yes/No
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withSupportMultipleKey(Boolean yesNo){
-        this.supportMultipleKey = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Status
-     * @param yesNo Yes/No
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withScanStatus(Boolean yesNo){
-        this.scanStatus = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Entity
-     * @param yesNo Yes/No
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withScanEntity(Boolean yesNo){
-        this.scanEntity = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Param
-     * @param yesNo Yes/No
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withScanParam(Boolean yesNo){
-        this.scanParam = yesNo;
-        return this;
-    }
-
-    /**
-     * Config true if you want scan Order
-     * @param yesNo Yes/No
-     * @return This
-     */
-    public AnnotationEntityTemplateBuilder withScanOrder(Boolean yesNo){
-        this.scanOrder = yesNo;
-        return this;
-    }
-
-
 
     @Override
     public EntityTemplate build(Class<?> aClass) {
@@ -188,29 +74,26 @@ public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,Ent
      */
     private void initData() {
         this.log.info("init elementsSentence form class " + this.annotationClass);
-        if(this.typeMapper == null){
-            this.typeMapper = new AllVarCharTypeMapper();
-        }
-
-        annotationClassFields = this.initField();
-        table = this.initTable();
-        columns = this.initColumn();
+        this.config.initDefault();
+        this.annotationClassFields = this.initField();
+        this.table = this.initTable();
+        this.columns = this.initColumn();
 
         this.data = new EntityTemplate()
                 .withClass(annotationClass)
                 .withTable(table)
                 .withColumns(columns)
                 .withKeys(this.initColumnKey());
-        if(scanStatus){
+        if(this.config.isScanStatus()){
             this.data.setStatus(this.initColumnStatus());
         }
-        if(scanEntity){
+        if(this.config.isScanLink()){
             this.data.setLinks(this.initLink());
         }
-        if(scanParam){
+        if(this.config.isScanParam()){
             this.data.setParams(this.initParam());
         }
-        if(scanOrder){
+        if(this.config.isScanOrder()){
             this.data.setOrders(this.initOrder());
         }
 
@@ -251,8 +134,8 @@ public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,Ent
     private EntityTable initTable() {
         ETable eTable = annotationClass.getAnnotation(ETable.class);
         if(eTable != null){
-            String name = StringUtil.join(this.separator,this.namePrefix,eTable.name(),this.nameSuffix);
-            String aliasName = StringUtil.join(this.separator,this.aliasNamePrefix,eTable.aliasName(),this.aliasNameSuffix);
+            String name = StringUtil.join(this.config.getSeparator(),this.config.getNamePrefix(),eTable.name(),this.config.getNameSuffix());
+            String aliasName = StringUtil.join(this.config.getSeparator(),this.config.getAliasNamePrefix(),eTable.aliasName());
             return new EntityTable()
                     .withName(name)
                     .withAliasName(aliasName);
@@ -275,14 +158,14 @@ public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,Ent
                     aliasName = field.getName();
                 }
 
-                String name = StringUtil.join(this.separator,this.namePrefix,eColumn.name(),this.nameSuffix);
-                aliasName = StringUtil.join(this.separator,this.aliasNamePrefix,aliasName,this.aliasNameSuffix);
-                String type = this.typeMapper.mapType(field.getType());
+                String name = StringUtil.join(this.config.getSeparator(),this.config.getNamePrefix(),eColumn.name(),this.config.getNameSuffix());
+                aliasName = StringUtil.join(this.config.getSeparator(),this.config.getAliasNamePrefix(),aliasName);
+                String type = this.config.getTypeMapper().mapType(field.getType());
                 Integer len = -1;
-                if(this.typeMapper.isSupportLength(field.getType())){
+                if(this.config.getTypeMapper().isSupportLength(field.getType())){
                     len = eColumn.length();
                     if (len <= 0) {
-                        len = this.typeMapper.defaultLength(field.getType());
+                        len = this.config.getTypeMapper().defaultLength(field.getType());
                     }
                 }
                 EntityColumn column = new EntityColumn()
@@ -356,7 +239,9 @@ public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,Ent
             if(eLink != null){
                 EntityColumn entityColumn = this.columns.get(index);
                 EntityTemplate entityTemplate = this.clone()
-                        .withAliasNamePrefix(entityColumn.getAliasName())
+                        .configStart()
+                            .withAliasNamePrefix(entityColumn.getAliasName())
+                            .done()
                         .build(eLink.value());
 
                 list.add(new EntityLink()
@@ -389,7 +274,7 @@ public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,Ent
                 list.add(new EntityParam()
                                 .withColumn(entityColumn)
                                 .withRelationship(eParam.relationship())
-                                .withArgs(eParam.value()));
+                                .withArgs((Object[])eParam.value()));
             }
         }
 
@@ -431,15 +316,7 @@ public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,Ent
     @Override
     public AnnotationEntityTemplateBuilder clone(){
         return new AnnotationEntityTemplateBuilder()
-                .withNamePrefix(this.namePrefix)
-                .withNameSuffix(this.nameSuffix)
-                .withAliasNamePrefix(this.aliasNamePrefix)
-//                .withAliasNameSuffix(this.aliasNameSuffix)
-                .withSupportMultipleKey(this.supportMultipleKey)
-                .withScanStatus(this.scanStatus)
-                .withScanParam(this.scanParam)
-                .withScanOrder(this.scanOrder)
-                .withScanEntity(this.scanEntity);
-
+                .config(this.config.clone());
     }
+
 }

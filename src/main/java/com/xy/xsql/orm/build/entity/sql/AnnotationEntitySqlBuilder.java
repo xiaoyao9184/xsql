@@ -1,8 +1,8 @@
 package com.xy.xsql.orm.build.entity.sql;
 
-import com.xy.xsql.orm.build.BaseBuilder;
+import com.xy.xsql.orm.build.ConfigBuilder;
 import com.xy.xsql.orm.build.entity.template.AnnotationEntityTemplateBuilder;
-import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuilderConfig;
+import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
 import org.slf4j.Logger;
@@ -10,10 +10,15 @@ import org.slf4j.LoggerFactory;
 
 /**
  * AnnotationEntitySqlBuilder
- * build DialectEntitySqlBuilder by class with Annotation
+ * build EntitySqlBuilder by class with Annotation
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectEntitySqlBuilder> {
+public class AnnotationEntitySqlBuilder implements
+        ConfigBuilder<
+                AnnotationEntitySqlBuilder,
+                AnnotationEntitySqlBuildConfig,
+                Class<?>,
+                EntitySqlBuilder> {
 
     //Fields
 
@@ -25,7 +30,7 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
     /**
      * 配置
      */
-    private AnnotationEntitySqlBuilderConfig config;
+    private AnnotationEntitySqlBuildConfig config;
 
     /**
      * DataBuilder
@@ -40,12 +45,12 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
     /**
      * Data
      */
-    private EntityTemplate data;
+    private EntityTemplate entityTemplate;
 
     /**
      * SqlBuilder
      */
-    private DialectEntitySqlBuilder dialectEntitySqlBuilder;
+    private EntitySqlBuilder entitySqlBuilder;
 
 
 
@@ -55,53 +60,38 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
 
 
     //Config
-    /**
-     * config
-     * @param config DialectEntitySqlBuilderConfig
-     * @return This
-     */
-    public AnnotationEntitySqlBuilder config(AnnotationEntitySqlBuilderConfig config) {
+    @Override
+    public AnnotationEntitySqlBuilder config(AnnotationEntitySqlBuildConfig config) {
         if(config == null){
-            this.config = new AnnotationEntitySqlBuilderConfig()
-                    .withDialectEntitySqlBuilder(BaseDialectEntitySqlBuilder.class)
+            this.config = new AnnotationEntitySqlBuildConfig()
+                    .withDialectEntitySqlBuilder(BaseEntitySqlBuilder.class)
                     .withTypeMapper(new AllVarCharTypeMapper());
         }else{
             this.config = config;
         }
 
-        //create EntityDataBuilder and config it
+        //create EntityTemplateBuilder and config it
         this.entityTemplateBuilder = new AnnotationEntityTemplateBuilder()
-                .withTypeMapper(this.config.getTypeMapper())
-                .withSeparator(this.config.getSeparator())
-                .withNamePrefix(this.config.getNamePrefix())
-                .withNameSuffix(this.config.getNamePrefix())
-                .withAliasNamePrefix(this.config.getAliasNamePrefix())
-//                .withAliasNameSuffix(this.config.getAliasNameSuffix())
-                .withSupportMultipleKey(this.config.isSupportMultipleKey())
-                .withScanStatus(this.config.isScanStatus())
-                .withScanParam(this.config.isScanParam())
-                .withScanOrder(this.config.isScanOrder())
-                .withScanEntity(this.config.isScanEntity());
+                .config(this.config);
 
-        //create DialectEntitySqlBuilder
+        //create EntitySqlBuilder
         try {
-            Class dialectEntitySqlBuilderClass = config.getDialectEntitySqlBuilder();
-            this.dialectEntitySqlBuilder = (DialectEntitySqlBuilder) dialectEntitySqlBuilderClass.newInstance();
+            Class dialectEntitySqlBuilderClass = this.config.getDialectEntitySqlBuilder();
+            this.entitySqlBuilder = (EntitySqlBuilder) dialectEntitySqlBuilderClass.newInstance();
         } catch (Exception e) {
-            log.error("Cant create Dialect DialectEntitySqlBuilder, create default.",e);
-            this.dialectEntitySqlBuilder = new BaseDialectEntitySqlBuilder();
+            log.error("Cant create Dialect EntitySqlBuilder, create default.",e);
+            this.entitySqlBuilder = new BaseEntitySqlBuilder();
         }
 
-        //config DialectEntitySqlBuilder
-        this.dialectEntitySqlBuilder.cacheConfig(this.config.toEntitySqlBuilderConfig());
+        //config EntitySqlBuilder
+        this.entitySqlBuilder.cacheConfig(this.config.toEntitySqlBuilderConfig());
 
         return this;
     }
 
-
     //Build
     @Override
-    public DialectEntitySqlBuilder build(Class<?> aClass) {
+    public EntitySqlBuilder build(Class<?> aClass) {
         if(this.entityTemplateBuilder == null){
             this.config(null);
         }
@@ -110,9 +100,10 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
                 !this.entityClass.equals(aClass)){
             this.entityClass = aClass;
 
-            this.data = entityTemplateBuilder.build(aClass);
-            this.dialectEntitySqlBuilder.cacheData(this.data);
+            this.entityTemplate = entityTemplateBuilder.build(aClass);
+            this.entitySqlBuilder.cacheTemplate(this.entityTemplate);
         }
-        return dialectEntitySqlBuilder;
+        return entitySqlBuilder;
     }
+
 }
