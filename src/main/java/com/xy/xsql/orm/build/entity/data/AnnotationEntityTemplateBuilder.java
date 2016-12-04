@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * AnnotationEntityDataBuilder
+ * AnnotationEntityTemplateBuilder
  * build EntityTemplate by class with Annotation
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityTemplate>, Cloneable {
+public class AnnotationEntityTemplateBuilder implements BaseBuilder<Class<?>,EntityTemplate>, Cloneable {
 
     private Logger log;
 
@@ -42,7 +42,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
     /**
      *
      */
-    public AnnotationEntityDataBuilder(){
+    public AnnotationEntityTemplateBuilder(){
         this.log = LoggerFactory.getLogger(this.getClass());
 
         this.supportMultipleKey = false;
@@ -59,7 +59,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @param tablePrefix Table Prefix
      * @return This
      */
-    public AnnotationEntityDataBuilder tablePrefix(String tablePrefix){
+    public AnnotationEntityTemplateBuilder tablePrefix(String tablePrefix){
         this.tablePrefix = tablePrefix;
         return this;
     }
@@ -69,7 +69,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @param aliasNamePrefix Alias Name Prefix
      * @return This
      */
-    public AnnotationEntityDataBuilder aliasNamePrefix(String aliasNamePrefix){
+    public AnnotationEntityTemplateBuilder aliasNamePrefix(String aliasNamePrefix){
         this.aliasNamePrefix = aliasNamePrefix;
         return this;
     }
@@ -80,7 +80,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityDataBuilder supportMultipleKey(Boolean yesNo){
+    public AnnotationEntityTemplateBuilder supportMultipleKey(Boolean yesNo){
         this.supportMultipleKey = yesNo;
         return this;
     }
@@ -90,7 +90,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityDataBuilder scanStatus(Boolean yesNo){
+    public AnnotationEntityTemplateBuilder scanStatus(Boolean yesNo){
         this.scanStatus = yesNo;
         return this;
     }
@@ -101,7 +101,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityDataBuilder scanEntity(Boolean yesNo){
+    public AnnotationEntityTemplateBuilder scanEntity(Boolean yesNo){
         this.scanEntity = yesNo;
         return this;
     }
@@ -112,7 +112,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityDataBuilder scanParam(Boolean yesNo){
+    public AnnotationEntityTemplateBuilder scanParam(Boolean yesNo){
         this.scanParam = yesNo;
         return this;
     }
@@ -122,7 +122,7 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
      * @param yesNo Yes/No
      * @return This
      */
-    public AnnotationEntityDataBuilder scanOrder(Boolean yesNo){
+    public AnnotationEntityTemplateBuilder scanOrder(Boolean yesNo){
         this.scanOrder = yesNo;
         return this;
     }
@@ -374,8 +374,8 @@ public class AnnotationEntityDataBuilder implements BaseBuilder<Class<?>,EntityT
 
     @SuppressWarnings("CloneDoesntCallSuperClone")
     @Override
-    public AnnotationEntityDataBuilder clone(){
-        return new AnnotationEntityDataBuilder()
+    public AnnotationEntityTemplateBuilder clone(){
+        return new AnnotationEntityTemplateBuilder()
                 .tablePrefix(this.tablePrefix)
                 .aliasNamePrefix(this.aliasNamePrefix)
                 .supportMultipleKey(this.supportMultipleKey)

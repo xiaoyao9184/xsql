@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.build.entity.arg;
 
-import com.xy.xsql.orm.build.entity.data.AnnotationEntityDataBuilder;
+import com.xy.xsql.orm.build.entity.data.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.EntitySiteParam;
 import com.xy.xsql.orm.test.bean.User;
@@ -20,7 +20,7 @@ public class EntitySiteParamFillerTest {
 
     @Test
     public void testDeep2WithNoParam(){
-        EntityTemplate data = new AnnotationEntityDataBuilder()
+        EntityTemplate data = new AnnotationEntityTemplateBuilder()
                 .scanEntity(true)
                 .build(User.class);
 
@@ -49,7 +49,7 @@ public class EntitySiteParamFillerTest {
 
     @Test
     public void testDeep3WithParam(){
-        EntityTemplate data = new AnnotationEntityDataBuilder()
+        EntityTemplate data = new AnnotationEntityTemplateBuilder()
                 .scanEntity(true)
                 .scanParam(true)
                 .build(UserLog.class);

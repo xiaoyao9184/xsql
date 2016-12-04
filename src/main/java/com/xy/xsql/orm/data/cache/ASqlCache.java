@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.cache;
 
-import com.xy.xsql.orm.build.entity.data.AnnotationEntityDataBuilder;
+import com.xy.xsql.orm.build.entity.data.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.build.entity.sql.BaseDialectEntitySqlBuilder;
 import com.xy.xsql.orm.build.entity.sql.DialectEntitySqlBuilder;
 import com.xy.xsql.orm.data.config.ASqlConfig;
@@ -79,7 +79,7 @@ public class ASqlCache {
             return (DialectEntitySqlBuilder) ASqlCache.aSqlMap2.get(clazz);
         }else{
             DialectEntitySqlBuilder aSql = new BaseDialectEntitySqlBuilder()
-                    .cacheData(new AnnotationEntityDataBuilder().build(clazz));
+                    .cacheData(new AnnotationEntityTemplateBuilder().build(clazz));
             ASqlCache.aSqlMap2.put(clazz,aSql);
             return aSql;
         }

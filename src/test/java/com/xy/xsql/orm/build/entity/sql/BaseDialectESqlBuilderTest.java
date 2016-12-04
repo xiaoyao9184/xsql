@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.build.entity.sql;
 
-import com.xy.xsql.orm.build.entity.data.AnnotationEntityDataBuilder;
+import com.xy.xsql.orm.build.entity.data.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.test.bean.User;
 import org.junit.Before;
@@ -22,7 +22,7 @@ public class BaseDialectESqlBuilderTest {
      */
     @Test
     public void testBuild(){
-        AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder();
+        AnnotationEntityTemplateBuilder builder = new AnnotationEntityTemplateBuilder();
         EntityTemplate data = builder.build(User.class);
         assert data != null;
         assert data.getTable().getName().equals("b_user");
@@ -33,7 +33,7 @@ public class BaseDialectESqlBuilderTest {
      */
     @Test
     public void testConfig(){
-        AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder()
+        AnnotationEntityTemplateBuilder builder = new AnnotationEntityTemplateBuilder()
                 .tablePrefix("")
                 .supportMultipleKey(true)
                 .scanStatus(true)

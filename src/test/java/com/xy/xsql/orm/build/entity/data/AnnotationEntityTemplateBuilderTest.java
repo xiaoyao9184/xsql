@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class AnnotationEntityDataBuilderTest {
+public class AnnotationEntityTemplateBuilderTest {
 
 
     @Before
@@ -21,7 +21,7 @@ public class AnnotationEntityDataBuilderTest {
      */
     @Test
     public void testBuild(){
-        AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder();
+        AnnotationEntityTemplateBuilder builder = new AnnotationEntityTemplateBuilder();
         EntityTemplate data = builder.build(User.class);
         assert data != null;
         assert data.getTable().getName().equals("b_user");
@@ -32,7 +32,7 @@ public class AnnotationEntityDataBuilderTest {
      */
     @Test
     public void testConfig(){
-        AnnotationEntityDataBuilder builder = new AnnotationEntityDataBuilder()
+        AnnotationEntityTemplateBuilder builder = new AnnotationEntityTemplateBuilder()
                 .tablePrefix("")
                 .supportMultipleKey(true)
                 .scanStatus(true)

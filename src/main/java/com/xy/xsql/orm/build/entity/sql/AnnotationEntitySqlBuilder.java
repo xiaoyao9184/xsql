@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.build.entity.sql;
 
 import com.xy.xsql.orm.build.BaseBuilder;
-import com.xy.xsql.orm.build.entity.data.AnnotationEntityDataBuilder;
+import com.xy.xsql.orm.build.entity.data.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuilderConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
@@ -30,7 +30,7 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
     /**
      * DataBuilder
      */
-    private AnnotationEntityDataBuilder entityDataBuilder;
+    private AnnotationEntityTemplateBuilder entityDataBuilder;
 
     /**
      * Class
@@ -70,7 +70,7 @@ public class AnnotationEntitySqlBuilder implements BaseBuilder<Class<?>,DialectE
         }
 
         //create EntityDataBuilder and config it
-        this.entityDataBuilder = new AnnotationEntityDataBuilder()
+        this.entityDataBuilder = new AnnotationEntityTemplateBuilder()
                 .tablePrefix(this.config.getTablePrefix())
                 .supportMultipleKey(this.config.isSupportMultipleKey())
                 .scanStatus(this.config.isScanStatus())
