@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.sql.sentence.select;
 
-import com.xy.xsql.orm.build.element.ListElementBuilder;
+import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
@@ -53,6 +53,12 @@ public class SelectSentence extends CustomizeSentence {
         return this;
     }
 
+    public SelectSentence withJoin(JoinItem joinItem){
+        //TODO
+
+        return this;
+    }
+
     @Override
     public BaseElementsSentence toBaseElementsSentence() {
         ListElementBuilder builder = new ListElementBuilder()
@@ -93,4 +99,11 @@ public class SelectSentence extends CustomizeSentence {
         return null;
     }
 
+    public List<JoinItem> getJoins() {
+        return joins;
+    }
+
+    public void setJoins(List<JoinItem> joins) {
+        this.joins = joins;
+    }
 }
