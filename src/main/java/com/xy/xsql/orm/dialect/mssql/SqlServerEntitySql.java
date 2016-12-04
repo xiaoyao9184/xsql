@@ -2,11 +2,11 @@ package com.xy.xsql.orm.dialect.mssql;
 
 
 import com.xy.xsql.orm.annotation.Relationships;
-import com.xy.xsql.orm.build.entity.template.EntityParamFilter;
-import com.xy.xsql.orm.build.entity.template.EntityColumnExpander;
-import com.xy.xsql.orm.build.entity.template.EntityLinkExpander;
-import com.xy.xsql.orm.build.entity.template.EntityParamExpander;
-import com.xy.xsql.orm.build.entity.sql.agreement.*;
+import com.xy.xsql.orm.core.entity.template.EntityParamFilter;
+import com.xy.xsql.orm.core.entity.template.EntityColumnExpander;
+import com.xy.xsql.orm.core.entity.template.EntityLinkExpander;
+import com.xy.xsql.orm.core.entity.template.EntityParamExpander;
+import com.xy.xsql.orm.core.entity.sql.agreement.*;
 import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityParam;

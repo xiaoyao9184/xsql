@@ -2,7 +2,7 @@ package com.xy.xsql.orm.data.sql.expression.operator.conditional;
 
 
 import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.build.element.ListElementBuilder;
+import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.expression.BaseBinary;
 

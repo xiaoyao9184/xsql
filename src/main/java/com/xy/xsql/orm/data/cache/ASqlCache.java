@@ -1,8 +1,8 @@
 package com.xy.xsql.orm.data.cache;
 
-import com.xy.xsql.orm.build.entity.template.AnnotationEntityTemplateBuilder;
-import com.xy.xsql.orm.build.entity.sql.BaseEntitySqlBuilder;
-import com.xy.xsql.orm.build.entity.sql.EntitySqlBuilder;
+import com.xy.xsql.orm.core.entity.template.AnnotationEntityTemplateBuilder;
+import com.xy.xsql.orm.core.entity.sql.BaseEntitySqlBuilder;
+import com.xy.xsql.orm.core.entity.sql.EntitySqlBuilder;
 import com.xy.xsql.orm.data.config.ASqlConfig;
 
 import java.lang.reflect.InvocationTargetException;

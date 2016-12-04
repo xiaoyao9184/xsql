@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.util;
 
 
-import com.xy.xsql.orm.build.BaseBuilder;
+import com.xy.xsql.orm.core.BaseBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

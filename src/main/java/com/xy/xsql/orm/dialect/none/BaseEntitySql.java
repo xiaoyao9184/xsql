@@ -2,8 +2,8 @@ package com.xy.xsql.orm.dialect.none;
 
 
 import com.xy.xsql.orm.annotation.Relationships;
-import com.xy.xsql.orm.build.entity.template.EntityParamFilter;
-import com.xy.xsql.orm.build.entity.sql.agreement.*;
+import com.xy.xsql.orm.core.entity.template.EntityParamFilter;
+import com.xy.xsql.orm.core.entity.sql.agreement.*;
 import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.entity.EntityParam;
 import com.xy.xsql.orm.data.entity.EntityTemplate;

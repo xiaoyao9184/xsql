@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.config;
 
-import com.xy.xsql.orm.build.entity.sql.EntitySqlBuilder;
+import com.xy.xsql.orm.core.entity.sql.EntitySqlBuilder;
 import com.xy.xsql.orm.mapping.type.TypeMapper;
 
 /**

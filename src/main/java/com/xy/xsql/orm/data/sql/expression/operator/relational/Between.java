@@ -3,7 +3,7 @@ package com.xy.xsql.orm.data.sql.expression.operator.relational;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.build.element.ListElementBuilder;
+import com.xy.xsql.orm.core.element.ListElementBuilder;
 
 import java.util.List;
 
