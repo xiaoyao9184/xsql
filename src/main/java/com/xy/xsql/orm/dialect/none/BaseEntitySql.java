@@ -2,13 +2,13 @@ package com.xy.xsql.orm.dialect.none;
 
 
 import com.xy.xsql.orm.annotation.Relationships;
-import com.xy.xsql.orm.build.entity.arg.EntityParamFilter;
+import com.xy.xsql.orm.build.entity.data.EntityParamFilter;
 import com.xy.xsql.orm.build.entity.sql.agreement.*;
 import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.entity.EntityParam;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.ArgSql;
-import com.xy.xsql.orm.data.param.EntityTemplateDataArgTree;
+import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import com.xy.xsql.orm.util.CheckUtil;
 import com.xy.xsql.orm.util.EntityUtil;
 import com.xy.xsql.orm.util.StringUtil;
@@ -552,7 +552,7 @@ public class BaseEntitySql
     }
 
     @Override
-    public ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateDataArgTree entityDataTreeArg) {
+    public ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateTreeArg entityDataTreeArg) {
         throw new RuntimeException("不支持‘多表 参数查询’语句");
     }
 

@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/12/1.
  */
-public class EntityTemplateDataArgTree {
+public class EntityTemplateTreeArg {
 
     private Class clazz;
     private Object[] args;
-    private List<EntityTemplateDataArgTree> sub;
+    private List<EntityTemplateTreeArg> sub;
 
     public Class getClazz() {
         return clazz;
@@ -28,11 +28,11 @@ public class EntityTemplateDataArgTree {
         this.args = args;
     }
 
-    public List<EntityTemplateDataArgTree> getSub() {
+    public List<EntityTemplateTreeArg> getSub() {
         return sub;
     }
 
-    public void setSub(List<EntityTemplateDataArgTree> sub) {
+    public void setSub(List<EntityTemplateTreeArg> sub) {
         this.sub = sub;
     }
 
@@ -43,29 +43,29 @@ public class EntityTemplateDataArgTree {
      * @param clazz
      * @return
      */
-    public EntityTemplateDataArgTree getSubTree(int index, Class clazz) {
+    public EntityTemplateTreeArg getSubTree(int index, Class clazz) {
         if(this.sub != null){
-            EntityTemplateDataArgTree entityTemplateDataArgTree = this.sub.get(index);
-            if(entityTemplateDataArgTree.getClazz().equals(clazz) ||
-                    entityTemplateDataArgTree.getClazz() == null){
-                return entityTemplateDataArgTree;
+            EntityTemplateTreeArg entityTemplateTreeArg = this.sub.get(index);
+            if(entityTemplateTreeArg.getClazz().equals(clazz) ||
+                    entityTemplateTreeArg.getClazz() == null){
+                return entityTemplateTreeArg;
             }
         }
-        return new EntityTemplateDataArgTree()
+        return new EntityTemplateTreeArg()
                 .withClass(clazz);
     }
 
-    public EntityTemplateDataArgTree withClass(Class clazz) {
+    public EntityTemplateTreeArg withClass(Class clazz) {
         this.clazz = clazz;
         return this;
     }
 
-    public EntityTemplateDataArgTree withArgs(Object... args) {
+    public EntityTemplateTreeArg withArgs(Object... args) {
         this.args = args;
         return this;
     }
 
-    public EntityTemplateDataArgTree withSub(EntityTemplateDataArgTree... sub) {
+    public EntityTemplateTreeArg withSub(EntityTemplateTreeArg... sub) {
         this.sub = Arrays.asList(sub);
         return this;
     }

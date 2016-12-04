@@ -2,7 +2,7 @@ package com.xy.xsql.orm.dialect.mssql;
 
 
 import com.xy.xsql.orm.annotation.Relationships;
-import com.xy.xsql.orm.build.entity.arg.EntityParamFilter;
+import com.xy.xsql.orm.build.entity.data.EntityParamFilter;
 import com.xy.xsql.orm.build.entity.data.EntityColumnExpander;
 import com.xy.xsql.orm.build.entity.data.EntityLinkExpander;
 import com.xy.xsql.orm.build.entity.data.EntityParamExpander;
@@ -12,7 +12,7 @@ import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityParam;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.ArgSql;
-import com.xy.xsql.orm.data.param.EntityTemplateDataArgTree;
+import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import com.xy.xsql.orm.util.CheckUtil;
 import com.xy.xsql.orm.util.EntityUtil;
 import com.xy.xsql.orm.util.StringUtil;
@@ -664,7 +664,7 @@ public class SqlServerEntitySql
     }
 
     @Override
-    public ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateDataArgTree entityDataTreeArg) {
+    public ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateTreeArg entityDataTreeArg) {
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")

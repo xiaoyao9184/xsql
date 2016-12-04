@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.build.entity.arg;
+package com.xy.xsql.orm.build.entity.data;
 
 import com.xy.xsql.orm.build.BaseBuilder;
 import com.xy.xsql.orm.data.entity.EntityLink;

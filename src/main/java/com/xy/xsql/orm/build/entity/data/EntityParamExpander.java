@@ -4,8 +4,7 @@ import com.xy.xsql.orm.build.BaseBuilder;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityParam;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
-import com.xy.xsql.orm.data.param.EntityTemplateDataArgTree;
-import com.xy.xsql.orm.util.CheckUtil;
+import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -19,51 +18,83 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
 
     protected static final Log log = LogFactory.getLog(EntityParamExpander.class);
 
-    private EntityTemplateDataArgTree entityDataTreeArg;
+    protected EntityTemplateTreeArg entityDataTreeArg;
+    protected EntityParamFilter filter;
+    protected Integer deepMax;
 
-    public EntityParamExpander withTreeArg(EntityTemplateDataArgTree entityDataTreeArg) {
-        this.entityDataTreeArg = entityDataTreeArg;
+    /**
+     * Set Tree Args
+     * @param entityTemplateTreeArg Tree Args
+     * @return This
+     */
+    public EntityParamExpander withTreeArg(EntityTemplateTreeArg entityTemplateTreeArg) {
+        this.entityDataTreeArg = entityTemplateTreeArg;
         return this;
     }
 
+    /**
+     * Set EntityParamFilter
+     * @param filter EntityParamFilter
+     * @return This
+     */
+    public EntityParamExpander withFilter(EntityParamFilter filter) {
+        this.filter = filter;
+        return this;
+    }
+
+    /**
+     * Set Max Deep
+     * @param deepMax Max Deep
+     * @return This
+     */
+    public EntityParamExpander withDeepMax(Integer deepMax) {
+        this.deepMax = deepMax;
+        return this;
+    }
+
+
     @Override
-    public List<EntityParam> build(EntityTemplate entityData) {
+    public List<EntityParam> build(EntityTemplate entityTemplate) {
+        if(this.filter == null){
+            this.filter = new EntityParamFilter();
+        }
+        if(this.deepMax == null || this.deepMax < 0){
+            this.deepMax = -1;
+        }
         List<EntityParam> result = new ArrayList<>();
         Integer deep = 0;
-        result.addAll(this.buildSub(entityData,deep,this.entityDataTreeArg));
+        result.addAll(this.buildSub(entityTemplate,deep,this.entityDataTreeArg));
 
         return result;
     }
 
-    public List<EntityParam> buildSub(EntityTemplate entityData, Integer deep, EntityTemplateDataArgTree entityDataTreeArg){
+    private List<EntityParam> buildSub(EntityTemplate entityTemplate, Integer deep, EntityTemplateTreeArg entityDataTreeArg){
         List<EntityParam> result = new ArrayList<>();
-        int index = 0;
-        for (EntityParam param: entityData.getParams()) {
-            if (!param.isNeedValue()) {
-                index++;
-                result.add(param.clone());
-            }else if(CheckUtil.isNull(entityDataTreeArg.getArgs(),index)){
-                //实际参数 未设置 忽略
-                log.debug("索引超出参数大小，表：" + param.getColumn().getTable().getName() + "-字段" + param.getColumn().getName() + " 的参数被忽略！");
-                index++;
-            }else{
-                result.add(param.clone()
-                        .withArgs(entityDataTreeArg.getArgs()[index]));
-                index++;
-            }
+
+        if(entityTemplate.getParams() != null){
+            List<EntityParam> params = this.filter
+                    .withArgs(entityDataTreeArg.getArgs())
+                    .build(entityTemplate.getParams());
+            result.addAll(params);
         }
 
-        if(entityData.getLinks() != null){
+        if(this.deepMax != -1 &&
+                this.deepMax <= deep){
+            return result;
+        }
+
+        int index;
+        if(entityTemplate.getLinks() != null){
             index = 0;
-            for (EntityLink entityLinkEntity: entityData.getLinks()) {
-                if(entityLinkEntity.getTemplate() == null){
+            for (EntityLink entityLink : entityTemplate.getLinks()) {
+                if(entityLink.getTemplate() == null){
                     continue;
                 }
-                EntityTemplate entityDataSub = entityLinkEntity.getTemplate();
-                EntityTemplateDataArgTree entityDataTreeArgSub = entityDataTreeArg.getSubTree(index,entityDataSub.getClazz());
+                EntityTemplate entityTemplateSub = entityLink.getTemplate();
+                EntityTemplateTreeArg entityDataTreeArgSub = entityDataTreeArg.getSubTree(index, entityTemplateSub.getClazz());
                 deep++;
                 List<EntityParam> resultSub = this.buildSub(
-                        entityDataSub,
+                        entityTemplateSub,
                         deep,
                         entityDataTreeArgSub);
                 result.addAll(resultSub);
@@ -72,6 +103,5 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
         }
         return result;
     }
-
 
 }

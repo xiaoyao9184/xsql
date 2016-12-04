@@ -1,5 +1,4 @@
-package com.xy.xsql.orm.build.entity.arg;
-
+package com.xy.xsql.orm.build.entity.data;
 
 import com.xy.xsql.orm.build.BaseBuilder;
 import com.xy.xsql.orm.data.entity.EntityParam;
@@ -45,9 +44,7 @@ public class EntityParamFilter implements BaseBuilder<List<EntityParam>,List<Ent
                 index++;
             }
         }
-
         return result;
     }
-
 
 }

@@ -2,7 +2,7 @@ package com.xy.xsql.orm.build.entity.sql.agreement;
 
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.ArgSql;
-import com.xy.xsql.orm.data.param.EntityTemplateDataArgTree;
+import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 
 /**
  * 多数据 多表 查询
@@ -24,5 +24,5 @@ public interface SqlEntityLinkSearch {
      * @param entityDataTreeArg 参数（树状）
      * @return SQL + 参数
      */
-    ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateDataArgTree entityDataTreeArg);
+    ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateTreeArg entityDataTreeArg);
 }

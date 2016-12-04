@@ -1,8 +1,9 @@
 package com.xy.xsql.orm.build.entity.data;
 
 import com.xy.xsql.orm.data.entity.*;
-import com.xy.xsql.orm.data.param.EntityTemplateDataArgTree;
+import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -13,9 +14,12 @@ import java.util.List;
  */
 public class EntityParamExpanderTest {
 
-    @Test
-    public void TestExpanderAll(){
+    private EntityTemplate entityTemplate;
+    private List<EntityParam> params;
+    private EntityTemplateTreeArg treeArg;
 
+    @Before
+    public void init(){
         EntityTable table = new EntityTable().withName("Short");
 
         List<EntityColumn> columns = new ArrayList<>();
@@ -40,7 +44,7 @@ public class EntityParamExpanderTest {
                 .withName("5")
                 .withAliasName("55"));
 
-        List<EntityParam> params = new ArrayList<>();
+        params = new ArrayList<>();
         params.add(new EntityParam()
                 .withColumn(columns.get(0)));
         params.add(new EntityParam()
@@ -65,7 +69,7 @@ public class EntityParamExpanderTest {
         List<EntityLink> links = new ArrayList<>();
         links.add(new EntityLink().withColumn(columns.get(2)).withTemplate(entityTemplate2));
 
-        EntityTemplate entityTemplate = new EntityTemplate()
+        entityTemplate = new EntityTemplate()
                 .withClass(Short.class)
                 .withTable(table)
                 .withColumns(columns)
@@ -75,15 +79,16 @@ public class EntityParamExpanderTest {
 
 
 
-
-
-        EntityTemplateDataArgTree treeArg = new EntityTemplateDataArgTree()
+        treeArg = new EntityTemplateTreeArg()
                 .withClass(Short.class)
                 .withArgs(1,2,3,4,5)
-                .withSub(new EntityTemplateDataArgTree()
+                .withSub(new EntityTemplateTreeArg()
                         .withClass(Integer.class)
                         .withArgs(11,12,13,14,15));
+    }
 
+    @Test
+    public void TestExpandAll(){
         List<EntityParam> listAssert = new EntityParamExpander()
                 .withTreeArg(treeArg)
                 .build(entityTemplate);
@@ -133,4 +138,33 @@ public class EntityParamExpanderTest {
                 params.get(4).getColumn().getName());
     }
 
+    @Test
+    public void TestExpandDeep0(){
+        List<EntityParam> listAssert = new EntityParamExpander()
+                .withDeepMax(0)
+                .withTreeArg(treeArg)
+                .build(entityTemplate);
+
+        Assert.assertEquals(listAssert.size(),5);
+        Assert.assertEquals(listAssert.get(0).getArg(),1);
+        Assert.assertEquals(
+                listAssert.get(0).getColumn().getName(),
+                params.get(0).getColumn().getName());
+        Assert.assertEquals(listAssert.get(1).getArg(),2);
+        Assert.assertEquals(
+                listAssert.get(1).getColumn().getName(),
+                params.get(1).getColumn().getName());
+        Assert.assertEquals(listAssert.get(2).getArg(),3);
+        Assert.assertEquals(
+                listAssert.get(2).getColumn().getName(),
+                params.get(2).getColumn().getName());
+        Assert.assertEquals(listAssert.get(3).getArg(),4);
+        Assert.assertEquals(
+                listAssert.get(3).getColumn().getName(),
+                params.get(3).getColumn().getName());
+        Assert.assertEquals(listAssert.get(4).getArg(),5);
+        Assert.assertEquals(
+                listAssert.get(4).getColumn().getName(),
+                params.get(4).getColumn().getName());
+    }
 }

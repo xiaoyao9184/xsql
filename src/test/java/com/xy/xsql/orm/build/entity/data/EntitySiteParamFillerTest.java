@@ -1,6 +1,7 @@
-package com.xy.xsql.orm.build.entity.arg;
+package com.xy.xsql.orm.build.entity.data;
 
 import com.xy.xsql.orm.build.entity.data.AnnotationEntityTemplateBuilder;
+import com.xy.xsql.orm.build.entity.data.EntitySiteParamFiller;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.EntitySiteParam;
 import com.xy.xsql.orm.test.bean.User;
