@@ -106,7 +106,7 @@ public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<En
 
         //子集
         for (EntityLink link: dataNow.getLinks()) {
-            EntityTemplate dataSub = link.getEntityTemplate();
+            EntityTemplate dataSub = link.getTemplate();
             EntitySiteParam paramSub;
 
             if(indexNow > srcList.size()-1){
@@ -114,7 +114,7 @@ public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<En
             }
             EntitySiteParam siteParam = srcList.get(indexNow);
             //TODO 根据尸体类获取获取？
-            if(link.getEntityColumn().getName().equals(siteParam.getLinkColumnName())){
+            if(link.getColumn().getName().equals(siteParam.getLinkColumnName())){
                 indexNow++;
                 paramSub = new EntitySiteParam()
                         .withUseLink(true)

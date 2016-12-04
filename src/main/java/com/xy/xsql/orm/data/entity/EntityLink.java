@@ -5,16 +5,16 @@ package com.xy.xsql.orm.data.entity;
  * Created by xiaoyao9184 on 2016/1/16.
  */
 public class EntityLink {
-    private EntityColumn entityColumn;
-    private EntityTemplate entityTemplate;
+    private EntityColumn column;
+    private EntityTemplate template;
 
 
-    public EntityColumn getEntityColumn() {
-        return entityColumn;
+    public EntityColumn getColumn() {
+        return column;
     }
 
-    public EntityTemplate getEntityTemplate() {
-        return entityTemplate;
+    public EntityTemplate getTemplate() {
+        return template;
     }
 
     /**
@@ -23,7 +23,7 @@ public class EntityLink {
      * @return This
      */
     public EntityLink withColumn(EntityColumn entityColumn) {
-        this.entityColumn = entityColumn;
+        this.column = entityColumn;
         return this;
     }
 
@@ -33,12 +33,12 @@ public class EntityLink {
      * @return This
      */
     public EntityLink withTemplate(EntityTemplate entityTemplate) {
-        this.entityTemplate = entityTemplate;
+        this.template = entityTemplate;
         return this;
     }
 
     @Deprecated
     public boolean isCoreBean(){
-        return entityColumn == null;
+        return column == null;
     }
 }

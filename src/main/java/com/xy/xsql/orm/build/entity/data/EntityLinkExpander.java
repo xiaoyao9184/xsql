@@ -25,10 +25,10 @@ public class EntityLinkExpander implements BaseBuilder<EntityTemplate,List<Entit
             result.addAll(entityData.getLinks());
 
             for (EntityLink entityLinkEntity: entityData.getLinks()) {
-                if(entityLinkEntity.getEntityTemplate() == null){
+                if(entityLinkEntity.getTemplate() == null){
                     continue;
                 }
-                List<EntityLink> resultSub = this.build(entityLinkEntity.getEntityTemplate());
+                List<EntityLink> resultSub = this.build(entityLinkEntity.getTemplate());
                 result.addAll(resultSub);
             }
         }

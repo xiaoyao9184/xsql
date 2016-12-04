@@ -26,10 +26,10 @@ public class EntityColumnExpander implements BaseBuilder<EntityTemplate,List<Ent
 
         if(entityData.getLinks() != null){
             for (EntityLink entityLinkEntity: entityData.getLinks()) {
-                if(entityLinkEntity.getEntityTemplate() == null){
+                if(entityLinkEntity.getTemplate() == null){
                     continue;
                 }
-                List<EntityColumn> resultSub = this.build(entityLinkEntity.getEntityTemplate());
+                List<EntityColumn> resultSub = this.build(entityLinkEntity.getTemplate());
                 result.addAll(resultSub);
             }
         }

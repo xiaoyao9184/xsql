@@ -44,9 +44,9 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 //切断实体关系
                 //实体没有参数、实体参数为NULL、实体设置为隐藏
                 //仅仅在手动设置时才会出现这种情况
-                log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's columns");
+                log.info("cut column[" + entityLink.getColumn().getName() + "] entity's columns");
             }else{
-                EntityTemplate dataLink = entityLink.getEntityTemplate();
+                EntityTemplate dataLink = entityLink.getTemplate();
                 customColumnList.addAll(dataLink.getColumns());
             }
             count++;
@@ -72,14 +72,14 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 //切断实体关系
                 //实体没有参数、实体参数为NULL、实体设置为隐藏
                 //仅仅在手动设置时才会出现这种情况
-                log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's table");
+                log.info("cut column[" + entityLink.getColumn().getName() + "] entity's table");
             }else{
-                EntityTemplate dataLink = entityLink.getEntityTemplate();
+                EntityTemplate dataLink = entityLink.getTemplate();
 
                 List<Param> onEqualParamList = new ArrayList<>();
                 Param param = new Param()
                         .withAnd(true)
-                        .withColumn(entityLink.getEntityColumn())
+                        .withColumn(entityLink.getColumn())
                         .withRelationship(OperatorEnum.EQUAL)
                         .withValue(dataLink.getKeys().get(0));
                 onEqualParamList.add(param);
@@ -110,7 +110,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 //切断实体关系
                 //实体没有参数、实体参数为NULL、实体设置为隐藏
                 //仅仅在手动设置时才会出现这种情况
-                log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's params");
+                log.info("cut column[" + entityLink.getColumn().getName() + "] entity's params");
             }else{
                 EntitySiteParam entitySiteParam = entitySiteParams.get(index);
 
@@ -138,13 +138,13 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                         }
                     }
                 }else{
-                    EntityTemplate dataLink = entityLink.getEntityTemplate();
+                    EntityTemplate dataLink = entityLink.getTemplate();
                     if(dataLink.getParams().size() < entitySiteParam.getArgs().length){
                         Object[] notUse = Arrays.copyOfRange(
                                 entitySiteParam.getArgs(),
                                 dataLink.getParams().size(),
                                 entitySiteParam.getArgs().length);
-                        log.info("column[" + entityLink.getEntityColumn().getName() + "] entity's arguments are out of bounds, ignore " + Arrays.toString(notUse));
+                        log.info("column[" + entityLink.getColumn().getName() + "] entity's arguments are out of bounds, ignore " + Arrays.toString(notUse));
                     }
                     int argsIndex = 0;
                     for (EntityParam customEntityParam : dataLink.getParams()) {
@@ -154,7 +154,7 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                                 CheckUtil.isNull(entitySiteParam.getArgs()[argsIndex])){
                             //切断参数
                             //实际参数 未设置 忽略
-                            log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's column[" + customEntityParam.getColumn().getName() + "] argument, EntitySiteParamFiller is not set");
+                            log.info("cut column[" + entityLink.getColumn().getName() + "] entity's column[" + customEntityParam.getColumn().getName() + "] argument, EntitySiteParamFiller is not set");
                             argsIndex++;
                         }else{
                             customParamList.add(customEntityParam);
@@ -186,9 +186,9 @@ public class A2Sql extends BaseDialectEntitySqlBuilder implements DialectMultiEn
                 //切断实体关系
                 //实体没有参数、实体参数为NULL、实体设置为隐藏
                 //仅仅在手动设置时才会出现这种情况
-                log.info("cut column[" + entityLink.getEntityColumn().getName() + "] entity's orders");
+                log.info("cut column[" + entityLink.getColumn().getName() + "] entity's orders");
             }else{
-                EntityTemplate dataLink = entityLink.getEntityTemplate();
+                EntityTemplate dataLink = entityLink.getTemplate();
                 customOrderList.addAll(dataLink.getOrders());
             }
             count++;

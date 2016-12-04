@@ -606,8 +606,8 @@ public class SqlServerEntitySql
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
                 .build(entityData);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityDataSub = entityLinkEntity.getEntityTemplate();
-            EntityColumn entityColumn = entityLinkEntity.getEntityColumn();
+            EntityTemplate entityDataSub = entityLinkEntity.getTemplate();
+            EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
                     .append(entityDataSub.getTable().getName())
@@ -698,8 +698,8 @@ public class SqlServerEntitySql
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
                 .build(entityData);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityDataSub = entityLinkEntity.getEntityTemplate();
-            EntityColumn entityColumn = entityLinkEntity.getEntityColumn();
+            EntityTemplate entityDataSub = entityLinkEntity.getTemplate();
+            EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
                     .append(entityDataSub.getTable().getName())

@@ -46,7 +46,7 @@ public class ASqlUtil {
                 entitySiteParam.setUseLink(true);
             }else{
                 entitySiteParam.setUseLink(defaultEnable);
-                name = entityLink.getEntityColumn().getName();
+                name = entityLink.getColumn().getName();
             }
             //in ColumnMap
             entitySiteParam.setLinkColumnName(name);

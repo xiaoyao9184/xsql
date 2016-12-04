@@ -61,8 +61,8 @@ public class AnnotationEntityTemplateBuilderTest {
         Assert.assertEquals(data.getOrders().get(0).getColumn().getName(),"prefix_time_suffix");
 
         EntityLink link = data.getLinks().get(0);
-        Assert.assertEquals(link.getEntityColumn().getName(),"prefix_type_suffix");
-        EntityTemplate dataSub = link.getEntityTemplate();
+        Assert.assertEquals(link.getColumn().getName(),"prefix_type_suffix");
+        EntityTemplate dataSub = link.getTemplate();
         Assert.assertEquals(dataSub.getTable().getName(),"prefix_b_user_type_suffix");
 //        Assert.assertEquals(dataSub.getTable().getAliasName(),"p_typeID_s_ut_s");
         Assert.assertEquals(dataSub.getTable().getAliasName(),"p_typeID_ut");

@@ -56,10 +56,10 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
         if(entityData.getLinks() != null){
             index = 0;
             for (EntityLink entityLinkEntity: entityData.getLinks()) {
-                if(entityLinkEntity.getEntityTemplate() == null){
+                if(entityLinkEntity.getTemplate() == null){
                     continue;
                 }
-                EntityTemplate entityDataSub = entityLinkEntity.getEntityTemplate();
+                EntityTemplate entityDataSub = entityLinkEntity.getTemplate();
                 EntityTemplateDataArgTree entityDataTreeArgSub = entityDataTreeArg.getSubTree(index,entityDataSub.getClazz());
                 deep++;
                 List<EntityParam> resultSub = this.buildSub(
