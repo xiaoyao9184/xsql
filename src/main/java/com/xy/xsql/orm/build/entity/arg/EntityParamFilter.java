@@ -18,11 +18,10 @@ public class EntityParamFilter implements BaseBuilder<List<EntityParam>,List<Ent
     protected static final Log log = LogFactory.getLog(EntityParamFilter.class);
     private Object[] args;
 
-
     /**
-     *
-     * @param args
-     * @return
+     * Set Args
+     * @param args Args
+     * @return This
      */
     public EntityParamFilter withArgs(Object... args) {
         this.args = args;
@@ -35,12 +34,10 @@ public class EntityParamFilter implements BaseBuilder<List<EntityParam>,List<Ent
         int index = 0;
         for (EntityParam param: paramList) {
             if (!param.isNeedValue()) {
-                index++;
                 result.add(param.clone());
-            }else if((index+1) > args.length ||
-                    CheckUtil.isNull(args[index])){
-                //实际参数 未设置 忽略
-                log.debug("索引超出参数大小，" + param.getColumn().getName() + " 字段的参数被忽略！");
+            }else if(CheckUtil.isNull(args, index)){
+                //arg not set, ignore param
+                log.debug("index of args is null，column " + param.getColumn().getFullName() + " 's param will ignore!");
                 index++;
             }else{
                 result.add(param.clone()

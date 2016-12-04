@@ -89,8 +89,7 @@ public class EntityParam extends Param implements Cloneable {
      * @return True/False
      */
     public boolean isNeedValue(){
-        return this.valueExpression == null ||
-                this.valueExpression.toString().contains("?");
+        return this.args == null || this.args.length < 1;
     }
 
     @Override
