@@ -7,10 +7,10 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/12/1.
  */
 public class EntityTemplateTreeArg {
+    protected Class clazz;
+    protected List<EntityTemplateTreeArg> subs;
+    protected Object[] args;
 
-    private Class clazz;
-    private Object[] args;
-    private List<EntityTemplateTreeArg> sub;
 
     public Class getClazz() {
         return clazz;
@@ -18,6 +18,14 @@ public class EntityTemplateTreeArg {
 
     public void setClazz(Class clazz) {
         this.clazz = clazz;
+    }
+
+    public List<EntityTemplateTreeArg> getSubs() {
+        return subs;
+    }
+
+    public void setSubs(List<EntityTemplateTreeArg> subs) {
+        this.subs = subs;
     }
 
     public Object[] getArgs() {
@@ -28,24 +36,47 @@ public class EntityTemplateTreeArg {
         this.args = args;
     }
 
-    public List<EntityTemplateTreeArg> getSub() {
-        return sub;
+
+    /**
+     * Set Entity Class
+     * @param clazz Entity Class
+     * @return This
+     */
+    public EntityTemplateTreeArg withClass(Class clazz) {
+        this.clazz = clazz;
+        return this;
     }
 
-    public void setSub(List<EntityTemplateTreeArg> sub) {
-        this.sub = sub;
+    /**
+     * Set Sub EntityTemplateTreeArg
+     * @param sub Sub EntityTemplateTreeArg
+     * @return This
+     */
+    public EntityTemplateTreeArg withSub(EntityTemplateTreeArg... sub) {
+        this.subs = Arrays.asList(sub);
+        return this;
+    }
+
+    /**
+     * Set Args
+     * @param args Args
+     * @return This
+     */
+    public EntityTemplateTreeArg withArgs(Object... args) {
+        this.args = args;
+        return this;
     }
 
 
     /**
-     *
-     * @param index
-     * @param clazz
-     * @return
+     * Get Sub Tree
+     * @param index Index
+     * @param clazz Target Entity Class
+     * @return EntityTemplateTreeArg
      */
     public EntityTemplateTreeArg getSubTree(int index, Class clazz) {
-        if(this.sub != null){
-            EntityTemplateTreeArg entityTemplateTreeArg = this.sub.get(index);
+        if(this.subs != null){
+            EntityTemplateTreeArg entityTemplateTreeArg = this.subs.get(index);
             if(entityTemplateTreeArg.getClazz().equals(clazz) ||
                     entityTemplateTreeArg.getClazz() == null){
                 return entityTemplateTreeArg;
@@ -53,21 +84,6 @@ public class EntityTemplateTreeArg {
         }
         return new EntityTemplateTreeArg()
                 .withClass(clazz);
-    }
-
-    public EntityTemplateTreeArg withClass(Class clazz) {
-        this.clazz = clazz;
-        return this;
-    }
-
-    public EntityTemplateTreeArg withArgs(Object... args) {
-        this.args = args;
-        return this;
-    }
-
-    public EntityTemplateTreeArg withSub(EntityTemplateTreeArg... sub) {
-        this.sub = Arrays.asList(sub);
-        return this;
     }
 
 }

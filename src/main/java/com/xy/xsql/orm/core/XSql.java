@@ -445,7 +445,7 @@ public class XSql {
 
     /**
      * FORM with XSQL
-     * default format to as sql, useLink sub sql
+     * default format to as sql, useLink subs sql
      * @param xSql XSql
      * @return This
      */

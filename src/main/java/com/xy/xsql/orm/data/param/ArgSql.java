@@ -9,6 +9,7 @@ public class ArgSql {
     private String sql;
     private Object[] args;
 
+
     public String getSql() {
         return sql;
     }
@@ -25,8 +26,9 @@ public class ArgSql {
         this.args = args;
     }
 
+
     /**
-     * 设置SQL
+     * Set SQL
      * @param sql SQL
      * @return This
      */
@@ -36,8 +38,8 @@ public class ArgSql {
     }
 
     /**
-     * 设置参数
-     * @param argList 参数
+     * Set c args
+     * @param argList args args
      * @return This
      */
     public ArgSql withArgs(List<Object> argList) {

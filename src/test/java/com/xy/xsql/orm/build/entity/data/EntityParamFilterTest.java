@@ -1,7 +1,6 @@
 package com.xy.xsql.orm.build.entity.data;
 
 
-import com.xy.xsql.orm.build.entity.data.EntityParamFilter;
 import com.xy.xsql.orm.data.entity.EntityColumn;
 import com.xy.xsql.orm.data.entity.EntityParam;
 import com.xy.xsql.orm.data.entity.EntityTable;

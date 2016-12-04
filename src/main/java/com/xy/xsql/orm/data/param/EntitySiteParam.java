@@ -11,6 +11,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/4/11.
  */
 @SuppressWarnings("WeakerAccess")
+@Deprecated
 public class EntitySiteParam {
 
     protected String linkColumnName;
