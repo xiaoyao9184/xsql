@@ -27,7 +27,7 @@ import java.util.Map;
  * Created by xiaoyao9184 on 2016/11/24.
  */
 @SuppressWarnings({"StringBufferReplaceableByString", "Duplicates"})
-public class SqlServerEntitySql
+public class SQLServerEntitySql
         implements
         SqlEntityTableManage,
         SqlEntityCRUD,
