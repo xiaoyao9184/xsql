@@ -1,5 +1,7 @@
 package com.xy.xsql.orm.data.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -195,4 +197,11 @@ public class EntityTemplate {
         return this;
     }
 
+    public EntityTemplate withKey(EntityColumn... keys) {
+        if(this.keys == null){
+            this.keys = new ArrayList<>();
+        }
+        this.keys.addAll(Arrays.asList(keys));
+        return this;
+    }
 }
