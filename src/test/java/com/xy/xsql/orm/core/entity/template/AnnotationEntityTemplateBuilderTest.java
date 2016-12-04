@@ -36,16 +36,18 @@ public class AnnotationEntityTemplateBuilderTest {
     @Test
     public void testConfig(){
         AnnotationEntityTemplateBuilder builder = new AnnotationEntityTemplateBuilder()
-                .withSeparator("_")
-                .withNamePrefix("prefix")
-                .withNameSuffix("suffix")
-                .withAliasNamePrefix("p")
-//                .withAliasNameSuffix("s")
-                .withSupportMultipleKey(true)
-                .withScanStatus(true)
-                .withScanParam(true)
-                .withScanOrder(true)
-                .withScanEntity(true);
+                .configStart()
+                    .withSeparator("_")
+                    .withNamePrefix("prefix")
+                    .withNameSuffix("suffix")
+                    .withAliasNamePrefix("p")
+    //                .withAliasNameSuffix("s")
+                    .withSupportMultipleKey(true)
+                    .withScanStatus(true)
+                    .withScanParam(true)
+                    .withScanOrder(true)
+                    .withScanLink(true)
+                    .done();
 
         EntityTemplate data = builder.build(User.class);
         Assert.assertNotNull(data);
