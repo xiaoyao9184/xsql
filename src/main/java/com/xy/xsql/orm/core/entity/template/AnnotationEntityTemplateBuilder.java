@@ -118,12 +118,14 @@ public class AnnotationEntityTemplateBuilder implements
 
         Field[] fields = annotationClass.getDeclaredFields();
         for (Field field : fields) {
-            Annotation[] annotations = field.getAnnotations();
-            for (Annotation annotation : annotations) {
-                if (annotation instanceof EColumn) {
-                    list.add(field);
-                }
+            if(!this.config.getTypeMapper().isSupport(field.getType())){
+                continue;
             }
+            EColumn eColumn = field.getAnnotation(EColumn.class);
+            if(eColumn == null){
+                continue;
+            }
+            list.add(field);
         }
         if(CheckUtil.isNullOrEmpty(list)){
             throw new UnsupportedOperationException(annotationClass.getName() + " 未有任何字段使用@" + EColumn.class.getSimpleName() + "标注！");
@@ -158,32 +160,36 @@ public class AnnotationEntityTemplateBuilder implements
         List<EntityColumn> list = new ArrayList<>();
 
         for (Field field : this.annotationClassFields) {
-            EColumn eColumn = field.getAnnotation(EColumn.class);
-            if(eColumn != null){
-                String aliasName = eColumn.aliasName();
-                if(aliasName.isEmpty()){
-                    aliasName = field.getName();
-                }
-
-                String name = StringUtil.join(this.config.getSeparator(),this.config.getNamePrefix(),eColumn.name(),this.config.getNameSuffix());
-                aliasName = StringUtil.join(this.config.getSeparator(),this.config.getAliasNamePrefix(),aliasName);
-                TypeMapper<Class<?>, String> mapper = this.config.getTypeMapper();
-                String type = mapper.mapType(field.getType());
-                Integer len = -1;
-                if(this.config.getTypeMapper().isSupportLength(field.getType())){
-                    len = eColumn.length();
-                    if (len <= 0) {
-                        len = this.config.getTypeMapper().defaultLength(field.getType());
-                    }
-                }
-                EntityColumn column = new EntityColumn()
-                        .withName(name)
-                        .withAliasName(aliasName)
-                        .withType(type)
-                        .withLength(len)
-                        .withTable(this.table);
-                list.add(column);
+            if(!this.config.getTypeMapper().isSupport(field.getType())){
+                continue;
             }
+            EColumn eColumn = field.getAnnotation(EColumn.class);
+            if(eColumn == null){
+                continue;
+            }
+            String aliasName = eColumn.aliasName();
+            if(aliasName.isEmpty()){
+                aliasName = field.getName();
+            }
+
+            String name = StringUtil.join(this.config.getSeparator(),this.config.getNamePrefix(),eColumn.name(),this.config.getNameSuffix());
+            aliasName = StringUtil.join(this.config.getSeparator(),this.config.getAliasNamePrefix(),aliasName);
+            TypeMapper<Class<?>, String> mapper = this.config.getTypeMapper();
+            String type = mapper.mapType(field.getType());
+            Integer len = -1;
+            if(this.config.getTypeMapper().isSupportLength(field.getType())){
+                len = eColumn.length();
+                if (len <= 0) {
+                    len = this.config.getTypeMapper().defaultLength(field.getType());
+                }
+            }
+            EntityColumn column = new EntityColumn()
+                    .withName(name)
+                    .withAliasName(aliasName)
+                    .withType(type)
+                    .withLength(len)
+                    .withTable(this.table);
+            list.add(column);
         }
 
         if(CheckUtil.isNullOrEmpty(list)){
@@ -284,6 +290,7 @@ public class AnnotationEntityTemplateBuilder implements
                                 .withRelationship(eParam.relationship())
                                 .withArgs((Object[])eParam.value()));
             }
+            index++;
         }
 
         if(CheckUtil.isNullOrEmpty(list)){
