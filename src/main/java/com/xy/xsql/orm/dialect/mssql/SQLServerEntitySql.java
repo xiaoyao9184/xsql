@@ -2,15 +2,9 @@ package com.xy.xsql.orm.dialect.mssql;
 
 
 import com.xy.xsql.orm.annotation.Relationships;
-import com.xy.xsql.orm.core.entity.template.EntityParamFilter;
-import com.xy.xsql.orm.core.entity.template.EntityColumnExpander;
-import com.xy.xsql.orm.core.entity.template.EntityLinkExpander;
-import com.xy.xsql.orm.core.entity.template.EntityParamExpander;
+import com.xy.xsql.orm.core.entity.template.*;
 import com.xy.xsql.orm.core.entity.sql.agreement.*;
-import com.xy.xsql.orm.data.entity.EntityColumn;
-import com.xy.xsql.orm.data.entity.EntityLink;
-import com.xy.xsql.orm.data.entity.EntityParam;
-import com.xy.xsql.orm.data.entity.EntityTemplate;
+import com.xy.xsql.orm.data.entity.*;
 import com.xy.xsql.orm.data.param.ArgSql;
 import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import com.xy.xsql.orm.util.CheckUtil;
@@ -37,17 +31,17 @@ public class SQLServerEntitySql
         SqlPage {
 
     @Override
-    public String getCreateTableSql(EntityTemplate entityData) {
+    public String getCreateTableSql(EntityTemplate entityTemplate) {
         StringBuilder sb = new StringBuilder()
                 .append("CREATE TABLE")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("(")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn entityColumn: entityData.getColumns()) {
+        for (EntityColumn entityColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -71,21 +65,21 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getDropTableSql(EntityTemplate entityData) {
+    public String getDropTableSql(EntityTemplate entityTemplate) {
         return new StringBuilder()
                 .append("DROP TABLE")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .toString();
     }
 
     @Override
-    public String getAlterTableSql(EntityTemplate entityDataOld, EntityTemplate entityDataNew) {
+    public String getAlterTableSql(EntityTemplate entityTemplateOld, EntityTemplate entityTemplateNew) {
         //比较字段
-        List<EntityColumn> DropList = EntityUtil.lostList(entityDataOld.getColumns(),entityDataNew.getColumns());
-        List<EntityColumn> AddList = EntityUtil.lostList(entityDataNew.getColumns(),entityDataOld.getColumns());
-        Map<EntityColumn,EntityColumn> AlterMap = EntityUtil.allHaveMap(entityDataOld.getColumns(),entityDataNew.getColumns());
+        List<EntityColumn> DropList = EntityUtil.lostList(entityTemplateOld.getColumns(),entityTemplateNew.getColumns());
+        List<EntityColumn> AddList = EntityUtil.lostList(entityTemplateNew.getColumns(),entityTemplateOld.getColumns());
+        Map<EntityColumn,EntityColumn> AlterMap = EntityUtil.allHaveMap(entityTemplateOld.getColumns(),entityTemplateNew.getColumns());
 
 
 //        ALTER TABLE test_sql
@@ -102,7 +96,7 @@ public class SQLServerEntitySql
         if(!CheckUtil.isNullOrEmpty(AddList)){
             sb.append("ALTER TABLE")
                     .append("\n")
-                    .append(entityDataOld.getTable().getName())
+                    .append(entityTemplateOld.getTable().getName())
                     .append("\n")
                     .append("ADD");
             for (EntityColumn column: AddList) {
@@ -126,7 +120,7 @@ public class SQLServerEntitySql
         if(!CheckUtil.isNullOrEmpty(DropList)){
             sb.append("ALTER TABLE")
                     .append("\n")
-                    .append(entityDataOld.getTable().getName())
+                    .append(entityTemplateOld.getTable().getName())
                     .append("\n")
                     .append("DROP COLUMN");
             for (EntityColumn column: DropList) {
@@ -150,7 +144,7 @@ public class SQLServerEntitySql
             for (EntityColumn column: AlterMap.keySet()) {
                 sb.append("ALTER TABLE")
                         .append("\n")
-                        .append(entityDataOld.getTable().getName())
+                        .append(entityTemplateOld.getTable().getName())
                         .append("\n")
                         .append("ALTER COLUMN")
                         .append(" ")
@@ -171,14 +165,14 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getTableCountSql(EntityTemplate entityData) {
+    public String getTableCountSql(EntityTemplate entityTemplate) {
         return new StringBuilder()
                 .append("SELECT\n")
                 .append("COUNT(name)\n")
                 .append("FROM sysobjects\n")
                 .append("WHERE name=\n")
                 .append("'")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("'")
                 .append("\n")
                 .append("AND type='u'")
@@ -188,17 +182,17 @@ public class SQLServerEntitySql
 
 
     @Override
-    public String getInsertSql(EntityTemplate entityData) {
+    public String getInsertSql(EntityTemplate entityTemplate) {
         StringBuilder sb = new StringBuilder()
                 .append("INSERT INTO")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("(")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityData.getColumns()) {
+        for (EntityColumn eColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -214,7 +208,7 @@ public class SQLServerEntitySql
                 .append("\n")
                 .append("(")
                 .append("\n")
-                .append(StringUtil.fillJoin("?", entityData.getColumns().size(), ","))
+                .append(StringUtil.fillJoin("?", entityTemplate.getColumns().size(), ","))
                 .append("\n")
                 .append(")")
                 .append("\n");
@@ -223,21 +217,21 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getInsertByEntityCountSql(EntityTemplate entityData, int entityCount){
+    public String getInsertByEntityCountSql(EntityTemplate entityTemplate, int entityCount){
         if(entityCount == 1){
-            return getInsertSql(entityData);
+            return getInsertSql(entityTemplate);
         }
 
         StringBuilder sb = new StringBuilder()
                 .append("INSERT INTO")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("(")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityData.getColumns()) {
+        for (EntityColumn eColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -255,7 +249,7 @@ public class SQLServerEntitySql
         StringBuilder values = new StringBuilder()
                 .append("(")
                 .append("\n")
-                .append(StringUtil.fillJoin("?", entityData.getColumns().size(), ","))
+                .append(StringUtil.fillJoin("?", entityTemplate.getColumns().size(), ","))
                 .append("\n")
                 .append(")")
                 .append("\n");
@@ -266,13 +260,13 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getSelectByIdSql(EntityTemplate entityData){
+    public String getSelectByIdSql(EntityTemplate entityTemplate){
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityData.getColumns()) {
+        for (EntityColumn eColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -283,11 +277,11 @@ public class SQLServerEntitySql
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityData.getKeys().get(0).getName())
+                .append(entityTemplate.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n");
 
@@ -295,9 +289,9 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getSelectByIdsSql(EntityTemplate entityData, int idCount){
+    public String getSelectByIdsSql(EntityTemplate entityTemplate, int idCount){
         if(idCount == 1){
-            return getSelectByIdSql(entityData);
+            return getSelectByIdSql(entityTemplate);
         }
 
         StringBuilder sb = new StringBuilder()
@@ -305,7 +299,7 @@ public class SQLServerEntitySql
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityData.getColumns()) {
+        for (EntityColumn eColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -316,13 +310,13 @@ public class SQLServerEntitySql
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n");
 
         if(idCount > 0){
             sb.append("WHERE")
                     .append("\n")
-                    .append(entityData.getKeys().get(0).getName())
+                    .append(entityTemplate.getKeys().get(0).getName())
                     .append("\n")
                     .append("IN (")
                     .append(StringUtil.fillJoin("?", idCount, ","))
@@ -334,17 +328,17 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getUpdateByIdSql(EntityTemplate entityData) {
+    public String getUpdateByIdSql(EntityTemplate entityTemplate) {
         StringBuilder sb = new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityData.getColumns()) {
+        for (EntityColumn eColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -356,7 +350,7 @@ public class SQLServerEntitySql
 
         sb.append("WHERE")
                 .append("\n")
-                .append(entityData.getKeys().get(0).getName())
+                .append(entityTemplate.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n");
 
@@ -364,21 +358,21 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getUpdateByIdsSql(EntityTemplate entityData, int idCount) {
+    public String getUpdateByIdsSql(EntityTemplate entityTemplate, int idCount) {
         if(idCount == 1){
-            return getUpdateByIdSql(entityData);
+            return getUpdateByIdSql(entityTemplate);
         }
 
         StringBuilder sb = new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityData.getColumns()) {
+        for (EntityColumn eColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -386,7 +380,7 @@ public class SQLServerEntitySql
                     .append(" = ")
                     .append("CASE")
                     .append(" ")
-                    .append(entityData.getKeys().get(0).getName())
+                    .append(entityTemplate.getKeys().get(0).getName())
                     .append("\n")
                     .append(StringUtil.fillJoin("WHEN ? THEN ?",idCount,"\n"))
                     .append("\n")
@@ -397,7 +391,7 @@ public class SQLServerEntitySql
 
         sb.append("WHERE")
                 .append("\n")
-                .append(entityData.getKeys().get(0).getName())
+                .append(entityTemplate.getKeys().get(0).getName())
                 .append("\n")
                 .append("IN (")
                 .append(StringUtil.fillJoin("?", idCount, ","))
@@ -408,34 +402,34 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public String getDeleteByIdSql(EntityTemplate entityData) {
+    public String getDeleteByIdSql(EntityTemplate entityTemplate) {
         return new StringBuilder()
                 .append("DELETE FROM")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityData.getKeys().get(0).getName())
+                .append(entityTemplate.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n")
                 .toString();
     }
 
     @Override
-    public String getDeleteByIdsSql(EntityTemplate entityData, int idCount) {
+    public String getDeleteByIdsSql(EntityTemplate entityTemplate, int idCount) {
         if(idCount == 1){
-            return getDeleteByIdSql(entityData);
+            return getDeleteByIdSql(entityTemplate);
         }
 
         return new StringBuilder()
                 .append("DELETE FROM")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityData.getKeys().get(0).getName())
+                .append(entityTemplate.getKeys().get(0).getName())
                 .append("\n")
                 .append("IN (")
                 .append(StringUtil.fillJoin("?", idCount, ","))
@@ -446,53 +440,53 @@ public class SQLServerEntitySql
 
 
     @Override
-    public String getUpdateStatusByIdSql(EntityTemplate entityData){
-        if(entityData.getStatus() == null){
+    public String getUpdateStatusByIdSql(EntityTemplate entityTemplate){
+        if(entityTemplate.getStatus() == null){
             throw new UnsupportedOperationException("没有Status字段！");
         }
         return new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n")
-                .append(entityData.getStatus().getName())
+                .append(entityTemplate.getStatus().getName())
                 .append(" = ")
                 .append(" ? ")
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityData.getKeys().get(0).getName())
+                .append(entityTemplate.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n")
                 .toString();
     }
 
     @Override
-    public String getUpdateStatusByIdsSql(EntityTemplate entityData, int idCount){
+    public String getUpdateStatusByIdsSql(EntityTemplate entityTemplate, int idCount){
         if(idCount == 1){
-            return getUpdateStatusByIdSql(entityData);
+            return getUpdateStatusByIdSql(entityTemplate);
         }
-        if(entityData.getStatus() == null){
+        if(entityTemplate.getStatus() == null){
             throw new UnsupportedOperationException("没有Status字段！");
         }
 
         StringBuilder sb = new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n")
-                .append(entityData.getStatus().getName())
+                .append(entityTemplate.getStatus().getName())
                 .append(" = ?")
                 .append("\n");
 
         if(idCount > 0){
             sb.append("WHERE")
                     .append("\n")
-                    .append(entityData.getKeys().get(0).getName())
+                    .append(entityTemplate.getKeys().get(0).getName())
                     .append("\n")
                     .append("IN (")
                     .append(StringUtil.fillJoin("?", idCount, ","))
@@ -505,9 +499,9 @@ public class SQLServerEntitySql
 
 
     @Override
-    public ArgSql getSelectByArgsSql(EntityTemplate entityData, Object... args){
-        if(args.length > entityData.getParams().size()){
-            throw new UnsupportedOperationException(entityData.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+    public ArgSql getSelectByArgsSql(EntityTemplate entityTemplate, Object... args){
+        if(args.length > entityTemplate.getParams().size()){
+            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
 
         List<Object> argList = new ArrayList<>();
@@ -516,7 +510,7 @@ public class SQLServerEntitySql
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn entityColumn: entityData.getColumns()) {
+        for (EntityColumn entityColumn: entityTemplate.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -527,13 +521,13 @@ public class SQLServerEntitySql
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append("\n");
 
 
         List<EntityParam> list = new EntityParamFilter()
                 .withArgs(args)
-                .build(entityData.getParams());
+                .build(entityTemplate.getParams());
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -561,6 +555,20 @@ public class SQLServerEntitySql
             }
         }
 
+        if(entityTemplate.getOrders().size() > 0){
+            sb.append("ORDER BY\n");
+            index = 0;
+            for (EntityOrder order: entityTemplate.getOrders()) {
+                sb.append(CheckUtil.isStart(index) ? "" : ",")
+                        .append(" ")
+                        .append(order.getColumn().getName())
+                        .append(" ")
+                        .append(order.isAes() ? "AES" : "DESC")
+                        .append("\n");
+                index++;
+            }
+        }
+
         return new ArgSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
@@ -568,9 +576,9 @@ public class SQLServerEntitySql
 
 
     @Override
-    public ArgSql getSelectJoinByArgsSql(EntityTemplate entityData, Object... args) {
-        if(args.length > entityData.getParams().size()){
-            throw new UnsupportedOperationException(entityData.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+    public ArgSql getSelectJoinByArgsSql(EntityTemplate entityTemplate, Object... args) {
+        if(args.length > entityTemplate.getParams().size()){
+            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
 
         List<Object> argList = new ArrayList<>();
@@ -581,7 +589,7 @@ public class SQLServerEntitySql
         int index = 0;
 
         List<EntityColumn> allColumnList = new EntityColumnExpander()
-                .build(entityData);
+                .build(entityTemplate);
 
         for (EntityColumn entityColumn: allColumnList) {
             if(index != 0){
@@ -598,27 +606,27 @@ public class SQLServerEntitySql
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append(" AS ")
-                .append(entityData.getTable().getAliasName())
+                .append(entityTemplate.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityData);
+                .build(entityTemplate);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityDataSub = entityLinkEntity.getTemplate();
+            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityDataSub.getTable().getName())
+                    .append(entityTemplateSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityDataSub.getTable().getAliasName())
+                    .append(entityTemplateSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityDataSub.getTable().getAliasName())
+                    .append(entityTemplateSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityDataSub.getKeys().get(0).getName())
+                    .append(entityTemplateSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -628,7 +636,7 @@ public class SQLServerEntitySql
 
         List<EntityParam> list = new EntityParamFilter()
                 .withArgs(args)
-                .build(entityData.getParams());
+                .build(entityTemplate.getParams());
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -658,13 +666,32 @@ public class SQLServerEntitySql
             }
         }
 
+        List<EntityOrder> listOrder = new EntityOrderExpander()
+                .build(entityTemplate);
+
+        if(listOrder.size() > 0){
+            sb.append("ORDER BY\n");
+            index = 0;
+            for (EntityOrder order: entityTemplate.getOrders()) {
+                sb.append(CheckUtil.isStart(index) ? "" : ",")
+                        .append(" ")
+                        .append(order.getColumn().getTable().getAliasName())
+                        .append(".")
+                        .append(order.getColumn().getName())
+                        .append(" ")
+                        .append(order.isAes() ? "AES" : "DESC")
+                        .append("\n");
+                index++;
+            }
+        }
+
         return new ArgSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
 
     @Override
-    public ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateTreeArg entityDataTreeArg) {
+    public ArgSql getSelectJoinByTreeArgSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
@@ -673,7 +700,7 @@ public class SQLServerEntitySql
         int index = 0;
 
         List<EntityColumn> allColumnList = new EntityColumnExpander()
-                .build(entityData);
+                .build(entityTemplate);
 
         for (EntityColumn entityColumn: allColumnList) {
             if(index != 0){
@@ -690,27 +717,27 @@ public class SQLServerEntitySql
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityData.getTable().getName())
+                .append(entityTemplate.getTable().getName())
                 .append(" AS ")
-                .append(entityData.getTable().getAliasName())
+                .append(entityTemplate.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityData);
+                .build(entityTemplate);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityDataSub = entityLinkEntity.getTemplate();
+            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityDataSub.getTable().getName())
+                    .append(entityTemplateSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityDataSub.getTable().getAliasName())
+                    .append(entityTemplateSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityDataSub.getTable().getAliasName())
+                    .append(entityTemplateSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityDataSub.getKeys().get(0).getName())
+                    .append(entityTemplateSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -719,8 +746,8 @@ public class SQLServerEntitySql
         }
 
         List<EntityParam> list = new EntityParamExpander()
-                .withTreeArg(entityDataTreeArg)
-                .build(entityData);
+                .withTreeArg(entityTemplateTreeArg)
+                .build(entityTemplate);
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -746,6 +773,25 @@ public class SQLServerEntitySql
                             .append("\n");
                     argList.add(param.getArg());
                 }
+                index++;
+            }
+        }
+
+        List<EntityOrder> listOrder = new EntityOrderExpander()
+                .build(entityTemplate);
+
+        if(listOrder.size() > 0){
+            sb.append("ORDER BY\n");
+            index = 0;
+            for (EntityOrder order: entityTemplate.getOrders()) {
+                sb.append(CheckUtil.isStart(index) ? "" : ",")
+                        .append(" ")
+                        .append(order.getColumn().getTable().getAliasName())
+                        .append(".")
+                        .append(order.getColumn().getName())
+                        .append(" ")
+                        .append(order.isAes() ? "AES" : "DESC")
+                        .append("\n");
                 index++;
             }
         }
