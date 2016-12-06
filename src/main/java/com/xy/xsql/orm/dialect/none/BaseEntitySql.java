@@ -2,6 +2,7 @@ package com.xy.xsql.orm.dialect.none;
 
 
 import com.xy.xsql.orm.annotation.Relationships;
+import com.xy.xsql.orm.core.entity.template.EntityColumnComparator;
 import com.xy.xsql.orm.core.entity.template.EntityParamFilter;
 import com.xy.xsql.orm.core.entity.sql.agreement.*;
 import com.xy.xsql.orm.data.entity.EntityColumn;
@@ -11,13 +12,12 @@ import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.ArgSql;
 import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import com.xy.xsql.orm.util.CheckUtil;
-import com.xy.xsql.orm.util.EntityUtil;
+import com.xy.xsql.orm.util.ListUtil;
 import com.xy.xsql.orm.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Base Sql
@@ -79,23 +79,27 @@ public class BaseEntitySql
 
     @Override
     public String getAlterTableSql(EntityTemplate entityTemplateOld, EntityTemplate entityTemplateNew) {
-        //比较字段
-        List<EntityColumn> dropList = EntityUtil.lostList(entityTemplateOld.getColumns(),entityTemplateNew.getColumns());
-        List<EntityColumn> addList = EntityUtil.lostList(entityTemplateNew.getColumns(),entityTemplateOld.getColumns());
-        Map<EntityColumn,EntityColumn> alterMap = EntityUtil.allHaveMap(entityTemplateOld.getColumns(),entityTemplateNew.getColumns());
+        //Comparison Column
+        EntityColumnComparator entityColumnComparator = new EntityColumnComparator();
+        List<EntityColumn> addList = ListUtil.lostElementList(
+                entityTemplateOld.getColumns(),
+                entityTemplateNew.getColumns(),
+                entityColumnComparator);
+        List<EntityColumn> dropList = ListUtil.lostElementList(
+                entityTemplateNew.getColumns(),
+                entityTemplateOld.getColumns(),
+                entityColumnComparator);
+        List<EntityColumn> alterList = ListUtil.bothIncludedElementList(
+                entityTemplateNew.getColumns(),
+                entityTemplateOld.getColumns(),
+                entityColumnComparator);
 
+        StringBuilder sb = new StringBuilder();
 
 //        ALTER TABLE test_sql
 //        ADD column_0 int
-//        ALTER TABLE test_sql
-//        DROP COLUMN column_1
-//        ALTER TABLE test_sql
-//        ALTER COLUMN column_2 VARCHAR(100)
 
-
-        StringBuilder sb = new StringBuilder();
         int index = 0;
-
         if(!CheckUtil.isNullOrEmpty(addList)){
             sb.append("ALTER TABLE")
                     .append("\n")
@@ -115,11 +119,12 @@ public class BaseEntitySql
             }
             if(index != 0){
                 sb.append("\n");
-                index = 0;
             }
         }
 
-
+//        ALTER TABLE test_sql
+//        DROP COLUMN column_1
+        index = 0;
         if(!CheckUtil.isNullOrEmpty(dropList)){
             sb.append("ALTER TABLE")
                     .append("\n")
@@ -142,9 +147,10 @@ public class BaseEntitySql
             }
         }
 
-
-        if(!CheckUtil.isNullOrEmpty(alterMap.keySet())){
-            for (EntityColumn column: alterMap.keySet()) {
+//        ALTER TABLE test_sql
+//        ALTER COLUMN column_2 VARCHAR(100)
+        if(!CheckUtil.isNullOrEmpty(alterList)){
+            for (EntityColumn column: alterList) {
                 sb.append("ALTER TABLE")
                         .append("\n")
                         .append(entityTemplateOld.getTable().getName())
