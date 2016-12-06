@@ -38,6 +38,28 @@ public class ListUtil {
         return addedList;
     }
 
+    /**
+     * Comparison and find both included elements in Target List and Refer List
+     * @param targetList Target List
+     * @param referList Refer List
+     * @param comparator Comparator with T
+     * @param <T> T
+     * @return both included element List
+     */
+    public static <T> List<T> bothIncludedElementList(List<T> targetList, List<T> referList, Comparator<? super T> comparator){
+        List<T> addedList = new ArrayList<>();
+        for (T refer: referList) {
+            //find in targetList
+            for (T target: targetList) {
+                if(comparator.compare(refer,target) == 0){
+                    addedList.add(target);
+                    break;
+                }
+            }
+        }
+        return addedList;
+    }
+
     public static <T> List<T> fill(List<T> list, int size, Class<T> fillClass) throws IllegalAccessException, InstantiationException {
         int sizeMax = list.size();
         if(size > sizeMax){
