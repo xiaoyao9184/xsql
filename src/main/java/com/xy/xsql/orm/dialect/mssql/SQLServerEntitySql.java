@@ -49,9 +49,9 @@ public class SQLServerEntitySql
                     .append(entityColumn.getType());
             if(entityColumn.getLength() != null &&
                     entityColumn.getLength() > 0){
-                sb.append("(");
-                sb.append(entityColumn.getLength().toString());
-                sb.append(")");
+                sb.append("(")
+                        .append(entityColumn.getLength().toString())
+                        .append(")");
             }
             sb.append("\n");
             index++;
@@ -109,8 +109,14 @@ public class SQLServerEntitySql
                 sb.append(" ")
                         .append(column.getName())
                         .append(" ")
-                        .append(column.getType())
-                        .append("\n");
+                        .append(column.getType());
+                if(column.getLength() != null &&
+                        column.getLength() > 0){
+                    sb.append("(")
+                            .append(column.getLength().toString())
+                            .append(")");
+                }
+                sb.append("\n");
                 index++;
             }
             if(index != 0){
@@ -156,7 +162,8 @@ public class SQLServerEntitySql
                         .append(column.getName())
                         .append(" ")
                         .append(column.getType());
-                if(column.getLength() != null){
+                if(column.getLength() != null &&
+                        column.getLength() > 0){
                     sb.append("(")
                             .append(column.getLength().toString())
                             .append(")");
