@@ -12,7 +12,7 @@ public class PageQueryTest {
         //来源：从0开始，第0页
         PageQuery page = new PageQuery()
                 .withStartWithZero(true)
-                .withPageNo(0)
+                .withPageStart(0)
                 .withPageSize(10);
 
         assert page.getPageStart() == 0;
@@ -25,7 +25,7 @@ public class PageQueryTest {
         //来源：从0开始，第1页
         page = new PageQuery()
                 .withStartWithZero(true)
-                .withPageNo(1)
+                .withPageStart(1)
                 .withPageSize(10);
 
         assert page.getPageStart() == 1;
@@ -40,7 +40,7 @@ public class PageQueryTest {
         //来源：从1开始，第1页
         PageQuery page = new PageQuery()
                 .withStartWithZero(false)
-                .withPageNo(1)
+                .withPageStart(1)
                 .withPageSize(10);
 
         assert page.getPageStart() == 1;
@@ -53,7 +53,7 @@ public class PageQueryTest {
         //来源：从1开始，第2页
         page = new PageQuery()
                 .withStartWithZero(false)
-                .withPageNo(2)
+                .withPageStart(2)
                 .withPageSize(10);
 
         assert page.getPageStart() == 2;

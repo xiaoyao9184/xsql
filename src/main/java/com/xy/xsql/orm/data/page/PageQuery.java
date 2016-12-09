@@ -74,7 +74,7 @@ public class PageQuery<ROWTYPE> {
      * @param pageStart Page Start
      * @return This
      */
-    public PageQuery<ROWTYPE> withPageNo(Integer pageStart) {
+    public PageQuery<ROWTYPE> withPageStart(Integer pageStart) {
         this.pageStart = pageStart;
         return this;
     }
