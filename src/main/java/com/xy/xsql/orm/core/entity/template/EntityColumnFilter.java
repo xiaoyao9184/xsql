@@ -49,7 +49,7 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
             for (String name: this.names) {
                 if(column.getName().equalsIgnoreCase(name) ||
                         column.getName().contains(name)){
-                    return true;
+                    return false;
                 }
             }
         }
