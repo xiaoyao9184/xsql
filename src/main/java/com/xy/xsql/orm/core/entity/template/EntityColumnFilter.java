@@ -15,6 +15,7 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
 
     protected static final Log log = LogFactory.getLog(EntityColumnFilter.class);
     private String[] names;
+    private String[] types;
 
 
     /**
@@ -27,11 +28,23 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
         return this;
     }
 
+    /**
+     * Set type to filter
+     * @param types Type Array
+     * @return This
+     */
+    public EntityColumnFilter withType(String... types) {
+        this.types = types;
+        return this;
+    }
+
     @Override
     public List<EntityColumn> build(List<EntityColumn> columnList) {
         List<EntityColumn> result = new ArrayList<>();
         for (EntityColumn column: columnList) {
             if(!passByName(column)){
+                result.add(column);
+            }else if(!passByType(column)){
                 result.add(column);
             }
         }
@@ -39,8 +52,9 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
         return result;
     }
 
+
     /**
-     * Process pass name
+     * Pass By Name
      * @param column EntityColumn
      * @return True/False
      */
@@ -49,6 +63,23 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
             for (String name: this.names) {
                 if(column.getName().equalsIgnoreCase(name) ||
                         column.getName().contains(name)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Pass By Type
+     * @param column EntityColumn
+     * @return True/False
+     */
+    private boolean passByType(EntityColumn column) {
+        if(this.types != null){
+            for (String type: this.types) {
+                if(column.getType().equalsIgnoreCase(type) ||
+                        column.getType().contains(type)){
                     return false;
                 }
             }
