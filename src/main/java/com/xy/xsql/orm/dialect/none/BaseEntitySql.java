@@ -542,7 +542,8 @@ public class BaseEntitySql
                 if(param.getRelationship().equals(Relationships.IN)){
                     sb.append("(")
                             .append(StringUtil.fillJoin("?",param.getArgsCount(),","))
-                            .append(")");
+                            .append(")")
+                            .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
                 }else{
