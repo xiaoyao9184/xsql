@@ -39,8 +39,13 @@ public class EntityParamFilter implements BaseBuilder<List<EntityParam>,List<Ent
                 log.debug("index of args is null，column " + param.getColumn().getFullName() + " 's param will ignore!");
                 index++;
             }else{
-                result.add(param.clone()
-                        .withArgs(args[index]));
+                if(args[index].getClass().isArray()){
+                    result.add(param.clone()
+                            .withArgs((Object[])args[index]));
+                }else{
+                    result.add(param.clone()
+                            .withArg(args[index]));
+                }
                 index++;
             }
         }

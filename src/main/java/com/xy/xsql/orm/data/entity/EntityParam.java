@@ -67,6 +67,16 @@ public class EntityParam extends Param implements Cloneable {
         return this;
     }
 
+    /**
+     * set arg
+     * @param arg arg
+     * @return This
+     */
+    public EntityParam withArg(Object arg) {
+        this.args = new Object[]{ arg };
+        return this;
+    }
+
 
     /**
      * get first arg
