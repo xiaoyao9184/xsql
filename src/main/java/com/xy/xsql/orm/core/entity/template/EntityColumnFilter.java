@@ -2,6 +2,7 @@ package com.xy.xsql.orm.core.entity.template;
 
 import com.xy.xsql.orm.core.BaseBuilder;
 import com.xy.xsql.orm.data.entity.EntityColumn;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -16,6 +17,7 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
     protected static final Log log = LogFactory.getLog(EntityColumnFilter.class);
     private String[] names;
     private String[] types;
+    private Object entity;
 
 
     /**
@@ -38,6 +40,17 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
         return this;
     }
 
+    /**
+     * Set Not NULL Property entity to filter
+     * @param entity Entity
+     * @return This
+     */
+    public EntityColumnFilter withNotNullPropertyEntity(Object entity) {
+        this.entity = entity;
+        return this;
+    }
+
+
     @Override
     public List<EntityColumn> build(List<EntityColumn> columnList) {
         List<EntityColumn> result = new ArrayList<>();
@@ -45,6 +58,8 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
             if(!passByName(column)){
                 result.add(column);
             }else if(!passByType(column)){
+                result.add(column);
+            }else if(!passByNullProperty(column)){
                 result.add(column);
             }
         }
@@ -82,6 +97,25 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
                         column.getType().contains(type)){
                     return false;
                 }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Pass By Entity Property
+     * @param column EntityColumn
+     * @return True/False
+     */
+    private boolean passByNullProperty(EntityColumn column) {
+        if(this.entity != null){
+            try {
+                Object value = PropertyUtils.getProperty(entity,column.getAliasName());
+                if(value != null){
+                    return false;
+                }
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
             }
         }
         return true;
