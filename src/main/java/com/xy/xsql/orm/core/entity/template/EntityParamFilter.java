@@ -40,8 +40,11 @@ public class EntityParamFilter implements BaseBuilder<List<EntityParam>,List<Ent
                 index++;
             }else{
                 if(args[index].getClass().isArray()){
-                    result.add(param.clone()
-                            .withArgs((Object[])args[index]));
+                    Object[] argArray = (Object[])args[index];
+                    if(argArray.length != 0){
+                        result.add(param.clone()
+                                .withArgs(argArray));
+                    }
                 }else{
                     result.add(param.clone()
                             .withArg(args[index]));
