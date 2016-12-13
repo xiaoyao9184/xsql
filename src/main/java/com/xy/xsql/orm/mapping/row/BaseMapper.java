@@ -145,6 +145,40 @@ public class BaseMapper {
     }
 
     /**
+     * ResultSet -> T By
+     *
+     * @param rs ResultSet
+     * @param fieldNameMap Field Name Field Map
+     * @param clazz Class
+     * @param instance Object
+     * @param <T> T
+     * @return T
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     * @throws SQLException
+     * @throws InvocationTargetException
+     */
+    @SuppressWarnings("Duplicates")
+    public static <T> T buildObjectByTFieldNameMap(ResultSet rs, Map<String,Field> fieldNameMap, Class<T> clazz, T instance) throws IllegalAccessException, InstantiationException, SQLException, InvocationTargetException {
+        T newInstance = instance;
+        if (instance == null) {
+            newInstance = clazz.newInstance();
+        }
+
+        ResultSetMetaData meta = rs.getMetaData();
+        for (int i = 1; i <= meta.getColumnCount(); i++) {
+            String rsName = meta.getColumnName(i);
+            Object rsValue = rs.getObject(rsName);
+            if(fieldNameMap.containsKey(rsName)){
+                Field field = fieldNameMap.get(rsName);
+                BeanUtils.copyProperty(newInstance, field.getName(), rsValue);
+            }
+        }
+
+        return newInstance;
+    }
+
+    /**
      * ResultSet -> Object
      * @param rs
      * @param clazz

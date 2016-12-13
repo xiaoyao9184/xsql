@@ -2,9 +2,11 @@ package com.xy.xsql.orm.mapping.row;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,10 +19,20 @@ public class BaseEntityRowMapper<T> implements RowMapper<T> {
     private String rowNumberName;
     private String pageRowNumberName;
 
+    private Map<String,Field> cacheFieldNameMap;
+
     public BaseEntityRowMapper(Class<T> clazz) {
         this.clazz = clazz;
+        initCacheFieldNameMap();
     }
 
+    private void initCacheFieldNameMap(){
+        cacheFieldNameMap = new HashMap<>();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            cacheFieldNameMap.put(field.getName(),field);
+        }
+    }
 
     public BaseEntityRowMapper<T> withRowNumberName(String rowNumberName) {
         this.rowNumberName = rowNumberName;
@@ -38,7 +50,7 @@ public class BaseEntityRowMapper<T> implements RowMapper<T> {
             return (T) BaseMapper.build(rs, rowNum, this.pageRowNumberName);
         }
         try {
-            return BaseRomNumberListMapRowMapper.buildObjectByTClass(rs,clazz,null);
+            return BaseRomNumberListMapRowMapper.buildObjectByTFieldNameMap(rs, this.cacheFieldNameMap, this.clazz,null);
         } catch (Exception ex){
             throw new SQLException(ex);
         }
