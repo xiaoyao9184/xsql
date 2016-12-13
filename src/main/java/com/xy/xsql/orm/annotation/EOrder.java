@@ -16,6 +16,6 @@ public @interface EOrder {
     /**
      * 正序
      */
-    boolean aes() default true;
+    boolean asc() default true;
 
 }

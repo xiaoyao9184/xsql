@@ -616,7 +616,7 @@ public class BaseEntitySql
                         .append(" ")
                         .append(order.getColumn().getName())
                         .append(" ")
-                        .append(order.isAes() ? "ASC" : "DESC")
+                        .append(order.isAsc() ? "ASC" : "DESC")
                         .append("\n");
                 index++;
             }

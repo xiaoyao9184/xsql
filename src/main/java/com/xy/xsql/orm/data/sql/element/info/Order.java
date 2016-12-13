@@ -10,15 +10,15 @@ public class Order
         implements Element, Cloneable{
 
     protected Column column;
-    protected boolean aes;
+    protected boolean asc;
 
     public Order(){
 
     }
 
-    public Order(Column column, boolean aes){
+    public Order(Column column, boolean asc){
         this.column = column;
-        this.aes = aes;
+        this.asc = asc;
     }
 
     public Column getColumn() {
@@ -29,12 +29,12 @@ public class Order
         this.column = column;
     }
 
-    public boolean isAes() {
-        return aes;
+    public boolean isAsc() {
+        return asc;
     }
 
-    public void setAes(boolean aes) {
-        this.aes = aes;
+    public void setAsc(boolean asc) {
+        this.asc = asc;
     }
 
     /**
@@ -48,12 +48,12 @@ public class Order
     }
 
     /**
-     * set Aes flag
-     * @param aes Aes flag
+     * set Asc flag
+     * @param asc Asc flag
      * @return This
      */
-    public Order withAes(boolean aes){
-        this.aes = aes;
+    public Order withAsc(boolean asc){
+        this.asc = asc;
         return this;
     }
 
@@ -64,7 +64,7 @@ public class Order
     @SuppressWarnings({"RedundantStringConstructorCall", "CloneDoesntCallSuperClone"})
     @Override
     public Order clone() {
-        return new Order(this.column.clone(), this.aes);
+        return new Order(this.column.clone(), this.asc);
     }
 
 }

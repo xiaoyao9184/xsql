@@ -746,7 +746,7 @@ public class CodeSentenceDataBuilder implements BaseBuilder<Void,BaseElementsSen
         data.add(GrammarEnum.ORDER);
         for (String column : columns) {
             data.add(new Column(column));
-            data.add(GrammarEnum.AES);
+            data.add(GrammarEnum.ASC);
         }
         return this;
     }
@@ -763,8 +763,8 @@ public class CodeSentenceDataBuilder implements BaseBuilder<Void,BaseElementsSen
         data.add(GrammarEnum.ORDER);
         for (com.xy.xsql.orm.data.sql.element.info.Order order : orderList) {
             data.add(order.getColumn());
-            if(order.isAes()){
-                data.add(GrammarEnum.AES);
+            if(order.isAsc()){
+                data.add(GrammarEnum.ASC);
             }else{
                 data.add(GrammarEnum.DESC);
             }

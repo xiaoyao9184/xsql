@@ -28,13 +28,13 @@ public class EntityOrder extends Order {
     }
 
     /**
-     * set Aes flag
-     * @param aes Aes flag
+     * set Asc flag
+     * @param asc Asc flag
      * @return This
      */
     @Override
-    public EntityOrder withAes(boolean aes){
-        this.aes = aes;
+    public EntityOrder withAsc(boolean asc){
+        this.asc = asc;
         return this;
     }
 

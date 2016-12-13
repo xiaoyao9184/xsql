@@ -449,7 +449,7 @@ public class CodeSentenceDataBuilderTest {
         assert data2.getData().size() == 3;
         assert GrammarEnum.ORDER.equals(data2.getData().get(0));
         assert Column.class.isInstance(data2.getData().get(1));
-        assert GrammarEnum.AES.equals(data2.getData().get(2));
+        assert GrammarEnum.ASC.equals(data2.getData().get(2));
 
         List<com.xy.xsql.orm.data.sql.element.info.Order> orderList = new ArrayList<>();
         orderList.add(new com.xy.xsql.orm.data.sql.element.info.Order(new Column("c1"),true));
@@ -459,7 +459,7 @@ public class CodeSentenceDataBuilderTest {
         assert data3.getData().size() == 5;
         assert GrammarEnum.ORDER.equals(data3.getData().get(0));
         assert Column.class.isInstance(data3.getData().get(1));
-        assert GrammarEnum.AES.equals(data3.getData().get(2));
+        assert GrammarEnum.ASC.equals(data3.getData().get(2));
         assert Column.class.isInstance(data3.getData().get(3));
         assert GrammarEnum.DESC.equals(data3.getData().get(4));
     }

@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.Element;
  */
 public enum GrammarEnum implements Element {
 
-    AES,
+    ASC,
     AS,
     CASE,
     CREATE,

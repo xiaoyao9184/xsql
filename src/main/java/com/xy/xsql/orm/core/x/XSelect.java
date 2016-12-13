@@ -154,7 +154,7 @@ public interface XSelect<THIS> {
     THIS orderBy(String... columns);
 
     /**
-     * ORDER BY column AES/DESC[,column AES/DESC]...
+     * ORDER BY column ASC/DESC[,column ASC/DESC]...
      * @param orderList Order List
      * @return THIS
      */
