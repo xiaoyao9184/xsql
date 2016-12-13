@@ -204,4 +204,13 @@ public class EntityTemplate {
         this.keys.addAll(Arrays.asList(keys));
         return this;
     }
+    
+    public EntityTemplate withParam(EntityParam... params){
+        if(this.params == null){
+            this.params = new ArrayList<>();
+        }
+        this.params.addAll(Arrays.asList(params));
+        return this;
+
+    }
 }
