@@ -25,6 +25,7 @@ public class SQLServerEntitySql
         SqlEntityTableManage,
         SqlEntityCRUD,
         SqlEntityStatusUpdate,
+        SqlEntityDeleteArg,
         SqlEntitySearchArg,
         SqlEntityLinkSearch,
         SqlPage {
@@ -507,6 +508,58 @@ public class SQLServerEntitySql
         }
 
         return sb.toString();
+    }
+
+
+    @Override
+    public ArgSql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args) {
+        if(args.length > entityTemplate.getParams().size()){
+            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+        }
+
+        List<Object> argList = new ArrayList<>();
+
+        StringBuilder sb = new StringBuilder()
+                .append("DELETE FROM")
+                .append("\n")
+                .append(entityTemplate.getTable().getName())
+                .append("\n");
+
+        List<EntityParam> list = new EntityParamFilter()
+                .withArgs(args)
+                .build(entityTemplate.getParams());
+
+        int index;
+        if(list.size() > 0){
+            sb.append("WHERE\n");
+            index = 0;
+            for (EntityParam param: list) {
+                sb.append(CheckUtil.isStart(index) ? "" : "AND")
+                        .append(" ")
+                        .append(param.getColumn().getName())
+                        .append(" ")
+                        .append(param.getRelationship().getName())
+                        .append(" ");
+
+                if(param.getRelationship().equals(Relationships.IN)){
+                    sb.append("(")
+                            .append(StringUtil.fillJoin("?",param.getArgsCount(),","))
+                            .append(")")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub));
+                }else{
+                    sb.append("?")
+                            .append("\n");
+                    argList.add(param.getArg());
+                }
+                index++;
+            }
+        }
+
+        return new ArgSql()
+                .withSql(sb.toString())
+                .withArgs(argList);
     }
 
 
