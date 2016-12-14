@@ -11,7 +11,7 @@ import java.util.Date;
 public class AllVarCharTypeMapperTest {
 
     @Test
-    public void TestStartWithZero(){
+    public void testTypeMapper(){
         AllVarCharTypeMapper mapper = new AllVarCharTypeMapper();
 
         assert mapper.isSupport(Boolean.class);

@@ -11,7 +11,7 @@ import java.util.Date;
 public class SQLServerTypeMapperTest {
 
     @Test
-    public void TestStartWithZero(){
+    public void testTypeMapper(){
         SQLServerTypeMapper mapper = new SQLServerTypeMapper();
 
         assert mapper.isSupport(Boolean.class);
