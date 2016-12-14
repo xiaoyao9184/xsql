@@ -31,6 +31,8 @@ public class BaseEntityRowMapper<T> implements RowMapper<T> {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             cacheFieldNameMap.put(field.getName(),field);
+            cacheFieldNameMap.put(field.getName().toUpperCase(),field);
+            cacheFieldNameMap.put(field.getName().toLowerCase(),field);
         }
     }
 

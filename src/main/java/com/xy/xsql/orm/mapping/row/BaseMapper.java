@@ -168,9 +168,9 @@ public class BaseMapper {
         ResultSetMetaData meta = rs.getMetaData();
         for (int i = 1; i <= meta.getColumnCount(); i++) {
             String rsName = meta.getColumnName(i);
-            Object rsValue = rs.getObject(rsName);
             if(fieldNameMap.containsKey(rsName)){
                 Field field = fieldNameMap.get(rsName);
+                Object rsValue = JdbcUtils.getResultSetValue(rs, i, field.getType());
                 BeanUtils.copyProperty(newInstance, field.getName(), rsValue);
             }
         }
