@@ -13,7 +13,7 @@ import java.util.List;
 public class EntityColumnsArgsBuilderTest {
 
     @Test
-    public void TestBuild(){
+    public void testBuild(){
         TestClass testClass = new TestClass();
         testClass.setId("id");
         testClass.setName("name");

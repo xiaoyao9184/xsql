@@ -8,7 +8,7 @@ import org.junit.Test;
 public class PageQueryTest {
 
     @Test
-    public void TestStartWithZero(){
+    public void testStartWithZero(){
         //来源：从0开始，第0页
         PageQuery page = new PageQuery()
                 .withStartWithZero(true)
@@ -36,7 +36,7 @@ public class PageQueryTest {
     }
 
     @Test
-    public void TestStartWithOne(){
+    public void testStartWithOne(){
         //来源：从1开始，第1页
         PageQuery page = new PageQuery()
                 .withStartWithZero(false)
