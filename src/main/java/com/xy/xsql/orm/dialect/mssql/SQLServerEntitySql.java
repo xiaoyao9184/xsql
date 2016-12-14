@@ -739,7 +739,7 @@ public class SQLServerEntitySql
         if(listOrder.size() > 0){
             sb.append("ORDER BY\n");
             index = 0;
-            for (EntityOrder order: entityTemplate.getOrders()) {
+            for (EntityOrder order: listOrder) {
                 sb.append(CheckUtil.isStart(index) ? "" : ",")
                         .append(" ")
                         .append(order.getColumn().getTable().getAliasName())
@@ -851,7 +851,7 @@ public class SQLServerEntitySql
         if(listOrder.size() > 0){
             sb.append("ORDER BY\n");
             index = 0;
-            for (EntityOrder order: entityTemplate.getOrders()) {
+            for (EntityOrder order: listOrder) {
                 sb.append(CheckUtil.isStart(index) ? "" : ",")
                         .append(" ")
                         .append(order.getColumn().getTable().getAliasName())
