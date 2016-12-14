@@ -82,8 +82,7 @@ public class EntityTemplateTreeArg {
                 return entityTemplateTreeArg;
             }
         }
-        return new EntityTemplateTreeArg()
-                .withClass(clazz);
+        return null;
     }
 
 }

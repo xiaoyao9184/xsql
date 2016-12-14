@@ -91,6 +91,12 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
                 }
                 EntityTemplate entityTemplateSub = entityLink.getTemplate();
                 EntityTemplateTreeArg entityDataTreeArgSub = entityDataTreeArg.getSubTree(index, entityTemplateSub.getClazz());
+                if(entityDataTreeArgSub == null){
+                    entityDataTreeArgSub = new EntityTemplateTreeArg()
+                            .withClass(entityTemplateSub.getClazz());
+                }else{
+                    index++;
+                }
                 deep++;
                 List<EntityParam> resultSub = this.buildSub(
                         entityTemplateSub,
@@ -98,7 +104,6 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
                         entityDataTreeArgSub);
                 deep--;
                 result.addAll(resultSub);
-                index++;
             }
         }
         return result;
