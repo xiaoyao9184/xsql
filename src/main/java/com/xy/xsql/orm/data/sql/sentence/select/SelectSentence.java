@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.data.sql.sentence.select;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
+import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
@@ -21,6 +22,8 @@ public class SelectSentence extends CustomizeSentence {
     private List<Column> columns;
     private Table table;
     private List<JoinItem> joins;
+    private Expression where;
+    private List<OrderByItem> orderBys;
 
 
     public SelectSentence() {
@@ -105,5 +108,21 @@ public class SelectSentence extends CustomizeSentence {
 
     public void setJoins(List<JoinItem> joins) {
         this.joins = joins;
+    }
+
+    public List<OrderByItem> getOrderBys() {
+        return orderBys;
+    }
+
+    public void setOrderBys(List<OrderByItem> orderBys) {
+        this.orderBys = orderBys;
+    }
+
+    public Expression getWhere() {
+        return where;
+    }
+
+    public void setWhere(Expression where) {
+        this.where = where;
     }
 }
