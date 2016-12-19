@@ -42,8 +42,9 @@ public enum GrammarEnum implements Element {
     NOT,
     BETWEEN,
     AND,
-    IN
+    IN,
 
+    TRUNCATE
     ;
 
 
