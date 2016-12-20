@@ -44,8 +44,11 @@ public enum GrammarEnum implements Element {
     AND,
     IN,
 
-    TRUNCATE
-    ;
+    TRUNCATE,
+    LIMIT,
+    WITH,
+    TIES,
+    BULK;
 
 
 
