@@ -18,6 +18,9 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
     }
 
     public ListBuilder<ListType> withItem(ListType listType){
+        if(listType == null){
+            return this;
+        }
         list.add(listType);
         return this;
     }
