@@ -18,6 +18,8 @@ public abstract class CustomizeSentence extends Sentence<Void>
 
     public abstract BaseElementsSentence toBaseElementsSentence();
 
-    public abstract String toString();
+    public String toString(){
+        return this.toBaseElementsSentence().toString();
+    }
 
 }
