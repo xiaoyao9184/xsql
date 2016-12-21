@@ -8,7 +8,7 @@ import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
  * 多数据 多表 查询
  * Created by xiaoyao9184 on 2016/11/24.
  */
-public interface SqlEntityLinkSearch {
+public interface SqlEntitySearchLinkArg {
 
     /**
      * 多表 参数查询

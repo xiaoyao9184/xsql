@@ -25,7 +25,7 @@ public class StringEntitySqlBuilder implements EntitySqlBuilder {
     static {
         supportAgreementSqlClassList = new ArrayList<>();
         supportAgreementSqlClassList.add(SqlEntityCRUD.class);
-        supportAgreementSqlClassList.add(SqlEntityLinkSearch.class);
+        supportAgreementSqlClassList.add(SqlEntitySearchLinkArg.class);
         supportAgreementSqlClassList.add(SqlEntitySearchArg.class);
         supportAgreementSqlClassList.add(SqlEntityStatusUpdate.class);
         supportAgreementSqlClassList.add(SqlEntityTableManage.class);

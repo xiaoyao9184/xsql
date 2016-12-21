@@ -27,7 +27,7 @@ public class SQLServerEntitySql
         SqlEntityStatusUpdate,
         SqlEntityDeleteArg,
         SqlEntitySearchArg,
-        SqlEntityLinkSearch,
+        SqlEntitySearchLinkArg,
         SqlPage {
 
     @Override

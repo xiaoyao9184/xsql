@@ -24,14 +24,14 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/11/24.
  */
 @SuppressWarnings({"StringBufferReplaceableByString", "Duplicates"})
-public class BaseEntitySql 
+public class BaseEntitySql
         implements 
         SqlEntityTableManage,
         SqlEntityCRUD,
         SqlEntityStatusUpdate,
         SqlEntityDeleteArg,
         SqlEntitySearchArg,
-        SqlEntityLinkSearch,
+        SqlEntitySearchLinkArg,
         SqlPage {
 
     @Override
