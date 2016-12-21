@@ -4,7 +4,7 @@ package com.xy.xsql.orm.core.entity.sql.agreement;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 /**
- * 单/多数据 增删该查 ID操作
+ * 单表 增删改查
  * Created by xiaoyao9184 on 2016/11/24.
  */
 public interface SqlEntityCRUD {

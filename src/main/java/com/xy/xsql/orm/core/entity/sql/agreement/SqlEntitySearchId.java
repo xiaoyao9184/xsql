@@ -3,10 +3,10 @@ package com.xy.xsql.orm.core.entity.sql.agreement;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 /**
- * 单/多数据 多表 查询
+ * 多表 ID查询
  * Created by xiaoyao9184 on 2016/12/21.
  */
-public interface SqlEntitySearchLinkId {
+public interface SqlEntitySearchId {
 
     /**
      * 多表 ID查询

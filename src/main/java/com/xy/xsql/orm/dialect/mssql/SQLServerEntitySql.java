@@ -24,11 +24,11 @@ public class SQLServerEntitySql
         implements
         SqlEntityTableManage,
         SqlEntityCRUD,
-        SqlEntityStatusUpdate,
+        SqlEntityUpdateStatusId,
         SqlEntityDeleteArg,
+        SqlEntitySelectArg,
+        SqlEntitySearchId,
         SqlEntitySearchArg,
-        SqlEntitySearchLinkId,
-        SqlEntitySearchLinkArg,
         SqlPage {
 
     @Override

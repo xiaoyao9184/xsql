@@ -28,11 +28,11 @@ public class BaseEntitySql
         implements 
         SqlEntityTableManage,
         SqlEntityCRUD,
-        SqlEntityStatusUpdate,
+        SqlEntityUpdateStatusId,
         SqlEntityDeleteArg,
+        SqlEntitySelectArg,
+        SqlEntitySearchId,
         SqlEntitySearchArg,
-        SqlEntitySearchLinkId,
-        SqlEntitySearchLinkArg,
         SqlPage {
 
     @Override

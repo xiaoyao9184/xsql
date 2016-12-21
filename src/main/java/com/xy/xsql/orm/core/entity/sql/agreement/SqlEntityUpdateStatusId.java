@@ -3,10 +3,11 @@ package com.xy.xsql.orm.core.entity.sql.agreement;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 
 /**
- * 单/多条数据 Status字段 更新
+ * 单表 Status字段 ID更新
  * Created by xiaoyao9184 on 2016/11/24.
  */
-public interface SqlEntityStatusUpdate {
+public interface SqlEntityUpdateStatusId {
+
     /**
      * 更新状态字段
      * @param entityData 实体 信息
@@ -21,4 +22,5 @@ public interface SqlEntityStatusUpdate {
      * @return SQL
      */
     String getUpdateStatusByIdsSql(EntityTemplate entityData, int idCount);
+
 }
