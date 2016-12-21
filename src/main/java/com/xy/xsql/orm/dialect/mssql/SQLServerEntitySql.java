@@ -27,6 +27,7 @@ public class SQLServerEntitySql
         SqlEntityStatusUpdate,
         SqlEntityDeleteArg,
         SqlEntitySearchArg,
+        SqlEntitySearchLinkId,
         SqlEntitySearchLinkArg,
         SqlPage {
 
@@ -638,6 +639,143 @@ public class SQLServerEntitySql
         return new ArgSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
+    }
+
+
+    @Override
+    public String getSelectJoinByIdSql(EntityTemplate entityTemplate) {
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT")
+                .append("\n");
+
+        int index = 0;
+
+        List<EntityColumn> allColumnList = new EntityColumnExpander()
+                .build(entityTemplate);
+
+        for (EntityColumn entityColumn: allColumnList) {
+            if(index != 0){
+                sb.append(",");
+            }
+            sb.append(entityColumn.getTable().getAliasName())
+                    .append(".")
+                    .append(entityColumn.getName())
+                    .append(" AS ")
+                    .append(entityColumn.getAliasName())
+                    .append("\n");
+            index++;
+        }
+
+        sb.append("FROM")
+                .append("\n")
+                .append(entityTemplate.getTable().getName())
+                .append(" AS ")
+                .append(entityTemplate.getTable().getAliasName())
+                .append("\n");
+
+        List<EntityLink> allEntityLinkList = new EntityLinkExpander()
+                .build(entityTemplate);
+        for (EntityLink entityLinkEntity: allEntityLinkList) {
+            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityColumn entityColumn = entityLinkEntity.getColumn();
+            sb.append("LEFT JOIN")
+                    .append("\n")
+                    .append(entityTemplateSub.getTable().getName())
+                    .append(" AS ")
+                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append("\n");
+            sb.append("ON")
+                    .append(" ")
+                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(".")
+                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(" = ")
+                    .append(entityColumn.getTable().getAliasName())
+                    .append(".")
+                    .append(entityColumn.getName())
+                    .append("\n");
+        }
+
+        sb.append("WHERE")
+                .append("\n")
+                .append(entityTemplate.getTable().getAliasName())
+                .append(".")
+                .append(entityTemplate.getKeys().get(0).getName())
+                .append(" = ?")
+                .append("\n");
+
+        return sb.toString();
+    }
+
+    @Override
+    public String getSelectJoinByIdsSql(EntityTemplate entityTemplate, int idCount) {
+
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT")
+                .append("\n");
+
+        int index = 0;
+
+        List<EntityColumn> allColumnList = new EntityColumnExpander()
+                .build(entityTemplate);
+
+        for (EntityColumn entityColumn: allColumnList) {
+            if(index != 0){
+                sb.append(",");
+            }
+            sb.append(entityColumn.getTable().getAliasName())
+                    .append(".")
+                    .append(entityColumn.getName())
+                    .append(" AS ")
+                    .append(entityColumn.getAliasName())
+                    .append("\n");
+            index++;
+        }
+
+        sb.append("FROM")
+                .append("\n")
+                .append(entityTemplate.getTable().getName())
+                .append(" AS ")
+                .append(entityTemplate.getTable().getAliasName())
+                .append("\n");
+
+        List<EntityLink> allEntityLinkList = new EntityLinkExpander()
+                .build(entityTemplate);
+        for (EntityLink entityLinkEntity: allEntityLinkList) {
+            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityColumn entityColumn = entityLinkEntity.getColumn();
+            sb.append("LEFT JOIN")
+                    .append("\n")
+                    .append(entityTemplateSub.getTable().getName())
+                    .append(" AS ")
+                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append("\n");
+            sb.append("ON")
+                    .append(" ")
+                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(".")
+                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(" = ")
+                    .append(entityColumn.getTable().getAliasName())
+                    .append(".")
+                    .append(entityColumn.getName())
+                    .append("\n");
+        }
+
+        if(idCount > 0){
+            sb.append("WHERE")
+                    .append("\n")
+                    .append(entityTemplate.getTable().getAliasName())
+                    .append(".")
+                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append("\n")
+                    .append("IN (")
+                    .append(StringUtil.fillJoin("?", idCount, ","))
+                    .append(")")
+                    .append("\n");
+        }
+
+        return sb.toString();
     }
 
 

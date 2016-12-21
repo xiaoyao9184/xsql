@@ -31,6 +31,7 @@ public class BaseEntitySql
         SqlEntityStatusUpdate,
         SqlEntityDeleteArg,
         SqlEntitySearchArg,
+        SqlEntitySearchLinkId,
         SqlEntitySearchLinkArg,
         SqlPage {
 
@@ -629,6 +630,17 @@ public class BaseEntitySql
 
 
     @Override
+    public String getSelectJoinByIdSql(EntityTemplate entityTemplate) {
+        throw new RuntimeException("不支持‘多表 ID查询’语句");
+    }
+
+    @Override
+    public String getSelectJoinByIdsSql(EntityTemplate entityTemplate, int idCount) {
+        throw new RuntimeException("不支持‘多表 ID查询’语句");
+    }
+
+
+    @Override
     public ArgSql getSelectJoinByArgsSql(EntityTemplate entityTemplate, Object... args) {
         throw new RuntimeException("不支持‘多表 参数查询’语句");
     }
@@ -666,5 +678,4 @@ public class BaseEntitySql
                 .append("\n")
                 .toString();
     }
-
 }
