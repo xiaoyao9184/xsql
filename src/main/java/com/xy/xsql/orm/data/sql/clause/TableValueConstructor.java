@@ -2,7 +2,7 @@ package com.xy.xsql.orm.data.sql.clause;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
+import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.expression.RowValueExpression;
@@ -23,9 +23,18 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public class TableValueConstructor implements Expression {
+public class TableValueConstructor implements ElementList {
 
+    //( <row value expression list> ) [ ,...n ]
     private List<List<RowValueExpression>> rowValueExpressionListGroup;
+
+    public List<List<RowValueExpression>> getRowValueExpressionListGroup() {
+        return rowValueExpressionListGroup;
+    }
+
+    public void setRowValueExpressionListGroup(List<List<RowValueExpression>> rowValueExpressionListGroup) {
+        this.rowValueExpressionListGroup = rowValueExpressionListGroup;
+    }
 
 
     @Override
@@ -33,7 +42,7 @@ public class TableValueConstructor implements Expression {
         ListElementBuilder b = new ListElementBuilder()
                 .append(GrammarEnum.VALUES);
 
-        for (List<RowValueExpression> rowValueExpressionList: rowValueExpressionListGroup) {
+        for (List<RowValueExpression> rowValueExpressionList: getRowValueExpressionListGroup()) {
             b.append(OtherEnum.GROUP_START)
                     .appendExpression(rowValueExpressionList,OtherEnum.DELIMITER)
                     .append(OtherEnum.GROUP_END);

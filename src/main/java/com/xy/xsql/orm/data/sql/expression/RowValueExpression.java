@@ -16,18 +16,42 @@ public class RowValueExpression implements Expression {
     private boolean useDefault = false;
     private Expression expression;
 
-    @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
-        if(useNull){
-            b.append(GrammarEnum.NULL);
-        }else if(useDefault) {
-            b.append(GrammarEnum.DEFAULT);
-        }else {
-            b.append(expression);
-        }
-        return b.build();
+
+    public boolean isUseNull() {
+        return useNull;
+    }
+
+    public void setUseNull(boolean useNull) {
+        this.useNull = useNull;
+    }
+
+    public boolean isUseDefault() {
+        return useDefault;
+    }
+
+    public void setUseDefault(boolean useDefault) {
+        this.useDefault = useDefault;
+    }
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public void setExpression(Expression expression) {
+        this.expression = expression;
     }
 
 
+    @Override
+    public List<Element> toElementList() {
+        ListElementBuilder b = new ListElementBuilder();
+        if(isUseNull()){
+            b.append(GrammarEnum.NULL);
+        }else if(isUseDefault()) {
+            b.append(GrammarEnum.DEFAULT);
+        }else {
+            b.append(getExpression());
+        }
+        return b.build();
+    }
 }
