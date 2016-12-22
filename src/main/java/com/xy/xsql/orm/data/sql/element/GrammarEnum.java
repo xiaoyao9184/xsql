@@ -52,7 +52,22 @@ public enum GrammarEnum implements Element {
     LIMIT,
     WITH,
     TIES,
-    BULK;
+    BULK,
+    HASH,
+    LOOP,
+    MERGE,
+    FORCE,
+    DISABLE,
+    EXTERNALPUSHDOWN,
+    OPTION,
+    LABEL,
+    OR,
+    OUTER,
+    REDUCE,
+    REPLICATE,
+    REDISTRIBUTE,
+    CROSS,
+    APPLY;
 
 
 

@@ -14,6 +14,13 @@ import java.util.List;
  */
 public class ListElementBuilder extends ListBuilder<Element> {
 
+    private Element delimiter;
+
+    public ListElementBuilder withDelimiter(Element delimiter){
+        this.delimiter = delimiter;
+        return this;
+    }
+
     /**
      * Add Element
      * @param element Element
@@ -21,6 +28,9 @@ public class ListElementBuilder extends ListBuilder<Element> {
      */
     public ListElementBuilder append(Element element) {
         if(element != null){
+            if(this.delimiter != null){
+                super.withItem(this.delimiter);
+            }
             super.withItem(element);
         }
         return this;
@@ -33,12 +43,18 @@ public class ListElementBuilder extends ListBuilder<Element> {
      * @return This
      */
     public ListElementBuilder append(List<Element> elementList, OtherEnum delimiter) {
+        Element listDelimiter = delimiter;
+        if(listDelimiter == null){
+            listDelimiter = this.delimiter;
+        }
         int i = 0;
         for (Element element: elementList) {
             if(i==0){
-                super.withItem(element);
+                super.withItem(this.delimiter)
+                        .withItem(element);
             }else{
-                super.withItem(delimiter).withItem(element);
+                super.withItem(listDelimiter)
+                        .withItem(element);
             }
             i++;
         }
