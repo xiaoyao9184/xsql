@@ -16,14 +16,33 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/12/21.
  */
 public class From implements ElementList {
+
+    //{ <table_source> } [ ,...n ]
     private List<TableSource> tableSourceList;
 
-    @Override
-    public List<Element> toElementList() {
-        return null;
+
+    public List<TableSource> getTableSourceList() {
+        return tableSourceList;
+    }
+
+    public void setTableSourceList(List<TableSource> tableSourceList) {
+        this.tableSourceList = tableSourceList;
     }
 
 
+    @Override
+    public List<Element> toElementList() {
+        ListElementBuilder b = new ListElementBuilder()
+                .append(GrammarEnum.FROM);
+        for (TableSource table: getTableSourceList()) {
+            b.append(table.toElementList(),OtherEnum.DELIMITER);
+        }
+        return b.build();
+    }
+
+    /**
+     * <table_source>
+     */
     public static class TableSource implements ElementList  {
 
         //table_or_view_name
@@ -32,12 +51,52 @@ public class From implements ElementList {
         //<joined_table>
         private JoinedTable joinedTable;
 
+
+        public Table getTable() {
+            return table;
+        }
+
+        public void setTable(Table table) {
+            this.table = table;
+        }
+
+        public boolean isUseTableAlias() {
+            return useTableAlias;
+        }
+
+        public void setUseTableAlias(boolean useTableAlias) {
+            this.useTableAlias = useTableAlias;
+        }
+
+        public JoinedTable getJoinedTable() {
+            return joinedTable;
+        }
+
+        public void setJoinedTable(JoinedTable joinedTable) {
+            this.joinedTable = joinedTable;
+        }
+
+
         @Override
         public List<Element> toElementList() {
-            return null;
+            if(joinedTable == null){
+                ListElementBuilder b = new ListElementBuilder()
+                        .append(table);
+                if (useTableAlias) {
+                    b.append(GrammarEnum.AS)
+                            .append(table.getAliasName());
+                }
+                return b.build();
+            }
+
+            return joinedTable.toElementList();
         }
+
     }
 
+    /**
+     * <joined_table>
+     */
     public static class JoinedTable implements ElementList {
         private TableSource tableSource;
         private JoinType joinType;
@@ -51,43 +110,121 @@ public class From implements ElementList {
         private boolean useOuterApply = false;
         private boolean useParenthesis = false;
 
+
+        public TableSource getTableSource() {
+            return tableSource;
+        }
+
+        public void setTableSource(TableSource tableSource) {
+            this.tableSource = tableSource;
+        }
+
+        public JoinType getJoinType() {
+            return joinType;
+        }
+
+        public void setJoinType(JoinType joinType) {
+            this.joinType = joinType;
+        }
+
+        public TableSource getTableSource2() {
+            return tableSource2;
+        }
+
+        public void setTableSource2(TableSource tableSource2) {
+            this.tableSource2 = tableSource2;
+        }
+
+        public SearchCondition getSearchCondition() {
+            return searchCondition;
+        }
+
+        public void setSearchCondition(SearchCondition searchCondition) {
+            this.searchCondition = searchCondition;
+        }
+
+        public boolean isUseJoinOn() {
+            return useJoinOn;
+        }
+
+        public void setUseJoinOn(boolean useJoinOn) {
+            this.useJoinOn = useJoinOn;
+        }
+
+        public boolean isUseCrossJoin() {
+            return useCrossJoin;
+        }
+
+        public void setUseCrossJoin(boolean useCrossJoin) {
+            this.useCrossJoin = useCrossJoin;
+        }
+
+        public boolean isUseCrossApply() {
+            return useCrossApply;
+        }
+
+        public void setUseCrossApply(boolean useCrossApply) {
+            this.useCrossApply = useCrossApply;
+        }
+
+        public boolean isUseOuterApply() {
+            return useOuterApply;
+        }
+
+        public void setUseOuterApply(boolean useOuterApply) {
+            this.useOuterApply = useOuterApply;
+        }
+
+        public boolean isUseParenthesis() {
+            return useParenthesis;
+        }
+
+        public void setUseParenthesis(boolean useParenthesis) {
+            this.useParenthesis = useParenthesis;
+        }
+
         @Override
         public List<Element> toElementList() {
             ListElementBuilder b = new ListElementBuilder()
                     .withDelimiter(OtherEnum.SPACE);
-            if(useParenthesis){
+            if(isUseParenthesis()){
                 b.append(OtherEnum.GROUP_START);
             }
-            if(useJoinOn){
-                b.append(tableSource)
-                    .append(joinType)
-                    .append(tableSource2)
-                    .append(GrammarEnum.ON)
-                    .append(searchCondition);
-            }else if(useCrossJoin){
-                b.append(tableSource)
+            if(isUseJoinOn()){
+                b.append(getTableSource())
+                        .append(getJoinType())
+                        .append(getTableSource2())
+                        .append(GrammarEnum.ON)
+                        .append(getSearchCondition());
+            }else if(isUseCrossJoin()){
+                b.append(getTableSource())
                         .append(GrammarEnum.CROSS)
                         .append(GrammarEnum.JOIN)
-                        .append(tableSource2);
-            }else if(useCrossApply){
-                b.append(tableSource)
+                        .append(getTableSource2());
+            }else if(isUseCrossApply()){
+                b.append(getTableSource())
                         .append(GrammarEnum.CROSS)
                         .append(GrammarEnum.APPLY)
-                        .append(tableSource2);
-            }else if(useOuterApply){
-                b.append(tableSource)
+                        .append(getTableSource2());
+            }else if(isUseOuterApply()){
+                b.append(getTableSource())
                         .append(GrammarEnum.OUTER)
                         .append(GrammarEnum.APPLY)
-                        .append(tableSource2);
+                        .append(getTableSource2());
             }
 
-            if(useParenthesis){
+            if(isUseParenthesis()){
                 b.append(OtherEnum.GROUP_END);
             }
-            return b.build(null);
+            return b.build();
         }
+
     }
 
+    /**
+     * <join_type>
+     *     <join_hint>
+     */
     public enum JoinType implements ElementList {
         JOIN(GrammarEnum.JOIN),
         INNER_JOIN(GrammarEnum.INNER,GrammarEnum.JOIN),
