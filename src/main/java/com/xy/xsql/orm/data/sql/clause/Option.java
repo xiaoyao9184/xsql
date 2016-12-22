@@ -2,6 +2,7 @@ package com.xy.xsql.orm.data.sql.clause;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
@@ -51,6 +52,7 @@ public class Option implements Expression {
         this.queryOption = queryOption;
     }
 
+
     @Override
     public List<Element> toElementList() {
         ListElementBuilder b = new ListElementBuilder();
@@ -72,8 +74,9 @@ public class Option implements Expression {
         return b.build(null);
     }
 
+
     /**
-     * query_option
+     * <query_option>
      */
     public static class QueryOption {
         //label_name
@@ -100,9 +103,9 @@ public class Option implements Expression {
     }
 
     /**
-     * query_hint
+     * <query_hint>
      */
-    public enum QueryHint implements Expression {
+    public enum QueryHint implements ElementList {
         HASH_JOIN(GrammarEnum.HASH,GrammarEnum.JOIN),
         LOOP_JOIN(GrammarEnum.LOOP,GrammarEnum.JOIN),
         MERGE_JOIN(GrammarEnum.MERGE,GrammarEnum.JOIN),
