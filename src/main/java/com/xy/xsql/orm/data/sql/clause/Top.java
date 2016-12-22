@@ -2,6 +2,7 @@ package com.xy.xsql.orm.data.sql.clause;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
@@ -27,21 +28,28 @@ import java.util.List;
  ]
  * Created by xiaoyao9184 on 2016/11/13.
  */
-public class Top implements Expression {
+public class Top implements ElementList {
 
     private Expression countExpression;
     private boolean usePercent;
     private boolean useParenthesis;
     private boolean useTies;
 
-    public Top withCountExpression(Expression countExpression){
-        this.countExpression = countExpression;
-        return this;
+
+    public Expression getCountExpression() {
+        return countExpression;
     }
 
-    public Top withPercent(boolean usePercent){
+    public void setCountExpression(Expression countExpression) {
+        this.countExpression = countExpression;
+    }
+
+    public boolean isUsePercent() {
+        return usePercent;
+    }
+
+    public void setUsePercent(boolean usePercent) {
         this.usePercent = usePercent;
-        return this;
     }
 
     public boolean isUseParenthesis() {
@@ -59,6 +67,7 @@ public class Top implements Expression {
     public void setUseTies(boolean useTies) {
         this.useTies = useTies;
     }
+
 
     @Override
     public List<Element> toElementList() {
