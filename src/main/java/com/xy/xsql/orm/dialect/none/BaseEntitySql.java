@@ -146,7 +146,6 @@ public class BaseEntitySql
                 sb.append(" ")
                         .append(column.getName())
                         .append(" ")
-                        .append(column.getType())
                         .append("\n");
                 index++;
             }

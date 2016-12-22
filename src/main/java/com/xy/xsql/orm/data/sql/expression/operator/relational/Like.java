@@ -2,6 +2,7 @@ package com.xy.xsql.orm.data.sql.expression.operator.relational;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.expression.BaseBinary;
 
@@ -23,7 +24,7 @@ public class Like extends BaseBinary<OperatorEnum> {
                 .append(super.leftExpression)
                 .append(caseInsensitive ? OperatorEnum.ILIKE : OperatorEnum.LIKE)
                 .append(super.rightExpression)
-                .append(escape != null ? OperatorEnum.ESCAPE : null)
+                .append(escape != null ? GrammarEnum.ESCAPE : null)
                 .append(escape != null ? escape : null)
                 .build();
     }

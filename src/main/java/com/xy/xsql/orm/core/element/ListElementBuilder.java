@@ -2,6 +2,7 @@ package com.xy.xsql.orm.core.element;
 
 
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.util.ListBuilder;
@@ -55,6 +56,22 @@ public class ListElementBuilder extends ListBuilder<Element> {
         }
         return this;
     }
+
+
+    public <T extends Expression> ListElementBuilder appendExpression(List<T> expressionList, OtherEnum delimiter) {
+        int i = 0;
+        for (T expression: expressionList) {
+            if(i==0){
+                this.append(expression.toElementList(),null);
+            }else{
+                this.append(expression.toElementList(),null)
+                        .append(delimiter);
+            }
+            i++;
+        }
+        return this;
+    }
+
 
     /**
      * Build

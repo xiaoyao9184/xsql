@@ -43,6 +43,10 @@ public enum GrammarEnum implements Element {
     BETWEEN,
     AND,
     IN,
+    DEFAULT,
+    NULL,
+    IS,
+    ESCAPE,
 
     TRUNCATE,
     LIMIT,

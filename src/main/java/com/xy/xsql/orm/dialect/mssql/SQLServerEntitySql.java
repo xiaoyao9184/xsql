@@ -142,7 +142,6 @@ public class SQLServerEntitySql
                 sb.append(" ")
                         .append(column.getName())
                         .append(" ")
-                        .append(column.getType())
                         .append("\n");
                 index++;
             }
