@@ -83,11 +83,15 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class Update extends CustomizeSentence {
-
+    //SET
     private Top top;
+    //
     private Table tableName;
+    //SET
     private List<Set> sets;
+    //FROM
     private From from;
+    //WHERE
     private Where where;
 
 

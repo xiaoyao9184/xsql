@@ -48,10 +48,28 @@ import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
  */
 public class BulkInsert extends CustomizeSentence {
 
+    //
     private Table tableOrView;
+    //FROM
     private String formDataFile;
 
 //    private WithItem withItem;
+
+    public Table getTableOrView() {
+        return tableOrView;
+    }
+
+    public void setTableOrView(Table tableOrView) {
+        this.tableOrView = tableOrView;
+    }
+
+    public String getFormDataFile() {
+        return formDataFile;
+    }
+
+    public void setFormDataFile(String formDataFile) {
+        this.formDataFile = formDataFile;
+    }
 
 
     @Override
@@ -64,5 +82,4 @@ public class BulkInsert extends CustomizeSentence {
 
         return new BaseElementsSentence(builder.build(null));
     }
-
 }
