@@ -2,6 +2,7 @@ package com.xy.xsql.orm.data.sql.statements.dml;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.clause.Top;
@@ -13,7 +14,6 @@ import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
-import com.xy.xsql.orm.util.ListBuilder;
 
 import java.util.List;
 
@@ -91,10 +91,45 @@ public class Update extends CustomizeSentence {
     private Where where;
 
 
-    public void withWhere(Where where){
-        this.where = where;
+    public Top getTop() {
+        return top;
     }
 
+    public void setTop(Top top) {
+        this.top = top;
+    }
+
+    public Table getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(Table tableName) {
+        this.tableName = tableName;
+    }
+
+    public List<Set> getSets() {
+        return sets;
+    }
+
+    public void setSets(List<Set> sets) {
+        this.sets = sets;
+    }
+
+    public From getFrom() {
+        return from;
+    }
+
+    public void setFrom(From from) {
+        this.from = from;
+    }
+
+    public Where getWhere() {
+        return where;
+    }
+
+    public void setWhere(Where where) {
+        this.where = where;
+    }
 
 
     @Override
@@ -154,36 +189,50 @@ public class Update extends CustomizeSentence {
     }
 
 
-
-
-    public class Set implements Expression {
+    /**
+     * Set
+     */
+    public class Set implements ElementList {
         private Column columnName;
         private Expression expression;
         private boolean useNull = false;
 
 
-        public Set withExpression(Expression expression) {
-            this.expression = expression;
-            return this;
+
+
+        public Column getColumnName() {
+            return columnName;
         }
 
-        public Set withColumn(Column column) {
-            this.columnName = column;
-            return this;
+        public void setColumnName(Column columnName) {
+            this.columnName = columnName;
+        }
+
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+        public boolean isUseNull() {
+            return useNull;
+        }
+
+        public void setUseNull(boolean useNull) {
+            this.useNull = useNull;
         }
 
 
         @Override
         public List<Element> toElementList() {
-            return new ListBuilder<Element>()
-                    .withItem(columnName)
-                    .withItem(OtherEnum.SPACE)
-                    .withItem(OperatorEnum.EQUAL)
-                    .withItem(OtherEnum.SPACE)
-                    .withItem(useNull ? GrammarEnum.NULL : expression)
+            return new ListElementBuilder()
+                    .withDelimiter(OtherEnum.SPACE)
+                    .append(this.columnName)
+                    .append(OperatorEnum.EQUAL)
+                    .append(this.useNull ? GrammarEnum.NULL : this.expression)
                     .build(null);
         }
-
-
     }
 }
