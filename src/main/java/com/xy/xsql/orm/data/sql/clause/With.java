@@ -27,12 +27,53 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/12/22.
  */
 public class With {
+
+    //<common_table_expression> [ ,...n ] ]
     private List<CommonTableExpression> commonTableExpressionList;
 
+
+    public List<CommonTableExpression> getCommonTableExpressionList() {
+        return commonTableExpressionList;
+    }
+
+    public void setCommonTableExpressionList(List<CommonTableExpression> commonTableExpressionList) {
+        this.commonTableExpressionList = commonTableExpressionList;
+    }
+
+
+    /**
+     * <common_table_expression>
+     */
     public static class CommonTableExpression implements Expression {
+
         private String expressionName;
         private List<String> columnName;
-        private Sentence CTE_query_definition;
+        private Sentence cteQueryDefinition;
+
+
+        public String getExpressionName() {
+            return expressionName;
+        }
+
+        public void setExpressionName(String expressionName) {
+            this.expressionName = expressionName;
+        }
+
+        public List<String> getColumnName() {
+            return columnName;
+        }
+
+        public void setColumnName(List<String> columnName) {
+            this.columnName = columnName;
+        }
+
+        public Sentence getCteQueryDefinition() {
+            return cteQueryDefinition;
+        }
+
+        public void setCteQueryDefinition(Sentence cteQueryDefinition) {
+            this.cteQueryDefinition = cteQueryDefinition;
+        }
 
 
         @Override
@@ -51,10 +92,11 @@ public class With {
 
             b.append(GrammarEnum.AS)
                     .append(OtherEnum.GROUP_START)
-                    .append(CTE_query_definition)
+                    .append(cteQueryDefinition)
                     .append(OtherEnum.GROUP_START);
 
             return b.build();
         }
+
     }
 }
