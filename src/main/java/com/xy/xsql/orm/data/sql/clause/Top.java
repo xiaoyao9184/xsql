@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.data.sql.sentence.select;
+package com.xy.xsql.orm.data.sql.clause;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
@@ -27,19 +27,19 @@ import java.util.List;
  ]
  * Created by xiaoyao9184 on 2016/11/13.
  */
-public class TopItem implements Expression {
+public class Top implements Expression {
 
     private Expression countExpression;
     private boolean usePercent;
     private boolean useParenthesis;
     private boolean useTies;
 
-    public TopItem withCountExpression(Expression countExpression){
+    public Top withCountExpression(Expression countExpression){
         this.countExpression = countExpression;
         return this;
     }
 
-    public TopItem withPercent(boolean usePercent){
+    public Top withPercent(boolean usePercent){
         this.usePercent = usePercent;
         return this;
     }

@@ -9,7 +9,7 @@ import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.expression.operator.relational.Group;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
-import com.xy.xsql.orm.data.sql.sentence.select.TopItem;
+import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.util.CheckUtil;
 import com.xy.xsql.orm.util.ListUtil;
 
@@ -63,7 +63,7 @@ import java.util.List;
 public class InsertSentence extends CustomizeSentence {
 
     //TOP
-    private TopItem top;
+    private Top top;
     private boolean useInto;
     private Table table;
     //

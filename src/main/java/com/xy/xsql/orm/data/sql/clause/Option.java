@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.data.sql.sentence.general;
+package com.xy.xsql.orm.data.sql.clause;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
@@ -38,7 +38,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/20.
  */
-public class OptionItem implements Expression {
+public class Option implements Expression {
 
     private List<QueryOption> queryOption;
 

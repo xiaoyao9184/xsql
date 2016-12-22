@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
-import com.xy.xsql.orm.data.sql.sentence.select.TopItem;
+import com.xy.xsql.orm.data.sql.clause.Top;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ import java.util.List;
  */
 public class DeleteSentence extends CustomizeSentence {
     //TOP
-    private TopItem top;
+    private Top top;
     //
     private Table table;
     //FROM table_source
@@ -66,7 +66,7 @@ public class DeleteSentence extends CustomizeSentence {
         super();
     }
 
-    public void withTop(TopItem top){
+    public void withTop(Top top){
         this.top = top;
     }
 

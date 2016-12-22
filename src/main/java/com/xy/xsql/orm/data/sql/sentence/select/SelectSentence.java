@@ -2,6 +2,7 @@ package com.xy.xsql.orm.data.sql.sentence.select;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
+import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
@@ -18,7 +19,7 @@ import java.util.List;
 public class SelectSentence extends CustomizeSentence {
 
     private boolean useDistinct;
-    private TopItem top;
+    private Top top;
     private List<Column> columns;
     private Table table;
     private List<JoinItem> joins;
@@ -39,8 +40,8 @@ public class SelectSentence extends CustomizeSentence {
     }
 
 
-    public void withTop(TopItem topItem) {
-        this.top = topItem;
+    public void withTop(Top top) {
+        this.top = top;
     }
 
     public SelectSentence withColumn(Column column) {
