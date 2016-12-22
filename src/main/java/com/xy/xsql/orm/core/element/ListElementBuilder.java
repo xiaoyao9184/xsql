@@ -61,6 +61,10 @@ public class ListElementBuilder extends ListBuilder<Element> {
         return this;
     }
 
+    public ListElementBuilder append(List<Element> elementList) {
+        return append(elementList,null);
+    }
+
     /**
      * Add UnknownString
      * @param s String

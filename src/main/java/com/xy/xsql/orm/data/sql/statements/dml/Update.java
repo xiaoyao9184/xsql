@@ -83,7 +83,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class Update extends CustomizeSentence {
-    //SET
+    //TOP
     private Top top;
     //
     private Table tableName;

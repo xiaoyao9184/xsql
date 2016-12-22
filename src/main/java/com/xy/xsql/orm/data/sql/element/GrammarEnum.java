@@ -67,7 +67,7 @@ public enum GrammarEnum implements Element {
     REPLICATE,
     REDISTRIBUTE,
     CROSS,
-    APPLY;
+    APPLY, MATCHED, BY, TARGET, USING;
 
 
 
