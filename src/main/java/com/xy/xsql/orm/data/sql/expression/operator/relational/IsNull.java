@@ -3,6 +3,7 @@ package com.xy.xsql.orm.data.sql.expression.operator.relational;
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
+import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 
 import java.util.List;
@@ -26,9 +27,9 @@ public class IsNull implements Expression {
 	public List<Element> toElementList() {
 		return new ListElementBuilder()
 				.append(leftExpression)
-				.append(OperatorEnum.IS)
+				.append(GrammarEnum.IS)
 				.append(not ? OperatorEnum.NOT : null)
-				.append(OperatorEnum.NULL)
+				.append(GrammarEnum.NULL)
 				.build();
 	}
 }
