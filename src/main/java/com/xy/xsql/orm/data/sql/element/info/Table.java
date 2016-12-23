@@ -4,6 +4,7 @@ import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.Sentence;
 import com.xy.xsql.orm.util.ListBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Table
         implements Element, Expression, Cloneable {
 
 
+    private String databaseName ;
     private String schemaName;
     private Sentence sentence;
 
@@ -44,20 +46,11 @@ public class Table
 
     @Override
     public String getFullName() {
-        String fqn = "";
-
-        if (schemaName != null) {
-            fqn += schemaName;
-        }
-        if (!fqn.isEmpty()) {
-            fqn += ".";
-        }
-
-        if (name != null) {
-            fqn += name;
-        }
-
-        return fqn;
+        String[] names = new String[3];
+        names[0] = databaseName;
+        names[1] = schemaName;
+        names[2] = this.getName();
+        return StringUtils.join(names,".");
     }
 
     /**
