@@ -3,6 +3,7 @@ package com.xy.xsql.orm.core.element;
 
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
+import com.xy.xsql.orm.data.sql.element.NumberElement;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.util.ListBuilder;
@@ -76,6 +77,14 @@ public class ListElementBuilder extends ListBuilder<Element> {
         }
         return this;
     }
+
+    public ListElementBuilder append(Integer integerConstant) {
+        if(integerConstant != null){
+            super.withItem(new NumberElement(integerConstant));
+        }
+        return this;
+    }
+
 
 
     public <T extends Expression> ListElementBuilder appendExpression(List<T> expressionList, OtherEnum delimiter) {
