@@ -42,7 +42,7 @@ public class ListElementBuilder extends ListBuilder<Element> {
      * @param delimiter Separator OtherEnum
      * @return This
      */
-    public ListElementBuilder append(List<Element> elementList, OtherEnum delimiter) {
+    public <T extends Element> ListElementBuilder append(List<T> elementList, OtherEnum delimiter) {
         Element listDelimiter = delimiter;
         if(listDelimiter == null){
             listDelimiter = this.delimiter;
@@ -61,7 +61,7 @@ public class ListElementBuilder extends ListBuilder<Element> {
         return this;
     }
 
-    public ListElementBuilder append(List<Element> elementList) {
+    public <T extends Element> ListElementBuilder append(List<T> elementList) {
         return append(elementList,null);
     }
 
