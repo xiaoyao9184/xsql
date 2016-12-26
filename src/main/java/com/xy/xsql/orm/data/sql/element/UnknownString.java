@@ -11,6 +11,8 @@ public class UnknownString implements Element {
     private boolean useQuote;
     private boolean useNQuote;
 
+    public UnknownString(){}
+
     public UnknownString(String string){
         this.string = string;
     }
