@@ -1,7 +1,14 @@
 package com.xy.xsql.orm.data.sql.clause.hints;
 
+import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.ElementList;
+import com.xy.xsql.orm.data.sql.element.GrammarEnum;
+import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.orm.data.sql.element.UnknownString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +18,12 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public class TableHint {
+public class TableHint implements ElementList{
     private boolean useNOEXPAND;
     private Type type;
     private boolean useOneIndexValue;
-    private List<String> index_value;
-    private List<String> index_column_name;
+    private List<UnknownString> index_value;
+    private List<UnknownString> index_column_name;
     private Integer integer;
 
     public boolean isUseNOEXPAND() {
@@ -43,19 +50,19 @@ public class TableHint {
         this.useOneIndexValue = useOneIndexValue;
     }
 
-    public List<String> getIndex_value() {
+    public List<UnknownString> getIndex_value() {
         return index_value;
     }
 
-    public void setIndex_value(List<String> index_value) {
+    public void setIndex_value(List<UnknownString> index_value) {
         this.index_value = index_value;
     }
 
-    public List<String> getIndex_column_name() {
+    public List<UnknownString> getIndex_column_name() {
         return index_column_name;
     }
 
-    public void setIndex_column_name(List<String> index_column_name) {
+    public void setIndex_column_name(List<UnknownString> index_column_name) {
         this.index_column_name = index_column_name;
     }
 
@@ -65,6 +72,45 @@ public class TableHint {
 
     public void setInteger(Integer integer) {
         this.integer = integer;
+    }
+
+    @Override
+    public List<Element> toElementList() {
+        ListElementBuilder b = new ListElementBuilder()
+                .append(type);
+
+        if(useNOEXPAND){
+            b.append(GrammarEnum.NOEXPAND);
+        }
+        b.append(type);
+        switch (type){
+            case INDEX:
+                if(useOneIndexValue){
+                    b.append(OtherEnum.GROUP_START)
+                            .append(index_value)
+                            .append(OtherEnum.GROUP_END);
+                }else{
+                    b.append(OperatorEnum.EQUAL)
+                            .append(index_value.get(0));
+                }
+                break;
+            case FORCESEEK:
+                if(index_value.size() > 0){
+                    b.append(OtherEnum.GROUP_START)
+                            .append(index_value)
+                            .append(OtherEnum.GROUP_START)
+                            .append(index_column_name,OtherEnum.DELIMITER)
+                            .append(OtherEnum.GROUP_END)
+                            .append(OtherEnum.GROUP_END);
+                }
+                break;
+            case SPATIAL_WINDOW_MAX_CELLS:
+                b.append(OperatorEnum.EQUAL)
+                        .append(integer);
+                break;
+        }
+
+        return b.build();
     }
 
 

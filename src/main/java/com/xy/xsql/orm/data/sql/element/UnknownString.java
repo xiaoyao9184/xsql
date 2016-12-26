@@ -8,13 +8,33 @@ import com.xy.xsql.orm.data.sql.Element;
 public class UnknownString implements Element {
 
     private String string;
+    private boolean useQuote;
+    private boolean useNQuote;
 
     public UnknownString(String string){
         this.string = string;
     }
 
+
+    public UnknownString withQuote(boolean useQuote) {
+        this.useQuote = useQuote;
+        return this;
+    }
+
+    public UnknownString withNQuote(boolean useNQuote) {
+        this.useNQuote = useNQuote;
+        return this;
+    }
+
+
     @Override
     public String toString(){
+        if(this.useNQuote){
+            return "N'" + this.string + "'";
+        } else if(this.useQuote){
+            return "'" + this.string + "'";
+        }
         return this.string;
     }
+
 }
