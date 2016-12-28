@@ -1,5 +1,6 @@
 package com.xy.xsql.orm.data.sql.expression;
 
+import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 
@@ -10,14 +11,21 @@ import java.util.List;
  */
 public class NumberString implements Expression {
 
-    private double number;
+    private Number number;
 
-    public NumberString(double number){
+    public NumberString(Number number){
         this.number = number;
     }
 
     @Override
     public List<Element> toElementList() {
-        return null;
+        return new ListElementBuilder()
+                .append(this)
+                .build();
+    }
+
+    @Override
+    public String toString(){
+        return number.toString();
     }
 }
