@@ -4,12 +4,12 @@ import com.xy.xsql.orm.core.BaseBuilder;
 import com.xy.xsql.orm.core.x.XSelect;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Sentence;
+import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.info.*;
 import com.xy.xsql.orm.data.sql.expression.NumberString;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.select.SelectSentence;
-import com.xy.xsql.orm.data.sql.clause.Top;
 
 import java.util.List;
 import java.util.Map;
@@ -56,9 +56,10 @@ public class SelectSentenceDataBuilder implements BaseBuilder<BaseElementsSenten
 
     @Override
     public SelectSentenceDataBuilder top(int count, boolean percent) {
-        this.selectSentence.withTop(new Top()
-                .withCountExpression(new NumberString(count))
-                .withPercent(percent));
+        Top top = new Top();
+        top.setCountExpression(new NumberString(count));
+        top.setUsePercent(percent);
+        this.selectSentence.withTop(top);
         return this;
     }
 
