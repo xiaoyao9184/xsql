@@ -46,7 +46,55 @@ public class SearchCondition implements ElementList {
     private Predicate predicate;
     private SearchCondition searchCondition;
 
-    List<SearchCondition> otherSearchCondition;
+    private List<SearchCondition> otherSearchCondition;
+
+    public boolean isUseAnd() {
+        return useAnd;
+    }
+
+    public void setUseAnd(boolean useAnd) {
+        this.useAnd = useAnd;
+    }
+
+    public boolean isUseOr() {
+        return useOr;
+    }
+
+    public void setUseOr(boolean useOr) {
+        this.useOr = useOr;
+    }
+
+    public boolean isUseNot() {
+        return useNot;
+    }
+
+    public void setUseNot(boolean useNot) {
+        this.useNot = useNot;
+    }
+
+    public Predicate getPredicate() {
+        return predicate;
+    }
+
+    public void setPredicate(Predicate predicate) {
+        this.predicate = predicate;
+    }
+
+    public SearchCondition getSearchCondition() {
+        return searchCondition;
+    }
+
+    public void setSearchCondition(SearchCondition searchCondition) {
+        this.searchCondition = searchCondition;
+    }
+
+    public List<SearchCondition> getOtherSearchCondition() {
+        return otherSearchCondition;
+    }
+
+    public void setOtherSearchCondition(List<SearchCondition> otherSearchCondition) {
+        this.otherSearchCondition = otherSearchCondition;
+    }
 
 
     @Override
@@ -100,7 +148,55 @@ public class SearchCondition implements ElementList {
             return null;
         }
 
-        enum ASA implements Element {
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+        public boolean isNotOperator() {
+            return NotOperator;
+        }
+
+        public void setNotOperator(boolean notOperator) {
+            NotOperator = notOperator;
+        }
+
+        public OperatorEnum getOperatorEnum() {
+            return operatorEnum;
+        }
+
+        public void setOperatorEnum(OperatorEnum operatorEnum) {
+            this.operatorEnum = operatorEnum;
+        }
+
+        public Expression getOperatorExpression() {
+            return operatorExpression;
+        }
+
+        public void setOperatorExpression(Expression operatorExpression) {
+            this.operatorExpression = operatorExpression;
+        }
+
+        public Expression getAndExpression() {
+            return andExpression;
+        }
+
+        public void setAndExpression(Expression andExpression) {
+            this.andExpression = andExpression;
+        }
+
+        public ASA getAsa() {
+            return asa;
+        }
+
+        public void setAsa(ASA asa) {
+            this.asa = asa;
+        }
+
+        public enum ASA implements Element {
             ALL("ALL"),
             SOME("SOME"),
             ANY("ANY");
