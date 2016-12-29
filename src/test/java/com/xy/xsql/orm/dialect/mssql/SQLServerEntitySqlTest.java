@@ -36,64 +36,61 @@ public class SQLServerEntitySqlTest {
                         ") AS rowTo\n" +
                         "ORDER BY time\n");
 
-        String src = "SELECT    \n" +
-                "\t\tlaws.id ,\n" +
-                "        laws.title ,\n" +
-                "        laws.content ,\n" +
-                "        laws.level ,\n" +
-                "        laws.release_unit ,\n" +
-                "        laws.effective_time ,\n" +
-                "        laws.invalid_time ,\n" +
-                "        laws.factor ,\n" +
-                "        laws.region ,\n" +
-                "        laws.type ,\n" +
-                "        laws.status ,\n" +
-                "        laws.time ,\n" +
-                "        laws.description ,\n" +
-                "        dicttype1.name type_name ,\n" +
-                "        dicttype1.sort sort ,\n" +
-                "        dicttype2.name level_name\n" +
-                "FROM    sur_laws AS laws\n" +
-                "        LEFT JOIN sur_dict AS dicttype1 ON laws.type = dicttype1.id\n" +
-                "        LEFT JOIN sur_dict AS dicttype2 ON laws.level = dicttype2.id\n" +
-                "WHERE   1 = 1\n" +
-                "ORDER BY sort, title ASC";
+        String src = "SELECT\n" +
+                ",u.id AS id\n" +
+                ",u.name AS name\n" +
+                ",u.code AS code\n" +
+                ",u.type AS typeID\n" +
+                ",u.status AS status\n" +
+                ",u.time AS time\n" +
+                ",typeID_ut.id AS typeID_id\n" +
+                ",typeID_ut.name AS typeID_name\n" +
+                ",typeID_ut.code AS typeID_code\n" +
+                ",typeID_ut.status AS typeID_status\n" +
+                "WHERE\n" +
+                " u.name = ?\n" +
+                "AND u.code = ?\n" +
+                "AND u.type = ?\n" +
+                "AND typeID_ut.name = ?\n" +
+                "AND typeID_ut.code = ?\n" +
+                "ORDER BY\n" +
+                " u.time ASC\n";
         sql = entitySql.getAddRowNumberWithTopSql(
                 src,
                 "number",
                 10);
         Assert.assertEquals(sql,"SELECT TOP 10\n" +
                 "ROW_NUMBER() OVER ( \n" +
-                "ORDER BY sort, title ASC\n" +
+                "ORDER BY\n" +
+                " u.time ASC\n" +
+                "\n" +
                 "\n" +
                 ") AS number,\n" +
                 "*\n" +
                 "FROM\n" +
                 "(\n" +
-                "SELECT    \n" +
-                "\t\tlaws.id ,\n" +
-                "        laws.title ,\n" +
-                "        laws.content ,\n" +
-                "        laws.level ,\n" +
-                "        laws.release_unit ,\n" +
-                "        laws.effective_time ,\n" +
-                "        laws.invalid_time ,\n" +
-                "        laws.factor ,\n" +
-                "        laws.region ,\n" +
-                "        laws.type ,\n" +
-                "        laws.status ,\n" +
-                "        laws.time ,\n" +
-                "        laws.description ,\n" +
-                "        dicttype1.name type_name ,\n" +
-                "        dicttype1.sort sort ,\n" +
-                "        dicttype2.name level_name\n" +
-                "FROM    sur_laws AS laws\n" +
-                "        LEFT JOIN sur_dict AS dicttype1 ON laws.type = dicttype1.id\n" +
-                "        LEFT JOIN sur_dict AS dicttype2 ON laws.level = dicttype2.id\n" +
-                "WHERE   1 = 1\n" +
+                "SELECT\n" +
+                ",u.id AS id\n" +
+                ",u.name AS name\n" +
+                ",u.code AS code\n" +
+                ",u.type AS typeID\n" +
+                ",u.status AS status\n" +
+                ",u.time AS time\n" +
+                ",typeID_ut.id AS typeID_id\n" +
+                ",typeID_ut.name AS typeID_name\n" +
+                ",typeID_ut.code AS typeID_code\n" +
+                ",typeID_ut.status AS typeID_status\n" +
+                "WHERE\n" +
+                " u.name = ?\n" +
+                "AND u.code = ?\n" +
+                "AND u.type = ?\n" +
+                "AND typeID_ut.name = ?\n" +
+                "AND typeID_ut.code = ?\n" +
                 "\n" +
                 ") AS rowTo\n" +
-                "ORDER BY sort, title ASC\n");
+                "ORDER BY\n" +
+                " u.time ASC\n" +
+                "\n");
     }
 
 
