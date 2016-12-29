@@ -283,11 +283,15 @@ public class AnnotationEntityTemplateBuilder implements
             EParam eParam = field.getAnnotation(EParam.class);
             if(eParam != null){
                 EntityColumn entityColumn = this.columns.get(index);
+                Object[] args = null;
+                if(eParam.value()[0].length() != 0){
+                    args = eParam.value();
+                }
 
                 list.add(new EntityParam()
                                 .withColumn(entityColumn)
                                 .withRelationship(eParam.relationship())
-                                .withArgs((Object[])eParam.value()));
+                                .withArgs(args));
             }
             index++;
         }
