@@ -10,6 +10,7 @@ import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import com.xy.xsql.orm.util.CheckUtil;
 import com.xy.xsql.orm.util.ListUtil;
 import com.xy.xsql.orm.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,8 @@ public class SQLServerEntitySql
         SqlEntitySelectArg,
         SqlEntitySearchId,
         SqlEntitySearchArg,
-        SqlPage {
+        SqlPage,
+        SqlEntityPageSelectArg {
 
     @Override
     public String getCreateTableSql(EntityTemplate entityTemplate) {
@@ -1069,4 +1071,263 @@ public class SQLServerEntitySql
                 .append("\n")
                 .toString();
     }
+
+
+    @Override
+    public ArgSql getSelectArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args) {
+        Integer rowStart = (pageStart-1) * pageSize;
+        Integer rowEnd = pageStart * pageSize;
+
+        ArgSql argSql = getAddRowNumberWithTopSql(entityTemplate,rowNumberName,rowEnd,args);
+
+        argSql.setSql(getFilterRowNumberSql(argSql.getSql(),rowNumberName,rowStart));
+
+        return argSql;
+    }
+
+    @Override
+    public ArgSql getSelectArgCountSql(EntityTemplate entityTemplate, Object... args) {
+        if(args.length > entityTemplate.getParams().size()){
+            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+        }
+
+        List<Object> argList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT")
+                .append("\n");
+
+        sb.append("COUNT(*)")
+                .append("\n");
+
+        sb.append("FROM")
+                .append("\n")
+                .append(entityTemplate.getTable().getName())
+                .append("\n");
+
+
+        List<EntityParam> list = new EntityParamFilter()
+                .withArgs(args)
+                .build(entityTemplate.getParams());
+
+        int index = 0;
+        if(list.size() > 0){
+            sb.append("WHERE\n");
+            index = 0;
+            for (EntityParam param: list) {
+                sb.append(CheckUtil.isStart(index) ? "" : "AND")
+                        .append(" ")
+                        .append(param.getColumn().getName())
+                        .append(" ")
+                        .append(param.getRelationship().getName())
+                        .append(" ");
+
+                if(param.getRelationship().equals(Relationships.IN)){
+                    sb.append("(")
+                            .append(StringUtil.fillJoin("?",param.getArgsCount(),","))
+                            .append(")")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub));
+                }else{
+                    sb.append("?")
+                            .append("\n");
+                    argList.add(param.getArg());
+                }
+                index++;
+            }
+        }
+
+        return new ArgSql()
+                .withSql(sb.toString())
+                .withArgs(argList);
+    }
+
+
+    /**
+     * Add Row Number with top filter
+     * @param entityTemplate Entity Template
+     * @param rowNumberName Row Number Name
+     * @param rowNumberTop Row Number End
+     * @param args Arg Array
+     * @return ArgSql
+     */
+    public ArgSql getAddRowNumberWithTopSql(EntityTemplate entityTemplate, String rowNumberName, Integer rowNumberTop, Object... args){
+        if(args.length > entityTemplate.getParams().size()){
+            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+        }
+
+        List<Object> argList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT");
+        if(rowNumberTop > 0){
+            sb.append(" TOP ")
+                    .append(rowNumberTop);
+        }
+        sb.append("\n");
+
+        sb.append("ROW_NUMBER() OVER (\n");
+        if(entityTemplate.getOrders().size() > 0){
+            sb.append("ORDER BY\n");
+            int index = 0;
+            for (EntityOrder order: entityTemplate.getOrders()) {
+                sb.append(CheckUtil.isStart(index) ? "" : ",")
+                        .append(" ")
+                        .append(order.getColumn().getName())
+                        .append(" ")
+                        .append(order.isAsc() ? "ASC" : "DESC")
+                        .append("\n");
+                index++;
+            }
+        } else {
+            sb.append("ORDER BY\n")
+                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append("\n");
+        }
+        sb.append(") AS ")
+                .append(rowNumberName)
+                .append("\n")
+                .append(",");
+
+        int index = 0;
+        for (EntityColumn entityColumn: entityTemplate.getColumns()) {
+            if(index != 0){
+                sb.append(",");
+            }
+            sb.append(entityColumn.getName())
+                    .append("\n");
+            index++;
+        }
+
+        sb.append("FROM")
+                .append("\n")
+                .append(entityTemplate.getTable().getName())
+                .append("\n");
+
+
+        List<EntityParam> list = new EntityParamFilter()
+                .withArgs(args)
+                .build(entityTemplate.getParams());
+
+        if(list.size() > 0){
+            sb.append("WHERE\n");
+            index = 0;
+            for (EntityParam param: list) {
+                sb.append(CheckUtil.isStart(index) ? "" : "AND")
+                        .append(" ")
+                        .append(param.getColumn().getName())
+                        .append(" ")
+                        .append(param.getRelationship().getName())
+                        .append(" ");
+
+                if(param.getRelationship().equals(Relationships.IN)){
+                    sb.append("(")
+                            .append(StringUtil.fillJoin("?",param.getArgsCount(),","))
+                            .append(")")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub));
+                }else{
+                    sb.append("?")
+                            .append("\n");
+                    argList.add(param.getArg());
+                }
+                index++;
+            }
+        }
+
+        if(entityTemplate.getOrders().size() > 0){
+            sb.append("ORDER BY\n");
+            index = 0;
+            for (EntityOrder order: entityTemplate.getOrders()) {
+                sb.append(CheckUtil.isStart(index) ? "" : ",")
+                        .append(" ")
+                        .append(order.getColumn().getName())
+                        .append(" ")
+                        .append(order.isAsc() ? "ASC" : "DESC")
+                        .append("\n");
+                index++;
+            }
+        }
+
+        return new ArgSql()
+                .withSql(sb.toString())
+                .withArgs(argList);
+    }
+
+
+    /**
+     * Sub Select with Row Number filter
+     * @param sql Sub Select
+     * @param rowNumberName Row Number Name
+     * @param rowNumberGreater Row Number Start
+     * @return SQL
+     */
+    public String getFilterRowNumberSql(String sql, String rowNumberName, Integer rowNumberGreater){
+        StringBuilder b = new StringBuilder()
+                .append("SELECT\n")
+                .append(" * \n")
+                .append("FROM (\n")
+                .append(sql)
+                .append(") AS temp\n")
+                .append("WHERE\n")
+                .append(rowNumberName)
+                .append(" > ")
+                .append(rowNumberGreater.toString())
+                .append("\n");
+
+        return b.toString();
+    }
+
+
+    /**
+     * Sub Select Add Row Number with top filter
+     * @param selectSql Sub Select
+     * @param rowNumberName Row Number Name
+     * @param rowNumberTop Row Number End
+     * @return
+     */
+    public String getAddRowNumberWithTopSql(String selectSql, String rowNumberName, Integer rowNumberTop) {
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT");
+        if(rowNumberTop > 0){
+            sb.append(" TOP ")
+                    .append(rowNumberTop);
+        }
+        sb.append("\n");
+
+        //get ORDER BY
+        String subSelectSql = selectSql;
+        String orderSql = selectSql;
+        int index = selectSql.indexOf("ORDER BY");
+        if(index == -1){
+            index = selectSql.indexOf("order by");
+        }
+        if(index == -1){
+            throw new UnsupportedOperationException("cant find necessary 'ORDER BY' clause in :\n" + selectSql);
+        }
+        subSelectSql = selectSql.substring(0,index);
+        orderSql = selectSql.substring(index);
+
+        if(!CheckUtil.isNullOrEmpty(rowNumberName)){
+            sb.append("ROW_NUMBER() OVER ( \n")
+                    .append(orderSql)
+                    .append("\n")
+                    .append("\n) AS ")
+                    .append(rowNumberName)
+                    .append(",\n");
+        }
+        sb.append("*")
+                .append("\n")
+                .append("FROM")
+                .append("\n")
+                .append("(")
+                    .append("\n")
+                    .append(subSelectSql)
+                    .append("\n")
+                .append(") AS rowTo\n")
+                .append(orderSql)
+                .append("\n");
+        return sb.toString();
+    }
+
 }
