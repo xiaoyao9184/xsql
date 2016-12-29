@@ -1074,7 +1074,7 @@ public class SQLServerEntitySql
 
 
     @Override
-    public ArgSql getSelectArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args) {
+    public ArgSql getSelectArgsPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args) {
         Integer rowStart = (pageStart-1) * pageSize;
         Integer rowEnd = pageStart * pageSize;
 
@@ -1086,7 +1086,7 @@ public class SQLServerEntitySql
     }
 
     @Override
-    public ArgSql getSelectArgCountSql(EntityTemplate entityTemplate, Object... args) {
+    public ArgSql getSelectArgsCountSql(EntityTemplate entityTemplate, Object... args) {
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }

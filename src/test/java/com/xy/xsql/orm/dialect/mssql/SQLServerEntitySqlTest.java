@@ -105,7 +105,7 @@ public class SQLServerEntitySqlTest {
 
         SQLServerEntitySql entitySql = new SQLServerEntitySql();
 
-        ArgSql sql = entitySql.getSelectArgPageSql(
+        ArgSql sql = entitySql.getSelectArgsPageSql(
                 entityTemplate,
                 1,
                 10,
@@ -151,7 +151,7 @@ public class SQLServerEntitySqlTest {
 
         SQLServerEntitySql entitySql = new SQLServerEntitySql();
 
-        ArgSql sql = entitySql.getSelectArgCountSql(
+        ArgSql sql = entitySql.getSelectArgsCountSql(
                 entityTemplate,
                 "name1","code1","type1");
 

@@ -17,7 +17,7 @@ public interface SqlEntityPageSelectArg {
      * @param args 参数
      * @return SQL
      */
-    ArgSql getSelectArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args);
+    ArgSql getSelectArgsPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args);
 
     /**
      * Count Sql
@@ -25,5 +25,5 @@ public interface SqlEntityPageSelectArg {
      * @param args 参数
      * @return SQL
      */
-    ArgSql getSelectArgCountSql(EntityTemplate entityTemplate, Object... args);
+    ArgSql getSelectArgsCountSql(EntityTemplate entityTemplate, Object... args);
 }
