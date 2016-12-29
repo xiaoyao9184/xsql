@@ -3,7 +3,9 @@ package com.xy.xsql.orm.dialect.mssql;
 import com.xy.xsql.orm.core.entity.template.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import com.xy.xsql.orm.data.param.ArgSql;
+import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import com.xy.xsql.orm.test.bean.User;
+import com.xy.xsql.orm.test.bean.UserType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -145,8 +147,8 @@ public class SQLServerEntitySqlTest {
     public void testGetSelectArgCountSql(){
         EntityTemplate entityTemplate = new AnnotationEntityTemplateBuilder()
                 .configStart()
-                .withScanAll(true)
-                .out()
+                    .withScanAll(true)
+                    .out()
                 .build(User.class);
 
         SQLServerEntitySql entitySql = new SQLServerEntitySql();
@@ -167,4 +169,98 @@ public class SQLServerEntitySqlTest {
                         "AND type = ?\n");
     }
 
+
+    @Test
+    public void testGetSelectJoinByTreeArgPageSql(){
+        EntityTemplate entityTemplate = new AnnotationEntityTemplateBuilder()
+                .configStart()
+                    .withScanAll(true)
+                    .out()
+                .build(User.class);
+
+        SQLServerEntitySql entitySql = new SQLServerEntitySql();
+
+        ArgSql sql = entitySql.getSelectJoinByTreeArgPageSql(
+                entityTemplate,
+                1,
+                10,
+                "number",
+                new EntityTemplateTreeArg()
+                        .withArgs("name1","code1","type1")
+                        .withSub(new EntityTemplateTreeArg()
+                                .withClass(UserType.class)
+                                .withArgs("name1","code1")));
+
+        Assert.assertEquals(
+                sql.getSql(),
+                "SELECT\n" +
+                        " * \n" +
+                        "FROM (\n" +
+                        "SELECT TOP 10\n" +
+                        "ROW_NUMBER() OVER (\n" +
+                        "ORDER BY\n" +
+                        " u.time ASC\n" +
+                        ") AS number\n" +
+                        ",u.id AS id\n" +
+                        ",u.name AS name\n" +
+                        ",u.code AS code\n" +
+                        ",u.type AS typeID\n" +
+                        ",u.status AS status\n" +
+                        ",u.time AS time\n" +
+                        ",typeID_ut.id AS typeID_id\n" +
+                        ",typeID_ut.name AS typeID_name\n" +
+                        ",typeID_ut.code AS typeID_code\n" +
+                        ",typeID_ut.status AS typeID_status\n" +
+                        "FROM\n" +
+                        "b_user AS u\n" +
+                        "LEFT JOIN\n" +
+                        "b_user_type AS typeID_ut\n" +
+                        "ON typeID_ut.id = u.type\n" +
+                        "WHERE\n" +
+                        " u.name = ?\n" +
+                        "AND u.code = ?\n" +
+                        "AND u.type = ?\n" +
+                        "AND typeID_ut.name = ?\n" +
+                        "AND typeID_ut.code = ?\n" +
+                        "ORDER BY\n" +
+                        " u.time ASC\n" +
+                        ") AS temp\n" +
+                        "WHERE\n" +
+                        "number > 0\n");
+    }
+
+    @Test
+    public void testGetSelectJoinByTreeArgCountSql(){
+        EntityTemplate entityTemplate = new AnnotationEntityTemplateBuilder()
+                .configStart()
+                .withScanAll(true)
+                .out()
+                .build(User.class);
+
+        SQLServerEntitySql entitySql = new SQLServerEntitySql();
+
+        ArgSql sql = entitySql.getSelectJoinByTreeArgCountSql(
+                entityTemplate,
+                new EntityTemplateTreeArg()
+                        .withArgs("name1","code1","type1")
+                        .withSub(new EntityTemplateTreeArg()
+                                .withClass(UserType.class)
+                                .withArgs("name1","code1")));
+
+        Assert.assertEquals(
+                sql.getSql(),
+                "SELECT\n" +
+                        "COUNT(*)\n" +
+                        "FROM\n" +
+                        "b_user AS u\n" +
+                        "LEFT JOIN\n" +
+                        "b_user_type AS typeID_ut\n" +
+                        "ON typeID_ut.id = u.type\n" +
+                        "WHERE\n" +
+                        " u.name = ?\n" +
+                        "AND u.code = ?\n" +
+                        "AND u.type = ?\n" +
+                        "AND typeID_ut.name = ?\n" +
+                        "AND typeID_ut.code = ?\n");
+    }
 }
