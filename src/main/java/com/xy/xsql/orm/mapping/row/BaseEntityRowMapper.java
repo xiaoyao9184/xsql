@@ -1,5 +1,6 @@
 package com.xy.xsql.orm.mapping.row;
 
+import com.xy.xsql.orm.util.CheckUtil;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.lang.reflect.Field;
@@ -20,17 +21,19 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
     private String rowNumberName;
     private String pageRowNumberName;
     private List<FieldRowNameHandler> fieldRowNameHandlerList;
-    private boolean useOnlyRowNameHandler;
+    private boolean useDefaultRowNameHandler;
     private boolean ignoreCase;
     private boolean buildFlag;
 
     private Map<String,Field> cacheRowNameFieldMap;
 
     public BaseEntityRowMapper(Class<T> clazz) {
+        this.fieldRowNameHandlerList = new ArrayList<>();
+
         this.clazz = clazz;
         // Default
         this.ignoreCase = true;
-        this.fieldRowNameHandlerList = new ArrayList<>();
+        this.useDefaultRowNameHandler = true;
     }
 
     /**
@@ -67,12 +70,12 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
     }
 
     /**
-     * Set Row Name Handler Only
-     * @param useOnlyRowNameHandler Only/Multiple Complex
+     * Set use default Row Name Handler
+     * @param useDefaultRowNameHandler True:add default/false
      * @return This
      */
-    public BaseEntityRowMapper<T> withOnlyRowNameHandler(boolean useOnlyRowNameHandler) {
-        this.useOnlyRowNameHandler = useOnlyRowNameHandler;
+    public BaseEntityRowMapper<T> withDefaultRowNameHandler(boolean useDefaultRowNameHandler) {
+        this.useDefaultRowNameHandler = useDefaultRowNameHandler;
         return this;
     }
 
@@ -80,7 +83,7 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
      * init RowName-Field Map cache
      */
     private void initCacheRowNameMap(){
-        if(useOnlyRowNameHandler &&
+        if(this.useDefaultRowNameHandler &&
                 this.fieldRowNameHandlerList.size() == 0){
             this.fieldRowNameHandlerList.add(this);
         }
@@ -90,10 +93,12 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
                 this.fieldRowNameHandlerList) {
             for (Field field : fields) {
                 String rowName = fieldRowNameHandler.handlerField(field);
-                this.cacheRowNameFieldMap.put(rowName,field);
-                if(ignoreCase){
-                    this.cacheRowNameFieldMap.put(rowName.toUpperCase(),field);
-                    this.cacheRowNameFieldMap.put(rowName.toLowerCase(),field);
+                if(!CheckUtil.isNullOrEmpty(rowName)){
+                    this.cacheRowNameFieldMap.put(rowName,field);
+                    if(ignoreCase){
+                        this.cacheRowNameFieldMap.put(rowName.toUpperCase(),field);
+                        this.cacheRowNameFieldMap.put(rowName.toLowerCase(),field);
+                    }
                 }
             }
         }
