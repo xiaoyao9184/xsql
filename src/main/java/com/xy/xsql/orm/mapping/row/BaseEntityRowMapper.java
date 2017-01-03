@@ -20,6 +20,7 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
     private String rowNumberName;
     private String pageRowNumberName;
     private List<FieldRowNameHandler> fieldRowNameHandlerList;
+    private boolean useOnlyRowNameHandler;
     private boolean ignoreCase;
     private boolean buildFlag;
 
@@ -30,7 +31,6 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
         // Default
         this.ignoreCase = true;
         this.fieldRowNameHandlerList = new ArrayList<>();
-        this.fieldRowNameHandlerList.add(this);
     }
 
     /**
@@ -67,9 +67,23 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
     }
 
     /**
+     * Set Row Name Handler Only
+     * @param useOnlyRowNameHandler Only/Multiple Complex
+     * @return This
+     */
+    public BaseEntityRowMapper<T> withOnlyRowNameHandler(boolean useOnlyRowNameHandler) {
+        this.useOnlyRowNameHandler = useOnlyRowNameHandler;
+        return this;
+    }
+
+    /**
      * init RowName-Field Map cache
      */
     private void initCacheRowNameMap(){
+        if(useOnlyRowNameHandler &&
+                this.fieldRowNameHandlerList.size() == 0){
+            this.fieldRowNameHandlerList.add(this);
+        }
         this.cacheRowNameFieldMap = new HashMap<>();
         Field[] fields = clazz.getDeclaredFields();
         for (FieldRowNameHandler fieldRowNameHandler :
