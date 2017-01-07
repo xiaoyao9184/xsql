@@ -60,7 +60,7 @@ public class TopBuilder<Done>
     }
 
     @Override
-    public TopBuilder in(Done done) {
+    public TopBuilder<Done> in(Done done) {
         this.done = done;
         return this;
     }
