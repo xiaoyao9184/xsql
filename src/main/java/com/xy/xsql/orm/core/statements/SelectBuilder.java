@@ -18,10 +18,6 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
 
 
     private Select select;
-    private TopBuilder<SelectBuilder> topBuilder;
-    private SelectListBuilder<SelectBuilder> selectListBuilder;
-    private FromBuilder<SelectBuilder> fromBuilder;
-
 
 
     public SelectBuilder(){
@@ -60,8 +56,8 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
     public TopBuilder<SelectBuilder> withTop(){
         Top top = new Top();
         select.setTop(top);
-        topBuilder = new TopBuilder<>(top);
-        return topBuilder.in(this);
+        return new TopBuilder<SelectBuilder>(top)
+                .in(this);
     }
 
     /**
@@ -71,8 +67,8 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
     public SelectListBuilder<SelectBuilder> withSelectList(){
         SelectList selectList = new SelectList();
         select.setSelectList(selectList);
-        selectListBuilder = new SelectListBuilder<>(selectList);
-        return selectListBuilder.in(this);
+        return new SelectListBuilder<SelectBuilder>(selectList)
+                .in(this);
     }
 
     /**
@@ -92,8 +88,8 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
     public FromBuilder<SelectBuilder> withFrom() {
         From from = new From();
         select.setFrom(from);
-        fromBuilder = new FromBuilder<>(from);
-        return fromBuilder.in(this);
+        return new FromBuilder<SelectBuilder>(from)
+                .in(this);
     }
 
     /**
