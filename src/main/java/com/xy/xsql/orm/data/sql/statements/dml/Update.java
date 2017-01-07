@@ -196,7 +196,7 @@ public class Update extends CustomizeSentence {
     /**
      * Set
      */
-    public class Set implements ElementList {
+    public static class Set implements ElementList {
         private Column columnName;
         private Expression expression;
         private boolean useNull = false;
