@@ -6,6 +6,7 @@ import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
@@ -65,7 +66,7 @@ public class Delete extends CustomizeSentence {
     //TOP
     private Top top;
     //
-    private Table table;
+    private Alias<Alias> tableAlias;
     //FROM table_source
     private From from;
     //WHERE
@@ -81,12 +82,12 @@ public class Delete extends CustomizeSentence {
         this.top = top;
     }
 
-    public Table getTable() {
-        return table;
+    public Alias<Alias> getTableAlias() {
+        return tableAlias;
     }
 
-    public void setTable(Table table) {
-        this.table = table;
+    public void setTableAlias(Alias<Alias> tableAlias) {
+        this.tableAlias = tableAlias;
     }
 
     public From getFrom() {
@@ -128,7 +129,7 @@ public class Delete extends CustomizeSentence {
         }
          */
         b.append(OtherEnum.SPACE)
-                .append(getTable().getAliasName())
+                .append(this.tableAlias)
                 .append(OtherEnum.SPACE);
 
         //[ FROM table_source [ ,...n ] ]
