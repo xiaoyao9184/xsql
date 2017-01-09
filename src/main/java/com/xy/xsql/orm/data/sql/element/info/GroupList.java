@@ -12,7 +12,6 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/1/9.
  */
 public class GroupList<T extends ElementList>
-        extends ArrayList<ArrayList<T>>
         implements ElementList {
 
     private List<List<T>> dataGroup;

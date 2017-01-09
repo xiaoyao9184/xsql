@@ -1,12 +1,15 @@
 package com.xy.xsql.orm.data.sql.statements.dml;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
+import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.ElementList;
+import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.info.Table;
-import com.xy.xsql.orm.data.sql.expression.operator.relational.Group;
+import com.xy.xsql.orm.data.sql.element.info.GroupList;
+import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 import com.xy.xsql.orm.util.CheckUtil;
@@ -108,12 +111,11 @@ public class Insert extends CustomizeSentence {
     //INTO
     private boolean useInto;
     //
-    private Table table;
+    private TableName tableName;
     //( column_list )
     private List<Column> columns;
     //VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
-    private boolean useValues = true;
-    private List<Group> groupValues;
+    private GroupList<Value> valueGroupList;
 
 
     public Top getTop() {
@@ -132,12 +134,12 @@ public class Insert extends CustomizeSentence {
         this.useInto = useInto;
     }
 
-    public Table getTable() {
-        return table;
+    public TableName getTableName() {
+        return tableName;
     }
 
-    public void setTable(Table table) {
-        this.table = table;
+    public void setTableName(TableName tableName) {
+        this.tableName = tableName;
     }
 
     public List<Column> getColumns() {
@@ -148,20 +150,12 @@ public class Insert extends CustomizeSentence {
         this.columns = columns;
     }
 
-    public boolean isUseValues() {
-        return useValues;
+    public GroupList<Value> getValueGroupList() {
+        return valueGroupList;
     }
 
-    public void setUseValues(boolean useValues) {
-        this.useValues = useValues;
-    }
-
-    public List<Group> getGroupValues() {
-        return groupValues;
-    }
-
-    public void setGroupValues(List<Group> groupValues) {
-        this.groupValues = groupValues;
+    public void setValueGroupList(GroupList<Value> valueGroupList) {
+        this.valueGroupList = valueGroupList;
     }
 
 
@@ -180,9 +174,13 @@ public class Insert extends CustomizeSentence {
                     .append(GrammarEnum.INTO);
         }
 
-        //
+        /*
+        { <object> | rowset_function_limited
+          [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+        }
+         */
         b.append(OtherEnum.SPACE)
-                .append(getTable());
+                .append(tableName);
 
         //[ ( column_list ) ]
         if(!CheckUtil.isNullOrEmpty(getColumns())){
@@ -193,13 +191,46 @@ public class Insert extends CustomizeSentence {
             }
             b.append(OtherEnum.GROUP_END);
         }
+
         //VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
-        b.append(isUseValues() ? GrammarEnum.VALUES : null);
-        for (Group group: getGroupValues()) {
-            b.append(group.toElementList(),OtherEnum.DELIMITER);
-            b.append(OtherEnum.SPACE);
-        }
+        b.append(GrammarEnum.VALUES)
+                .append(this.valueGroupList);
 
         return new BaseElementsSentence(b.build(null));
+    }
+
+
+    /**
+     * Value
+     */
+    public static class Value implements ElementList {
+        private Expression expression;
+        private boolean useNull = false;
+
+
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+        public boolean isUseNull() {
+            return useNull;
+        }
+
+        public void setUseNull(boolean useNull) {
+            this.useNull = useNull;
+        }
+
+
+        @Override
+        public List<Element> toElementList() {
+            return new ListElementBuilder()
+                    .withDelimiter(OtherEnum.SPACE)
+                    .append(this.useNull ? GrammarEnum.NULL : this.expression)
+                    .build(null);
+        }
     }
 }
