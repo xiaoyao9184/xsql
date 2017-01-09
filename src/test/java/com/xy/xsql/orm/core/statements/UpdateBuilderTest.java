@@ -1,7 +1,5 @@
 package com.xy.xsql.orm.core.statements;
 
-import com.xy.xsql.orm.data.sql.clause.From;
-import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.expression.NumberString;
 import com.xy.xsql.orm.data.sql.statements.dml.Update;
@@ -19,7 +17,7 @@ public class UpdateBuilderTest {
     @Test
     public void testBaseBuild(){
         Update update = new UpdateBuilder()
-                .withTable("table")
+                .withTableName("table")
                 .withSetList()
                     .withItem()
                         .withColumnName("c1")
@@ -42,7 +40,7 @@ public class UpdateBuilderTest {
     @Test
     public void testFromBuild(){
         Update update = new UpdateBuilder()
-                .withTable("table")
+                .withTableName("table")
                 .withSetItem()
                     .withColumnName("c1")
                     .withExpression(new Column("c3"))

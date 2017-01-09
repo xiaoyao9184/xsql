@@ -10,6 +10,7 @@ import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
@@ -87,6 +88,7 @@ public class Update extends CustomizeSentence {
     private Top top;
     //
     private Table tableName;
+    private Alias<Alias> tableAlias;
     //SET
     private List<Set> sets;
     //FROM
@@ -109,6 +111,14 @@ public class Update extends CustomizeSentence {
 
     public void setTableName(Table tableName) {
         this.tableName = tableName;
+    }
+
+    public Alias<Alias> getTableAlias() {
+        return tableAlias;
+    }
+
+    public void setTableAlias(Alias<Alias> tableAlias) {
+        this.tableAlias = tableAlias;
     }
 
     public List<Set> getSets() {
@@ -152,8 +162,13 @@ public class Update extends CustomizeSentence {
           | @table_variable
         }
          */
-        b.append(OtherEnum.SPACE)
-                .append(tableName);
+        if(this.tableAlias != null){
+            b.append(OtherEnum.SPACE)
+                    .append(tableAlias);
+        } else if(this.tableName != null){
+            b.append(OtherEnum.SPACE)
+                    .append(tableName);
+        }
 
         //SET { column_name = { expression | NULL } } [ ,...n ]
         b.append(OtherEnum.SPACE)

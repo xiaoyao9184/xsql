@@ -8,6 +8,7 @@ import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.clause.Where;
+import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.statements.dml.Update;
@@ -46,9 +47,19 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
 
     /**
      *
+     * @param tableAlias
      * @return
      */
-    public UpdateBuilder withTable(Table table){
+    public UpdateBuilder withTableAlias(String tableAlias){
+        update.setTableAlias(new Alias<Alias>(tableAlias));
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public UpdateBuilder withTableName(Table table){
         update.setTableName(table);
         return this;
     }
@@ -58,7 +69,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @param tableName
      * @return
      */
-    public UpdateBuilder withTable(String tableName){
+    public UpdateBuilder withTableName(String tableName){
         update.setTableName(new Table(tableName));
         return this;
     }
