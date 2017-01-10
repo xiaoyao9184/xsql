@@ -8,6 +8,7 @@ import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.util.ListBuilder;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,17 +40,17 @@ public class ListElementBuilder extends ListBuilder<Element> {
 
     /**
      * Add Element List with Separator OtherEnum
-     * @param elementList Element List
+     * @param elementCollection Element List
      * @param delimiter Separator OtherEnum
      * @return This
      */
-    public <T extends Element> ListElementBuilder append(List<T> elementList, OtherEnum delimiter) {
+    public <T extends Element> ListElementBuilder append(Collection<T> elementCollection, OtherEnum delimiter) {
         Element listDelimiter = delimiter;
         if(listDelimiter == null){
             listDelimiter = this.delimiter;
         }
         int i = 0;
-        for (Element element: elementList) {
+        for (Element element: elementCollection) {
             if(i==0){
                 super.withItem(this.delimiter)
                         .withItem(element);
