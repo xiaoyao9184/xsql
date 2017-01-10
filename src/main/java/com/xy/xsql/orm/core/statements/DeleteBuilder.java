@@ -8,6 +8,7 @@ import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
+import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.statements.dml.Delete;
 
 /**
@@ -56,6 +57,26 @@ public class DeleteBuilder implements BaseBuilder<Void,Delete> {
      */
     public DeleteBuilder withTableAlias(String tableAlias){
         delete.setTableAlias(new Alias<Alias>(tableAlias));
+        return this;
+    }
+
+    /**
+     *
+     * @param tableName
+     * @return
+     */
+    public DeleteBuilder withTableName(TableName tableName){
+        delete.setTableName(tableName);
+        return this;
+    }
+
+    /**
+     *
+     * @param tableName
+     * @return
+     */
+    public DeleteBuilder withTableName(String tableName){
+        delete.setTableName(new TableName(tableName));
         return this;
     }
 

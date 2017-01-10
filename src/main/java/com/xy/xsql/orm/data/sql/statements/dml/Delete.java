@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
-import com.xy.xsql.orm.data.sql.element.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 
@@ -69,6 +69,7 @@ public class Delete extends CustomizeSentence {
     private boolean useForm;
     //
     private Alias<Alias> tableAlias;
+    private TableName tableName;
     //FROM table_source
     private From from;
     //WHERE
@@ -98,6 +99,14 @@ public class Delete extends CustomizeSentence {
 
     public void setTableAlias(Alias<Alias> tableAlias) {
         this.tableAlias = tableAlias;
+    }
+
+    public TableName getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(TableName tableName) {
+        this.tableName = tableName;
     }
 
     public From getFrom() {
@@ -140,9 +149,13 @@ public class Delete extends CustomizeSentence {
           | @table_variable
         }
          */
-        b.append(OtherEnum.SPACE)
-                .append(this.tableAlias)
-                .append(OtherEnum.SPACE);
+        if(this.tableAlias != null){
+            b.append(OtherEnum.SPACE)
+                    .append(tableAlias);
+        } else if(this.tableName != null){
+            b.append(OtherEnum.SPACE)
+                    .append(tableName);
+        }
 
         //[ FROM table_source [ ,...n ] ]
         if(where != null){
