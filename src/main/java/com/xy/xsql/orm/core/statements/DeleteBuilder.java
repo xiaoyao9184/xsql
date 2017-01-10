@@ -41,6 +41,16 @@ public class DeleteBuilder implements BaseBuilder<Void,Delete> {
 
     /**
      *
+     * @param useForm
+     * @return
+     */
+    public DeleteBuilder withForm(boolean useForm){
+        delete.setUseForm(useForm);
+        return this;
+    }
+
+    /**
+     *
      * @param tableAlias
      * @return
      */

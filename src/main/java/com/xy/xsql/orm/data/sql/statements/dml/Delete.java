@@ -65,6 +65,8 @@ import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 public class Delete extends CustomizeSentence {
     //TOP
     private Top top;
+    //FROM
+    private boolean useForm;
     //
     private Alias<Alias> tableAlias;
     //FROM table_source
@@ -80,6 +82,14 @@ public class Delete extends CustomizeSentence {
 
     public void setTop(Top top) {
         this.top = top;
+    }
+
+    public boolean isUseForm() {
+        return useForm;
+    }
+
+    public void setUseForm(boolean useForm) {
+        this.useForm = useForm;
     }
 
     public Alias<Alias> getTableAlias() {
@@ -117,8 +127,10 @@ public class Delete extends CustomizeSentence {
                 .append(getTop().toElementList(),null);
 
         //[ FROM ]
-        b.append(OtherEnum.SPACE)
-                .append(GrammarEnum.FROM);
+        if(useForm){
+            b.append(OtherEnum.SPACE)
+                    .append(GrammarEnum.FROM);
+        }
 
         /*
         { { table_alias
