@@ -204,16 +204,18 @@ public class Insert extends CustomizeSentence {
      * Value
      */
     public static class Value implements ElementList {
-        private Expression expression;
+        //{ DEFAULT | NULL | expression }
+        private boolean useDefault = false;
         private boolean useNull = false;
+        private Expression expression;
 
 
-        public Expression getExpression() {
-            return expression;
+        public boolean isUseDefault() {
+            return useDefault;
         }
 
-        public void setExpression(Expression expression) {
-            this.expression = expression;
+        public void setUseDefault(boolean useDefault) {
+            this.useDefault = useDefault;
         }
 
         public boolean isUseNull() {
@@ -224,12 +226,24 @@ public class Insert extends CustomizeSentence {
             this.useNull = useNull;
         }
 
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
 
         @Override
         public List<Element> toElementList() {
             return new ListElementBuilder()
                     .withDelimiter(OtherEnum.SPACE)
-                    .append(this.useNull ? GrammarEnum.NULL : this.expression)
+                    .append(this.useDefault ?
+                                GrammarEnum.DEFAULT :
+                                this.useNull ?
+                                        GrammarEnum.NULL :
+                                        this.expression)
                     .build(null);
         }
     }
