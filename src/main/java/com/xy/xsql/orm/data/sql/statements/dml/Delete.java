@@ -68,7 +68,7 @@ public class Delete extends CustomizeSentence {
     //FROM
     private boolean useForm;
     //
-    private Alias<Alias> tableAlias;
+    private Alias<Void> tableAlias;
     private TableName tableName;
     //FROM table_source
     private From from;
@@ -93,11 +93,11 @@ public class Delete extends CustomizeSentence {
         this.useForm = useForm;
     }
 
-    public Alias<Alias> getTableAlias() {
+    public Alias<Void> getTableAlias() {
         return tableAlias;
     }
 
-    public void setTableAlias(Alias<Alias> tableAlias) {
+    public void setTableAlias(Alias<Void> tableAlias) {
         this.tableAlias = tableAlias;
     }
 

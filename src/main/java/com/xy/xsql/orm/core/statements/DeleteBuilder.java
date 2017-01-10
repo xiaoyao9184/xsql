@@ -56,7 +56,7 @@ public class DeleteBuilder implements BaseBuilder<Void,Delete> {
      * @return
      */
     public DeleteBuilder withTableAlias(String tableAlias){
-        delete.setTableAlias(new Alias<Alias>(tableAlias));
+        delete.setTableAlias(new Alias<Void>(tableAlias));
         return this;
     }
 

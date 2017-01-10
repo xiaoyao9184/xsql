@@ -88,7 +88,7 @@ public class Update extends CustomizeSentence {
     //TOP
     private Top top;
     //
-    private Alias<Alias> tableAlias;
+    private Alias<Void> tableAlias;
     private TableName tableName;
     //SET
     private List<Set> sets;
@@ -106,11 +106,11 @@ public class Update extends CustomizeSentence {
         this.top = top;
     }
 
-    public Alias<Alias> getTableAlias() {
+    public Alias<Void> getTableAlias() {
         return tableAlias;
     }
 
-    public void setTableAlias(Alias<Alias> tableAlias) {
+    public void setTableAlias(Alias<Void> tableAlias) {
         this.tableAlias = tableAlias;
     }
 

@@ -51,7 +51,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public UpdateBuilder withTableAlias(String tableAlias){
-        update.setTableAlias(new Alias<Alias>(tableAlias));
+        update.setTableAlias(new Alias<Void>(tableAlias));
         return this;
     }
 
