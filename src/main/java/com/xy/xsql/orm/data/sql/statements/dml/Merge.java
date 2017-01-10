@@ -3,17 +3,17 @@ package com.xy.xsql.orm.data.sql.statements.dml;
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.ElementList;
+import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.clause.hints.TableHintLimited;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
-import com.xy.xsql.orm.data.sql.element.info.Alias;
-import com.xy.xsql.orm.data.sql.element.info.Table;
-import com.xy.xsql.orm.data.sql.element.info.TableName;
+import com.xy.xsql.orm.data.sql.element.info.*;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
+import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -140,7 +140,7 @@ public class Merge extends CustomizeSentence {
     //INTO
     private boolean useInto;
     //<target_table>
-    private Table targetTable;
+    private TableName targetTable;
     //WITH ( <merge_hint> )
     private MergeHint mergeHint;
     //[ [ AS ] table_alias ]
@@ -148,7 +148,7 @@ public class Merge extends CustomizeSentence {
     private Alias<Void> tableAlias;
 
     //USING <table_source>
-    private TableName tableSource;
+    private From.TableSource tableSource;
 
     //ON <merge_search_condition>
     private SearchCondition mergeSearchCondition;
@@ -179,11 +179,11 @@ public class Merge extends CustomizeSentence {
         this.useInto = useInto;
     }
 
-    public Table getTargetTable() {
+    public TableName getTargetTable() {
         return targetTable;
     }
 
-    public void setTargetTable(Table targetTable) {
+    public void setTargetTable(TableName targetTable) {
         this.targetTable = targetTable;
     }
 
@@ -211,11 +211,11 @@ public class Merge extends CustomizeSentence {
         this.tableAlias = tableAlias;
     }
 
-    public TableName getTableSource() {
+    public From.TableSource getTableSource() {
         return tableSource;
     }
 
-    public void setTableSource(TableName tableSource) {
+    public void setTableSource(From.TableSource tableSource) {
         this.tableSource = tableSource;
     }
 
@@ -312,10 +312,11 @@ public class Merge extends CustomizeSentence {
         return new BaseElementsSentence(b.build(null));
     }
 
+
     /**
      * <merge_hint>
      */
-    public class MergeHint implements ElementList {
+    public static class MergeHint implements ElementList {
         /*
         { [ <table_hint_limited> [ ,...n ] ]
         [ [ , ] INDEX ( index_val [ ,...n ] ) ] }
@@ -365,7 +366,7 @@ public class Merge extends CustomizeSentence {
      * WHEN MATCHED
      * WHEN NOT MATCHED
      */
-    public class MatchedWhenThen implements ElementList {
+    public static class MatchedWhenThen implements ElementList {
         private boolean useNot;
         private boolean useByTarget;
         private SearchCondition clauseSearchCondition;
@@ -434,10 +435,10 @@ public class Merge extends CustomizeSentence {
     /**
      * <merge_matched>
      */
-    public class MergeMatched implements ElementList {
+    public static class MergeMatched implements ElementList {
         //{ UPDATE SET <set_clause> | DELETE }
         private boolean useSet;
-        private Update update;
+        private List<Update.Set> sets;
 
 
         public boolean isUseSet() {
@@ -448,12 +449,12 @@ public class Merge extends CustomizeSentence {
             this.useSet = useSet;
         }
 
-        public Update getUpdate() {
-            return update;
+        public List<Update.Set> getSets() {
+            return sets;
         }
 
-        public void setUpdate(Update update) {
-            this.update = update;
+        public void setSets(List<Update.Set> sets) {
+            this.sets = sets;
         }
 
 
@@ -462,7 +463,12 @@ public class Merge extends CustomizeSentence {
             ListElementBuilder b = new ListElementBuilder()
                     .withDelimiter(OtherEnum.SPACE);
             if(useSet){
-                b.append(update.toBaseElementsSentence().getData());
+                b.append(GrammarEnum.UPDATE)
+                        .append(GrammarEnum.SET);
+                for (Update.Set set: sets) {
+                    b.append(set.toElementList(),null);
+                    b.append(OtherEnum.DELIMITER);
+                }
             }else{
                 b.append(GrammarEnum.DELETE);
             }
@@ -473,26 +479,51 @@ public class Merge extends CustomizeSentence {
     /**
      * <merge_not_matched>
      */
-    public class MergeNotMatched implements ElementList {
+    public static class MergeNotMatched implements ElementList {
         //INSERT [ ( column_list ) ]
         //{ VALUES ( values_list )
         //        | DEFAULT VALUES }
+        private List<Column> columns;
+        private List<Insert.Value> valueList;
 
-        private Insert insert;
 
-        public Insert getInsert() {
-            return insert;
+        public List<Column> getColumns() {
+            return columns;
         }
 
-        public void setInsert(Insert insert) {
-            this.insert = insert;
+        public void setColumns(List<Column> columns) {
+            this.columns = columns;
         }
+
+        public List<Insert.Value> getValueList() {
+            return valueList;
+        }
+
+        public void setValueList(List<Insert.Value> valueList) {
+            this.valueList = valueList;
+        }
+
 
         @Override
         public List<Element> toElementList() {
             ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE)
-                    .append(insert.toBaseElementsSentence().getData());
+                    .withDelimiter(OtherEnum.SPACE);
+
+            //[ ( column_list ) ]
+            if(!CheckUtil.isNullOrEmpty(getColumns())){
+                b.append(OtherEnum.GROUP_START);
+                for (Column column: getColumns()) {
+                    b.append(column);
+                    b.append(OtherEnum.DELIMITER);
+                }
+                b.append(OtherEnum.GROUP_END);
+            }
+
+            //{ VALUES ( values_list )
+            //        | DEFAULT VALUES }
+            b.append(GrammarEnum.VALUES)
+                    .append(this.valueList,OtherEnum.DELIMITER);
+
             return b.build();
         }
     }

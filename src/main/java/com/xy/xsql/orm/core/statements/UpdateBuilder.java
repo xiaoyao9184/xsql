@@ -126,7 +126,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      *
      * @param <Done>
      */
-    public class SetListBuilder<Done>
+    public static class SetListBuilder<Done>
             extends SubBuilder<SetListBuilder<Done>,Void,Done> {
 
         private List<Update.Set> setList;
@@ -150,7 +150,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      *
      * @param <Done>
      */
-    public class SetBuilder<Done>
+    public static class SetBuilder<Done>
             extends SubBuilder<SetBuilder<Done>,Void,Done> {
 
         private Update.Set set;

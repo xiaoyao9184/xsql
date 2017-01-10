@@ -98,7 +98,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      *
      * @param <Done>
      */
-    public class ColumnListBuilder<Done>
+    public static class ColumnListBuilder<Done>
             extends SubBuilder<ColumnListBuilder<Done>,Void,Done> {
 
         private List<Column> columnList;
@@ -122,7 +122,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      *
      * @param <Done>
      */
-    public class ColumnBuilder<Done>
+    public static class ColumnBuilder<Done>
             extends SubBuilder<ColumnBuilder<Done>,Void,Done> {
 
         private Column column;
@@ -166,7 +166,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      *
      * @param <Done>
      */
-    public class ValueListBuilder<Done>
+    public static class ValueListBuilder<Done>
             extends SubBuilder<ValueListBuilder<Done>,Void,Done> {
 
         private List<Insert.Value> valueList;
@@ -190,7 +190,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      *
      * @param <Done>
      */
-    public class ValueBuilder<Done>
+    public static class ValueBuilder<Done>
             extends SubBuilder<ValueBuilder<Done>,Void,Done> {
 
         private Insert.Value value;

@@ -41,7 +41,7 @@ public class FromBuilder<Done>
      *
      * @param <Done2>
      */
-    public class TableSourceBuilder<Done2>
+    public static class TableSourceBuilder<Done2>
             extends SubBuilder<TableSourceBuilder<Done2>,Void,Done2> {
 
         private final From.TableSource tableSource;
@@ -62,7 +62,7 @@ public class FromBuilder<Done>
             return this;
         }
 
-        public JoinedTableBuilder<FromBuilder<Done>.TableSourceBuilder<Done2>> withJoinedTable(){
+        public JoinedTableBuilder<TableSourceBuilder<Done2>> withJoinedTable(){
             From.JoinedTable joinedTable = new From.JoinedTable();
             joinedTableBuilder = new JoinedTableBuilder<>(joinedTable);
             return joinedTableBuilder.in(this);
@@ -72,7 +72,7 @@ public class FromBuilder<Done>
     }
 
 
-    public class JoinedTableBuilder<Done3>
+    public static class JoinedTableBuilder<Done3>
             extends SubBuilder<JoinedTableBuilder<Done3>,Void,Done3> {
 
         private From.JoinedTable joinedTable;
