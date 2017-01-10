@@ -13,6 +13,7 @@ import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 
@@ -87,8 +88,8 @@ public class Update extends CustomizeSentence {
     //TOP
     private Top top;
     //
-    private Table tableName;
     private Alias<Alias> tableAlias;
+    private TableName tableName;
     //SET
     private List<Set> sets;
     //FROM
@@ -105,20 +106,20 @@ public class Update extends CustomizeSentence {
         this.top = top;
     }
 
-    public Table getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(Table tableName) {
-        this.tableName = tableName;
-    }
-
     public Alias<Alias> getTableAlias() {
         return tableAlias;
     }
 
     public void setTableAlias(Alias<Alias> tableAlias) {
         this.tableAlias = tableAlias;
+    }
+
+    public TableName getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(TableName tableName) {
+        this.tableName = tableName;
     }
 
     public List<Set> getSets() {

@@ -10,7 +10,7 @@ import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.statements.dml.Update;
 
 import java.util.ArrayList;
@@ -59,8 +59,8 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      *
      * @return
      */
-    public UpdateBuilder withTableName(Table table){
-        update.setTableName(table);
+    public UpdateBuilder withTableName(TableName tableName){
+        update.setTableName(tableName);
         return this;
     }
 
@@ -70,7 +70,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public UpdateBuilder withTableName(String tableName){
-        update.setTableName(new Table(tableName));
+        update.setTableName(new TableName(tableName));
         return this;
     }
 
