@@ -5,12 +5,17 @@ import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.clause.Top;
+import com.xy.xsql.orm.data.sql.clause.hints.TableHintLimited;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.orm.data.sql.element.UnknownString;
+import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -128,20 +133,22 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class Merge extends CustomizeSentence {
+
     //TOP
     private Top top;
+
     //INTO
     private boolean useInto;
     //<target_table>
     private Table targetTable;
     //WITH ( <merge_hint> )
-
+    private MergeHint mergeHint;
     //[ [ AS ] table_alias ]
     private boolean useAs;
-    private String tableAlias;
+    private Alias<Void> tableAlias;
 
     //USING <table_source>
-    private Table tableSource;
+    private TableName tableSource;
 
     //ON <merge_search_condition>
     private SearchCondition mergeSearchCondition;
@@ -151,7 +158,7 @@ public class Merge extends CustomizeSentence {
     private List<MatchedWhenThen> matchedWhenThenList;
     //[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]
     //THEN <merge_not_matched> ]
-    private List<MatchedWhenThen> notMatchedWhenThenList;
+    private List<MatchedWhenThen> notMatchedWhenThenTargetList;
     //[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]
     //THEN <merge_matched> ] [ ...n ]
     private List<MatchedWhenThen> notMatchedWhenThenSourceList;
@@ -180,6 +187,14 @@ public class Merge extends CustomizeSentence {
         this.targetTable = targetTable;
     }
 
+    public MergeHint getMergeHint() {
+        return mergeHint;
+    }
+
+    public void setMergeHint(MergeHint mergeHint) {
+        this.mergeHint = mergeHint;
+    }
+
     public boolean isUseAs() {
         return useAs;
     }
@@ -188,19 +203,19 @@ public class Merge extends CustomizeSentence {
         this.useAs = useAs;
     }
 
-    public String getTableAlias() {
+    public Alias<Void> getTableAlias() {
         return tableAlias;
     }
 
-    public void setTableAlias(String tableAlias) {
+    public void setTableAlias(Alias<Void> tableAlias) {
         this.tableAlias = tableAlias;
     }
 
-    public Table getTableSource() {
+    public TableName getTableSource() {
         return tableSource;
     }
 
-    public void setTableSource(Table tableSource) {
+    public void setTableSource(TableName tableSource) {
         this.tableSource = tableSource;
     }
 
@@ -220,12 +235,12 @@ public class Merge extends CustomizeSentence {
         this.matchedWhenThenList = matchedWhenThenList;
     }
 
-    public List<MatchedWhenThen> getNotMatchedWhenThenList() {
-        return notMatchedWhenThenList;
+    public List<MatchedWhenThen> getNotMatchedWhenThenTargetList() {
+        return notMatchedWhenThenTargetList;
     }
 
-    public void setNotMatchedWhenThenList(List<MatchedWhenThen> notMatchedWhenThenList) {
-        this.notMatchedWhenThenList = notMatchedWhenThenList;
+    public void setNotMatchedWhenThenTargetList(List<MatchedWhenThen> notMatchedWhenThenTargetList) {
+        this.notMatchedWhenThenTargetList = notMatchedWhenThenTargetList;
     }
 
     public List<MatchedWhenThen> getNotMatchedWhenThenSourceList() {
@@ -249,6 +264,7 @@ public class Merge extends CustomizeSentence {
         //[ INTO ] <target_table> [ WITH ( <merge_hint> ) ] [ [ AS ] table_alias ]
         b.append(useInto ? GrammarEnum.INTO : null)
                 .append(targetTable)
+                .append(mergeHint)
                 .append(useAs ? GrammarEnum.AS : null)
                 .append(tableAlias);
 
@@ -273,9 +289,9 @@ public class Merge extends CustomizeSentence {
 
         //[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]
         //THEN <merge_not_matched> ]
-        if(notMatchedWhenThenList != null){
+        if(notMatchedWhenThenTargetList != null){
             int i = 0;
-            for (MatchedWhenThen matchedWhenThen: notMatchedWhenThenList) {
+            for (MatchedWhenThen matchedWhenThen: notMatchedWhenThenTargetList) {
                 b.append(i == 0 ? null : OtherEnum.DELIMITER)
                         .append(matchedWhenThen);
                 i++;
@@ -296,6 +312,54 @@ public class Merge extends CustomizeSentence {
         return new BaseElementsSentence(b.build(null));
     }
 
+    /**
+     * <merge_hint>
+     */
+    public class MergeHint implements ElementList {
+        /*
+        { [ <table_hint_limited> [ ,...n ] ]
+        [ [ , ] INDEX ( index_val [ ,...n ] ) ] }
+        */
+        private EnumSet<TableHintLimited> tableHintLimitedList;
+        private boolean useDelimiter;
+        private List<UnknownString> indexValList;
+
+        public EnumSet<TableHintLimited> getTableHintLimitedList() {
+            return tableHintLimitedList;
+        }
+
+        public void setTableHintLimitedList(EnumSet<TableHintLimited> tableHintLimitedList) {
+            this.tableHintLimitedList = tableHintLimitedList;
+        }
+
+        public boolean isUseDelimiter() {
+            return useDelimiter;
+        }
+
+        public void setUseDelimiter(boolean useDelimiter) {
+            this.useDelimiter = useDelimiter;
+        }
+
+        public List<UnknownString> getIndexValList() {
+            return indexValList;
+        }
+
+        public void setIndexValList(List<UnknownString> indexValList) {
+            this.indexValList = indexValList;
+        }
+
+        @Override
+        public List<Element> toElementList() {
+            return new ListElementBuilder()
+                    .append(tableHintLimitedList,OtherEnum.DELIMITER)
+                    .append(useDelimiter ? OtherEnum.DELIMITER : null)
+                    .append(GrammarEnum.INDEX)
+                    .append(OtherEnum.GROUP_START)
+                    .append(indexValList,OtherEnum.DELIMITER)
+                    .append(OtherEnum.GROUP_END)
+                    .build();
+        }
+    }
 
     /**
      * WHEN MATCHED
