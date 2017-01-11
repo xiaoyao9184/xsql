@@ -4,17 +4,13 @@ import com.xy.xsql.orm.core.BaseBuilder;
 import com.xy.xsql.orm.core.statements.clause.FromBuilder;
 import com.xy.xsql.orm.core.statements.clause.SearchConditionBuilder;
 import com.xy.xsql.orm.core.statements.clause.TopBuilder;
-import com.xy.xsql.orm.core.statements.clause.WhereBuilder;
-import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.clause.Top;
-import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.clause.hints.TableHintLimited;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.info.GroupList;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.statements.dml.Insert;
 import com.xy.xsql.orm.data.sql.statements.dml.Merge;
@@ -99,7 +95,7 @@ public class MergeBuilder implements BaseBuilder<Void,Merge> {
      * @param useAs
      * @return
      */
-    public MergeBuilder withTableAlias(boolean useAs){
+    public MergeBuilder withAs(boolean useAs){
         merge.setUseAs(useAs);
         return this;
     }
@@ -129,21 +125,44 @@ public class MergeBuilder implements BaseBuilder<Void,Merge> {
      *
      * @return
      */
-    public SearchConditionBuilder<MergeBuilder> withSearchCondition() {
+    public SearchConditionBuilder<MergeBuilder> withMergeSearchCondition() {
         SearchCondition searchCondition = new SearchCondition();
         merge.setMergeSearchCondition(searchCondition);
         return new SearchConditionBuilder<MergeBuilder>(searchCondition)
                 .in(this);
     }
 
-    public void withMatchedWhenThenList() {
-        //TODO
+    /**
+     *
+     * @return
+     */
+    public MatchedWhenThenListBuilder<MergeBuilder> withMatchedWhenThenList() {
+        List<Merge.MatchedWhenThen> matchedWhenThenList = new ArrayList<>();
+        merge.setMatchedWhenThenList(matchedWhenThenList);
+        return new MatchedWhenThenListBuilder<MergeBuilder>(matchedWhenThenList)
+                .in(this);
     }
-    public void withNotMatchedWhenThenTargetList() {
-        //TODO
+
+    /**
+     *
+     * @return
+     */
+    public MatchedNotWhenThenBuilder<MergeBuilder> withNotMatchedWhenThenTarget() {
+        Merge.MatchedNotWhenThen matchedWhenThen = new Merge.MatchedNotWhenThen();
+        merge.setNotMatchedWhenThenTarget(matchedWhenThen);
+        return new MatchedNotWhenThenBuilder<MergeBuilder>(matchedWhenThen)
+                .in(this);
     }
-    public void withNotMatchedWhenThenSourceList() {
-        //TODO
+
+    /**
+     *
+     * @return
+     */
+    public MatchedWhenThenListBuilder<MergeBuilder> withNotMatchedWhenThenSourceList() {
+        List<Merge.MatchedWhenThen> matchedWhenThenList = new ArrayList<>();
+        merge.setNotMatchedWhenThenSourceList(matchedWhenThenList);
+        return new MatchedWhenThenListBuilder<MergeBuilder>(matchedWhenThenList)
+                .in(this);
     }
 
 
@@ -220,16 +239,6 @@ public class MergeBuilder implements BaseBuilder<Void,Merge> {
         }
 
 
-        public MatchedWhenThenBuilder<Done> withNot(boolean useNot){
-            this.matchedWhenThen.setUseNot(useNot);
-            return this;
-        }
-
-        public MatchedWhenThenBuilder<Done> withByTarget(boolean useByTarget){
-            this.matchedWhenThen.setUseByTarget(useByTarget);
-            return this;
-        }
-
         public SearchConditionBuilder<MatchedWhenThenBuilder<Done>> withClauseSearchCondition() {
             SearchCondition clauseSearchCondition = new SearchCondition();
             matchedWhenThen.setClauseSearchCondition(clauseSearchCondition);
@@ -244,10 +253,38 @@ public class MergeBuilder implements BaseBuilder<Void,Merge> {
                     .in(this);
         }
 
-        public MergeNotMatchedBuilder<MatchedWhenThenBuilder<Done>> withMergeNotMatched() {
+    }
+
+    /**
+     *
+     * @param <Done>
+     */
+    public class MatchedNotWhenThenBuilder<Done>
+            extends SubBuilder<MatchedNotWhenThenBuilder<Done>,Void,Done> {
+
+        private Merge.MatchedNotWhenThen matchedNotWhenThen;
+
+        public MatchedNotWhenThenBuilder(Merge.MatchedNotWhenThen matchedNotWhenThen) {
+            this.matchedNotWhenThen = matchedNotWhenThen;
+        }
+
+
+        public MatchedNotWhenThenBuilder<Done> withByTarget(boolean useByTarget){
+            this.matchedNotWhenThen.setUseByTarget(useByTarget);
+            return this;
+        }
+
+        public SearchConditionBuilder<MatchedNotWhenThenBuilder<Done>> withClauseSearchCondition() {
+            SearchCondition clauseSearchCondition = new SearchCondition();
+            matchedNotWhenThen.setClauseSearchCondition(clauseSearchCondition);
+            return new SearchConditionBuilder<MatchedNotWhenThenBuilder<Done>>(clauseSearchCondition)
+                    .in(this);
+        }
+
+        public MergeNotMatchedBuilder<MatchedNotWhenThenBuilder<Done>> withMergeNotMatched() {
             Merge.MergeNotMatched mergeNotMatched = new Merge.MergeNotMatched();
-            matchedWhenThen.setMergeNotMatched(mergeNotMatched);
-            return new MergeNotMatchedBuilder<MatchedWhenThenBuilder<Done>>(mergeNotMatched)
+            matchedNotWhenThen.setMergeNotMatched(mergeNotMatched);
+            return new MergeNotMatchedBuilder<MatchedNotWhenThenBuilder<Done>>(mergeNotMatched)
                     .in(this);
         }
 
@@ -272,10 +309,10 @@ public class MergeBuilder implements BaseBuilder<Void,Merge> {
             return this;
         }
 
-        public UpdateBuilder.SetListBuilder<MergeMatchedBuilder> withSetList(){
+        public UpdateBuilder.SetListBuilder<MergeMatchedBuilder<Done>> withSetList(){
             List<Update.Set> setList = new ArrayList<>();
             mergeMatched.setSets(setList);
-            return new UpdateBuilder.SetListBuilder<MergeMatchedBuilder>(setList)
+            return new UpdateBuilder.SetListBuilder<MergeMatchedBuilder<Done>>(setList)
                     .in(this);
         }
 
@@ -300,10 +337,10 @@ public class MergeBuilder implements BaseBuilder<Void,Merge> {
          *
          * @return
          */
-        public InsertBuilder.ColumnListBuilder<MergeNotMatchedBuilder> withColumnList(){
+        public InsertBuilder.ColumnListBuilder<MergeNotMatchedBuilder<Done>> withColumnList(){
             List<Column> columnList = new ArrayList<>();
             mergeNotMatched.setColumns(columnList);
-            return new InsertBuilder.ColumnListBuilder<MergeNotMatchedBuilder>(columnList)
+            return new InsertBuilder.ColumnListBuilder<MergeNotMatchedBuilder<Done>>(columnList)
                     .in(this);
         }
 
@@ -311,10 +348,10 @@ public class MergeBuilder implements BaseBuilder<Void,Merge> {
          *
          * @return
          */
-        public InsertBuilder.ValueListBuilder<MergeNotMatchedBuilder> withValues(){
+        public InsertBuilder.ValueListBuilder<MergeNotMatchedBuilder<Done>> withValues(){
             List<Insert.Value> valueGroupList = new ArrayList<>();
             mergeNotMatched.setValueList(valueGroupList);
-            return new InsertBuilder.ValueListBuilder<MergeNotMatchedBuilder>(valueGroupList)
+            return new InsertBuilder.ValueListBuilder<MergeNotMatchedBuilder<Done>>(valueGroupList)
                     .in(this);
         }
     }

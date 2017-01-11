@@ -158,7 +158,7 @@ public class Merge extends CustomizeSentence {
     private List<MatchedWhenThen> matchedWhenThenList;
     //[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]
     //THEN <merge_not_matched> ]
-    private List<MatchedWhenThen> notMatchedWhenThenTargetList;
+    private MatchedNotWhenThen notMatchedWhenThenTarget;
     //[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]
     //THEN <merge_matched> ] [ ...n ]
     private List<MatchedWhenThen> notMatchedWhenThenSourceList;
@@ -235,12 +235,12 @@ public class Merge extends CustomizeSentence {
         this.matchedWhenThenList = matchedWhenThenList;
     }
 
-    public List<MatchedWhenThen> getNotMatchedWhenThenTargetList() {
-        return notMatchedWhenThenTargetList;
+    public MatchedNotWhenThen getNotMatchedWhenThenTarget() {
+        return notMatchedWhenThenTarget;
     }
 
-    public void setNotMatchedWhenThenTargetList(List<MatchedWhenThen> notMatchedWhenThenTargetList) {
-        this.notMatchedWhenThenTargetList = notMatchedWhenThenTargetList;
+    public void setNotMatchedWhenThenTarget(MatchedNotWhenThen notMatchedWhenThenTarget) {
+        this.notMatchedWhenThenTarget = notMatchedWhenThenTarget;
     }
 
     public List<MatchedWhenThen> getNotMatchedWhenThenSourceList() {
@@ -289,13 +289,8 @@ public class Merge extends CustomizeSentence {
 
         //[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]
         //THEN <merge_not_matched> ]
-        if(notMatchedWhenThenTargetList != null){
-            int i = 0;
-            for (MatchedWhenThen matchedWhenThen: notMatchedWhenThenTargetList) {
-                b.append(i == 0 ? null : OtherEnum.DELIMITER)
-                        .append(matchedWhenThen);
-                i++;
-            }
+        if(notMatchedWhenThenTarget != null){
+            b.append(notMatchedWhenThenTarget);
         }
 
         //[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]
@@ -367,20 +362,13 @@ public class Merge extends CustomizeSentence {
      * WHEN NOT MATCHED
      */
     public static class MatchedWhenThen implements ElementList {
-        private boolean useNot;
+        protected boolean useNot;
+
         private boolean useByTarget;
         private SearchCondition clauseSearchCondition;
         private MergeMatched mergeMatched;
         private MergeNotMatched mergeNotMatched;
 
-
-        public boolean isUseNot() {
-            return useNot;
-        }
-
-        public void setUseNot(boolean useNot) {
-            this.useNot = useNot;
-        }
 
         public boolean isUseByTarget() {
             return useByTarget;
@@ -429,6 +417,16 @@ public class Merge extends CustomizeSentence {
                     .append(GrammarEnum.THEN)
                     .append(useNot ? mergeNotMatched : mergeMatched);
             return b.build();
+        }
+    }
+
+    /**
+     *
+     */
+    public static class MatchedNotWhenThen extends MatchedWhenThen {
+
+        public MatchedNotWhenThen() {
+            this.useNot = true;
         }
     }
 
