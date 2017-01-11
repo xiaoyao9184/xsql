@@ -68,6 +68,12 @@ public class TableName
         this.tableOrViewName = tableOrViewName;
     }
 
+
+    @Override
+    public String getName() {
+        return tableOrViewName;
+    }
+
     @Override
     public String getFullName() {
         List<String> nameList = new LinkedList<>();
