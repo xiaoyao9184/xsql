@@ -1,6 +1,6 @@
-package com.xy.xsql.orm.core.statements.clause;
+package com.xy.xsql.orm.core.sql.clause;
 
-import com.xy.xsql.orm.core.statements.SubBuilder;
+import com.xy.xsql.orm.core.SubBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;

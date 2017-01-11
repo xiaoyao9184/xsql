@@ -1,7 +1,4 @@
-package com.xy.xsql.orm.core.statements;
-
-import com.xy.xsql.orm.core.BaseBuilder;
-import com.xy.xsql.orm.core.ConfigInOut;
+package com.xy.xsql.orm.core;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

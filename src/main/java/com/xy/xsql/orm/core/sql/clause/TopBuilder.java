@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.core.statements.clause;
+package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.BaseBuilder;
 import com.xy.xsql.orm.core.ConfigInOut;

@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.core.statements;
+package com.xy.xsql.orm.core.sql.statements;
 
 import com.xy.xsql.orm.data.sql.statements.dml.Delete;
 import org.junit.Assert;

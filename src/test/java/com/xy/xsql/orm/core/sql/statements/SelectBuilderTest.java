@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.core.statements;
+package com.xy.xsql.orm.core.sql.statements;
 
 import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
@@ -130,6 +130,6 @@ public class SelectBuilderTest {
                     .build(null)
                 .build(null);
 
-        Assert.assertEquals(select.getFrom().getTableSourceList().size(),2);
+        Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
     }
 }
