@@ -77,7 +77,11 @@ public enum GrammarEnum implements Element {
 
     //OUTPUT
     DELETED, INSERTED,
-    OUTPUT;
+    OUTPUT,
+
+
+    //OVER
+    OVER, PARTITION;
 
 
 
