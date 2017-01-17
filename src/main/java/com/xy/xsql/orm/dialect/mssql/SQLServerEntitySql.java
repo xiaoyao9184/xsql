@@ -551,6 +551,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
@@ -615,6 +620,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
@@ -864,6 +874,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
@@ -976,6 +991,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
@@ -1129,6 +1149,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
@@ -1220,6 +1245,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
@@ -1318,6 +1348,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
@@ -1453,6 +1488,11 @@ public class SQLServerEntitySql
                             .append("\n");
                     Object[] argSub = param.getArgs();
                     argList.addAll(Arrays.asList(argSub));
+                }else if(param.getRelationship().equals(Relationships.BETWEEN)){
+                    sb.append("? AND ?")
+                            .append("\n");
+                    Object[] argSub = param.getArgs();
+                    argList.addAll(Arrays.asList(argSub).subList(0,2));
                 }else{
                     sb.append("?")
                             .append("\n");
