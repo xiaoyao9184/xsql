@@ -17,6 +17,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
+@Deprecated
 public class GroupByExpression implements Expression {
 
     private List<Expression> items;
