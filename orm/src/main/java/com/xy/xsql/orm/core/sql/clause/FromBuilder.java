@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.SubBuilder;
+import com.xy.xsql.orm.core.sql.clause.subquery.SubQueryBuilder;
 import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.element.info.Table;
@@ -46,6 +47,7 @@ public class FromBuilder<Done>
 
         private final From.TableSource tableSource;
 
+        private SubQueryBuilder<TableSourceBuilder<Done2>> subQueryBuilder;
         private JoinedTableBuilder<TableSourceBuilder<Done2>> joinedTableBuilder;
 
         public TableSourceBuilder(From.TableSource tableSource) {
@@ -55,6 +57,12 @@ public class FromBuilder<Done>
         public TableSourceBuilder<Done2> withTable(String tableName){
             this.tableSource.setTable(new Table(tableName));
             return this;
+        }
+
+
+        public SubQueryBuilder<TableSourceBuilder<Done2>> withDerivedTable() {
+            subQueryBuilder = new SubQueryBuilder<>();
+            return subQueryBuilder.in(this);
         }
 
         public TableSourceBuilder<Done2> withTableAlias(){
@@ -67,8 +75,6 @@ public class FromBuilder<Done>
             joinedTableBuilder = new JoinedTableBuilder<>(joinedTable);
             return joinedTableBuilder.in(this);
         }
-
-
     }
 
 

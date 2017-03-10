@@ -5,6 +5,8 @@ import com.xy.xsql.orm.data.sql.statements.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e;
+
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
@@ -131,5 +133,48 @@ public class SelectBuilderTest {
                 .build(null);
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
+    }
+
+
+    /**
+     * SELECT * FROM (VALUES (1, 2), (3, 4), (5, 6), (7, 8), (9, 10) ) AS MyTable(a, b)
+     */
+    @Test
+    public void testDerivedTable(){
+        // @formatter:off
+        Select select = new SelectBuilder()
+                .withSelectList()
+                    .withSelectItem().withAll()
+                    .out()
+                .out()
+                .withFrom()
+                    .withTableSource()
+                        .withDerivedTable().values()
+                            .withGroupItem()
+                                .withItem().withExpression(e(1)).out()
+                                .withItem().withExpression(e(2)).out()
+                            .out()
+                            .withGroupItem()
+                                .withItem().withExpression(e(3)).out()
+                                .withItem().withExpression(e(4)).out()
+                            .out()
+                            .withGroupItem()
+                                .withItem().withExpression(e(5)).out()
+                                .withItem().withExpression(e(6)).out()
+                            .out()
+                            .withGroupItem()
+                                .withItem().withExpression(e(7)).out()
+                                .withItem().withExpression(e(8)).out()
+                            .out()
+                            .withGroupItem()
+                                .withItem().withExpression(e(9)).out()
+                                .withItem().withExpression(e(10)).out()
+                            .out()
+                        .out().out()
+                        //TODO derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
+                    .out()
+                .out()
+                .build(null);
+        // @formatter:on
     }
 }

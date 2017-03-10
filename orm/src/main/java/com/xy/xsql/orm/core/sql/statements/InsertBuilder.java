@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class InsertBuilder implements BaseBuilder<Void,Insert> {
 
-    private Insert insert;
+    protected Insert insert;
 
     public InsertBuilder(){
         this.insert = new Insert();
@@ -152,7 +152,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
             this.valueGroupList = valueGroupList;
         }
 
-        public ValueListBuilder<ValueGroupListBuilder<Done>> withItem(){
+        public ValueListBuilder<ValueGroupListBuilder<Done>> withGroupItem(){
             List<Insert.Value> valueList = new ArrayList<>();
             if(this.valueGroupList == null){
                 this.valueGroupList = new GroupList<>();

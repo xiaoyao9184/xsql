@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.SubBuilder;
+import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.clause.Where;
 
 /**
@@ -13,5 +14,12 @@ public class WhereBuilder<Done>
 
     public WhereBuilder(Where where) {
         this.where = where;
+    }
+
+    public SearchConditionBuilder<WhereBuilder<Done>> withSearchCondition(){
+        SearchCondition searchCondition = new SearchCondition();
+        this.where.setSearchCondition(searchCondition);
+        SearchConditionBuilder<WhereBuilder<Done>> searchConditionBuilder = new SearchConditionBuilder<>(searchCondition);
+        return searchConditionBuilder.in(this);
     }
 }

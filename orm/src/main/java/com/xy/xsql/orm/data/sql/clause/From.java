@@ -6,6 +6,7 @@ import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Table;
+import com.xy.xsql.orm.data.sql.statements.dml.Select;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +48,8 @@ public class From implements ElementList {
 
         //table_or_view_name
         private Table table;
+        //derived_table
+        private Select derivedTable;
         private boolean useTableAlias;
         //<joined_table>
         private JoinedTable joinedTable;
@@ -76,6 +79,14 @@ public class From implements ElementList {
             this.joinedTable = joinedTable;
         }
 
+        public Select getDerivedTable() {
+            return derivedTable;
+        }
+
+        public void setDerivedTable(Select derivedTable) {
+            this.derivedTable = derivedTable;
+        }
+
 
         @Override
         public List<Element> toElementList() {
@@ -91,7 +102,6 @@ public class From implements ElementList {
 
             return joinedTable.toElementList();
         }
-
     }
 
     /**
