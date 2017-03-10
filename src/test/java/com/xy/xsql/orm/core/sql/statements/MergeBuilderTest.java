@@ -1,5 +1,9 @@
 package com.xy.xsql.orm.core.sql.statements;
 
+import com.xy.xsql.orm.core.sql.clause.SearchConditionBuilder;
+import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.UnknownString;
+import com.xy.xsql.orm.data.sql.expression.NumberString;
 import com.xy.xsql.orm.data.sql.statements.dml.Merge;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,8 +31,22 @@ public class MergeBuilderTest {
                     .withTable("table2")
                     .out()
                 .withMergeSearchCondition()
-                    .withSearchCondition()
-                        //TODO
+                    .withPredicate()
+                        .Base()
+                        .withExpression(new NumberString(1))
+                        .withOperator(OperatorEnum.EQUAL)
+                        .withExpression(new NumberString(1))
+                        .out()
+                    .withAndOrList()
+                        .withItem()
+                            .withAnd()
+                            .withPredicate()
+                                .Base()
+                                .withExpression(new NumberString(1))
+                                .withOperator(OperatorEnum.EQUAL)
+                                .withExpression(new NumberString(1))
+                                .out()
+                            .out()
                         .out()
                     .out()
                 .withMatchedWhenThenList()

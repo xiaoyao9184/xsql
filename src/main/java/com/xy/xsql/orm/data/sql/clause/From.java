@@ -45,9 +45,12 @@ public class From implements ElementList {
      */
     public static class TableSource implements ElementList  {
 
-        //table_or_view_name
+        //table_or_view_name [ [ AS ] table_alias ]
         private Table table;
+        private boolean useAs;
         private boolean useTableAlias;
+        //derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
+        //TODO subquery
         //<joined_table>
         private JoinedTable joinedTable;
 
