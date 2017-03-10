@@ -39,30 +39,16 @@ import java.util.List;
  */
 public class SearchCondition implements ElementList {
 
-    private boolean useAnd;
-    private boolean useOr;
+
+    //{ [ NOT ] <predicate> | ( <search_condition> ) }
     private boolean useNot;
-    //
     private Predicate predicate;
     private SearchCondition searchCondition;
 
-    private List<SearchCondition> otherSearchCondition;
+    //[ { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) } ]
+    //[ ,...n ]
+    private List<AndOrItem> andOrList;
 
-    public boolean isUseAnd() {
-        return useAnd;
-    }
-
-    public void setUseAnd(boolean useAnd) {
-        this.useAnd = useAnd;
-    }
-
-    public boolean isUseOr() {
-        return useOr;
-    }
-
-    public void setUseOr(boolean useOr) {
-        this.useOr = useOr;
-    }
 
     public boolean isUseNot() {
         return useNot;
@@ -88,12 +74,12 @@ public class SearchCondition implements ElementList {
         this.searchCondition = searchCondition;
     }
 
-    public List<SearchCondition> getOtherSearchCondition() {
-        return otherSearchCondition;
+    public List<AndOrItem> getAndOrList() {
+        return andOrList;
     }
 
-    public void setOtherSearchCondition(List<SearchCondition> otherSearchCondition) {
-        this.otherSearchCondition = otherSearchCondition;
+    public void setAndOrList(List<AndOrItem> otherSearchCondition) {
+        this.andOrList = otherSearchCondition;
     }
 
 
@@ -101,33 +87,21 @@ public class SearchCondition implements ElementList {
     public List<Element> toElementList() {
         ListElementBuilder b = new ListElementBuilder();
 
-        if(useAnd) {
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.AND);
-        }else if(useOr){
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.OR);
-        }
+        b.append(useNot ? GrammarEnum.NOT : null)
+                .append(this.predicate != null ? predicate : searchCondition);
 
-        if(useNot) {
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.NOT);
-        }
-
-        if(this.predicate != null){
-            b.append(predicate);
-        }else{
-            b.append(searchCondition);
-        }
-
-        if(!CheckUtil.isNullOrEmpty(this.otherSearchCondition)){
-            for (SearchCondition searchCondition : this.otherSearchCondition) {
-                b.append(searchCondition.toElementList(),null);
+        if(!CheckUtil.isNullOrEmpty(this.andOrList)){
+            for (AndOrItem andOrItem : this.andOrList) {
+                b.append(andOrItem.toElementList(),null);
             }
         }
         return b.build(null);
     }
 
+
+    /**
+     * <predicate>
+     */
     public static class Predicate implements ElementList {
 
         private Expression expression;
@@ -211,6 +185,65 @@ public class SearchCondition implements ElementList {
             public String toString(){
                 return this.string;
             }
+        }
+    }
+
+    /**
+     * <predicate>
+     * { AND | OR } [ NOT ] { <predicate> | ( <search_condition> )
+     */
+    public static class AndOrItem implements ElementList {
+
+        private boolean useAnd;
+        private boolean useNot;
+
+        private Predicate predicate;
+        private SearchCondition searchCondition;
+
+
+        public boolean isUseAnd() {
+            return useAnd;
+        }
+
+        public void setUseAnd(boolean useAnd) {
+            this.useAnd = useAnd;
+        }
+
+        public boolean isUseNot() {
+            return useNot;
+        }
+
+        public void setUseNot(boolean useNot) {
+            this.useNot = useNot;
+        }
+
+        public Predicate getPredicate() {
+            return predicate;
+        }
+
+        public void setPredicate(Predicate predicate) {
+            this.predicate = predicate;
+        }
+
+        public SearchCondition getSearchCondition() {
+            return searchCondition;
+        }
+
+        public void setSearchCondition(SearchCondition searchCondition) {
+            this.searchCondition = searchCondition;
+        }
+
+        @Override
+        public List<Element> toElementList() {
+            ListElementBuilder b = new ListElementBuilder()
+                    .withDelimiter(OtherEnum.SPACE);
+
+            b.append(useAnd ? GrammarEnum.AND : GrammarEnum.OR);
+
+            b.append(useNot ? GrammarEnum.NOT : null)
+                    .append(this.predicate != null ? predicate : searchCondition);
+
+            return b.build(null);
         }
     }
 }
