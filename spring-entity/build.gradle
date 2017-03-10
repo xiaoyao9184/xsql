@@ -1,0 +1,41 @@
+group 'com.xy'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    //commons-beanutils
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    //JPA
+    compile group: 'javax.persistence', name: 'persistence-api', version: '1.0.2'
+    //commons-dbutils
+    compile group: 'commons-dbutils', name: 'commons-dbutils', version:'1.6'
+    //Spring JDBC
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'3.2.6.RELEASE'
+    //
+    compile project(":orm")
+    compile project(":spring-api")
+
+    //Test
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    //Spring
+    testCompile group: 'org.springframework', name: 'spring-test', version:'4.3.6.RELEASE'
+    testCompile group: 'org.springframework', name: 'spring-context', version:"4.3.6.RELEASE"
+    //DB
+    testCompile group: 'c3p0', name: 'c3p0', version:'0.9.1.2'
+    //Driver
+    testCompile group: 'net.sourceforge.jtds', name: 'jtds', version:'1.2.4'
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
