@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.data.sql.element.info.Order;
-import com.xy.xsql.orm.data.sql.element.info.Table;
+import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 
@@ -59,7 +59,7 @@ public class BulkInsert extends CustomizeSentence {
 
 
     //
-    private Table tableOrView;
+    private TableName tableOrView;
     //FROM
     private String formDataFile;
 
@@ -117,11 +117,11 @@ public class BulkInsert extends CustomizeSentence {
 //    private UnknownString rowTerminator = new UnknownString().withQuote(true);
 
 
-    public Table getTableOrView() {
+    public TableName getTableOrView() {
         return tableOrView;
     }
 
-    public void setTableOrView(Table tableOrView) {
+    public void setTableOrView(TableName tableOrView) {
         this.tableOrView = tableOrView;
     }
 
