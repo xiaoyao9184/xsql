@@ -2,3 +2,5 @@ rootProject.name = 'xsql'
 
 include 'orm'
 include 'test'
+include 'spring-entity'
+include 'spring-api'

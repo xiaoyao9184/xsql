@@ -69,6 +69,14 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
         return this;
     }
 
+    public BaseEntityRowMapper<T> withRowNameHandlerList(List<FieldRowNameHandler> fieldRowNameHandlerList) {
+        if(this.fieldRowNameHandlerList == null){
+            this.fieldRowNameHandlerList = new ArrayList<>();
+        }
+        this.fieldRowNameHandlerList.addAll(fieldRowNameHandlerList);
+        return this;
+    }
+
     /**
      * Set use default Row Name Handler
      * @param useDefaultRowNameHandler True:add default/false
@@ -147,4 +155,6 @@ public class BaseEntityRowMapper<T> implements RowMapper<T>, FieldRowNameHandler
     public String handlerField(Field field) {
         return field.getName();
     }
+
+
 }
