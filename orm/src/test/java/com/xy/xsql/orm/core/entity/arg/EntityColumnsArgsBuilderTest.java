@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by qyw on 2016/12/2.
+ * Created by xiaoyao9184 on 2016/12/2.
  */
 public class EntityColumnsArgsBuilderTest {
 
