@@ -8,6 +8,7 @@ import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.data.sql.element.info.Order;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
+import com.xy.xsql.orm.data.sql.expression.StringExpression;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 
@@ -54,25 +55,21 @@ import java.util.List;
  */
 public class BulkInsert extends CustomizeSentence {
 
-
-
-
-
     //
     private TableName tableOrView;
-    //FROM
+    //FROM 'data_file'
     private String formDataFile;
 
+    //[ WITH (...)]
     //[ [ , ] BATCHSIZE = batch_size ]
     private Integer batchSize;
     //[ [ , ] CHECK_CONSTRAINTS ]
     private boolean checkConstraints;
     //[ [ , ] CODEPAGE = { 'ACP' | 'OEM' | 'RAW' | 'code_page' } ]
-    private UnknownString codePage;
-
+    private StringExpression codePage;
     //[ [ , ] DATAFILETYPE =
     //{ 'char' | 'native'| 'widechar' | 'widenative' } ]
-    private UnknownString dataFileType;
+    private StringExpression dataFileType;
     //[ [ , ] DATASOURCE = 'data_source_name' ]
     private UnknownString dataSource;
     //[ [ , ] ERRORFILE = 'file_name' ]
@@ -113,6 +110,7 @@ public class BulkInsert extends CustomizeSentence {
     private UnknownString formatFile = new UnknownString().withQuote(true);
     //[ [ , ] FIELDTERMINATOR = 'field_terminator' ]
     private UnknownString fieldTerminator = new UnknownString().withQuote(true);
+    //may be repeat
     //[ [ , ] ROWTERMINATOR = 'row_terminator' ]
 //    private UnknownString rowTerminator = new UnknownString().withQuote(true);
 
@@ -133,8 +131,6 @@ public class BulkInsert extends CustomizeSentence {
         this.formDataFile = formDataFile;
     }
 
-
-
     public Integer getBatchSize() {
         return batchSize;
     }
@@ -151,19 +147,19 @@ public class BulkInsert extends CustomizeSentence {
         this.checkConstraints = checkConstraints;
     }
 
-    public UnknownString getCodePage() {
+    public StringExpression getCodePage() {
         return codePage;
     }
 
-    public void setCodePage(UnknownString codePage) {
+    public void setCodePage(StringExpression codePage) {
         this.codePage = codePage;
     }
 
-    public UnknownString getDataFileType() {
+    public StringExpression getDataFileType() {
         return dataFileType;
     }
 
-    public void setDataFileType(UnknownString dataFileType) {
+    public void setDataFileType(StringExpression dataFileType) {
         this.dataFileType = dataFileType;
     }
 
@@ -350,6 +346,12 @@ public class BulkInsert extends CustomizeSentence {
                     .append(codePage);
         }
 
+        if(dataFileType != null){
+            b.append(WithEnum.DATAFILETYPE)
+                    .append(OperatorEnum.EQUAL)
+                    .append(dataFileType);
+        }
+
         if(dataSource != null){
             b.append(WithEnum.DATASOURCE)
                     .append(OperatorEnum.EQUAL)
@@ -462,12 +464,22 @@ public class BulkInsert extends CustomizeSentence {
     }
 
     /**
-     *
+     * CODEPAGE enumerate string expression
      */
     public enum CodePage {
         ACP,
         OEM,
         RAW;
+
+        private StringExpression expression;
+
+        CodePage(){
+            this.expression = new StringExpression(this.name());
+        }
+
+        public StringExpression toExpression() {
+            return this.expression;
+        }
 
         @Override
         public String toString() {
@@ -475,11 +487,24 @@ public class BulkInsert extends CustomizeSentence {
         }
     }
 
+    /**
+     * DATAFILETYPE enumerate string expression
+     */
     public enum DataFileType {
         Char,
         Native,
         WideChar,
         WideNative;
+
+        private StringExpression expression;
+
+        DataFileType(){
+            this.expression = new StringExpression(this.name());
+        }
+
+        public StringExpression toExpression() {
+            return this.expression;
+        }
 
         @Override
         public String toString() {
@@ -487,7 +512,9 @@ public class BulkInsert extends CustomizeSentence {
         }
     }
 
-
+    /**
+     * WITH keywords
+     */
     public enum WithEnum implements Element {
         BATCHSIZE,
         CHECK_CONSTRAINTS,
@@ -519,4 +546,5 @@ public class BulkInsert extends CustomizeSentence {
             return this.name();
         }
     }
+
 }
