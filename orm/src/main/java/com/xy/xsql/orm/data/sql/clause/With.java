@@ -2,6 +2,7 @@ package com.xy.xsql.orm.data.sql.clause;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.Sentence;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
@@ -26,7 +27,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public class With {
+public class With implements ElementList {
 
     //<common_table_expression> [ ,...n ] ]
     private List<CommonTableExpression> commonTableExpressionList;
@@ -38,6 +39,15 @@ public class With {
 
     public void setCommonTableExpressionList(List<CommonTableExpression> commonTableExpressionList) {
         this.commonTableExpressionList = commonTableExpressionList;
+    }
+
+    @Override
+    public List<Element> toElementList() {
+        ListElementBuilder b = new ListElementBuilder();
+        b.append(GrammarEnum.WITH)
+                .append(commonTableExpressionList);
+
+        return b.build();
     }
 
 

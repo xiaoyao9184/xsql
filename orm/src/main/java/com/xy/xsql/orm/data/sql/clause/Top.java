@@ -30,18 +30,17 @@ import java.util.List;
  */
 public class Top implements ElementList {
 
-    private Expression countExpression;
+    private Expression expression;
     private boolean usePercent;
-    private boolean useParenthesis;
     private boolean useTies;
 
 
-    public Expression getCountExpression() {
-        return countExpression;
+    public Expression getExpression() {
+        return expression;
     }
 
-    public void setCountExpression(Expression countExpression) {
-        this.countExpression = countExpression;
+    public void setExpression(Expression expression) {
+        this.expression = expression;
     }
 
     public boolean isUsePercent() {
@@ -50,14 +49,6 @@ public class Top implements ElementList {
 
     public void setUsePercent(boolean usePercent) {
         this.usePercent = usePercent;
-    }
-
-    public boolean isUseParenthesis() {
-        return useParenthesis;
-    }
-
-    public void setUseParenthesis(boolean useParenthesis) {
-        this.useParenthesis = useParenthesis;
     }
 
     public boolean isUseTies() {
@@ -73,11 +64,6 @@ public class Top implements ElementList {
     public List<Element> toElementList() {
         ListElementBuilder b = new ListElementBuilder()
                 .append(GrammarEnum.TOP);
-        if(useParenthesis){
-            b.append(OtherEnum.GROUP_START)
-                    .append(countExpression)
-                    .append(OtherEnum.GROUP_END);
-        }
         b.append(usePercent ? GrammarEnum.PERCENT : null);
         if(useTies){
             b.append(GrammarEnum.WITH)

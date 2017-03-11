@@ -26,7 +26,7 @@ TSQL
 | Table Value Constructor
 | TOP
 | WHERE
-| WITH common_table_expression
+| WITH common_table_expression | ALL |
 
 
 

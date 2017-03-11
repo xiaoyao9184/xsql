@@ -14,6 +14,8 @@ import com.xy.xsql.orm.data.sql.sentence.select.SelectSentence;
 import java.util.List;
 import java.util.Map;
 
+import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e;
+
 /**
  * CodeSentenceDataBuilder
  * core BaseElementsSentence by code
@@ -57,11 +59,13 @@ public class SelectSentenceDataBuilder implements BaseBuilder<BaseElementsSenten
     @Override
     public SelectSentenceDataBuilder top(int count, boolean percent) {
         Top top = new Top();
-        top.setCountExpression(new NumberString(count));
+        top.setExpression(e(count));
         top.setUsePercent(percent);
         this.selectSentence.withTop(top);
         return this;
     }
+
+
 
     @Override
     public SelectSentenceDataBuilder columns(String... columns) {

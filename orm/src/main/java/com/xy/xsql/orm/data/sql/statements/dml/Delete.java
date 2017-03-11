@@ -1,15 +1,21 @@
 package com.xy.xsql.orm.data.sql.statements.dml;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
+import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.orm.data.sql.ElementList;
+import com.xy.xsql.orm.data.sql.clause.With;
 import com.xy.xsql.orm.data.sql.clause.From;
 import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.clause.Where;
+import com.xy.xsql.orm.data.sql.clause.Option;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
+
+import java.util.List;
 
 /**
  *
@@ -62,18 +68,46 @@ import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
  *
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class Delete extends CustomizeSentence {
+public class Delete extends CustomizeSentence implements ElementList {
+    //[ WITH <common_table_expression> [ ,...n ] ]
+    private With with;
     //TOP
     private Top top;
     //FROM
     private boolean useForm;
-    //
+    /*
+    { { table_alias
+      | <object>
+      | rowset_function_limited
+      [ WITH ( table_hint_limited [ ...n ] ) ] }
+      | @table_variable
+    }
+     */
     private Alias<Void> tableAlias;
     private TableName tableName;
-    //FROM table_source
+    //TODO rowset_function_limited
+    //TODO @table_variable
+
+    //TODO  [ <OUTPUT Clause> ]
+
+    //[ FROM table_source [ ,...n ] ]
     private From from;
-    //WHERE
+    /*
+    [ WHERE { <search_condition>
+            | { [ CURRENT OF
+                   { { [ GLOBAL ] cursor_name }
+                       | cursor_variable_name
+                   }
+                ]
+              }
+            }
+    ]
+     */
     private Where where;
+    //TODO CURRENT
+
+    //[ OPTION ( <Query Hint> [ ,...n ] ) ]
+    private Option option;
 
 
 
@@ -125,20 +159,44 @@ public class Delete extends CustomizeSentence {
         this.where = where;
     }
 
+    public With getWith() {
+        return with;
+    }
+
+    public void setWith(With with) {
+        this.with = with;
+    }
+
+    public Option getOption() {
+        return option;
+    }
+
+    public void setOption(Option option) {
+        this.option = option;
+    }
+
 
     @Override
     public BaseElementsSentence toBaseElementsSentence() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.DELETE);
+        return new BaseElementsSentence(toElementList());
+    }
+
+    @Override
+    public List<Element> toElementList() {
+        ListElementBuilder b = new ListElementBuilder();
+
+        //[ WITH <common_table_expression> [ ,...n ] ]
+        b.append(this.with);
+
+        //DELETE
+        b.append(GrammarEnum.DELETE);
 
         //[ TOP ( expression ) [ PERCENT ] ]
-        b.append(OtherEnum.SPACE)
-                .append(getTop().toElementList(),null);
+        b.append(this.top);
 
         //[ FROM ]
         if(useForm){
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.FROM);
+            b.append(GrammarEnum.FROM);
         }
 
         /*
@@ -150,20 +208,13 @@ public class Delete extends CustomizeSentence {
         }
          */
         if(this.tableAlias != null){
-            b.append(OtherEnum.SPACE)
-                    .append(tableAlias);
+            b.append(tableAlias);
         } else if(this.tableName != null){
-            b.append(OtherEnum.SPACE)
-                    .append(tableName);
+            b.append(tableName);
         }
 
         //[ FROM table_source [ ,...n ] ]
-        if(where != null){
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.FROM)
-                    .append(OtherEnum.SPACE)
-                    .append(from);
-        }
+        b.append(this.from);
 
         /*
         [ WHERE { <search_condition>
@@ -176,14 +227,11 @@ public class Delete extends CustomizeSentence {
                 }
         ]
         */
-        if( getWhere() != null ){
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.WHERE)
-                    .append(OtherEnum.SPACE)
-                    .append(getWhere());
-        }
+        b.append(this.where);
 
-        return new BaseElementsSentence(b.build(null));
+        //[ OPTION ( <Query Hint> [ ,...n ] ) ]
+        b.append(this.option);
+
+        return b.build();
     }
-
 }

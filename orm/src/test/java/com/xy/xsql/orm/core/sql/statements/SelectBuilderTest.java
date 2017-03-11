@@ -66,17 +66,17 @@ public class SelectBuilderTest {
     public void testTopBuild(){
         Select select = new SelectBuilder()
                 .withTop()
-                    .withCountExpression(50)
-                    .build(null)
+                    .withExpression(e(50))
+                    .and()
                 .build(null);
 
-        Assert.assertEquals(select.getTop().getCountExpression().toString(),"50");
+        Assert.assertEquals(select.getTop().getExpression().toString(),"50");
 
         select = new SelectBuilder()
                 .withTop()
-                    .withCountExpression(50)
+                    .withExpression(e(50))
                     .withPercent()
-                    .build(null)
+                    .and()
                 .build(null);
 
         Assert.assertTrue(select.getTop().isUsePercent());
