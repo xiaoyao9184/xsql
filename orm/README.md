@@ -23,7 +23,7 @@ TSQL
 | OPTION Clause
 | OUTPUT Clause | ALL
 | Search Condition
-| Table Value Constructor
+| Table Value Constructor | ALL |
 | TOP | ALL |
 | WHERE
 | WITH common_table_expression | ALL |

@@ -4,6 +4,7 @@ import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
+import com.xy.xsql.orm.data.sql.statements.dml.Select;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class RowValueExpression implements Expression {
     private boolean useNull = false;
     private boolean useDefault = false;
     private Expression expression;
+    //TODO or Select
+    private Select select;
 
 
     public boolean isUseNull() {
@@ -53,5 +56,9 @@ public class RowValueExpression implements Expression {
             b.append(getExpression());
         }
         return b.build();
+    }
+
+    public void setSelect(Select select) {
+        this.select = select;
     }
 }

@@ -203,6 +203,7 @@ public class Insert extends CustomizeSentence {
     /**
      * Value
      */
+    @Deprecated
     public static class Value implements ElementList {
         //{ DEFAULT | NULL | expression }
         private boolean useDefault = false;
