@@ -7,6 +7,11 @@ import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.orm.data.sql.element.datatype.StringConstant;
+import com.xy.xsql.orm.data.sql.element.info.Column;
+import com.xy.xsql.orm.data.sql.element.predicate.Contains;
+import com.xy.xsql.orm.data.sql.element.predicate.FreeText;
+import com.xy.xsql.orm.data.sql.statements.dml.Select;
 import com.xy.xsql.orm.util.CheckUtil;
 
 import java.util.List;
@@ -39,7 +44,6 @@ import java.util.List;
  */
 public class SearchCondition implements ElementList {
 
-
     //{ [ NOT ] <predicate> | ( <search_condition> ) }
     private boolean useNot;
     private Predicate predicate;
@@ -47,7 +51,7 @@ public class SearchCondition implements ElementList {
 
     //[ { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) } ]
     //[ ,...n ]
-    private List<AndOrItem> andOrList;
+    private List<AndOrNotItem> andOrList;
 
 
     public boolean isUseNot() {
@@ -74,11 +78,11 @@ public class SearchCondition implements ElementList {
         this.searchCondition = searchCondition;
     }
 
-    public List<AndOrItem> getAndOrList() {
+    public List<AndOrNotItem> getAndOrList() {
         return andOrList;
     }
 
-    public void setAndOrList(List<AndOrItem> otherSearchCondition) {
+    public void setAndOrList(List<AndOrNotItem> otherSearchCondition) {
         this.andOrList = otherSearchCondition;
     }
 
@@ -91,8 +95,8 @@ public class SearchCondition implements ElementList {
                 .append(this.predicate != null ? predicate : searchCondition);
 
         if(!CheckUtil.isNullOrEmpty(this.andOrList)){
-            for (AndOrItem andOrItem : this.andOrList) {
-                b.append(andOrItem.toElementList(),null);
+            for (AndOrNotItem andOrNotItem : this.andOrList) {
+                b.append(andOrNotItem.toElementList(),null);
             }
         }
         return b.build(null);
@@ -104,18 +108,49 @@ public class SearchCondition implements ElementList {
      */
     public static class Predicate implements ElementList {
 
+        private PredicateType type;
+
+        //1 left
         private Expression expression;
+        //NOT
         private boolean NotOperator;
+
+        //{ expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
         private OperatorEnum operatorEnum;
-        //
+
+        //2
+        //{ expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
+        //string_expression [ NOT ] LIKE string_expression
+        //expression [ NOT ] BETWEEN expression AND expression
         private Expression operatorExpression;
+
+        //3
+        //expression [ NOT ] BETWEEN expression AND expression
         private Expression andExpression;
 
-        //{ ALL | SOME | ANY}
-        private ASA asa;
+        //string_expression [ NOT ] LIKE string_expression
+        //[ ESCAPE 'escape_character' ]
+        private StringConstant escapeCharacter;
+
+        //CONTAINS
+        //( { column | * } , '<contains_search_condition>' )
+        private Contains contains;
+
+        //FREETEXT ( { column | * } , 'freetext_string' )
+        private FreeText freeText;
+
+        //expression [ NOT ] IN ( subquery | expression [ ,...n ] )
+        private List<Select> subqueryList;
+        private List<Expression> expressionList;
 
         //subquery
-        //TODO
+        //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
+        // { ALL | SOME | ANY} ( subquery )
+        //EXISTS ( subquery )
+        private Select subquery;
+
+        public Predicate() {
+        }
 
         @Override
         public List<Element> toElementList() {
@@ -162,43 +197,104 @@ public class SearchCondition implements ElementList {
             this.andExpression = andExpression;
         }
 
-        public ASA getAsa() {
-            return asa;
+        public PredicateType getType() {
+            return type;
         }
 
-        public void setAsa(ASA asa) {
-            this.asa = asa;
+        public void setType(PredicateType type) {
+            this.type = type;
         }
 
-        public enum ASA implements Element {
-            ALL("ALL"),
-            SOME("SOME"),
-            ANY("ANY");
-
-            private String string;
-
-            ASA(String string){
-                this.string = string;
-            }
-
-            @Override
-            public String toString(){
-                return this.string;
-            }
+        public StringConstant getEscapeCharacter() {
+            return escapeCharacter;
         }
+
+        public void setEscapeCharacter(StringConstant escapeCharacter) {
+            this.escapeCharacter = escapeCharacter;
+        }
+
+        public List<Select> getSubqueryList() {
+            return subqueryList;
+        }
+
+        public void setSubqueryList(List<Select> subqueryList) {
+            this.subqueryList = subqueryList;
+        }
+
+        public List<Expression> getExpressionList() {
+            return expressionList;
+        }
+
+        public void setExpressionList(List<Expression> expressionList) {
+            this.expressionList = expressionList;
+        }
+
+        public Select getSubquery() {
+            return subquery;
+        }
+
+        public void setSubquery(Select subquery) {
+            this.subquery = subquery;
+        }
+
+
+        public Contains getContains() {
+            return contains;
+        }
+
+        public void setContains(Contains contains) {
+            this.contains = contains;
+        }
+
+        public FreeText getFreeText() {
+            return freeText;
+        }
+
+        public void setFreeText(FreeText freeText) {
+            this.freeText = freeText;
+        }
+    }
+
+    /**
+     *
+     */
+    public enum PredicateType {
+        Operator,
+        Like,
+        Between,
+        Null,
+        Contains,
+        FreeText,
+        In,
+        All,
+        Some,
+        Any,
+        Exists;
     }
 
     /**
      * <predicate>
      * { AND | OR } [ NOT ] { <predicate> | ( <search_condition> )
      */
-    public static class AndOrItem implements ElementList {
+    public static class AndOrNotItem implements ElementList {
 
         private boolean useAnd;
         private boolean useNot;
 
         private Predicate predicate;
         private SearchCondition searchCondition;
+
+        public AndOrNotItem() {
+        }
+
+        public AndOrNotItem(Predicate predicate) {
+            this.predicate = predicate;
+        }
+
+        public AndOrNotItem(Predicate predicate, boolean useAnd) {
+            this.predicate = predicate;
+            this.useAnd = useAnd;
+        }
 
 
         public boolean isUseAnd() {

@@ -22,7 +22,7 @@ TSQL
 | Hints | Query,Table,Join |
 | OPTION Clause | ALL |
 | OUTPUT Clause | ALL |
-| Search Condition
+| Search Condition | ALL |
 | Table Value Constructor | ALL |
 | TOP | ALL |
 | WHERE

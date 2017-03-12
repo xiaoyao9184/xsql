@@ -1,33 +1,32 @@
-package com.xy.xsql.orm.data.sql.expression;
+package com.xy.xsql.orm.data.sql.element.datatype;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.UnknownString;
 
 import java.util.List;
 
 /**
- * Created by xiaoyao9184 on 2016/11/13.
+ * Created by xiaoyao9184 on 2017/3/12.
  */
-public class StringExpression implements Expression {
+public class StringConstant implements Expression {
 
     private boolean useQuote;
     private boolean useNQuote;
     private String string;
 
-    public StringExpression(String string){
+    public StringConstant(String string){
         this.string = string;
     }
 
 
-    public StringExpression withQuote() {
-        this.useQuote = useQuote;
+    public StringConstant withQuote() {
+        this.useQuote = true;
         return this;
     }
 
-    public StringExpression withNQuote() {
-        this.useNQuote = useNQuote;
+    public StringConstant withNQuote() {
+        this.useNQuote = true;
         return this;
     }
 

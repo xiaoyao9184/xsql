@@ -4,6 +4,8 @@ import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.UnknownString;
+import com.xy.xsql.orm.data.sql.element.datatype.StringConstant;
 import com.xy.xsql.orm.data.sql.expression.ElementExpression;
 import com.xy.xsql.orm.data.sql.expression.GrammarExpression;
 import com.xy.xsql.orm.data.sql.expression.NumberString;
@@ -15,10 +17,11 @@ import com.xy.xsql.orm.data.sql.statements.dml.Select;
  */
 public class ExpressionBuilder {
 
-    public static Expression e(String stringExpression){
-        return new StringExpression(stringExpression);
+    public static Expression e(String expressionString){
+        return new StringExpression(expressionString);
     }
 
+    @Deprecated
     public static Expression e(Number numberExpression){
         return new NumberString(numberExpression);
     }
@@ -34,6 +37,18 @@ public class ExpressionBuilder {
 
     public static Expression e_default(){
         return new GrammarExpression(GrammarEnum.DEFAULT);
+    }
+
+    public static StringConstant e_string(String stringExpression){
+        return new StringConstant(stringExpression).withQuote();
+    }
+
+    public static StringConstant e_n_string(String stringExpression){
+        return new StringConstant(stringExpression).withNQuote();
+    }
+
+    public static NumberString e_number(Number numberExpression){
+        return new NumberString(numberExpression);
     }
 
 

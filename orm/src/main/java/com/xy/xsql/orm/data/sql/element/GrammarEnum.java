@@ -81,7 +81,10 @@ public enum GrammarEnum implements Element {
 
 
     //OVER
-    OVER, PARTITION;
+    OVER, PARTITION,
+
+    //Predicates
+    FREETEXT;
 
 
 
