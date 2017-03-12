@@ -8,9 +8,9 @@ import org.junit.Test;
 
 import static com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder.*;
 import static com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder.OptimizeForBuilder.OPTIMIZE_FOR_Item;
-import static com.xy.xsql.orm.core.sql.clause.hints.TableHintsBuilder.FORCESEEK;
-import static com.xy.xsql.orm.core.sql.clause.hints.TableHintsBuilder.INDEX;
-import static com.xy.xsql.orm.core.sql.clause.hints.TableHintsBuilder.NOLOCK;
+import static com.xy.xsql.orm.core.sql.clause.hints.TableHintBuilder.FORCESEEK;
+import static com.xy.xsql.orm.core.sql.clause.hints.TableHintBuilder.INDEX;
+import static com.xy.xsql.orm.core.sql.clause.hints.TableHintBuilder.NOLOCK;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
