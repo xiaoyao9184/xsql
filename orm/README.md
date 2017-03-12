@@ -19,7 +19,7 @@ TSQL
 | 语句 | 支持程度 |
 | ----- | ----- |
 | FROM |
-| Hints |
+| Hints | Query |
 | OPTION Clause
 | OUTPUT Clause | ALL
 | Search Condition
