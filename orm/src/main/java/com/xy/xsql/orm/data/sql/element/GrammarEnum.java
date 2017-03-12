@@ -84,7 +84,7 @@ public enum GrammarEnum implements Element {
     OVER, PARTITION,
 
     //Predicates
-    FREETEXT;
+    FREETEXT, CONTAINS;
 
 
 

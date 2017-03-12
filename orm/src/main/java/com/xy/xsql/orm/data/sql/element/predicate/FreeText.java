@@ -12,9 +12,10 @@ import com.xy.xsql.orm.data.sql.element.info.Column;
 import java.util.List;
 
 /**
+ * FREETEXT ( { column | * } , 'freetext_string' )
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class FreeText implements ElementList {
+public class FreeText implements Predicate {
 
     //{ column_name | (column_list) | * }
     private Column columnName;
@@ -59,6 +60,7 @@ public class FreeText implements ElementList {
         this.freetextString = freetextString;
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public List<Element> toElementList() {
         ListElementBuilder b = new ListElementBuilder()

@@ -2,6 +2,10 @@ package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.predicate.In;
+import com.xy.xsql.orm.data.sql.element.predicate.Like;
+import com.xy.xsql.orm.data.sql.element.predicate.Operator;
+import com.xy.xsql.orm.data.sql.element.predicate.OperatorSubQuery;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,9 +40,10 @@ public class SearchConditionBuilderTest {
                 )
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getType(), SearchCondition.PredicateType.All);
-        Assert.assertEquals(searchCondition.getPredicate().getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(searchCondition.getPredicate().getOperatorEnum(), OperatorEnum.EQUAL);
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
+        OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
+        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        Assert.assertEquals(predicate.getOperatorEnum(), OperatorEnum.EQUAL);
     }
 
     /**
@@ -54,23 +59,20 @@ public class SearchConditionBuilderTest {
                                 ALL(),
                                 select)
                 )
-                .withAnd()
-                    .withPredicate(
-                            EQUAL(e("CountryRegionCode"),
-                                    e_number(20))
-                    )
-                    .and()
+                .withAndPredicate(
+                        EQUAL(e("CountryRegionCode"),
+                                e_number(20)))
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getType(), SearchCondition.PredicateType.All);
-        Assert.assertEquals(searchCondition.getPredicate().getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(searchCondition.getPredicate().getOperatorEnum(), OperatorEnum.EQUAL);
-
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
+        OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
+        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        Assert.assertEquals(predicate.getOperatorEnum(), OperatorEnum.EQUAL);
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getType(), SearchCondition.PredicateType.Operator);
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getOperatorEnum(), OperatorEnum.EQUAL);
+        Operator predicate1 = (Operator) searchCondition.getAndOrList().get(0).getPredicate();
+        Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
+        Assert.assertEquals(predicate1.getOperatorEnum(), OperatorEnum.EQUAL);
     }
 
     /**
@@ -98,15 +100,22 @@ public class SearchConditionBuilderTest {
                     .and()
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getType(), SearchCondition.PredicateType.All);
-        Assert.assertEquals(searchCondition.getPredicate().getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(searchCondition.getPredicate().getOperatorEnum(), OperatorEnum.EQUAL);
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
+        OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
+        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        Assert.assertEquals(predicate.getOperatorEnum(), OperatorEnum.EQUAL);
 
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate().getType(), SearchCondition.PredicateType.Operator);
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate().getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate().getOperatorEnum(), OperatorEnum.GREATER);
+        Operator predicate1 = (Operator) searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate();
+        Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
+        Assert.assertEquals(predicate1.getOperatorEnum(), OperatorEnum.GREATER);
+
+        Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().size(), 1);
+        Operator predicate2 = (Operator) searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().get(0).getPredicate();
+        Assert.assertEquals(predicate2.getExpression().toString(), "CountryRegionCode");
+        Assert.assertEquals(predicate2.getOperatorEnum(), OperatorEnum.LESS);
+
     }
 
 
@@ -134,10 +143,11 @@ public class SearchConditionBuilderTest {
                                 e_string("a")))
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getType(), SearchCondition.PredicateType.Like);
-        Assert.assertEquals(searchCondition.getPredicate().getExpression().toString(), "LargePhotoFileName");
-        Assert.assertEquals(searchCondition.getPredicate().getOperatorExpression().toString(), "'%greena_%'");
-        Assert.assertEquals(searchCondition.getPredicate().getEscapeCharacter().toString(), "'a'");
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
+        Like predicate = (Like) searchCondition.getPredicate();
+        Assert.assertEquals(predicate.getExpression().toString(), "LargePhotoFileName");
+        Assert.assertEquals(predicate.getOperatorExpression().toString(), "'%greena_%'");
+        Assert.assertEquals(predicate.getEscapeCharacter().toString(), "'a'");
     }
 
     /**
@@ -158,14 +168,16 @@ public class SearchConditionBuilderTest {
                 )
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getType(), SearchCondition.PredicateType.In);
-        Assert.assertEquals(searchCondition.getPredicate().getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(searchCondition.getPredicate().getExpressionList().get(0).toString(), "'US'");
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), In.class);
+        In predicate = (In) searchCondition.getPredicate();
+        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        Assert.assertEquals(predicate.getExpressionList().get(0).toString(), "'US'");
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getType(), SearchCondition.PredicateType.Like);
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getExpression().toString(), "City");
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getOperatorExpression().toString(), "N'Pa%'");
+        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getClass(), Like.class);
+        Like predicate1 = (Like) searchCondition.getAndOrList().get(0).getPredicate();
+        Assert.assertEquals(predicate1.getExpression().toString(), "City");
+        Assert.assertEquals(predicate1.getOperatorExpression().toString(), "N'Pa%'");
     }
 
     /**
@@ -181,9 +193,10 @@ public class SearchConditionBuilderTest {
                 )
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getType(), SearchCondition.PredicateType.Like);
-        Assert.assertEquals(searchCondition.getPredicate().getExpression().toString(), "LastName");
-        Assert.assertEquals(searchCondition.getPredicate().getOperatorExpression().toString(), "'%and%'");
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
+        Like predicate = (Like) searchCondition.getPredicate();
+        Assert.assertEquals(predicate.getExpression().toString(), "LastName");
+        Assert.assertEquals(predicate.getOperatorExpression().toString(), "'%and%'");
     }
 
     /**
@@ -199,9 +212,10 @@ public class SearchConditionBuilderTest {
                 )
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getType(), SearchCondition.PredicateType.Like);
-        Assert.assertEquals(searchCondition.getPredicate().getExpression().toString(), "LastName");
-        Assert.assertEquals(searchCondition.getPredicate().getOperatorExpression().toString(), "N'%and%'");
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
+        Like predicate = (Like) searchCondition.getPredicate();
+        Assert.assertEquals(predicate.getExpression().toString(), "LastName");
+        Assert.assertEquals(predicate.getOperatorExpression().toString(), "N'%and%'");
     }
 
 }

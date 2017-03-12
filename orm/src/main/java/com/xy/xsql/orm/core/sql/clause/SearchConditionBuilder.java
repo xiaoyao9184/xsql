@@ -1,13 +1,12 @@
 package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.CodeTreeBuilder;
-import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.datatype.StringConstant;
 import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.predicate.FreeText;
+import com.xy.xsql.orm.data.sql.element.predicate.*;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
 
 import java.util.Arrays;
@@ -34,14 +33,13 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     public SearchConditionBuilder<ParentBuilder> withNot(){
-        this.tar.setUseNot(true);
+        tar.setUseNot(true);
         return this;
     }
 
     public PredicateBuilder<SearchConditionBuilder<ParentBuilder>> withPredicate(){
         return new PredicateBuilder<SearchConditionBuilder<ParentBuilder>>
-                (set(SearchCondition.Predicate::new,
-                        tar::setPredicate))
+                ()
                 .in(this);
     }
 
@@ -66,7 +64,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withPredicate(SearchCondition.Predicate predicate){
+    public SearchConditionBuilder<ParentBuilder> withPredicate(Predicate predicate){
         tar.setPredicate(predicate);
         return this;
     }
@@ -155,7 +153,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withAnd(SearchCondition.Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> withAnd(Predicate predicate) {
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withAnd()
                         .withPredicate(predicate)
@@ -170,7 +168,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withOr(SearchCondition.Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> withOr(Predicate predicate) {
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withOr()
                         .withPredicate(predicate)
@@ -185,7 +183,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withAndPredicate(SearchCondition.Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> withAndPredicate(Predicate predicate) {
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withAnd()
                         .withPredicate(predicate)
@@ -200,7 +198,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withOrPredicate(SearchCondition.Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> withOrPredicate(Predicate predicate) {
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withOr()
                         .withPredicate(predicate)
@@ -215,7 +213,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withAndNotPredicate(SearchCondition.Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> withAndNotPredicate(Predicate predicate) {
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withAnd()
                         .withNot(true)
@@ -231,7 +229,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withOrNotPredicate(SearchCondition.Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> withOrNotPredicate(Predicate predicate) {
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withOr()
                         .withNot(true)
@@ -321,46 +319,68 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class PredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,Predicate> {
 
-        public PredicateBuilder(SearchCondition.Predicate predicate) {
+        public PredicateBuilder() {
+            super(null);
+        }
+
+        public PredicateBuilder(Predicate predicate) {
             super(predicate);
         }
 
         public OperatorPredicateBuilder<ParentBuilder> Operator(){
-            return new OperatorPredicateBuilder<ParentBuilder>(tar).in(out());
+            Operator predicate = new Operator();
+            tar = predicate;
+            return new OperatorPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public LikePredicateBuilder<ParentBuilder> Like(){
-            return new LikePredicateBuilder<ParentBuilder>(tar).in(out());
+            Like predicate = new Like();
+            tar = predicate;
+            return new LikePredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public BetweenPredicateBuilder<ParentBuilder> Between(){
-            return new BetweenPredicateBuilder<ParentBuilder>(tar).in(out());
+            Between predicate = new Between();
+            tar = predicate;
+            return new BetweenPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public IsNullPredicateBuilder<ParentBuilder> IsNull(){
-            return new IsNullPredicateBuilder<ParentBuilder>(tar).in(out());
+            IsNull predicate = new IsNull();
+            tar = predicate;
+            return new IsNullPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public ContainsPredicateBuilder<ParentBuilder> Contains(){
-            return new ContainsPredicateBuilder<ParentBuilder>(tar).in(out());
+            Contains predicate = new Contains();
+            tar = predicate;
+            return new ContainsPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public FreeTextPredicateBuilder<ParentBuilder> FreeText(){
-            return new FreeTextPredicateBuilder<ParentBuilder>(tar).in(out());
+            FreeText predicate = new FreeText();
+            tar = predicate;
+            return new FreeTextPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public InPredicateBuilder<ParentBuilder> In(){
-            return new InPredicateBuilder<ParentBuilder>(tar).in(out());
+            In predicate = new In();
+            tar = predicate;
+            return new InPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public ASAPredicateBuilder<ParentBuilder> All_Some_Any(){
-            return new ASAPredicateBuilder<ParentBuilder>(tar).in(out());
+            OperatorSubQuery predicate = new OperatorSubQuery();
+            tar = predicate;
+            return new ASAPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
         public ExistsPredicateBuilder<ParentBuilder> Exists(){
-            return new ExistsPredicateBuilder<ParentBuilder>(tar).in(out());
+            Exists predicate = new Exists();
+            tar = predicate;
+            return new ExistsPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
 
     }
@@ -369,38 +389,37 @@ public class SearchConditionBuilder<ParentBuilder>
      * expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
      * @param <ParentBuilder>
      */
+    @SuppressWarnings("Duplicates")
     public static class OperatorPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OperatorPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<OperatorPredicateBuilder<ParentBuilder>,ParentBuilder,Operator> {
 
         public OperatorPredicateBuilder() {
-            super(new SearchCondition.Predicate());
-            tar.setType(SearchCondition.PredicateType.Operator);
+            super(new Operator());
         }
 
-        public OperatorPredicateBuilder(SearchCondition.Predicate predicate) {
+        public OperatorPredicateBuilder(Operator predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.Operator);
         }
 
         private int index = 0;
 
         public OperatorPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
             if(index == 0){
-                this.tar.setExpression(expression);
+                tar.setExpression(expression);
                 index = 1;
             } else {
-                this.tar.setOperatorExpression(expression);
+                tar.setOperatorExpression(expression);
                 index = 0;
             }
             return this;
         }
 
         public OperatorPredicateBuilder<ParentBuilder> withOperator(OperatorEnum operatorEnum) {
-            this.tar.setOperatorEnum(operatorEnum);
+            tar.setOperatorEnum(operatorEnum);
             return this;
         }
 
-        public static SearchCondition.Predicate EQUAL(Expression left,Expression right){
+        public static Predicate EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.EQUAL)
@@ -408,7 +427,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_EQUAL(Expression left,Expression right){
+        public static Predicate NOT_EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.NOT_EQUAL)
@@ -416,7 +435,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_EQUAL_NOT_ISO(Expression left,Expression right){
+        public static Predicate NOT_EQUAL_NOT_ISO(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.NOT_EQUAL_NOT_ISO)
@@ -424,7 +443,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate GREATER(Expression left,Expression right){
+        public static Predicate GREATER(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.GREATER)
@@ -432,7 +451,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate GREATER_EQUAL(Expression left,Expression right){
+        public static Predicate GREATER_EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.GREATER_EQUAL)
@@ -440,7 +459,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_GREATER_NOT_ISO(Expression left,Expression right){
+        public static Predicate NOT_GREATER_NOT_ISO(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.NOT_GREATER_NOT_ISO)
@@ -448,7 +467,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate LESS(Expression left,Expression right){
+        public static Predicate LESS(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.LESS)
@@ -456,7 +475,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate LESS_EQUAL(Expression left,Expression right){
+        public static Predicate LESS_EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.LESS_EQUAL)
@@ -464,7 +483,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_LESS_NOT_ISO(Expression left,Expression right){
+        public static Predicate NOT_LESS_NOT_ISO(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
                     .withOperator(OperatorEnum.NOT_LESS_NOT_ISO)
@@ -480,50 +499,48 @@ public class SearchConditionBuilder<ParentBuilder>
      */
     @SuppressWarnings("Duplicates")
     public static class LikePredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<LikePredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<LikePredicateBuilder<ParentBuilder>,ParentBuilder,Like> {
 
         public LikePredicateBuilder() {
-            super(new SearchCondition.Predicate());
-            tar.setType(SearchCondition.PredicateType.Like);
+            super(new Like());
         }
 
-        public LikePredicateBuilder(SearchCondition.Predicate predicate) {
+        public LikePredicateBuilder(Like predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.Like);
         }
 
         private int index = 0;
 
         public LikePredicateBuilder<ParentBuilder> withStringExpression(Expression expression) {
             if(index == 0){
-                this.tar.setExpression(expression);
+                tar.setExpression(expression);
                 index = 1;
             } else {
-                this.tar.setOperatorExpression(expression);
+                tar.setOperatorExpression(expression);
                 index = 0;
             }
             return this;
         }
 
         public LikePredicateBuilder<ParentBuilder> withNot(boolean useNot) {
-            this.tar.setNotOperator(useNot);
+            tar.setUseNotOperator(useNot);
             return this;
         }
 
         public LikePredicateBuilder<ParentBuilder> withEscape(StringConstant escape) {
-            this.tar.setEscapeCharacter(escape);
+            tar.setEscapeCharacter(escape);
             return this;
         }
 
 
-        public static SearchCondition.Predicate LIKE(Expression left,Expression right){
+        public static Predicate LIKE(Expression left,Expression right){
             return new LikePredicateBuilder<Void>()
                     .withStringExpression(left)
                     .withStringExpression(right)
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_LIKE(Expression left,Expression right){
+        public static Predicate NOT_LIKE(Expression left,Expression right){
             return new LikePredicateBuilder<Void>()
                     .withStringExpression(left)
                     .withNot(true)
@@ -532,7 +549,7 @@ public class SearchConditionBuilder<ParentBuilder>
         }
 
 
-        public static SearchCondition.Predicate LIKE(Expression left,Expression right,StringConstant escape){
+        public static Predicate LIKE(Expression left,Expression right,StringConstant escape){
             return new LikePredicateBuilder<Void>()
                     .withStringExpression(left)
                     .withStringExpression(right)
@@ -540,7 +557,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_LIKE(Expression left,Expression right,StringConstant escape){
+        public static Predicate NOT_LIKE(Expression left,Expression right,StringConstant escape){
             return new LikePredicateBuilder<Void>()
                     .withStringExpression(left)
                     .withNot(true)
@@ -556,41 +573,39 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class BetweenPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<BetweenPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<BetweenPredicateBuilder<ParentBuilder>,ParentBuilder,Between> {
 
         public BetweenPredicateBuilder() {
-            super(new SearchCondition.Predicate());
-            tar.setType(SearchCondition.PredicateType.Between);
+            super(new Between());
         }
 
-        public BetweenPredicateBuilder(SearchCondition.Predicate predicate) {
+        public BetweenPredicateBuilder(Between predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.Between);
         }
 
         private int index = 0;
 
         public BetweenPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
             if(index == 0){
-                this.tar.setExpression(expression);
+                tar.setExpression(expression);
                 index = 1;
             } else if(index == 1) {
-                this.tar.setOperatorExpression(expression);
+                tar.setStartExpression(expression);
                 index = 2;
             } else {
-                this.tar.setAndExpression(expression);
+                tar.setEndExpression(expression);
                 index = 0;
             }
             return this;
         }
 
         public BetweenPredicateBuilder<ParentBuilder> withNot(boolean useNot) {
-            this.tar.setNotOperator(useNot);
+            tar.setUseNotOperator(useNot);
             return this;
         }
 
 
-        public static SearchCondition.Predicate BETWEEN(Expression left,Expression start,Expression end){
+        public static Predicate BETWEEN(Expression left,Expression start,Expression end){
             return new BetweenPredicateBuilder<Void>()
                     .withExpression(left)
                     .withExpression(start)
@@ -598,7 +613,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_BETWEEN(Expression left,Expression start,Expression end){
+        public static Predicate NOT_BETWEEN(Expression left,Expression start,Expression end){
             return new BetweenPredicateBuilder<Void>()
                     .withNot(true)
                     .withExpression(left)
@@ -613,35 +628,33 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class IsNullPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<IsNullPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<IsNullPredicateBuilder<ParentBuilder>,ParentBuilder,IsNull> {
 
         public IsNullPredicateBuilder() {
-            super(new SearchCondition.Predicate());
-            tar.setType(SearchCondition.PredicateType.Null);
+            super(new IsNull());
         }
 
-        public IsNullPredicateBuilder(SearchCondition.Predicate predicate) {
+        public IsNullPredicateBuilder(IsNull predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.Null);
         }
 
         public IsNullPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
-            this.tar.setExpression(expression);
+            tar.setExpression(expression);
             return this;
         }
 
         public IsNullPredicateBuilder<ParentBuilder> withNot(boolean useNot) {
-            this.tar.setNotOperator(useNot);
+            tar.setUseNotOperator(useNot);
             return this;
         }
 
-        public static SearchCondition.Predicate IS_NULL(Expression left){
+        public static Predicate IS_NULL(Expression left){
             return new IsNullPredicateBuilder<Void>()
                     .withExpression(left)
                     .build();
         }
 
-        public static SearchCondition.Predicate IS_NOT_NULL(Expression left){
+        public static Predicate IS_NOT_NULL(Expression left){
             return new IsNullPredicateBuilder<Void>()
                     .withExpression(left)
                     .withNot(true)
@@ -654,25 +667,23 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class ContainsPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ContainsPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<ContainsPredicateBuilder<ParentBuilder>,ParentBuilder,Contains> {
 
         public ContainsPredicateBuilder() {
-            super(new SearchCondition.Predicate());
-            tar.setType(SearchCondition.PredicateType.Contains);
+            super(new Contains());
         }
 
-        public ContainsPredicateBuilder(SearchCondition.Predicate predicate) {
+        public ContainsPredicateBuilder(Contains predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.Contains);
         }
 
         public ContainsPredicateBuilder<ParentBuilder> withColumnName(String columnName) {
-            this.tar.getContains().setColumnName(c(columnName));
+            tar.setColumnName(c(columnName));
             return this;
         }
 
         public ContainsPredicateBuilder<ParentBuilder> withColumn(String... columnName) {
-            this.tar.getContains().setColumnList(
+            tar.setColumnList(
                     Arrays.stream(columnName)
                             .map(Column::new)
                             .collect(Collectors.toList()));
@@ -680,12 +691,12 @@ public class SearchConditionBuilder<ParentBuilder>
         }
 
         public ContainsPredicateBuilder<ParentBuilder> withAllColumn() {
-            this.tar.getContains().setUseAllColumn(true);
+            tar.setUseAllColumn(true);
             return this;
         }
 
         public ContainsPredicateBuilder<ParentBuilder> withContainsSearchCondition(String containsSearchCondition) {
-            this.tar.getContains().setContainsSearchCondition(e_string(containsSearchCondition));
+            tar.setContainsSearchCondition(e_string(containsSearchCondition));
             return this;
         }
     }
@@ -695,27 +706,23 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class FreeTextPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<FreeTextPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<FreeTextPredicateBuilder<ParentBuilder>,ParentBuilder,FreeText> {
 
         public FreeTextPredicateBuilder() {
-            super(new SearchCondition.Predicate());
-            tar.setType(SearchCondition.PredicateType.FreeText);
-            tar.setFreeText(new FreeText());
+            super(new FreeText());
         }
 
-        public FreeTextPredicateBuilder(SearchCondition.Predicate predicate) {
+        public FreeTextPredicateBuilder(FreeText predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.FreeText);
-            tar.setFreeText(new FreeText());
         }
 
         public FreeTextPredicateBuilder<ParentBuilder> withColumnName(String columnName) {
-            this.tar.getFreeText().setColumnName(c(columnName));
+            tar.setColumnName(c(columnName));
             return this;
         }
 
         public FreeTextPredicateBuilder<ParentBuilder> withColumn(String... columnName) {
-            this.tar.getFreeText().setColumnList(
+            tar.setColumnList(
                     Arrays.stream(columnName)
                             .map(Column::new)
                             .collect(Collectors.toList()));
@@ -723,12 +730,12 @@ public class SearchConditionBuilder<ParentBuilder>
         }
 
         public FreeTextPredicateBuilder<ParentBuilder> withAllColumn() {
-            this.tar.getFreeText().setUseAllColumn(true);
+            tar.setUseAllColumn(true);
             return this;
         }
 
         public FreeTextPredicateBuilder<ParentBuilder> withFreeText(String freetextString) {
-            this.tar.getFreeText().setFreetextString(e_string(freetextString));
+            tar.setFreetextString(e_string(freetextString));
             return this;
         }
     }
@@ -738,25 +745,23 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class InPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<InPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<InPredicateBuilder<ParentBuilder>,ParentBuilder,In> {
 
         public InPredicateBuilder() {
-            super(new SearchCondition.Predicate());
-            tar.setType(SearchCondition.PredicateType.In);
+            super(new In());
         }
 
-        public InPredicateBuilder(SearchCondition.Predicate predicate) {
+        public InPredicateBuilder(In predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.In);
         }
 
         public InPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
-            this.tar.setExpression(expression);
+            tar.setExpression(expression);
             return this;
         }
 
         public InPredicateBuilder<ParentBuilder> withNot(boolean useNot) {
-            this.tar.setNotOperator(useNot);
+            tar.setUseNotOperator(useNot);
             return this;
         }
 
@@ -767,22 +772,20 @@ public class SearchConditionBuilder<ParentBuilder>
             return this;
         }
 
-        public InPredicateBuilder<ParentBuilder> withSubQuery(Select... subquery) {
-            initAdd(Arrays.asList(subquery),
-                    tar::getSubqueryList,
-                    tar::setSubqueryList);
+        public InPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
+            tar.setSubquery(subquery);
             return this;
         }
 
 
-        public static SearchCondition.Predicate IN(Expression left,Expression... in){
+        public static Predicate IN(Expression left,Expression... in){
             return new InPredicateBuilder<Void>()
                     .withExpression(left)
                     .withValueExpression(in)
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_IN(Expression left,Expression... in){
+        public static Predicate NOT_IN(Expression left,Expression... in){
             return new InPredicateBuilder<Void>()
                     .withExpression(left)
                     .withNot(true)
@@ -797,79 +800,52 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class ASAPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ASAPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<ASAPredicateBuilder<ParentBuilder>,ParentBuilder,OperatorSubQuery> {
 
         public ASAPredicateBuilder() {
-            super(new SearchCondition.Predicate());
+            super(new OperatorSubQuery());
         }
 
-        public ASAPredicateBuilder(SearchCondition.Predicate predicate) {
+        public ASAPredicateBuilder(OperatorSubQuery predicate) {
             super(predicate);
         }
 
         public ASAPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
-            this.tar.setExpression(expression);
+            tar.setExpression(expression);
             return this;
         }
 
         public ASAPredicateBuilder<ParentBuilder> withOperator(OperatorEnum operatorEnum) {
-            this.tar.setOperatorEnum(operatorEnum);
+            tar.setOperatorEnum(operatorEnum);
             return this;
         }
         
-        public ASAPredicateBuilder<ParentBuilder> withALL_SOME_ANY(ALL_SOME_ANY oneOf) {
-            this.tar.setType(oneOf.toPredicateType());
+        public ASAPredicateBuilder<ParentBuilder> withALL_SOME_ANY(OperatorSubQuery.ALL_SOME_ANY oneOf) {
+            tar.setAll_some_any(oneOf);
             return this;
         }
 
         public ASAPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
-            initAdd(subquery,
-                    tar::getSubqueryList,
-                    tar::setSubqueryList);
+            tar.setSubquery(subquery);
             return this;
         }
 
 
-        /**
-         * ALL SOME ANY type Predicate
-         */
-        public enum ALL_SOME_ANY implements Element {
-            ALL(OperatorEnum.ALL, SearchCondition.PredicateType.All),
-            SOME(OperatorEnum.SOME, SearchCondition.PredicateType.Some),
-            ANY(OperatorEnum.ANY, SearchCondition.PredicateType.Any);
 
-            private OperatorEnum operatorEnum;
-            private SearchCondition.PredicateType predicateType;
 
-            ALL_SOME_ANY(OperatorEnum operatorEnum, SearchCondition.PredicateType predicateType){
-                this.operatorEnum = operatorEnum;
-                this.predicateType = predicateType;
-            }
-
-            @Override
-            public String toString(){
-                return this.operatorEnum.toString();
-            }
-            
-            public SearchCondition.PredicateType toPredicateType(){
-                return this.predicateType;
-            }
+        public static OperatorSubQuery.ALL_SOME_ANY ALL(){
+            return OperatorSubQuery.ALL_SOME_ANY.ALL;
         }
 
-
-        public static ALL_SOME_ANY ALL(){
-            return ALL_SOME_ANY.ALL;
+        public static OperatorSubQuery.ALL_SOME_ANY SOME(){
+            return OperatorSubQuery.ALL_SOME_ANY.SOME;
         }
 
-        public static ALL_SOME_ANY SOME(){
-            return ALL_SOME_ANY.SOME;
+        public static OperatorSubQuery.ALL_SOME_ANY ANY(){
+            return OperatorSubQuery.ALL_SOME_ANY.ANY;
         }
 
-        public static ALL_SOME_ANY ANY(){
-            return ALL_SOME_ANY.ANY;
-        }
-
-        public static SearchCondition.Predicate EQUAL(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -878,7 +854,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_EQUAL(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -887,7 +863,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_EQUAL_NOT_ISO(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_EQUAL_NOT_ISO(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -896,7 +872,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate GREATER(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate GREATER(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -905,7 +881,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate GREATER_EQUAL(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate GREATER_EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -914,7 +890,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_GREATER_NOT_ISO(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_GREATER_NOT_ISO(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -923,7 +899,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate LESS(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate LESS(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -932,7 +908,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate LESS_EQUAL(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate LESS_EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -941,7 +917,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static SearchCondition.Predicate NOT_LESS_NOT_ISO(Expression left, ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_LESS_NOT_ISO(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -956,15 +932,14 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class ExistsPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ExistsPredicateBuilder<ParentBuilder>,ParentBuilder,SearchCondition.Predicate> {
+            extends CodeTreeBuilder<ExistsPredicateBuilder<ParentBuilder>,ParentBuilder,Exists> {
 
         public ExistsPredicateBuilder() {
-            super(new SearchCondition.Predicate());
+            super(new Exists());
         }
 
-        public ExistsPredicateBuilder(SearchCondition.Predicate predicate) {
+        public ExistsPredicateBuilder(Exists predicate) {
             super(predicate);
-            tar.setType(SearchCondition.PredicateType.Exists);
         }
 
         public ExistsPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
@@ -972,7 +947,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return this;
         }
 
-        public static SearchCondition.Predicate EXISTS(Select subquery){
+        public static Predicate EXISTS(Select subquery){
             return new ExistsPredicateBuilder<Void>()
                     .withSubQuery(subquery)
                     .build();
@@ -997,29 +972,28 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
         public AndOrNotItemBuilder<ParentBuilder> withAnd() {
-            this.tar.setUseAnd(true);
+            tar.setUseAnd(true);
             return this;
         }
 
         public AndOrNotItemBuilder<ParentBuilder> withOr() {
-            this.tar.setUseAnd(false);
+            tar.setUseAnd(false);
             return this;
         }
 
         public AndOrNotItemBuilder<ParentBuilder> withNot(boolean useNot) {
-            this.tar.setUseNot(useNot);
+            tar.setUseNot(useNot);
             return this;
         }
 
-        public AndOrNotItemBuilder<ParentBuilder> withPredicate(SearchCondition.Predicate predicate){
-            this.tar.setPredicate(predicate);
+        public AndOrNotItemBuilder<ParentBuilder> withPredicate(Predicate predicate){
+            tar.setPredicate(predicate);
             return this;
         }
 
         public PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>> withPredicate(){
             return new PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>>
-                    (set(SearchCondition.Predicate::new,
-                            tar::setPredicate))
+                    ()
                     .in(this);
         }
 
