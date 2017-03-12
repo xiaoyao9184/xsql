@@ -6,10 +6,10 @@ import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.element.info.VariableString;
+import com.xy.xsql.orm.data.sql.element.variable.VariableString;
 
-import javax.print.attribute.standard.MediaSize;
 import java.util.List;
 
 /**
@@ -35,20 +35,21 @@ import java.util.List;
 public class Output implements ElementList {
 
     //<dml_select_list>
-    private DmlSelectList dmlSelectList;
+    private List<DmlSelect> dmlSelectList;
 
     //{ @table_variable | output_table }
     private VariableString tableVariable;
     private TableName outputTable;
 
     //[ ( column_list ) ]
-    private List<ColumnName> columnList;
+    //TODO mybe just string name
+    private List<Column> columnList;
 
-    public DmlSelectList getDmlSelectList() {
+    public List<DmlSelect> getDmlSelectList() {
         return dmlSelectList;
     }
 
-    public void setDmlSelectList(DmlSelectList dmlSelectList) {
+    public void setDmlSelectList(List<DmlSelect> dmlSelectList) {
         this.dmlSelectList = dmlSelectList;
     }
 
@@ -68,11 +69,11 @@ public class Output implements ElementList {
         this.outputTable = outputTable;
     }
 
-    public List<ColumnName> getColumnList() {
+    public List<Column> getColumnList() {
         return columnList;
     }
 
-    public void setColumnList(List<ColumnName> columnList) {
+    public void setColumnList(List<Column> columnList) {
         this.columnList = columnList;
     }
 
@@ -91,7 +92,7 @@ public class Output implements ElementList {
 
             if(columnList != null && !columnList.isEmpty()){
                 b.append(OtherEnum.GROUP_START)
-                        .append(columnList,OtherEnum.DELIMITER)
+                        .append(columnList)
                         .append(OtherEnum.GROUP_END);
             }
         } else if(outputTable != null) {
@@ -100,7 +101,7 @@ public class Output implements ElementList {
 
             if(columnList != null && !columnList.isEmpty()){
                 b.append(OtherEnum.GROUP_START)
-                        .append(columnList,OtherEnum.DELIMITER)
+                        .append(columnList)
                         .append(OtherEnum.GROUP_END);
             }
         }
@@ -112,6 +113,7 @@ public class Output implements ElementList {
     /**
      * <dml_select_list>
      */
+    @Deprecated
     public static class DmlSelectList implements ElementList {
 
         private List<DmlSelect> dmlSelectList;
@@ -134,8 +136,7 @@ public class Output implements ElementList {
     }
 
     /**
-     * <dml_select_list>
-     *     { <column_name> | scalar_expression } [ [AS] column_alias_identifier ]
+     * { <column_name> | scalar_expression } [ [AS] column_alias_identifier ]
      */
     public static class DmlSelect implements ElementList {
 
@@ -212,6 +213,9 @@ public class Output implements ElementList {
         private boolean useAll;
         private String columnName;
 
+        //$action
+        private boolean $action;
+
         public boolean isUseDeleted() {
             return useDeleted;
         }
@@ -252,8 +256,13 @@ public class Output implements ElementList {
             this.columnName = columnName;
         }
 
-        //TODO
-        //$action
+        public boolean is$action() {
+            return $action;
+        }
+
+        public void set$action(boolean $action) {
+            this.$action = $action;
+        }
 
         @Override
         public List<Element> toElementList() {

@@ -21,10 +21,10 @@ TSQL
 | FROM |
 | Hints |
 | OPTION Clause
-| OUTPUT Clause
+| OUTPUT Clause | ALL
 | Search Condition
 | Table Value Constructor
-| TOP
+| TOP | ALL |
 | WHERE
 | WITH common_table_expression | ALL |
 

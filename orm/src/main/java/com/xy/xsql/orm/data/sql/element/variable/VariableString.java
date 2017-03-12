@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.data.sql.element.info;
+package com.xy.xsql.orm.data.sql.element.variable;
 
 import com.xy.xsql.orm.data.sql.Element;
 
@@ -8,6 +8,14 @@ import com.xy.xsql.orm.data.sql.Element;
 public class VariableString implements Element {
 
     private String name;
+
+    public VariableString() {
+
+    }
+
+    public VariableString(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

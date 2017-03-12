@@ -104,4 +104,9 @@ public class Column
                 .withItem(this)
                 .build(null);
     }
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }

@@ -4,7 +4,7 @@ import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Sentence;
 import com.xy.xsql.orm.data.sql.clause.With;
 
-import static com.xy.xsql.orm.util.ListBuilder.init;
+import static com.xy.xsql.orm.util.ListBuilder.initAdd;
 import static com.xy.xsql.orm.util.ListBuilder.initNew;
 
 
@@ -30,7 +30,6 @@ public class WithBuilder<ParentBuilder>
                 .in(this);
     }
 
-
     public static class CommonTableExpressionBuilder<ParentBuilder>
         extends CodeTreeBuilder<CommonTableExpressionBuilder<ParentBuilder>,ParentBuilder,With.CommonTableExpression> {
 
@@ -49,7 +48,7 @@ public class WithBuilder<ParentBuilder>
         }
 
         public CommonTableExpressionBuilder<ParentBuilder> withColumnName(String columnName){
-            init(columnName,
+            initAdd(columnName,
                      this.tar::getColumnName,
                     this.tar::setColumnName);
             return this;

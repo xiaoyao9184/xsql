@@ -44,7 +44,7 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
         return t;
     }
 
-    public static <T> T init(final T t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
+    public static <T> T initAdd(final T t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
         if(getter.get() == null){
             setter.set(new ArrayList<>());
         }
