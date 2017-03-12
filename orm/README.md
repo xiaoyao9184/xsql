@@ -20,8 +20,8 @@ TSQL
 | ----- | ----- |
 | FROM |
 | Hints | Query,Table,Join |
-| OPTION Clause
-| OUTPUT Clause | ALL
+| OPTION Clause | ALL |
+| OUTPUT Clause | ALL |
 | Search Condition
 | Table Value Constructor | ALL |
 | TOP | ALL |

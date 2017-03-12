@@ -6,6 +6,7 @@ import com.xy.xsql.orm.core.Getter;
 import com.xy.xsql.orm.core.Setter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -49,6 +50,15 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
             setter.set(new ArrayList<>());
         }
         getter.get().add(t);
+
+        return t;
+    }
+
+    public static <T> Collection<T> initAdd(final Collection<T> t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
+        if(getter.get() == null){
+            setter.set(new ArrayList<>());
+        }
+        getter.get().addAll(t);
 
         return t;
     }

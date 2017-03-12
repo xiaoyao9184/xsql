@@ -4,6 +4,7 @@ import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
+import com.xy.xsql.orm.data.sql.clause.hints.QueryHint;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
@@ -100,31 +101,5 @@ public class Option implements Expression {
         public void setQueryHint(QueryHint queryHint) {
             this.queryHint = queryHint;
         }
-    }
-
-    /**
-     * <query_hint>
-     */
-    public enum QueryHint implements ElementList {
-        HASH_JOIN(GrammarEnum.HASH,GrammarEnum.JOIN),
-        LOOP_JOIN(GrammarEnum.LOOP,GrammarEnum.JOIN),
-        MERGE_JOIN(GrammarEnum.MERGE,GrammarEnum.JOIN),
-        FORCE_ORDER(GrammarEnum.FORCE,GrammarEnum.JOIN),
-        FORCE_EXTERNALPUSHDOWN(GrammarEnum.FORCE,GrammarEnum.EXTERNALPUSHDOWN),
-        DISABLE_EXTERNALPUSHDOWN(GrammarEnum.DISABLE,GrammarEnum.EXTERNALPUSHDOWN);
-
-        private Element[] es;
-
-        QueryHint(Element... elements){
-            this.es = elements;
-        }
-
-        @Override
-        public List<Element> toElementList() {
-            return new ListElementBuilder()
-                    .append(Arrays.asList(this.es),OtherEnum.SPACE)
-                    .build(null);
-        }
-
     }
 }
