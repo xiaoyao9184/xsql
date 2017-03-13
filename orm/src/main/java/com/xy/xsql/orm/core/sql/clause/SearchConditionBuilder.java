@@ -69,6 +69,16 @@ public class SearchConditionBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * Quick set searchCondition
+     * @param searchCondition
+     * @return
+     */
+    public SearchConditionBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
+        tar.setSearchCondition(searchCondition);
+        return this;
+    }
+
 
     /**
      * Quick in AndOrNotItemBuilder
@@ -516,7 +526,7 @@ public class SearchConditionBuilder<ParentBuilder>
                 tar.setExpression(expression);
                 index = 1;
             } else {
-                tar.setOperatorExpression(expression);
+                tar.setLikeExpression(expression);
                 index = 0;
             }
             return this;

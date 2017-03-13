@@ -1,5 +1,6 @@
 package com.xy.xsql.orm.util;
 
+import com.xy.xsql.orm.core.Getter;
 import com.xy.xsql.orm.core.Setter;
 
 import java.util.function.Supplier;
@@ -16,4 +17,11 @@ public class FiledBuilder {
         return t;
     }
 
+
+    public static <T> T initSet(final Supplier<? extends T> supplier, final Getter<T> getter, final Setter<T> setter) {
+        if(getter.get() == null){
+            setter.set(supplier.get());
+        }
+        return getter.get();
+    }
 }

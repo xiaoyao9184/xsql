@@ -20,7 +20,7 @@ public class Like implements Predicate {
     //[ ESCAPE 'escape_character' ]
     private Expression expression;
     private boolean useNotOperator;
-    private Expression operatorExpression;
+    private Expression likeExpression;
     private StringConstant escapeCharacter;
 
     public Expression getExpression() {
@@ -31,12 +31,12 @@ public class Like implements Predicate {
         this.expression = expression;
     }
 
-    public Expression getOperatorExpression() {
-        return operatorExpression;
+    public Expression getLikeExpression() {
+        return likeExpression;
     }
 
-    public void setOperatorExpression(Expression operatorExpression) {
-        this.operatorExpression = operatorExpression;
+    public void setLikeExpression(Expression likeExpression) {
+        this.likeExpression = likeExpression;
     }
 
     public boolean isUseNotOperator() {
@@ -61,7 +61,7 @@ public class Like implements Predicate {
         b.append(expression)
                 .append(useNotOperator ? GrammarEnum.NOT : null)
                 .append(OperatorEnum.LIKE)
-                .append(operatorExpression);
+                .append(likeExpression);
         if(escapeCharacter != null){
             b.append(GrammarEnum.ESCAPE)
                     .append(escapeCharacter);

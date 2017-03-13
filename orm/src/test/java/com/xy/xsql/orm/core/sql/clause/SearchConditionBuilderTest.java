@@ -146,7 +146,7 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LargePhotoFileName");
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "'%greena_%'");
+        Assert.assertEquals(predicate.getLikeExpression().toString(), "'%greena_%'");
         Assert.assertEquals(predicate.getEscapeCharacter().toString(), "'a'");
     }
 
@@ -177,7 +177,7 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getClass(), Like.class);
         Like predicate1 = (Like) searchCondition.getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "City");
-        Assert.assertEquals(predicate1.getOperatorExpression().toString(), "N'Pa%'");
+        Assert.assertEquals(predicate1.getLikeExpression().toString(), "N'Pa%'");
     }
 
     /**
@@ -196,7 +196,7 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "'%and%'");
+        Assert.assertEquals(predicate.getLikeExpression().toString(), "'%and%'");
     }
 
     /**
@@ -215,7 +215,7 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "N'%and%'");
+        Assert.assertEquals(predicate.getLikeExpression().toString(), "N'%and%'");
     }
 
 }
