@@ -5,7 +5,7 @@ import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.element.info.Value;
 import com.xy.xsql.orm.data.sql.sentence.insert.InsertSentence;
-import com.xy.xsql.orm.util.ListBuilder;
+import com.xy.xsql.core.ListBuilder;
 import org.junit.Test;
 
 import java.util.List;

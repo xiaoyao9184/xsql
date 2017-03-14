@@ -3,7 +3,7 @@ package com.xy.xsql.orm.data.sql.element.info;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.Sentence;
-import com.xy.xsql.orm.util.ListBuilder;
+import com.xy.xsql.core.ListBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

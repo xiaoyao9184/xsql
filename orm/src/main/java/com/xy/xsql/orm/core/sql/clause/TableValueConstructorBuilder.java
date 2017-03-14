@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.expression.RowValueExpression;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xy.xsql.orm.util.ListBuilder.initNew;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

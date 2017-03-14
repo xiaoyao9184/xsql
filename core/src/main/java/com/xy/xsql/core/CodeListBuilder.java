@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.core;
+package com.xy.xsql.core;
 
 import java.util.List;
 

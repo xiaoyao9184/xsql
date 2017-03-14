@@ -8,8 +8,8 @@ import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.tsql.model.variable.VariableString;
 
 import static com.xy.xsql.orm.util.FiledBuilder.set;
-import static com.xy.xsql.orm.util.ListBuilder.initAdd;
-import static com.xy.xsql.orm.util.ListBuilder.initNew;
+import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

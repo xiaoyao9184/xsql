@@ -4,7 +4,6 @@ import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.util.ListBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

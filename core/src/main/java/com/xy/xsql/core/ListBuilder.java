@@ -1,9 +1,5 @@
-package com.xy.xsql.orm.util;
+package com.xy.xsql.core;
 
-
-import com.xy.xsql.orm.core.BaseBuilder;
-import com.xy.xsql.orm.core.Getter;
-import com.xy.xsql.orm.core.Setter;
 
 import java.util.ArrayList;
 import java.util.Collection;

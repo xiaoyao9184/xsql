@@ -6,7 +6,7 @@ import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.util.ListBuilder;
+import com.xy.xsql.core.ListBuilder;
 
 import java.util.List;
 

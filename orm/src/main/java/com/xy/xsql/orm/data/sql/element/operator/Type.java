@@ -3,6 +3,7 @@ package com.xy.xsql.orm.data.sql.element.operator;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
+@Deprecated
 public enum Type {
     Arithmetic,
     Assignment,

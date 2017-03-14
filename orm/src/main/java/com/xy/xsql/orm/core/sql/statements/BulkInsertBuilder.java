@@ -2,19 +2,12 @@ package com.xy.xsql.orm.core.sql.statements;
 
 import com.xy.xsql.orm.core.BaseBuilder;
 import com.xy.xsql.orm.core.SubBuilder;
-import com.xy.xsql.orm.core.sql.clause.TopBuilder;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.Top;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
-import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.info.GroupList;
 import com.xy.xsql.orm.data.sql.element.info.Order;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.orm.data.sql.expression.StringExpression;
 import com.xy.xsql.orm.data.sql.statements.dml.BulkInsert;
-import com.xy.xsql.orm.data.sql.statements.dml.Insert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e_string;
 import static com.xy.xsql.orm.core.sql.element.ColumnNameBuilder.c;
 import static com.xy.xsql.orm.util.FiledBuilder.set;
-import static com.xy.xsql.orm.util.ListBuilder.initAdd;
-import static com.xy.xsql.orm.util.ListBuilder.initNew;
+import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

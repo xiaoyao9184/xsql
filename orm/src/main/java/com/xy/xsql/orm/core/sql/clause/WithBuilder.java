@@ -4,8 +4,8 @@ import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Sentence;
 import com.xy.xsql.orm.data.sql.clause.With;
 
-import static com.xy.xsql.orm.util.ListBuilder.initAdd;
-import static com.xy.xsql.orm.util.ListBuilder.initNew;
+import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 
 /**

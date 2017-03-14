@@ -10,15 +10,9 @@ repositories {
 }
 
 dependencies {
-//    compile group: 'javax.persistence', name: 'persistence-api', version: '1.0.2'
-    compile group: 'org.springframework.data', name: 'spring-data-jdbc-core', version: '1.2.1.RELEASE'
-    compile group: 'commons-beanutils', name: 'commons-beanutils-core', version: '1.8.3'
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 
     compile project(':core')
-    compile project(':tsql-model')
-
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
