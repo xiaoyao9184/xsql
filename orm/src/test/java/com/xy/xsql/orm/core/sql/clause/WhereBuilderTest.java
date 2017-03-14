@@ -4,10 +4,10 @@ import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.predicate.Between;
-import com.xy.xsql.orm.data.sql.element.predicate.In;
-import com.xy.xsql.orm.data.sql.element.predicate.Like;
-import com.xy.xsql.orm.data.sql.element.predicate.Operator;
+import com.xy.xsql.tsql.model.predicate.Between;
+import com.xy.xsql.tsql.model.predicate.In;
+import com.xy.xsql.tsql.model.predicate.Like;
+import com.xy.xsql.tsql.model.predicate.Operator;
 import org.junit.Assert;
 import org.junit.Test;
 

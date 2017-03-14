@@ -1,12 +1,11 @@
-package com.xy.xsql.orm.data.sql.element.predicate;
+package com.xy.xsql.tsql.model.predicate;
 
-
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Logical;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class OperatorSubQuery implements Predicate {
     //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
     //{ ALL | SOME | ANY} ( subquery )
     private Expression expression;
-    private com.xy.xsql.orm.data.sql.element.operator.Operator operator;
+    private com.xy.xsql.tsql.model.operator.Operator operator;
     private ALL_SOME_ANY all_some_any;
     private Select subquery;
 
@@ -31,12 +30,12 @@ public class OperatorSubQuery implements Predicate {
         this.expression = expression;
     }
 
-    public com.xy.xsql.orm.data.sql.element.operator.Operator getOperator() {
+    public com.xy.xsql.tsql.model.operator.Operator getOperator() {
         return operator;
     }
 
-    public void setOperator(com.xy.xsql.orm.data.sql.element.operator.Operator operatorEnum) {
-        this.operator = operatorEnum;
+    public void setOperator(com.xy.xsql.tsql.model.operator.Operator Operators) {
+        this.operator = Operators;
     }
 
     public ALL_SOME_ANY getAll_some_any() {
@@ -57,26 +56,26 @@ public class OperatorSubQuery implements Predicate {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
         b.append(expression)
                 .append(operator)
                 .append(all_some_any.toOperator())
-                .append(OtherEnum.GROUP_START)
+                .append(Other.GROUP_START)
                 .append(subquery)
-                .append(OtherEnum.GROUP_END);
+                .append(Other.GROUP_END);
         return b.build();
     }
 
 
-    public enum ALL_SOME_ANY implements Element {
+    public enum ALL_SOME_ANY implements Block {
         ALL(Logical.ALL),
         SOME(Logical.SOME),
         ANY(Logical.ANY);
 
-        private com.xy.xsql.orm.data.sql.element.operator.Operator operator;
+        private com.xy.xsql.tsql.model.operator.Operator operator;
 
-        ALL_SOME_ANY(com.xy.xsql.orm.data.sql.element.operator.Operator operator){
+        ALL_SOME_ANY(com.xy.xsql.tsql.model.operator.Operator operator){
             this.operator = operator;
         }
 
@@ -85,7 +84,7 @@ public class OperatorSubQuery implements Predicate {
             return this.operator.toString();
         }
 
-        public com.xy.xsql.orm.data.sql.element.operator.Operator toOperator(){
+        public com.xy.xsql.tsql.model.operator.Operator toOperator(){
             return this.operator;
         }
     }

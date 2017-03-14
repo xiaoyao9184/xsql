@@ -1,11 +1,10 @@
-package com.xy.xsql.orm.data.sql.element.predicate;
+package com.xy.xsql.tsql.model.predicate;
 
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -35,12 +34,12 @@ public class IsNull implements Predicate {
     }
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
         b.append(expression)
-                .append(GrammarEnum.IS)
-                .append(useNotOperator ? GrammarEnum.NOT : null)
-                .append(GrammarEnum.NULL);
+                .append(Keywords.IS)
+                .append(useNotOperator ? Keywords.NOT : null)
+                .append(Keywords.NULL);
         return b.build();
     }
 

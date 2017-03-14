@@ -1,12 +1,12 @@
-package com.xy.xsql.orm.data.sql.element.predicate;
+package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
-import com.xy.xsql.orm.data.sql.element.info.AnyColumn;
-import com.xy.xsql.orm.data.sql.element.info.Column;
+import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -24,27 +24,27 @@ public class Contains implements Predicate {
       | PROPERTY ( { column_name }, 'property_name' )
      }
      */
-    private Column columnName;
-    private List<Column> columnList;
+    private ColumnName columnName;
+    private List<ColumnName> columnList;
     private boolean useAllColumn;
     //TODO
 
     //TODO
     private StringConstant containsSearchCondition;
 
-    public Column getColumnName() {
+    public ColumnName getColumnName() {
         return columnName;
     }
 
-    public void setColumnName(Column columnName) {
+    public void setColumnName(ColumnName columnName) {
         this.columnName = columnName;
     }
 
-    public List<Column> getColumnList() {
+    public List<ColumnName> getColumnList() {
         return columnList;
     }
 
-    public void setColumnList(List<Column> columnList) {
+    public void setColumnList(List<ColumnName> columnList) {
         this.columnList = columnList;
     }
 
@@ -66,20 +66,20 @@ public class Contains implements Predicate {
 
     @SuppressWarnings("Duplicates")
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.CONTAINS);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.CONTAINS);
 
         if(columnName != null){
             b.append(columnName);
         }else if(columnList != null){
-            b.append(OtherEnum.GROUP_START)
+            b.append(Other.GROUP_START)
                     .append(columnList)
-                    .append(OtherEnum.GROUP_END);
+                    .append(Other.GROUP_END);
         }else if(useAllColumn){
-            b.append(new AnyColumn());
+            b.append(new ColumnName());
         }
-        b.append(OtherEnum.DELIMITER)
+        b.append(Other.DELIMITER)
                 .append(containsSearchCondition);
 
         return b.build();

@@ -1,8 +1,8 @@
-package com.xy.xsql.orm.data.sql.element.predicate;
+package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class Operator implements Predicate {
     //{ expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
     private Expression expression;
-    private com.xy.xsql.orm.data.sql.element.operator.Operator operator;
+    private com.xy.xsql.tsql.model.operator.Operator operator;
     private Expression operatorExpression;
 
     public Expression getExpression() {
@@ -24,11 +24,11 @@ public class Operator implements Predicate {
         this.expression = expression;
     }
 
-    public com.xy.xsql.orm.data.sql.element.operator.Operator getOperator() {
+    public com.xy.xsql.tsql.model.operator.Operator getOperator() {
         return operator;
     }
 
-    public void setOperator(com.xy.xsql.orm.data.sql.element.operator.Operator operator) {
+    public void setOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
         this.operator = operator;
     }
 
@@ -42,8 +42,8 @@ public class Operator implements Predicate {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
         b.append(expression)
                 .append(operator)
                 .append(operatorExpression);

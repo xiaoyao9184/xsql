@@ -3,11 +3,12 @@ package com.xy.xsql.orm.core.sql.clause;
 import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
+import com.xy.xsql.orm.data.sql.element.predicate.Predicate;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.predicate.*;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.predicate.*;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

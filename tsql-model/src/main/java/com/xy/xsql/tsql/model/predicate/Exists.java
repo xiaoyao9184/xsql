@@ -1,12 +1,12 @@
-package com.xy.xsql.orm.data.sql.element.predicate;
+package com.xy.xsql.tsql.model.predicate;
 
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -36,12 +36,12 @@ public class Exists implements Predicate {
     }
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
-        b.append(GrammarEnum.EXISTS)
-                .append(OtherEnum.GROUP_START)
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
+        b.append(Keywords.EXISTS)
+                .append(Other.GROUP_START)
                 .append(subquery)
-                .append(OtherEnum.GROUP_END);
+                .append(Other.GROUP_END);
         return b.build();
     }
 }
