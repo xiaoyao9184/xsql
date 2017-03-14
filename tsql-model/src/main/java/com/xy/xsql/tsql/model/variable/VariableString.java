@@ -1,11 +1,11 @@
-package com.xy.xsql.orm.data.sql.element.variable;
+package com.xy.xsql.tsql.model.variable;
 
-import com.xy.xsql.orm.data.sql.Element;
+import com.xy.xsql.tsql.model.Block;
 
 /**
  * Created by xiaoyao9184 on 2017/1/13.
  */
-public class VariableString implements Element {
+public class VariableString implements Block {
 
     private String name;
 
@@ -17,6 +17,7 @@ public class VariableString implements Element {
         this.name = name;
     }
 
+
     public String getName() {
         return name;
     }
@@ -24,6 +25,7 @@ public class VariableString implements Element {
     public void setName(String name) {
         this.name = name;
     }
+
 
     @Override
     public String toString(){

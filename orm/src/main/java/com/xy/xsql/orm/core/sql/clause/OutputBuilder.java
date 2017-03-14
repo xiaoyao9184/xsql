@@ -5,7 +5,7 @@ import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.Output;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.element.variable.VariableString;
+import com.xy.xsql.tsql.model.variable.VariableString;
 
 import static com.xy.xsql.orm.util.FiledBuilder.set;
 import static com.xy.xsql.orm.util.ListBuilder.initAdd;

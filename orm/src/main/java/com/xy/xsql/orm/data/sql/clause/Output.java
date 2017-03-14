@@ -8,7 +8,7 @@ import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.element.variable.VariableString;
+import com.xy.xsql.tsql.model.variable.VariableString;
 
 import java.util.List;
 

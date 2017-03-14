@@ -1,4 +1,4 @@
-package com.xy.xsql.orm.data.tsql;
+package com.xy.xsql.tsql.model;
 
 import java.util.List;
 
