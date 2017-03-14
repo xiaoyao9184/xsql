@@ -1,10 +1,8 @@
 package com.xy.xsql.orm.data.sql.element.predicate;
 
-
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 
 import java.util.List;
 
@@ -15,7 +13,7 @@ import java.util.List;
 public class Operator implements Predicate {
     //{ expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
     private Expression expression;
-    private OperatorEnum operatorEnum;
+    private com.xy.xsql.orm.data.sql.element.operator.Operator operator;
     private Expression operatorExpression;
 
     public Expression getExpression() {
@@ -26,12 +24,12 @@ public class Operator implements Predicate {
         this.expression = expression;
     }
 
-    public OperatorEnum getOperatorEnum() {
-        return operatorEnum;
+    public com.xy.xsql.orm.data.sql.element.operator.Operator getOperator() {
+        return operator;
     }
 
-    public void setOperatorEnum(OperatorEnum operatorEnum) {
-        this.operatorEnum = operatorEnum;
+    public void setOperator(com.xy.xsql.orm.data.sql.element.operator.Operator operator) {
+        this.operator = operator;
     }
 
     public Expression getOperatorExpression() {
@@ -47,7 +45,7 @@ public class Operator implements Predicate {
     public List<Element> toElementList() {
         ListElementBuilder b = new ListElementBuilder();
         b.append(expression)
-                .append(operatorEnum)
+                .append(operator)
                 .append(operatorExpression);
         return b.build();
     }

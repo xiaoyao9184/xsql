@@ -3,7 +3,7 @@ package com.xy.xsql.orm.core.sql.clause;
 import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.operator.Operators;
 import com.xy.xsql.orm.data.sql.element.datatype.StringConstant;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.predicate.*;
@@ -424,15 +424,15 @@ public class SearchConditionBuilder<ParentBuilder>
             return this;
         }
 
-        public OperatorPredicateBuilder<ParentBuilder> withOperator(OperatorEnum operatorEnum) {
-            tar.setOperatorEnum(operatorEnum);
+        public OperatorPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.orm.data.sql.element.operator.Operator operator) {
+            tar.setOperator(operator);
             return this;
         }
 
         public static Predicate EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.EQUAL)
+                    .withOperator(Operators.EQUAL)
                     .withExpression(right)
                     .build();
         }
@@ -440,7 +440,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate NOT_EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_EQUAL)
+                    .withOperator(Operators.NOT_EQUAL)
                     .withExpression(right)
                     .build();
         }
@@ -448,7 +448,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate NOT_EQUAL_NOT_ISO(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_EQUAL_NOT_ISO)
+                    .withOperator(Operators.NOT_EQUAL_NOT_ISO)
                     .withExpression(right)
                     .build();
         }
@@ -456,7 +456,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate GREATER(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.GREATER)
+                    .withOperator(Operators.GREATER)
                     .withExpression(right)
                     .build();
         }
@@ -464,7 +464,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate GREATER_EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.GREATER_EQUAL)
+                    .withOperator(Operators.GREATER_EQUAL)
                     .withExpression(right)
                     .build();
         }
@@ -472,7 +472,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate NOT_GREATER_NOT_ISO(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_GREATER_NOT_ISO)
+                    .withOperator(Operators.NOT_GREATER_NOT_ISO)
                     .withExpression(right)
                     .build();
         }
@@ -480,7 +480,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate LESS(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.LESS)
+                    .withOperator(Operators.LESS)
                     .withExpression(right)
                     .build();
         }
@@ -488,7 +488,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate LESS_EQUAL(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.LESS_EQUAL)
+                    .withOperator(Operators.LESS_EQUAL)
                     .withExpression(right)
                     .build();
         }
@@ -496,7 +496,7 @@ public class SearchConditionBuilder<ParentBuilder>
         public static Predicate NOT_LESS_NOT_ISO(Expression left,Expression right){
             return new OperatorPredicateBuilder<Void>()
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_LESS_NOT_ISO)
+                    .withOperator(Operators.NOT_LESS_NOT_ISO)
                     .withExpression(right)
                     .build();
         }
@@ -825,8 +825,8 @@ public class SearchConditionBuilder<ParentBuilder>
             return this;
         }
 
-        public ASAPredicateBuilder<ParentBuilder> withOperator(OperatorEnum operatorEnum) {
-            tar.setOperatorEnum(operatorEnum);
+        public ASAPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.orm.data.sql.element.operator.Operator operator) {
+            tar.setOperator(operator);
             return this;
         }
         
@@ -859,7 +859,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.EQUAL)
+                    .withOperator(Operators.EQUAL)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -868,7 +868,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_EQUAL)
+                    .withOperator(Operators.NOT_EQUAL)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -877,7 +877,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_EQUAL_NOT_ISO)
+                    .withOperator(Operators.NOT_EQUAL_NOT_ISO)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -886,7 +886,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.GREATER)
+                    .withOperator(Operators.GREATER)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -895,7 +895,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.GREATER_EQUAL)
+                    .withOperator(Operators.GREATER_EQUAL)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -904,7 +904,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_GREATER_NOT_ISO)
+                    .withOperator(Operators.NOT_GREATER_NOT_ISO)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -913,7 +913,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.LESS)
+                    .withOperator(Operators.LESS)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -922,7 +922,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.LESS_EQUAL)
+                    .withOperator(Operators.LESS_EQUAL)
                     .withSubQuery(subquery)
                     .build();
         }
@@ -931,7 +931,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
-                    .withOperator(OperatorEnum.NOT_LESS_NOT_ISO)
+                    .withOperator(Operators.NOT_LESS_NOT_ISO)
                     .withSubQuery(subquery)
                     .build();
         }

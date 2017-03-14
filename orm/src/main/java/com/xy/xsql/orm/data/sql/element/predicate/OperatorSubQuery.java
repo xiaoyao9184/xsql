@@ -4,10 +4,8 @@ package com.xy.xsql.orm.data.sql.element.predicate;
 import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.orm.data.sql.element.operator.Logical;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class OperatorSubQuery implements Predicate {
     //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
     //{ ALL | SOME | ANY} ( subquery )
     private Expression expression;
-    private OperatorEnum operatorEnum;
+    private com.xy.xsql.orm.data.sql.element.operator.Operator operator;
     private ALL_SOME_ANY all_some_any;
     private Select subquery;
 
@@ -33,12 +31,12 @@ public class OperatorSubQuery implements Predicate {
         this.expression = expression;
     }
 
-    public OperatorEnum getOperatorEnum() {
-        return operatorEnum;
+    public com.xy.xsql.orm.data.sql.element.operator.Operator getOperator() {
+        return operator;
     }
 
-    public void setOperatorEnum(OperatorEnum operatorEnum) {
-        this.operatorEnum = operatorEnum;
+    public void setOperator(com.xy.xsql.orm.data.sql.element.operator.Operator operatorEnum) {
+        this.operator = operatorEnum;
     }
 
     public ALL_SOME_ANY getAll_some_any() {
@@ -62,8 +60,8 @@ public class OperatorSubQuery implements Predicate {
     public List<Element> toElementList() {
         ListElementBuilder b = new ListElementBuilder();
         b.append(expression)
-                .append(operatorEnum)
-                .append(all_some_any.toOperatorEnum())
+                .append(operator)
+                .append(all_some_any.toOperator())
                 .append(OtherEnum.GROUP_START)
                 .append(subquery)
                 .append(OtherEnum.GROUP_END);
@@ -72,23 +70,23 @@ public class OperatorSubQuery implements Predicate {
 
 
     public enum ALL_SOME_ANY implements Element {
-        ALL(OperatorEnum.ALL),
-        SOME(OperatorEnum.SOME),
-        ANY(OperatorEnum.ANY);
+        ALL(Logical.ALL),
+        SOME(Logical.SOME),
+        ANY(Logical.ANY);
 
-        private OperatorEnum operatorEnum;
+        private com.xy.xsql.orm.data.sql.element.operator.Operator operator;
 
-        ALL_SOME_ANY(OperatorEnum operatorEnum){
-            this.operatorEnum = operatorEnum;
+        ALL_SOME_ANY(com.xy.xsql.orm.data.sql.element.operator.Operator operator){
+            this.operator = operator;
         }
 
         @Override
         public String toString(){
-            return this.operatorEnum.toString();
+            return this.operator.toString();
         }
 
-        public OperatorEnum toOperatorEnum(){
-            return this.operatorEnum;
+        public com.xy.xsql.orm.data.sql.element.operator.Operator toOperator(){
+            return this.operator;
         }
     }
 

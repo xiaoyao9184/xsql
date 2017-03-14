@@ -6,6 +6,7 @@ import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.data.sql.element.datatype.StringConstant;
+import com.xy.xsql.orm.data.sql.element.operator.Operator;
 import com.xy.xsql.orm.data.sql.expression.ElementExpression;
 import com.xy.xsql.orm.data.sql.expression.GrammarExpression;
 import com.xy.xsql.orm.data.sql.expression.NumberString;
@@ -26,7 +27,7 @@ public class ExpressionBuilder {
         return new NumberString(numberExpression);
     }
 
-    public static Expression e(ElementList numberExpression, OperatorEnum operator, ElementList numberExpression2){
+    public static Expression e(ElementList numberExpression, Operator operator, ElementList numberExpression2){
         //TODO
         return null;
     }

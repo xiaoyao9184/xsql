@@ -2,6 +2,7 @@ package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.data.sql.clause.Output;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.orm.data.sql.element.operator.Operators;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -140,7 +141,7 @@ public class OutputBuilderTest {
                                 .withInserted()
                                 .withColumnName("VacationHours")
                                 .build(),
-                            OperatorEnum.Negative,
+                            Operators.SUBTRACTION,
                             column_name()
                                 .withInserted()
                                 .withColumnName("VacationHours")
