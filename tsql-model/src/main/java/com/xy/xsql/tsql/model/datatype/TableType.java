@@ -1,8 +1,7 @@
-package com.xy.xsql.orm.data.sql.element.datatype;
+package com.xy.xsql.tsql.model.datatype;
 
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.info.Column;
-import javafx.scene.layout.ColumnConstraints;
+
+import com.xy.xsql.tsql.model.expression.Expression;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql;
+package com.xy.xsql.tsql.util;
 
 import com.xy.xsql.core.ListBuilder;
 import com.xy.xsql.tsql.model.Block;

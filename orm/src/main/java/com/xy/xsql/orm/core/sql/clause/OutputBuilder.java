@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.tsql.model.variable.VariableString;
 
-import static com.xy.xsql.orm.util.FiledBuilder.set;
+import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 

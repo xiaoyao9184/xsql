@@ -1,8 +1,9 @@
-package com.xy.xsql.orm.data.sql.element.datatype;
+package com.xy.xsql.tsql.model.datatype;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class StringConstant implements Expression {
     }
 
     @Override
-    public List<Element> toElementList() {
-        return new ListElementBuilder()
+    public List<Block> toBlockList() {
+        return new ListBlockBuilder()
                 .append(this)
                 .build();
     }

@@ -4,7 +4,7 @@ import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.tsql.model.operator.Operators;
-import com.xy.xsql.orm.data.sql.element.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.predicate.*;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e_string;
 import static com.xy.xsql.orm.core.sql.element.ColumnNameBuilder.c;
-import static com.xy.xsql.orm.util.FiledBuilder.set;
+import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 

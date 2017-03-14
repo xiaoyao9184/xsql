@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sql.element.datatype;
 
-import com.xy.xsql.orm.data.sql.element.datatype.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.

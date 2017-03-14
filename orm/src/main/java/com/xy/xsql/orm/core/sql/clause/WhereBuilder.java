@@ -5,8 +5,8 @@ import com.xy.xsql.orm.data.sql.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.clause.Where;
 import com.xy.xsql.orm.data.sql.element.predicate.Predicate;
 
-import static com.xy.xsql.orm.util.FiledBuilder.initSet;
-import static com.xy.xsql.orm.util.FiledBuilder.set;
+import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 

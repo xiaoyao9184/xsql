@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.expression;
 
 
-import com.xy.xsql.tsql.ListBlockBuilder;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Operator;

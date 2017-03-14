@@ -1,12 +1,12 @@
-package com.xy.xsql.orm.data.sql.element.datatype;
+package com.xy.xsql.tsql.model.datatype;
 
-import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.expression.operator.relational.In;
+
+import com.xy.xsql.tsql.model.element.ColumnName;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class ColumnDefinition extends Column {
+public class ColumnDefinition extends ColumnName {
 
     public ColumnDefinition(String name){
         super(name);

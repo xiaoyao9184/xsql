@@ -1,7 +1,4 @@
-package com.xy.xsql.orm.util;
-
-import com.xy.xsql.orm.core.Getter;
-import com.xy.xsql.orm.core.Setter;
+package com.xy.xsql.core;
 
 import java.util.function.Supplier;
 
