@@ -1,24 +1,26 @@
-package com.xy.xsql.orm.data.sql.element.operator;
+package com.xy.xsql.tsql.model.operator;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Unary implements Operator {
+public enum Set implements Operator {
 
-    PLUS("+",Type.Unary),
-    NEGATIVE("-",Type.Unary);
+    EXCEPT("EXCEPT",Type.Set),
+    INTERSECT("INTERSECT",Type.Set),
+    UNION("UNION",Type.Set),
+    UNION_ALL("UNION ALL",Type.Set);
 
     private java.lang.String keyword;
     private Type type;
 
-    Unary(Keywords keyword, Type type){
+    Set(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Unary(java.lang.String keyword, Type type){
+    Set(java.lang.String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }

@@ -1,8 +1,7 @@
 package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.data.sql.clause.Output;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Operators;
 import org.junit.Assert;
 import org.junit.Test;
 

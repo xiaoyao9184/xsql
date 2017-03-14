@@ -1,23 +1,26 @@
-package com.xy.xsql.orm.data.sql.element.operator;
+package com.xy.xsql.tsql.model.operator;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Scope_Resolution implements Operator {
-
-    SCOPE_RESOLUTION("::",Type.Scope_Resolution);
+public enum Arithmetic implements Operator {
+    ADDITION("+", Type.Arithmetic),
+    SUBTRACTION("-", Type.Arithmetic),
+    MULTIPLICATION("*", Type.Arithmetic),
+    DIVISION("/", Type.Arithmetic),
+    MODULO("%", Type.Arithmetic);
 
     private java.lang.String keyword;
     private Type type;
 
-    Scope_Resolution(Keywords keyword, Type type){
+    Arithmetic(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Scope_Resolution(java.lang.String keyword, Type type){
+    Arithmetic(java.lang.String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
@@ -29,4 +32,5 @@ public enum Scope_Resolution implements Operator {
     public Type getType(){
         return this.type;
     }
+
 }

@@ -1,23 +1,24 @@
-package com.xy.xsql.orm.data.sql.element.operator;
+package com.xy.xsql.tsql.model.operator;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Assignment implements Operator {
+public enum Unary implements Operator {
 
-    ASSIGNMENT("=", Type.Assignment);
+    PLUS("+",Type.Unary),
+    NEGATIVE("-",Type.Unary);
 
     private java.lang.String keyword;
     private Type type;
 
-    Assignment(Keywords keyword, Type type){
+    Unary(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Assignment(java.lang.String keyword, Type type){
+    Unary(java.lang.String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }

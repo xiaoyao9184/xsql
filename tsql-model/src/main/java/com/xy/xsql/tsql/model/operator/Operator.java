@@ -13,7 +13,7 @@ public interface Operator extends Block {
      * @see Block#toString()
      * @return
      */
-    String getKeyword();
+    java.lang.String getKeyword();
 
     /**
      *

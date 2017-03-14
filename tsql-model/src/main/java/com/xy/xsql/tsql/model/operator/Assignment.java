@@ -1,24 +1,23 @@
-package com.xy.xsql.orm.data.sql.element.operator;
+package com.xy.xsql.tsql.model.operator;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum String implements Operator {
+public enum Assignment implements Operator {
 
-    CONCATENATION("+",Type.String),
-    CONCATENATION_SET("+=",Type.String);
+    ASSIGNMENT("=", Type.Assignment);
 
     private java.lang.String keyword;
     private Type type;
 
-    String(Keywords keyword, Type type){
+    Assignment(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    String(java.lang.String keyword, Type type){
+    Assignment(java.lang.String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }

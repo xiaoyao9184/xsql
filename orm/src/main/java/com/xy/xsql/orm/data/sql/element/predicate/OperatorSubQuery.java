@@ -5,7 +5,7 @@ import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.operator.Logical;
+import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
 
 import java.util.List;

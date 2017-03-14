@@ -1,26 +1,24 @@
-package com.xy.xsql.orm.data.sql.element.operator;
+package com.xy.xsql.tsql.model.operator;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Arithmetic implements Operator {
-    ADDITION("+", Type.Arithmetic),
-    SUBTRACTION("-", Type.Arithmetic),
-    MULTIPLICATION("*", Type.Arithmetic),
-    DIVISION("/", Type.Arithmetic),
-    MODULO("%", Type.Arithmetic);
+public enum String implements Operator {
+
+    CONCATENATION("+",Type.String),
+    CONCATENATION_SET("+=",Type.String);
 
     private java.lang.String keyword;
     private Type type;
 
-    Arithmetic(Keywords keyword, Type type){
+    String(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Arithmetic(java.lang.String keyword, Type type){
+    String(java.lang.String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
@@ -32,5 +30,4 @@ public enum Arithmetic implements Operator {
     public Type getType(){
         return this.type;
     }
-
 }
