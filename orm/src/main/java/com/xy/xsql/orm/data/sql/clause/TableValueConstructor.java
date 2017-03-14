@@ -5,7 +5,7 @@ import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.expression.RowValueExpression;
+import com.xy.xsql.tsql.model.expression.RowValueExpression;
 
 import java.util.List;
 

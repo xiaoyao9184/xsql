@@ -1,10 +1,9 @@
-package com.xy.xsql.orm.data.sql.expression;
+package com.xy.xsql.tsql.model.expression;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -46,12 +45,12 @@ public class RowValueExpression implements Expression {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
         if(isUseNull()){
-            b.append(GrammarEnum.NULL);
+            b.append(Keywords.NULL);
         }else if(isUseDefault()) {
-            b.append(GrammarEnum.DEFAULT);
+            b.append(Keywords.DEFAULT);
         }else {
             b.append(getExpression());
         }

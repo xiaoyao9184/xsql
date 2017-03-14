@@ -1,9 +1,8 @@
-package com.xy.xsql.orm.data.sql.expression;
+package com.xy.xsql.tsql.model.expression;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,18 +65,18 @@ public class Case implements Expression {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.CASE)
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.CASE)
                 .append(inputExpression);
         for (WhenThenExpression whenThenExpression: whenThenExpressionList) {
-            b.append(whenThenExpression.toElementList());
+            b.append(whenThenExpression.toBlockList());
         }
         if(elseResultExpression != null){
-            b.append(GrammarEnum.ELSE);
+            b.append(Keywords.ELSE);
             b.append(elseResultExpression);
         }
-        b.append(GrammarEnum.END);
+        b.append(Keywords.END);
         return b.build();
     }
 
@@ -103,11 +102,11 @@ public class Case implements Expression {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .append(GrammarEnum.WHEN)
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .append(Keywords.WHEN)
                     .append(whenExpression)
-                    .append(GrammarEnum.THEN)
+                    .append(Keywords.THEN)
                     .append(resultExpression);
             return b.build();
         }

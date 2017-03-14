@@ -23,6 +23,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2017/1/9.
  */
+@Deprecated
 public class TableName
         extends Name<TableName>
         implements Element, Cloneable {
