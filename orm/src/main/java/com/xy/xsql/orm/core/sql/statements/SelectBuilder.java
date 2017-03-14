@@ -5,10 +5,10 @@ import com.xy.xsql.orm.core.sql.clause.FromBuilder;
 import com.xy.xsql.orm.core.sql.clause.TopBuilder;
 import com.xy.xsql.orm.core.sql.clause.WhereBuilder;
 import com.xy.xsql.orm.core.sql.clause.select.*;
-import com.xy.xsql.orm.data.sql.clause.From;
-import com.xy.xsql.orm.data.sql.clause.Top;
-import com.xy.xsql.orm.data.sql.clause.Where;
-import com.xy.xsql.orm.data.sql.clause.select.*;
+import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
 
 /**

@@ -1,8 +1,8 @@
 package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
-import com.xy.xsql.orm.data.sql.clause.Where;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
+import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.tsql.model.predicate.Between;
 import com.xy.xsql.tsql.model.predicate.In;

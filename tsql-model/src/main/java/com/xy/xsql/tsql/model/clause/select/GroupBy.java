@@ -1,12 +1,13 @@
-package com.xy.xsql.orm.data.sql.clause.select;
+package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.util.CheckUtil;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.CheckUtil;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
-public class GroupBy implements ElementList {
+public class GroupBy implements Clause {
 
     //[ ALL ]
     @Deprecated
@@ -106,14 +107,14 @@ public class GroupBy implements ElementList {
     }
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .withDelimiter(OtherEnum.SPACE)
-                .append(GrammarEnum.ORDER)
-                .append(GrammarEnum.BY);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .withDelimiter(Other.SPACE)
+                .append(Keywords.ORDER)
+                .append(Keywords.BY);
 
         //[ ALL ]
-//        b.append(useAll ? GrammarEnum.ALL : null);
+//        b.append(useAll ? Keywords.ALL : null);
 
         /*
         {
@@ -124,16 +125,16 @@ public class GroupBy implements ElementList {
             | () --calculates the grand total
         } [ ,...n ]
          */
-        b.append(items, OtherEnum.DELIMITER);
+        b.append(items, Other.DELIMITER);
 
         //[ WITH { CUBE | ROLLUP } ]
 //        if(!useAll){
 //            if(useWithCube){
-//                b.append(GrammarEnum.WITH)
-//                        .append(GrammarEnum.CUBE);
+//                b.append(Keywords.WITH)
+//                        .append(Keywords.CUBE);
 //            }else if(useWithRollup){
-//                b.append(GrammarEnum.WITH)
-//                        .append(GrammarEnum.ROLLUP);
+//                b.append(Keywords.WITH)
+//                        .append(Keywords.ROLLUP);
 //            }
 //        }
 
@@ -161,7 +162,7 @@ public class GroupBy implements ElementList {
 
      *
      */
-    public static class GroupByItem implements ElementList  {
+    public static class GroupByItem implements Block {
 
         private GroupBy.ItemType type;
 
@@ -210,32 +211,32 @@ public class GroupBy implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
 
             switch (type){
                 case Base:
                     b.append(columnExpression);
                     break;
                 case Rollup:
-                    b.append(GrammarEnum.ROLLUP)
-                            .append(OtherEnum.GROUP_START)
-                            .append(groupByExpressionList, OtherEnum.DELIMITER)
-                            .append(OtherEnum.GROUP_END);
+                    b.append(Keywords.Key.ROLLUP)
+                            .append(Other.GROUP_START)
+                            .append(groupByExpressionList, Other.DELIMITER)
+                            .append(Other.GROUP_END);
                     break;
                 case Cube:
-                    b.append(GrammarEnum.CUBE)
-                            .append(OtherEnum.GROUP_START)
-                            .append(groupByExpressionList, OtherEnum.DELIMITER)
-                            .append(OtherEnum.GROUP_END);
+                    b.append(Keywords.Key.CUBE)
+                            .append(Other.GROUP_START)
+                            .append(groupByExpressionList, Other.DELIMITER)
+                            .append(Other.GROUP_END);
                     break;
                 case GroupingSet:
-                    b.append(GrammarEnum.GROUPING)
-                            .append(GrammarEnum.SETS)
-                            .append(OtherEnum.GROUP_START)
-                            .append(groupingSetList, OtherEnum.DELIMITER)
-                            .append(OtherEnum.GROUP_END);
+                    b.append(Keywords.Key.GROUPING)
+                            .append(Keywords.Key.SETS)
+                            .append(Other.GROUP_START)
+                            .append(groupingSetList, Other.DELIMITER)
+                            .append(Other.GROUP_END);
                     break;
             }
 
@@ -246,7 +247,7 @@ public class GroupBy implements ElementList {
     /**
      * <group_by_expression>
      */
-    public static class GroupByExpression implements ElementList {
+    public static class GroupByExpression implements Block {
 
         private List<Expression> columnExpressionList;
 
@@ -261,15 +262,15 @@ public class GroupBy implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
             if(CheckUtil.isNullOrEmpty(columnExpressionList)){
                 b.append(columnExpressionList.get(0));
             }else {
-                b.append(OtherEnum.GROUP_START)
-                        .append(columnExpressionList, OtherEnum.DELIMITER)
-                        .append(OtherEnum.GROUP_END);
+                b.append(Other.GROUP_START)
+                        .append(columnExpressionList, Other.DELIMITER)
+                        .append(Other.GROUP_END);
             }
             return b.build();
         }
@@ -278,7 +279,7 @@ public class GroupBy implements ElementList {
     /**
      * <grouping_set>
      */
-    public static class GroupingSet implements ElementList {
+    public static class GroupingSet implements Block {
 
         private List<GroupingSetItem> groupingSetItemList;
 
@@ -292,15 +293,15 @@ public class GroupBy implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
             if(CheckUtil.isNullOrEmpty(groupingSetItemList)){
                 b.append(groupingSetItemList.get(0));
             }else{
-                b.append(OtherEnum.GROUP_START)
-                        .append(groupingSetItemList, OtherEnum.DELIMITER)
-                        .append(OtherEnum.GROUP_END);
+                b.append(Other.GROUP_START)
+                        .append(groupingSetItemList, Other.DELIMITER)
+                        .append(Other.GROUP_END);
             }
             return b.build();
         }
@@ -309,7 +310,7 @@ public class GroupBy implements ElementList {
     /**
      * <grouping_set_item>
      */
-    public static class GroupingSetItem implements ElementList {
+    public static class GroupingSetItem implements Block {
 
         private boolean useRollup;
         private boolean useCube;
@@ -341,20 +342,20 @@ public class GroupBy implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
             if(CheckUtil.isNullOrEmpty(groupByExpressionList)){
                 b.append(groupByExpressionList.get(0));
             }else{
                 if(useRollup){
-                    b.append(GrammarEnum.ROLLUP);
+                    b.append(Keywords.Key.ROLLUP);
                 } else if(useCube){
-                    b.append(GrammarEnum.CUBE);
+                    b.append(Keywords.Key.CUBE);
                 }
-                b.append(OtherEnum.GROUP_START)
-                        .append(groupByExpressionList, OtherEnum.DELIMITER)
-                        .append(OtherEnum.GROUP_END);
+                b.append(Other.GROUP_START)
+                        .append(groupByExpressionList, Other.DELIMITER)
+                        .append(Other.GROUP_END);
             }
             return b.build();
         }

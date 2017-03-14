@@ -1,12 +1,11 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.predicate.Predicate;
-import com.xy.xsql.orm.util.CheckUtil;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.util.CheckUtil;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/20.
  */
-public class SearchCondition implements ElementList {
+public class SearchCondition implements Clause {
 
     //{ [ NOT ] <predicate> | ( <search_condition> ) }
     private boolean useNot;
@@ -82,15 +81,15 @@ public class SearchCondition implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
 
-        b.append(useNot ? GrammarEnum.NOT : null)
+        b.append(useNot ? Keywords.NOT : null)
                 .append(this.predicate != null ? predicate : searchCondition);
 
         if(!CheckUtil.isNullOrEmpty(this.andOrList)){
             for (AndOrNotItem andOrNotItem : this.andOrList) {
-                b.append(andOrNotItem.toElementList(),null);
+                b.append(andOrNotItem.toBlockList(),null);
             }
         }
         return b.build(null);
@@ -99,7 +98,7 @@ public class SearchCondition implements ElementList {
     /**
      * { AND | OR } [ NOT ] { <predicate> | ( <search_condition> )
      */
-    public static class AndOrNotItem implements ElementList {
+    public static class AndOrNotItem implements Block {
 
         private boolean useAnd;
         private boolean useNot;
@@ -153,13 +152,13 @@ public class SearchCondition implements ElementList {
         }
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
 
-            b.append(useAnd ? GrammarEnum.AND : GrammarEnum.OR);
+            b.append(useAnd ? Keywords.AND : Keywords.OR);
 
-            b.append(useNot ? GrammarEnum.NOT : null)
+            b.append(useNot ? Keywords.NOT : null)
                     .append(this.predicate != null ? predicate : searchCondition);
 
             return b.build(null);

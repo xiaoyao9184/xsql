@@ -1,14 +1,13 @@
-package com.xy.xsql.orm.data.sql.clause.hints;
+package com.xy.xsql.tsql.model.clause.hints;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.UnknownString;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/26.
  */
-public class QueryHint implements ElementList {
+public class QueryHint implements Clause {
     //
     private Type type;
 
@@ -39,10 +38,10 @@ public class QueryHint implements ElementList {
     private List<OptimizeFor> optimizeFor;
 
     //USE HINT ( '<hint_name>' [ , ...n ] )
-    private List<UnknownString> hintNameList;
+    private List<StringConstant> hintNameList;
 
     //USE PLAN N'xml_plan'
-    private UnknownString xmlPlan;
+    private StringConstant xmlPlan;
 
     //TABLE HINT ( exposed_object_name [ , <table_hint> [ [, ]...n ] ] )
     private String exposedObjectName;
@@ -97,19 +96,19 @@ public class QueryHint implements ElementList {
         this.optimizeFor = optimizeFor;
     }
 
-    public List<UnknownString> getHintNameList() {
+    public List<StringConstant> getHintNameList() {
         return hintNameList;
     }
 
-    public void setHintNameList(List<UnknownString> hintNameList) {
+    public void setHintNameList(List<StringConstant> hintNameList) {
         this.hintNameList = hintNameList;
     }
 
-    public UnknownString getXmlPlan() {
+    public StringConstant getXmlPlan() {
         return xmlPlan;
     }
 
-    public void setXmlPlan(UnknownString xmlPlan) {
+    public void setXmlPlan(StringConstant xmlPlan) {
         this.xmlPlan = xmlPlan;
     }
 
@@ -138,8 +137,8 @@ public class QueryHint implements ElementList {
     }
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
                 .append(type);
 
         switch (type){
@@ -157,22 +156,22 @@ public class QueryHint implements ElementList {
                 b.append(number);
                 break;
             case OPTIMIZE_FOR:
-                b.append(optimizeFor,OtherEnum.DELIMITER);
+                b.append(optimizeFor, Other.DELIMITER);
                 break;
             case USE_HINT:
-                for(UnknownString unknownString : hintNameList){
-                    unknownString.withQuote(true);
+                for(StringConstant unknownString : hintNameList){
+                    unknownString.withQuote();
                 }
-                b.append(hintNameList,OtherEnum.DELIMITER);
+                b.append(hintNameList,Other.DELIMITER);
                 break;
             case USE_PLAN:
-                b.append(xmlPlan.withNQuote(true));
+                b.append(xmlPlan.withNQuote());
                 break;
             case TABLE_HINT:
-                b.append(OtherEnum.GROUP_START)
+                b.append(Other.GROUP_START)
                             .append(exposedObjectName)
-                            .append(tableHintList,useDelimiter ? OtherEnum.DELIMITER : null)
-                            .append(OtherEnum.GROUP_END);
+                            .append(tableHintList,useDelimiter ? Other.DELIMITER : null)
+                            .append(Other.GROUP_END);
                 break;
         }
 
@@ -180,7 +179,7 @@ public class QueryHint implements ElementList {
     }
 
 
-    public enum Type implements Element {
+    public enum Type implements Block {
         HASH_GROUP("HASH GROUP"),
         ORDER_GROUP("ORDER GROUP"),
         CONCAT_UNION("CONCAT UNION"),
@@ -229,7 +228,7 @@ public class QueryHint implements ElementList {
         }
     }
 
-    public static class OptimizeFor implements ElementList {
+    public static class OptimizeFor implements Block {
         private String variableName;
         private boolean useUnknown;
         private String literalConstant;
@@ -259,13 +258,13 @@ public class QueryHint implements ElementList {
         }
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder();
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder();
             b.append("@" + variableName);
             if(useUnknown){
-                b.append(GrammarEnum.UNKNOWN);
+                b.append(Keywords.Key.UNKNOWN);
             } else {
-                b.append(OperatorEnum.EQUAL)
+                b.append(Operators.EQUAL)
                         .append(literalConstant);
             }
             return b.build();

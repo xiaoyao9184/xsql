@@ -2,7 +2,7 @@ package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Sentence;
-import com.xy.xsql.orm.data.sql.clause.With;
+import com.xy.xsql.tsql.model.clause.With;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;

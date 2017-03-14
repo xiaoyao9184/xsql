@@ -1,14 +1,14 @@
-package com.xy.xsql.orm.data.sql.clause.hints;
+package com.xy.xsql.tsql.model.clause.hints;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.UnknownString;
 
-import java.util.ArrayList;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
+
 import java.util.List;
 
 /**
@@ -18,12 +18,12 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public class TableHint implements ElementList{
+public class TableHint implements Clause {
     private boolean useNOEXPAND;
     private Type type;
     private boolean useOneIndexValue;
-    private List<UnknownString> index_value;
-    private List<UnknownString> index_column_name;
+    private List<StringConstant> index_value;
+    private List<StringConstant> index_column_name;
     private Integer integer;
 
     public boolean isUseNOEXPAND() {
@@ -50,19 +50,19 @@ public class TableHint implements ElementList{
         this.useOneIndexValue = useOneIndexValue;
     }
 
-    public List<UnknownString> getIndex_value() {
+    public List<StringConstant> getIndex_value() {
         return index_value;
     }
 
-    public void setIndex_value(List<UnknownString> index_value) {
+    public void setIndex_value(List<StringConstant> index_value) {
         this.index_value = index_value;
     }
 
-    public List<UnknownString> getIndex_column_name() {
+    public List<StringConstant> getIndex_column_name() {
         return index_column_name;
     }
 
-    public void setIndex_column_name(List<UnknownString> index_column_name) {
+    public void setIndex_column_name(List<StringConstant> index_column_name) {
         this.index_column_name = index_column_name;
     }
 
@@ -75,37 +75,37 @@ public class TableHint implements ElementList{
     }
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
                 .append(type);
 
         if(useNOEXPAND){
-            b.append(GrammarEnum.NOEXPAND);
+            b.append(Keywords.Key.NOEXPAND);
         }
         b.append(type);
         switch (type){
             case INDEX:
                 if(useOneIndexValue){
-                    b.append(OtherEnum.GROUP_START)
+                    b.append(Other.GROUP_START)
                             .append(index_value)
-                            .append(OtherEnum.GROUP_END);
+                            .append(Other.GROUP_END);
                 }else{
-                    b.append(OperatorEnum.EQUAL)
+                    b.append(Operators.EQUAL)
                             .append(index_value.get(0));
                 }
                 break;
             case FORCESEEK:
                 if(index_value.size() > 0){
-                    b.append(OtherEnum.GROUP_START)
+                    b.append(Other.GROUP_START)
                             .append(index_value)
-                            .append(OtherEnum.GROUP_START)
-                            .append(index_column_name,OtherEnum.DELIMITER)
-                            .append(OtherEnum.GROUP_END)
-                            .append(OtherEnum.GROUP_END);
+                            .append(Other.GROUP_START)
+                            .append(index_column_name,Other.DELIMITER)
+                            .append(Other.GROUP_END)
+                            .append(Other.GROUP_END);
                 }
                 break;
             case SPATIAL_WINDOW_MAX_CELLS:
-                b.append(OperatorEnum.EQUAL)
+                b.append(Operators.EQUAL)
                         .append(integer);
                 break;
         }
@@ -114,7 +114,7 @@ public class TableHint implements ElementList{
     }
 
 
-    public enum Type implements Element {
+    public enum Type implements Block {
         INDEX,
         FORCESCAN,
         FORCESEEK,

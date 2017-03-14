@@ -4,7 +4,7 @@ import com.xy.xsql.orm.core.element.ListElementBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.ElementList;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.Top;
+import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
 import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Column;

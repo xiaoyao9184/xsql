@@ -2,7 +2,7 @@ package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.element.predicate.Predicate;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.datatype.StringConstant;

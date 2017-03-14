@@ -1,6 +1,7 @@
-package com.xy.xsql.orm.data.sql.clause.hints;
+package com.xy.xsql.tsql.model.clause.hints;
 
-import com.xy.xsql.orm.data.sql.Element;
+
+import com.xy.xsql.tsql.model.Block;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms187373.aspx
@@ -9,7 +10,7 @@ import com.xy.xsql.orm.data.sql.Element;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public enum TableHintLimited implements Element {
+public enum TableHintLimited implements Block {
     KEEPIDENTITY,
     KEEPDEFAULTS,
     HOLDLOCK,

@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.sql.statements.SelectBuilder;
-import com.xy.xsql.orm.data.sql.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.orm.data.sql.statements.dml.Select;
 import org.junit.Assert;

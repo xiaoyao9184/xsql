@@ -1,10 +1,9 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/20.
  */
-public class Where implements ElementList {
+public class Where implements Clause {
 
     private SearchCondition searchCondition;
 
@@ -32,13 +31,13 @@ public class Where implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(OtherEnum.SPACE)
-                .append(GrammarEnum.WHERE)
-                .append(OtherEnum.SPACE)
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Other.SPACE)
+                .append(Keywords.WHERE)
+                .append(Other.SPACE)
                 .append(searchCondition)
-                .append(OtherEnum.SPACE);
+                .append(Other.SPACE);
         return b.build();
     }
 

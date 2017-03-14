@@ -2,7 +2,7 @@ package com.xy.xsql.orm.core.sql.clause.select;
 
 import com.xy.xsql.orm.core.SubBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.select.OrderBy;
+import com.xy.xsql.tsql.model.clause.select.OrderBy;
 
 import java.util.ArrayList;
 import java.util.List;

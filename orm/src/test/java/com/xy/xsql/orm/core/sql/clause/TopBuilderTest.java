@@ -1,8 +1,6 @@
 package com.xy.xsql.orm.core.sql.clause;
 
-import com.xy.xsql.orm.data.sql.clause.Top;
-import com.xy.xsql.orm.data.sql.clause.select.GroupBy;
-import com.xy.xsql.orm.data.sql.expression.NumberString;
+import com.xy.xsql.tsql.model.clause.Top;
 import org.junit.Assert;
 import org.junit.Test;
 

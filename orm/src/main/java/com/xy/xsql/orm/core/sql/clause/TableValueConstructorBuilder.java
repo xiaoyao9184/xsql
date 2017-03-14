@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.CodeTreeBuilder;
-import com.xy.xsql.orm.data.sql.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.expression.RowValueExpression;
 
 import java.util.ArrayList;

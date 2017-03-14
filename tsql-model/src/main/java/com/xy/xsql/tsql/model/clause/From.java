@@ -1,12 +1,12 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.info.Table;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/21.
  */
-public class From implements ElementList {
+public class From implements Clause {
 
     //{ <table_source> } [ ,...n ]
     private List<TableSource> tableSourceList;
@@ -32,11 +32,11 @@ public class From implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.FROM);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.FROM);
         for (TableSource table: getTableSourceList()) {
-            b.append(table.toElementList(),OtherEnum.DELIMITER);
+            b.append(table.toBlockList(), Other.DELIMITER);
         }
         return b.build();
     }
@@ -44,10 +44,10 @@ public class From implements ElementList {
     /**
      * <table_source>
      */
-    public static class TableSource implements ElementList  {
+    public static class TableSource implements Block  {
 
         //table_or_view_name [ [ AS ] table_alias ]
-        private Table table;
+        private TableName table;
         //derived_table
         private Select derivedTable;
         private boolean useAs;
@@ -56,11 +56,11 @@ public class From implements ElementList {
         private JoinedTable joinedTable;
 
 
-        public Table getTable() {
+        public TableName getTable() {
             return table;
         }
 
-        public void setTable(Table table) {
+        public void setTable(TableName table) {
             this.table = table;
         }
 
@@ -90,25 +90,26 @@ public class From implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
+        public List<Block> toBlockList() {
             if(joinedTable == null){
-                ListElementBuilder b = new ListElementBuilder()
+                ListBlockBuilder b = new ListBlockBuilder()
                         .append(table);
                 if (useTableAlias) {
-                    b.append(GrammarEnum.AS)
-                            .append(table.getAliasName());
+                    //TODO
+//                    b.append(Keywords.AS)
+//                            .append(table.getAliasName());
                 }
                 return b.build();
             }
 
-            return joinedTable.toElementList();
+            return joinedTable.toBlockList();
         }
     }
 
     /**
      * <joined_table>
      */
-    public static class JoinedTable implements ElementList {
+    public static class JoinedTable implements Block {
         private TableSource tableSource;
         private JoinType joinType;
         private TableSource tableSource2;
@@ -195,37 +196,37 @@ public class From implements ElementList {
         }
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
             if(isUseParenthesis()){
-                b.append(OtherEnum.GROUP_START);
+                b.append(Other.GROUP_START);
             }
             if(isUseJoinOn()){
                 b.append(getTableSource())
                         .append(getJoinType())
                         .append(getTableSource2())
-                        .append(GrammarEnum.ON)
+                        .append(Keywords.ON)
                         .append(getSearchCondition());
             }else if(isUseCrossJoin()){
                 b.append(getTableSource())
-                        .append(GrammarEnum.CROSS)
-                        .append(GrammarEnum.JOIN)
+                        .append(Keywords.CROSS)
+                        .append(Keywords.JOIN)
                         .append(getTableSource2());
             }else if(isUseCrossApply()){
                 b.append(getTableSource())
-                        .append(GrammarEnum.CROSS)
-                        .append(GrammarEnum.APPLY)
+                        .append(Keywords.CROSS)
+                        .append(Keywords.Key.APPLY)
                         .append(getTableSource2());
             }else if(isUseOuterApply()){
                 b.append(getTableSource())
-                        .append(GrammarEnum.OUTER)
-                        .append(GrammarEnum.APPLY)
+                        .append(Keywords.OUTER)
+                        .append(Keywords.Key.APPLY)
                         .append(getTableSource2());
             }
 
             if(isUseParenthesis()){
-                b.append(OtherEnum.GROUP_END);
+                b.append(Other.GROUP_END);
             }
             return b.build();
         }
@@ -236,29 +237,29 @@ public class From implements ElementList {
      * <join_type>
      *     <join_hint>
      */
-    public enum JoinType implements ElementList {
-        JOIN(GrammarEnum.JOIN),
-        INNER_JOIN(GrammarEnum.INNER,GrammarEnum.JOIN),
-        INNER_REDUCE_JOIN(GrammarEnum.INNER,GrammarEnum.REDUCE,GrammarEnum.JOIN),
-        INNER_REPLICATE_JOIN(GrammarEnum.INNER,GrammarEnum.REPLICATE,GrammarEnum.JOIN),
-        INNER_REDISTRIBUTE_JOIN(GrammarEnum.INNER,GrammarEnum.REDISTRIBUTE,GrammarEnum.JOIN),
-        LEFT_JOIN(GrammarEnum.LEFT,GrammarEnum.JOIN),
-        RIGHT_JOIN(GrammarEnum.RIGHT,GrammarEnum.JOIN),
-        FULL_JOIN(GrammarEnum.FULL,GrammarEnum.JOIN),
-        LEFT_OUTER_JOIN(GrammarEnum.LEFT,GrammarEnum.OUTER,GrammarEnum.JOIN),
-        RIGHT_OUTER_JOIN(GrammarEnum.RIGHT,GrammarEnum.OUTER,GrammarEnum.JOIN),
-        FULL_OUTER_JOIN(GrammarEnum.FULL,GrammarEnum.OUTER,GrammarEnum.JOIN);
+    public enum JoinType implements Block {
+        JOIN(Keywords.JOIN),
+        INNER_JOIN(Keywords.INNER,Keywords.JOIN),
+        INNER_REDUCE_JOIN(Keywords.INNER,Keywords.Key.REDUCE,Keywords.JOIN),
+        INNER_REPLICATE_JOIN(Keywords.INNER,Keywords.Key.REPLICATE,Keywords.JOIN),
+        INNER_REDISTRIBUTE_JOIN(Keywords.INNER,Keywords.Key.REDISTRIBUTE,Keywords.JOIN),
+        LEFT_JOIN(Keywords.LEFT,Keywords.JOIN),
+        RIGHT_JOIN(Keywords.RIGHT,Keywords.JOIN),
+        FULL_JOIN(Keywords.FULL,Keywords.JOIN),
+        LEFT_OUTER_JOIN(Keywords.LEFT,Keywords.OUTER,Keywords.JOIN),
+        RIGHT_OUTER_JOIN(Keywords.RIGHT,Keywords.OUTER,Keywords.JOIN),
+        FULL_OUTER_JOIN(Keywords.FULL,Keywords.OUTER,Keywords.JOIN);
 
-        private Element[] es;
+        private Block[] es;
 
-        JoinType(Element... elements){
+        JoinType(Block... elements){
             this.es = elements;
         }
 
         @Override
-        public List<Element> toElementList() {
-            return new ListElementBuilder()
-                    .append(Arrays.asList(this.es), OtherEnum.SPACE)
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(Arrays.asList(this.es), Other.SPACE)
                     .build(null);
         }
 

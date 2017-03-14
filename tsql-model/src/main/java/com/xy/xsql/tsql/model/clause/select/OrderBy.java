@@ -1,11 +1,11 @@
-package com.xy.xsql.orm.data.sql.clause.select;
+package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
-public class OrderBy implements ElementList {
+public class OrderBy implements Clause {
 
     private List<OrderByItem> items;
 
@@ -68,11 +68,11 @@ public class OrderBy implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.ORDER)
-                .append(GrammarEnum.BY)
-                .append(items, OtherEnum.DELIMITER)
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.ORDER)
+                .append(Keywords.BY)
+                .append(items, Other.DELIMITER)
                 .append(offsetFetch != null ? offsetFetch : null);
         return b.build();
     }
@@ -87,7 +87,7 @@ public class OrderBy implements ElementList {
 
      *
      */
-    public static class OrderByItem implements ElementList  {
+    public static class OrderByItem implements Block {
 
         //
         private Expression orderByExpression;
@@ -123,14 +123,14 @@ public class OrderBy implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE)
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE)
                     .append(orderByExpression);
             if(useAsc){
-                b.append(GrammarEnum.ASC);
+                b.append(Keywords.ASC);
             } else if(useDesc){
-                b.append(GrammarEnum.DESC);
+                b.append(Keywords.DESC);
             }
             return b.build();
         }
@@ -149,7 +149,7 @@ public class OrderBy implements ElementList {
 
      *
      */
-    public static class OffsetFetch implements ElementList {
+    public static class OffsetFetch implements Block {
 
         //{ integer_constant | offset_row_count_expression }
         private Integer integerConstant;
@@ -233,27 +233,27 @@ public class OrderBy implements ElementList {
         }
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE)
-                    .append(GrammarEnum.OFFSET);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE)
+                    .append(Keywords.Key.OFFSET);
             if(integerConstant != null){
                 b.append(integerConstant);
             } else {
                 b.append(offsetRowCountExpression);
             }
-            b.append(useRow ? GrammarEnum.ROW : GrammarEnum.ROWS);
+            b.append(useRow ? Keywords.Key.ROW : Keywords.Key.ROWS);
 
             if(useFetch){
-                b.append(GrammarEnum.FETCH)
-                        .append(useFetchFirst ? GrammarEnum.FIRST : GrammarEnum.NEXT);
+                b.append(Keywords.FETCH)
+                        .append(useFetchFirst ? Keywords.Key.FIRST : Keywords.Key.NEXT);
                 if(integerConstant != null){
                     b.append(fetchIntegerConstant);
                 } else {
                     b.append(fetchOffsetRowCountExpression);
                 }
-                b.append(useFetchRow ? GrammarEnum.ROW : GrammarEnum.ROWS)
-                        .append(GrammarEnum.ONLY);
+                b.append(useFetchRow ? Keywords.Key.ROW : Keywords.Key.ROWS)
+                        .append(Keywords.Key.ONLY);
             }
 
 

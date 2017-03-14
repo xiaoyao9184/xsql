@@ -1,8 +1,8 @@
 package com.xy.xsql.orm.core.sql.clause.hint;
 
 import com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder;
-import com.xy.xsql.orm.data.sql.clause.hints.QueryHint;
-import com.xy.xsql.orm.data.sql.clause.hints.TableHint;
+import com.xy.xsql.tsql.model.clause.hints.QueryHint;
+import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -2,8 +2,8 @@ package com.xy.xsql.orm.core.sql.clause.select;
 
 import com.xy.xsql.orm.core.SubBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.select.GroupBy;
-import com.xy.xsql.orm.data.sql.clause.select.GroupBy.GroupByExpression;
+import com.xy.xsql.tsql.model.clause.select.GroupBy;
+import com.xy.xsql.tsql.model.clause.select.GroupBy.GroupByExpression;
 
 import java.util.ArrayList;
 import java.util.List;

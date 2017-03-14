@@ -1,11 +1,12 @@
-package com.xy.xsql.orm.data.sql.clause.select;
+package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.util.CheckUtil;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.util.CheckUtil;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
-public class For implements ElementList {
+public class For implements Clause {
 
     private boolean useBrowse;
     private Xml xml;
@@ -50,10 +51,10 @@ public class For implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
         if(useBrowse) {
-            b.append(GrammarEnum.BROWSE);
+            b.append(Keywords.BROWSE);
         } else if(xml != null){
             b.append(xml);
         } else if(json != null){
@@ -69,7 +70,7 @@ public class For implements ElementList {
      <XML> ::=
      XML
      {
-     { RAW [ ( 'ElementName' ) ] | AUTO }
+     { RAW [ ( 'BlockName' ) ] | AUTO }
      [
      <CommonDirectivesForXML>
      [ , { XMLDATA | XMLSCHEMA [ ( 'TargetNameSpaceURI' ) ] } ]
@@ -80,7 +81,7 @@ public class For implements ElementList {
      <CommonDirectivesForXML>
      [ , XMLDATA ]
      ]
-     | PATH [ ( 'ElementName' ) ]
+     | PATH [ ( 'BlockName' ) ]
      [
      <CommonDirectivesForXML>
      [ , ELEMENTS [ XSINIL | ABSENT ] ]
@@ -94,13 +95,13 @@ public class For implements ElementList {
 
      *
      */
-    public static class Xml implements ElementList {
+    public static class Xml implements Block {
         private boolean useRaw;
         private boolean useAuto;
         private boolean useExplicit;
         private boolean usePath;
 
-        private String elementName;
+        private String BlockName;
 
         //[ , XMLDATA ]
         private boolean useXxmData;
@@ -147,12 +148,12 @@ public class For implements ElementList {
             this.usePath = usePath;
         }
 
-        public String getElementName() {
-            return elementName;
+        public String getBlockName() {
+            return BlockName;
         }
 
-        public void setElementName(String elementName) {
-            this.elementName = elementName;
+        public void setBlockName(String BlockName) {
+            this.BlockName = BlockName;
         }
 
         public boolean isUseXxmData() {
@@ -205,60 +206,60 @@ public class For implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder();
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder();
             if(useRaw || useAuto){
-                b.append(useRaw ? GrammarEnum.RAW : GrammarEnum.AUTO)
-                        .append(useRaw && !CheckUtil.isNullOrEmpty(elementName) ?
-                                "'" + elementName + "'" :
+                b.append(useRaw ? Keywords.Key.RAW : Keywords.Key.AUTO)
+                        .append(useRaw && !CheckUtil.isNullOrEmpty(BlockName) ?
+                                "'" + BlockName + "'" :
                                 null);
 
                 if(commonDirectivesForXML != null){
                     b.append(commonDirectivesForXML);
                     if(useXxmData){
-                        b.append(OtherEnum.DELIMITER)
-                                .append(GrammarEnum.XMLDATA);
+                        b.append(Other.DELIMITER)
+                                .append(Keywords.Key.XMLDATA);
                     }else {
-                        b.append(OtherEnum.DELIMITER)
-                                .append(GrammarEnum.XMLSCHEMA)
+                        b.append(Other.DELIMITER)
+                                .append(Keywords.Key.XMLSCHEMA)
                                 .append(CheckUtil.isNullOrEmpty(targetNameSpaceURI) ?
                                         null :
                                         "'" + targetNameSpaceURI + "'");
                     }
                     if(useELEMENTS_ABSENT){
-                        b.append(OtherEnum.DELIMITER)
-                                .append(GrammarEnum.ELEMENTS)
-                                .append(GrammarEnum.ABSENT);
+                        b.append(Other.DELIMITER)
+                                .append(Keywords.Key.ELEMENTS)
+                                .append(Keywords.Key.ABSENT);
                     }else if(useELEMENTS_XSINIL){
-                        b.append(OtherEnum.DELIMITER)
-                                .append(GrammarEnum.ELEMENTS)
-                                .append(GrammarEnum.XSINIL);
+                        b.append(Other.DELIMITER)
+                                .append(Keywords.Key.ELEMENTS)
+                                .append(Keywords.Key.XSINIL);
                     }
                 }
             } else if(useExplicit){
-                b.append(GrammarEnum.EXPLICIT);
+                b.append(Keywords.Key.EXPLICIT);
                 if(commonDirectivesForXML != null){
                     b.append(commonDirectivesForXML);
                     if(useXxmData){
-                        b.append(OtherEnum.DELIMITER)
-                                .append(GrammarEnum.XMLDATA);
+                        b.append(Other.DELIMITER)
+                                .append(Keywords.Key.XMLDATA);
                     }
                 }
             } else if(usePath){
-                b.append(GrammarEnum.PATH)
-                        .append(CheckUtil.isNullOrEmpty(elementName) ?
+                b.append(Keywords.Key.PATH)
+                        .append(CheckUtil.isNullOrEmpty(BlockName) ?
                                 null :
-                                "'" + elementName + "'");
+                                "'" + BlockName + "'");
                 if(commonDirectivesForXML != null){
                     b.append(commonDirectivesForXML);
                     if(useELEMENTS_ABSENT){
-                        b.append(OtherEnum.DELIMITER)
-                                .append(GrammarEnum.ELEMENTS)
-                                .append(GrammarEnum.ABSENT);
+                        b.append(Other.DELIMITER)
+                                .append(Keywords.Key.ELEMENTS)
+                                .append(Keywords.Key.ABSENT);
                     }else if(useELEMENTS_XSINIL){
-                        b.append(OtherEnum.DELIMITER)
-                                .append(GrammarEnum.ELEMENTS)
-                                .append(GrammarEnum.XSINIL);
+                        b.append(Other.DELIMITER)
+                                .append(Keywords.Key.ELEMENTS)
+                                .append(Keywords.Key.XSINIL);
                     }
                 }
             }
@@ -277,7 +278,7 @@ public class For implements ElementList {
 
      *
      */
-    public static class CommonDirectivesForXML implements ElementList {
+    public static class CommonDirectivesForXML implements Block {
         private boolean useBINARY_BASE64;
         private boolean useTYPE;
         private boolean useROOT;
@@ -316,18 +317,18 @@ public class For implements ElementList {
         }
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder();
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder();
             if(useBINARY_BASE64){
-                b.append(OtherEnum.DELIMITER)
-                        .append(GrammarEnum.BINARY)
-                        .append(GrammarEnum.BASE64);
+                b.append(Other.DELIMITER)
+                        .append(Keywords.Key.BINARY)
+                        .append(Keywords.Key.BASE64);
             } else if(useTYPE){
-                b.append(OtherEnum.DELIMITER)
-                        .append(GrammarEnum.TYPE);
+                b.append(Other.DELIMITER)
+                        .append(Keywords.Key.TYPE);
             } else if(useROOT){
-                b.append(OtherEnum.DELIMITER)
-                        .append(GrammarEnum.ROOT)
+                b.append(Other.DELIMITER)
+                        .append(Keywords.Key.ROOT)
                         .append(CheckUtil.isNullOrEmpty(rootName) ?
                                 null :
                                 "'" + rootName + "'");
@@ -355,7 +356,7 @@ public class For implements ElementList {
 
      *
      */
-    public static class Json implements ElementList {
+    public static class Json implements Block {
 
         //{ AUTO | PATH }
         private boolean usePath;
@@ -413,22 +414,22 @@ public class For implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .append(usePath ? GrammarEnum.PATH : GrammarEnum.AUTO);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .append(usePath ? Keywords.Key.PATH : Keywords.Key.AUTO);
             if(useRoot){
-                b.append(GrammarEnum.ROOT)
+                b.append(Keywords.Key.ROOT)
                         .append(CheckUtil.isNullOrEmpty(rootName) ?
                                 null :
                                 "'" + rootName + "'");
             }
             if(useIncludeNullValue){
-                b.append(OtherEnum.DELIMITER)
-                        .append(GrammarEnum.INCLUDE_NULL_VALUES);
+                b.append(Other.DELIMITER)
+                        .append(Keywords.Key.INCLUDE_NULL_VALUES);
             }
             if(useWithoutArrayWrapper){
-                b.append(OtherEnum.DELIMITER)
-                        .append(GrammarEnum.WITHOUT_ARRAY_WRAPPER);
+                b.append(Other.DELIMITER)
+                        .append(Keywords.Key.WITHOUT_ARRAY_WRAPPER);
             }
 
             return b.build();

@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sql.clause;
 
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.element.OperatorEnum;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;

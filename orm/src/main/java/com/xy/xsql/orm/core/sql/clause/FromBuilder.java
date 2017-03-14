@@ -2,8 +2,8 @@ package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.SubBuilder;
 import com.xy.xsql.orm.core.sql.clause.subquery.SubQueryBuilder;
-import com.xy.xsql.orm.data.sql.clause.From;
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
+import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 
 import java.util.ArrayList;

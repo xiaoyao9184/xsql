@@ -1,17 +1,14 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.hints.QueryHint;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.UnknownString;
-import com.xy.xsql.orm.util.CheckUtil;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.hints.QueryHint;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.util.CheckUtil;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,7 +37,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/20.
  */
-public class Option implements Expression {
+public class Option implements Clause {
 
     private List<QueryOption> queryOption;
 
@@ -55,20 +52,20 @@ public class Option implements Expression {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
 
         if(!CheckUtil.isNullOrEmpty(this.queryOption)){
-            b.append(GrammarEnum.OPTION);
+            b.append(Keywords.OPTION);
             for (QueryOption queryOption : this.queryOption) {
                 if(!CheckUtil.isNullOrEmpty(queryOption.getLabelName())){
-                    b.append(GrammarEnum.LABEL)
-                            .append(OtherEnum.SPACE)
-                            .append(OperatorEnum.EQUAL)
-                            .append(OtherEnum.SPACE)
-                            .append(new UnknownString(queryOption.getLabelName()));
+                    b.append(Keywords.Key.LABEL)
+                            .append(Other.SPACE)
+                            .append(Operators.EQUAL)
+                            .append(Other.SPACE)
+                            .append(new StringConstant(queryOption.getLabelName()));
                 }else {
-                    b.append(queryOption.getQueryHint().toElementList(),null);
+                    b.append(queryOption.getQueryHint().toBlockList(),null);
                 }
             }
         }

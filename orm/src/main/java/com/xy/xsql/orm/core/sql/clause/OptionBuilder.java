@@ -2,8 +2,8 @@ package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder;
-import com.xy.xsql.orm.data.sql.clause.Option;
-import com.xy.xsql.orm.data.sql.clause.hints.QueryHint;
+import com.xy.xsql.tsql.model.clause.Option;
+import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 
 import java.util.Arrays;
 import java.util.List;

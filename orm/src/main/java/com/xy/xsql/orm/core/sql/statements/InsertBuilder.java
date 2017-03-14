@@ -4,7 +4,7 @@ import com.xy.xsql.orm.core.BaseBuilder;
 import com.xy.xsql.orm.core.SubBuilder;
 import com.xy.xsql.orm.core.sql.clause.TopBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.Top;
+import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.GroupList;
 import com.xy.xsql.orm.data.sql.element.info.TableName;

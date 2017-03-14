@@ -1,11 +1,10 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.RowValueExpression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public class TableValueConstructor implements ElementList {
+public class TableValueConstructor implements Clause {
 
     //( <row value expression list> ) [ ,...n ]
     private List<List<RowValueExpression>> rowValueExpressionListGroup;
@@ -38,14 +37,14 @@ public class TableValueConstructor implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.VALUES);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.VALUES);
 
         for (List<RowValueExpression> rowValueExpressionList: getRowValueExpressionListGroup()) {
-            b.append(OtherEnum.GROUP_START)
-                    .appendExpression(rowValueExpressionList,OtherEnum.DELIMITER)
-                    .append(OtherEnum.GROUP_END);
+            b.append(Other.GROUP_START)
+                    .appendExpression(rowValueExpressionList,Other.DELIMITER)
+                    .append(Other.GROUP_END);
         }
 
         return b.build();

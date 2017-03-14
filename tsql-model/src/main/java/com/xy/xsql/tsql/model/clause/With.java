@@ -1,13 +1,11 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.Sentence;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.UnknownString;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.Unknown;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public class With implements ElementList {
+public class With implements Clause {
 
     //<common_table_expression> [ ,...n ] ]
     private List<CommonTableExpression> commonTableExpressionList;
@@ -42,9 +40,9 @@ public class With implements ElementList {
     }
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
-        b.append(GrammarEnum.WITH)
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
+        b.append(Keywords.WITH)
                 .append(commonTableExpressionList);
 
         return b.build();
@@ -58,7 +56,8 @@ public class With implements ElementList {
 
         private String expressionName;
         private List<String> columnName;
-        private Sentence cteQueryDefinition;
+        //TODO
+//        private Sentence cteQueryDefinition;
 
 
         public String getExpressionName() {
@@ -77,33 +76,33 @@ public class With implements ElementList {
             this.columnName = columnName;
         }
 
-        public Sentence getCteQueryDefinition() {
-            return cteQueryDefinition;
-        }
-
-        public void setCteQueryDefinition(Sentence cteQueryDefinition) {
-            this.cteQueryDefinition = cteQueryDefinition;
-        }
+//        public Sentence getCteQueryDefinition() {
+//            return cteQueryDefinition;
+//        }
+//
+//        public void setCteQueryDefinition(Sentence cteQueryDefinition) {
+//            this.cteQueryDefinition = cteQueryDefinition;
+//        }
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .append(new UnknownString(expressionName));
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .append(new Unknown(expressionName));
             if(columnName.size() > 0){
-                List<Element> columnNameElement = new ArrayList<>();
+                List<Block> columnNameBlock = new ArrayList<>();
                 for (String name: columnName) {
-                    columnNameElement.add(new UnknownString(name));
+                    columnNameBlock.add(new Unknown(name));
                 }
-                b.append(OtherEnum.GROUP_START)
-                        .append(columnNameElement,null)
-                        .append(OtherEnum.GROUP_START);
+                b.append(Other.GROUP_START)
+                        .append(columnNameBlock,null)
+                        .append(Other.GROUP_START);
             }
 
-            b.append(GrammarEnum.AS)
-                    .append(OtherEnum.GROUP_START)
-                    .append(cteQueryDefinition)
-                    .append(OtherEnum.GROUP_START);
+//            b.append(Keywords.AS)
+//                    .append(Other.GROUP_START)
+//                    .append(cteQueryDefinition)
+//                    .append(Other.GROUP_START);
 
             return b.build();
         }

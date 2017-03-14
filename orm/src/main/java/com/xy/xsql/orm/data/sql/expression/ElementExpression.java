@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2017/3/12.
  */
+@Deprecated
 public class ElementExpression implements Expression {
     private ElementList elementList;
     private Element element;

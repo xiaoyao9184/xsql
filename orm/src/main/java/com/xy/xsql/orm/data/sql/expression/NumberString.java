@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/11/13.
  */
+@Deprecated
 public class NumberString implements Expression {
 
     private Number number;

@@ -1,12 +1,12 @@
-package com.xy.xsql.orm.data.sql.clause.select;
+package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.info.TableName;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2017/1/13.
  */
-public class Over implements ElementList {
+public class Over implements Clause {
 
     //[ <PARTITION BY clause> ]
     private PartitionBy partitionBy;
@@ -93,25 +93,25 @@ public class Over implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .withDelimiter(OtherEnum.SPACE)
-                .append(GrammarEnum.OVER)
-                .append(OtherEnum.GROUP_START);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .withDelimiter(Other.SPACE)
+                .append(Keywords.OVER)
+                .append(Other.GROUP_START);
 
         b.append(partitionBy != null ? partitionBy : null);
 
         b.append(orderBy != null ? orderBy : null);
 
         return b
-                .append(OtherEnum.GROUP_END)
+                .append(Other.GROUP_END)
                 .build();
     }
 
     /**
      * <PARTITION BY clause>
      */
-    public static class PartitionBy implements ElementList {
+    public static class PartitionBy implements Block {
         //PARTITION BY value_expression , ... [ n ]
         private List<Expression> valueExpressionList;
 
@@ -125,12 +125,12 @@ public class Over implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            return new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE)
-                    .append(GrammarEnum.PARTITION)
-                    .append(GrammarEnum.BY)
-                    .append(valueExpressionList,OtherEnum.DELIMITER)
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE)
+                    .append(Keywords.Key.PARTITION)
+                    .append(Keywords.BY)
+                    .append(valueExpressionList,Other.DELIMITER)
                     .build();
         }
     }
@@ -138,31 +138,31 @@ public class Over implements ElementList {
     /**
      * <ORDER BY clause>
      */
-    public static class OrderBy implements ElementList {
+    public static class OrderBy implements Block {
         /*
         ORDER BY order_by_expression
             [ COLLATE collation_name ]
             [ ASC | DESC ]
             [ ,...n ]
         */
-        private List<com.xy.xsql.orm.data.sql.clause.select.OrderBy.OrderByItem> items;
+        private List<com.xy.xsql.tsql.model.clause.select.OrderBy.OrderByItem> items;
 
-        public List<com.xy.xsql.orm.data.sql.clause.select.OrderBy.OrderByItem> getItems() {
+        public List<com.xy.xsql.tsql.model.clause.select.OrderBy.OrderByItem> getItems() {
             return items;
         }
 
-        public void setItems(List<com.xy.xsql.orm.data.sql.clause.select.OrderBy.OrderByItem> items) {
+        public void setItems(List<com.xy.xsql.tsql.model.clause.select.OrderBy.OrderByItem> items) {
             this.items = items;
         }
 
 
         @Override
-        public List<Element> toElementList() {
-            return new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE)
-                    .append(GrammarEnum.ORDER)
-                    .append(GrammarEnum.BY)
-                    .append(items, OtherEnum.DELIMITER)
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE)
+                    .append(Keywords.ORDER)
+                    .append(Keywords.BY)
+                    .append(items, Other.DELIMITER)
                     .build();
         }
     }

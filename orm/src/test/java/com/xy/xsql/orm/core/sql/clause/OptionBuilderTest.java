@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sql.clause;
 
-import com.xy.xsql.orm.data.sql.clause.Option;
+import com.xy.xsql.tsql.model.clause.Option;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,13 +11,13 @@ import static com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder.FORCE_ORDER
 import static com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder.HASH_GROUP;
 import static com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder.HASH_JOIN;
 import static com.xy.xsql.orm.core.sql.clause.hints.QueryHintBuilder.MERGE_JOIN;
-import static com.xy.xsql.orm.data.sql.clause.hints.QueryHint.Type.DISABLE_EXTERNALPUSHDOWN;
-import static com.xy.xsql.orm.data.sql.clause.hints.QueryHint.Type.FAST;
-import static com.xy.xsql.orm.data.sql.clause.hints.QueryHint.Type.FORCE_EXTERNALPUSHDOWN;
-import static com.xy.xsql.orm.data.sql.clause.hints.QueryHint.Type.FORCE_ORDER;
-import static com.xy.xsql.orm.data.sql.clause.hints.QueryHint.Type.HASH_GROUP;
-import static com.xy.xsql.orm.data.sql.clause.hints.QueryHint.Type.HASH_JOIN;
-import static com.xy.xsql.orm.data.sql.clause.hints.QueryHint.Type.MERGE_JOIN;
+import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.DISABLE_EXTERNALPUSHDOWN;
+import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.FAST;
+import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.FORCE_EXTERNALPUSHDOWN;
+import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.FORCE_ORDER;
+import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.HASH_GROUP;
+import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.HASH_JOIN;
+import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.MERGE_JOIN;
 
 
 /**

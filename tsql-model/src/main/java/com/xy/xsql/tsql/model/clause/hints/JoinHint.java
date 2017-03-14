@@ -1,8 +1,7 @@
-package com.xy.xsql.orm.data.sql.clause.hints;
+package com.xy.xsql.tsql.model.clause.hints;
 
-import com.xy.xsql.orm.data.sql.Element;
 
-import java.util.List;
+import com.xy.xsql.tsql.model.Block;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms173815.aspx
@@ -11,7 +10,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/22.
  */
-public enum JoinHint implements Element {
+public enum JoinHint implements Block {
     LOOP,
     HASH,
     MERGE,

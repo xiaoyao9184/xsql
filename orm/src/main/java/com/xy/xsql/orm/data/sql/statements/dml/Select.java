@@ -1,24 +1,14 @@
 package com.xy.xsql.orm.data.sql.statements.dml;
 
 import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.From;
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
-import com.xy.xsql.orm.data.sql.clause.Top;
-import com.xy.xsql.orm.data.sql.clause.Where;
-import com.xy.xsql.orm.data.sql.clause.select.*;
+import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
 import com.xy.xsql.orm.util.CheckUtil;
-
-import java.util.List;
 
 /**
  *

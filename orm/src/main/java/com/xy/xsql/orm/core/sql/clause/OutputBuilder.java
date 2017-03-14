@@ -2,7 +2,7 @@ package com.xy.xsql.orm.core.sql.clause;
 
 import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.Output;
+import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
 import com.xy.xsql.tsql.model.variable.VariableString;

@@ -1,11 +1,10 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ import java.util.List;
  ]
  * Created by xiaoyao9184 on 2016/11/13.
  */
-public class Top implements ElementList {
+public class Top implements Clause {
 
     private Expression expression;
     private boolean usePercent;
@@ -61,14 +60,14 @@ public class Top implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.TOP);
-        b.append(usePercent ? GrammarEnum.PERCENT : null);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.TOP);
+        b.append(usePercent ? Keywords.PERCENT : null);
         if(useTies){
-            b.append(GrammarEnum.WITH)
-                    .append(OtherEnum.SPACE)
-                    .append(GrammarEnum.TIES);
+            b.append(Keywords.WITH)
+                    .append(Other.SPACE)
+                    .append(Keywords.Key.TIES);
         }
         return b.build();
     }

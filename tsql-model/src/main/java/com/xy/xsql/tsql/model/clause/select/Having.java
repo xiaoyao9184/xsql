@@ -1,10 +1,11 @@
-package com.xy.xsql.orm.data.sql.clause.select;
+package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
-public class Having implements ElementList {
+public class Having implements Clause {
     //
     private SearchCondition searchCondition;
 
@@ -33,9 +34,9 @@ public class Having implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.HAVING)
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.HAVING)
                 .append(searchCondition);
         return b.build();
     }

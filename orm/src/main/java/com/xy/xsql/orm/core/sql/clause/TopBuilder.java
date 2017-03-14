@@ -3,7 +3,7 @@ package com.xy.xsql.orm.core.sql.clause;
 import com.xy.xsql.orm.core.CodeTreeBuilder;
 import com.xy.xsql.orm.core.TreeBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.Top;
+import com.xy.xsql.tsql.model.clause.Top;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

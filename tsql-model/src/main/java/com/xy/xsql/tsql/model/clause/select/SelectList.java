@@ -1,14 +1,13 @@
-package com.xy.xsql.orm.data.sql.clause.select;
+package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.clause.From;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.util.CheckUtil;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.util.CheckUtil;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
-public class SelectList implements ElementList {
+public class SelectList implements Clause {
     private List<SelectItem> list;
 
 
@@ -51,14 +50,14 @@ public class SelectList implements ElementList {
 
 
     @Override
-    public List<Element> toElementList() {
-        return new ListElementBuilder()
-                .append(list,OtherEnum.DELIMITER)
+    public List<Block> toBlockList() {
+        return new ListBlockBuilder()
+                .append(list, Other.DELIMITER)
                 .build();
     }
 
 
-    public static class SelectItem implements ElementList {
+    public static class SelectItem implements Block {
         //*
         private boolean useAll;
 
@@ -153,8 +152,8 @@ public class SelectList implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder();
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder();
 
             if(useAll){
                 b.append("*");
@@ -164,7 +163,7 @@ public class SelectList implements ElementList {
                         .append("*");
             } else if(useEQ){
                 b.append(columnAlias)
-                        .append(OperatorEnum.EQUAL)
+                        .append(Operators.EQUAL)
                         .append(expression);
             } else {
                 if(!CheckUtil.isNullOrEmpty(columnName)){
@@ -177,7 +176,7 @@ public class SelectList implements ElementList {
                     b.append(expression);
                 }
 
-                b.append(useAs ? GrammarEnum.AS : null)
+                b.append(useAs ? Keywords.AS : null)
                         .append(columnAlias);
             }
 

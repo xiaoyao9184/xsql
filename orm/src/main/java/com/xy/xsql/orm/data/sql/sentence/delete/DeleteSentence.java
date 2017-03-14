@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.element.OtherEnum;
 import com.xy.xsql.orm.data.sql.element.info.Table;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
 import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
-import com.xy.xsql.orm.data.sql.clause.Top;
+import com.xy.xsql.tsql.model.clause.Top;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,14 +1,12 @@
-package com.xy.xsql.orm.data.sql.clause;
+package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.info.TableName;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.variable.VariableString;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2017/1/13.
  */
-public class Output implements ElementList {
+public class Output implements Clause {
 
     //<dml_select_list>
     private List<DmlSelect> dmlSelectList;
@@ -43,7 +41,7 @@ public class Output implements ElementList {
 
     //[ ( column_list ) ]
     //TODO mybe just string name
-    private List<Column> columnList;
+    private List<ColumnName> columnList;
 
     public List<DmlSelect> getDmlSelectList() {
         return dmlSelectList;
@@ -69,40 +67,40 @@ public class Output implements ElementList {
         this.outputTable = outputTable;
     }
 
-    public List<Column> getColumnList() {
+    public List<ColumnName> getColumnList() {
         return columnList;
     }
 
-    public void setColumnList(List<Column> columnList) {
+    public void setColumnList(List<ColumnName> columnList) {
         this.columnList = columnList;
     }
 
 
     @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder()
-                .withDelimiter(OtherEnum.SPACE);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .withDelimiter(Other.SPACE);
 
-        b.append(GrammarEnum.OUTPUT)
+        b.append(Keywords.Key.OUTPUT)
                     .append(dmlSelectList);
 
         if(tableVariable != null){
-            b.append(GrammarEnum.INTO)
+            b.append(Keywords.INTO)
                     .append(tableVariable);
 
             if(columnList != null && !columnList.isEmpty()){
-                b.append(OtherEnum.GROUP_START)
+                b.append(Other.GROUP_START)
                         .append(columnList)
-                        .append(OtherEnum.GROUP_END);
+                        .append(Other.GROUP_END);
             }
         } else if(outputTable != null) {
-            b.append(GrammarEnum.INTO)
+            b.append(Keywords.INTO)
                     .append(outputTable);
 
             if(columnList != null && !columnList.isEmpty()){
-                b.append(OtherEnum.GROUP_START)
+                b.append(Other.GROUP_START)
                         .append(columnList)
-                        .append(OtherEnum.GROUP_END);
+                        .append(Other.GROUP_END);
             }
         }
 
@@ -114,7 +112,7 @@ public class Output implements ElementList {
      * <dml_select_list>
      */
     @Deprecated
-    public static class DmlSelectList implements ElementList {
+    public static class DmlSelectList implements Block {
 
         private List<DmlSelect> dmlSelectList;
 
@@ -127,9 +125,9 @@ public class Output implements ElementList {
         }
 
         @Override
-        public List<Element> toElementList() {
-            return new ListElementBuilder()
-                    .withDelimiter(OtherEnum.DELIMITER)
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .withDelimiter(Other.DELIMITER)
                     .append(dmlSelectList)
                     .build();
         }
@@ -138,7 +136,7 @@ public class Output implements ElementList {
     /**
      * { <column_name> | scalar_expression } [ [AS] column_alias_identifier ]
      */
-    public static class DmlSelect implements ElementList {
+    public static class DmlSelect implements Block {
 
         private ColumnName columnName;
         private Expression scalarExpression;
@@ -180,18 +178,18 @@ public class Output implements ElementList {
 
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
 
             if(columnName != null){
-                b.append(columnName.toElementList());
+                b.append(columnName.toBlockList());
             }else {
                 b.append(scalarExpression);
             }
 
             if(columnAliasIdentifier != null){
-                b.append(useAs ? GrammarEnum.AS : null)
+                b.append(useAs ? Keywords.AS : null)
                         .append(columnAliasIdentifier);
             }
 
@@ -202,7 +200,7 @@ public class Output implements ElementList {
     /**
      * <column_name>
      */
-    public static class ColumnName implements ElementList {
+    public static class ColumnName implements Block {
 
         //{ DELETED | INSERTED | from_table_name }
         private boolean useDeleted;
@@ -265,14 +263,14 @@ public class Output implements ElementList {
         }
 
         @Override
-        public List<Element> toElementList() {
-            ListElementBuilder b = new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE);
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE);
 
             if(useDeleted){
-                b.append(GrammarEnum.DELETED);
+                b.append(Keywords.Key.DELETED);
             } else if(useInserted){
-                b.append(GrammarEnum.INSERTED);
+                b.append(Keywords.Key.INSERTED);
             } else{
                 b.append(fromTableName);
             }

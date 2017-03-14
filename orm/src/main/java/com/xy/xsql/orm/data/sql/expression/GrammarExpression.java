@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/11/13.
  */
+@Deprecated
 public class GrammarExpression implements Expression {
 
     private GrammarEnum grammarEnum;

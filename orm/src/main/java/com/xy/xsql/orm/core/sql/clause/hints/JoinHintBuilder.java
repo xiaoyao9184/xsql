@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sql.clause.hints;
 
-import com.xy.xsql.orm.data.sql.clause.hints.JoinHint;
+import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.

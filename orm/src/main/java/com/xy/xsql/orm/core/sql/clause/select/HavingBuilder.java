@@ -2,8 +2,8 @@ package com.xy.xsql.orm.core.sql.clause.select;
 
 import com.xy.xsql.orm.core.SubBuilder;
 import com.xy.xsql.orm.core.sql.clause.SearchConditionBuilder;
-import com.xy.xsql.orm.data.sql.clause.SearchCondition;
-import com.xy.xsql.orm.data.sql.clause.select.Having;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
+import com.xy.xsql.tsql.model.clause.select.Having;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
