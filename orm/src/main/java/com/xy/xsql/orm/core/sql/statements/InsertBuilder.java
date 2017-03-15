@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.GroupList;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.statements.dml.Insert;
+import com.xy.xsql.tsql.model.statement.dml.Insert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +89,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      */
     public ValueGroupListBuilder<InsertBuilder> withValues(){
         GroupList<Insert.Value> valueGroupList = new GroupList<>();
-        insert.setValueGroupList(valueGroupList);
+        insert.setValues(valueGroupList);
         return new ValueGroupListBuilder<InsertBuilder>(valueGroupList)
                 .in(this);
     }

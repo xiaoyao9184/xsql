@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.sql.statements;
 
 import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.statements.dml.BulkInsert;
+import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import org.junit.Assert;
 import org.junit.Test;
 

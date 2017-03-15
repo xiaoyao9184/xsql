@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.sql.expression;
 
 import com.xy.xsql.tsql.model.expression.RowValueExpression;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 
 import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e;
 

@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.statements.dml.Delete;
+import com.xy.xsql.tsql.model.statement.dml.Delete;
 
 /**
  * Created by xiaoyao9184 on 2017/1/9.

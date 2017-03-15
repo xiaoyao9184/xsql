@@ -2,7 +2,7 @@ package com.xy.xsql.orm.core.sql.statements;
 
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.expression.NumberString;
-import com.xy.xsql.orm.data.sql.statements.dml.Update;
+import com.xy.xsql.tsql.model.statement.dml.Update;
 import org.junit.Assert;
 import org.junit.Test;
 

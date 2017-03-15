@@ -1,16 +1,15 @@
-package com.xy.xsql.orm.data.sql.statements.dml;
+package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.UnknownString;
-import com.xy.xsql.orm.data.sql.element.info.Order;
-import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.expression.StringExpression;
-import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
-import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
+
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.statement.Statement;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -53,7 +52,7 @@ import java.util.List;
 
  * Created by xiaoyao9184 on 2016/12/19.
  */
-public class BulkInsert extends CustomizeSentence {
+public class BulkInsert implements Statement {
 
     //
     private TableName tableOrView;
@@ -66,22 +65,22 @@ public class BulkInsert extends CustomizeSentence {
     //[ [ , ] CHECK_CONSTRAINTS ]
     private boolean checkConstraints;
     //[ [ , ] CODEPAGE = { 'ACP' | 'OEM' | 'RAW' | 'code_page' } ]
-    private StringExpression codePage;
+    private StringConstant codePage;
     //[ [ , ] DATAFILETYPE =
     //{ 'char' | 'native'| 'widechar' | 'widenative' } ]
-    private StringExpression dataFileType;
+    private StringConstant dataFileType;
     //[ [ , ] DATASOURCE = 'data_source_name' ]
-    private UnknownString dataSource;
+    private StringConstant dataSource;
     //[ [ , ] ERRORFILE = 'file_name' ]
-    private UnknownString errorFile;
+    private StringConstant errorFile;
     //[ [ , ] ERRORFILE_DATASOURCE = 'data_source_name' ]
-    private UnknownString errorFileDataSource;
+    private StringConstant errorFileDataSource;
     //[ [ , ] FIRSTROW = first_row ]
     private Integer firstRow;
     //[ [ , ] FIRE_TRIGGERS ]
     private boolean fireTriggers;
     //[ [ , ] FORMATFILE_DATASOURCE = 'data_source_name' ]
-    private UnknownString formatFileDataSource;
+    private StringConstant formatFileDataSource;
     //[ [ , ] KEEPIDENTITY ]
     private boolean keepIdentity;
     //[ [ , ] KEEPNULLS ]
@@ -93,26 +92,26 @@ public class BulkInsert extends CustomizeSentence {
     //[ [ , ] MAXERRORS = max_errors ]
     private Integer maxErrors;
     //[ [ , ] ORDER ( { column [ ASC | DESC ] } [ ,...n ] ) ]
-    private List<Order> orderList;
+    private List<OrderColumn> orderList;
     //[ [ , ] ROWS_PER_BATCH = rows_per_batch ]
     private Integer rowsPerBatch;
     //[ [ , ] ROWTERMINATOR = 'row_terminator' ]
-    private UnknownString rowTerminator;
+    private StringConstant rowTerminator;
     //[ [ , ] TABLOCK ]
     private boolean tabLock;
 
     //-- input file format options
     //[ [ , ] FORMAT = 'CSV' ]
-    private UnknownString format = new UnknownString().withQuote(true);
+    private StringConstant format = new StringConstant().withQuote();
     //[ [ , ] FIELDQUOTE = 'quote_characters']
-    private UnknownString fieldQuote = new UnknownString().withQuote(true);
+    private StringConstant fieldQuote = new StringConstant().withQuote();
     //[ [ , ] FORMATFILE = 'format_file_path' ]
-    private UnknownString formatFile = new UnknownString().withQuote(true);
+    private StringConstant formatFile = new StringConstant().withQuote();
     //[ [ , ] FIELDTERMINATOR = 'field_terminator' ]
-    private UnknownString fieldTerminator = new UnknownString().withQuote(true);
+    private StringConstant fieldTerminator = new StringConstant().withQuote();
     //may be repeat
     //[ [ , ] ROWTERMINATOR = 'row_terminator' ]
-//    private UnknownString rowTerminator = new UnknownString().withQuote(true);
+//    private StringConstant rowTerminator = new StringConstant().withQuote(true);
 
 
     public TableName getTableOrView() {
@@ -147,43 +146,43 @@ public class BulkInsert extends CustomizeSentence {
         this.checkConstraints = checkConstraints;
     }
 
-    public StringExpression getCodePage() {
+    public StringConstant getCodePage() {
         return codePage;
     }
 
-    public void setCodePage(StringExpression codePage) {
+    public void setCodePage(StringConstant codePage) {
         this.codePage = codePage;
     }
 
-    public StringExpression getDataFileType() {
+    public StringConstant getDataFileType() {
         return dataFileType;
     }
 
-    public void setDataFileType(StringExpression dataFileType) {
+    public void setDataFileType(StringConstant dataFileType) {
         this.dataFileType = dataFileType;
     }
 
-    public UnknownString getDataSource() {
+    public StringConstant getDataSource() {
         return dataSource;
     }
 
-    public void setDataSource(UnknownString dataSource) {
+    public void setDataSource(StringConstant dataSource) {
         this.dataSource = dataSource;
     }
 
-    public UnknownString getErrorFile() {
+    public StringConstant getErrorFile() {
         return errorFile;
     }
 
-    public void setErrorFile(UnknownString errorFile) {
+    public void setErrorFile(StringConstant errorFile) {
         this.errorFile = errorFile;
     }
 
-    public UnknownString getErrorFileDataSource() {
+    public StringConstant getErrorFileDataSource() {
         return errorFileDataSource;
     }
 
-    public void setErrorFileDataSource(UnknownString errorFileDataSource) {
+    public void setErrorFileDataSource(StringConstant errorFileDataSource) {
         this.errorFileDataSource = errorFileDataSource;
     }
 
@@ -203,11 +202,11 @@ public class BulkInsert extends CustomizeSentence {
         this.fireTriggers = fireTriggers;
     }
 
-    public UnknownString getFormatFileDataSource() {
+    public StringConstant getFormatFileDataSource() {
         return formatFileDataSource;
     }
 
-    public void setFormatFileDataSource(UnknownString formatFileDataSource) {
+    public void setFormatFileDataSource(StringConstant formatFileDataSource) {
         this.formatFileDataSource = formatFileDataSource;
     }
 
@@ -251,11 +250,11 @@ public class BulkInsert extends CustomizeSentence {
         this.maxErrors = maxErrors;
     }
 
-    public List<Order> getOrderList() {
+    public List<OrderColumn> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(List<Order> orderList) {
+    public void setOrderList(List<OrderColumn> orderList) {
         this.orderList = orderList;
     }
 
@@ -267,11 +266,11 @@ public class BulkInsert extends CustomizeSentence {
         this.rowsPerBatch = rowsPerBatch;
     }
 
-    public UnknownString getRowTerminator() {
+    public StringConstant getRowTerminator() {
         return rowTerminator;
     }
 
-    public void setRowTerminator(UnknownString rowTerminator) {
+    public void setRowTerminator(StringConstant rowTerminator) {
         this.rowTerminator = rowTerminator;
     }
 
@@ -283,56 +282,57 @@ public class BulkInsert extends CustomizeSentence {
         this.tabLock = tabLock;
     }
 
-    public UnknownString getFormat() {
+    public StringConstant getFormat() {
         return format;
     }
 
-    public void setFormat(UnknownString format) {
+    public void setFormat(StringConstant format) {
         this.format = format;
     }
 
-    public UnknownString getFieldQuote() {
+    public StringConstant getFieldQuote() {
         return fieldQuote;
     }
 
-    public void setFieldQuote(UnknownString fieldQuote) {
+    public void setFieldQuote(StringConstant fieldQuote) {
         this.fieldQuote = fieldQuote;
     }
 
-    public UnknownString getFormatFile() {
+    public StringConstant getFormatFile() {
         return formatFile;
     }
 
-    public void setFormatFile(UnknownString formatFile) {
+    public void setFormatFile(StringConstant formatFile) {
         this.formatFile = formatFile;
     }
 
-    public UnknownString getFieldTerminator() {
+    public StringConstant getFieldTerminator() {
         return fieldTerminator;
     }
 
-    public void setFieldTerminator(UnknownString fieldTerminator) {
+    public void setFieldTerminator(StringConstant fieldTerminator) {
         this.fieldTerminator = fieldTerminator;
     }
 
 
-
-
     @Override
-    public BaseElementsSentence toBaseElementsSentence() {
-        ListElementBuilder builder = new ListElementBuilder()
-                .withDelimiter(OtherEnum.SPACE)
-                .append(GrammarEnum.BULK)
-                .append(GrammarEnum.INSERT);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b0 = new ListBlockBuilder();
+
+        b0.append(Keywords.BULK)
+                .append(Keywords.INSERT)
+                .append(tableOrView)
+                .append(Keywords.FROM)
+                .append(formDataFile);
 
 
-        ListElementBuilder b = new ListElementBuilder()
-                .withDelimiter(OtherEnum.SPACE)
-                .append(GrammarEnum.WITH);
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.WITH)
+                .append(Other.GROUP_START);
 
         if(batchSize > 0){
             b.append(WithEnum.BATCHSIZE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(batchSize);
         }
 
@@ -342,37 +342,37 @@ public class BulkInsert extends CustomizeSentence {
 
         if(codePage != null){
             b.append(WithEnum.CODEPAGE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(codePage);
         }
 
         if(dataFileType != null){
             b.append(WithEnum.DATAFILETYPE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(dataFileType);
         }
 
         if(dataSource != null){
             b.append(WithEnum.DATASOURCE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(dataSource);
         }
 
         if(errorFile != null){
             b.append(WithEnum.ERRORFILE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(errorFile);
         }
 
         if(errorFileDataSource != null){
             b.append(WithEnum.ERRORFILE_DATASOURCE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(errorFileDataSource);
         }
 
         if(firstRow != null){
             b.append(WithEnum.FIRSTROW)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(firstRow);
         }
 
@@ -382,7 +382,7 @@ public class BulkInsert extends CustomizeSentence {
 
         if(formatFileDataSource != null){
             b.append(WithEnum.FORMATFILE_DATASOURCE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(formatFileDataSource);
         }
 
@@ -396,37 +396,37 @@ public class BulkInsert extends CustomizeSentence {
 
         if(kilobytesPerBatch != null){
             b.append(WithEnum.KILOBYTES_PER_BATCH)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(kilobytesPerBatch);
         }
 
         if(lastRow != null){
             b.append(WithEnum.LASTROW)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(lastRow);
         }
 
         if(maxErrors != null){
             b.append(WithEnum.MAXERRORS)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(maxErrors);
         }
 
         if(orderList != null){
             b.append(WithEnum.ORDER)
-                    .append(OperatorEnum.EQUAL)
-                    .append(orderList,OtherEnum.DELIMITER);
+                    .append(Operators.EQUAL)
+                    .append(orderList);
         }
 
         if(rowsPerBatch != null){
             b.append(WithEnum.ROWS_PER_BATCH)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(rowsPerBatch);
         }
 
         if(rowTerminator != null){
             b.append(WithEnum.ROWTERMINATOR)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(rowTerminator);
         }
 
@@ -436,31 +436,33 @@ public class BulkInsert extends CustomizeSentence {
 
         if(format != null){
             b.append(WithEnum.FORMAT)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(format);
         }
 
         if(fieldQuote != null){
             b.append(WithEnum.FIELDQUOTE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(fieldQuote);
         }
 
         if(formatFile != null){
             b.append(WithEnum.FORMATFILE)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(formatFile);
         }
 
         if(fieldTerminator != null){
             b.append(WithEnum.FIELDTERMINATOR)
-                    .append(OperatorEnum.EQUAL)
+                    .append(Operators.EQUAL)
                     .append(fieldTerminator);
         }
 
-        builder.append(b.build(),OtherEnum.DELIMITER);
+        b.append(Other.GROUP_END);
 
-        return new BaseElementsSentence(builder.build(null));
+        b0.append(b);
+
+        return b0.build();
     }
 
     /**
@@ -471,13 +473,13 @@ public class BulkInsert extends CustomizeSentence {
         OEM,
         RAW;
 
-        private StringExpression expression;
+        private StringConstant expression;
 
         CodePage(){
-            this.expression = new StringExpression(this.name());
+            this.expression = new StringConstant(this.name());
         }
 
-        public StringExpression toExpression() {
+        public StringConstant toExpression() {
             return this.expression;
         }
 
@@ -496,13 +498,13 @@ public class BulkInsert extends CustomizeSentence {
         WideChar,
         WideNative;
 
-        private StringExpression expression;
+        private StringConstant expression;
 
         DataFileType(){
-            this.expression = new StringExpression(this.name());
+            this.expression = new StringConstant(this.name());
         }
 
-        public StringExpression toExpression() {
+        public StringConstant toExpression() {
             return this.expression;
         }
 
@@ -515,7 +517,7 @@ public class BulkInsert extends CustomizeSentence {
     /**
      * WITH keywords
      */
-    public enum WithEnum implements Element {
+    public enum WithEnum implements Block {
         BATCHSIZE,
         CHECK_CONSTRAINTS,
         CODEPAGE,
@@ -547,4 +549,40 @@ public class BulkInsert extends CustomizeSentence {
         }
     }
 
+    /**
+     * ORDER
+     */
+    private class OrderColumn implements Block {
+
+        private ColumnName column;
+        private boolean useAsc;
+
+        public OrderColumn(){
+
+        }
+
+        public ColumnName getColumn() {
+            return column;
+        }
+
+        public void setColumn(ColumnName column) {
+            this.column = column;
+        }
+
+        public boolean isUseAsc() {
+            return useAsc;
+        }
+
+        public void setUseAsc(boolean useAsc) {
+            this.useAsc = useAsc;
+        }
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(column)
+                    .append(useAsc ? Keywords.ASC : Keywords.DESC)
+                    .build();
+        }
+    }
 }

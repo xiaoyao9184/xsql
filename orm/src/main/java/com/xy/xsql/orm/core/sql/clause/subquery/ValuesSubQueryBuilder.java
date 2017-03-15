@@ -3,7 +3,7 @@ package com.xy.xsql.orm.core.sql.clause.subquery;
 import com.xy.xsql.orm.core.SubBuilder;
 import com.xy.xsql.orm.data.sql.Expression;
 import com.xy.xsql.orm.data.sql.element.info.GroupList;
-import com.xy.xsql.orm.data.sql.statements.dml.Insert;
+import com.xy.xsql.tsql.model.statement.dml.Insert;
 
 import java.util.ArrayList;
 import java.util.List;

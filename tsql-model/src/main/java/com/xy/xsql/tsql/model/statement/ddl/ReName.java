@@ -1,11 +1,13 @@
-package com.xy.xsql.orm.data.sql.statements.ddl;
+package com.xy.xsql.tsql.model.statement.ddl;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.info.Table;
-import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
-import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.statement.Statement;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
+
+import java.util.List;
 
 /**
  *
@@ -32,16 +34,16 @@ import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
-public class ReName extends CustomizeSentence {
+public class ReName implements Statement {
 
-    private Table tableName;
+    private TableName tableName;
     private String newTableName;
 
-    public Table getTableName() {
+    public TableName getTableName() {
         return tableName;
     }
 
-    public void setTableName(Table tableName) {
+    public void setTableName(TableName tableName) {
         this.tableName = tableName;
     }
 
@@ -55,15 +57,15 @@ public class ReName extends CustomizeSentence {
 
 
     @Override
-    public BaseElementsSentence toBaseElementsSentence() {
-        ListElementBuilder builder = new ListElementBuilder()
-                .withDelimiter(OtherEnum.SPACE)
-                .append(GrammarEnum.RENAME)
-                .append(GrammarEnum.OBJECT)
+    public List<Block> toBlockList() {
+        ListBlockBuilder builder = new ListBlockBuilder()
+                .withDelimiter(Other.SPACE)
+                .append(Keywords.Key.RENAME)
+                .append(Keywords.Key.OBJECT)
                 .append(tableName)
-                .append(GrammarEnum.TO)
+                .append(Keywords.TO)
                 .append(newTableName);
 
-        return new BaseElementsSentence(builder.build(null));
+        return builder.build();
     }
 }

@@ -7,7 +7,7 @@ import com.xy.xsql.orm.data.sql.element.predicate.Predicate;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.predicate.*;
 
 import java.util.Arrays;

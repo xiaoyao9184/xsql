@@ -20,6 +20,9 @@ public class StringConstant implements Expression {
         this.string = string;
     }
 
+    public StringConstant() {
+    }
+
 
     public StringConstant withQuote() {
         this.useQuote = true;

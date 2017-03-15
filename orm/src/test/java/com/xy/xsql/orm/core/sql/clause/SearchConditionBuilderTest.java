@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;
 import com.xy.xsql.tsql.model.predicate.Operator;
 import com.xy.xsql.tsql.model.predicate.OperatorSubQuery;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

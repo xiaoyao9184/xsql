@@ -1,20 +1,18 @@
-package com.xy.xsql.orm.data.sql.statements.dml;
+package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.orm.data.sql.Expression;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.Where;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.element.OtherEnum;
-import com.xy.xsql.orm.data.sql.element.info.Alias;
-import com.xy.xsql.orm.data.sql.element.info.Column;
-import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
-import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
+import com.xy.xsql.tsql.model.element.Alias;
+import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.statement.Statement;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -83,7 +81,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class Update extends CustomizeSentence {
+public class Update implements Statement {
     //TOP
     private Top top;
     //
@@ -146,14 +144,12 @@ public class Update extends CustomizeSentence {
     }
 
 
-    @Override
-    public BaseElementsSentence toBaseElementsSentence() {
-        ListElementBuilder b = new ListElementBuilder()
-                .append(GrammarEnum.UPDATE);
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder()
+                .append(Keywords.UPDATE);
 
         //[ TOP ( expression ) [ PERCENT ] ]
-        b.append(OtherEnum.SPACE)
-                .append(top.toElementList(),null);
+        b.append(top);
 
         /*
         { { table_alias | <object> | rowset_function_limited
@@ -163,28 +159,17 @@ public class Update extends CustomizeSentence {
         }
          */
         if(this.tableAlias != null){
-            b.append(OtherEnum.SPACE)
-                    .append(tableAlias);
+            b.append(tableAlias);
         } else if(this.tableName != null){
-            b.append(OtherEnum.SPACE)
-                    .append(tableName);
+            b.append(tableName);
         }
 
         //SET { column_name = { expression | NULL } } [ ,...n ]
-        b.append(OtherEnum.SPACE)
-                .append(GrammarEnum.SET);
-        for (Set set: sets) {
-            b.append(set.toElementList(),null);
-            b.append(OtherEnum.DELIMITER);
-        }
+        b.append(Keywords.SET)
+                .append(sets);
 
         //[ FROM{ <table_source> } [ ,...n ] ]
-        if(where != null){
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.FROM)
-                    .append(OtherEnum.SPACE)
-                    .append(from);
-        }
+        b.append(from);
 
         /*
         [ WHERE { <search_condition>
@@ -197,33 +182,27 @@ public class Update extends CustomizeSentence {
         }
         ]
         */
-        if(where != null){
-            b.append(OtherEnum.SPACE)
-                    .append(GrammarEnum.WHERE)
-                    .append(OtherEnum.SPACE)
-                    .append(where);
-        }
+        b.append(where);
 
-        return new BaseElementsSentence(b.build(null));
+        return b.build();
     }
 
 
     /**
      * Set
+     *
+     * { column_name = { expression | NULL } }
      */
-    public static class Set implements ElementList {
-        private Column columnName;
+    public static class Set implements Block {
+        private ColumnName columnName;
         private Expression expression;
         private boolean useNull = false;
 
-
-
-
-        public Column getColumnName() {
+        public ColumnName getColumnName() {
             return columnName;
         }
 
-        public void setColumnName(Column columnName) {
+        public void setColumnName(ColumnName columnName) {
             this.columnName = columnName;
         }
 
@@ -245,13 +224,13 @@ public class Update extends CustomizeSentence {
 
 
         @Override
-        public List<Element> toElementList() {
-            return new ListElementBuilder()
-                    .withDelimiter(OtherEnum.SPACE)
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .withDelimiter(Other.SPACE)
                     .append(this.columnName)
-                    .append(OperatorEnum.EQUAL)
-                    .append(this.useNull ? GrammarEnum.NULL : this.expression)
-                    .build(null);
+                    .append(Operators.EQUAL)
+                    .append(this.useNull ? Keywords.NULL : this.expression)
+                    .build();
         }
     }
 }

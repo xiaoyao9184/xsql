@@ -13,9 +13,9 @@ import com.xy.xsql.orm.data.sql.element.UnknownString;
 import com.xy.xsql.orm.data.sql.element.info.Alias;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.statements.dml.Insert;
-import com.xy.xsql.orm.data.sql.statements.dml.Merge;
-import com.xy.xsql.orm.data.sql.statements.dml.Update;
+import com.xy.xsql.tsql.model.statement.dml.Insert;
+import com.xy.xsql.tsql.model.statement.dml.Merge;
+import com.xy.xsql.tsql.model.statement.dml.Update;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

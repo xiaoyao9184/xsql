@@ -9,7 +9,7 @@ import com.xy.xsql.orm.data.sql.expression.ElementExpression;
 import com.xy.xsql.orm.data.sql.expression.GrammarExpression;
 import com.xy.xsql.orm.data.sql.expression.NumberString;
 import com.xy.xsql.orm.data.sql.expression.StringExpression;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.

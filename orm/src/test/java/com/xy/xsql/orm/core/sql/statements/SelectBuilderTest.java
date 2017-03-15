@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.sql.statements;
 
 import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

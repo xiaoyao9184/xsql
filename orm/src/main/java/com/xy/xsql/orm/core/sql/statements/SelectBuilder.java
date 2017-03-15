@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.clause.select.*;
-import com.xy.xsql.orm.data.sql.statements.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

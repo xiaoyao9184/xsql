@@ -1,18 +1,12 @@
-package com.xy.xsql.orm.data.sql.statements.dml;
+package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.orm.core.element.ListElementBuilder;
-import com.xy.xsql.orm.data.sql.Element;
-import com.xy.xsql.orm.data.sql.ElementList;
-import com.xy.xsql.tsql.model.clause.With;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Top;
-import com.xy.xsql.tsql.model.clause.Where;
-import com.xy.xsql.tsql.model.clause.Option;
-import com.xy.xsql.orm.data.sql.element.GrammarEnum;
-import com.xy.xsql.orm.data.sql.element.info.Alias;
-import com.xy.xsql.orm.data.sql.element.info.TableName;
-import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;
-import com.xy.xsql.orm.data.sql.sentence.CustomizeSentence;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.*;
+import com.xy.xsql.tsql.model.element.Alias;
+import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.statement.Statement;
+import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -67,7 +61,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class Delete extends CustomizeSentence implements ElementList {
+public class Delete implements Statement {
     //[ WITH <common_table_expression> [ ,...n ] ]
     private With with;
     //TOP
@@ -174,28 +168,22 @@ public class Delete extends CustomizeSentence implements ElementList {
         this.option = option;
     }
 
-
     @Override
-    public BaseElementsSentence toBaseElementsSentence() {
-        return new BaseElementsSentence(toElementList());
-    }
-
-    @Override
-    public List<Element> toElementList() {
-        ListElementBuilder b = new ListElementBuilder();
+    public List<Block> toBlockList() {
+        ListBlockBuilder b = new ListBlockBuilder();
 
         //[ WITH <common_table_expression> [ ,...n ] ]
         b.append(this.with);
 
         //DELETE
-        b.append(GrammarEnum.DELETE);
+        b.append(Keywords.DELETE);
 
         //[ TOP ( expression ) [ PERCENT ] ]
         b.append(this.top);
 
         //[ FROM ]
         if(useForm){
-            b.append(GrammarEnum.FROM);
+            b.append(Keywords.FROM);
         }
 
         /*

@@ -112,4 +112,8 @@ public class ListBlockBuilder extends ListBuilder<Block> {
         return super.build(null);
     }
 
+    public ListBlockBuilder append(ListBlockBuilder b) {
+        this.append(b.build());
+        return this;
+    }
 }

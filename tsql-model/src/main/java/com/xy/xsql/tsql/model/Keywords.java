@@ -269,7 +269,7 @@ public enum Keywords implements Block {
         //Over
         PARTITION,
         //Merge
-        MATCHED, TARGET,
+        MATCHED, TARGET,USING,
         //ReName
         RENAME, OBJECT,
         //QueryHint
