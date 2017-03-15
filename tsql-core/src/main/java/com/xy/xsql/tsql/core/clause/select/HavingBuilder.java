@@ -1,27 +1,30 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.core.SubBuilder;
+import com.xy.xsql.core.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.SearchConditionBuilder;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.select.Having;
 
+import static com.xy.xsql.core.FiledBuilder.set;
+
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
-public class HavingBuilder<Done>
-        extends SubBuilder<HavingBuilder<Done>,Void,Done> {
+public class HavingBuilder<ParentBuilder>
+        extends CodeTreeBuilder<HavingBuilder<ParentBuilder>,ParentBuilder,Having> {
 
-    private Having having;
-
-    public HavingBuilder(Having having) {
-        this.having = having;
+    public HavingBuilder() {
+        super(new Having());
     }
 
+    public HavingBuilder(Having having) {
+        super(having);
+    }
 
-    public SearchConditionBuilder<HavingBuilder<Done>> withSearchCondition(){
-        SearchCondition searchCondition = new SearchCondition();
-        this.having.setSearchCondition(searchCondition);
-        return new SearchConditionBuilder<HavingBuilder<Done>>(searchCondition)
+    public SearchConditionBuilder<HavingBuilder<ParentBuilder>> withSearchCondition(){
+        return new SearchConditionBuilder<HavingBuilder<ParentBuilder>>
+                (set(SearchCondition::new,
+                        tar::setSearchCondition))
                 .in(this);
     }
 }
