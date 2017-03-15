@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class TableValueConstructor implements Clause {
 
+    //TODO maybe can replace with Expression
     //( <row value expression list> ) [ ,...n ]
     private List<List<RowValueExpression>> rowValueExpressionListGroup;
 
