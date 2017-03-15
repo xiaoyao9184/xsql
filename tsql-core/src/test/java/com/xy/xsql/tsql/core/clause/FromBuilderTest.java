@@ -51,9 +51,47 @@ public class FromBuilderTest {
 
     /**
      * FROM HumanResources.Employee AS e
+     CROSS JOIN HumanResources.Department AS d
      */
     @Test
     public void testExampleC(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withTableSource()
+                    .withJoinedTable()
+                        .withCrossJoin()
+                        .withTableSource()
+                            .withTableName(t("HumanResources","Employee"))
+                            .withTableAlias("e")
+                            .and()
+                        .withTableSource2()
+                            .withTableName(t("HumanResources","Department"))
+                            .withTableAlias("d")
+                            .and()
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        From.TableSource ts = from.getTableSourceList().get(0);
+        Assert.assertEquals(ts.getJoinedTable().isUseCrossJoin(),true);
+        Assert.assertEquals(ts.getJoinedTable().getTableSource().getTableName().toString(),"HumanResources.Employee");
+        Assert.assertEquals(ts.getJoinedTable().getTableSource().getTableAlias().toString(),"e");
+        Assert.assertEquals(ts.getJoinedTable().getTableSource2().getTableName().toString(),"HumanResources.Department");
+        Assert.assertEquals(ts.getJoinedTable().getTableSource2().getTableAlias().toString(),"d");
+
+    }
+
+
+    /**
+     * FROM Production.Product AS p
+     FULL OUTER JOIN Sales.SalesOrderDetail AS sod
+     ON p.ProductID = sod.ProductID
+     */
+    @Test
+    public void testExampleD(){
         // @formatter:off
         From option = new FromBuilder<From>()
                 .withTableSource()

@@ -102,6 +102,11 @@ public class FromBuilder<ParentBuilder>
             return this;
         }
 
+        public JoinedTableBuilder<ParentBuilder> withCrossJoin(){
+            tar.setUseCrossJoin(true);
+            return this;
+        }
+
         public TableSourceBuilder<JoinedTableBuilder<ParentBuilder>> withTableSource2(){
             return new TableSourceBuilder<JoinedTableBuilder<ParentBuilder>>
                     (set(From.TableSource::new,

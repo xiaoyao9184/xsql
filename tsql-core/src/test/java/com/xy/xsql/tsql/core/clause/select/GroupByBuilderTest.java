@@ -1,9 +1,15 @@
 package com.xy.xsql.tsql.core.clause.select;
 
+import com.xy.xsql.tsql.core.clause.OptionBuilder;
+import com.xy.xsql.tsql.model.clause.Option;
+import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.expression.NumberExpression;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.FAST;
+import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.HASH_GROUP;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -85,6 +91,21 @@ public class GroupByBuilderTest {
         Assert.assertEquals(groupBy.getItems().get(1).getGroupByExpressionList().size(),2);
         Assert.assertEquals(groupBy.getItems().get(2).getGroupByExpressionList().size(),1);
         Assert.assertEquals(groupBy.getItems().get(3).getGroupingSetList().size(),1);
+    }
+
+    /**
+     * GROUP BY SalesOrderID
+     */
+    public void testExampleA(){
+        // @formatter:off
+//        GroupBy groupBy = new GroupByBuilder<Void>()
+//                .withGroupList(HASH_GROUP(),FAST(10))
+//                .build();
+//        // @formatter:on
+//
+//        Assert.assertEquals(option.getQueryOption().size(),2);
+//        Assert.assertEquals(option.getQueryOption().get(0).getQueryHint().getType(), QueryHint.Type.HASH_GROUP);
+//        Assert.assertEquals(option.getQueryOption().get(1).getQueryHint().getType(), QueryHint.Type.FAST);
     }
 
 }
