@@ -44,14 +44,20 @@ public class OutputBuilder<ParentBuilder>
         return this;
     }
 
-    public OutputBuilder<ParentBuilder> withColumnName(Output.ColumnName columnName){
+    public OutputBuilder<ParentBuilder> withColumnName(ColumnName columnName){
         initAdd(columnName,
                 tar::getColumnList,
                 tar::setColumnList);
         return this;
     }
 
-
+    public DmlSelectBuilder<OutputBuilder<ParentBuilder>> withOutputDmlSelect(){
+        return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
+                (initNew(Output.DmlSelect::new,
+                        this.tar::getOutputDmlSelectList,
+                        this.tar::setOutputDmlSelectList))
+                .in(this);
+    }
 
     public static class DmlSelectBuilder<ParentBuilder>
             extends CodeTreeBuilder<DmlSelectBuilder<ParentBuilder>,ParentBuilder,Output.DmlSelect> {
@@ -70,6 +76,11 @@ public class OutputBuilder<ParentBuilder>
                     (set(Output.ColumnName::new,
                             this.tar::setColumnName))
                     .in(this);
+        }
+
+        public DmlSelectBuilder<ParentBuilder> withColumnName(Output.ColumnName columnName){
+            tar.setColumnName(columnName);
+            return this;
         }
 
         public DmlSelectBuilder<ParentBuilder> withScalarExpression(Expression scalarExpression){
@@ -131,5 +142,44 @@ public class OutputBuilder<ParentBuilder>
 
     public static ColumnNameBuilder<Output.ColumnName> column_name(){
         return new ColumnNameBuilder<Output.ColumnName>(new Output.ColumnName());
+    }
+
+
+    /**
+     * with name
+     * @param name
+     * @return
+     */
+    public static Output.ColumnName inserted_c(String name){
+        return new ColumnNameBuilder<Output.ColumnName>(new Output.ColumnName(name))
+                .withInserted().build();
+    }
+
+    /**
+     * with all
+     * @return
+     */
+    public static Output.ColumnName inserted_c(){
+        return new ColumnNameBuilder<Output.ColumnName>(new Output.ColumnName())
+                .withInserted().build();
+    }
+
+    /**
+     * with name
+     * @param name
+     * @return
+     */
+    public static Output.ColumnName deleted_c(String name){
+        return new ColumnNameBuilder<Output.ColumnName>(new Output.ColumnName(name))
+                .withDeleted().build();
+    }
+
+    /**
+     * with all
+     * @return
+     */
+    public static Output.ColumnName deleted_c(){
+        return new ColumnNameBuilder<Output.ColumnName>(new Output.ColumnName())
+                .withDeleted().build();
     }
 }

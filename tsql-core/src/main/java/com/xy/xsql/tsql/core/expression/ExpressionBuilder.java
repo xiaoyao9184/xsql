@@ -24,14 +24,6 @@ public class ExpressionBuilder {
         return new NumberExpression(numberExpression);
     }
 
-    public static Expression e(Expression leftExpression, Operator operator, Expression rightExpression){
-        GroupExpression groupExpression = new GroupExpression();
-        groupExpression.setOperator(operator);
-        groupExpression.setExpressionLeft(leftExpression);
-        groupExpression.setExpressionRight(rightExpression);
-        return groupExpression;
-    }
-
     public static Expression e_null(){
         return new KeywordExpression(Keywords.NULL);
     }

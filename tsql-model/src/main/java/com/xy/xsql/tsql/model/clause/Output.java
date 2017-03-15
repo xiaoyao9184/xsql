@@ -41,7 +41,10 @@ public class Output implements Clause {
 
     //[ ( column_list ) ]
     //TODO mybe just string name
-    private List<ColumnName> columnList;
+    private List<com.xy.xsql.tsql.model.element.ColumnName> columnList;
+
+    //[ OUTPUT <dml_select_list> ] 
+    private List<DmlSelect> outputDmlSelectList;
 
     public List<DmlSelect> getDmlSelectList() {
         return dmlSelectList;
@@ -67,12 +70,20 @@ public class Output implements Clause {
         this.outputTable = outputTable;
     }
 
-    public List<ColumnName> getColumnList() {
+    public List<com.xy.xsql.tsql.model.element.ColumnName> getColumnList() {
         return columnList;
     }
 
-    public void setColumnList(List<ColumnName> columnList) {
+    public void setColumnList(List<com.xy.xsql.tsql.model.element.ColumnName> columnList) {
         this.columnList = columnList;
+    }
+
+    public List<DmlSelect> getOutputDmlSelectList() {
+        return outputDmlSelectList;
+    }
+
+    public void setOutputDmlSelectList(List<DmlSelect> outputDmlSelectList) {
+        this.outputDmlSelectList = outputDmlSelectList;
     }
 
 
@@ -102,6 +113,11 @@ public class Output implements Clause {
                         .append(columnList)
                         .append(Other.GROUP_END);
             }
+        }
+
+        if(outputDmlSelectList != null){
+            b.append(Keywords.Key.OUTPUT)
+                    .append(outputDmlSelectList);
         }
 
         return b.build();
@@ -134,6 +150,8 @@ public class Output implements Clause {
     }
 
     /**
+     * name from <dml_select_list>
+     *
      * { <column_name> | scalar_expression } [ [AS] column_alias_identifier ]
      */
     public static class DmlSelect implements Block {
@@ -200,7 +218,7 @@ public class Output implements Clause {
     /**
      * <column_name>
      */
-    public static class ColumnName implements Block {
+    public static class ColumnName implements Block, Expression {
 
         //{ DELETED | INSERTED | from_table_name }
         private boolean useDeleted;
@@ -213,6 +231,14 @@ public class Output implements Clause {
 
         //$action
         private boolean $action;
+
+        public ColumnName() {
+            this.useAll = true;
+        }
+
+        public ColumnName(String name) {
+            this.columnName = name;
+        }
 
         public boolean isUseDeleted() {
             return useDeleted;
