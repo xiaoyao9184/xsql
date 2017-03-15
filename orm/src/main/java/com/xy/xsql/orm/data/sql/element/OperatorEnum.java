@@ -18,7 +18,7 @@ public enum OperatorEnum implements Element {
     MODULO("%",Type.Arithmetic),
 
     /**
-     * Assignment Operator
+     * Assignment Comparison
      * https://msdn.microsoft.com/en-us/library/ms188343.aspx
      */
     Assignment("=",Type.Assignment),
@@ -78,7 +78,7 @@ public enum OperatorEnum implements Element {
     SOME(Type.Logical),
 
     /**
-     * Scope Resolution Operator
+     * Scope Resolution Comparison
      * https://msdn.microsoft.com/en-us/library/dd206995.aspx
      */
     Scope_Resolution("::",Type.Scope_Resolution),

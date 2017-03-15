@@ -7,11 +7,11 @@ import com.xy.xsql.tsql.util.ListBlockBuilder;
 import java.util.List;
 
 /**
- * TODO maybe use Operator.Comparison named
+ * TODO maybe use Comparison.Comparison named
  * expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class Operator implements Predicate, Expression {
+public class Comparison implements Predicate, Expression {
     //{ expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
     private Expression expression;
     private com.xy.xsql.tsql.model.operator.Operator operator;

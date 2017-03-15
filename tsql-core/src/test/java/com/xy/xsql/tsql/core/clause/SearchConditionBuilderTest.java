@@ -4,8 +4,8 @@ import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;
-import com.xy.xsql.tsql.model.predicate.Operator;
-import com.xy.xsql.tsql.model.predicate.OperatorSubQuery;
+import com.xy.xsql.tsql.model.predicate.Comparison;
+import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,8 +40,8 @@ public class SearchConditionBuilderTest {
                 )
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
-        OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
+        ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
         Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
     }
@@ -64,13 +64,13 @@ public class SearchConditionBuilderTest {
                                 e_number(20)))
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
-        OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
+        ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
         Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
-        Operator predicate1 = (Operator) searchCondition.getAndOrList().get(0).getPredicate();
+        Comparison predicate1 = (Comparison) searchCondition.getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
         Assert.assertEquals(predicate1.getOperator(), Operators.EQUAL);
     }
@@ -100,19 +100,19 @@ public class SearchConditionBuilderTest {
                     .and()
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
-        OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
+        ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
         Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
 
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
-        Operator predicate1 = (Operator) searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate();
+        Comparison predicate1 = (Comparison) searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
         Assert.assertEquals(predicate1.getOperator(), Operators.GREATER);
 
         Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().size(), 1);
-        Operator predicate2 = (Operator) searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().get(0).getPredicate();
+        Comparison predicate2 = (Comparison) searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "CountryRegionCode");
         Assert.assertEquals(predicate2.getOperator(), Operators.LESS);
 

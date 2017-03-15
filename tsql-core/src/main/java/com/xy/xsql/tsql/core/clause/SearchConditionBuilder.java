@@ -340,7 +340,7 @@ public class SearchConditionBuilder<ParentBuilder>
         }
 
         public OperatorPredicateBuilder<ParentBuilder> Operator(){
-            Operator predicate = new Operator();
+            Comparison predicate = new Comparison();
             tar = predicate;
             return new OperatorPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
@@ -382,7 +382,7 @@ public class SearchConditionBuilder<ParentBuilder>
         }
 
         public ASAPredicateBuilder<ParentBuilder> All_Some_Any(){
-            OperatorSubQuery predicate = new OperatorSubQuery();
+            ComparisonSubQuery predicate = new ComparisonSubQuery();
             tar = predicate;
             return new ASAPredicateBuilder<ParentBuilder>(predicate).in(out());
         }
@@ -401,13 +401,13 @@ public class SearchConditionBuilder<ParentBuilder>
      */
     @SuppressWarnings("Duplicates")
     public static class OperatorPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OperatorPredicateBuilder<ParentBuilder>,ParentBuilder,Operator> {
+            extends CodeTreeBuilder<OperatorPredicateBuilder<ParentBuilder>,ParentBuilder,Comparison> {
 
         public OperatorPredicateBuilder() {
-            super(new Operator());
+            super(new Comparison());
         }
 
-        public OperatorPredicateBuilder(Operator predicate) {
+        public OperatorPredicateBuilder(Comparison predicate) {
             super(predicate);
         }
 
@@ -810,13 +810,13 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class ASAPredicateBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ASAPredicateBuilder<ParentBuilder>,ParentBuilder,OperatorSubQuery> {
+            extends CodeTreeBuilder<ASAPredicateBuilder<ParentBuilder>,ParentBuilder,ComparisonSubQuery> {
 
         public ASAPredicateBuilder() {
-            super(new OperatorSubQuery());
+            super(new ComparisonSubQuery());
         }
 
-        public ASAPredicateBuilder(OperatorSubQuery predicate) {
+        public ASAPredicateBuilder(ComparisonSubQuery predicate) {
             super(predicate);
         }
 
@@ -830,7 +830,7 @@ public class SearchConditionBuilder<ParentBuilder>
             return this;
         }
         
-        public ASAPredicateBuilder<ParentBuilder> withALL_SOME_ANY(OperatorSubQuery.ALL_SOME_ANY oneOf) {
+        public ASAPredicateBuilder<ParentBuilder> withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY oneOf) {
             tar.setAll_some_any(oneOf);
             return this;
         }
@@ -843,19 +843,19 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
 
-        public static OperatorSubQuery.ALL_SOME_ANY ALL(){
-            return OperatorSubQuery.ALL_SOME_ANY.ALL;
+        public static ComparisonSubQuery.ALL_SOME_ANY ALL(){
+            return ComparisonSubQuery.ALL_SOME_ANY.ALL;
         }
 
-        public static OperatorSubQuery.ALL_SOME_ANY SOME(){
-            return OperatorSubQuery.ALL_SOME_ANY.SOME;
+        public static ComparisonSubQuery.ALL_SOME_ANY SOME(){
+            return ComparisonSubQuery.ALL_SOME_ANY.SOME;
         }
 
-        public static OperatorSubQuery.ALL_SOME_ANY ANY(){
-            return OperatorSubQuery.ALL_SOME_ANY.ANY;
+        public static ComparisonSubQuery.ALL_SOME_ANY ANY(){
+            return ComparisonSubQuery.ALL_SOME_ANY.ANY;
         }
 
-        public static Predicate EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -864,7 +864,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate NOT_EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -873,7 +873,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate NOT_EQUAL_NOT_ISO(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_EQUAL_NOT_ISO(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -882,7 +882,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate GREATER(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate GREATER(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -891,7 +891,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate GREATER_EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate GREATER_EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -900,7 +900,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate NOT_GREATER_NOT_ISO(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_GREATER_NOT_ISO(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -909,7 +909,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate LESS(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate LESS(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -918,7 +918,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate LESS_EQUAL(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate LESS_EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)
@@ -927,7 +927,7 @@ public class SearchConditionBuilder<ParentBuilder>
                     .build();
         }
 
-        public static Predicate NOT_LESS_NOT_ISO(Expression left, OperatorSubQuery.ALL_SOME_ANY oneOf, Select subquery){
+        public static Predicate NOT_LESS_NOT_ISO(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
             return new ASAPredicateBuilder<Void>()
                     .withALL_SOME_ANY(oneOf)
                     .withExpression(left)

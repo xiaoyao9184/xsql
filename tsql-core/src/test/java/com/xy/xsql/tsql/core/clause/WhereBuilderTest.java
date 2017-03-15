@@ -5,9 +5,9 @@ import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.Between;
+import com.xy.xsql.tsql.model.predicate.Comparison;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;
-import com.xy.xsql.tsql.model.predicate.Operator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,8 +48,8 @@ public class WhereBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Operator.class);
-        Operator predicate = (Operator) where.getSearchCondition().getPredicate();
+        Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Comparison.class);
+        Comparison predicate = (Comparison) where.getSearchCondition().getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "Name");
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "'Blade'");
     }
@@ -86,8 +86,8 @@ public class WhereBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Operator.class);
-        Operator predicate = (Operator) where.getSearchCondition().getPredicate();
+        Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Comparison.class);
+        Comparison predicate = (Comparison) where.getSearchCondition().getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "ProductID");
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "12");
     }
@@ -144,8 +144,8 @@ public class WhereBuilderTest {
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Operator.class);
-        Operator predicate = (Operator) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Comparison.class);
+        Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "ProductID");
         Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "2");
@@ -153,15 +153,15 @@ public class WhereBuilderTest {
         Assert.assertEquals(where.getSearchCondition().getAndOrList().size(),2);
 
         SearchCondition.AndOrNotItem andOrNotItem = where.getSearchCondition().getAndOrList().get(0);
-        Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Operator.class);
-        Operator predicate1 = (Operator) andOrNotItem.getPredicate();
+        Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Comparison.class);
+        Comparison predicate1 = (Comparison) andOrNotItem.getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "ProductID");
         Assert.assertEquals(predicate1.getOperator(), Operators.EQUAL);
         Assert.assertEquals(predicate1.getOperatorExpression().toString(), "4");
 
         SearchCondition.AndOrNotItem andOrNotItem1 = where.getSearchCondition().getAndOrList().get(1);
-        Assert.assertEquals(andOrNotItem1.getPredicate().getClass(), Operator.class);
-        Operator predicate2 = (Operator) andOrNotItem1.getPredicate();
+        Assert.assertEquals(andOrNotItem1.getPredicate().getClass(), Comparison.class);
+        Comparison predicate2 = (Comparison) andOrNotItem1.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "Name");
         Assert.assertEquals(predicate2.getOperator(), Operators.EQUAL);
         Assert.assertEquals(predicate2.getOperatorExpression().toString(), "'Spokes'");
@@ -203,8 +203,8 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate1.getLikeExpression().toString(), "'HL%'");
 
         SearchCondition.AndOrNotItem andOrNotItem1 = where.getSearchCondition().getAndOrList().get(1);
-        Assert.assertEquals(andOrNotItem1.getPredicate().getClass(), Operator.class);
-        Operator predicate2 = (Operator) andOrNotItem1.getPredicate();
+        Assert.assertEquals(andOrNotItem1.getPredicate().getClass(), Comparison.class);
+        Comparison predicate2 = (Comparison) andOrNotItem1.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "Color");
         Assert.assertEquals(predicate2.getOperator(), Operators.EQUAL);
         Assert.assertEquals(predicate2.getOperatorExpression().toString(), "'Red'");
@@ -283,8 +283,8 @@ public class WhereBuilderTest {
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Operator.class);
-        Operator predicate = (Operator) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Comparison.class);
+        Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
         Assert.assertEquals(predicate.getOperator(),Operators.EQUAL);
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "'Smith'");
@@ -330,8 +330,8 @@ public class WhereBuilderTest {
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Operator.class);
-        Operator predicate = (Operator) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Comparison.class);
+        Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate.getOperator(),Operators.LESS_EQUAL);
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "500");
@@ -362,8 +362,8 @@ public class WhereBuilderTest {
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Operator.class);
-        Operator predicate = (Operator) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Comparison.class);
+        Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate.getOperator(),Operators.EQUAL);
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "1");
@@ -371,15 +371,15 @@ public class WhereBuilderTest {
         Assert.assertEquals(searchCondition.getAndOrList().size(),2);
 
         SearchCondition.AndOrNotItem andOrNotItem = searchCondition.getAndOrList().get(0);
-        Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Operator.class);
-        Operator predicate1 = (Operator) andOrNotItem.getPredicate();
+        Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Comparison.class);
+        Comparison predicate1 = (Comparison) andOrNotItem.getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate1.getOperator(),Operators.EQUAL);
         Assert.assertEquals(predicate1.getOperatorExpression().toString(), "8");
 
         SearchCondition.AndOrNotItem andOrNotItem1 = searchCondition.getAndOrList().get(1);
-        Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Operator.class);
-        Operator predicate2 = (Operator) andOrNotItem1.getPredicate();
+        Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Comparison.class);
+        Comparison predicate2 = (Comparison) andOrNotItem1.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate2.getOperator(),Operators.EQUAL);
         Assert.assertEquals(predicate2.getOperatorExpression().toString(), "12");
@@ -415,8 +415,8 @@ public class WhereBuilderTest {
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Operator.class);
-        Operator predicate = (Operator) searchCondition.getPredicate();
+        Assert.assertEquals(searchCondition.getPredicate().getClass(), Comparison.class);
+        Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate.getOperator(),Operators.LESS_EQUAL);
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "500");

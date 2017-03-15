@@ -1,10 +1,7 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.tsql.model.clause.select.For;
-import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.clause.select.Having;
-import com.xy.xsql.tsql.model.expression.NumberExpression;
-import com.xy.xsql.tsql.model.predicate.Operator;
+import com.xy.xsql.tsql.model.predicate.Comparison;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,8 +28,8 @@ public class HavingBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(having.getSearchCondition().getPredicate().getClass() ,Operator.class);
-        Operator predicate = (Operator) having.getSearchCondition().getPredicate();
+        Assert.assertEquals(having.getSearchCondition().getPredicate().getClass() ,Comparison.class);
+        Comparison predicate = (Comparison) having.getSearchCondition().getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "SUM(LineTotal)");
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "100000.0");
     }

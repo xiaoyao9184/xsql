@@ -10,12 +10,12 @@ import com.xy.xsql.tsql.util.ListBlockBuilder;
 import java.util.List;
 
 /**
- * TODO maybe use Operator.Logical named
+ * TODO maybe use Comparison.Logical named
  * expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
  { ALL | SOME | ANY} ( subquery )
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class OperatorSubQuery implements Predicate, Expression {
+public class ComparisonSubQuery implements Predicate, Expression {
     //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
     //{ ALL | SOME | ANY} ( subquery )
     private Expression expression;

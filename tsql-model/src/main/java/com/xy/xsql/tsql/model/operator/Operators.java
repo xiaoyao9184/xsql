@@ -16,7 +16,7 @@ public enum Operators implements Operator {
     MODULO(Arithmetic.MODULO, Type.Arithmetic),
 
     /**
-     * Assignment Operator
+     * Assignment Comparison
      * https://msdn.microsoft.com/en-us/library/ms188343.aspx
      */
     ASSIGNMENT(Assignment.ASSIGNMENT, Type.Assignment),
@@ -76,7 +76,7 @@ public enum Operators implements Operator {
     SOME(Logical.SOME, Type.Logical),
 
     /**
-     * Scope Resolution Operator
+     * Scope Resolution Comparison
      * https://msdn.microsoft.com/en-us/library/dd206995.aspx
      */
     SCOPE_RESOLUTION(Scope_Resolution.SCOPE_RESOLUTION, Type.Scope_Resolution),
