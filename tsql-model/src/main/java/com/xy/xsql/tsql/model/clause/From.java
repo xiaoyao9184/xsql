@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.model.clause;
 
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -47,29 +48,29 @@ public class From implements Clause {
     public static class TableSource implements Block  {
 
         //table_or_view_name [ [ AS ] table_alias ]
-        private TableName table;
+        private TableName tableName;
         //derived_table
         private Select derivedTable;
         private boolean useAs;
-        private boolean useTableAlias;
+        private Alias<Void> tableAlias;
         //<joined_table>
         private JoinedTable joinedTable;
 
 
-        public TableName getTable() {
-            return table;
+        public TableName getTableName() {
+            return tableName;
         }
 
-        public void setTable(TableName table) {
-            this.table = table;
+        public void setTableName(TableName table) {
+            this.tableName = table;
         }
 
-        public boolean isUseTableAlias() {
-            return useTableAlias;
+        public Alias<Void> getTableAlias() {
+            return tableAlias;
         }
 
-        public void setUseTableAlias(boolean useTableAlias) {
-            this.useTableAlias = useTableAlias;
+        public void setTableAlias(Alias<Void> tableAlias) {
+            this.tableAlias = tableAlias;
         }
 
         public JoinedTable getJoinedTable() {
@@ -93,12 +94,9 @@ public class From implements Clause {
         public List<Block> toBlockList() {
             if(joinedTable == null){
                 ListBlockBuilder b = new ListBlockBuilder()
-                        .append(table);
-                if (useTableAlias) {
-                    //TODO
-//                    b.append(Keywords.AS)
-//                            .append(table.getAliasName());
-                }
+                        .append(tableName);
+                b.append(useAs ? Keywords.AS : null)
+                        .append(tableAlias);
                 return b.build();
             }
 

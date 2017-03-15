@@ -30,7 +30,7 @@ public class DeleteBuilderTest {
                 .withTableAlias("t")
                 .withFrom()
                     .withTableSource()
-                        .withTable("table")
+                        .withTableName("table")
                         .out()
                     .out()
                 .build(null);

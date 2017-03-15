@@ -43,7 +43,7 @@ public class WithBuilderTest {
                     .withSelectItem().withColumnName("SalesPersonID").out()
                 .out()
                 .withFrom()
-                    .withTableSource().withTable("Sales.SalesOrderHeader").out().out()
+                    .withTableSource().withTableName("Sales.SalesOrderHeader").out().out()
                 .withWhere()
                     .withSearchCondition()
                         .withPredicate().IsNull().withNot(true)

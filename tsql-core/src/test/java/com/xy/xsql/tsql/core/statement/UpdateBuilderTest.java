@@ -52,7 +52,7 @@ public class UpdateBuilderTest {
                     .out()
                 .withFrom()
                     .withTableSource()
-                        .withTable("table2")
+                        .withTableName("table2")
                         .out()
                     .out()
                 .build(null);

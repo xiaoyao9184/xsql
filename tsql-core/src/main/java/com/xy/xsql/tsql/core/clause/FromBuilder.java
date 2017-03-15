@@ -1,117 +1,119 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.core.SubBuilder;
+import com.xy.xsql.core.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
+import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 
-import java.util.ArrayList;
+import static com.xy.xsql.core.FiledBuilder.set;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
-public class FromBuilder<Done>
-        extends SubBuilder<FromBuilder<Done>,Void,Done> {
+public class FromBuilder<ParentBuilder>
+        extends CodeTreeBuilder<FromBuilder<ParentBuilder>,ParentBuilder,From> {
 
-    private From from;
-
-    private TableSourceBuilder<FromBuilder<Done>> tableSourceBuilder;
-
-    public FromBuilder(From from) {
-        this.from = from;
+    public FromBuilder() {
+        super(new From());
     }
 
+    public FromBuilder(From from) {
+        super(from);
+    }
 
     /**
      *
      * @return
      */
-    public TableSourceBuilder<FromBuilder<Done>> withTableSource(){
-        From.TableSource tableSource = new From.TableSource();
-        if(this.from.getTableSourceList() == null){
-            this.from.setTableSourceList(new ArrayList<From.TableSource>());
-        }
-        this.from.getTableSourceList().add(tableSource);
-
-        tableSourceBuilder = new TableSourceBuilder<>(tableSource);
-        return tableSourceBuilder.in(this);
+    public TableSourceBuilder<FromBuilder<ParentBuilder>> withTableSource(){
+        return new TableSourceBuilder<FromBuilder<ParentBuilder>>
+                (initNew(From.TableSource::new,
+                        tar::getTableSourceList,
+                        tar::setTableSourceList))
+                .in(this);
     }
 
     /**
      *
-     * @param <Done2>
+     * @param <ParentBuilder>
      */
-    public static class TableSourceBuilder<Done2>
-            extends SubBuilder<TableSourceBuilder<Done2>,Void,Done2> {
-
-        private final From.TableSource tableSource;
-
-        private SubQueryBuilder<TableSourceBuilder<Done2>> subQueryBuilder;
-        private JoinedTableBuilder<TableSourceBuilder<Done2>> joinedTableBuilder;
+    public static class TableSourceBuilder<ParentBuilder>
+            extends CodeTreeBuilder<TableSourceBuilder<ParentBuilder>,ParentBuilder,From.TableSource> {
 
         public TableSourceBuilder(From.TableSource tableSource) {
-            this.tableSource = tableSource;
+            super(tableSource);
         }
 
-        public TableSourceBuilder<Done2> withTable(String tableName){
-            this.tableSource.setTable(new TableName(tableName));
+        public TableSourceBuilder<ParentBuilder> withTableName(TableName tableName){
+            tar.setTableName(tableName);
             return this;
         }
 
-
-        public SubQueryBuilder<TableSourceBuilder<Done2>> withDerivedTable() {
-            subQueryBuilder = new SubQueryBuilder<>();
-            return subQueryBuilder.in(this);
-        }
-
-        public TableSourceBuilder<Done2> withTableAlias(){
-            this.tableSource.setUseTableAlias(true);
+        @Deprecated
+        public TableSourceBuilder<ParentBuilder> withTableName(String tableName){
+            tar.setTableName(new TableName(tableName));
             return this;
         }
 
-        public JoinedTableBuilder<TableSourceBuilder<Done2>> withJoinedTable(){
-            From.JoinedTable joinedTable = new From.JoinedTable();
-            joinedTableBuilder = new JoinedTableBuilder<>(joinedTable);
-            return joinedTableBuilder.in(this);
+        public SubQueryBuilder<TableSourceBuilder<ParentBuilder>> withDerivedTable() {
+            return new SubQueryBuilder<TableSourceBuilder<ParentBuilder>>
+                    ()
+                    .in(this);
+        }
+
+        public TableSourceBuilder<ParentBuilder> withTableAlias(String alias){
+            tar.setTableAlias(new Alias<>(alias));
+            return this;
+        }
+
+        public JoinedTableBuilder<TableSourceBuilder<ParentBuilder>> withJoinedTable(){
+            return new JoinedTableBuilder<TableSourceBuilder<ParentBuilder>>
+                    (set(From.JoinedTable::new,
+                            tar::setJoinedTable))
+                    .in(this);
         }
     }
 
 
-    public static class JoinedTableBuilder<Done3>
-            extends SubBuilder<JoinedTableBuilder<Done3>,Void,Done3> {
-
-        private From.JoinedTable joinedTable;
+    /**
+     * 
+     * @param <ParentBuilder>
+     */
+    public static class JoinedTableBuilder<ParentBuilder>
+            extends CodeTreeBuilder<JoinedTableBuilder<ParentBuilder>,ParentBuilder,From.JoinedTable> {
 
         public JoinedTableBuilder(From.JoinedTable joinedTable) {
-            this.joinedTable = joinedTable;
+            super(joinedTable);
         }
 
 
-        public TableSourceBuilder<JoinedTableBuilder<Done3>> withTableSource(){
-            From.TableSource tableSource = new From.TableSource();
-            this.joinedTable.setTableSource(tableSource);
-            TableSourceBuilder<JoinedTableBuilder<Done3>> tableSourceBuilder = new TableSourceBuilder<>(tableSource);
-            return tableSourceBuilder.in(this);
+        public TableSourceBuilder<JoinedTableBuilder<ParentBuilder>> withTableSource(){
+            return new TableSourceBuilder<JoinedTableBuilder<ParentBuilder>>
+                    (set(From.TableSource::new,
+                            tar::setTableSource))
+                    .in(this);
         }
 
-        public JoinedTableBuilder<Done3> withJoinType(From.JoinType joinType){
-            this.joinedTable.setJoinType(joinType);
+        public JoinedTableBuilder<ParentBuilder> withJoinType(From.JoinType joinType){
+            tar.setJoinType(joinType);
             return this;
         }
 
-        public TableSourceBuilder<JoinedTableBuilder<Done3>> withTableSource2(){
-            From.TableSource tableSource = new From.TableSource();
-            this.joinedTable.setTableSource2(tableSource);
-            TableSourceBuilder<JoinedTableBuilder<Done3>> tableSourceBuilder = new TableSourceBuilder<>(tableSource);
-            return tableSourceBuilder.in(this);
+        public TableSourceBuilder<JoinedTableBuilder<ParentBuilder>> withTableSource2(){
+            return new TableSourceBuilder<JoinedTableBuilder<ParentBuilder>>
+                    (set(From.TableSource::new,
+                            tar::setTableSource2))
+                    .in(this);
         }
 
-        public SearchConditionBuilder<JoinedTableBuilder<Done3>> withSearchCondition(){
-            SearchCondition searchCondition = new SearchCondition();
-            this.joinedTable.setSearchCondition(searchCondition);
-            SearchConditionBuilder<JoinedTableBuilder<Done3>> searchConditionBuilder = new SearchConditionBuilder<>(searchCondition);
-            return searchConditionBuilder.in(this);
+        public SearchConditionBuilder<JoinedTableBuilder<ParentBuilder>> withSearchCondition(){
+            return new SearchConditionBuilder<JoinedTableBuilder<ParentBuilder>>
+                    (set(SearchCondition::new,
+                            tar::setSearchCondition))
+                    .in(this);
         }
     }
 }

@@ -26,9 +26,9 @@ public class SelectBuilderTest {
                     .build(null)
                 .withFrom()
                     .withTableSource()
-                        .withTable("table")
-                        .build(null)
-                    .build(null)
+                        .withTableName("table")
+                        .and()
+                    .and()
                 .build(null);
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
@@ -96,12 +96,12 @@ public class SelectBuilderTest {
                     .build(null)
                 .withFrom()
                     .withTableSource()
-                        .withTable("table")
-                        .build(null)
+                        .withTableName("table")
+                        .and()
                     .withTableSource()
-                        .withTable("table2")
-                        .build(null)
-                    .build(null)
+                        .withTableName("table2")
+                        .and()
+                    .and()
                 .build(null);
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),2);
@@ -122,15 +122,15 @@ public class SelectBuilderTest {
                     .withTableSource()
                         .withJoinedTable()
                             .withTableSource()
-                                .withTable("table")
-                                .build(null)
+                                .withTableName("table")
+                                .and()
                             .withJoinType(From.JoinType.LEFT_JOIN)
                             .withTableSource2()
-                                .withTable("table2")
-                                .build(null)
-                            .build(null)
-                        .build(null)
-                    .build(null)
+                                .withTableName("table2")
+                                .and()
+                            .and()
+                        .and()
+                    .and()
                 .build(null);
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
