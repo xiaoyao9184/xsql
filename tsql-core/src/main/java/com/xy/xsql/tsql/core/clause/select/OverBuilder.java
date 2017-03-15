@@ -1,37 +1,42 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.core.SubBuilder;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.core.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
 import com.xy.xsql.tsql.model.clause.select.Over;
+import com.xy.xsql.tsql.model.expression.Expression;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2017/1/17.
  */
-public class OverBuilder<Done>
-        extends SubBuilder<OverBuilder<Done>,Void,Done> {
+public class OverBuilder<ParentBuilder>
+        extends CodeTreeBuilder<OverBuilder<ParentBuilder>,ParentBuilder,Over> {
 
-    private Over over;
+    public OverBuilder() {
+        super(new Over());
+    }
 
     public OverBuilder(Over over) {
-        this.over = over;
+        super(over);
     }
 
 
-    public PartitionByBuilder<OverBuilder<Done>> withPartitionBy(){
-        Over.PartitionBy partitionBy = new Over.PartitionBy();
-        this.over.setPartitionBy(partitionBy);
-        return new PartitionByBuilder<OverBuilder<Done>>(partitionBy)
+    public PartitionByBuilder<OverBuilder<ParentBuilder>> withPartitionBy(){
+        return new PartitionByBuilder<OverBuilder<ParentBuilder>>
+                (initSet(Over.PartitionBy::new,
+                        tar::getPartitionBy,
+                        tar::setPartitionBy))
                 .in(this);
     }
 
-    public OrderByBuilder<OverBuilder<Done>> withOrderBy(){
-        Over.OrderBy orderBy = new Over.OrderBy();
-        this.over.setOrderBy(orderBy);
-        return new OrderByBuilder<OverBuilder<Done>>(orderBy)
+    public OrderByBuilder<OverBuilder<ParentBuilder>> withOrderBy(){
+        return new OrderByBuilder<OverBuilder<ParentBuilder>>
+                (initSet(Over.OrderBy::new,
+                        tar::getOrderBy,
+                        tar::setOrderBy))
                 .in(this);
     }
 
@@ -40,47 +45,47 @@ public class OverBuilder<Done>
 
     /**
      *
-     * @param <Done>
+     * @param <ParentBuilder>
      */
-    public static class PartitionByBuilder<Done>
-            extends SubBuilder<PartitionByBuilder<Done>,Void,Done> {
-
-        private Over.PartitionBy partitionBy;
+    public static class PartitionByBuilder<ParentBuilder>
+            extends CodeTreeBuilder<PartitionByBuilder<ParentBuilder>,ParentBuilder,Over.PartitionBy> {
 
         public PartitionByBuilder(Over.PartitionBy partitionBy) {
-            this.partitionBy = partitionBy;
+            super(partitionBy);
         }
 
-        public PartitionByBuilder<Done> withExpression(Expression expression){
-            if(this.partitionBy.getValueExpressionList() == null){
-                this.partitionBy.setValueExpressionList(new ArrayList<Expression>());
-            }
-            this.partitionBy.getValueExpressionList().add(expression);
+        public PartitionByBuilder<ParentBuilder> withExpression(Expression expression){
+            initAdd(expression,
+                    tar::getValueExpressionList,
+                    tar::setValueExpressionList);
             return this;
         }
     }
 
     /**
      *
-     * @param <Done>
+     * @param <ParentBuilder>
      */
-    public static class OrderByBuilder<Done>
-            extends SubBuilder<OrderByBuilder<Done>,Void,Done> {
-
-        private Over.OrderBy orderBy;
+    public static class OrderByBuilder<ParentBuilder>
+            extends CodeTreeBuilder<OrderByBuilder<ParentBuilder>,ParentBuilder,Over.OrderBy> {
 
         public OrderByBuilder(Over.OrderBy orderBy) {
-            this.orderBy = orderBy;
+            super(orderBy);
         }
 
-        public com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByListBuilder<OrderByBuilder<Done>> withItems(){
-            List<OrderBy.OrderByItem> items = new ArrayList<>();
-            if(this.orderBy.getItems() == null){
-                this.orderBy.setItems(new ArrayList<OrderBy.OrderByItem>());
-            }
-            this.orderBy.setItems(items);
-            return new com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByListBuilder<OrderByBuilder<Done>>(items)
+        public com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItems(){
+            return new com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
+                    (initNew(OrderBy.OrderByItem::new,
+                            tar::getItems,
+                            tar::setItems))
                     .in(this);
+        }
+
+        public OrderByBuilder<ParentBuilder> withItems(OrderBy.OrderByItem orderByItem){
+            initAdd(orderByItem,
+                            tar::getItems,
+                            tar::setItems);
+            return this;
         }
     }
 }

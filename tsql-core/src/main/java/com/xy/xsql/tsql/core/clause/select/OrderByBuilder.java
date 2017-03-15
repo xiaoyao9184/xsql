@@ -77,11 +77,23 @@ public class OrderByBuilder<Done>
             this.orderByItem = orderByItem;
         }
 
+        public OrderByItemBuilder<Done> withAsc(){
+            this.orderByItem.setUseAsc(true);
+            return this;
+        }
+
+        @Deprecated
         public OrderByItemBuilder<Done> withAsc(boolean useAsc){
             this.orderByItem.setUseAsc(useAsc);
             return this;
         }
 
+        public OrderByItemBuilder<Done> withDesc(){
+            this.orderByItem.setUseDesc(true);
+            return this;
+        }
+
+        @Deprecated
         public OrderByItemBuilder<Done> withDesc(boolean useDesc){
             this.orderByItem.setUseDesc(useDesc);
             return this;
