@@ -2,8 +2,10 @@ package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -102,17 +104,39 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/12/22.
  */
 public class Insert implements Statement {
-
-    //TOP
+    //<WITH Clause>
+    private With with;
+    //<TOP Clause>
     private Top top;
+
     //INTO
     private boolean useInto;
-    //
+
+    /*
+    {
+        <object>
+        | rowset_function_limited [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+    }
+     */
+    //<object>
     private TableName tableName;
+    //TODO rowset_function_limited [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
 
     //( column_list )
     private List<ColumnName> columns;
-    //TODO [ <OUTPUT Clause> ]
+
+    //<OUTPUT Clause>
+    private Output output;
+
+    /*
+    {
+        VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
+        | derived_table
+        | execute_statement
+        | <dml_table_source>
+        | DEFAULT VALUES
+    }
+     */
     //VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
     private TableValueConstructor values;
     //TODO derived_table
@@ -121,6 +145,14 @@ public class Insert implements Statement {
     //DEFAULT VALUES
     private boolean useDefaultValues;
 
+
+    public With getWith() {
+        return with;
+    }
+
+    public void setWith(With with) {
+        this.with = with;
+    }
 
     public Top getTop() {
         return top;
@@ -154,6 +186,14 @@ public class Insert implements Statement {
         this.columns = columns;
     }
 
+    public Output getOutput() {
+        return output;
+    }
+
+    public void setOutput(Output output) {
+        this.output = output;
+    }
+
     public TableValueConstructor getValues() {
         return values;
     }
@@ -173,18 +213,14 @@ public class Insert implements Statement {
 
     @Override
     public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.INSERT);
+        ListBlockBuilder b = new ListBlockBuilder();
 
-        //[ TOP ( expression ) [ PERCENT ] ]
-        b.append(Other.SPACE)
-                .append(top);
+        b.append(with);
+        b.append(Keywords.INSERT);
+        b.append(top);
 
         //[ INTO ]
-        if(isUseInto()){
-            b.append(Other.SPACE)
-                    .append(Keywords.INTO);
-        }
+        b.append(useInto ? Keywords.INTO : null);
 
         /*
         { <object> | rowset_function_limited
@@ -195,13 +231,22 @@ public class Insert implements Statement {
                 .append(tableName);
 
         //[ ( column_list ) ]
-        if(!CheckUtil.isNullOrEmpty(getColumns())){
+        if(!CheckUtil.isNullOrEmpty(columns)){
             b.append(Other.GROUP_START);
             b.append(columns);
             b.append(Other.GROUP_END);
         }
 
+        b.append(output);
 
+        /*
+        { VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
+        | derived_table
+        | execute_statement
+        | <dml_table_source>
+        | DEFAULT VALUES
+        }
+         */
         if(values != null){
             //VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
             b.append(Keywords.VALUES)
@@ -212,8 +257,6 @@ public class Insert implements Statement {
                     .append(Keywords.VALUES);
         }
 
-
         return b.build();
     }
-
 }

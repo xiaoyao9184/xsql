@@ -2,9 +2,7 @@ package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Top;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
@@ -82,18 +80,45 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class Update implements Statement {
-    //TOP
+    //<WITH Clause>
+    private With with;
+    //<TOP Clause>
     private Top top;
-    //
+
+    /*
+    { { table_alias | <object> | rowset_function_limited
+         [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+      }
+      | @table_variable
+    }
+     */
+    //table_alias
     private Alias<Void> tableAlias;
+    //<object>
     private TableName tableName;
+    //TODO rowset_function_limited [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+    //TODO @table_variable
+
     //SET
     private List<Set> sets;
-    //FROM
-    private From from;
-    //WHERE
-    private Where where;
 
+    //<OUTPUT Clause>
+    private Output output;
+    //<FROM Clause>
+    private From from;
+    //<WHERE Clause>
+    private Where where;
+    //<OPTION Clause>
+    private Option option;
+
+
+    public With getWith() {
+        return with;
+    }
+
+    public void setWith(With with) {
+        this.with = with;
+    }
 
     public Top getTop() {
         return top;
@@ -127,6 +152,14 @@ public class Update implements Statement {
         this.sets = sets;
     }
 
+    public Output getOutput() {
+        return output;
+    }
+
+    public void setOutput(Output output) {
+        this.output = output;
+    }
+
     public From getFrom() {
         return from;
     }
@@ -143,12 +176,20 @@ public class Update implements Statement {
         this.where = where;
     }
 
+    public Option getOption() {
+        return option;
+    }
+
+    public void setOption(Option option) {
+        this.option = option;
+    }
+
 
     public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.UPDATE);
+        ListBlockBuilder b = new ListBlockBuilder();
 
-        //[ TOP ( expression ) [ PERCENT ] ]
+        b.append(with);
+        b.append(Keywords.UPDATE);
         b.append(top);
 
         /*
@@ -168,30 +209,33 @@ public class Update implements Statement {
         b.append(Keywords.SET)
                 .append(sets);
 
-        //[ FROM{ <table_source> } [ ,...n ] ]
+        b.append(output);
         b.append(from);
-
-        /*
-        [ WHERE { <search_condition>
-                | { [ CURRENT OF
-            { { [ GLOBAL ] cursor_name }
-                           | cursor_variable_name
-            }
-                    ]
-                  }
-        }
-        ]
-        */
         b.append(where);
+        b.append(option);
 
         return b.build();
     }
 
 
     /**
-     * Set
+     * Set Item
+
+    {   column_name = { expression | DEFAULT | NULL }
+        |   { udt_column_name.{ { property_name = expression
+                                    | field_name = expression }
+                                | method_name ( argument [ ,...n ] )
+                              }
+            }
+        | column_name { .WRITE ( expression , @Offset , @Length ) }
+        | @variable = expression
+        | @variable = column = expression
+        | column_name { += | -= | *= | /= | %= | &= | ^= | |= } expression
+        | @variable { += | -= | *= | /= | %= | &= | ^= | |= } expression
+        | @variable = column { += | -= | *= | /= | %= | &= | ^= | |= } expression
+    }
+
      *
-     * { column_name = { expression | NULL } }
      */
     public static class Set implements Block {
         private ColumnName columnName;

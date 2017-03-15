@@ -62,10 +62,11 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class Delete implements Statement {
-    //[ WITH <common_table_expression> [ ,...n ] ]
+    //<WITH Clause>
     private With with;
-    //TOP
+    //<TOP Clause>
     private Top top;
+
     //FROM
     private boolean useForm;
     /*
@@ -81,27 +82,14 @@ public class Delete implements Statement {
     //TODO rowset_function_limited
     //TODO @table_variable
 
-    //TODO  [ <OUTPUT Clause> ]
-
-    //[ FROM table_source [ ,...n ] ]
+    //<OUTPUT Clause>
+    private Output output;
+    //<FROM Clause>
     private From from;
-    /*
-    [ WHERE { <search_condition>
-            | { [ CURRENT OF
-                   { { [ GLOBAL ] cursor_name }
-                       | cursor_variable_name
-                   }
-                ]
-              }
-            }
-    ]
-     */
+    //<WHERE Clause>
     private Where where;
-    //TODO CURRENT
-
-    //[ OPTION ( <Query Hint> [ ,...n ] ) ]
+    //<OPTION Clause>
     private Option option;
-
 
 
     public Top getTop() {
@@ -134,6 +122,14 @@ public class Delete implements Statement {
 
     public void setTableName(TableName tableName) {
         this.tableName = tableName;
+    }
+
+    public Output getOutput() {
+        return output;
+    }
+
+    public void setOutput(Output output) {
+        this.output = output;
     }
 
     public From getFrom() {
@@ -172,14 +168,9 @@ public class Delete implements Statement {
     public List<Block> toBlockList() {
         ListBlockBuilder b = new ListBlockBuilder();
 
-        //[ WITH <common_table_expression> [ ,...n ] ]
-        b.append(this.with);
-
-        //DELETE
+        b.append(with);
         b.append(Keywords.DELETE);
-
-        //[ TOP ( expression ) [ PERCENT ] ]
-        b.append(this.top);
+        b.append(top);
 
         //[ FROM ]
         if(useForm){
@@ -200,24 +191,10 @@ public class Delete implements Statement {
             b.append(tableName);
         }
 
-        //[ FROM table_source [ ,...n ] ]
-        b.append(this.from);
-
-        /*
-        [ WHERE { <search_condition>
-                | { [ CURRENT OF
-                       { { [ GLOBAL ] cursor_name }
-                           | cursor_variable_name
-                       }
-                    ]
-                  }
-                }
-        ]
-        */
-        b.append(this.where);
-
-        //[ OPTION ( <Query Hint> [ ,...n ] ) ]
-        b.append(this.option);
+        b.append(output);
+        b.append(from);
+        b.append(where);
+        b.append(option);
 
         return b.build();
     }

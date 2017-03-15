@@ -10,6 +10,7 @@ import com.xy.xsql.tsql.util.ListBlockBuilder;
 import java.util.List;
 
 /**
+ * TODO maybe use Operator.Logical named
  * expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
  { ALL | SOME | ANY} ( subquery )
  * Created by xiaoyao9184 on 2017/3/12.

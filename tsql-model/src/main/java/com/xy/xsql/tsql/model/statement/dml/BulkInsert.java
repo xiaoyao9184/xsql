@@ -317,15 +317,6 @@ public class BulkInsert implements Statement {
 
     @Override
     public List<Block> toBlockList() {
-        ListBlockBuilder b0 = new ListBlockBuilder();
-
-        b0.append(Keywords.BULK)
-                .append(Keywords.INSERT)
-                .append(tableOrView)
-                .append(Keywords.FROM)
-                .append(formDataFile);
-
-
         ListBlockBuilder b = new ListBlockBuilder()
                 .append(Keywords.WITH)
                 .append(Other.GROUP_START);
@@ -460,9 +451,15 @@ public class BulkInsert implements Statement {
 
         b.append(Other.GROUP_END);
 
-        b0.append(b);
 
-        return b0.build();
+        return new ListBlockBuilder()
+                .append(Keywords.BULK)
+                .append(Keywords.INSERT)
+                .append(tableOrView)
+                .append(Keywords.FROM)
+                .append(formDataFile)
+                .append(b)
+                .build();
     }
 
     /**

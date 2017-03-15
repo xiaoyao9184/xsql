@@ -2,10 +2,7 @@ package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.*;
 import com.xy.xsql.tsql.model.statement.Statement;
@@ -130,8 +127,9 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class Merge implements Statement {
-
-    //TOP
+    //<WITH Clause>
+    private With with;
+    //<TOP Clause>
     private Top top;
 
     //INTO
@@ -159,6 +157,18 @@ public class Merge implements Statement {
     //[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]
     //THEN <merge_matched> ] [ ...n ]
     private List<MatchedWhenThen> notMatchedWhenThenSourceList;
+
+    //<OPTION Clause>
+    private Option option;
+
+
+    public With getWith() {
+        return with;
+    }
+
+    public void setWith(With with) {
+        this.with = with;
+    }
 
     public Top getTop() {
         return top;
@@ -248,13 +258,21 @@ public class Merge implements Statement {
         this.notMatchedWhenThenSourceList = notMatchedWhenThenSourceList;
     }
 
+    public Option getOption() {
+        return option;
+    }
+
+    public void setOption(Option option) {
+        this.option = option;
+    }
+
 
     @Override
     public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.UPDATE);
+        ListBlockBuilder b = new ListBlockBuilder();
 
-        //[ TOP ( expression ) [ PERCENT ] ]
+        b.append(with);
+        b.append(Keywords.MERGE);
         b.append(top);
 
         //[ INTO ] <target_table> [ WITH ( <merge_hint> ) ] [ [ AS ] table_alias ]
@@ -299,6 +317,8 @@ public class Merge implements Statement {
                 i++;
             }
         }
+
+        b.append(option);
 
         return b.build();
     }
