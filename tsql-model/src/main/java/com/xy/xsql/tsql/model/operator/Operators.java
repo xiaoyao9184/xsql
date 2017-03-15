@@ -94,8 +94,8 @@ public enum Operators implements Operator {
      * String Operators
      * https://msdn.microsoft.com/en-us/library/ms190301.aspx
      */
-    STRING_CONCATENATION(String.CONCATENATION, Type.String),
-    STRING_CONCATENATION_SET(String.CONCATENATION_SET, Type.String),
+    STRING_CONCATENATION(StringConcatenation.CONCATENATION, Type.String),
+    STRING_CONCATENATION_SET(StringConcatenation.CONCATENATION_SET, Type.String),
 
     /**
      * Unary Operators

@@ -15,7 +15,7 @@ import java.util.List;
  [ ESCAPE 'escape_character' ]
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class Like implements Predicate {
+public class Like implements Predicate, Expression {
     //string_expression [ NOT ] LIKE string_expression
     //[ ESCAPE 'escape_character' ]
     private Expression expression;

@@ -13,7 +13,7 @@ import java.util.List;
  * expression [ NOT ] BETWEEN expression AND expression
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class Between implements Predicate {
+public class Between implements Predicate, Expression {
     //expression [ NOT ] BETWEEN expression AND expression
     private Expression expression;
     private boolean useNotOperator;

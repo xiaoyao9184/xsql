@@ -12,7 +12,7 @@ import java.util.List;
  * expression IS [ NOT ] NULL
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class IsNull implements Predicate {
+public class IsNull implements Predicate, Expression {
     //expression IS [ NOT ] NULL
     private Expression expression;
     private boolean useNotOperator;

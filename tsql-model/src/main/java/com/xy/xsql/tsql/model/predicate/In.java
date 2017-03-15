@@ -15,7 +15,7 @@ import java.util.List;
  * expression [ NOT ] IN ( subquery | expression [ ,...n ] )
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class In implements Predicate {
+public class In implements Predicate, Expression {
     //expression [ NOT ] IN ( subquery | expression [ ,...n ] )
     private Expression expression;
     private boolean useNotOperator;

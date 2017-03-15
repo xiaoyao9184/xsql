@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.Keywords;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum String implements Operator {
+public enum StringConcatenation implements Operator {
 
     CONCATENATION("+",Type.String),
     CONCATENATION_SET("+=",Type.String);
@@ -13,12 +13,12 @@ public enum String implements Operator {
     private java.lang.String keyword;
     private Type type;
 
-    String(Keywords keyword, Type type){
+    StringConcatenation(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    String(java.lang.String keyword, Type type){
+    StringConcatenation(java.lang.String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }

@@ -14,7 +14,7 @@ import java.util.List;
  * EXISTS ( subquery )
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class Exists implements Predicate {
+public class Exists implements Predicate, Expression {
     //EXISTS ( subquery )
     private Expression expression;
     private Select subquery;

@@ -15,7 +15,7 @@ import java.util.List;
  { ALL | SOME | ANY} ( subquery )
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class OperatorSubQuery implements Predicate {
+public class OperatorSubQuery implements Predicate, Expression {
     //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
     //{ ALL | SOME | ANY} ( subquery )
     private Expression expression;
