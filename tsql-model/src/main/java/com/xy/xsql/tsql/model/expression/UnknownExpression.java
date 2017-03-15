@@ -17,6 +17,11 @@ public class UnknownExpression implements Expression {
     }
 
     @Override
+    public String toString() {
+        return string;
+    }
+
+    @Override
     public List<Block> toBlockList() {
         return new ListBlockBuilder()
                 .append(this)
