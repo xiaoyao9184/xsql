@@ -1,23 +1,24 @@
 package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.core.statement.SelectBuilder;
-import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.clause.With;
-import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
+import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.IsNullPredicateBuilder.IS_NOT_NULL;
+import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
+import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
  */
 public class WithBuilderTest {
 
+
+
     /**
-     * @link https://msdn.microsoft.com/en-us/library/ms175972.aspx#Examples
+     * -- Define the CTE expression name and column list.
      WITH Sales_CTE (SalesPersonID, SalesOrderID, SalesYear)
      AS
      -- Define the CTE query.
@@ -27,139 +28,322 @@ public class WithBuilderTest {
      WHERE SalesPersonID IS NOT NULL
      )
      -- Define the outer query referencing the CTE name.
-     SELECT SalesPersonID, COUNT(SalesOrderID) AS TotalSales, SalesYear
-     FROM Sales_CTE
-     GROUP BY SalesYear, SalesPersonID
-     ORDER BY SalesPersonID, SalesYear;
-     GO
-     */
-    @Test
-    public void testWith(){
-        Select select = new SelectBuilder()
-                .withQuery()
-                .withSelectList()
-                    .withSelectItem().withColumnName("SalesPersonID").out()
-                    .withSelectItem().withColumnName("SalesOrderID").out()
-                    .withSelectItem().withColumnName("SalesPersonID").out()
-                .out()
-                .withFrom()
-                    .withTableSource().withTableName("Sales.SalesOrderHeader").out().out()
-                .withWhere()
-                    .withSearchCondition()
-                        .withPredicate().IsNull().withNot(true)
-                        .out().out().out()
-                .out()
-                .build(null);
-
-
-
-
-        With with = new WithBuilder<Void>()
-                .withItem()
-                    .withExpressionName("Sales_CTE")
-                    .withColumnName("SalesPersonID")
-                    .withColumnName("SalesOrderID")
-                    .withColumnName("SalesYear")
-//                    .withCteQueryDefinition(select)
-                    .and()
-                .build();
-
-        Assert.assertEquals(with.getCommonTableExpressionList().size(),1);
-    }
-
-    /**
-     * WHERE Name = 'Blade' ;
      */
     @Test
     public void testExampleA(){
         // @formatter:off
-        Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()
-                        .Operator()
-                            .withExpression(e_string("Name"))
-                            .withOperator(Operators.EQUAL)
-                            .withExpression(e("Blade"))
-                            .out()
-                        .out()
-                    .build();
+        Select select = new SelectBuilder()
+                .withQuery()
+                    .withSelectList()
+                        .withSelectItem().withColumnName("SalesPersonID").out()
+                        .withSelectItem().withColumnName("SalesOrderID").out()
+                        .withSelectItem().withColumnName("SalesPersonID").out()
+                    .out()
+                .withFrom()
+                    .withTableSource()
+                        .withTableName(t("Sales","SalesOrderHeader"))
+                        .and()
+                    .out()
+                .withWhere()
+                    .withSearchCondition()
+                        .withPredicate(IS_NOT_NULL(c("SalesPersonID")))
+                        .and()
+                    .and()
+                .and()
+                .build(null);
+
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("Sales_CTE")
+                    .withColumnName(c("SalesPersonID"))
+                    .withColumnName(c("SalesOrderID"))
+                    .withColumnName(c("SalesYear"))
+                    .withCteQueryDefinition(select)
+                    .out()
+                .build();
         // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
+        Assert.assertEquals(cte.getColumnName().size(),3);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"SalesOrderID");
+        Assert.assertEquals(cte.getColumnName().get(2).toString(),"SalesYear");
     }
 
     /**
-     * WHERE Name LIKE ('%Frame%');
+     * WITH Sales_CTE (SalesPersonID, NumberOfOrders)
+     AS
+     (
+     SELECT SalesPersonID, COUNT(*)
+     FROM Sales.SalesOrderHeader
+     WHERE SalesPersonID IS NOT NULL
+     GROUP BY SalesPersonID
+     )
      */
     @Test
     public void testExampleB(){
         // @formatter:off
-        Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()
-                        .Operator()
-                            .withExpression(e("Name"))
-                            .withOperator(Operators.LIKE)
-                            .withExpression(e_string("%Frame%"))
-                            .out()
-                        .out()
-                    .build();
+        Select select = new SelectBuilder()
+                .build(null);
+
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("Sales_CTE")
+                    .withColumnName(c("SalesPersonID"))
+                    .withColumnName(c("NumberOfOrders"))
+                    .withCteQueryDefinition(select)
+                    .out()
+                .build();
         // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
+        Assert.assertEquals(cte.getColumnName().size(),2);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"NumberOfOrders");
     }
 
     /**
-     * WHERE ProductID <= 12 ;
+     * WITH Sales_CTE (SalesPersonID, TotalSales, SalesYear)
+     AS
+     -- Define the first CTE query.
+     (
+     SELECT SalesPersonID, SUM(TotalDue) AS TotalSales, YEAR(OrderDate) AS SalesYear
+     FROM Sales.SalesOrderHeader
+     WHERE SalesPersonID IS NOT NULL
+     GROUP BY SalesPersonID, YEAR(OrderDate)
+
+     )
+     ,   -- Use a comma to separate multiple CTE definitions.
+
+     -- Define the second CTE query, which returns sales quota data by year for each sales person.
+     Sales_Quota_CTE (BusinessEntityID, SalesQuota, SalesQuotaYear)
+     AS
+     (
+     SELECT BusinessEntityID, SUM(SalesQuota)AS SalesQuota, YEAR(QuotaDate) AS SalesQuotaYear
+     FROM Sales.SalesPersonQuotaHistory
+     GROUP BY BusinessEntityID, YEAR(QuotaDate)
+     )
      */
     @Test
     public void testExampleC(){
         // @formatter:off
-        Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()
-                        .Operator()
-                            .withExpression(e_string("ProductID"))
-                            .withOperator(Operators.LESS_EQUAL)
-                            .withExpression(e(12))
-                            .out()
-                        .out()
-                    .build();
+        Select select = new SelectBuilder()
+                .build(null);
+
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("Sales_CTE")
+                    .withColumnName(c("SalesPersonID"))
+                    .withColumnName(c("TotalSales"))
+                    .withColumnName(c("SalesYear"))
+                    .withCteQueryDefinition(select)
+                    .out()
+                .withItem()
+                    .withExpressionName("Sales_Quota_CTE")
+                    .withColumnName(c("BusinessEntityID"))
+                    .withColumnName(c("SalesQuota"))
+                    .withColumnName(c("SalesQuotaYear"))
+                    .withCteQueryDefinition(select)
+                    .out()
+                .build();
         // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 2);
+
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
+        Assert.assertEquals(cte.getColumnName().size(),3);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"TotalSales");
+        Assert.assertEquals(cte.getColumnName().get(2).toString(),"SalesYear");
+
+        With.CommonTableExpression cte2 = with.getCommonTableExpressionList().get(1);
+        Assert.assertEquals(cte2.getExpressionName(), "Sales_Quota_CTE");
+        Assert.assertEquals(cte2.getColumnName().size(),3);
+        Assert.assertEquals(cte2.getColumnName().get(0).toString(),"BusinessEntityID");
+        Assert.assertEquals(cte2.getColumnName().get(1).toString(),"SalesQuota");
+        Assert.assertEquals(cte2.getColumnName().get(2).toString(),"SalesQuotaYear");
     }
 
     /**
-     * WHERE ProductID = 2
-     OR ProductID = 4
-     OR Name = 'c' ;
+     * WITH DirectReports(ManagerID, EmployeeID, Title, EmployeeLevel) AS
+     (
+     SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
+     FROM dbo.MyEmployees
+     WHERE ManagerID IS NULL
+     UNION ALL
+     SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
+     FROM dbo.MyEmployees AS e
+     INNER JOIN DirectReports AS d
+     ON e.ManagerID = d.EmployeeID
+     )
      */
     @Test
     public void testExampleD(){
         // @formatter:off
-        Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate().Operator()
-                            .withExpression(e("ProductID"))
-                            .withOperator(Operators.EQUAL)
-                            .withExpression(e(2))
-                            .out()
-                    .withAndOrNotItem()
-                        .withOr()
-                        .withPredicate()
-                            .Operator()
-                                .withExpression(e("ProductID"))
-                                .withOperator(Operators.EQUAL)
-                                .withExpression(e(4))
-                                .out()
-                        .out()
-                    .withAndOrNotItem()
-                        .withOr()
-                        .withPredicate()
-                            .Operator()
-                                .withExpression(e("Name"))
-                                .withOperator(Operators.EQUAL)
-                                .withExpression(e_string("c"))
-                                .out()
-                        .out()
+        Select select = new SelectBuilder()
+                .build(null);
+
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("DirectReports")
+                    .withColumnName(c("ManagerID"))
+                    .withColumnName(c("EmployeeID"))
+                    .withColumnName(c("Title"))
+                    .withColumnName(c("EmployeeLevel"))
+                    .withCteQueryDefinition(select)
                     .out()
                 .build();
         // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "DirectReports");
+        Assert.assertEquals(cte.getColumnName().size(),4);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"ManagerID");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"EmployeeID");
+        Assert.assertEquals(cte.getColumnName().get(2).toString(),"Title");
+        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
     }
 
+    /**
+     * WITH DirectReports(ManagerID, EmployeeID, Title, EmployeeLevel) AS
+     (
+     SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
+     FROM dbo.MyEmployees
+     WHERE ManagerID IS NULL
+     UNION ALL
+     SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
+     FROM dbo.MyEmployees AS e
+     INNER JOIN DirectReports AS d
+     ON e.ManagerID = d.EmployeeID
+     )
+     */
+    @Test
+    public void testExampleE(){
+        // @formatter:off
+        Select select = new SelectBuilder()
+                .build(null);
+
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("DirectReports")
+                    .withColumnName(c("ManagerID"))
+                    .withColumnName(c("EmployeeID"))
+                    .withColumnName(c("Title"))
+                    .withColumnName(c("EmployeeLevel"))
+                    .withCteQueryDefinition(select)
+                    .out()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "DirectReports");
+        Assert.assertEquals(cte.getColumnName().size(),4);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"ManagerID");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"EmployeeID");
+        Assert.assertEquals(cte.getColumnName().get(2).toString(),"Title");
+        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
+    }
+
+
+    /**
+     * WITH DirectReports(Name, Title, EmployeeID, EmployeeLevel, Sort)
+     AS (SELECT CONVERT(varchar(255), e.FirstName + ' ' + e.LastName),
+     e.Title,
+     e.EmployeeID,
+     1,
+     CONVERT(varchar(255), e.FirstName + ' ' + e.LastName)
+     FROM dbo.MyEmployees AS e
+     WHERE e.ManagerID IS NULL
+     UNION ALL
+     SELECT CONVERT(varchar(255), REPLICATE ('|    ' , EmployeeLevel) +
+     e.FirstName + ' ' + e.LastName),
+     e.Title,
+     e.EmployeeID,
+     EmployeeLevel + 1,
+     CONVERT (varchar(255), RTRIM(Sort) + '|    ' + FirstName + ' ' +
+     LastName)
+     FROM dbo.MyEmployees AS e
+     JOIN DirectReports AS d ON e.ManagerID = d.EmployeeID
+     )
+     */
+    @Test
+    public void testExampleF(){
+        // @formatter:off
+        Select select = new SelectBuilder()
+                .build(null);
+
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("DirectReports")
+                    .withColumnName(c("Name"))
+                    .withColumnName(c("Title"))
+                    .withColumnName(c("EmployeeID"))
+                    .withColumnName(c("EmployeeLevel"))
+                    .withColumnName(c("Sort"))
+                    .withCteQueryDefinition(select)
+                    .out()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "DirectReports");
+        Assert.assertEquals(cte.getColumnName().size(),5);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"Name");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"Title");
+        Assert.assertEquals(cte.getColumnName().get(2).toString(),"EmployeeID");
+        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
+        Assert.assertEquals(cte.getColumnName().get(4).toString(),"Sort");
+    }
+
+    /**
+     * WITH cte (EmployeeID, ManagerID, Title) as
+     (
+     SELECT EmployeeID, ManagerID, Title
+     FROM dbo.MyEmployees
+     WHERE ManagerID IS NOT NULL
+     UNION ALL
+     SELECT cte.EmployeeID, cte.ManagerID, cte.Title
+     FROM cte
+     JOIN  dbo.MyEmployees AS e
+     ON cte.ManagerID = e.EmployeeID
+     )
+     --Uses MAXRECURSION to limit the recursive levels to 2
+     */
+    @Test
+    public void testExampleG(){
+        // @formatter:off
+        Select select = new SelectBuilder()
+                .build(null);
+
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("cte")
+                    .withColumnName(c("EmployeeID"))
+                    .withColumnName(c("ManagerID"))
+                    .withColumnName(c("Title"))
+                    .withCteQueryDefinition(select)
+                    .out()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "cte");
+        Assert.assertEquals(cte.getColumnName().size(),3);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"EmployeeID");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"ManagerID");
+        Assert.assertEquals(cte.getColumnName().get(2).toString(),"Title");
+    }
 }

@@ -50,7 +50,7 @@ TODO
 | Other | 支持程度 |
 | ----- | ----- |
 | EXPLAIN
-| Subqueries  
+| Subqueries | use SELECT |
 
 ## Data Types
 

@@ -2,9 +2,11 @@ package com.xy.xsql.tsql.model.clause;
 
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.ArrayList;
@@ -55,9 +57,9 @@ public class With implements Clause {
     public static class CommonTableExpression implements Expression {
 
         private String expressionName;
-        private List<String> columnName;
-        //TODO
-//        private Sentence cteQueryDefinition;
+        private List<ColumnName> columnName;
+        //maybe diff?
+        private Select cteQueryDefinition;
 
 
         public String getExpressionName() {
@@ -68,41 +70,32 @@ public class With implements Clause {
             this.expressionName = expressionName;
         }
 
-        public List<String> getColumnName() {
+        public List<ColumnName> getColumnName() {
             return columnName;
         }
 
-        public void setColumnName(List<String> columnName) {
+        public void setColumnName(List<ColumnName> columnName) {
             this.columnName = columnName;
         }
 
-//        public Sentence getCteQueryDefinition() {
-//            return cteQueryDefinition;
-//        }
-//
-//        public void setCteQueryDefinition(Sentence cteQueryDefinition) {
-//            this.cteQueryDefinition = cteQueryDefinition;
-//        }
+        public Select getCteQueryDefinition() {
+            return cteQueryDefinition;
+        }
+
+        public void setCteQueryDefinition(Select cteQueryDefinition) {
+            this.cteQueryDefinition = cteQueryDefinition;
+        }
 
 
         @Override
         public List<Block> toBlockList() {
             ListBlockBuilder b = new ListBlockBuilder()
                     .append(new Unknown(expressionName));
-            if(columnName.size() > 0){
-                List<Block> columnNameBlock = new ArrayList<>();
-                for (String name: columnName) {
-                    columnNameBlock.add(new Unknown(name));
-                }
-                b.append(Other.GROUP_START)
-                        .append(columnNameBlock,null)
-                        .append(Other.GROUP_START);
-            }
-
-//            b.append(Keywords.AS)
-//                    .append(Other.GROUP_START)
-//                    .append(cteQueryDefinition)
-//                    .append(Other.GROUP_START);
+            b.append(columnName);
+            b.append(Keywords.AS)
+                    .append(Other.GROUP_START)
+                    .append(cteQueryDefinition)
+                    .append(Other.GROUP_START);
 
             return b.build();
         }

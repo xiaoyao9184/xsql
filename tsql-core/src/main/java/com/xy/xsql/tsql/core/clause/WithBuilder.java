@@ -2,6 +2,8 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.core.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.With;
+import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
@@ -45,17 +47,22 @@ public class WithBuilder<ParentBuilder>
             return this;
         }
 
-        public CommonTableExpressionBuilder<ParentBuilder> withColumnName(String columnName){
+        /**
+         * Quick set column_name List
+         * @param columnName
+         * @return
+         */
+        public CommonTableExpressionBuilder<ParentBuilder> withColumnName(ColumnName columnName){
             initAdd(columnName,
                      this.tar::getColumnName,
                     this.tar::setColumnName);
             return this;
         }
 
-//        public CommonTableExpressionBuilder<ParentBuilder> withCteQueryDefinition(Sentence cteQueryDefinition){
-//            this.tar.setCteQueryDefinition(cteQueryDefinition);
-//            return this;
-//        }
+        public CommonTableExpressionBuilder<ParentBuilder> withCteQueryDefinition(Select cteQueryDefinition){
+            this.tar.setCteQueryDefinition(cteQueryDefinition);
+            return this;
+        }
 
     }
 
