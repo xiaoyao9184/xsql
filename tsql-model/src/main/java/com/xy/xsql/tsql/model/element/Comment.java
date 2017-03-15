@@ -1,6 +1,7 @@
-package com.xy.xsql.orm.data.sql.element;
+package com.xy.xsql.tsql.model.element;
 
-import com.xy.xsql.orm.data.sql.Element;
+
+import com.xy.xsql.tsql.model.Block;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms181627.aspx
@@ -8,13 +9,13 @@ import com.xy.xsql.orm.data.sql.Element;
  *
  * Created by xiaoyao9184 on 2017/1/13.
  */
-public class CommentString implements Element {
+public class Comment implements Block {
 
     private String string;
 
-    public CommentString(){}
+    public Comment(){}
 
-    public CommentString(String string){
+    public Comment(String string){
         this.string = string;
     }
 
