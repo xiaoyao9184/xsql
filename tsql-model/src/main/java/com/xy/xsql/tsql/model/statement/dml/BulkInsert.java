@@ -549,7 +549,7 @@ public class BulkInsert implements Statement {
     /**
      * ORDER
      */
-    private class OrderColumn implements Block {
+    public static class OrderColumn implements Block {
 
         private ColumnName column;
         private boolean useAsc;
