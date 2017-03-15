@@ -1,11 +1,12 @@
-package com.xy.xsql.orm.core.sql.statements;
+package com.xy.xsql.tsql.core.statement;
 
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.rve;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
@@ -17,7 +18,7 @@ public class SelectBuilderTest {
      */
     @Test
     public void testBaseBuild(){
-        Select select = new SelectBuilder()
+        Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withSelectList()
                     .withSelectItem()
                         .withAll()
@@ -39,7 +40,7 @@ public class SelectBuilderTest {
      */
     @Test
     public void testAllBuild(){
-        Select select = new SelectBuilder()
+        Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withAll()
                 .build(null);
 
@@ -51,7 +52,7 @@ public class SelectBuilderTest {
      */
     @Test
     public void testDistinctBuild(){
-        Select select = new SelectBuilder()
+        Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withDistinct()
                 .build(null);
 
@@ -64,7 +65,7 @@ public class SelectBuilderTest {
      */
     @Test
     public void testTopBuild(){
-        Select select = new SelectBuilder()
+        Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withTop()
                     .withExpression(e(50))
                     .and()
@@ -72,7 +73,7 @@ public class SelectBuilderTest {
 
         Assert.assertEquals(select.getTop().getExpression().toString(),"50");
 
-        select = new SelectBuilder()
+        select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withTop()
                     .withExpression(e(50))
                     .withPercent()
@@ -87,7 +88,7 @@ public class SelectBuilderTest {
      */
     @Test
     public void test2TableBuild(){
-        Select select = new SelectBuilder()
+        Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withSelectList()
                     .withSelectItem()
                         .withAll()
@@ -111,7 +112,7 @@ public class SelectBuilderTest {
      */
     @Test
     public void testTableJoinBuild(){
-        Select select = new SelectBuilder()
+        Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withSelectList()
                     .withSelectItem()
                         .withAll()
@@ -142,7 +143,7 @@ public class SelectBuilderTest {
     @Test
     public void testDerivedTable(){
         // @formatter:off
-        Select select = new SelectBuilder()
+        Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withSelectList()
                     .withSelectItem().withAll()
                     .out()
@@ -150,31 +151,34 @@ public class SelectBuilderTest {
                 .withFrom()
                     .withTableSource()
                         .withDerivedTable().values()
-                            .withGroupItem()
-                                .withItem().withExpression(e(1)).out()
-                                .withItem().withExpression(e(2)).out()
+                            .withRowValues()
+                                .withRowValueExpression(rve(1))
+                                .withRowValueExpression(rve(2))
+                                .out()
+                            .withRowValues()
+                                .withRowValueExpression(rve(3))
+                                .withRowValueExpression(rve(4))
+                                .out()
+                            .withRowValues()
+                                .withRowValueExpression(rve(5))
+                                .withRowValueExpression(rve(6))
+                                .out()
+                            .withRowValues()
+                                .withRowValueExpression(rve(7))
+                                .withRowValueExpression(rve(8))
+                                .out()
+                            .withRowValues()
+                                .withRowValueExpression(rve(9))
+                                .withRowValueExpression(rve(10))
+                                .out()
                             .out()
-                            .withGroupItem()
-                                .withItem().withExpression(e(3)).out()
-                                .withItem().withExpression(e(4)).out()
-                            .out()
-                            .withGroupItem()
-                                .withItem().withExpression(e(5)).out()
-                                .withItem().withExpression(e(6)).out()
-                            .out()
-                            .withGroupItem()
-                                .withItem().withExpression(e(7)).out()
-                                .withItem().withExpression(e(8)).out()
-                            .out()
-                            .withGroupItem()
-                                .withItem().withExpression(e(9)).out()
-                                .withItem().withExpression(e(10)).out()
-                            .out()
-                        .out().out()
+                        .out()
                         //TODO derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
                     .out()
                 .out()
                 .build(null);
         // @formatter:on
     }
+
+
 }

@@ -1,12 +1,12 @@
-package com.xy.xsql.orm.core.sql.statements;
+package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.orm.data.sql.element.info.TableName;
+import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.orm.core.sql.statements.BulkInsertBuilder._ACP;
-import static com.xy.xsql.orm.core.sql.statements.BulkInsertBuilder._char;
+import static com.xy.xsql.tsql.core.statement.BulkInsertBuilder._ACP;
+import static com.xy.xsql.tsql.core.statement.BulkInsertBuilder._char;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.
@@ -40,5 +40,7 @@ public class BulkInsertBuilderTest {
         Assert.assertEquals(insert.getCodePage().toString(),"ACP");
         Assert.assertEquals(insert.getDataFileType().toString(),"char");
     }
+
+
 
 }

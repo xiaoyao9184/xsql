@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;
 import com.xy.xsql.tsql.model.predicate.Operator;
@@ -10,6 +10,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.InPredicateBuilder.IN;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
 import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.OperatorPredicateBuilder.EQUAL;
 import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.ASAPredicateBuilder.ALL;
@@ -42,7 +43,7 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
         OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperatorEnum(), OperatorEnum.EQUAL);
+        Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
     }
 
     /**
@@ -66,12 +67,12 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
         OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperatorEnum(), OperatorEnum.EQUAL);
+        Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
         Operator predicate1 = (Operator) searchCondition.getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate1.getOperatorEnum(), OperatorEnum.EQUAL);
+        Assert.assertEquals(predicate1.getOperator(), Operators.EQUAL);
     }
 
     /**
@@ -102,18 +103,18 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), OperatorSubQuery.class);
         OperatorSubQuery predicate = (OperatorSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperatorEnum(), OperatorEnum.EQUAL);
+        Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
 
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
         Operator predicate1 = (Operator) searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate1.getOperatorEnum(), OperatorEnum.GREATER);
+        Assert.assertEquals(predicate1.getOperator(), Operators.GREATER);
 
         Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().size(), 1);
         Operator predicate2 = (Operator) searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate2.getOperatorEnum(), OperatorEnum.LESS);
+        Assert.assertEquals(predicate2.getOperator(), Operators.LESS);
 
     }
 

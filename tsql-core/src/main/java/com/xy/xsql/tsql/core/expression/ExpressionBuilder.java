@@ -15,9 +15,9 @@ import javafx.beans.binding.StringExpression;
  */
 public class ExpressionBuilder {
 
-//    public static Expression e(String expressionString){
-//        return new StringExpression(expressionString);
-//    }
+    public static Expression e(String expressionString){
+        return new UnknownExpression(expressionString);
+    }
 
     @Deprecated
     public static Expression e(Number numberExpression){

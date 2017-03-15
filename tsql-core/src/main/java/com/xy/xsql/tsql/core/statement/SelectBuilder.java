@@ -15,6 +15,8 @@ import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
+
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
@@ -36,6 +38,14 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
 
 
 
+
+    public QuerySpecificationBuilder<SelectBuilder> withQuery() {
+        Select.QuerySpecification querySpecification = new Select.QuerySpecification();
+        select.setQueryExpression(querySpecification);
+        return new QuerySpecificationBuilder<SelectBuilder>
+                (querySpecification)
+                .in(this);
+    }
 
     /**
      *
@@ -60,9 +70,13 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
     }
 
 
-
     public static class QuerySpecificationBuilder<ParentBuilder>
             extends CodeTreeBuilder<QuerySpecificationBuilder<ParentBuilder>,ParentBuilder,Select.QuerySpecification> {
+
+
+        public QuerySpecificationBuilder() {
+            super(new Select.QuerySpecification());
+        }
 
         public QuerySpecificationBuilder(Select.QuerySpecification tar) {
             super(tar);

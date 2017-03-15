@@ -1,9 +1,9 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.orm.core.sql.statements.SelectBuilder;
+import com.xy.xsql.tsql.core.statement.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.clause.With;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,6 +36,7 @@ public class WithBuilderTest {
     @Test
     public void testWith(){
         Select select = new SelectBuilder()
+                .withQuery()
                 .withSelectList()
                     .withSelectItem().withColumnName("SalesPersonID").out()
                     .withSelectItem().withColumnName("SalesOrderID").out()
@@ -47,6 +48,7 @@ public class WithBuilderTest {
                     .withSearchCondition()
                         .withPredicate().IsNull().withNot(true)
                         .out().out().out()
+                .out()
                 .build(null);
 
 
@@ -58,7 +60,7 @@ public class WithBuilderTest {
                     .withColumnName("SalesPersonID")
                     .withColumnName("SalesOrderID")
                     .withColumnName("SalesYear")
-                    .withCteQueryDefinition(select)
+//                    .withCteQueryDefinition(select)
                     .and()
                 .build();
 
@@ -76,7 +78,7 @@ public class WithBuilderTest {
                     .withPredicate()
                         .Operator()
                             .withExpression(e_string("Name"))
-                            .withOperator(OperatorEnum.EQUAL)
+                            .withOperator(Operators.EQUAL)
                             .withExpression(e("Blade"))
                             .out()
                         .out()
@@ -95,7 +97,7 @@ public class WithBuilderTest {
                     .withPredicate()
                         .Operator()
                             .withExpression(e("Name"))
-                            .withOperator(OperatorEnum.LIKE)
+                            .withOperator(Operators.LIKE)
                             .withExpression(e_string("%Frame%"))
                             .out()
                         .out()
@@ -114,7 +116,7 @@ public class WithBuilderTest {
                     .withPredicate()
                         .Operator()
                             .withExpression(e_string("ProductID"))
-                            .withOperator(OperatorEnum.LESS_EQUAL)
+                            .withOperator(Operators.LESS_EQUAL)
                             .withExpression(e(12))
                             .out()
                         .out()
@@ -134,7 +136,7 @@ public class WithBuilderTest {
                 .withSearchCondition()
                     .withPredicate().Operator()
                             .withExpression(e("ProductID"))
-                            .withOperator(OperatorEnum.EQUAL)
+                            .withOperator(Operators.EQUAL)
                             .withExpression(e(2))
                             .out()
                     .withAndOrNotItem()
@@ -142,7 +144,7 @@ public class WithBuilderTest {
                         .withPredicate()
                             .Operator()
                                 .withExpression(e("ProductID"))
-                                .withOperator(OperatorEnum.EQUAL)
+                                .withOperator(Operators.EQUAL)
                                 .withExpression(e(4))
                                 .out()
                         .out()
@@ -151,7 +153,7 @@ public class WithBuilderTest {
                         .withPredicate()
                             .Operator()
                                 .withExpression(e("Name"))
-                                .withOperator(OperatorEnum.EQUAL)
+                                .withOperator(Operators.EQUAL)
                                 .withExpression(e_string("c"))
                                 .out()
                         .out()

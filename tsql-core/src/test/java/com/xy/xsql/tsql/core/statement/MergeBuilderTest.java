@@ -1,10 +1,12 @@
-package com.xy.xsql.orm.core.sql.statements;
+package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
-import com.xy.xsql.orm.data.sql.expression.NumberString;
+import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 
 /**
  * Created by xiaoyao9184 on 2017/1/11.
@@ -31,17 +33,17 @@ public class MergeBuilderTest {
                 .withMergeSearchCondition()
                     .withPredicate()
                         .Operator()
-                        .withExpression(new NumberString(1))
-                        .withOperator(OperatorEnum.EQUAL)
-                        .withExpression(new NumberString(1))
+                        .withExpression(e_number(1))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e_number(1))
                         .out()
                     .withAndOrNotItem()
                         .withAnd()
                         .withPredicate()
                             .Operator()
-                            .withExpression(new NumberString(1))
-                            .withOperator(OperatorEnum.EQUAL)
-                            .withExpression(new NumberString(1))
+                            .withExpression(e_number(1))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(e_number(1))
                             .out()
                         .out()
                     .out()
@@ -60,11 +62,7 @@ public class MergeBuilderTest {
                 .withNotMatchedWhenThenTarget()
                     .withByTarget(true)
                     .withMergeNotMatched()
-                        .withColumnList()
-                            .withItem()
-                                .withName("c1")
-                                .out()
-                            .out()
+                        .withColumn(c("c1"))
                         .out()
                     .out()
                 .withNotMatchedWhenThenSourceList()
@@ -110,11 +108,7 @@ public class MergeBuilderTest {
                 .withNotMatchedWhenThenTarget()
                     .withByTarget(true)
                     .withMergeNotMatched()
-                        .withColumnList()
-                            .withItem()
-                                .withName("c1")
-                                .out()
-                            .out()
+                        .withColumn(c("c1"))
                         .out()
                     .out()
                 .withNotMatchedWhenThenSourceList()

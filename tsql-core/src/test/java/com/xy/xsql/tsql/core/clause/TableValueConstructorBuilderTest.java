@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.orm.core.sql.statements.SelectBuilder;
+import com.xy.xsql.tsql.core.statement.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
@@ -38,7 +38,15 @@ public class TableValueConstructorBuilderTest {
     }
 
     /**
+     *
+     *
+     *
+     *
      * ERROR
+     *
+     *
+     *
+     *
      VALUES ('Helmet', 25.50),
      ('Wheel', 30.00),
      (SELECT Name, ListPrice FROM Production.Product WHERE ProductID = 720);
@@ -54,34 +62,38 @@ public class TableValueConstructorBuilderTest {
         // @formatter:off
 
         Select select1 = new SelectBuilder()
-                .withSelectList()
-                    .withSelectItem().withColumnName("Name").out()
-                    .out()
-                .withFrom()
-                    .withTableSource().withTable("Production.Product")
-                    .out()
-                    .out()
-                .withWhere().withSearchCondition().withPredicate().Operator()
-                    .withExpression(e("ProductID"))
-                    .withOperator(OperatorEnum.EQUAL)
-                    .withExpression(e(720))
-                    .out().out().out()
+                .withQuery()
+                    .withSelectList()
+                        .withSelectItem().withColumnName("Name").out()
+                        .out()
+                    .withFrom()
+                        .withTableSource().withTable("Production.Product")
+                        .out()
+                        .out()
+                    .withWhere().withSearchCondition().withPredicate().Operator()
+                        .withExpression(e("ProductID"))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e(720))
+                        .out().out().out()
+                .out()
                 .build(null);
 
 
         Select select2 = new SelectBuilder()
-                .withSelectList()
-                    .withSelectItem().withColumnName("ListPrice").out()
-                    .out()
-                .withFrom()
-                    .withTableSource().withTable("Production.Product")
-                    .out()
-                    .out()
-                .withWhere().withSearchCondition().withPredicate().Operator()
-                    .withExpression(e("ProductID"))
-                    .withOperator(OperatorEnum.EQUAL)
-                    .withExpression(e(720))
-                    .out().out().out()
+                .withQuery()
+                    .withSelectList()
+                        .withSelectItem().withColumnName("ListPrice").out()
+                        .out()
+                    .withFrom()
+                        .withTableSource().withTable("Production.Product")
+                        .out()
+                        .out()
+                    .withWhere().withSearchCondition().withPredicate().Operator()
+                        .withExpression(e("ProductID"))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e(720))
+                        .out().out().out()
+                .out()
                 .build(null);
 
 
