@@ -24,26 +24,21 @@ public class ColumnDefinition
         implements TableTypeDefinition.Item {
 
     //<data_type>
+    //scalar_data_type
     private DataType dataType;
 
-    //TODO [ COLLATE <collation_definition> ]
-//        private CollationDefinition collationDefinition;
-    //TODO [ [ DEFAULT constant_expression ] | IDENTITY [ ( seed , increment ) ] ]
-
-    //[ FILESTREAM ]
+    //TODO [ FILESTREAM ]
     //[ COLLATE collation_name ]
+    //[ COLLATE <collation_definition> ]
     private Collate collationName;
     //[ SPARSE ]
     private boolean useSparse;
-    //[ MASKED WITH ( FUNCTION = ' mask_function ') ]
-    //[ CONSTRAINT constraint_name ] DEFAULT constant_expression ]
+    //TODO [ MASKED WITH ( FUNCTION = ' mask_function ') ]
+    //TODO [ CONSTRAINT constraint_name ] DEFAULT constant_expression ]
     private Expression constantExpression;
     //[ IDENTITY [ ( seed,increment ) ]
 
 
-    //[ NULL | NOT NULL ]
-    private boolean useNull;
-    private boolean useNotNull;
     //[ ROWGUIDCOL ]
     private boolean useRowGuidCol;
     //[ column_constraint ] [ ...n ]
@@ -63,6 +58,30 @@ public class ColumnDefinition
     @Deprecated
     public ColumnDefinition(String name, String type, Integer len) {
         super(name);
+    }
+
+    public DataType getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(DataType dataType) {
+        this.dataType = dataType;
+    }
+
+    public Collate getCollationName() {
+        return collationName;
+    }
+
+    public void setCollationName(Collate collationName) {
+        this.collationName = collationName;
+    }
+
+    public boolean isUseSparse() {
+        return useSparse;
+    }
+
+    public void setUseSparse(boolean useSparse) {
+        this.useSparse = useSparse;
     }
 
 

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static com.xy.xsql.core.ListBuilder.reverse;
 import static com.xy.xsql.core.ListBuilder.setter;
 
 /**
@@ -18,30 +19,27 @@ public class TableNameBuilder {
         return new TableName(name);
     }
 
-    @Deprecated
-    public static TableName t(String schemaName,String name){
-        TableName tableName = new TableName(name);
-        tableName.setSchemaName(schemaName);
-        return tableName;
-    }
+//    @Deprecated
+//    public static TableName t(String schemaName,String name){
+//        TableName tableName = new TableName(name);
+//        tableName.setSchemaName(schemaName);
+//        return tableName;
+//    }
 
+    /**
+     * like this [Server Name,][Database Name,][Schema Name,]Table Name
+     * @param name Max length is 4
+     * @return
+     */
     public static TableName t(String... name){
-        Iterator<String> reversedStream = Stream
-                .of(name)
-                .collect(Collectors.toCollection(LinkedList::new))
-                .descendingIterator();
-
-        List<String> listReversedOrder = StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(reversedStream,
-                        Spliterator.ORDERED), false).collect(
-                Collectors.toList());
+        List<String> listReversedOrder = reverse(name);
 
         TableName tableName = new TableName();
         setter(listReversedOrder,
                 tableName::setTableOrViewName,
                 tableName::setSchemaName,
                 tableName::setDatabaseName,
-                tableName::setDatabaseName);
+                tableName::setServerName);
 
         return tableName;
     }

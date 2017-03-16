@@ -1,11 +1,12 @@
 package com.xy.xsql.core;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by xiaoyao9184 on 2016/11/12.
@@ -68,6 +69,19 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
                 index[0]++;
             }
         });
+    }
+
+
+    public static <T> List<T> reverse(T... t){
+        Iterator<T> reversedStream = Stream
+                .of(t)
+                .collect(Collectors.toCollection(LinkedList::new))
+                .descendingIterator();
+
+        return StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(reversedStream,
+                        Spliterator.ORDERED), false).collect(
+                Collectors.toList());
     }
 
 }

@@ -285,7 +285,9 @@ public enum Keywords implements Block {
         //Output
         OUTPUT,
         //AtTimeZone
-        AT, TIME, ZONE;
+        AT, TIME, ZONE,
+        //TruncateTable
+        PARTITIONS;
 
         @Override
         public String toString(){

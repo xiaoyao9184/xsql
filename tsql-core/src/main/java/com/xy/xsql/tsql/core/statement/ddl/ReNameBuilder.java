@@ -4,6 +4,11 @@ import com.xy.xsql.core.BaseBuilder;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static com.xy.xsql.core.ListBuilder.reverse;
+import static com.xy.xsql.core.ListBuilder.setter;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 
 /**
@@ -38,21 +43,36 @@ public class ReNameBuilder implements BaseBuilder<Void,ReName> {
         return build();
     }
 
-    public static ReName rename_t(String tableName, String newName){
+
+    /**
+     * the last is new name
+     * @param name
+     * @return
+     */
+    public static ReName RENAME_TABLE(String... name){
+        String[] tableNames = Arrays.copyOfRange(name,0,name.length - 1);
+
+        return new ReNameBuilder()
+                .withTableName(t(tableNames))
+                .withNewName(name[name.length-1])
+                .build();
+    }
+
+    public static ReName RENAME_TABLE(String tableName, String newName){
         return new ReNameBuilder()
                 .withTableName(t(tableName))
                 .withNewName(newName)
                 .build();
     }
 
-    public static ReName rename_t(TableName tableName, String newName){
+    public static ReName RENAME_TABLE(TableName tableName, String newName){
         return new ReNameBuilder()
                 .withTableName(tableName)
                 .withNewName(newName)
                 .build();
     }
 
-    public static ReName rename_db(String dbName, String newName){
+    public static ReName RENAME_DATABASE(String dbName, String newName){
         return new ReNameBuilder()
                 .withDBName(dbName)
                 .withNewName(newName)
