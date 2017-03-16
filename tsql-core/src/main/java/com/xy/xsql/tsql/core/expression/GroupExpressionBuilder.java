@@ -4,6 +4,8 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
 import com.xy.xsql.tsql.model.operator.*;
 
+import java.util.Arrays;
+
 /**
  *
  * expression { binary_operator } expression
@@ -11,11 +13,16 @@ import com.xy.xsql.tsql.model.operator.*;
  */
 public class GroupExpressionBuilder {
 
-    public static Expression e_binary(Expression leftExpression, Operator operator, Expression rightExpression){
+    public static Expression e_binary(Expression leftExpression, Operator operator, Expression... rightExpression){
         GroupExpression groupExpression = new GroupExpression();
         groupExpression.setOperator(operator);
         groupExpression.setExpressionLeft(leftExpression);
-        groupExpression.setExpressionRight(rightExpression);
+        groupExpression.setExpressionRight(rightExpression[0]);
+        if(rightExpression.length > 1){
+            Expression[] newRight = Arrays.copyOfRange(rightExpression,1,rightExpression.length);
+            return e_binary(groupExpression,operator,newRight);
+        }
+
         return groupExpression;
     }
 

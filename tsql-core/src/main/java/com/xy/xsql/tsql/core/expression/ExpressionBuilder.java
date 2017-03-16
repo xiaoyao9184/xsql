@@ -82,4 +82,29 @@ public class ExpressionBuilder {
 //    public static Expression e(ElementList elementList){
 //        return new ElementExpression(elementList);
 //    }
+
+
+    /**
+     * Coalesce
+     * @param expression
+     * @return
+     */
+    public static Expression e_coalesce(Expression... expression){
+        return new CoalesceBuilder<Void>()
+                .withExpression(expression)
+                .build();
+    }
+
+    /**
+     * NullIf
+     * @param expressionLeft
+     * @param expressionRight
+     * @return
+     */
+    public static Expression e_nullif(Expression expressionLeft, Expression expressionRight){
+        return new NullIfBuilder<Void>()
+                .withExpression(expressionLeft)
+                .withExpression(expressionRight)
+                .build();
+    }
 }

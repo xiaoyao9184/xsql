@@ -36,17 +36,11 @@ public class Coalesce implements Expression {
 
     @Override
     public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE)
+        return new ListBlockBuilder()
                 .append(Keywords.COALESCE)
-                .append(Other.GROUP_START);
-        int i = 0;
-        for (Expression expression: expressionList) {
-            b.append(i==0 ? null : Other.DELIMITER)
-                    .append(expression);
-            i++;
-        }
-        b.append(Other.GROUP_END);
-        return b.build();
+                .append(Other.GROUP_START)
+                .append(expressionList)
+                .append(Other.GROUP_END)
+                .build();
     }
 }
