@@ -21,35 +21,35 @@ import java.util.List;
 public class NullIf implements Expression {
 
     //
-    private Expression expression;
-    private Expression expression2;
+    private Expression expressionLeft;
+    private Expression expressionRight;
 
 
-    public Expression getExpression() {
-        return expression;
+    public Expression getExpressionLeft() {
+        return expressionLeft;
     }
 
-    public void setExpression(Expression expression) {
-        this.expression = expression;
+    public void setExpressionLeft(Expression expressionLeft) {
+        this.expressionLeft = expressionLeft;
     }
 
-    public Expression getExpression2() {
-        return expression2;
+    public Expression getExpressionRight() {
+        return expressionRight;
     }
 
-    public void setExpression2(Expression expression2) {
-        this.expression2 = expression2;
+    public void setExpressionRight(Expression expressionRight) {
+        this.expressionRight = expressionRight;
     }
 
 
     @Override
     public List<Block> toBlockList() {
         ListBlockBuilder b = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE)
                 .append(Keywords.NULLIF)
                 .append(Other.GROUP_START)
-                .append(getExpression())
-                .append(getExpression2())
+                .append(expressionLeft)
+                .append(Other.DELIMITER)
+                .append(expressionRight)
                 .append(Other.GROUP_END);
         return b.build();
     }
