@@ -84,6 +84,27 @@ public class ExpressionBuilder {
 //    }
 
 
+
+    /**
+     * AtTimeZone
+     * @param expression
+     * @return
+     */
+    public static Expression e_at_time_zone(Expression expression,String timeZone){
+        return new AtTimeZoneBuilder<Void>()
+                .withExpression(expression)
+                .withTimezone(timeZone)
+                .build();
+    }
+
+    /**
+     * Case
+     * @return
+     */
+    public static CaseBuilder<Void> e_case(){
+        return new CaseBuilder<>();
+    }
+
     /**
      * Coalesce
      * @param expression

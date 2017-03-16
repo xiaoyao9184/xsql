@@ -277,7 +277,9 @@ public enum Keywords implements Block {
         //OrderBy
         ROWS, NEXT, ONLY,
         //Output
-        OUTPUT;
+        OUTPUT,
+        //AtTimeZone
+        AT, TIME, ZONE;
 
         @Override
         public String toString(){

@@ -72,7 +72,10 @@ TODO
 
 |  | 支持程度 |
 | ----- | ----- |
-| CASE
+| AT TIME ZONE | YES |
+| CASE | YES
+| Coalesce | YES |
+| NullIf | YES |
  
 ## Language Elements
 
