@@ -1,15 +1,9 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.tsql.core.clause.OptionBuilder;
-import com.xy.xsql.tsql.model.clause.Option;
-import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
-import com.xy.xsql.tsql.model.expression.NumberExpression;
+import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.FAST;
-import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.HASH_GROUP;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -24,10 +18,10 @@ public class GroupByBuilderTest {
         GroupBy groupBy = new GroupByBuilder<GroupBy>()
                 .withGroupList()
                     .withBaseItem()
-                        .withColumnExpression(new NumberExpression(1))
+                        .withColumnExpression(new NumberConstant(1))
                         .out()
                     .withBaseItem()
-                        .withColumnExpression(new NumberExpression(2))
+                        .withColumnExpression(new NumberConstant(2))
                         .out()
                     .out()
                 .build();
@@ -44,23 +38,23 @@ public class GroupByBuilderTest {
         GroupBy groupBy = new GroupByBuilder<GroupBy>()
                 .withGroupList()
                     .withBaseItem()
-                        .withColumnExpression(new NumberExpression(1))
+                        .withColumnExpression(new NumberConstant(1))
                         .out()
                     .withRollupItem()
                         .withGroupByExpressionList()
                             .withGroupByExpression()
-                                .withColumnExpression(new NumberExpression(2))
+                                .withColumnExpression(new NumberConstant(2))
                                 .out()
                             .withGroupByExpression()
-                                .withColumnExpression(new NumberExpression(3))
-                                .withColumnExpression(new NumberExpression(4))
+                                .withColumnExpression(new NumberConstant(3))
+                                .withColumnExpression(new NumberConstant(4))
                                 .out()
                             .out()
                         .out()
                     .withCubeItem()
                         .withGroupByExpressionList()
                             .withGroupByExpression()
-                                .withColumnExpression(new NumberExpression(5))
+                                .withColumnExpression(new NumberConstant(5))
                                 .out()
                             .out()
                         .out()
@@ -70,13 +64,13 @@ public class GroupByBuilderTest {
                                 .withGroupingSetItemList()
                                     .withGroupingSetItem()
                                         .withGroupByExpression()
-                                            .withColumnExpression(new NumberExpression(6))
+                                            .withColumnExpression(new NumberConstant(6))
                                             .out()
                                         .out()
                                     .withGroupingSetItem()
                                         .withCubeGroupByExpressionList()
                                             .withGroupByExpression()
-                                                .withColumnExpression(new NumberExpression(7))
+                                                .withColumnExpression(new NumberConstant(7))
                                                 .out()
                                             .out()
                                         .out()

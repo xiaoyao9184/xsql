@@ -323,10 +323,10 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
 
-
+    //TODO Move to arent package
     /**
      *
-     * @param <ParentBuilder>
+     * @param <ParentBuilder>p
      */
     public static class PredicateBuilder<ParentBuilder>
             extends CodeTreeBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,Predicate> {
@@ -396,6 +396,7 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
+     * TODO change named
      * expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
      * @param <ParentBuilder>
      */

@@ -19,6 +19,11 @@ public class KeywordExpression implements Expression {
     }
 
     @Override
+    public String toString() {
+        return keywords.toString();
+    }
+
+    @Override
     public List<Block> toBlockList() {
         return new ListBlockBuilder()
                 .append(this)

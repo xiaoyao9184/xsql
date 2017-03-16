@@ -1,6 +1,7 @@
-package com.xy.xsql.tsql.model.expression;
+package com.xy.xsql.tsql.model.datatype;
 
 import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
@@ -8,11 +9,11 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/11/13.
  */
-public class NumberExpression implements Expression {
+public class NumberConstant implements Expression {
 
     private Number number;
 
-    public NumberExpression(Number number){
+    public NumberConstant(Number number){
         this.number = number;
     }
 

@@ -43,9 +43,33 @@ public class Case implements Expression {
     //[ ELSE else_result_expression ]
     private Expression elseResultExpression;
 
+    public Expression getInputExpression() {
+        return inputExpression;
+    }
 
-    public Case withCaseExpression(Expression caseExpression) {
-        this.inputExpression = caseExpression;
+    public void setInputExpression(Expression inputExpression) {
+        this.inputExpression = inputExpression;
+    }
+
+    public List<WhenThenExpression> getWhenThenExpressionList() {
+        return whenThenExpressionList;
+    }
+
+    public void setWhenThenExpressionList(List<WhenThenExpression> whenThenExpressionList) {
+        this.whenThenExpressionList = whenThenExpressionList;
+    }
+
+    public Expression getElseResultExpression() {
+        return elseResultExpression;
+    }
+
+    public void setElseResultExpression(Expression elseResultExpression) {
+        this.elseResultExpression = elseResultExpression;
+    }
+
+
+    public Case withInputExpression(Expression inputExpression) {
+        this.inputExpression = inputExpression;
         return this;
     }
 
@@ -57,7 +81,7 @@ public class Case implements Expression {
         return this;
     }
 
-    public Case withElseExpression(Expression elseExpression) {
+    public Case withElseResultExpression(Expression elseExpression) {
         this.elseResultExpression = elseExpression;
         return this;
     }
@@ -89,14 +113,30 @@ public class Case implements Expression {
         private Expression whenExpression;
         private Expression resultExpression;
 
+        public Expression getWhenExpression() {
+            return whenExpression;
+        }
 
-        public WhenThenExpression withWhenElment(Expression whenElment) {
-            this.whenExpression = whenElment;
+        public void setWhenExpression(Expression whenExpression) {
+            this.whenExpression = whenExpression;
+        }
+
+        public Expression getResultExpression() {
+            return resultExpression;
+        }
+
+        public void setResultExpression(Expression resultExpression) {
+            this.resultExpression = resultExpression;
+        }
+
+
+        public WhenThenExpression withWhenExpression(Expression whenExpression) {
+            this.whenExpression = whenExpression;
             return this;
         }
 
-        public WhenThenExpression withThenElment(Expression thenElment) {
-            this.resultExpression = thenElment;
+        public WhenThenExpression withThenExpression(Expression resultExpression) {
+            this.resultExpression = resultExpression;
             return this;
         }
 

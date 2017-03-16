@@ -57,9 +57,22 @@ TODO
 ## EXECUTE 
 
 ## Expressions
-Must
+| Type | 支持程度 |
+| ----- | ----- |
+| constant | String,Number |
+| scalar_function  |  |
+| [ table_name. ] column | table_name NOT alias |
+| variable | YES |
+| ( expression ) | |
+| ( scalar_subquery ) | SELECT |
+| { unary_operator } expression |
+| expression { binary_operator } expression | YES |
+| ranking_windowed_function
+| aggregate_windowed_function 
 
-CASE
+|  | 支持程度 |
+| ----- | ----- |
+| CASE
  
 ## Language Elements
 
