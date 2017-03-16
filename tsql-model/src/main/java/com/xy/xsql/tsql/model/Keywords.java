@@ -1,5 +1,11 @@
 package com.xy.xsql.tsql.model;
 
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.Unknown;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
@@ -270,7 +276,7 @@ public enum Keywords implements Block {
         PARTITION,
         //Merge
         MATCHED, TARGET,USING,
-        //ReName
+        //ReNameTable
         RENAME, OBJECT,
         //QueryHint
         UNKNOWN,
@@ -285,5 +291,26 @@ public enum Keywords implements Block {
         public String toString(){
             return name();
         }
+    }
+
+    /**
+     * keyword + keyword
+     * @param keywords
+     * @return
+     */
+    public static Unknown k(Keywords... keywords){
+        String b = String.valueOf(Arrays.stream(keywords)
+                .map(Keywords::toString)
+                .collect(Collectors.toList()));
+
+        return new Unknown(b);
+    }
+
+    public static Unknown k(Other other, Keywords... keywords){
+        String b = String.valueOf(Arrays.stream(keywords)
+                .map(Keywords::toString)
+                .collect(Collectors.joining(other.toString())));
+
+        return new Unknown(b);
     }
 }

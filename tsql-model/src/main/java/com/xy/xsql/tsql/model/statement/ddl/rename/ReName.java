@@ -1,9 +1,9 @@
-package com.xy.xsql.tsql.model.statement.ddl;
+package com.xy.xsql.tsql.model.statement.ddl.rename;
 
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.Statement;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
@@ -36,8 +36,17 @@ import java.util.List;
  */
 public class ReName implements Statement {
 
+    private String dbName;
     private TableName tableName;
-    private String newTableName;
+    private String newName;
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
 
     public TableName getTableName() {
         return tableName;
@@ -47,24 +56,23 @@ public class ReName implements Statement {
         this.tableName = tableName;
     }
 
-    public String getNewTableName() {
-        return newTableName;
+    public String getNewName() {
+        return newName;
     }
 
-    public void setNewTableName(String newTableName) {
-        this.newTableName = newTableName;
+    public void setNewName(String newName) {
+        this.newName = newName;
     }
 
 
     @Override
     public List<Block> toBlockList() {
         ListBlockBuilder builder = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE)
                 .append(Keywords.Key.RENAME)
-                .append(Keywords.Key.OBJECT)
-                .append(tableName)
+                .append(dbName == null ? Keywords.Key.OBJECT : Keywords.DATABASE)
+                .append(dbName == null ? tableName : new Unknown(dbName))
                 .append(Keywords.TO)
-                .append(newTableName);
+                .append(newName);
 
         return builder.build();
     }

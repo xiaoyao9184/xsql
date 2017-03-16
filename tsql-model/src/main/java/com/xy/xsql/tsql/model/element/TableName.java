@@ -34,6 +34,10 @@ public class TableName
         this.tableOrViewName = tableName;
     }
 
+    public TableName() {
+
+    }
+
     public String getServerName() {
         return serverName;
     }

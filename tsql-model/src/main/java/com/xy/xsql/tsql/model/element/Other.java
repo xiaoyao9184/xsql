@@ -9,7 +9,8 @@ public enum Other implements Block {
     SPACE(" "),
     DELIMITER(","),
     GROUP_START("("),
-    GROUP_END(")");
+    GROUP_END(")"),
+    __("_");
 
     private String string;
 

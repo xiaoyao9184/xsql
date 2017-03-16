@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 /**
  * Created by xiaoyao9184 on 2016/11/12.
@@ -58,4 +59,15 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
 
         return t;
     }
+
+    public static <T> void setter(final Collection<T> t, final Setter<T>... setter) {
+        final int[] index = {0};
+        t.forEach((a)->{
+            if(setter.length > index[0]){
+                setter[index[0]].set(a);
+                index[0]++;
+            }
+        });
+    }
+
 }
