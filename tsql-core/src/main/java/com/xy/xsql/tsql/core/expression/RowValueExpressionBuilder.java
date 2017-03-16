@@ -12,7 +12,7 @@ import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
  */
 public class RowValueExpressionBuilder {
 
-    public static RowValueExpression rve(String stringExpression,boolean nchar){
+    public static RowValueExpression e_rv(String stringExpression, boolean nchar){
         RowValueExpression rowValueExpression = new RowValueExpression();
         if(nchar){
             rowValueExpression.setExpression(e_n_string(stringExpression));
@@ -22,32 +22,32 @@ public class RowValueExpressionBuilder {
         return rowValueExpression;
     }
 
-    public static RowValueExpression rve(String stringExpression){
+    public static RowValueExpression e_rv(String stringExpression){
         RowValueExpression rowValueExpression = new RowValueExpression();
         rowValueExpression.setExpression(e_string(stringExpression));
         return rowValueExpression;
     }
 
-    public static RowValueExpression rve(Number numberExpression){
+    public static RowValueExpression e_rv(Number numberExpression){
         RowValueExpression rowValueExpression = new RowValueExpression();
         rowValueExpression.setExpression(e_number(numberExpression));
         return rowValueExpression;
     }
 
-    public static RowValueExpression rve(Select select){
+    public static RowValueExpression e_rv(Select select){
         RowValueExpression rowValueExpression = new RowValueExpression();
         rowValueExpression.setSelect(select);
         return rowValueExpression;
     }
 
 
-    public static RowValueExpression rve_null(){
+    public static RowValueExpression e_rv_null(){
         RowValueExpression rowValueExpression = new RowValueExpression();
         rowValueExpression.setUseNull(true);
         return rowValueExpression;
     }
 
-    public static RowValueExpression rve_default(){
+    public static RowValueExpression e_rv_default(){
         RowValueExpression rowValueExpression = new RowValueExpression();
         rowValueExpression.setUseDefault(true);
         return rowValueExpression;

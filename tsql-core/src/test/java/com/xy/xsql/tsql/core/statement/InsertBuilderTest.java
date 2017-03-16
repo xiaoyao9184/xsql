@@ -1,11 +1,12 @@
 package com.xy.xsql.tsql.core.statement;
 
+import com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.rve;
+import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
 
 /**
  * Created by xiaoyao9184 on 2017/1/7.
@@ -23,8 +24,8 @@ public class InsertBuilderTest {
                 .withColumn(c("c2"))
                 .withValues()
                     .withRowValues()
-                        .withRowValueExpression(rve(1))
-                        .withRowValueExpression(rve(2))
+                        .withRowValueExpression(e_rv(1))
+                        .withRowValueExpression(e_rv(2))
                         .out()
                     .out()
                 .build(null);
@@ -45,8 +46,8 @@ public class InsertBuilderTest {
                 .withColumn(c("c2"))
                 .withValues()
                     .withRowValues()
-                        .withRowValueExpression(rve(1))
-                        .withRowValueExpression(rve(2))
+                        .withRowValueExpression(e_rv(1))
+                        .withRowValueExpression(e_rv(2))
                         .out()
                     .out()
                 .build(null);

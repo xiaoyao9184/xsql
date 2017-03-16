@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.AND;
+import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_and;
 import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_binary;
 
 
@@ -74,13 +74,13 @@ public class CaseBuilderTest {
                 .withWhen(e_binary(e("ListPrice"),Operators.LESS,e_number(50)),
                         e_string("Under $50"))
                 .withWhen(
-                        AND(
+                        e_and(
                             e_binary(e("ListPrice"),Operators.GREATER_EQUAL,e_number(50)),
                             e_binary(e("ListPrice"),Operators.LESS,e_number(250))
                         ),
                         e_string("Under $250"))
                 .withWhen(
-                        AND(
+                        e_and(
                             e_binary(e("ListPrice"),Operators.GREATER_EQUAL,e_number(250)),
                             e_binary(e("ListPrice"),Operators.LESS,e_number(1000))
                         ),

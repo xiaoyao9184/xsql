@@ -1,12 +1,13 @@
 package com.xy.xsql.tsql.core.statement;
 
+import com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.rve;
+import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
@@ -152,24 +153,24 @@ public class SelectBuilderTest {
                     .withTableSource()
                         .withDerivedTable().values()
                             .withRowValues()
-                                .withRowValueExpression(rve(1))
-                                .withRowValueExpression(rve(2))
+                                .withRowValueExpression(e_rv(1))
+                                .withRowValueExpression(e_rv(2))
                                 .out()
                             .withRowValues()
-                                .withRowValueExpression(rve(3))
-                                .withRowValueExpression(rve(4))
+                                .withRowValueExpression(e_rv(3))
+                                .withRowValueExpression(e_rv(4))
                                 .out()
                             .withRowValues()
-                                .withRowValueExpression(rve(5))
-                                .withRowValueExpression(rve(6))
+                                .withRowValueExpression(e_rv(5))
+                                .withRowValueExpression(e_rv(6))
                                 .out()
                             .withRowValues()
-                                .withRowValueExpression(rve(7))
-                                .withRowValueExpression(rve(8))
+                                .withRowValueExpression(e_rv(7))
+                                .withRowValueExpression(e_rv(8))
                                 .out()
                             .withRowValues()
-                                .withRowValueExpression(rve(9))
-                                .withRowValueExpression(rve(10))
+                                .withRowValueExpression(e_rv(9))
+                                .withRowValueExpression(e_rv(10))
                                 .out()
                             .out()
                         .out()

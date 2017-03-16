@@ -9,7 +9,7 @@ import static com.xy.xsql.tsql.core.clause.OutputBuilder.inserted_c;
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.SUBTRACTION;
+import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_subtraction;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -179,7 +179,7 @@ public class OutputBuilderTest {
                     .and()
                 .withDmlSelect()
                     .withScalarExpression(
-                                SUBTRACTION(
+                                e_subtraction(
                                         inserted_c("VacationHours"),
                                         deleted_c("VacationHours")
                                 ))
@@ -224,7 +224,7 @@ public class OutputBuilderTest {
                     .and()
                 .withDmlSelect()
                     .withScalarExpression(
-                            SUBTRACTION(
+                            e_subtraction(
                                     inserted_c("VacationHours"),
                                     inserted_c("VacationHours")
                             ))

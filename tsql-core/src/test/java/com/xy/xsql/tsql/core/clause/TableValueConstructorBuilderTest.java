@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.core.clause;
 
+import com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder;
 import com.xy.xsql.tsql.core.statement.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.operator.Operators;
@@ -8,9 +9,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.rve;
-import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.rve_default;
-import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.rve_null;
+import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
+import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv_default;
+import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv_null;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -26,12 +27,12 @@ public class TableValueConstructorBuilderTest {
         // @formatter:off
         TableValueConstructor TableValueConstructor = new TableValueConstructorBuilder<Void>()
                 .withRowValues()
-                    .withRowValueExpression(rve("Helmet"))
-                    .withRowValueExpression(rve(25.50))
+                    .withRowValueExpression(e_rv("Helmet"))
+                    .withRowValueExpression(e_rv(25.50))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Wheel"))
-                    .withRowValueExpression(rve(30.00))
+                    .withRowValueExpression(e_rv("Wheel"))
+                    .withRowValueExpression(e_rv(30.00))
                     .and()
                 .build();
         // @formatter:on
@@ -102,16 +103,16 @@ public class TableValueConstructorBuilderTest {
 
         TableValueConstructor TableValueConstructor = new TableValueConstructorBuilder<Void>()
                 .withRowValues()
-                    .withRowValueExpression(rve("Helmet"))
-                    .withRowValueExpression(rve(25.50))
+                    .withRowValueExpression(e_rv("Helmet"))
+                    .withRowValueExpression(e_rv(25.50))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Wheel"))
-                    .withRowValueExpression(rve(30.00))
+                    .withRowValueExpression(e_rv("Wheel"))
+                    .withRowValueExpression(e_rv(30.00))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve(select1))
-                    .withRowValueExpression(rve(select2))
+                    .withRowValueExpression(e_rv(select1))
+                    .withRowValueExpression(e_rv(select2))
                     .and()
                 .build();
         // @formatter:on
@@ -130,19 +131,19 @@ public class TableValueConstructorBuilderTest {
         // @formatter:off
         TableValueConstructor tableValueConstructor = new TableValueConstructorBuilder<Void>()
                 .withRowValues()
-                    .withRowValueExpression(rve("FT2",true))
-                    .withRowValueExpression(rve("Square Feet ",true))
-                    .withRowValueExpression(rve("20080923"))
+                    .withRowValueExpression(e_rv("FT2",true))
+                    .withRowValueExpression(e_rv("Square Feet ",true))
+                    .withRowValueExpression(e_rv("20080923"))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Y",true))
-                    .withRowValueExpression(rve("Yards",true))
-                    .withRowValueExpression(rve("20080923"))
+                    .withRowValueExpression(e_rv("Y",true))
+                    .withRowValueExpression(e_rv("Yards",true))
+                    .withRowValueExpression(e_rv("20080923"))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Y3",true))
-                    .withRowValueExpression(rve("Cubic Yards",true))
-                    .withRowValueExpression(rve("20080923"))
+                    .withRowValueExpression(e_rv("Y3",true))
+                    .withRowValueExpression(e_rv("Cubic Yards",true))
+                    .withRowValueExpression(e_rv("20080923"))
                     .and()
                 .build();
         // @formatter:on
@@ -170,16 +171,16 @@ public class TableValueConstructorBuilderTest {
         // @formatter:off
         TableValueConstructor tableValueConstructor = new TableValueConstructorBuilder<Void>()
                 .withRowValues()
-                    .withRowValueExpression(rve("Recommendation"))
-                    .withRowValueExpression(rve("Other"))
+                    .withRowValueExpression(e_rv("Recommendation"))
+                    .withRowValueExpression(e_rv("Other"))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Advertisement"))
-                    .withRowValueExpression(rve_default())
+                    .withRowValueExpression(e_rv("Advertisement"))
+                    .withRowValueExpression(e_rv_default())
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve_null())
-                    .withRowValueExpression(rve("Promotion"))
+                    .withRowValueExpression(e_rv_null())
+                    .withRowValueExpression(e_rv("Promotion"))
                     .and()
                 .build();
         // @formatter:on
@@ -203,13 +204,13 @@ public class TableValueConstructorBuilderTest {
         // @formatter:off
         TableValueConstructor tableValueConstructor = new TableValueConstructorBuilder<Void>()
                 .withRowValues()
-                    .withRowValueExpression(rve("Blade"))
+                    .withRowValueExpression(e_rv("Blade"))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Crown Race"))
+                    .withRowValueExpression(e_rv("Crown Race"))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("AWC Logo Cap"))
+                    .withRowValueExpression(e_rv("AWC Logo Cap"))
                     .and()
                 .build();
         // @formatter:on
@@ -231,16 +232,16 @@ public class TableValueConstructorBuilderTest {
         // @formatter:off
         TableValueConstructor tableValueConstructor = new TableValueConstructorBuilder<Void>()
                 .withRowValues()
-                    .withRowValueExpression(rve("Recommendation"))
-                    .withRowValueExpression(rve("Other"))
+                    .withRowValueExpression(e_rv("Recommendation"))
+                    .withRowValueExpression(e_rv("Other"))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Review"))
-                    .withRowValueExpression(rve("Marketing"))
+                    .withRowValueExpression(e_rv("Review"))
+                    .withRowValueExpression(e_rv("Marketing"))
                     .and()
                 .withRowValues()
-                    .withRowValueExpression(rve("Internet"))
-                    .withRowValueExpression(rve("Promotion"))
+                    .withRowValueExpression(e_rv("Internet"))
+                    .withRowValueExpression(e_rv("Promotion"))
                     .and()
                 .build();
         // @formatter:on
