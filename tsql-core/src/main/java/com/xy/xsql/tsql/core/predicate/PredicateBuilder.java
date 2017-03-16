@@ -59,10 +59,10 @@ public class PredicateBuilder<ParentBuilder>
         return new InPredicateBuilder<ParentBuilder>(predicate).in(out());
     }
 
-    public ASAPredicateBuilder<ParentBuilder> All_Some_Any(){
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> All_Some_Any(){
         ComparisonSubQuery predicate = new ComparisonSubQuery();
         tar = predicate;
-        return new ASAPredicateBuilder<ParentBuilder>(predicate).in(out());
+        return new ComparisonSubQueryPredicateBuilder<ParentBuilder>(predicate).in(out());
     }
 
     public ExistsPredicateBuilder<ParentBuilder> Exists(){

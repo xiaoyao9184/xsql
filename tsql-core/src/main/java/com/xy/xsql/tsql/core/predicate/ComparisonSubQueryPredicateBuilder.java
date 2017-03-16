@@ -12,33 +12,33 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
  * expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } { ALL | SOME | ANY} ( subquery )
  * @param <ParentBuilder>
  */
-public class ASAPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ASAPredicateBuilder<ParentBuilder>,ParentBuilder,ComparisonSubQuery> {
+public class ComparisonSubQueryPredicateBuilder<ParentBuilder>
+        extends CodeTreeBuilder<ComparisonSubQueryPredicateBuilder<ParentBuilder>,ParentBuilder,ComparisonSubQuery> {
 
-    public ASAPredicateBuilder() {
+    public ComparisonSubQueryPredicateBuilder() {
         super(new ComparisonSubQuery());
     }
 
-    public ASAPredicateBuilder(ComparisonSubQuery predicate) {
+    public ComparisonSubQueryPredicateBuilder(ComparisonSubQuery predicate) {
         super(predicate);
     }
 
-    public ASAPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         tar.setExpression(expression);
         return this;
     }
 
-    public ASAPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
         tar.setOperator(operator);
         return this;
     }
 
-    public ASAPredicateBuilder<ParentBuilder> withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY oneOf) {
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY oneOf) {
         tar.setAll_some_any(oneOf);
         return this;
     }
 
-    public ASAPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
         tar.setSubquery(subquery);
         return this;
     }
@@ -59,7 +59,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.EQUAL)
@@ -68,7 +68,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate NOT_EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.NOT_EQUAL)
@@ -77,7 +77,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate NOT_EQUAL_NOT_ISO(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.NOT_EQUAL_NOT_ISO)
@@ -86,7 +86,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate GREATER(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.GREATER)
@@ -95,7 +95,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate GREATER_EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.GREATER_EQUAL)
@@ -104,7 +104,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate NOT_GREATER_NOT_ISO(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.NOT_GREATER_NOT_ISO)
@@ -113,7 +113,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate LESS(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.LESS)
@@ -122,7 +122,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate LESS_EQUAL(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.LESS_EQUAL)
@@ -131,7 +131,7 @@ public class ASAPredicateBuilder<ParentBuilder>
     }
 
     public static Predicate NOT_LESS_NOT_ISO(Expression left, ComparisonSubQuery.ALL_SOME_ANY oneOf, Select subquery){
-        return new ASAPredicateBuilder<Void>()
+        return new ComparisonSubQueryPredicateBuilder<Void>()
                 .withALL_SOME_ANY(oneOf)
                 .withExpression(left)
                 .withOperator(Operators.NOT_LESS_NOT_ISO)
