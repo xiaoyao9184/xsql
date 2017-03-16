@@ -47,9 +47,14 @@ public class ContainsPredicateBuilder<ParentBuilder>
         return this;
     }
 
+    public ContainsPredicateBuilder<ParentBuilder> withProperty(String columnName, String propertyName) {
+        tar.setPropertyColumnName(c(columnName));
+        tar.setPropertyName(e_string(propertyName));
+        return this;
+    }
+
     public ContainsPredicateBuilder<ParentBuilder> withContainsSearchCondition(String containsSearchCondition) {
         tar.setContainsSearchCondition(e_string(containsSearchCondition));
         return this;
     }
-
 }

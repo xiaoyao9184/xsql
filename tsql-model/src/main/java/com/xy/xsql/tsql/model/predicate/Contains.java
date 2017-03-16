@@ -28,6 +28,8 @@ public class Contains implements Predicate {
     private List<ColumnName> columnList;
     private boolean useAllColumn;
     //TODO
+    private ColumnName propertyColumnName;
+    private StringConstant propertyName;
 
     //TODO
     private StringConstant containsSearchCondition;
@@ -54,6 +56,22 @@ public class Contains implements Predicate {
 
     public void setUseAllColumn(boolean useAllColumn) {
         this.useAllColumn = useAllColumn;
+    }
+
+    public ColumnName getPropertyColumnName() {
+        return propertyColumnName;
+    }
+
+    public void setPropertyColumnName(ColumnName propertyColumnName) {
+        this.propertyColumnName = propertyColumnName;
+    }
+
+    public StringConstant getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(StringConstant propertyName) {
+        this.propertyName = propertyName;
     }
 
     public StringConstant getContainsSearchCondition() {
