@@ -1,6 +1,5 @@
-package com.xy.xsql.tsql.core.epression;
+package com.xy.xsql.tsql.core.expression;
 
-import com.xy.xsql.tsql.core.expression.CaseBuilder;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Case;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
