@@ -7,10 +7,13 @@ package com.xy.xsql.tsql.core.predicate;
 import com.xy.xsql.core.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.predicate.Between;
-import com.xy.xsql.tsql.model.predicate.Predicate;
 
 /**
- * expression [ NOT ] BETWEEN expression AND expression
+ * Created by xiaoyao9184 on 2017/3/16.
+ *
+ * BetweenPredicateBuilder
+ *
+ * @see Between
  * @param <ParentBuilder>
  */
 public class BetweenPredicateBuilder<ParentBuilder>
@@ -40,26 +43,9 @@ public class BetweenPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public BetweenPredicateBuilder<ParentBuilder> withNot(boolean useNot) {
-        tar.setUseNotOperator(useNot);
+    public BetweenPredicateBuilder<ParentBuilder> withNot() {
+        tar.setUseNotOperator(true);
         return this;
     }
 
-
-    public static Predicate BETWEEN(Expression left, Expression start, Expression end){
-        return new BetweenPredicateBuilder<Void>()
-                .withExpression(left)
-                .withExpression(start)
-                .withExpression(end)
-                .build();
-    }
-
-    public static Predicate NOT_BETWEEN(Expression left,Expression start,Expression end){
-        return new BetweenPredicateBuilder<Void>()
-                .withNot(true)
-                .withExpression(left)
-                .withExpression(start)
-                .withExpression(end)
-                .build();
-    }
 }

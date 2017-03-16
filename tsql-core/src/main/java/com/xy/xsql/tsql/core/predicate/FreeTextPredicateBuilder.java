@@ -12,7 +12,10 @@ import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.
- * FREETEXT ( { column | * } , 'freetext_string' )
+ *
+ * FreeTextPredicateBuilder
+ *
+ * @see FreeText
  * @param <ParentBuilder>
  */
 public class FreeTextPredicateBuilder<ParentBuilder>
@@ -48,6 +51,5 @@ public class FreeTextPredicateBuilder<ParentBuilder>
         tar.setFreetextString(e_string(freetextString));
         return this;
     }
-
 
 }

@@ -3,11 +3,13 @@ package com.xy.xsql.tsql.core.predicate;
 import com.xy.xsql.core.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.predicate.IsNull;
-import com.xy.xsql.tsql.model.predicate.Predicate;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.
- * expression IS [ NOT ] NULL
+ *
+ * IsNullPredicateBuilder
+ *
+ * @see IsNull
  * @param <ParentBuilder>
  */
 public class IsNullPredicateBuilder<ParentBuilder>
@@ -26,21 +28,9 @@ public class IsNullPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public IsNullPredicateBuilder<ParentBuilder> withNot(boolean useNot) {
-        tar.setUseNotOperator(useNot);
+    public IsNullPredicateBuilder<ParentBuilder> withNot() {
+        tar.setUseNotOperator(true);
         return this;
     }
 
-    public static Predicate IS_NULL(Expression left){
-        return new IsNullPredicateBuilder<Void>()
-                .withExpression(left)
-                .build();
-    }
-
-    public static Predicate IS_NOT_NULL(Expression left){
-        return new IsNullPredicateBuilder<Void>()
-                .withExpression(left)
-                .withNot(true)
-                .build();
-    }
 }

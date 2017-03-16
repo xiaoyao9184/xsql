@@ -12,7 +12,10 @@ import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.
- * CONTAINS ( { column | * } , '< contains_search_condition >' )
+ *
+ * ContainsPredicateBuilder
+ *
+ * @see Contains
  * @param <ParentBuilder>
  */
 public class ContainsPredicateBuilder<ParentBuilder>
@@ -48,4 +51,5 @@ public class ContainsPredicateBuilder<ParentBuilder>
         tar.setContainsSearchCondition(e_string(containsSearchCondition));
         return this;
     }
+
 }

@@ -6,9 +6,9 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.IsNullPredicateBuilder.IS_NOT_NULL;
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_is_not_null;
 
 /**
  * TODO not done
@@ -47,7 +47,7 @@ public class WithBuilderTest {
                     .out()
                 .withWhere()
                     .withSearchCondition()
-                        .withPredicate(IS_NOT_NULL(c("SalesPersonID")))
+                        .withPredicate(p_is_not_null(c("SalesPersonID")))
                         .and()
                     .and()
                 .and()

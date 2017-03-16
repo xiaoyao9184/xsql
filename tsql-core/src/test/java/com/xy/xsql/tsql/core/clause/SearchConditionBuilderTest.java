@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.core.clause;
 
+import com.xy.xsql.tsql.core.predicate.PredicateBuilder;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.In;
@@ -10,14 +11,8 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.InPredicateBuilder.IN;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.OperatorPredicateBuilder.EQUAL;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.ASAPredicateBuilder.ALL;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.ASAPredicateBuilder.EQUAL;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.LikePredicateBuilder.LIKE;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.OperatorPredicateBuilder.GREATER;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.OperatorPredicateBuilder.LESS;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -34,8 +29,8 @@ public class SearchConditionBuilderTest {
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate(
-                        EQUAL(e("CountryRegionCode"),
-                                ALL(),
+                        p_equal(e("CountryRegionCode"),
+                                all(),
                                 select)
                 )
                 .build();
@@ -55,12 +50,12 @@ public class SearchConditionBuilderTest {
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate(
-                        EQUAL(e("CountryRegionCode"),
-                                ALL(),
+                        p_equal(e("CountryRegionCode"),
+                                all(),
                                 select)
                 )
                 .withAndPredicate(
-                        EQUAL(e("CountryRegionCode"),
+                        PredicateBuilder.p_equal(e("CountryRegionCode"),
                                 e_number(20)))
                 .build();
         // @formatter:on
@@ -84,17 +79,17 @@ public class SearchConditionBuilderTest {
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate(
-                        EQUAL(e("CountryRegionCode"),
-                                ALL(),
+                        p_equal(e("CountryRegionCode"),
+                                all(),
                                 select)
                 )
                 .withAndNotSearchCondition()
                     .withPredicate(
-                            GREATER(e("CountryRegionCode"),
+                            p_greater(e("CountryRegionCode"),
                                 e_number(20))
                     )
                     .withAndPredicate(
-                            LESS(e("CountryRegionCode"),
+                            p_less(e("CountryRegionCode"),
                                     e_number(50))
                     )
                     .and()
@@ -137,7 +132,7 @@ public class SearchConditionBuilderTest {
         //SIMPLE
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate(
-                        LIKE(
+                        p_like(
                                 e("LargePhotoFileName"),
                                 e_string("%greena_%"),
                                 e_string("a")))
@@ -159,11 +154,11 @@ public class SearchConditionBuilderTest {
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate(
-                        IN(e("CountryRegionCode"),
+                        p_in(e("CountryRegionCode"),
                                 e_string("US"))
                 )
                 .withAndPredicate(
-                        LIKE(e("City"),
+                        p_like(e("City"),
                                 e_n_string("Pa%"))
                 )
                 .build();
@@ -188,7 +183,7 @@ public class SearchConditionBuilderTest {
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate(
-                        LIKE(e("LastName"),
+                        p_like(e("LastName"),
                                 e_string("%and%"))
                 )
                 .build();
@@ -207,7 +202,7 @@ public class SearchConditionBuilderTest {
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate(
-                        LIKE(e("LastName"),
+                        p_like(e("LastName"),
                                 e_n_string("%and%"))
                 )
                 .build();

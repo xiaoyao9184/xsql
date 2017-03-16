@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.core.clause;
 
+import com.xy.xsql.tsql.core.predicate.PredicateBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.Where;
@@ -14,11 +15,8 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.BetweenPredicateBuilder.BETWEEN;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.InPredicateBuilder.IN;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.LikePredicateBuilder.LIKE;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.OperatorPredicateBuilder.EQUAL;
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.OperatorPredicateBuilder.LESS_EQUAL;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_between;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_in;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -43,7 +41,7 @@ public class WhereBuilderTest {
         //Simple
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        EQUAL(e("Name"),e_string("Blade"))
+                        PredicateBuilder.p_equal(e("Name"),e_string("Blade"))
                 )
                 .build();
         // @formatter:on
@@ -62,7 +60,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        LIKE(e("Name"),e_string("%Frame%"))
+                        PredicateBuilder.p_like(e("Name"),e_string("%Frame%"))
                 )
                 .build();
         // @formatter:on
@@ -81,7 +79,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                       LESS_EQUAL(e("ProductID"),e_number(12))
+                       PredicateBuilder.p_less_equal(e("ProductID"),e_number(12))
                 )
                 .build();
         // @formatter:on
@@ -131,13 +129,13 @@ public class WhereBuilderTest {
 
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        EQUAL(e("ProductID"),e_number(2))
+                        PredicateBuilder.p_equal(e("ProductID"),e_number(2))
                 )
                 .withOrPredicate(
-                        EQUAL(e("ProductID"),e_number(4))
+                        PredicateBuilder.p_equal(e("ProductID"),e_number(4))
                 )
                 .withOrPredicate(
-                        EQUAL(e("Name"),e_string("Spokes"))
+                        PredicateBuilder.p_equal(e("Name"),e_string("Spokes"))
                 )
 
                 .build();
@@ -177,13 +175,13 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        LIKE(e("Name"),e_string("%Frame%"))
+                        PredicateBuilder.p_like(e("Name"),e_string("%Frame%"))
                 )
                 .withAndPredicate(
-                        LIKE(e("Name"),e_string("HL%"))
+                        PredicateBuilder.p_like(e("Name"),e_string("HL%"))
                 )
                 .withAndPredicate(
-                        EQUAL(e("Color"),e_string("Red"))
+                        PredicateBuilder.p_equal(e("Color"),e_string("Red"))
                 )
                 .build();
         // @formatter:on
@@ -218,7 +216,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        IN(
+                        p_in(
                                 e("Name"),
                                 e_string("Blade"),
                                 e_string("Crown Race"),
@@ -250,7 +248,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        BETWEEN(
+                        p_between(
                                 e("ProductID"),
                                 e_number(725),
                                 e_number(734))
@@ -275,7 +273,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        EQUAL(
+                        PredicateBuilder.p_equal(
                                 e("LastName"),
                                 e_string("Smith"))
                 )
@@ -299,7 +297,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        LIKE(
+                        PredicateBuilder.p_like(
                                 e("LastName"),
                                 e_string("%Smi%"))
                 )
@@ -322,7 +320,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        LESS_EQUAL(
+                        PredicateBuilder.p_less_equal(
                                 e("EmployeeKey"),
                                 e_number(500))
                 )
@@ -346,15 +344,15 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        EQUAL(
+                        PredicateBuilder.p_equal(
                                 e("EmployeeKey"),
                                 e_number(1))
                 )
-                .withOrPredicate(EQUAL(
+                .withOrPredicate(PredicateBuilder.p_equal(
                         e("EmployeeKey"),
                         e_number(8)
                 ))
-                .withOrPredicate(EQUAL(
+                .withOrPredicate(PredicateBuilder.p_equal(
                         e("EmployeeKey"),
                         e_number(12)
                 ))
@@ -395,18 +393,18 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        LESS_EQUAL(
+                        PredicateBuilder.p_less_equal(
                                 e("EmployeeKey"),
                                 e_number(500))
                 )
                 .withAndPredicate(
-                        LIKE(
+                        PredicateBuilder.p_like(
                                 e("LastName"),
                                 e_string("%Smi%")
                         )
                 )
                 .withAndPredicate(
-                        LIKE(
+                        PredicateBuilder.p_like(
                                 e("FirstName"),
                                 e_string("%A%")
                         )
@@ -446,7 +444,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        IN(
+                        p_in(
                                 e("LastName"),
                                 e_string("Smith"),
                                 e_string("Godfrey"),
@@ -473,7 +471,7 @@ public class WhereBuilderTest {
         // @formatter:off
         Where where = new WhereBuilder.QuickBuilder<Void>()
                 .withPredicate(
-                        BETWEEN(
+                        p_between(
                                 e("EmployeeKey"),
                                 e_number(100),
                                 e_number(200))

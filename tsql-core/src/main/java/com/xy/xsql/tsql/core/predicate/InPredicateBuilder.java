@@ -3,7 +3,6 @@ package com.xy.xsql.tsql.core.predicate;
 import com.xy.xsql.core.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.predicate.In;
-import com.xy.xsql.tsql.model.predicate.Predicate;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 import java.util.Arrays;
@@ -12,7 +11,10 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.
- * expression [ NOT ] IN ( subquery | expression [ ,...n ] )
+ *
+ * InPredicateBuilder
+ *
+ * @see In
  * @param <ParentBuilder>
  */
 public class InPredicateBuilder<ParentBuilder>
@@ -31,8 +33,8 @@ public class InPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public InPredicateBuilder<ParentBuilder> withNot(boolean useNot) {
-        tar.setUseNotOperator(useNot);
+    public InPredicateBuilder<ParentBuilder> withNot() {
+        tar.setUseNotOperator(true);
         return this;
     }
 
@@ -46,22 +48,6 @@ public class InPredicateBuilder<ParentBuilder>
     public InPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
         tar.setSubquery(subquery);
         return this;
-    }
-
-
-    public static Predicate IN(Expression left, Expression... in){
-        return new InPredicateBuilder<Void>()
-                .withExpression(left)
-                .withValueExpression(in)
-                .build();
-    }
-
-    public static Predicate NOT_IN(Expression left,Expression... in){
-        return new InPredicateBuilder<Void>()
-                .withExpression(left)
-                .withNot(true)
-                .withValueExpression(in)
-                .build();
     }
 
 }

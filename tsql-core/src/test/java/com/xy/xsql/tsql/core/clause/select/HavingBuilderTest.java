@@ -1,11 +1,11 @@
 package com.xy.xsql.tsql.core.clause.select;
 
+import com.xy.xsql.tsql.core.predicate.PredicateBuilder;
 import com.xy.xsql.tsql.model.clause.select.Having;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.clause.SearchConditionBuilder.OperatorPredicateBuilder.GREATER;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 
@@ -22,7 +22,7 @@ public class HavingBuilderTest {
         Having having = new HavingBuilder<Void>()
                 .withSearchCondition()
                     .withPredicate(
-                            GREATER(e("SUM(LineTotal)"),
+                            PredicateBuilder.p_greater(e("SUM(LineTotal)"),
                                     e_number(100000.00))
                     )
                     .and()
