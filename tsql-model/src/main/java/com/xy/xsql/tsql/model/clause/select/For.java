@@ -4,6 +4,7 @@ package com.xy.xsql.tsql.model.clause.select;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.util.CheckUtil;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
@@ -70,7 +71,7 @@ public class For implements Clause {
      <XML> ::=
      XML
      {
-     { RAW [ ( 'BlockName' ) ] | AUTO }
+     { RAW [ ( 'ElementName' ) ] | AUTO }
      [
      <CommonDirectivesForXML>
      [ , { XMLDATA | XMLSCHEMA [ ( 'TargetNameSpaceURI' ) ] } ]
@@ -81,7 +82,7 @@ public class For implements Clause {
      <CommonDirectivesForXML>
      [ , XMLDATA ]
      ]
-     | PATH [ ( 'BlockName' ) ]
+     | PATH [ ( 'ElementName' ) ]
      [
      <CommonDirectivesForXML>
      [ , ELEMENTS [ XSINIL | ABSENT ] ]
@@ -101,20 +102,28 @@ public class For implements Clause {
         private boolean useExplicit;
         private boolean usePath;
 
-        private String BlockName;
+        private StringConstant elementName;
+
+
+        //<CommonDirectivesForXML> ::=
+        //        [ , BINARY BASE64 ]
+        //        [ , TYPE ]
+        //        [ , ROOT [ ( 'RootName' ) ] ]
+        private boolean useBinaryBase64;
+        private boolean useType;
+        private boolean useRoot;
+        private StringConstant rootName;
+
 
         //[ , XMLDATA ]
-        private boolean useXxmData;
+        private boolean useXmlData;
         //[ , { XMLDATA | XMLSCHEMA [ ( 'TargetNameSpaceURI' ) ] } ]
-        private boolean useXxmSchema;
+        private boolean useXmlSchema;
         private String targetNameSpaceURI;
 
-
-        //<CommonDirectivesForXML>
-        private CommonDirectivesForXML commonDirectivesForXML;
         //[ , ELEMENTS [ XSINIL | ABSENT ] ]
-        private boolean useELEMENTS_XSINIL;
-        private boolean useELEMENTS_ABSENT;
+        private boolean useElementsXsinil;
+        private boolean useElementsAbsent;
 
         public boolean isUseRaw() {
             return useRaw;
@@ -148,28 +157,28 @@ public class For implements Clause {
             this.usePath = usePath;
         }
 
-        public String getBlockName() {
-            return BlockName;
+        public StringConstant getElementName() {
+            return elementName;
         }
 
-        public void setBlockName(String BlockName) {
-            this.BlockName = BlockName;
+        public void setElementName(StringConstant BlockName) {
+            this.elementName = BlockName;
         }
 
-        public boolean isUseXxmData() {
-            return useXxmData;
+        public boolean isUseXmlData() {
+            return useXmlData;
         }
 
-        public void setUseXxmData(boolean useXxmData) {
-            this.useXxmData = useXxmData;
+        public void setUseXmlData(boolean useXmlData) {
+            this.useXmlData = useXmlData;
         }
 
-        public boolean isUseXxmSchema() {
-            return useXxmSchema;
+        public boolean isUseXmlSchema() {
+            return useXmlSchema;
         }
 
-        public void setUseXxmSchema(boolean useXxmSchema) {
-            this.useXxmSchema = useXxmSchema;
+        public void setUseXmlSchema(boolean useXmlSchema) {
+            this.useXmlSchema = useXmlSchema;
         }
 
         public String getTargetNameSpaceURI() {
@@ -180,28 +189,53 @@ public class For implements Clause {
             this.targetNameSpaceURI = targetNameSpaceURI;
         }
 
-        public CommonDirectivesForXML getCommonDirectivesForXML() {
-            return commonDirectivesForXML;
+        public boolean isUseElementsXsinil() {
+            return useElementsXsinil;
         }
 
-        public void setCommonDirectivesForXML(CommonDirectivesForXML commonDirectivesForXML) {
-            this.commonDirectivesForXML = commonDirectivesForXML;
+        public void setUseElementsXsinil(boolean useElementsXsinil) {
+            this.useElementsXsinil = useElementsXsinil;
         }
 
-        public boolean isUseELEMENTS_XSINIL() {
-            return useELEMENTS_XSINIL;
+        public boolean isUseElementsAbsent() {
+            return useElementsAbsent;
         }
 
-        public void setUseELEMENTS_XSINIL(boolean useELEMENTS_XSINIL) {
-            this.useELEMENTS_XSINIL = useELEMENTS_XSINIL;
+        public void setUseElementsAbsent(boolean useElementsAbsent) {
+            this.useElementsAbsent = useElementsAbsent;
         }
 
-        public boolean isUseELEMENTS_ABSENT() {
-            return useELEMENTS_ABSENT;
+
+        public boolean isUseBinaryBase64() {
+            return useBinaryBase64;
         }
 
-        public void setUseELEMENTS_ABSENT(boolean useELEMENTS_ABSENT) {
-            this.useELEMENTS_ABSENT = useELEMENTS_ABSENT;
+        public void setUseBinaryBase64(boolean useBinaryBase64) {
+            this.useBinaryBase64 = useBinaryBase64;
+        }
+
+        public boolean isUseType() {
+            return useType;
+        }
+
+        public void setUseType(boolean useType) {
+            this.useType = useType;
+        }
+
+        public boolean isUseRoot() {
+            return useRoot;
+        }
+
+        public void setUseRoot(boolean useRoot) {
+            this.useRoot = useRoot;
+        }
+
+        public StringConstant getRootName() {
+            return rootName;
+        }
+
+        public void setRootName(StringConstant rootName) {
+            this.rootName = rootName;
         }
 
 
@@ -210,132 +244,71 @@ public class For implements Clause {
             ListBlockBuilder b = new ListBlockBuilder();
             if(useRaw || useAuto){
                 b.append(useRaw ? Keywords.Key.RAW : Keywords.Key.AUTO)
-                        .append(useRaw && !CheckUtil.isNullOrEmpty(BlockName) ?
-                                "'" + BlockName + "'" :
+                        .append(useRaw && !CheckUtil.isNull(elementName) ?
+                                "'" + elementName + "'" :
                                 null);
-
-                if(commonDirectivesForXML != null){
-                    b.append(commonDirectivesForXML);
-                    if(useXxmData){
-                        b.append(Other.DELIMITER)
-                                .append(Keywords.Key.XMLDATA);
-                    }else {
-                        b.append(Other.DELIMITER)
-                                .append(Keywords.Key.XMLSCHEMA)
-                                .append(CheckUtil.isNullOrEmpty(targetNameSpaceURI) ?
-                                        null :
-                                        "'" + targetNameSpaceURI + "'");
-                    }
-                    if(useELEMENTS_ABSENT){
-                        b.append(Other.DELIMITER)
-                                .append(Keywords.Key.ELEMENTS)
-                                .append(Keywords.Key.ABSENT);
-                    }else if(useELEMENTS_XSINIL){
-                        b.append(Other.DELIMITER)
-                                .append(Keywords.Key.ELEMENTS)
-                                .append(Keywords.Key.XSINIL);
-                    }
-                }
             } else if(useExplicit){
                 b.append(Keywords.Key.EXPLICIT);
-                if(commonDirectivesForXML != null){
-                    b.append(commonDirectivesForXML);
-                    if(useXxmData){
-                        b.append(Other.DELIMITER)
-                                .append(Keywords.Key.XMLDATA);
-                    }
-                }
             } else if(usePath){
                 b.append(Keywords.Key.PATH)
-                        .append(CheckUtil.isNullOrEmpty(BlockName) ?
+                        .append(CheckUtil.isNull(elementName) ?
                                 null :
-                                "'" + BlockName + "'");
-                if(commonDirectivesForXML != null){
-                    b.append(commonDirectivesForXML);
-                    if(useELEMENTS_ABSENT){
-                        b.append(Other.DELIMITER)
-                                .append(Keywords.Key.ELEMENTS)
-                                .append(Keywords.Key.ABSENT);
-                    }else if(useELEMENTS_XSINIL){
-                        b.append(Other.DELIMITER)
-                                .append(Keywords.Key.ELEMENTS)
-                                .append(Keywords.Key.XSINIL);
-                    }
-                }
+                                "'" + elementName + "'");
             }
-            return b.build();
-        }
-    }
 
-    /**
-     *
-     *
-
-     <CommonDirectivesForXML> ::=
-     [ , BINARY BASE64 ]
-     [ , TYPE ]
-     [ , ROOT [ ( 'RootName' ) ] ]
-
-     *
-     */
-    public static class CommonDirectivesForXML implements Block {
-        private boolean useBINARY_BASE64;
-        private boolean useTYPE;
-        private boolean useROOT;
-        private String rootName;
-
-        public boolean isUseBINARY_BASE64() {
-            return useBINARY_BASE64;
-        }
-
-        public void setUseBINARY_BASE64(boolean useBINARY_BASE64) {
-            this.useBINARY_BASE64 = useBINARY_BASE64;
-        }
-
-        public boolean isUseTYPE() {
-            return useTYPE;
-        }
-
-        public void setUseTYPE(boolean useTYPE) {
-            this.useTYPE = useTYPE;
-        }
-
-        public boolean isUseROOT() {
-            return useROOT;
-        }
-
-        public void setUseROOT(boolean useROOT) {
-            this.useROOT = useROOT;
-        }
-
-        public String getRootName() {
-            return rootName;
-        }
-
-        public void setRootName(String rootName) {
-            this.rootName = rootName;
-        }
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-            if(useBINARY_BASE64){
+            if(useBinaryBase64){
                 b.append(Other.DELIMITER)
                         .append(Keywords.Key.BINARY)
                         .append(Keywords.Key.BASE64);
-            } else if(useTYPE){
+            } else if(useType){
                 b.append(Other.DELIMITER)
                         .append(Keywords.Key.TYPE);
-            } else if(useROOT){
+            } else if(useRoot){
                 b.append(Other.DELIMITER)
                         .append(Keywords.Key.ROOT)
-                        .append(CheckUtil.isNullOrEmpty(rootName) ?
-                                null :
-                                "'" + rootName + "'");
+                        .append(rootName);
             }
+
+
+            if(useRaw || useAuto){
+                if(useXmlData){
+                    b.append(Other.DELIMITER)
+                            .append(Keywords.Key.XMLDATA);
+                }else if(useXmlSchema){
+                    b.append(Other.DELIMITER)
+                            .append(Keywords.Key.XMLSCHEMA)
+                            .append(targetNameSpaceURI);
+                }
+
+                if(useElementsAbsent){
+                    b.append(Other.DELIMITER)
+                            .append(Keywords.Key.ELEMENTS)
+                            .append(Keywords.Key.ABSENT);
+                }else if(useElementsXsinil){
+                    b.append(Other.DELIMITER)
+                            .append(Keywords.Key.ELEMENTS)
+                            .append(Keywords.Key.XSINIL);
+                }
+            } else if(useExplicit && useXmlData){
+                b.append(Other.DELIMITER)
+                        .append(Keywords.Key.XMLDATA);
+            } else if(usePath){
+                if(useElementsAbsent){
+                    b.append(Other.DELIMITER)
+                            .append(Keywords.Key.ELEMENTS)
+                            .append(Keywords.Key.ABSENT);
+                }else if(useElementsXsinil){
+                    b.append(Other.DELIMITER)
+                            .append(Keywords.Key.ELEMENTS)
+                            .append(Keywords.Key.XSINIL);
+                }
+            }
+
             return b.build();
         }
     }
+
+
 
 
     /**

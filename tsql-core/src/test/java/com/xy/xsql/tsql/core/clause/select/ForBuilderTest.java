@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.tsql.model.clause.select.For;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -14,11 +15,18 @@ public class ForBuilderTest {
     @Test
     public void testForXMLExample(){
         For for1 = new ForBuilder<Void>()
-
+                .withXml()
+                    .withAuto()
+                    .withType()
+                    .withXmlSchema()
+                    .withElementsXsinil()
+                    .and()
                 .build();
 
-//        Assert.assertEquals(for1.getItems().get(0).getColumnExpression().toString(),"1");
-//        Assert.assertEquals(for1.getItems().get(1).getColumnExpression().toString(),"2");
+        Assert.assertTrue(for1.getXml().isUseAuto());
+        Assert.assertTrue(for1.getXml().isUseType());
+        Assert.assertTrue(for1.getXml().isUseXmlSchema());
+        Assert.assertTrue(for1.getXml().isUseElementsXsinil());
     }
 
 

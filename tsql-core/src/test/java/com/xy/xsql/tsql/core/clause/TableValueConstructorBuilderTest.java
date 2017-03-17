@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
 import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv_default;
 import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv_null;
@@ -76,7 +77,7 @@ public class TableValueConstructorBuilderTest {
                     .withWhere().withSearchCondition().withPredicate().Operator()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
-                        .withExpression(e(720))
+                        .withExpression(e_number(720))
                         .out().out().out()
                 .out()
                 .build(null);
@@ -94,7 +95,7 @@ public class TableValueConstructorBuilderTest {
                     .withWhere().withSearchCondition().withPredicate().Operator()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
-                        .withExpression(e(720))
+                        .withExpression(e_number(720))
                         .out().out().out()
                 .out()
                 .build(null);

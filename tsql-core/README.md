@@ -30,3 +30,30 @@
 | t | TableName
 | c | ColumnName
 | _ | DataType
+
+
+## Expression
+
+通过一下方法即可创建Expression
+
+| Method | Expression |
+| ----- | ----- |
+| e | UnknownExpression
+| e_null | KeywordExpression
+| e_default | KeywordExpression
+| e_string | StringConstant
+| e_n_string | StringConstant
+| e_string_uuid | StringConstant
+| e_bin | BinaryConstant
+| e_bin_uuid | BinaryConstant
+| e_number | NumberConstant
+| e_money | NumberConstant
+| e_variable | Variable
+| e_subquery | GroupExpression
+| e_at_time_zone | AtTimeZone
+| e_case | Case
+| e_coalesce | Coalesce
+| e_nullif | NullIf
+|
+| e_rv* | RowValueExpression
+| e_{binary Operator} | GroupExpression

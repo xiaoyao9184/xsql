@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
 
 /**
@@ -68,7 +69,7 @@ public class SelectBuilderTest {
     public void testTopBuild(){
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withTop()
-                    .withExpression(e(50))
+                    .withExpression(e_number(50))
                     .and()
                 .build(null);
 
@@ -76,7 +77,7 @@ public class SelectBuilderTest {
 
         select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withTop()
-                    .withExpression(e(50))
+                    .withExpression(e_number(50))
                     .withPercent()
                     .and()
                 .build(null);

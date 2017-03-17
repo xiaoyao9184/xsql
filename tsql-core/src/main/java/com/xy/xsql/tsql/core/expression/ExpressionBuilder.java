@@ -17,19 +17,27 @@ import java.util.UUID;
  */
 public class ExpressionBuilder {
 
+    /**
+     * unknown
+     * @param expressionString
+     * @return
+     */
     public static Expression e(String expressionString){
         return new UnknownExpression(expressionString);
     }
 
-    @Deprecated
-    public static Expression e(Number numberExpression){
-        return new NumberConstant(numberExpression);
-    }
-
+    /**
+     * null
+     * @return
+     */
     public static Expression e_null(){
         return new KeywordExpression(Keywords.NULL);
     }
 
+    /**
+     * default
+     * @return
+     */
     public static Expression e_default(){
         return new KeywordExpression(Keywords.DEFAULT);
     }
@@ -60,6 +68,7 @@ public class ExpressionBuilder {
     public static StringConstant e_string_uuid(String uuid){
         return new StringConstant(UUID.fromString(uuid));
     }
+
     /**
      * constant
      * @param uuid
@@ -135,15 +144,17 @@ public class ExpressionBuilder {
         return groupExpression;
     }
 
-//    public static Expression e(ElementList elementList){
-//        return new ElementExpression(elementList);
-//    }
+    /**
+     * TODO maybe not use GroupExpression
+     * Is a subquery that returns one value
+     * @param query
+     * @return
+     */
     public static Expression e_subquery(Select.QuerySpecification query){
         GroupExpression groupExpression = new GroupExpression();
         groupExpression.setStatement(query);
         return groupExpression;
     }
-
 
     /**
      * AtTimeZone
