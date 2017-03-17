@@ -6,15 +6,15 @@ import com.xy.xsql.tsql.model.expression.Expression;
 /**
  * Created by xiaoyao9184 on 2017/1/13.
  */
-public class VariableString implements Block,Expression {
+public class LocalVariable implements Block,Expression {
 
     private String name;
 
-    public VariableString() {
+    public LocalVariable() {
 
     }
 
-    public VariableString(String name) {
+    public LocalVariable(String name) {
         this.name = name;
     }
 

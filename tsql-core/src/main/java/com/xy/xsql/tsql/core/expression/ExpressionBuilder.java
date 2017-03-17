@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.expression.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.model.variable.VariableString;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 
 import java.util.UUID;
 
@@ -128,8 +128,8 @@ public class ExpressionBuilder {
      * @param variableExpression
      * @return
      */
-    public static VariableString e_variable(String variableExpression){
-        return new VariableString(variableExpression);
+    public static LocalVariable e_variable(String variableExpression){
+        return new LocalVariable(variableExpression);
     }
 
     /**

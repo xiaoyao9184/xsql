@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.variable.VariableString;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class Output implements Clause {
     private List<DmlSelect> dmlSelectList;
 
     //{ @table_variable | output_table }
-    private VariableString tableVariable;
+    private LocalVariable tableVariable;
     private TableName outputTable;
 
     //[ ( column_list ) ]
@@ -54,11 +54,11 @@ public class Output implements Clause {
         this.dmlSelectList = dmlSelectList;
     }
 
-    public VariableString getTableVariable() {
+    public LocalVariable getTableVariable() {
         return tableVariable;
     }
 
-    public void setTableVariable(VariableString tableVariable) {
+    public void setTableVariable(LocalVariable tableVariable) {
         this.tableVariable = tableVariable;
     }
 

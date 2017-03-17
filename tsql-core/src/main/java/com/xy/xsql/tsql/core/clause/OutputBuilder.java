@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.variable.VariableString;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
@@ -35,7 +35,7 @@ public class OutputBuilder<ParentBuilder>
     }
 
     public OutputBuilder<ParentBuilder> withTableVariable(String tableVariable){
-        this.tar.setTableVariable(new VariableString(tableVariable));
+        this.tar.setTableVariable(new LocalVariable(tableVariable));
         return this;
     }
 

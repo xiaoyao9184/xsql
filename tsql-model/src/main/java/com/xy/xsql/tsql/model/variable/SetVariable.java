@@ -47,17 +47,17 @@ import java.util.List;
 public class SetVariable implements Statement {
 
     //@local_variable
-    private VariableString localVariable;
+    private LocalVariable localVariable;
     //{+= | -= | *= | /= | %= | &= | ^= | |= }
     private Compound compound;
     //expression
     private Expression expression;
 
-    public VariableString getLocalVariable() {
+    public LocalVariable getLocalVariable() {
         return localVariable;
     }
 
-    public void setLocalVariable(VariableString localVariable) {
+    public void setLocalVariable(LocalVariable localVariable) {
         this.localVariable = localVariable;
     }
 

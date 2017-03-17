@@ -76,17 +76,17 @@ public class DeclareVariable implements Statement {
     public static class Item implements Block {
 
         //@local_variable
-        private VariableString localVariable;
+        private LocalVariable localVariable;
         //data_type
         private DataType dataType;
         //value
         private Expression value;
 
-        public VariableString getLocalVariable() {
+        public LocalVariable getLocalVariable() {
             return localVariable;
         }
 
-        public void setLocalVariable(VariableString localVariable) {
+        public void setLocalVariable(LocalVariable localVariable) {
             this.localVariable = localVariable;
         }
 
