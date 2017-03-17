@@ -46,6 +46,10 @@ public class ColumnDefinition
     //[ <column_index> ]
 
 
+    public ColumnDefinition(){
+        super("");
+    }
+
     public ColumnDefinition(String name){
         super(name);
     }
@@ -83,6 +87,24 @@ public class ColumnDefinition
     public void setUseSparse(boolean useSparse) {
         this.useSparse = useSparse;
     }
+
+
+    public ColumnDefinition withDataType(DataType dataType) {
+        this.dataType = dataType;
+        return this;
+    }
+
+    public ColumnDefinition withCollationName(Collate collationName) {
+        this.collationName = collationName;
+        return this;
+    }
+
+    public ColumnDefinition withUseSparse(boolean useSparse) {
+        this.useSparse = useSparse;
+        return this;
+    }
+
+
 
 
     /**

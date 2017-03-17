@@ -23,14 +23,23 @@ import static com.xy.xsql.tsql.model.Keywords.k;
  */
 public class TableTypeDefinition {
 
-    private List<? extends Item> list;
+    private List<Item> list;
 
-    public List<? extends Item> getList() {
+    public List<Item> getList() {
         return list;
     }
 
-    public void setList(List<? extends Item> list) {
+    public void setList(List<Item> list) {
         this.list = list;
+    }
+
+
+    public interface Item extends Block {
+        /**
+         * must override
+         * @return
+         */
+        List<Block> toBlockList();
     }
 
     /**
@@ -96,12 +105,4 @@ public class TableTypeDefinition {
         }
     }
 
-
-    public interface Item extends Block {
-        /**
-         * must override
-         * @return
-         */
-        List<Block> toBlockList();
-    }
 }

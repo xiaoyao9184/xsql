@@ -14,7 +14,8 @@ public class ColumnName
         implements Block, Expression, Cloneable {
 
     protected TableName table;
-    private String name;
+
+    protected String name;
 
     public ColumnName() {
         this.name = "*";
@@ -35,6 +36,14 @@ public class ColumnName
 
     public void setTable(TableName table){
         this.table = table;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 

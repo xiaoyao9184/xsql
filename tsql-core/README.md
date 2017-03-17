@@ -23,6 +23,12 @@
 
 # 快速构建方法列表
 
+分为：
+- 静态方法
+- 实例方法
+
+## 静态方法
+
 | 方法前缀 | 构建目标 |
 | ----- | ----- |
 | e | Expression
@@ -32,7 +38,7 @@
 | _ | DataType
 
 
-## Expression
+### Expression
 
 通过一下方法即可创建Expression
 
@@ -57,3 +63,42 @@
 |
 | e_rv* | RowValueExpression
 | e_{binary Operator} | GroupExpression
+
+
+## 实例方法
+
+| 方法前缀 | 方法后缀 | 构建目标 |
+| ----- | ----- |
+| with | | 设置本级属性
+| $ | | 同with方法
+| $_ | | 设置子级属性（通常会连带初始化本级属性）
+| $__ | | 设置孙级属性（通常会连带初始化本级、子级属性）
+| _ | $ | 
+|  | _ |
+
+组合型
+| 方法前缀 | 方法后缀 | 构建目标 |
+| ----- | ----- |
+| $ | _ | 
+| _ | $ | 
+| $ | _ | 
+| _ | $ | 
+
+
+
+**例如** _TableTypeDefinition 语句_
+```java
+TableTypeDefinition quick = new TableTypeDefinitionBuilder<Void>()
+    .withColumnDefinition()
+        .withColumnName(c("EmpID"))
+        .withDataType(_int())
+        .and()
+    .$_(
+            c_int("OldVacationHours"),
+            c_int("NewVacationHours"),
+            c_datetime("ModifiedDate"))
+    .$_PrimaryKey(c("EmpID"))
+    .$_Unique(c("ModifiedDate"))
+    .build();
+
+```
