@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.core.element.datatype;
+package com.xy.xsql.tsql.core.datatype;
 
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 

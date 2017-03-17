@@ -4,8 +4,8 @@ import com.xy.xsql.tsql.model.variable.DeclareVariable;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.datatype.NumericTypes._money;
-import static com.xy.xsql.tsql.core.element.datatype.StringBinaryTypes._varchar;
+import static com.xy.xsql.tsql.core.datatype.DataTypeBuilder._money;
+import static com.xy.xsql.tsql.core.datatype.DataTypeBuilder._varchar;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 
 /**

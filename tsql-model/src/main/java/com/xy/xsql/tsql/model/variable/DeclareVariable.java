@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.model.variable;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.DataType;
+import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.statement.Statement;
@@ -54,6 +55,11 @@ public class DeclareVariable implements Statement {
 
     private List<Item> items;
 
+    private LocalVariable tableVariableName;
+
+    private TableTypeDefinition tableTypeDefinition;
+
+
     public List<Item> getItems() {
         return items;
     }
@@ -62,6 +68,21 @@ public class DeclareVariable implements Statement {
         this.items = items;
     }
 
+    public LocalVariable getTableVariableName() {
+        return tableVariableName;
+    }
+
+    public void setTableVariableName(LocalVariable tableVariableName) {
+        this.tableVariableName = tableVariableName;
+    }
+
+    public TableTypeDefinition getTableTypeDefinition() {
+        return tableTypeDefinition;
+    }
+
+    public void setTableTypeDefinition(TableTypeDefinition tableTypeDefinition) {
+        this.tableTypeDefinition = tableTypeDefinition;
+    }
 
 
     @Override
