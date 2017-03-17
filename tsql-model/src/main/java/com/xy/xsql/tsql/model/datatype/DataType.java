@@ -135,5 +135,10 @@ public class DataType implements Block {
         _hierarchyid(),
         _sql_variant(),
         _xml();
+
+        @Override
+        public String toString() {
+            return name().replace("_","");
+        }
     }
 }

@@ -115,7 +115,7 @@ public class Select implements Statement {
     /**
      *
      */
-    public static class QuerySpecification implements QueryExpression2 {
+    public static class QuerySpecification implements QueryExpression2,Statement {
         // [ ALL | DISTINCT ]
         private boolean useAll;
         private boolean useDistinct;

@@ -82,7 +82,11 @@ public class ExpressionBuilder {
 //    public static Expression e(ElementList elementList){
 //        return new ElementExpression(elementList);
 //    }
-
+    public static Expression e_subquery(Select.QuerySpecification query){
+        GroupExpression groupExpression = new GroupExpression();
+        groupExpression.setStatement(query);
+        return groupExpression;
+    }
 
 
     /**

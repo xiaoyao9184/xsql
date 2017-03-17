@@ -1,18 +1,25 @@
 # Transact-SQL
 
+The chapters of this article are from the 
+[MSDN](https://msdn.microsoft.com/en-us/library/bb510741.aspx) 
+`Transact-SQL Reference` directory
+
+
 ## Reserved Keywords
 
 Only SQLServer 
 
 ## Syntax Conventions
 
-dont need
+don't need
 
 ## BACKUP and RESTORE Statements
 
-TODO
+to be evaluated
 
 ## Built-in Functions
+
+later
 
 ## COLLATE 
 | Clause | Support |
@@ -26,7 +33,12 @@ TODO
 | Collation Precedence | NOT |
 
 ## Control-of-Flow Language
+
+to be evaluated
+
 ## Cursors
+
+to be evaluated
 
 ## DDL
 
@@ -44,7 +56,7 @@ TODO
 
 ## DML
 
-| 语句 | 支持程度 |
+| Statement | Support |
 | ----- | ----- |
 | BULK INSERT | ALL |
 | SELECT |
@@ -57,7 +69,7 @@ TODO
 | READTEXT | NOT |
 
 
-| Clause | 支持程度 |
+| Clause | Support |
 | ----- | ----- |
 | FROM |
 | Hints | Query,Table,Join |
@@ -70,7 +82,7 @@ TODO
 | WITH common_table_expression | ALL |
 
 
-| Other | 支持程度 |
+| Other | Support |
 | ----- | ----- |
 | EXPLAIN
 | Subqueries | use SELECT |
@@ -96,6 +108,8 @@ Only SQL Server system data type, user-defined type not support
 
 
 ## EXECUTE 
+
+to be evaluated
 
 ## Expressions
 | Type | Support |
@@ -131,7 +145,7 @@ Only SQL Server system data type, user-defined type not support
 
 ## Management Commands
 
-
+to be evaluated
 
 ## Operators
 
@@ -165,17 +179,38 @@ Only SQL Server system data type, user-defined type not support
 | Like | YES |
 
 ## PRINT
+to be evaluated
 ## RAISERROR
+to be evaluated
 ## Security Statements 
+to be evaluated
 ## Service Broker Statements
+to be evaluated
 ## SET Statements
+to be evaluated
 ## SQL Server Utilities Statements
+to be evaluated
 ## System Stored Functions
+to be evaluated
 ## System Stored Procedures
+to be evaluated
 ## System Tables
+to be evaluated
 ## Transaction Statements
+to be evaluated
+
 ## Variables
 
-Yea
+Only @local_variable,
+@cursor_variable NOT,
+@table_variable_name MAYBE later
+
+| Name | Support |
+| ----- | ----- |
+| Declare | Only local_variable |
+| Select | YES |
+| Set | Only simple local_variable |
 
 ## XML Statements
+
+to be evaluated
