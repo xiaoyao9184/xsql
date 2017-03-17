@@ -6,8 +6,11 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
+ * Character string constants
+ * uniqueidentifier constants(output like Character string)
  * Created by xiaoyao9184 on 2017/3/12.
  */
 public class StringConstant implements Expression {
@@ -16,11 +19,38 @@ public class StringConstant implements Expression {
     private boolean useNQuote;
     private String string;
 
+
+    public StringConstant() {
+    }
+
     public StringConstant(String string){
         this.string = string;
     }
 
-    public StringConstant() {
+    public StringConstant(UUID uuid){
+        this.string = uuid.toString().toUpperCase();
+        this.useQuote = true;
+    }
+
+
+    public boolean isUseQuote() {
+        return useQuote;
+    }
+
+    public void setUseQuote(boolean useQuote) {
+        this.useQuote = useQuote;
+    }
+
+    public boolean isUseNQuote() {
+        return useNQuote;
+    }
+
+    public void setUseNQuote(boolean useNQuote) {
+        this.useNQuote = useNQuote;
+    }
+
+    public String getString() {
+        return string;
     }
 
 

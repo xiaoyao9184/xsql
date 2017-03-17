@@ -92,7 +92,7 @@ to be evaluated
 Only SQL Server system data type, user-defined type not support
 | Name | Support |
 | ----- | ----- |
-| Constants | String,Number |
+| Constants | String,Number,Binary |
 | bit | YES |
 | cursor | CANT |
 | Date and Time Types | YES |
