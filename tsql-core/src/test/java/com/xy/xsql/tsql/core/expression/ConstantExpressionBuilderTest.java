@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.core.datatype;
+package com.xy.xsql.tsql.core.expression;
 
 import com.xy.xsql.tsql.model.datatype.BinaryConstant;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
@@ -15,7 +15,7 @@ import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
 /**
  * Created by xiaoyao9184 on 2017/3/17.
  */
-public class ConstantTest {
+public class ConstantExpressionBuilderTest {
 
     @Test
     public void testBinary(){

@@ -18,6 +18,10 @@ public class ColumnDefinitionBuilder<ParentBuilder>
         super(tar);
     }
 
+    public ColumnDefinitionBuilder() {
+        super(new ColumnDefinition());
+    }
+
     public ColumnDefinitionBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
         tar.setTable(columnName.getTable());
         tar.setName(columnName.getName());
