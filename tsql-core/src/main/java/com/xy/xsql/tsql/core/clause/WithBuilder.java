@@ -36,14 +36,14 @@ public class WithBuilder<ParentBuilder>
      * Quick set
      * @param expressionName
      * @param cteQueryDefinition
-     * @param columnName
+     * @param columnNames
      * @return
      */
-    public WithBuilder<ParentBuilder> $(String expressionName, Select cteQueryDefinition, ColumnName... columnName){
+    public WithBuilder<ParentBuilder> $(String expressionName, Select cteQueryDefinition, ColumnName... columnNames){
         return withItem()
                 .withExpressionName(expressionName)
                 .withCteQueryDefinition(cteQueryDefinition)
-                .withColumnName(columnName)
+                .withColumnName(columnNames)
                 .and();
     }
 
@@ -67,11 +67,11 @@ public class WithBuilder<ParentBuilder>
 
         /**
          * Quick set column_name List
-         * @param columnName
+         * @param columnNames
          * @return
          */
-        public CommonTableExpressionBuilder<ParentBuilder> withColumnName(ColumnName... columnName){
-            initAdd(Arrays.asList(columnName),
+        public CommonTableExpressionBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
+            initAdd(Arrays.asList(columnNames),
                      this.tar::getColumnName,
                     this.tar::setColumnName);
             return this;

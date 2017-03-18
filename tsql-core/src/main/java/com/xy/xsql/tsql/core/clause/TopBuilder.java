@@ -37,16 +37,16 @@ public class TopBuilder<ParentBuilder>
     /**
      * Quick set
      * @param countExpression
-     * @param percent_ties
+     * @param percentTies
      * @return
      */
-    public TopBuilder<ParentBuilder> $(Expression countExpression, boolean... percent_ties){
+    public TopBuilder<ParentBuilder> $(Expression countExpression, boolean... percentTies){
         tar.setExpression(countExpression);
-        if(percent_ties.length >= 1){
-            tar.setUsePercent(percent_ties[0]);
+        if(percentTies.length >= 1){
+            tar.setUsePercent(percentTies[0]);
         }
-        if(percent_ties.length == 2){
-            tar.setUseTies(percent_ties[1]);
+        if(percentTies.length == 2){
+            tar.setUseTies(percentTies[1]);
         }
         return this;
     }
@@ -54,11 +54,11 @@ public class TopBuilder<ParentBuilder>
     /**
      * Quick set out
      * @param countExpression
-     * @param percent_ties
+     * @param percentTies
      * @return
      */
-    public ParentBuilder $_(Expression countExpression, boolean... percent_ties){
-        return $(countExpression,percent_ties)
+    public ParentBuilder $_(Expression countExpression, boolean... percentTies){
+        return $(countExpression,percentTies)
                 .and();
     }
 }

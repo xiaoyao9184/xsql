@@ -101,8 +101,8 @@ public class OverBuilder<ParentBuilder>
             super(partitionBy);
         }
 
-        public PartitionByBuilder<ParentBuilder> withExpression(Expression... expression){
-            initAdd(Arrays.asList(expression),
+        public PartitionByBuilder<ParentBuilder> withExpression(Expression... expressions){
+            initAdd(Arrays.asList(expressions),
                     tar::getValueExpressionList,
                     tar::setValueExpressionList);
             return this;
@@ -128,8 +128,8 @@ public class OverBuilder<ParentBuilder>
                     .in(this);
         }
 
-        public OrderByBuilder<ParentBuilder> withItems(OrderBy.Item... orderByItem){
-            initAdd(Arrays.asList(orderByItem),
+        public OrderByBuilder<ParentBuilder> withItems(OrderBy.Item... orderByItems){
+            initAdd(Arrays.asList(orderByItems),
                             tar::getItems,
                             tar::setItems);
             return this;

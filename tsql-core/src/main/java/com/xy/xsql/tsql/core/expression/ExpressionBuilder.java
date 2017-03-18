@@ -178,12 +178,12 @@ public class ExpressionBuilder {
 
     /**
      * Coalesce
-     * @param expression
+     * @param expressions
      * @return
      */
-    public static Expression e_coalesce(Expression... expression){
+    public static Expression e_coalesce(Expression... expressions){
         return new CoalesceBuilder<Void>()
-                .withExpression(expression)
+                .withExpression(expressions)
                 .build();
     }
 

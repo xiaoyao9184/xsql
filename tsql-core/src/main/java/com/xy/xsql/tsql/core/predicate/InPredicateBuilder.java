@@ -38,8 +38,8 @@ public class InPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public InPredicateBuilder<ParentBuilder> withValueExpression(Expression... expression) {
-        initAdd(Arrays.asList(expression),
+    public InPredicateBuilder<ParentBuilder> withValueExpression(Expression... expressions) {
+        initAdd(Arrays.asList(expressions),
                 tar::getExpressionList,
                 tar::setExpressionList);
         return this;

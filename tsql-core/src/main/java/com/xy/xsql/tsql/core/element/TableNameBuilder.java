@@ -21,11 +21,11 @@ public class TableNameBuilder {
 
     /**
      * like this [Server Name,][Database Name,][Schema Name,]Table Name
-     * @param name Max length is 4
+     * @param server_db_schema_table_column Max length is 4
      * @return
      */
-    public static TableName t(String... name){
-        List<String> listReversedOrder = reverse(name);
+    public static TableName t(String... server_db_schema_table_column){
+        List<String> listReversedOrder = reverse(server_db_schema_table_column);
 
         TableName tableName = new TableName();
         setter(listReversedOrder,

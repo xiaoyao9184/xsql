@@ -41,8 +41,8 @@ public class QueryHintBuilder<ParentBuilder>
         return this;
     }
 
-    public QueryHintBuilder<ParentBuilder> withNumberOfProcessors(Integer number_of_processors){
-        tar.setNumberOfProcessors(number_of_processors);
+    public QueryHintBuilder<ParentBuilder> withNumberOfProcessors(Integer numberOfProcessors){
+        tar.setNumberOfProcessors(numberOfProcessors);
         return this;
     }
 
@@ -64,15 +64,16 @@ public class QueryHintBuilder<ParentBuilder>
         return this;
     }
 
-    public QueryHintBuilder<ParentBuilder> withHintName(String hint_name){
-        initAdd(new StringConstant(hint_name),
+    @Deprecated
+    public QueryHintBuilder<ParentBuilder> withHintName(String hintName){
+        initAdd(new StringConstant(hintName),
                 tar::getHintNameList,
                 tar::setHintNameList);
         return this;
     }
 
-    public QueryHintBuilder<ParentBuilder> withHintName(String... hint_name){
-        initAdd(Arrays.stream(hint_name)
+    public QueryHintBuilder<ParentBuilder> withHintName(String... hintNames){
+        initAdd(Arrays.stream(hintNames)
                 .map(StringConstant::new)
                 .collect(Collectors.toList()),
                 tar::getHintNameList,
@@ -80,8 +81,8 @@ public class QueryHintBuilder<ParentBuilder>
         return this;
     }
 
-    public QueryHintBuilder<ParentBuilder> withXmlPlan(String xml_plan){
-        tar.setXmlPlan(new StringConstant(xml_plan));
+    public QueryHintBuilder<ParentBuilder> withXmlPlan(String xmlPlan){
+        tar.setXmlPlan(new StringConstant(xmlPlan));
         return this;
     }
 
@@ -90,15 +91,16 @@ public class QueryHintBuilder<ParentBuilder>
         return this;
     }
 
-    public QueryHintBuilder<ParentBuilder> withHintName(TableHint table_hint){
-        initAdd(table_hint,
+    @Deprecated
+    public QueryHintBuilder<ParentBuilder> withHintName(TableHint tableHint){
+        initAdd(tableHint,
                 tar::getTableHintList,
                 tar::setTableHintList);
         return this;
     }
 
-    public QueryHintBuilder<ParentBuilder> withHintName(TableHint... table_hint){
-        initAdd(Arrays.asList(table_hint),
+    public QueryHintBuilder<ParentBuilder> withHintName(TableHint... tableHints){
+        initAdd(Arrays.asList(tableHints),
                 tar::getTableHintList,
                 tar::setTableHintList);
         return this;
@@ -191,7 +193,7 @@ public class QueryHintBuilder<ParentBuilder>
     public static QueryHint FAST(Integer numberRows){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.FAST)
-                .withNumber(numberRows)
+                .withNumberRows(numberRows)
                 .build();
     }
 

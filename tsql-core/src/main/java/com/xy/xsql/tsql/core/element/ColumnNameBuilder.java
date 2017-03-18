@@ -23,11 +23,11 @@ public class ColumnNameBuilder {
 
     /**
      * like this [Server Name,][Database Name,][Schema Name,][Table Name,]Column Name
-     * @param name Max length is 4
+     * @param server_db_schema_table_column Max length is 4
      * @return
      */
-    public static ColumnName c(String... name){
-        List<String> listReversedOrder = reverse(name);
+    public static ColumnName c(String... server_db_schema_table_column){
+        List<String> listReversedOrder = reverse(server_db_schema_table_column);
 
         ColumnName columnName = new ColumnName();
         TableName tableName = new TableName();

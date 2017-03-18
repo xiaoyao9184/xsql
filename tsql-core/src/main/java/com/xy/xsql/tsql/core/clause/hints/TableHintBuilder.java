@@ -33,17 +33,17 @@ public class TableHintBuilder<ParentBuilder>
         return this;
     }
 
-    public TableHintBuilder<ParentBuilder> withIndexValue(String... index_value){
+    public TableHintBuilder<ParentBuilder> withIndexValue(String... indexValues){
         tar.setIndex_value(
-                Arrays.stream(index_value)
+                Arrays.stream(indexValues)
                         .map(StringConstant::new)
                         .collect(Collectors.toList()));
         return this;
     }
 
-    public TableHintBuilder<ParentBuilder> withPercent(String... index_column_name){
+    public TableHintBuilder<ParentBuilder> withPercent(String... indexColumnNames){
         tar.setIndex_column_name(
-                Arrays.stream(index_column_name)
+                Arrays.stream(indexColumnNames)
                         .map(StringConstant::new)
                         .collect(Collectors.toList()));
         return this;
@@ -61,23 +61,23 @@ public class TableHintBuilder<ParentBuilder>
                 .withNOEXPAND();
     }
 
-    public static TableHint INDEX(String... index_value){
+    public static TableHint INDEX(String... indexValues){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.INDEX);
         tableHint.setIndex_value(
-                Arrays.stream(index_value)
+                Arrays.stream(indexValues)
                         .map(StringConstant::new)
                         .collect(Collectors.toList()));
         return tableHint;
     }
 
-    public static TableHint FORCESEEK(String index_value, String... index_column_name){
+    public static TableHint FORCESEEK(String index_value, String... indexColumnNames){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.FORCESEEK);
         tableHint.setIndex_value(
                 Collections.singletonList(new StringConstant(index_value)));
         tableHint.setIndex_column_name(
-                Arrays.stream(index_column_name)
+                Arrays.stream(indexColumnNames)
                         .map(StringConstant::new)
                         .collect(Collectors.toList()));
         return tableHint;

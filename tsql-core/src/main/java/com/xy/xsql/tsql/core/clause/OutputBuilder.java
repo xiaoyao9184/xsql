@@ -48,8 +48,8 @@ public class OutputBuilder<ParentBuilder>
         return this;
     }
 
-    public OutputBuilder<ParentBuilder> withColumnName(ColumnName... columnName){
-        initAdd(Arrays.asList(columnName),
+    public OutputBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
+        initAdd(Arrays.asList(columnNames),
                 tar::getColumnList,
                 tar::setColumnList);
         return this;
@@ -66,12 +66,12 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param name
+     * @param names
      * @return
      */
     @Deprecated
-    public OutputBuilder<ParentBuilder> $(String... name){
-        List<Output.DmlSelect> list = Arrays.stream(name)
+    public OutputBuilder<ParentBuilder> $(String... names){
+        List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((Output.ColumnName::new))
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
@@ -114,13 +114,13 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param name
+     * @param names
      * @return
      */
-    public OutputBuilder<ParentBuilder> $Inserted(String... name){
-        List<Output.DmlSelect> list = Arrays.stream(name)
-                .map((s -> {
-                    Output.ColumnName columnName = new Output.ColumnName(s);
+    public OutputBuilder<ParentBuilder> $Inserted(String... names){
+        List<Output.DmlSelect> list = Arrays.stream(names)
+                .map((name -> {
+                    Output.ColumnName columnName = new Output.ColumnName(name);
                     columnName.setUseInserted(true);
                     return columnName;
                 }))
@@ -134,13 +134,13 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param name
+     * @param names
      * @return
      */
-    public OutputBuilder<ParentBuilder> $Deleted(String... name){
-        List<Output.DmlSelect> list = Arrays.stream(name)
-                .map((s -> {
-                    Output.ColumnName columnName = new Output.ColumnName(s);
+    public OutputBuilder<ParentBuilder> $Deleted(String... names){
+        List<Output.DmlSelect> list = Arrays.stream(names)
+                .map((name -> {
+                    Output.ColumnName columnName = new Output.ColumnName(name);
                     columnName.setUseDeleted(true);
                     return columnName;
                 }))
@@ -175,11 +175,11 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set OutputDmlSelect
-     * @param name
+     * @param names
      * @return
      */
-    public OutputBuilder<ParentBuilder> $Output(String... name){
-        List<Output.DmlSelect> list = Arrays.stream(name)
+    public OutputBuilder<ParentBuilder> $Output(String... names){
+        List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((Output.ColumnName::new))
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
@@ -221,13 +221,13 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param name
+     * @param names
      * @return
      */
-    public OutputBuilder<ParentBuilder> $Output_Inserted(String... name){
-        List<Output.DmlSelect> list = Arrays.stream(name)
-                .map((s -> {
-                    Output.ColumnName columnName = new Output.ColumnName(s);
+    public OutputBuilder<ParentBuilder> $Output_Inserted(String... names){
+        List<Output.DmlSelect> list = Arrays.stream(names)
+                .map((name -> {
+                    Output.ColumnName columnName = new Output.ColumnName(name);
                     columnName.setUseInserted(true);
                     return columnName;
                 }))
@@ -241,13 +241,13 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param name
+     * @param names
      * @return
      */
-    public OutputBuilder<ParentBuilder> $Output_Deleted(String... name){
-        List<Output.DmlSelect> list = Arrays.stream(name)
-                .map((s -> {
-                    Output.ColumnName columnName = new Output.ColumnName(s);
+    public OutputBuilder<ParentBuilder> $Output_Deleted(String... names){
+        List<Output.DmlSelect> list = Arrays.stream(names)
+                .map((name -> {
+                    Output.ColumnName columnName = new Output.ColumnName(name);
                     columnName.setUseDeleted(true);
                     return columnName;
                 }))

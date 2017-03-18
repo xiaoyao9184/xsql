@@ -23,6 +23,7 @@ public class CoalesceBuilder<ParentBuilder>
         super(tar);
     }
 
+    @Deprecated
     public CoalesceBuilder<ParentBuilder> withExpression(Expression expression) {
         initAdd(expression,
                 tar::getExpressionList,
@@ -30,8 +31,8 @@ public class CoalesceBuilder<ParentBuilder>
         return this;
     }
 
-    public CoalesceBuilder<ParentBuilder> withExpression(Expression... expression) {
-        initAdd(Arrays.asList(expression),
+    public CoalesceBuilder<ParentBuilder> withExpression(Expression... expressions) {
+        initAdd(Arrays.asList(expressions),
                 tar::getExpressionList,
                 tar::setExpressionList);
         return this;

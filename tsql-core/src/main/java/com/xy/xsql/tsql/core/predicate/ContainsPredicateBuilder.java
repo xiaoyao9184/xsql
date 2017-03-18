@@ -34,9 +34,9 @@ public class ContainsPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public ContainsPredicateBuilder<ParentBuilder> withColumn(String... columnName) {
+    public ContainsPredicateBuilder<ParentBuilder> withColumn(String... columnNames) {
         tar.setColumnList(
-                Arrays.stream(columnName)
+                Arrays.stream(columnNames)
                         .map(ColumnName::new)
                         .collect(Collectors.toList()));
         return this;

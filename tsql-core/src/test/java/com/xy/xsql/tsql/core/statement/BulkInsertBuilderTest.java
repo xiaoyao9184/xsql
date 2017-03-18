@@ -38,7 +38,7 @@ public class BulkInsertBuilderTest {
             .build(null);
 
         Assert.assertEquals(insert.getCodePage().toString(),"ACP");
-        Assert.assertEquals(insert.getDataFileType().toString(),"char");
+        Assert.assertEquals(insert.getDataFileType().toString(),"Char");
     }
 
 

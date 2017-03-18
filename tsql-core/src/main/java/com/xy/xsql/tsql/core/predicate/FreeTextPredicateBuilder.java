@@ -34,9 +34,9 @@ public class FreeTextPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public FreeTextPredicateBuilder<ParentBuilder> withColumn(String... columnName) {
+    public FreeTextPredicateBuilder<ParentBuilder> withColumn(String... columnNames) {
         tar.setColumnList(
-                Arrays.stream(columnName)
+                Arrays.stream(columnNames)
                         .map(ColumnName::new)
                         .collect(Collectors.toList()));
         return this;

@@ -35,9 +35,9 @@ public class TableValueConstructorBuilder<ParentBuilder>
     }
 
 
-    public TableValueConstructorBuilder<ParentBuilder> $(RowValueExpression... rowValueExpression){
+    public TableValueConstructorBuilder<ParentBuilder> $(RowValueExpression... rowValueExpressions){
         return withRowValues()
-                .withRowValueExpression(rowValueExpression)
+                .withRowValueExpression(rowValueExpressions)
                 .and();
     }
 
@@ -48,8 +48,8 @@ public class TableValueConstructorBuilder<ParentBuilder>
             super(tar);
         }
 
-        public RowValuesBuilder<ParentBuilder> withRowValueExpression(RowValueExpression... rowValueExpression){
-            tar.addAll(Arrays.asList(rowValueExpression));
+        public RowValuesBuilder<ParentBuilder> withRowValueExpression(RowValueExpression... rowValueExpressions){
+            tar.addAll(Arrays.asList(rowValueExpressions));
             return this;
         }
     }

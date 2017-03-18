@@ -45,11 +45,11 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
 
     /**
      * Quick set
-     * @param columnDefinition
+     * @param columnDefinitions
      * @return
      */
-    public TableTypeDefinitionBuilder<ParentBuilder> withColumnDefinition(ColumnDefinition... columnDefinition){
-        initAdd(Arrays.asList(columnDefinition),
+    public TableTypeDefinitionBuilder<ParentBuilder> withColumnDefinition(ColumnDefinition... columnDefinitions){
+        initAdd(Arrays.asList(columnDefinitions),
                 tar::getList,
                 tar::setList);
         return this;
@@ -58,11 +58,11 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
 
     /**
      * Quick set
-     * @param columnDefinition
+     * @param columnDefinitions
      * @return
      */
-    public TableTypeDefinitionBuilder<ParentBuilder> $_(ColumnDefinition... columnDefinition){
-        initAdd(Arrays.asList(columnDefinition),
+    public TableTypeDefinitionBuilder<ParentBuilder> $_(ColumnDefinition... columnDefinitions){
+        initAdd(Arrays.asList(columnDefinitions),
                 tar::getList,
                 tar::setList);
         return this;
