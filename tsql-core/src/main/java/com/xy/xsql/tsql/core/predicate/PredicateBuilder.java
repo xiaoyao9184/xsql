@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.core.predicate;
 
 import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.Setter;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Operators;
@@ -17,17 +18,21 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 public class PredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,Predicate> {
 
-    public PredicateBuilder() {
-        super(null);
-    }
+    private Setter<Predicate> setter;
 
     public PredicateBuilder(Predicate predicate) {
         super(predicate);
     }
 
-    public ComparisonPredicateBuilder<ParentBuilder> Operator(){
+    public PredicateBuilder(Setter<Predicate> setter) {
+        super(null);
+        this.setter = setter;
+    }
+
+    public ComparisonPredicateBuilder<ParentBuilder> Comparison(){
         Comparison predicate = new Comparison();
         tar = predicate;
+        this.setter.set(predicate);
         return new ComparisonPredicateBuilder<ParentBuilder>(predicate).in(out());
     }
 

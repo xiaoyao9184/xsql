@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder;
 import com.xy.xsql.tsql.core.statement.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.operator.Operators;
@@ -74,7 +73,7 @@ public class TableValueConstructorBuilderTest {
                         .withTableSource().withTableName("Production.Product")
                         .out()
                         .out()
-                    .withWhere().withSearchCondition().withPredicate().Operator()
+                    .withWhere().withSearchCondition().withPredicate().Comparison()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
                         .withExpression(e_number(720))
@@ -92,7 +91,7 @@ public class TableValueConstructorBuilderTest {
                         .withTableSource().withTableName("Production.Product")
                         .out()
                         .out()
-                    .withWhere().withSearchCondition().withPredicate().Operator()
+                    .withWhere().withSearchCondition().withPredicate().Comparison()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
                         .withExpression(e_number(720))

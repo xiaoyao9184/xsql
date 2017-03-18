@@ -30,7 +30,7 @@ public class SearchConditionBuilder<ParentBuilder>
 
     public PredicateBuilder<SearchConditionBuilder<ParentBuilder>> withPredicate(){
         return new PredicateBuilder<SearchConditionBuilder<ParentBuilder>>
-                ()
+                (tar::setPredicate)
                 .in(this);
     }
 
@@ -70,111 +70,30 @@ public class SearchConditionBuilder<ParentBuilder>
         return this;
     }
 
-
     /**
-     * Quick in AndOrNotItemBuilder
-     * @deprecated cant simple method name to and() conflict
-     * @see #and()
-     * @return
-     */
-    @Deprecated
-    public AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>> withAnd() {
-        SearchCondition.AndOrNotItem andOrNotItem = new SearchCondition.AndOrNotItem();
-        initAdd(andOrNotItem,
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return new AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>
-                (andOrNotItem)
-                .withAnd()
-                .in(this);
-    }
-
-    /**
-     * Quick in AndOrNotItemBuilder
-     * @deprecated cant simple method name to or() , and() conflict
-     * @see #and()
-     * @return
-     */
-    @Deprecated
-    public AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>> withOr() {
-        SearchCondition.AndOrNotItem andOrNotItem = new SearchCondition.AndOrNotItem();
-        initAdd(andOrNotItem,
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return new AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>
-                (andOrNotItem)
-                .withOr()
-                .in(this);
-    }
-
-    /**
-     * Quick in AndOrNotItemBuilder
-     * @deprecated cant simple method name to andNot() , and() conflict
-     * @see #and()
-     * @return
-     */
-    @Deprecated
-    public AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>> withAndNot() {
-        SearchCondition.AndOrNotItem andOrNotItem = new SearchCondition.AndOrNotItem();
-        initAdd(andOrNotItem,
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return new AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>
-                (andOrNotItem)
-                .withAnd()
-                .withNot(true)
-                .in(this);
-    }
-
-    /**
-     * Quick in AndOrNotItemBuilder
-     * @deprecated cant simple method name to orNot() , and() conflict
-     * @see #and()
-     * @return
-     */
-    @Deprecated
-    public AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>> withOrNot() {
-        SearchCondition.AndOrNotItem andOrNotItem = new SearchCondition.AndOrNotItem();
-        initAdd(andOrNotItem,
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return new AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>
-                (andOrNotItem)
-                .withOr()
-                .withNot(true)
-                .in(this);
-    }
-
-
-
-
-
-    /**
-     * Quick set AndOrNotItem' predicate
+     * Quick set predicate
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> $_And(Predicate predicate) {
-        return withAndOrNotItem()
-                .withAnd()
-                .withPredicate(predicate)
-                .and();
+    public SearchConditionBuilder<ParentBuilder> $NotPredicate(Predicate predicate){
+        tar.setUseNot(true);
+        tar.setPredicate(predicate);
+        return this;
     }
 
     /**
-     * Quick set AndOrNotItem' predicate
-     * @param predicate
+     * Quick set searchCondition
+     * @param searchCondition
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> $_Or(Predicate predicate) {
-        return withAndOrNotItem()
-                .withOr()
-                .withPredicate(predicate)
-                .and();
+    public SearchConditionBuilder<ParentBuilder> $NotSearchCondition(SearchCondition searchCondition){
+        tar.setUseNot(true);
+        tar.setSearchCondition(searchCondition);
+        return this;
     }
 
     /**
-     * Quick set AndOrNotItem' predicate
+     * Quick inout set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -186,7 +105,7 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick set AndOrNotItem' predicate
+     * Quick inout set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -198,7 +117,7 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick set AndOrNotItem' predicate
+     * Quick inout set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -211,7 +130,7 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick set AndOrNotItem' predicate
+     * Quick inout set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -225,6 +144,7 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
     /**
+     * TODO maybe just use $_And()
      * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
      * @return
      */
@@ -296,6 +216,169 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
 
+
+
+
+
+
+
+
+
+
+    /**
+     * Quick set predicate
+     * @param predicate
+     * @return
+     */
+    public SearchConditionBuilder<ParentBuilder> $(Predicate predicate){
+        tar.setPredicate(predicate);
+        return this;
+    }
+
+    /**
+     * Quick set predicate
+     * @param predicate
+     * @return
+     */
+    public SearchConditionBuilder<ParentBuilder> $Not(Predicate predicate){
+        tar.setUseNot(true);
+        tar.setPredicate(predicate);
+        return this;
+    }
+
+    /**
+     * Quick set searchCondition
+     * @return
+     */
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_(){
+        return withSearchCondition();
+    }
+
+    /**
+     * Quick set searchCondition
+     * @return
+     */
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_Not(){
+        return withSearchCondition()
+                .withNot();
+    }
+
+
+    /**
+     * Quick inout set AndOrNotItem' predicate
+     * @param predicate
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<ParentBuilder> $_And(Predicate predicate) {
+        return withAndOrNotItem()
+                .withAnd()
+                .withPredicate(predicate)
+                .and();
+    }
+
+    /**
+     * Quick inout set AndOrNotItem' predicate
+     * @param predicate
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<ParentBuilder> $_Or(Predicate predicate) {
+        return withAndOrNotItem()
+                .withOr()
+                .withPredicate(predicate)
+                .and();
+    }
+
+    /**
+     * Quick inout set AndOrNotItem' predicate
+     * @param predicate
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<ParentBuilder> $_AndNot(Predicate predicate) {
+        return withAndOrNotItem()
+                .withAnd()
+                .withNot(true)
+                .withPredicate(predicate)
+                .and();
+    }
+
+    /**
+     * Quick inout set AndOrNotItem' predicate
+     * @param predicate
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<ParentBuilder> $_OrNot(Predicate predicate) {
+        return withAndOrNotItem()
+                .withOr()
+                .withNot(true)
+                .withPredicate(predicate)
+                .and();
+    }
+
+    /**
+     * Quick in AndOrNotItem' SearchCondition'
+     * @see #and()
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>> $__And() {
+        return withAndOrNotItem()
+                .withAnd()
+                .withSearchCondition();
+    }
+
+    /**
+     * Quick in AndOrNotItem' SearchCondition'
+     * @see #and()
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>> $__Or() {
+        return withAndOrNotItem()
+                .withOr()
+                .withSearchCondition();
+    }
+
+    /**
+     * Quick in AndOrNotItem' SearchCondition'
+     * @see #and()
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>> $__AndNot() {
+        return withAndOrNotItem()
+                .withAnd()
+                .withNot(true)
+                .withSearchCondition();
+    }
+
+    /**
+     * Quick in AndOrNotItem' SearchCondition'
+     * @see #and()
+     * @return
+     */
+    @Deprecated
+    public SearchConditionBuilder<AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>> $__OrNot() {
+        return withAndOrNotItem()
+                .withOr()
+                .withNot(true)
+                .withSearchCondition();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) }
      * @param <ParentBuilder>
@@ -334,7 +417,7 @@ public class SearchConditionBuilder<ParentBuilder>
 
         public PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>> withPredicate(){
             return new PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>>
-                    ()
+                    (tar::setPredicate)
                     .in(this);
         }
 
