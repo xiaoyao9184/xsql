@@ -62,10 +62,13 @@ public class WhereBuilderTest {
     @Test
     public void testExampleB(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_like(e("Name"),e_string("%Frame%"))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Like()
+                        .withStringExpression(e("Name"))
+                        .withStringExpression(e_string("%Frame%"))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -93,10 +96,14 @@ public class WhereBuilderTest {
     @Test
     public void testExampleC(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                       p_less_equal(e("ProductID"),e_number(12))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Comparison()
+                        .withExpression(e("ProductID"))
+                        .withOperator(Operators.LESS_EQUAL)
+                        .withExpression(e_number(12))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -125,7 +132,7 @@ public class WhereBuilderTest {
     @Test
     public void testExampleD(){
         // @formatter:off
-        Where where0 = new WhereBuilder<Void>()
+        Where where = new WhereBuilder<Void>()
                 .withSearchCondition()
                     .withPredicate()._Comparison()
                             .withExpression(e("ProductID"))
@@ -149,19 +156,6 @@ public class WhereBuilderTest {
                                 .and()
                         .and()
                     .and()
-                .build();
-
-
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_equal(e("ProductID"),e_number(2))
-                )
-                .withOrPredicate(
-                        p_equal(e("ProductID"),e_number(4))
-                )
-                .withOrPredicate(
-                        p_equal(e("Name"),e_string("Spokes"))
-                )
                 .build();
 
         //parent+quick
@@ -212,16 +206,28 @@ public class WhereBuilderTest {
     @Test
     public void testExampleE(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_like(e("Name"),e_string("%Frame%"))
-                )
-                .withAndPredicate(
-                        p_like(e("Name"),e_string("HL%"))
-                )
-                .withAndPredicate(
-                        p_equal(e("Color"),e_string("Red"))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Like()
+                        .withStringExpression(e("Name"))
+                        .withStringExpression(e_string("%Frame%"))
+                        .and()
+                    .withAndOrNotItem()
+                        .withAnd()
+                        .withPredicate()._Like()
+                            .withStringExpression(e("Name"))
+                            .withStringExpression(e_string("HL%"))
+                            .and()
+                        .and()
+                    .withAndOrNotItem()
+                        .withAnd()
+                        .withPredicate()._Comparison()
+                            .withExpression(e("Color"))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(e_string("Red"))
+                            .and()
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -268,14 +274,15 @@ public class WhereBuilderTest {
     @Test
     public void testExampleF(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_in(
-                                e("Name"),
-                                e_string("Blade"),
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._In()
+                        .withExpression(e("Name"))
+                        .withValueExpression(e_string("Blade"),
                                 e_string("Crown Race"),
                                 e_string("Spokes"))
-                )
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -313,13 +320,14 @@ public class WhereBuilderTest {
     @Test
     public void testExampleG(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_between(
-                                e("ProductID"),
-                                e_number(725),
-                                e_number(734))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Between()
+                        .withExpression(e("ProductID"))
+                        .withExpression(e_number(725))
+                        .withExpression(e_number(734))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -350,12 +358,14 @@ public class WhereBuilderTest {
     @Test
     public void testExampleH(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_equal(
-                                e("LastName"),
-                                e_string("Smith"))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Comparison()
+                        .withExpression(e("LastName"))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e_string("Smith"))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -385,12 +395,13 @@ public class WhereBuilderTest {
     @Test
     public void testExampleI(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_like(
-                                e("LastName"),
-                                e_string("%Smi%"))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Like()
+                        .withStringExpression(e("LastName"))
+                        .withStringExpression(e_string("%Smi%"))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -419,12 +430,14 @@ public class WhereBuilderTest {
     @Test
     public void testExampleJ(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_less_equal(
-                                e("EmployeeKey"),
-                                e_number(500))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Comparison()
+                        .withExpression(e("EmployeeKey"))
+                        .withOperator(Operators.LESS_EQUAL)
+                        .withExpression(e_number(500))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -454,22 +467,30 @@ public class WhereBuilderTest {
     @Test
     public void testExampleK(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_equal(
-                            e("EmployeeKey"),
-                            e_number(1))
-                )
-                .withOrPredicate(
-                        p_equal(
-                            e("EmployeeKey"),
-                            e_number(8)
-                ))
-                .withOrPredicate(
-                        p_equal(
-                            e("EmployeeKey"),
-                            e_number(12)
-                ))
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Comparison()
+                        .withExpression(e("EmployeeKey"))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e_number(1))
+                        .and()
+                    .withAndOrNotItem()
+                        .withOr()
+                        .withPredicate()._Comparison()
+                            .withExpression(e("EmployeeKey"))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(e_number(8))
+                            .and()
+                        .and()
+                    .withAndOrNotItem()
+                        .withOr()
+                        .withPredicate()._Comparison()
+                            .withExpression(e("EmployeeKey"))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(e_number(12))
+                            .and()
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -526,22 +547,28 @@ public class WhereBuilderTest {
     @Test
     public void testExampleL(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_less_equal(
-                                e("EmployeeKey"),
-                                e_number(500))
-                )
-                .withAndPredicate(
-                        p_like(
-                                e("LastName"),
-                                e_string("%Smi%"))
-                )
-                .withAndPredicate(
-                        p_like(
-                                e("FirstName"),
-                                e_string("%A%"))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Comparison()
+                        .withExpression(e("EmployeeKey"))
+                        .withOperator(Operators.LESS_EQUAL)
+                        .withExpression(e_number(500))
+                        .and()
+                    .withAndOrNotItem()
+                        .withAnd()
+                        .withPredicate()._Like()
+                            .withStringExpression(e("LastName"))
+                            .withStringExpression(e_string("%Smi%"))
+                            .and()
+                        .and()
+                    .withAndOrNotItem()
+                        .withAnd()
+                        .withPredicate()._Like()
+                            .withStringExpression(e("FirstName"))
+                            .withStringExpression(e_string("%A%"))
+                            .and()
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -596,14 +623,15 @@ public class WhereBuilderTest {
     @Test
     public void testExampleM(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_in(
-                                e("LastName"),
-                                e_string("Smith"),
-                                e_string("Godfrey"),
-                                e_string("Johnson"))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._In()
+                        .withExpression(e("LastName"))
+                        .withValueExpression(e_string("Smith"))
+                        .withValueExpression(e_string("Godfrey"))
+                        .withValueExpression(e_string("Johnson"))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick
@@ -636,13 +664,14 @@ public class WhereBuilderTest {
     @Test
     public void testExampleN(){
         // @formatter:off
-        Where where = new WhereBuilder.QuickBuilder<Void>()
-                .withPredicate(
-                        p_between(
-                            e("EmployeeKey"),
-                            e_number(100),
-                            e_number(200))
-                )
+        Where where = new WhereBuilder<Void>()
+                .withSearchCondition()
+                    .withPredicate()._Between()
+                        .withExpression(e("EmployeeKey"))
+                        .withExpression(e_number(100))
+                        .withExpression(e_number(200))
+                        .and()
+                    .and()
                 .build();
 
         //parent+quick

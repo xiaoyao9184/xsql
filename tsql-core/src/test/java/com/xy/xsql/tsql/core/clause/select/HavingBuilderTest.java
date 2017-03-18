@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.tsql.core.predicate.PredicateBuilder;
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.select.Having;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import org.junit.Assert;
@@ -8,6 +9,8 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_greater;
+import static com.xy.xsql.tsql.model.operator.Operators.GREATER;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -19,14 +22,28 @@ public class HavingBuilderTest {
      */
     @Test
     public void testExample(){
+        // @formatter:off
         Having having = new HavingBuilder<Void>()
                 .withSearchCondition()
-                    .$Predicate(
-                            PredicateBuilder.p_greater(e("SUM(LineTotal)"),
-                                    e_number(100000.00))
-                    )
+                    .withPredicate()._Comparison()
+                        .withExpression(e("SUM(LineTotal)"))
+                        .withOperator(GREATER)
+                        .withExpression(e_number(100000.00))
+                        .and()
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Having> parent = new MockParentBuilder<HavingBuilder<MockParent<Having>>,Having>
+                (HavingBuilder.class,Having.class)
+                .$child()
+                    .$Predicate(
+                        p_greater(
+                                e("SUM(LineTotal)"),
+                                e_number(100000.00))
+                    )
+                    .and();
+        // @formatter:on
 
         Assert.assertEquals(having.getSearchCondition().getPredicate().getClass() ,Comparison.class);
         Comparison predicate = (Comparison) having.getSearchCondition().getPredicate();
