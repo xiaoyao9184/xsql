@@ -1,6 +1,9 @@
 package com.xy.xsql.tsql.core.clause;
 
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.core.statement.SelectBuilder;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
@@ -8,7 +11,10 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_is_not_null;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_like;
 
 /**
  * TODO not done
@@ -62,6 +68,19 @@ public class WithBuilderTest {
                     .withCteQueryDefinition(select)
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<With> parent = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "Sales_CTE",
+                            select,
+                            c("SalesPersonID"),
+                            c("SalesOrderID"),
+                            c("SalesYear")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
@@ -97,6 +116,18 @@ public class WithBuilderTest {
                     .withCteQueryDefinition(select)
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<With> parent = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "Sales_CTE",
+                            select,
+                            c("SalesPersonID"),
+                            c("NumberOfOrders")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
@@ -151,6 +182,26 @@ public class WithBuilderTest {
                     .withCteQueryDefinition(select)
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<With> parent = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "Sales_CTE",
+                            select,
+                            c("SalesPersonID"),
+                            c("TotalSales"),
+                            c("SalesYear")
+                    )
+                    .$(
+                            "Sales_Quota_CTE",
+                            select,
+                            c("BusinessEntityID"),
+                            c("SalesQuota"),
+                            c("SalesQuotaYear")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(with.getCommonTableExpressionList().size(), 2);
@@ -199,6 +250,20 @@ public class WithBuilderTest {
                     .withCteQueryDefinition(select)
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<With> parent = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "DirectReports",
+                            select,
+                            c("ManagerID"),
+                            c("EmployeeID"),
+                            c("Title"),
+                            c("EmployeeLevel")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
@@ -241,6 +306,20 @@ public class WithBuilderTest {
                     .withCteQueryDefinition(select)
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<With> parent = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "DirectReports",
+                            select,
+                            c("ManagerID"),
+                            c("EmployeeID"),
+                            c("Title"),
+                            c("EmployeeLevel")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
@@ -293,6 +372,21 @@ public class WithBuilderTest {
                     .withCteQueryDefinition(select)
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<With> parent = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "DirectReports",
+                            select,
+                            c("Name"),
+                            c("Title"),
+                            c("EmployeeID"),
+                            c("EmployeeLevel"),
+                            c("Sort")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
@@ -336,6 +430,19 @@ public class WithBuilderTest {
                     .withCteQueryDefinition(select)
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<With> parent = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "cte",
+                            select,
+                            c("EmployeeID"),
+                            c("ManagerID"),
+                            c("Title")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
