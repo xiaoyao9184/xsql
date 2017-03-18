@@ -44,17 +44,23 @@ import java.util.List;
  */
 public class OrderBy implements Clause {
 
-    private List<OrderByItem> items;
+    /*
+    order_by_expression
+     [ COLLATE collation_name ]
+     [ ASC | DESC ]
+     [ ,...n ]
+     */
+    private List<Item> items;
 
     //[ <offset_fetch> ]
     private OffsetFetch offsetFetch;
 
 
-    public List<OrderByItem> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderByItem> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
@@ -72,8 +78,8 @@ public class OrderBy implements Clause {
         ListBlockBuilder b = new ListBlockBuilder()
                 .append(Keywords.ORDER)
                 .append(Keywords.BY)
-                .append(items, Other.DELIMITER)
-                .append(offsetFetch != null ? offsetFetch : null);
+                .append(items)
+                .append(offsetFetch);
         return b.build();
     }
 
@@ -87,15 +93,23 @@ public class OrderBy implements Clause {
 
      *
      */
-    public static class OrderByItem implements Block {
+    public static class Item implements Block {
 
-        //
+        //order_by_expression
         private Expression orderByExpression;
-        //[ COLLATE collation_name ]
+        //TODO [ COLLATE collation_name ]
 
         //[ ASC | DESC ]
         private boolean useAsc;
         private boolean useDesc;
+
+        public Item(){}
+
+        public Item(Expression orderByExpression){
+            this.orderByExpression = orderByExpression;
+            this.useAsc = true;
+        }
+
 
         public Expression getOrderByExpression() {
             return orderByExpression;
@@ -125,7 +139,6 @@ public class OrderBy implements Clause {
         @Override
         public List<Block> toBlockList() {
             ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE)
                     .append(orderByExpression);
             if(useAsc){
                 b.append(Keywords.ASC);
@@ -255,7 +268,6 @@ public class OrderBy implements Clause {
                 b.append(useFetchRow ? Keywords.Key.ROW : Keywords.Key.ROWS)
                         .append(Keywords.Key.ONLY);
             }
-
 
             return b.build();
         }

@@ -127,16 +127,16 @@ public class Over implements Clause {
         @Override
         public List<Block> toBlockList() {
             return new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE)
                     .append(Keywords.Key.PARTITION)
                     .append(Keywords.BY)
-                    .append(valueExpressionList,Other.DELIMITER)
+                    .append(valueExpressionList)
                     .build();
         }
     }
 
     /**
      * <ORDER BY clause>
+     * TODO maybe use select.OrderBy replace
      */
     public static class OrderBy implements Block {
         /*
@@ -145,13 +145,13 @@ public class Over implements Clause {
             [ ASC | DESC ]
             [ ,...n ]
         */
-        private List<com.xy.xsql.tsql.model.clause.select.OrderBy.OrderByItem> items;
+        private List<com.xy.xsql.tsql.model.clause.select.OrderBy.Item> items;
 
-        public List<com.xy.xsql.tsql.model.clause.select.OrderBy.OrderByItem> getItems() {
+        public List<com.xy.xsql.tsql.model.clause.select.OrderBy.Item> getItems() {
             return items;
         }
 
-        public void setItems(List<com.xy.xsql.tsql.model.clause.select.OrderBy.OrderByItem> items) {
+        public void setItems(List<com.xy.xsql.tsql.model.clause.select.OrderBy.Item> items) {
             this.items = items;
         }
 
@@ -159,10 +159,9 @@ public class Over implements Clause {
         @Override
         public List<Block> toBlockList() {
             return new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE)
                     .append(Keywords.ORDER)
                     .append(Keywords.BY)
-                    .append(items, Other.DELIMITER)
+                    .append(items)
                     .build();
         }
     }

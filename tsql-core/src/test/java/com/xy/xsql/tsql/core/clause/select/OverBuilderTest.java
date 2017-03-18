@@ -1,10 +1,15 @@
 package com.xy.xsql.tsql.core.clause.select;
 
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
+import com.xy.xsql.tsql.model.clause.select.Having;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_greater;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -28,6 +33,14 @@ public class OverBuilderTest {
                         .out()
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Over> parent = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$PartitionBy(e("PostalCode"))
+                    .$OrderBy_Desc(e("SalesYTD"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
@@ -51,6 +64,13 @@ public class OverBuilderTest {
                     .withExpression(e("SalesOrderID"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Over> parent = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$PartitionBy(e("SalesOrderID"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
@@ -75,6 +95,14 @@ public class OverBuilderTest {
                         .out()
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Over> parent = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$PartitionBy(e("TerritoryID"))
+                    .$OrderBy(e("DATEPART(yy,ModifiedDate) "))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
@@ -101,6 +129,15 @@ public class OverBuilderTest {
                     .and()
                 //TODO
                 .build();
+
+        //parent+quick
+        MockParent<Over> parent = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$PartitionBy(e("TerritoryID"))
+                    .$OrderBy(e("DATEPART(yy,ModifiedDate)"))
+                //TODO
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
@@ -122,6 +159,14 @@ public class OverBuilderTest {
                         .out()
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Over> parent = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$OrderBy_Desc(e("SUM(SalesAmountQuota)"))
+                //TODO
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(over.getOrderBy().getItems().size(),1);
@@ -140,6 +185,14 @@ public class OverBuilderTest {
                     .withExpression(e("SalesOrderNumber"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Over> parent = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$PartitionBy(e("SalesOrderNumber"))
+                //TODO
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);

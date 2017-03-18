@@ -5,6 +5,8 @@ import com.xy.xsql.tsql.model.clause.select.OrderBy;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import com.xy.xsql.tsql.model.expression.Expression;
 
+import java.util.Arrays;
+
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
@@ -41,6 +43,51 @@ public class OverBuilder<ParentBuilder>
     }
 
 
+    /**
+     * Quick inout set PartitionByBuilder' expression
+     * @param expressions
+     * @return
+     */
+    public OverBuilder<ParentBuilder> $PartitionBy(Expression... expressions){
+        return withPartitionBy()
+                .withExpression(expressions)
+                .and();
+    }
+
+    /**
+     * Quick inout set OrderByBuilder' expression
+     * @param expressions
+     * @return
+     */
+    public OverBuilder<ParentBuilder> $OrderBy(Expression... expressions){
+        OrderBy.Item[] array = Arrays.stream(expressions)
+                .map(OrderBy.Item::new)
+                .toArray(OrderBy.Item[]::new);
+        return withOrderBy()
+                .withItems(array)
+                .and();
+    }
+
+    /**
+     * Quick inout set OrderByBuilder' expression
+     * @param expressions
+     * @return
+     */
+    public OverBuilder<ParentBuilder> $OrderBy_Desc(Expression... expressions){
+        OrderBy.Item[] array = Arrays.stream(expressions)
+                .map((expression -> {
+                    OrderBy.Item orderByItem = new OrderBy.Item();
+                    orderByItem.setOrderByExpression(expression);
+                    orderByItem.setUseDesc(true);
+                    return orderByItem;
+                }))
+                .toArray(OrderBy.Item[]::new);
+        return withOrderBy()
+                .withItems(array)
+                .and();
+    }
+
+
 
 
     /**
@@ -54,8 +101,8 @@ public class OverBuilder<ParentBuilder>
             super(partitionBy);
         }
 
-        public PartitionByBuilder<ParentBuilder> withExpression(Expression expression){
-            initAdd(expression,
+        public PartitionByBuilder<ParentBuilder> withExpression(Expression... expression){
+            initAdd(Arrays.asList(expression),
                     tar::getValueExpressionList,
                     tar::setValueExpressionList);
             return this;
@@ -75,17 +122,18 @@ public class OverBuilder<ParentBuilder>
 
         public com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItems(){
             return new com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
-                    (initNew(OrderBy.OrderByItem::new,
+                    (initNew(OrderBy.Item::new,
                             tar::getItems,
                             tar::setItems))
                     .in(this);
         }
 
-        public OrderByBuilder<ParentBuilder> withItems(OrderBy.OrderByItem orderByItem){
-            initAdd(orderByItem,
+        public OrderByBuilder<ParentBuilder> withItems(OrderBy.Item... orderByItem){
+            initAdd(Arrays.asList(orderByItem),
                             tar::getItems,
                             tar::setItems);
             return this;
         }
     }
+
 }

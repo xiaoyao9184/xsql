@@ -21,9 +21,9 @@ public class OrderByBuilder<Done>
 
 
     public OrderByListBuilder<OrderByBuilder<Done>> withItems(){
-        List<OrderBy.OrderByItem> items = new ArrayList<>();
+        List<OrderBy.Item> items = new ArrayList<>();
         if(this.orderBy.getItems() == null){
-            this.orderBy.setItems(new ArrayList<OrderBy.OrderByItem>());
+            this.orderBy.setItems(new ArrayList<OrderBy.Item>());
         }
         this.orderBy.setItems(items);
         return new OrderByListBuilder<OrderByBuilder<Done>>(items)
@@ -47,14 +47,14 @@ public class OrderByBuilder<Done>
     public static class OrderByListBuilder<Done>
             extends SubBuilder<OrderByListBuilder<Done>,Void,Done> {
 
-        private List<OrderBy.OrderByItem> orderByList;
+        private List<OrderBy.Item> orderByList;
 
-        public OrderByListBuilder(List<OrderBy.OrderByItem> orderByList) {
+        public OrderByListBuilder(List<OrderBy.Item> orderByList) {
             this.orderByList = orderByList;
         }
 
         public OrderByItemBuilder<OrderByListBuilder<Done>> withItem(){
-            OrderBy.OrderByItem orderByItem = new OrderBy.OrderByItem();
+            OrderBy.Item orderByItem = new OrderBy.Item();
             if(this.orderByList == null){
                 this.orderByList = new ArrayList<>();
             }
@@ -71,9 +71,9 @@ public class OrderByBuilder<Done>
     public static class OrderByItemBuilder<Done>
             extends SubBuilder<OrderByItemBuilder<Done>,Void,Done> {
 
-        private OrderBy.OrderByItem orderByItem;
+        private OrderBy.Item orderByItem;
 
-        public OrderByItemBuilder(OrderBy.OrderByItem orderByItem) {
+        public OrderByItemBuilder(OrderBy.Item orderByItem) {
             this.orderByItem = orderByItem;
         }
 
