@@ -5,8 +5,10 @@ import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.expression.RowValueExpression;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
@@ -32,6 +34,13 @@ public class TableValueConstructorBuilder<ParentBuilder>
                 .in(this);
     }
 
+
+    public TableValueConstructorBuilder<ParentBuilder> $(RowValueExpression... rowValueExpression){
+        return withRowValues()
+                .withRowValueExpression(rowValueExpression)
+                .and();
+    }
+
     public static class RowValuesBuilder<ParentBuilder>
             extends CodeTreeBuilder<RowValuesBuilder<ParentBuilder>,ParentBuilder,List<RowValueExpression>> {
 
@@ -39,8 +48,8 @@ public class TableValueConstructorBuilder<ParentBuilder>
             super(tar);
         }
 
-        public RowValuesBuilder<ParentBuilder> withRowValueExpression(RowValueExpression rowValueExpression){
-            tar.add(rowValueExpression);
+        public RowValuesBuilder<ParentBuilder> withRowValueExpression(RowValueExpression... rowValueExpression){
+            tar.addAll(Arrays.asList(rowValueExpression));
             return this;
         }
     }
