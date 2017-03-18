@@ -84,7 +84,9 @@ public class ColumnName
 
     @Override
     public String toString(){
-        return this.name;
+        return this.table == null ?
+                this.name :
+                this.table.toString() + "." + this.name;
     }
 
     @Override

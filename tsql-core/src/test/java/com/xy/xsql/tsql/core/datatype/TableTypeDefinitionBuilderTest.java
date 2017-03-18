@@ -22,6 +22,7 @@ public class TableTypeDefinitionBuilderTest {
                 .withColumnDefinition()
                     .withColumnName(c("EmpID"))
                     .withDataType(_int())
+                //TODO NOT NULL
                     .and()
                 .withColumnDefinition(
                         c_int("OldVacationHours"),
@@ -42,6 +43,7 @@ public class TableTypeDefinitionBuilderTest {
                 .withColumnDefinition()
                     .withColumnName(c("EmpID"))
                     .withDataType(_int())
+                //TODO NOT NULL
                     .and()
                 .$_(
                         c_int("OldVacationHours"),
@@ -55,13 +57,13 @@ public class TableTypeDefinitionBuilderTest {
     }
 
 
-        /**
-         * table(
-         * EmpID int NOT NULL,
-         * OldVacationHours int,
-         * NewVacationHours int,
-         * ModifiedDate datetime);
-         */
+    /**
+     * table(
+     * EmpID int NOT NULL,
+     * OldVacationHours int,
+     * NewVacationHours int,
+     * ModifiedDate datetime);
+     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -69,6 +71,7 @@ public class TableTypeDefinitionBuilderTest {
                 .withColumnDefinition()
                     .withColumnName(c("EmpID"))
                     .withDataType(_int())
+                //TODO NOT NULL
                     .and()
                 .withColumnDefinition(
                         c_int("OldVacationHours"),

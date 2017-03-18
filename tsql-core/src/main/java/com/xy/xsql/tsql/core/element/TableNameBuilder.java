@@ -19,13 +19,6 @@ public class TableNameBuilder {
         return new TableName(name);
     }
 
-//    @Deprecated
-//    public static TableName t(String schemaName,String name){
-//        TableName tableName = new TableName(name);
-//        tableName.setSchemaName(schemaName);
-//        return tableName;
-//    }
-
     /**
      * like this [Server Name,][Database Name,][Schema Name,]Table Name
      * @param name Max length is 4
