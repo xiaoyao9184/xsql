@@ -1,15 +1,17 @@
 package com.xy.xsql.tsql.core.clause;
 
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.Output;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.clause.OutputBuilder.deleted_c;
-import static com.xy.xsql.tsql.core.clause.OutputBuilder.inserted_c;
+import static com.xy.xsql.tsql.core.clause.OutputBuilder.*;
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_subtraction;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_like;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -51,6 +53,16 @@ public class OutputBuilderTest {
                 .withColumnName(c("ModifiedDate"))
                 .build();
 
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$Inserted("LastName","Name","ModifiedDate")
+                    .$Into(t("MyTable"),
+                            c("NewScrapReasonID"),
+                            c("Name"),
+                            c("ModifiedDate"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(Output.getDmlSelectList().size(),3);
@@ -76,15 +88,26 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ScrapReasonID"))
+                    .withColumnName(c_inserted("ScrapReasonID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("Name"))
+                    .withColumnName(c_inserted("Name"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ModifiedDate"))
+                    .withColumnName(c_inserted("ModifiedDate"))
                     .and()
+                .withTableVariable("MyTableVar")
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_inserted("ScrapReasonID"),
+                            c_inserted("Name"),
+                            c_inserted("ModifiedDate"))
+                    .$Into("MyTableVar")
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),3);
@@ -100,13 +123,6 @@ public class OutputBuilderTest {
     @Test
     public void testExampleB(){
         // @formatter:off
-        Output output = new OutputBuilder<Output>()
-                .withDmlSelect()
-                    .withColumnName(deleted_c())
-                    .and()
-                .build();
-
-        //same as
         Output Output = new OutputBuilder<Void>()
                 .withDmlSelect()
                     .withColumnName()
@@ -115,6 +131,20 @@ public class OutputBuilderTest {
                         .and()
                     .and()
                 .build();
+
+        //same as
+        Output output = new OutputBuilder<Output>()
+                .withDmlSelect()
+                    .withColumnName(c_deleted())
+                    .and()
+                .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_deleted())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),1);
@@ -134,19 +164,28 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("BusinessEntityID"))
+                    .withColumnName(c_inserted("BusinessEntityID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("VacationHours"))
+                    .withColumnName(c_deleted("VacationHours"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("VacationHours"))
+                    .withColumnName(c_inserted("VacationHours"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ModifiedDate"))
+                    .withColumnName(c_inserted("ModifiedDate"))
                     .and()
-
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_inserted("BusinessEntityID"),
+                        c_deleted("VacationHours"),
+                        c_inserted("VacationHours"),
+                        c_inserted("ModifiedDate"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),4);
@@ -169,25 +208,38 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("BusinessEntityID"))
+                    .withColumnName(c_inserted("BusinessEntityID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("VacationHours"))
+                    .withColumnName(c_deleted("VacationHours"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("VacationHours"))
+                    .withColumnName(c_inserted("VacationHours"))
                     .and()
                 .withDmlSelect()
                     .withScalarExpression(
                                 e_subtraction(
-                                        inserted_c("VacationHours"),
-                                        deleted_c("VacationHours")
+                                        c_inserted("VacationHours"),
+                                        c_deleted("VacationHours")
                                 ))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ModifiedDate"))
+                    .withColumnName(c_inserted("ModifiedDate"))
                     .out()
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_inserted("BusinessEntityID"),
+                        c_deleted("VacationHours"),
+                        c_inserted("VacationHours"))
+                    .$(e_subtraction(
+                        c_inserted("VacationHours"),
+                        c_deleted("VacationHours")))
+                    .$(c_inserted("ModifiedDate"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),5);
@@ -225,8 +277,8 @@ public class OutputBuilderTest {
                 .withDmlSelect()
                     .withScalarExpression(
                             e_subtraction(
-                                    inserted_c("VacationHours"),
-                                    inserted_c("VacationHours")
+                                    c_inserted("VacationHours"),
+                                    c_inserted("VacationHours")
                             ))
                     .and()
                 .withDmlSelect()
@@ -237,7 +289,6 @@ public class OutputBuilderTest {
                     .and()
                 .withTableVariable("MyTableVar")
                 .build();
-
         // @formatter:on
 
         Assert.assertEquals(Output.getDmlSelectList().size(),5);
@@ -267,16 +318,16 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("ScrapReasonID"))
+                    .withColumnName(c_deleted("ScrapReasonID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ScrapReasonID"))
+                    .withColumnName(c_inserted("ScrapReasonID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("WorkOrderID"))
+                    .withColumnName(c_inserted("WorkOrderID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ProductID"))
+                    .withColumnName(c_inserted("ProductID"))
                     .and()
                 .withDmlSelect()
                     .withColumnName()
@@ -286,6 +337,18 @@ public class OutputBuilderTest {
                     .and()
                 .withTableVariable("MyTestVar")
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_deleted("ScrapReasonID"),
+                        c_inserted("ScrapReasonID"),
+                        c_inserted("WorkOrderID"),
+                        c_inserted("ProductID"),
+                        c("p","Name"))
+                    .$Into("MyTestVar")
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),5);
@@ -361,7 +424,7 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("ProductID"))
+                    .withColumnName(c_deleted("ProductID"))
                     .and()
                 .withDmlSelect()
                     .withColumnName()
@@ -376,10 +439,21 @@ public class OutputBuilderTest {
                         .and()
                     .and()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("ProductPhotoID"))
+                    .withColumnName(c_deleted("ProductPhotoID"))
                     .and()
                 .withTableVariable("MyTestVar")
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_deleted("ProductID"),
+                        c("p","Name"),
+                        c("p","ProductModelID"),
+                        c_deleted("ProductPhotoID"))
+                    .$Into("MyTableVar")
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),4);
@@ -407,13 +481,22 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("ScrapReasonID"))
+                    .withColumnName(c_deleted("ScrapReasonID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("Name"))
+                    .withColumnName(c_inserted("Name"))
                     .and()
                 .withTableVariable("MyTableVar")
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_deleted("DocumentSummary"),
+                        c_inserted("DocumentSummary"))
+                    .$Into("MyTableVar")
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),2);
@@ -433,15 +516,24 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ScrapReasonID"))
+                    .withColumnName(c_inserted("ScrapReasonID"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("Name"))
+                    .withColumnName(c_inserted("Name"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("ModifiedDate"))
+                    .withColumnName(c_inserted("ModifiedDate"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_inserted("ScrapReasonID"),
+                        c_inserted("Name"),
+                        c_inserted("ModifiedDate"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),3);
@@ -463,15 +555,24 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("LastName"))
+                    .withColumnName(c_inserted("LastName"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("FirstName"))
+                    .withColumnName(c_inserted("FirstName"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(inserted_c("CurrentSales"))
+                    .withColumnName(c_inserted("CurrentSales"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_inserted("LastName"),
+                        c_inserted("FirstName"),
+                        c_inserted("CurrentSales"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),3);
@@ -496,7 +597,7 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("ProductID"))
+                    .withColumnName(c_deleted("ProductID"))
                     .and()
                 .withDmlSelect()
                     .withColumnName()
@@ -511,14 +612,14 @@ public class OutputBuilderTest {
                         .and()
                     .and()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("ProductPhotoID"))
+                    .withColumnName(c_deleted("ProductPhotoID"))
                     .and()
                 .withTableVariable("MyTableVar")
                 .withOutputDmlSelect()
-                    .withColumnName(deleted_c("ProductID"))
+                    .withColumnName(c_deleted("ProductID"))
                     .and()
                 .withOutputDmlSelect()
-                    .withColumnName(deleted_c("ProductPhotoID"))
+                    .withColumnName(c_deleted("ProductPhotoID"))
                     .and()
                 .withOutputDmlSelect()
                     .withScalarExpression(e("GETDATE()"))
@@ -526,6 +627,23 @@ public class OutputBuilderTest {
                     .withColumnAliasIdentifier("DeletedDate")
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_deleted("ProductID"),
+                        c("p","Name"),
+                        c("p","ProductModelID"),
+                        c_deleted("ProductPhotoID"))
+                    .$Into("MyTableVar")
+                    .$Output(
+                            c_deleted("ProductID"),
+                            c_deleted("ProductPhotoID"),
+                            //todo
+                            c("GETDATE() AS DeletedDate")
+                    )
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),4);
@@ -558,9 +676,17 @@ public class OutputBuilderTest {
                         .and()
                     .and()
                 .withDmlSelect()
-                    .withColumnName(deleted_c("ProductID"))
+                    .withColumnName(c_deleted("ProductID"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<Output> parent = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
+                (OutputBuilder.class,Output.class)
+                .$child()
+                    .$(c_$action(),
+                        c_deleted("ProductID"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(output.getDmlSelectList().size(),2);

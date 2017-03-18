@@ -125,31 +125,6 @@ public class Output implements Clause {
 
 
     /**
-     * <dml_select_list>
-     */
-    @Deprecated
-    public static class DmlSelectList implements Block {
-
-        private List<DmlSelect> dmlSelectList;
-
-        public List<DmlSelect> getDmlSelectList() {
-            return dmlSelectList;
-        }
-
-        public void setDmlSelectList(List<DmlSelect> dmlSelectList) {
-            this.dmlSelectList = dmlSelectList;
-        }
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .withDelimiter(Other.DELIMITER)
-                    .append(dmlSelectList)
-                    .build();
-        }
-    }
-
-    /**
      * name from <dml_select_list>
      *
      * { <column_name> | scalar_expression } [ [AS] column_alias_identifier ]
@@ -161,6 +136,16 @@ public class Output implements Clause {
 
         private boolean useAs;
         private String columnAliasIdentifier;
+
+        public DmlSelect(){}
+
+        public DmlSelect(ColumnName columnName){
+            this.columnName = columnName;
+        }
+
+        public DmlSelect(Expression scalarExpression){
+            this.scalarExpression = scalarExpression;
+        }
 
         public ColumnName getColumnName() {
             return columnName;
