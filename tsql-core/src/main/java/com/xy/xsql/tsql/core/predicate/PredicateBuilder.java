@@ -15,72 +15,82 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
  *
  */
 public class PredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,Predicate> {
-
-    private Setter<Predicate> setter;
-
-    public PredicateBuilder(Predicate predicate) {
-        super(predicate);
-    }
+        extends CodeTreeBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,Setter<Predicate>> {
 
     public PredicateBuilder(Setter<Predicate> setter) {
-        super(null);
-        this.setter = setter;
+        super(setter);
     }
 
-    public ComparisonPredicateBuilder<ParentBuilder> Comparison(){
+    public ComparisonPredicateBuilder<ParentBuilder> _Comparison(){
         Comparison predicate = new Comparison();
-        tar = predicate;
-        this.setter.set(predicate);
-        return new ComparisonPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new ComparisonPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public LikePredicateBuilder<ParentBuilder> Like(){
+    public LikePredicateBuilder<ParentBuilder> _Like(){
         Like predicate = new Like();
-        tar = predicate;
-        return new LikePredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new LikePredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public BetweenPredicateBuilder<ParentBuilder> Between(){
+    public BetweenPredicateBuilder<ParentBuilder> _Between(){
         Between predicate = new Between();
-        tar = predicate;
-        return new BetweenPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new BetweenPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public IsNullPredicateBuilder<ParentBuilder> IsNull(){
+    public IsNullPredicateBuilder<ParentBuilder> _IsNull(){
         IsNull predicate = new IsNull();
-        tar = predicate;
-        return new IsNullPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new IsNullPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public ContainsPredicateBuilder<ParentBuilder> Contains(){
+    public ContainsPredicateBuilder<ParentBuilder> _Contains(){
         Contains predicate = new Contains();
-        tar = predicate;
-        return new ContainsPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new ContainsPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public FreeTextPredicateBuilder<ParentBuilder> FreeText(){
+    public FreeTextPredicateBuilder<ParentBuilder> _FreeText(){
         FreeText predicate = new FreeText();
-        tar = predicate;
-        return new FreeTextPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new FreeTextPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public InPredicateBuilder<ParentBuilder> In(){
+    public InPredicateBuilder<ParentBuilder> _In(){
         In predicate = new In();
-        tar = predicate;
-        return new InPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new InPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public ComparisonSubQueryPredicateBuilder<ParentBuilder> All_Some_Any(){
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> _All_Some_Any(){
         ComparisonSubQuery predicate = new ComparisonSubQuery();
-        tar = predicate;
-        return new ComparisonSubQueryPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new ComparisonSubQueryPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
-    public ExistsPredicateBuilder<ParentBuilder> Exists(){
+    public ExistsPredicateBuilder<ParentBuilder> _Exists(){
         Exists predicate = new Exists();
-        tar = predicate;
-        return new ExistsPredicateBuilder<ParentBuilder>(predicate).in(out());
+        tar.set(predicate);
+        return new ExistsPredicateBuilder<ParentBuilder>
+                (predicate)
+                .in(out());
     }
 
 

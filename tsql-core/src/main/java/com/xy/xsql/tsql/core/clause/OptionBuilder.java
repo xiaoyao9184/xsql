@@ -100,13 +100,13 @@ public class OptionBuilder<ParentBuilder>
         }
 
         public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
-            this.tar.set(new Option.LabelQueryOption(labelName));
+            tar.set(new Option.LabelQueryOption(labelName));
             return this;
         }
 
         public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
             Arrays.asList(queryHints)
-                    .forEach((queryHint)-> this.tar.set(queryHint));
+                    .forEach((queryHint)-> tar.set(queryHint));
             return this;
         }
     }

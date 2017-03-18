@@ -3,7 +3,6 @@ package com.xy.xsql.tsql.core.clause;
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;
@@ -124,7 +123,7 @@ public class SearchConditionBuilderTest {
     public void testExampleA(){
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate().Like()
+                .withPredicate()._Like()
                         .withStringExpression(e("LargePhotoFileName"))
                         .withStringExpression(e_string("%greena_%"))
                         .withEscape(e_string("a"))

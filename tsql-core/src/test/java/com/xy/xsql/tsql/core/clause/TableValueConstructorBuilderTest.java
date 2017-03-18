@@ -4,7 +4,6 @@ import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.core.statement.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
@@ -86,7 +85,7 @@ public class TableValueConstructorBuilderTest {
                         .withTableSource().withTableName("Production.Product")
                         .out()
                         .out()
-                    .withWhere().withSearchCondition().withPredicate().Comparison()
+                    .withWhere().withSearchCondition().withPredicate()._Comparison()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
                         .withExpression(e_number(720))
@@ -104,7 +103,7 @@ public class TableValueConstructorBuilderTest {
                         .withTableSource().withTableName("Production.Product")
                         .out()
                         .out()
-                    .withWhere().withSearchCondition().withPredicate().Comparison()
+                    .withWhere().withSearchCondition().withPredicate()._Comparison()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
                         .withExpression(e_number(720))
