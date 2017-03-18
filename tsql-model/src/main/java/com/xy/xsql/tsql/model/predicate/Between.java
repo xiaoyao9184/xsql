@@ -1,10 +1,9 @@
 package com.xy.xsql.tsql.model.predicate;
 
-
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
@@ -57,9 +56,9 @@ public class Between implements Predicate, Expression {
         ListBlockBuilder b = new ListBlockBuilder();
         b.append(expression)
                 .append(useNotOperator ? Keywords.NOT : null)
-                .append(Operators.BETWEEN)
+                .append(Logical.BETWEEN)
                 .append(startExpression)
-                .append(Operators.AND)
+                .append(Keywords.AND)
                 .append(endExpression);
         return b.build();
     }

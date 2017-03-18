@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.statement.Statement;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
@@ -272,7 +272,7 @@ public class Update implements Statement {
             return new ListBlockBuilder()
                     .withDelimiter(Other.SPACE)
                     .append(this.columnName)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(this.useNull ? Keywords.NULL : this.expression)
                     .build();
         }

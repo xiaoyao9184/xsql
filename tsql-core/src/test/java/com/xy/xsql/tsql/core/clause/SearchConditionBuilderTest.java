@@ -2,8 +2,8 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
+import com.xy.xsql.tsql.core.operator.Operators;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;
 import com.xy.xsql.tsql.model.predicate.Comparison;
@@ -39,7 +39,7 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
         ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
+        Assert.assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.operator.Operators.EQUAL);
     }
 
     /**
@@ -63,12 +63,12 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
         ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
+        Assert.assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.operator.Operators.EQUAL);
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
         Comparison predicate1 = (Comparison) searchCondition.getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate1.getOperator(), Operators.EQUAL);
+        Assert.assertEquals(predicate1.getOperator(), com.xy.xsql.tsql.model.operator.Operators.EQUAL);
     }
 
     /**
@@ -99,18 +99,18 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
         ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperator(), Operators.EQUAL);
+        Assert.assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.operator.Operators.EQUAL);
 
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
         Comparison predicate1 = (Comparison) searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate1.getOperator(), Operators.GREATER);
+        Assert.assertEquals(predicate1.getOperator(), com.xy.xsql.tsql.model.operator.Operators.GREATER);
 
         Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().size(), 1);
         Comparison predicate2 = (Comparison) searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate2.getOperator(), Operators.LESS);
+        Assert.assertEquals(predicate2.getOperator(), com.xy.xsql.tsql.model.operator.Operators.LESS);
 
     }
 

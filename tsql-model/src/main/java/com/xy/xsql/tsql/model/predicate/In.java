@@ -1,11 +1,10 @@
 package com.xy.xsql.tsql.model.predicate;
 
-
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
@@ -60,9 +59,9 @@ public class In implements Predicate, Expression {
         ListBlockBuilder b = new ListBlockBuilder();
         b.append(expression)
                 .append(useNotOperator ? Keywords.NOT : null)
-                .append(Operators.IN)
+                .append(Logical.IN)
                 .append(Other.GROUP_START)
-                .append(Operators.AND);
+                .append(Keywords.AND);
         if(subquery != null){
             b.append(subquery);
         }else {

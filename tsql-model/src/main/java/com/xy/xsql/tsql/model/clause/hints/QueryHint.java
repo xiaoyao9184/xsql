@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
@@ -265,7 +265,7 @@ public class QueryHint implements Clause, Option.QueryOption {
             if(useUnknown){
                 b.append(Keywords.Key.UNKNOWN);
             } else {
-                b.append(Operators.EQUAL)
+                b.append(Comparison.EQUAL)
                         .append(literalConstant);
             }
             return b.build();

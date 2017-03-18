@@ -1,11 +1,10 @@
 package com.xy.xsql.tsql.model.predicate;
 
-
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
@@ -60,7 +59,7 @@ public class Like implements Predicate, Expression {
         ListBlockBuilder b = new ListBlockBuilder();
         b.append(expression)
                 .append(useNotOperator ? Keywords.NOT : null)
-                .append(Operators.LIKE)
+                .append(Logical.LIKE)
                 .append(likeExpression);
         if(escapeCharacter != null){
             b.append(Keywords.ESCAPE)

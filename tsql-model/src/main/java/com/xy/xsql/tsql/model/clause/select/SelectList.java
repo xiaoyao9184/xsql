@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.util.CheckUtil;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
@@ -163,7 +164,7 @@ public class SelectList implements Clause {
                         .append("*");
             } else if(useEQ){
                 b.append(columnAlias)
-                        .append(Operators.EQUAL)
+                        .append(Comparison.EQUAL)
                         .append(expression);
             } else {
                 if(!CheckUtil.isNullOrEmpty(columnName)){

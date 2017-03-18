@@ -1,13 +1,12 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.statement.Statement;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
@@ -323,7 +322,7 @@ public class BulkInsert implements Statement {
 
         if(batchSize > 0){
             b.append(WithEnum.BATCHSIZE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(batchSize);
         }
 
@@ -333,37 +332,37 @@ public class BulkInsert implements Statement {
 
         if(codePage != null){
             b.append(WithEnum.CODEPAGE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(codePage);
         }
 
         if(dataFileType != null){
             b.append(WithEnum.DATAFILETYPE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(dataFileType);
         }
 
         if(dataSource != null){
             b.append(WithEnum.DATASOURCE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(dataSource);
         }
 
         if(errorFile != null){
             b.append(WithEnum.ERRORFILE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(errorFile);
         }
 
         if(errorFileDataSource != null){
             b.append(WithEnum.ERRORFILE_DATASOURCE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(errorFileDataSource);
         }
 
         if(firstRow != null){
             b.append(WithEnum.FIRSTROW)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(firstRow);
         }
 
@@ -373,7 +372,7 @@ public class BulkInsert implements Statement {
 
         if(formatFileDataSource != null){
             b.append(WithEnum.FORMATFILE_DATASOURCE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(formatFileDataSource);
         }
 
@@ -387,37 +386,37 @@ public class BulkInsert implements Statement {
 
         if(kilobytesPerBatch != null){
             b.append(WithEnum.KILOBYTES_PER_BATCH)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(kilobytesPerBatch);
         }
 
         if(lastRow != null){
             b.append(WithEnum.LASTROW)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(lastRow);
         }
 
         if(maxErrors != null){
             b.append(WithEnum.MAXERRORS)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(maxErrors);
         }
 
         if(orderList != null){
             b.append(WithEnum.ORDER)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(orderList);
         }
 
         if(rowsPerBatch != null){
             b.append(WithEnum.ROWS_PER_BATCH)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(rowsPerBatch);
         }
 
         if(rowTerminator != null){
             b.append(WithEnum.ROWTERMINATOR)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(rowTerminator);
         }
 
@@ -427,25 +426,25 @@ public class BulkInsert implements Statement {
 
         if(format != null){
             b.append(WithEnum.FORMAT)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(format);
         }
 
         if(fieldQuote != null){
             b.append(WithEnum.FIELDQUOTE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(fieldQuote);
         }
 
         if(formatFile != null){
             b.append(WithEnum.FORMATFILE)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(formatFile);
         }
 
         if(fieldTerminator != null){
             b.append(WithEnum.FIELDTERMINATOR)
-                    .append(Operators.EQUAL)
+                    .append(Comparison.EQUAL)
                     .append(fieldTerminator);
         }
 

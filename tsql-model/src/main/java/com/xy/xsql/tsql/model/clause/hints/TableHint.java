@@ -1,12 +1,11 @@
 package com.xy.xsql.tsql.model.clause.hints;
 
-
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
@@ -90,7 +89,7 @@ public class TableHint implements Clause {
                             .append(index_value)
                             .append(Other.GROUP_END);
                 }else{
-                    b.append(Operators.EQUAL)
+                    b.append(Comparison.EQUAL)
                             .append(index_value.get(0));
                 }
                 break;
@@ -105,7 +104,7 @@ public class TableHint implements Clause {
                 }
                 break;
             case SPATIAL_WINDOW_MAX_CELLS:
-                b.append(Operators.EQUAL)
+                b.append(Comparison.EQUAL)
                         .append(integer);
                 break;
         }
