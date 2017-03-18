@@ -11,8 +11,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 /**
  * Created by xiaoyao9184 on 2017/3/16.
  *
- * PredicateBuilder
- *
+ * Abstract Predicate Builder
  *
  */
 public class PredicateBuilder<ParentBuilder>

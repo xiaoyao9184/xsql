@@ -47,6 +47,7 @@ public class WithBuilder<ParentBuilder>
                 .and();
     }
 
+
     public static class CommonTableExpressionBuilder<ParentBuilder>
         extends CodeTreeBuilder<CommonTableExpressionBuilder<ParentBuilder>,ParentBuilder,With.CommonTableExpression> {
 

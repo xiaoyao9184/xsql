@@ -1,16 +1,14 @@
 package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.core.CodeTreeBuilder;
-import com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder;
+import com.xy.xsql.core.Setter;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
@@ -28,81 +26,89 @@ public class OptionBuilder<ParentBuilder>
 
 
     public QueryOptionBuilder<OptionBuilder<ParentBuilder>> withItem(){
+        initList(this.tar::getQueryOption,
+                this.tar::setQueryOption);
         return new QueryOptionBuilder<OptionBuilder<ParentBuilder>>
-                (initNew(Option.QueryOption::new,
-                        this.tar::getQueryOption,
-                        this.tar::setQueryOption))
+                (tar.getQueryOption()::add)
                 .in(this);
     }
 
-    public OptionBuilder<ParentBuilder> withItemLabelName(String labelName){
-        Option.QueryOption queryOption = new Option.QueryOption();
-        queryOption.setLabelName(labelName);
-        initAdd(queryOption,
-                this.tar::getQueryOption,
-                this.tar::setQueryOption);
-        return this;
+
+    /**
+     * Quick inout set QueryOptionBuilder' queryHint
+     * @param queryHint
+     * @return
+     */
+    public OptionBuilder<ParentBuilder> $(QueryHint... queryHint){
+        return withItem()
+                ._QueryHint(queryHint)
+                .and();
     }
 
-    public QueryHintBuilder<OptionBuilder<ParentBuilder>> withItemQueryHint(){
-        QueryHint queryHint = new QueryHint();
-        Option.QueryOption queryOption = new Option.QueryOption();
-        queryOption.setQueryHint(queryHint);
-        initAdd(queryOption,
-                this.tar::getQueryOption,
-                this.tar::setQueryOption);
-        return new QueryHintBuilder<OptionBuilder<ParentBuilder>>
-                (queryHint)
-                .in(this);
-    }
-
-    public OptionBuilder<ParentBuilder> withItemQueryHint(QueryHint queryHint){
-        Option.QueryOption queryOption = new Option.QueryOption();
-        queryOption.setQueryHint(queryHint);
-        initAdd(queryOption,
-                this.tar::getQueryOption,
-                this.tar::setQueryOption);
-        return this;
-    }
-
-    public OptionBuilder<ParentBuilder> withItemQueryHint(QueryHint... queryHint){
-        List<Option.QueryOption> list =
-                Arrays.stream(queryHint)
-                        .map((qh) -> {
-                            Option.QueryOption queryOption = new Option.QueryOption();
-                            queryOption.setQueryHint(qh);
-                            return queryOption;
-                        }).collect(Collectors.toList());
-        initAdd(list,
-                this.tar::getQueryOption,
-                this.tar::setQueryOption);
-        return this;
+    /**
+     * Quick inout set QueryOptionBuilder' labelName
+     * @param labelName
+     * @return
+     */
+    public OptionBuilder<ParentBuilder> $(String labelName){
+        return withItem()
+                ._LabelName(labelName)
+                .and();
     }
 
 
+//    /**
+//     * Abstract <query_option> Builder
+//     * @param <ParentBuilder>
+//     */
+//    public static class QueryOptionBuilder<ParentBuilder>
+//            extends CodeTreeBuilder<QueryOptionBuilder<ParentBuilder>,ParentBuilder,Option.QueryOption> {
+//
+//        private Setter<Option.QueryOption> setter;
+//
+//        public QueryOptionBuilder(Option.QueryOption tar) {
+//            super(tar);
+//        }
+//
+//        public QueryOptionBuilder(Setter<Option.QueryOption> setter) {
+//            super(null);
+//            this.setter = setter;
+//        }
+//
+//        public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
+//            tar = new Option.LabelQueryOption(labelName);
+//            this.setter.set(tar);
+//            return this;
+//        }
+//
+//        public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
+//            Arrays.asList(queryHints)
+//                    .forEach((queryHint)-> this.setter.set(queryHint));
+//            return this;
+//        }
+//    }
 
-    @Deprecated
+    /**
+     * Abstract <query_option> Builder
+     * @param <ParentBuilder>
+     */
     public static class QueryOptionBuilder<ParentBuilder>
-            extends CodeTreeBuilder<QueryOptionBuilder<ParentBuilder>,ParentBuilder,Option.QueryOption> {
+            extends CodeTreeBuilder<QueryOptionBuilder<ParentBuilder>,ParentBuilder,Setter<Option.QueryOption>> {
 
-        public QueryOptionBuilder(Option.QueryOption tar) {
+        public QueryOptionBuilder(Setter<Option.QueryOption> tar) {
             super(tar);
         }
 
-        public QueryOptionBuilder<ParentBuilder> withLabelName(String labelName){
-            tar.setLabelName(labelName);
+        public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
+            this.tar.set(new Option.LabelQueryOption(labelName));
             return this;
         }
 
-        public QueryHintBuilder<QueryOptionBuilder<ParentBuilder>> withQueryHint(){
-            QueryHint queryHint = new QueryHint();
-            tar.setQueryHint(queryHint);
-            return new QueryHintBuilder<QueryOptionBuilder<ParentBuilder>>
-                    (queryHint)
-                    .in(this);
+        public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
+            Arrays.asList(queryHints)
+                    .forEach((queryHint)-> this.tar.set(queryHint));
+            return this;
         }
-
     }
-
 
 }

@@ -59,8 +59,22 @@ public class QueryHintBuilder<ParentBuilder>
             .in(this);
     }
 
+    public QueryHintBuilder<ParentBuilder> withOptimizeFor(QueryHint.OptimizeFor... optimizeFors){
+        tar.setOptimizeFor(Arrays.asList(optimizeFors));
+        return this;
+    }
+
     public QueryHintBuilder<ParentBuilder> withHintName(String hint_name){
         initAdd(new StringConstant(hint_name),
+                tar::getHintNameList,
+                tar::setHintNameList);
+        return this;
+    }
+
+    public QueryHintBuilder<ParentBuilder> withHintName(String... hint_name){
+        initAdd(Arrays.stream(hint_name)
+                .map(StringConstant::new)
+                .collect(Collectors.toList()),
                 tar::getHintNameList,
                 tar::setHintNameList);
         return this;
@@ -78,6 +92,13 @@ public class QueryHintBuilder<ParentBuilder>
 
     public QueryHintBuilder<ParentBuilder> withHintName(TableHint table_hint){
         initAdd(table_hint,
+                tar::getTableHintList,
+                tar::setTableHintList);
+        return this;
+    }
+
+    public QueryHintBuilder<ParentBuilder> withHintName(TableHint... table_hint){
+        initAdd(Arrays.asList(table_hint),
                 tar::getTableHintList,
                 tar::setTableHintList);
         return this;
@@ -113,197 +134,193 @@ public class QueryHintBuilder<ParentBuilder>
 
 
     public static QueryHint HASH_GROUP(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.HASH_GROUP);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.HASH_GROUP)
+                .build();
     }
 
     public static QueryHint ORDER_GROUP(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.ORDER_GROUP);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.ORDER_GROUP)
+                .build();
     }
 
     public static QueryHint CONCAT_UNION(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.CONCAT_UNION);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.CONCAT_UNION)
+                .build();
     }
 
     public static QueryHint HASH_UNION(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.HASH_UNION);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.HASH_UNION)
+                .build();
     }
 
     public static QueryHint MERGE_UNION(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.MERGE_UNION);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.MERGE_UNION)
+                .build();
     }
 
     public static QueryHint LOOP_JOIN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.LOOP_JOIN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.LOOP_JOIN)
+                .build();
     }
 
     public static QueryHint MERGE_JOIN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.MERGE_JOIN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.MERGE_JOIN)
+                .build();
     }
 
     public static QueryHint HASH_JOIN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.HASH_JOIN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.HASH_JOIN)
+                .build();
     }
 
 
     public static QueryHint EXPAND_VIEWS(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.EXPAND_VIEWS);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.EXPAND_VIEWS)
+                .build();
     }
 
     public static QueryHint FAST(Integer numberRows){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.FAST);
-        queryHint.setNumberRows(numberRows);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.FAST)
+                .withNumber(numberRows)
+                .build();
     }
 
     public static QueryHint FORCE_ORDER(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.FORCE_ORDER);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.FORCE_ORDER)
+                .build();
     }
 
     public static QueryHint FORCE_EXTERNALPUSHDOWN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.FORCE_EXTERNALPUSHDOWN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.FORCE_EXTERNALPUSHDOWN)
+                .build();
     }
 
     public static QueryHint DISABLE_EXTERNALPUSHDOWN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.DISABLE_EXTERNALPUSHDOWN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.DISABLE_EXTERNALPUSHDOWN)
+                .build();
     }
 
     public static QueryHint IGNORE_NONCLUSTERED_COLUMNSTORE_INDEX(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.IGNORE_NONCLUSTERED_COLUMNSTORE_INDEX);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.IGNORE_NONCLUSTERED_COLUMNSTORE_INDEX)
+                .build();
     }
 
     public static QueryHint KEEP_PLAN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.KEEP_PLAN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.KEEP_PLAN)
+                .build();
     }
 
     public static QueryHint KEEPFIXED_PLAN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.KEEPFIXED_PLAN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.KEEPFIXED_PLAN)
+                .build();
     }
 
     public static QueryHint MAX_GRANT_PERCENT(Integer percent){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.MAX_GRANT_PERCENT);
-        queryHint.setPercent(percent);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.MAX_GRANT_PERCENT)
+                .withPercent(percent)
+                .build();
     }
 
     public static QueryHint MIN_GRANT_PERCENT(Integer percent){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.MIN_GRANT_PERCENT);
-        queryHint.setPercent(percent);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.MIN_GRANT_PERCENT)
+                .withPercent(percent)
+                .build();
     }
 
-    public static QueryHint MAXDOP(Integer number_of_processors){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.MAXDOP);
-        queryHint.setNumberOfProcessors(number_of_processors);
-        return queryHint;
+    public static QueryHint MAXDOP(Integer numberOfProcessors){
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.MAXDOP)
+                .withNumberOfProcessors(numberOfProcessors)
+                .build();
     }
 
     public static QueryHint MAXRECURSION(Integer number){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.MAXRECURSION);
-        queryHint.setNumber(number);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.MAXRECURSION)
+                .withNumber(number)
+                .build();
     }
 
     public static QueryHint NO_PERFORMANCE_SPOOL(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.NO_PERFORMANCE_SPOOL);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.NO_PERFORMANCE_SPOOL)
+                .build();
     }
 
     public static QueryHint OPTIMIZE_FOR(QueryHint.OptimizeFor... optimizeFors){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.OPTIMIZE_FOR);
-        queryHint.setOptimizeFor(Arrays.asList(optimizeFors));
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.OPTIMIZE_FOR)
+                .withOptimizeFor(optimizeFors)
+                .build();
     }
 
     public static QueryHint OPTIMIZE_FOR_UNKNOWN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.OPTIMIZE_FOR_UNKNOWN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.OPTIMIZE_FOR_UNKNOWN)
+                .build();
     }
 
     public static QueryHint PARAMETERIZATION_SIMPLE(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.PARAMETERIZATION_SIMPLE);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.PARAMETERIZATION_SIMPLE)
+                .build();
     }
 
     public static QueryHint PARAMETERIZATION_FORCED(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.PARAMETERIZATION_FORCED);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.PARAMETERIZATION_FORCED)
+                .build();
     }
 
     public static QueryHint RECOMPILE(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.RECOMPILE);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.RECOMPILE)
+                .build();
     }
 
     public static QueryHint ROBUST_PLAN(){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.ROBUST_PLAN);
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.ROBUST_PLAN)
+                .build();
     }
 
-    public static QueryHint USE_HINT(String... hint_name){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.USE_HINT);
-        queryHint.setHintNameList(
-                Arrays.stream(hint_name)
-                        .map(StringConstant::new)
-                        .collect(Collectors.toList()));
-        return queryHint;
+    public static QueryHint USE_HINT(String... hintName){
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.USE_HINT)
+                .withHintName(hintName)
+                .build();
     }
 
     public static QueryHint USE_PLAN(String xml_plan){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.USE_PLAN);
-        queryHint.setXmlPlan(new StringConstant(xml_plan).withNQuote());
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.USE_PLAN)
+                .withXmlPlan(xml_plan)
+                .build();
     }
 
     public static QueryHint TABLE_HINT(String exposedObjectName,TableHint... tableHints){
-        QueryHint queryHint = new QueryHint();
-        queryHint.setType(QueryHint.Type.TABLE_HINT);
-        queryHint.setExposedObjectName(exposedObjectName);
-        queryHint.setUseDelimiter(true);
-        queryHint.setTableHintList(Arrays.asList(tableHints));
-        return queryHint;
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.TABLE_HINT)
+                .withExposedObjectName(exposedObjectName)
+                .withHintName(tableHints)
+                .build();
     }
 }

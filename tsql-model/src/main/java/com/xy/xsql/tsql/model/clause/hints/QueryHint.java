@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.model.clause.hints;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Operators;
@@ -17,7 +18,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/26.
  */
-public class QueryHint implements Clause {
+public class QueryHint implements Clause, Option.QueryOption {
     //
     private Type type;
 

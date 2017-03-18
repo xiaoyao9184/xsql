@@ -1,6 +1,9 @@
 package com.xy.xsql.tsql.core.clause;
 
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.Option;
+import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,13 +36,27 @@ public class OptionBuilderTest {
     public void testExampleA(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemQueryHint(HASH_GROUP(),FAST(10))
+                .withItem()
+                    ._QueryHint(HASH_GROUP(),FAST(10))
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$(HASH_GROUP(),
+                        FAST(10))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),2);
-        Assert.assertEquals(option.getQueryOption().get(0).getQueryHint().getType(),HASH_GROUP);
-        Assert.assertEquals(option.getQueryOption().get(1).getQueryHint().getType(),FAST);
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        Assert.assertEquals(option.getQueryOption().get(1).getClass(), QueryHint.class);
+        QueryHint queryHint = (QueryHint) option.getQueryOption().get(0);
+        QueryHint queryHint1 = (QueryHint) option.getQueryOption().get(1);
+        Assert.assertEquals(queryHint.getType(),HASH_GROUP);
+        Assert.assertEquals(queryHint1.getType(),FAST);
     }
 
     /**
@@ -49,12 +66,23 @@ public class OptionBuilderTest {
     public void testExampleB(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemLabelName("q17")
+                .withItem()
+                    ._LabelName("q17")
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$("q17")
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),1);
-        Assert.assertEquals(option.getQueryOption().get(0).getLabelName(),"q17");
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), Option.LabelQueryOption.class);
+        Option.LabelQueryOption labelQueryOption = (Option.LabelQueryOption) option.getQueryOption().get(0);
+        Assert.assertEquals(labelQueryOption.getLabelName(),"q17");
     }
 
     /**
@@ -64,12 +92,23 @@ public class OptionBuilderTest {
     public void testExampleC(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemQueryHint(HASH_JOIN())
+                .withItem()
+                    ._QueryHint(HASH_JOIN())
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$(HASH_JOIN())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),1);
-        Assert.assertEquals(option.getQueryOption().get(0).getQueryHint().getType(),HASH_JOIN);
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        QueryHint queryHint = (QueryHint) option.getQueryOption().get(0);
+        Assert.assertEquals(queryHint.getType(),HASH_JOIN);
     }
 
     /**
@@ -79,15 +118,35 @@ public class OptionBuilderTest {
     public void testExampleD(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemLabelName("CustJoin")
-                .withItemQueryHint(HASH_JOIN(),MERGE_JOIN())
+                .withItem()
+                    ._LabelName("CustJoin")
+                    .and()
+                .withItem()
+                    ._QueryHint(HASH_JOIN(),MERGE_JOIN())
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$("CustJoin")
+                    .$(HASH_JOIN(),MERGE_JOIN())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),3);
-        Assert.assertEquals(option.getQueryOption().get(0).getLabelName(),"CustJoin");
-        Assert.assertEquals(option.getQueryOption().get(1).getQueryHint().getType(),HASH_JOIN);
-        Assert.assertEquals(option.getQueryOption().get(2).getQueryHint().getType(),MERGE_JOIN);
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), Option.LabelQueryOption.class);
+        Option.LabelQueryOption labelQueryOption = (Option.LabelQueryOption) option.getQueryOption().get(0);
+        Assert.assertEquals(labelQueryOption.getLabelName(),"CustJoin");
+
+        Assert.assertEquals(option.getQueryOption().get(1).getClass(), QueryHint.class);
+        QueryHint queryHint = (QueryHint) option.getQueryOption().get(1);
+        Assert.assertEquals(queryHint.getType(),HASH_JOIN);
+
+        Assert.assertEquals(option.getQueryOption().get(2).getClass(), QueryHint.class);
+        QueryHint queryHint2 = (QueryHint) option.getQueryOption().get(2);
+        Assert.assertEquals(queryHint2.getType(),MERGE_JOIN);
     }
 
     /**
@@ -97,12 +156,24 @@ public class OptionBuilderTest {
     public void testExampleE(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemQueryHint(HASH_JOIN())
+                .withItem()
+                    ._QueryHint(HASH_JOIN())
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$(HASH_JOIN())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),1);
-        Assert.assertEquals(option.getQueryOption().get(0).getQueryHint().getType(),HASH_JOIN);
+
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        QueryHint queryHint = (QueryHint) option.getQueryOption().get(0);
+        Assert.assertEquals(queryHint.getType(),HASH_JOIN);
     }
 
     /**
@@ -112,12 +183,24 @@ public class OptionBuilderTest {
     public void testExampleF(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemQueryHint(HASH_JOIN())
+                .withItem()
+                    ._QueryHint(HASH_JOIN())
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$(HASH_JOIN())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),1);
-        Assert.assertEquals(option.getQueryOption().get(0).getQueryHint().getType(),HASH_JOIN);
+
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        QueryHint queryHint = (QueryHint) option.getQueryOption().get(0);
+        Assert.assertEquals(queryHint.getType(),HASH_JOIN);
     }
 
     /**
@@ -127,12 +210,24 @@ public class OptionBuilderTest {
     public void testExampleG(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemQueryHint(FORCE_ORDER())
+                .withItem()
+                    ._QueryHint(FORCE_ORDER())
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$(FORCE_ORDER())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),1);
-        Assert.assertEquals(option.getQueryOption().get(0).getQueryHint().getType(),FORCE_ORDER);
+
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        QueryHint queryHint = (QueryHint) option.getQueryOption().get(0);
+        Assert.assertEquals(queryHint.getType(),FORCE_ORDER);
     }
 
     /**
@@ -143,21 +238,45 @@ public class OptionBuilderTest {
     public void testExampleH(){
         // @formatter:off
         Option option = new OptionBuilder<Void>()
-                .withItemQueryHint(FORCE_EXTERNALPUSHDOWN())
+                .withItem()
+                    ._QueryHint(FORCE_EXTERNALPUSHDOWN())
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$(FORCE_EXTERNALPUSHDOWN())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getQueryOption().size(),1);
-        Assert.assertEquals(option.getQueryOption().get(0).getQueryHint().getType(),FORCE_EXTERNALPUSHDOWN);
+
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        QueryHint queryHint = (QueryHint) option.getQueryOption().get(0);
+        Assert.assertEquals(queryHint.getType(),FORCE_EXTERNALPUSHDOWN);
 
         // @formatter:off
         Option option2 = new OptionBuilder<Void>()
-                .withItemQueryHint(DISABLE_EXTERNALPUSHDOWN())
+                .withItem()
+                    ._QueryHint(DISABLE_EXTERNALPUSHDOWN())
+                    .and()
                 .build();
+
+        //parent+quick
+        MockParent<Option> parent2 = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
+                (OptionBuilder.class,Option.class)
+                .$child()
+                    .$(DISABLE_EXTERNALPUSHDOWN())
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option2.getQueryOption().size(),1);
-        Assert.assertEquals(option2.getQueryOption().get(0).getQueryHint().getType(),DISABLE_EXTERNALPUSHDOWN);
+
+        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        QueryHint queryHint2 = (QueryHint) option2.getQueryOption().get(0);
+        Assert.assertEquals(queryHint2.getType(),DISABLE_EXTERNALPUSHDOWN);
     }
 
 }
