@@ -1,7 +1,9 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.tsql.core.predicate.PredicateBuilder;
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
+import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;
@@ -28,7 +30,7 @@ public class SearchConditionBuilderTest {
         Select select = null;
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate(
+                .$Predicate(
                         p_equal(e("CountryRegionCode"),
                                 all(),
                                 select)
@@ -49,13 +51,13 @@ public class SearchConditionBuilderTest {
         Select select = null;
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate(
+                .$Predicate(
                         p_equal(e("CountryRegionCode"),
                                 all(),
                                 select)
                 )
-                .withAndPredicate(
-                        PredicateBuilder.p_equal(e("CountryRegionCode"),
+                .$_AndPredicate(
+                        p_equal(e("CountryRegionCode"),
                                 e_number(20)))
                 .build();
         // @formatter:on
@@ -78,17 +80,17 @@ public class SearchConditionBuilderTest {
         Select select = null;
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate(
+                .$Predicate(
                         p_equal(e("CountryRegionCode"),
                                 all(),
                                 select)
                 )
-                .withAndNotSearchCondition()
-                    .withPredicate(
+                .$_AndNotSearchCondition()
+                    .$Predicate(
                             p_greater(e("CountryRegionCode"),
                                 e_number(20))
                     )
-                    .withAndPredicate(
+                    .$_AndPredicate(
                             p_less(e("CountryRegionCode"),
                                     e_number(50))
                     )
@@ -121,28 +123,38 @@ public class SearchConditionBuilderTest {
     @Test
     public void testExampleA(){
         // @formatter:off
-        SearchCondition searchCondition0 = new SearchConditionBuilder<Void>()
+        SearchCondition searchCondition = new SearchConditionBuilder<Void>()
                 .withPredicate().Like()
                         .withStringExpression(e("LargePhotoFileName"))
                         .withStringExpression(e_string("%greena_%"))
                         .withEscape(e_string("a"))
-                        .out()
+                        .and()
                 .build();
 
-        //SIMPLE
-        SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate(
-                        p_like(
+        //parent+quick
+        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_like(
                                 e("LargePhotoFileName"),
                                 e_string("%greena_%"),
-                                e_string("a")))
-                .build();
+                                e_string("a"))
+                    )
+                    .and();
         // @formatter:on
+
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LargePhotoFileName");
         Assert.assertEquals(predicate.getLikeExpression().toString(), "'%greena_%'");
         Assert.assertEquals(predicate.getEscapeCharacter().toString(), "'a'");
+
+        Assert.assertEquals(parent.get().getPredicate().getClass(), Like.class);
+        Like predicate2 = (Like) parent.get().getPredicate();
+        Assert.assertEquals(predicate2.getExpression().toString(), "LargePhotoFileName");
+        Assert.assertEquals(predicate2.getLikeExpression().toString(), "'%greena_%'");
+        Assert.assertEquals(predicate2.getEscapeCharacter().toString(), "'a'");
     }
 
     /**
@@ -153,16 +165,31 @@ public class SearchConditionBuilderTest {
     public void testExampleB(){
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate(
+                .$Predicate(
                         p_in(e("CountryRegionCode"),
                                 e_string("US"))
                 )
-                .withAndPredicate(
+                .$_AndPredicate(
                         p_like(e("City"),
                                 e_n_string("Pa%"))
                 )
                 .build();
+
+        //parent+quick
+        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_in(e("CountryRegionCode"),
+                                e_string("US"))
+                    )
+                    .$_AndPredicate(
+                            p_like(e("City"),
+                                e_n_string("Pa%"))
+                    )
+                    .and();
         // @formatter:on
+
         Assert.assertEquals(searchCondition.getPredicate().getClass(), In.class);
         In predicate = (In) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
@@ -182,12 +209,23 @@ public class SearchConditionBuilderTest {
     public void testExampleC(){
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate(
+                .$Predicate(
                         p_like(e("LastName"),
                                 e_string("%and%"))
                 )
                 .build();
+
+        //parent+quick
+        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_like(e("LastName"),
+                                    e_string("%and%"))
+                    )
+                    .and();
         // @formatter:on
+
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
@@ -201,12 +239,23 @@ public class SearchConditionBuilderTest {
     public void testExampleD(){
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate(
+                .$Predicate(
                         p_like(e("LastName"),
                                 e_n_string("%and%"))
                 )
                 .build();
+
+        //parent+quick
+        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_like(e("LastName"),
+                                    e_string("%and%"))
+                    )
+                    .and();
         // @formatter:on
+
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");

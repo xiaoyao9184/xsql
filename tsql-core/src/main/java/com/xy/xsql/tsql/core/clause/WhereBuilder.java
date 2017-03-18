@@ -31,6 +31,8 @@ public class WhereBuilder<ParentBuilder>
                 .in(this);
     }
 
+
+
     /**
      * Quick like SearchConditionBuilder
      * @param <ParentBuilder>
@@ -75,7 +77,7 @@ public class WhereBuilder<ParentBuilder>
         public QuickBuilder<ParentBuilder> withPredicate(Predicate predicate){
             new SearchConditionBuilder<SearchCondition>
                     (searchCondition)
-                    .withPredicate(predicate)
+                    .$Predicate(predicate)
                     .build();
             return this;
         }

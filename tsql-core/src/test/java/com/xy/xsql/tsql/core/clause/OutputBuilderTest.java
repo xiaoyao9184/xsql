@@ -77,13 +77,13 @@ public class OutputBuilderTest {
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
                     .withColumnName(inserted_c("ScrapReasonID"))
-                    .out()
+                    .and()
                 .withDmlSelect()
                     .withColumnName(inserted_c("Name"))
-                    .out()
+                    .and()
                 .withDmlSelect()
                     .withColumnName(inserted_c("ModifiedDate"))
-                    .out()
+                    .and()
                 .build();
         // @formatter:on
 
@@ -103,7 +103,7 @@ public class OutputBuilderTest {
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
                     .withColumnName(deleted_c())
-                    .out()
+                    .and()
                 .build();
 
         //same as
@@ -135,16 +135,16 @@ public class OutputBuilderTest {
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
                     .withColumnName(inserted_c("BusinessEntityID"))
-                    .out()
+                    .and()
                 .withDmlSelect()
                     .withColumnName(deleted_c("VacationHours"))
-                    .out()
+                    .and()
                 .withDmlSelect()
                     .withColumnName(inserted_c("VacationHours"))
-                    .out()
+                    .and()
                 .withDmlSelect()
                     .withColumnName(inserted_c("ModifiedDate"))
-                    .out()
+                    .and()
 
                 .build();
         // @formatter:on

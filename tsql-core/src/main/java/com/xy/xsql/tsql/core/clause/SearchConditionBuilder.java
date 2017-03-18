@@ -55,7 +55,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withPredicate(Predicate predicate){
+    public SearchConditionBuilder<ParentBuilder> $Predicate(Predicate predicate){
         tar.setPredicate(predicate);
         return this;
     }
@@ -65,7 +65,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param searchCondition
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
+    public SearchConditionBuilder<ParentBuilder> $SearchCondition(SearchCondition searchCondition){
         tar.setSearchCondition(searchCondition);
         return this;
     }
@@ -154,14 +154,11 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withAnd(Predicate predicate) {
-        initAdd(new AndOrNotItemBuilder<Void>()
-                        .withAnd()
-                        .withPredicate(predicate)
-                        .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return this;
+    public SearchConditionBuilder<ParentBuilder> $_And(Predicate predicate) {
+        return withAndOrNotItem()
+                .withAnd()
+                .withPredicate(predicate)
+                .and();
     }
 
     /**
@@ -169,14 +166,11 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withOr(Predicate predicate) {
-        initAdd(new AndOrNotItemBuilder<Void>()
-                        .withOr()
-                        .withPredicate(predicate)
-                        .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return this;
+    public SearchConditionBuilder<ParentBuilder> $_Or(Predicate predicate) {
+        return withAndOrNotItem()
+                .withOr()
+                .withPredicate(predicate)
+                .and();
     }
 
     /**
@@ -184,14 +178,11 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withAndPredicate(Predicate predicate) {
-        initAdd(new AndOrNotItemBuilder<Void>()
-                        .withAnd()
-                        .withPredicate(predicate)
-                        .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return this;
+    public SearchConditionBuilder<ParentBuilder> $_AndPredicate(Predicate predicate) {
+        return withAndOrNotItem()
+                .withAnd()
+                .withPredicate(predicate)
+                .and();
     }
 
     /**
@@ -199,14 +190,11 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withOrPredicate(Predicate predicate) {
-        initAdd(new AndOrNotItemBuilder<Void>()
-                        .withOr()
-                        .withPredicate(predicate)
-                        .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return this;
+    public SearchConditionBuilder<ParentBuilder> $_OrPredicate(Predicate predicate) {
+        return withAndOrNotItem()
+                .withOr()
+                .withPredicate(predicate)
+                .and();
     }
 
     /**
@@ -214,15 +202,12 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withAndNotPredicate(Predicate predicate) {
-        initAdd(new AndOrNotItemBuilder<Void>()
-                        .withAnd()
-                        .withNot(true)
-                        .withPredicate(predicate)
-                        .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return this;
+    public SearchConditionBuilder<ParentBuilder> $_AndNotPredicate(Predicate predicate) {
+        return withAndOrNotItem()
+                .withAnd()
+                .withNot(true)
+                .withPredicate(predicate)
+                .and();
     }
 
     /**
@@ -230,15 +215,12 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
-    public SearchConditionBuilder<ParentBuilder> withOrNotPredicate(Predicate predicate) {
-        initAdd(new AndOrNotItemBuilder<Void>()
-                        .withOr()
-                        .withNot(true)
-                        .withPredicate(predicate)
-                        .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
-        return this;
+    public SearchConditionBuilder<ParentBuilder> $_OrNotPredicate(Predicate predicate) {
+        return withAndOrNotItem()
+                .withOr()
+                .withNot(true)
+                .withPredicate(predicate)
+                .and();
     }
 
 
@@ -246,7 +228,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
      * @return
      */
-    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> withAndSearchCondition() {
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_AndSearchCondition() {
         SearchCondition searchCondition = new SearchCondition();
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withAnd()
@@ -263,7 +245,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
      * @return
      */
-    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> withOrSearchCondition() {
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_OrSearchCondition() {
         SearchCondition searchCondition = new SearchCondition();
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withOr()
@@ -280,7 +262,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
      * @return
      */
-    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> withAndNotSearchCondition() {
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_AndNotSearchCondition() {
         SearchCondition searchCondition = new SearchCondition();
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withAnd()
@@ -298,7 +280,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
      * @return
      */
-    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> withOrNotSearchCondition() {
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_OrNotSearchCondition() {
         SearchCondition searchCondition = new SearchCondition();
         initAdd(new AndOrNotItemBuilder<Void>()
                         .withOr()

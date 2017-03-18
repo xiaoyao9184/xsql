@@ -21,7 +21,7 @@ public class HavingBuilderTest {
     public void testExample(){
         Having having = new HavingBuilder<Void>()
                 .withSearchCondition()
-                    .withPredicate(
+                    .$Predicate(
                             PredicateBuilder.p_greater(e("SUM(LineTotal)"),
                                     e_number(100000.00))
                     )

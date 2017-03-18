@@ -47,7 +47,7 @@ public class WithBuilderTest {
                     .out()
                 .withWhere()
                     .withSearchCondition()
-                        .withPredicate(p_is_not_null(c("SalesPersonID")))
+                        .$Predicate(p_is_not_null(c("SalesPersonID")))
                         .and()
                     .and()
                 .and()
