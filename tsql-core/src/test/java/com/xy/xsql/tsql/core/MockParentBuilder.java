@@ -1,10 +1,8 @@
 package com.xy.xsql.tsql.core;
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.

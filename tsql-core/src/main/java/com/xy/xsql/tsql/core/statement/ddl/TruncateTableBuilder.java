@@ -1,9 +1,8 @@
 package com.xy.xsql.tsql.core.statement.ddl;
 
-import com.xy.xsql.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
-import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;

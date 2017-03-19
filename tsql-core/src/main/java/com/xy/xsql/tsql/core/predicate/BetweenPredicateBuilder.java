@@ -4,7 +4,7 @@ package com.xy.xsql.tsql.core.predicate;
  * Created by xiaoyao9184 on 2017/3/16.
  */
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.predicate.Between;
 

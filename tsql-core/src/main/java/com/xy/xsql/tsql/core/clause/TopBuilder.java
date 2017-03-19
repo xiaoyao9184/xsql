@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.clause.Top;
 

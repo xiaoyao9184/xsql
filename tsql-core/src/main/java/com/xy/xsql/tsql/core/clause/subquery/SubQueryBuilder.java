@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.clause.subquery;
 
-import com.xy.xsql.core.SubBuilder;
+import com.xy.xsql.core.builder.SubBuilder;
 import com.xy.xsql.tsql.core.clause.TableValueConstructorBuilder;
 
 /**

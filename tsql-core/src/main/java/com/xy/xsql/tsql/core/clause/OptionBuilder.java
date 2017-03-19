@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.core.CodeTreeBuilder;
-import com.xy.xsql.core.Setter;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 

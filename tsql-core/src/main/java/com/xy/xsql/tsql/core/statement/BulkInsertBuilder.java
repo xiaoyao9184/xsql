@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -345,8 +345,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @param items
      * @return
      */
-    @SuppressWarnings({"unchecked", "varargs"})
-    public BulkInsertBuilder $With(BulkInsert.SetWith... items){
+    public BulkInsertBuilder $With(BulkInsert.WithSetter... items){
         Arrays.stream(items)
                 .forEach(item -> item.set(bulkInsert));
         return this;
@@ -382,122 +381,122 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
 
 
 
-    public static BulkInsert.SetWith BATCHSIZE(Integer batchSize){
+    public static BulkInsert.WithSetter BATCHSIZE(Integer batchSize){
         return new BulkInsert.BatchSize(batchSize);
     }
 
-    public static BulkInsert.SetWith CHECK_CONSTRAINTS(){
+    public static BulkInsert.WithSetter CHECK_CONSTRAINTS(){
         return new BulkInsert.CheckConstraints();
     }
 
-    public static BulkInsert.SetWith CODEPAGE(String codePage){
+    public static BulkInsert.WithSetter CODEPAGE(String codePage){
         return new BulkInsert.CodePage(codePage);
     }
 
     @Deprecated
-    public static BulkInsert.SetWith CODEPAGE(StringConstant codePage){
+    public static BulkInsert.WithSetter CODEPAGE(StringConstant codePage){
         return new BulkInsert.CodePage(codePage);
     }
 
-    public static BulkInsert.SetWith CODEPAGE(BulkInsert.CodePage codePage){
+    public static BulkInsert.WithSetter CODEPAGE(BulkInsert.CodePage codePage){
         return codePage;
     }
 
     @Deprecated
-    public static BulkInsert.SetWith DATAFILETYPE(String dataFileType){
+    public static BulkInsert.WithSetter DATAFILETYPE(String dataFileType){
         return new BulkInsert.DataFileType(dataFileType);
     }
 
     @Deprecated
-    public static BulkInsert.SetWith DATAFILETYPE(StringConstant dataFileType){
+    public static BulkInsert.WithSetter DATAFILETYPE(StringConstant dataFileType){
         return new BulkInsert.DataFileType(dataFileType);
     }
 
-    public static BulkInsert.SetWith DATAFILETYPE(BulkInsert.DataFileType dataFileType){
+    public static BulkInsert.WithSetter DATAFILETYPE(BulkInsert.DataFileType dataFileType){
         return dataFileType;
     }
 
-    public static BulkInsert.SetWith DATASOURCE(String dataSource){
+    public static BulkInsert.WithSetter DATASOURCE(String dataSource){
         return new BulkInsert.DataSource(dataSource);
     }
 
-    public static BulkInsert.SetWith ERRORFILE(String errorFile){
+    public static BulkInsert.WithSetter ERRORFILE(String errorFile){
         return new BulkInsert.ErrorFile(errorFile);
     }
 
-    public static BulkInsert.SetWith ERRORFILE_DATASOURCE(String errorFileDataSource){
+    public static BulkInsert.WithSetter ERRORFILE_DATASOURCE(String errorFileDataSource){
         return new BulkInsert.ErrorFileDataSource(errorFileDataSource);
     }
 
-    public static BulkInsert.SetWith FIRSTROW(Integer firstRow){
+    public static BulkInsert.WithSetter FIRSTROW(Integer firstRow){
         return new BulkInsert.FirstRow(firstRow);
     }
 
-    public static BulkInsert.SetWith FIRE_TRIGGERS(){
+    public static BulkInsert.WithSetter FIRE_TRIGGERS(){
         return new BulkInsert.FireTriggers();
     }
 
-    public static BulkInsert.SetWith FORMATFILE_DATASOURCE(String dataSourceName){
+    public static BulkInsert.WithSetter FORMATFILE_DATASOURCE(String dataSourceName){
         return new BulkInsert.FormatFileDataSource(dataSourceName);
     }
 
-    public static BulkInsert.SetWith KEEPIDENTITY(){
+    public static BulkInsert.WithSetter KEEPIDENTITY(){
         return new BulkInsert.KeepIdentity();
     }
 
-    public static BulkInsert.SetWith KEEPNULLS(){
+    public static BulkInsert.WithSetter KEEPNULLS(){
         return new BulkInsert.KeepNulls();
     }
 
-    public static BulkInsert.SetWith KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
+    public static BulkInsert.WithSetter KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
         return new BulkInsert.KiloBytesPerBatch(kilobytesPerBatch);
     }
 
-    public static BulkInsert.SetWith LASTROW(Integer lastRow){
+    public static BulkInsert.WithSetter LASTROW(Integer lastRow){
         return new BulkInsert.LastRow(lastRow);
     }
 
-    public static BulkInsert.SetWith MAXERRORS(Integer maxErrors){
+    public static BulkInsert.WithSetter MAXERRORS(Integer maxErrors){
         return new BulkInsert.MaxErrors(maxErrors);
     }
 
-    public static BulkInsert.SetWith ORDER(ColumnName... columns){
+    public static BulkInsert.WithSetter ORDER(ColumnName... columns){
         return new BulkInsert.Order(columns);
     }
 
-    public static BulkInsert.SetWith ORDER_ASC(ColumnName... columns){
+    public static BulkInsert.WithSetter ORDER_ASC(ColumnName... columns){
         return new BulkInsert.Order(true,false,columns);
     }
 
-    public static BulkInsert.SetWith ORDER_DESC(ColumnName... columns){
+    public static BulkInsert.WithSetter ORDER_DESC(ColumnName... columns){
         return new BulkInsert.Order(false,true,columns);
     }
 
-    public static BulkInsert.SetWith ROWS_PER_BATCH(Integer rowsPerBatch){
+    public static BulkInsert.WithSetter ROWS_PER_BATCH(Integer rowsPerBatch){
         return new BulkInsert.RowsPerBatch(rowsPerBatch);
     }
 
-    public static BulkInsert.SetWith ROWTERMINATOR(String rowTerminator){
+    public static BulkInsert.WithSetter ROWTERMINATOR(String rowTerminator){
         return new BulkInsert.RowTerminator(rowTerminator);
     }
 
-    public static BulkInsert.SetWith TABLOCK (){
+    public static BulkInsert.WithSetter TABLOCK (){
         return new BulkInsert.TabLock();
     }
 
-    public static BulkInsert.SetWith FORMAT(String format){
+    public static BulkInsert.WithSetter FORMAT(String format){
         return new BulkInsert.Format(format);
     }
 
-    public static BulkInsert.SetWith FIELDQUOTE(String fieldQuote){
+    public static BulkInsert.WithSetter FIELDQUOTE(String fieldQuote){
         return new BulkInsert.FieldQuote(fieldQuote);
     }
 
-    public static BulkInsert.SetWith FORMATFILE(String formatFile){
+    public static BulkInsert.WithSetter FORMATFILE(String formatFile){
         return new BulkInsert.FormatFile(formatFile);
     }
 
-    public static BulkInsert.SetWith FIELDTERMINATOR(String fieldTerminator){
+    public static BulkInsert.WithSetter FIELDTERMINATOR(String fieldTerminator){
         return new BulkInsert.FieldTerminator(fieldTerminator);
     }
 

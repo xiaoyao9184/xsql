@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.core.BaseBuilder;
-import com.xy.xsql.core.SubBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.core.builder.SubBuilder;
 import com.xy.xsql.tsql.core.clause.FromBuilder;
 import com.xy.xsql.tsql.core.clause.SearchConditionBuilder;
 import com.xy.xsql.tsql.core.clause.TableValueConstructorBuilder;
@@ -15,7 +15,6 @@ import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.element.Unknown;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 

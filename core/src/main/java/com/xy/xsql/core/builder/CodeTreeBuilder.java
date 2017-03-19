@@ -1,4 +1,4 @@
-package com.xy.xsql.core;
+package com.xy.xsql.core.builder;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

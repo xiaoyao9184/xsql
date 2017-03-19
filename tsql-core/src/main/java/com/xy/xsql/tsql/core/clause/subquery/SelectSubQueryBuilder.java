@@ -1,13 +1,7 @@
 package com.xy.xsql.tsql.core.clause.subquery;
 
-import com.xy.xsql.core.SubBuilder;
-import com.xy.xsql.tsql.core.clause.FromBuilder;
-import com.xy.xsql.tsql.core.clause.TopBuilder;
-import com.xy.xsql.tsql.core.clause.WhereBuilder;
+import com.xy.xsql.core.builder.SubBuilder;
 import com.xy.xsql.tsql.core.clause.select.*;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Top;
-import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 

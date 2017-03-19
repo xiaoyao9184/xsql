@@ -1,21 +1,17 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.core.BaseBuilder;
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.FromBuilder;
 import com.xy.xsql.tsql.core.clause.TopBuilder;
 import com.xy.xsql.tsql.core.clause.WhereBuilder;
-import com.xy.xsql.tsql.core.clause.WithBuilder;
 import com.xy.xsql.tsql.core.clause.select.*;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.Where;
-import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-
-import static com.xy.xsql.core.FiledBuilder.initSet;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

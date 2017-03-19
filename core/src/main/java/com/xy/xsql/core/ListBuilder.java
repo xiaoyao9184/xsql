@@ -1,10 +1,13 @@
 package com.xy.xsql.core;
 
 
+import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.core.lambda.Getter;
+import com.xy.xsql.core.lambda.Setter;
+
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 

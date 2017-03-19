@@ -1,4 +1,4 @@
-package com.xy.xsql.core;
+package com.xy.xsql.core.configurator;
 
 /**
  * Configurator

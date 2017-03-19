@@ -1,5 +1,8 @@
 package com.xy.xsql.core;
 
+import com.xy.xsql.core.lambda.Getter;
+import com.xy.xsql.core.lambda.Setter;
+
 import java.util.function.Supplier;
 
 /**

@@ -1,14 +1,12 @@
 package com.xy.xsql.tsql.core.clause;
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

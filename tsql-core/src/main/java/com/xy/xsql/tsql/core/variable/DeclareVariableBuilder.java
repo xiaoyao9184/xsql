@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.variable;
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatype.DataType;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.variable.DeclareVariable;

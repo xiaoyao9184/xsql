@@ -1,9 +1,9 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.core.Setter;
-import com.xy.xsql.core.target.SetTarget;
-import com.xy.xsql.core.target.SetTargetBoolean;
-import com.xy.xsql.core.target.SetTargetValue;
+import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.core.target.TargetSetter;
+import com.xy.xsql.core.target.TargetBooleanSetter;
+import com.xy.xsql.core.target.TargetValueSetter;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
@@ -558,45 +558,73 @@ public class BulkInsert implements Statement {
     }
 
 
-    public interface SetWith extends SetTarget<BulkInsert> {
+
+    /*
+    For quick build
+
+    BULK INSERT statement's WITH part has too many attributes, and quite regular,
+    most of which is a flag field, or a simple value.
+    Create a set of lambda collections from the outside as parameters for the Builder,
+    And then call in the Builder to achieve the purpose of setting attributes
+
+     */
+
+
+    /**
+     * Just create to block Generic parameters
+     * for 'unchecked generic array creation for varargs parameter'
+     */
+    public interface WithSetter extends TargetSetter<BulkInsert> {
 
     }
 
-    public static abstract class SetKeyWith
-            extends SetTargetBoolean<BulkInsert>
-            implements SetWith {
+    /**
+     * Just create to block Generic parameters
+     * for 'unchecked generic array creation for varargs parameter'
+     */
+    public static abstract class KeyWithSetter
+            extends TargetBooleanSetter<BulkInsert>
+            implements WithSetter {
 
         //TODO not use
         private WithEnum withKey;
 
-        SetKeyWith(WithEnum withKey){
+        KeyWithSetter(WithEnum withKey){
             this.withKey = withKey;
         }
 
     }
 
-    public static abstract class SetStringWith
-            extends SetTargetValue<BulkInsert,StringConstant>
-            implements SetWith {
+    /**
+     * Just create to block Generic parameters
+     * for 'unchecked generic array creation for varargs parameter'
+     */
+    public static abstract class StringWithSetter
+            extends TargetValueSetter<BulkInsert,StringConstant>
+            implements WithSetter {
 
         //TODO not use
         private WithEnum withKey;
 
-        public SetStringWith(WithEnum withKey, StringConstant value) {
+        public StringWithSetter(WithEnum withKey, StringConstant value) {
             super(value);
             this.withKey = withKey;
         }
 
     }
 
-    public static abstract class SetNumberWith
-            extends SetTargetValue<BulkInsert,NumberConstant>
-            implements SetWith {
+    /**
+     * Just create to block Generic parameters
+     * for 'unchecked generic array creation for varargs parameter'
+     */
+    public static abstract class NumberWithSetter
+            extends TargetValueSetter<BulkInsert,NumberConstant>
+            implements WithSetter {
 
         //TODO not use
         private WithEnum withKey;
 
-        public SetNumberWith(WithEnum withKey, NumberConstant value) {
+        public NumberWithSetter(WithEnum withKey, NumberConstant value) {
             super(value);
             this.withKey = withKey;
         }
@@ -613,7 +641,8 @@ public class BulkInsert implements Statement {
     public static DataFileType WideChar = new DataFileType("widechar");
     public static DataFileType WideNative = new DataFileType("widenative");
 
-    public static class BatchSize extends SetNumberWith {
+
+    public static class BatchSize extends NumberWithSetter {
 
         public BatchSize(Integer batchSize) {
             super(WithEnum.BATCHSIZE,
@@ -625,7 +654,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setBatchSize;
         }
     }
-    public static class CheckConstraints extends SetKeyWith {
+    public static class CheckConstraints extends KeyWithSetter {
 
         public CheckConstraints() {
             super(WithEnum.CHECK_CONSTRAINTS);
@@ -636,7 +665,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setCheckConstraints;
         }
     }
-    public static class CodePage extends SetStringWith {
+    public static class CodePage extends StringWithSetter {
 
         public CodePage(String codePage) {
             super(WithEnum.CODEPAGE,
@@ -653,7 +682,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setCodePage;
         }
     }
-    public static class DataFileType extends SetStringWith {
+    public static class DataFileType extends StringWithSetter {
 
         public DataFileType(String dataType) {
             super(WithEnum.DATAFILETYPE,
@@ -670,7 +699,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setDataFileType;
         }
     }
-    public static class DataSource extends SetStringWith {
+    public static class DataSource extends StringWithSetter {
 
         public DataSource(String dataSource) {
             super(WithEnum.DATASOURCE,
@@ -682,7 +711,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setDataSource;
         }
     }
-    public static class ErrorFile extends SetStringWith {
+    public static class ErrorFile extends StringWithSetter {
 
         public ErrorFile(String errorFile) {
             super(WithEnum.ERRORFILE,
@@ -694,7 +723,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setErrorFile;
         }
     }
-    public static class ErrorFileDataSource extends SetStringWith {
+    public static class ErrorFileDataSource extends StringWithSetter {
 
         public ErrorFileDataSource(String errorFileDataSource) {
             super(WithEnum.ERRORFILE_DATASOURCE,
@@ -706,7 +735,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setErrorFileDataSource;
         }
     }
-    public static class FirstRow extends SetNumberWith {
+    public static class FirstRow extends NumberWithSetter {
 
         public FirstRow(Number firstRow) {
             super(WithEnum.FIRSTROW,
@@ -718,7 +747,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setFirstRow;
         }
     }
-    public static class FireTriggers extends SetKeyWith {
+    public static class FireTriggers extends KeyWithSetter {
 
         public FireTriggers() {
             super(WithEnum.FIRE_TRIGGERS);
@@ -729,7 +758,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setFireTriggers;
         }
     }
-    public static class FormatFileDataSource extends SetStringWith {
+    public static class FormatFileDataSource extends StringWithSetter {
 
         public FormatFileDataSource(String formatFileDataSource) {
             super(WithEnum.FORMATFILE_DATASOURCE,
@@ -741,7 +770,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setFormatFileDataSource;
         }
     }
-    public static class KeepIdentity extends SetKeyWith {
+    public static class KeepIdentity extends KeyWithSetter {
 
         public KeepIdentity() {
             super(WithEnum.KEEPIDENTITY);
@@ -752,7 +781,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setKeepIdentity;
         }
     }
-    public static class KeepNulls extends SetKeyWith {
+    public static class KeepNulls extends KeyWithSetter {
 
         public KeepNulls() {
             super(WithEnum.KEEPNULLS);
@@ -763,7 +792,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setKeepNulls;
         }
     }
-    public static class KiloBytesPerBatch extends SetNumberWith {
+    public static class KiloBytesPerBatch extends NumberWithSetter {
 
         public KiloBytesPerBatch(Number kiloBytesPerBatch) {
             super(WithEnum.KILOBYTES_PER_BATCH,
@@ -775,7 +804,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setKilobytesPerBatch;
         }
     }
-    public static class LastRow extends SetNumberWith {
+    public static class LastRow extends NumberWithSetter {
 
         public LastRow(Number lastRow) {
             super(WithEnum.LASTROW,
@@ -787,7 +816,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setLastRow;
         }
     }
-    public static class MaxErrors extends SetNumberWith {
+    public static class MaxErrors extends NumberWithSetter {
 
         public MaxErrors(Number maxErrors) {
             super(WithEnum.MAXERRORS,
@@ -799,7 +828,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setMaxErrors;
         }
     }
-    public static class Order implements SetWith {
+    public static class Order implements WithSetter {
 
         private List<OrderColumn> columnList;
 
@@ -839,7 +868,7 @@ public class BulkInsert implements Statement {
                     bulkInsert::setOrderList);
         }
     }
-    public static class RowsPerBatch extends SetNumberWith {
+    public static class RowsPerBatch extends NumberWithSetter {
 
         public RowsPerBatch(Number rowsPerBatch) {
             super(WithEnum.ROWS_PER_BATCH,
@@ -851,7 +880,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setRowsPerBatch;
         }
     }
-    public static class RowTerminator extends SetStringWith {
+    public static class RowTerminator extends StringWithSetter {
 
         public RowTerminator(String rowTerminator) {
             super(WithEnum.ROWTERMINATOR,
@@ -863,7 +892,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setRowTerminator;
         }
     }
-    public static class TabLock extends SetKeyWith {
+    public static class TabLock extends KeyWithSetter {
 
         public TabLock() {
             super(WithEnum.TABLOCK);
@@ -874,7 +903,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setTabLock;
         }
     }
-    public static class Format extends SetStringWith {
+    public static class Format extends StringWithSetter {
 
         public Format(String format) {
             super(WithEnum.FORMAT,
@@ -886,7 +915,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setFormat;
         }
     }
-    public static class FieldQuote extends SetStringWith {
+    public static class FieldQuote extends StringWithSetter {
 
         public FieldQuote(String fieldQuote) {
             super(WithEnum.FIELDQUOTE,
@@ -898,7 +927,7 @@ public class BulkInsert implements Statement {
             return null;
         }
     }
-    public static class FormatFile extends SetStringWith {
+    public static class FormatFile extends StringWithSetter {
 
         public FormatFile(String formatFile) {
             super(WithEnum.FORMATFILE,
@@ -910,7 +939,7 @@ public class BulkInsert implements Statement {
             return bulkInsert::setFormatFile;
         }
     }
-    public static class FieldTerminator extends SetStringWith {
+    public static class FieldTerminator extends StringWithSetter {
 
         public FieldTerminator(String fieldTerminator) {
             super(WithEnum.FIELDTERMINATOR,

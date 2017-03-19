@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.datatype;
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.ColumnName;

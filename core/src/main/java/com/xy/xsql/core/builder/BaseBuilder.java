@@ -1,4 +1,4 @@
-package com.xy.xsql.core;
+package com.xy.xsql.core.builder;
 
 /**
  * Base Builder

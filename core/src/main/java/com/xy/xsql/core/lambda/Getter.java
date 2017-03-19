@@ -1,4 +1,4 @@
-package com.xy.xsql.core;
+package com.xy.xsql.core.lambda;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.

@@ -1,9 +1,8 @@
 package com.xy.xsql.tsql.core.expression;
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Coalesce;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.expression.NullIf;
 
 import java.util.Arrays;
 

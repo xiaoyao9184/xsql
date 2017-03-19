@@ -1,4 +1,6 @@
-package com.xy.xsql.core;
+package com.xy.xsql.core.builder;
+
+import com.xy.xsql.core.configurator.ConfigInOut;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

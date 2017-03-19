@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.predicate;
 
-import com.xy.xsql.core.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.predicate.Contains;
 

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.tsql.core.clause.FromBuilder;
 import com.xy.xsql.tsql.core.clause.TopBuilder;
 import com.xy.xsql.tsql.core.clause.WhereBuilder;
