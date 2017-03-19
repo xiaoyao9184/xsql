@@ -8,8 +8,11 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.operator.Comparison;
+import com.xy.xsql.tsql.model.operator.Compound;
 import com.xy.xsql.tsql.model.statement.Statement;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
@@ -100,7 +103,7 @@ public class Update implements Statement {
     //TODO @table_variable
 
     //SET
-    private List<Set> sets;
+    private List<SetItem> sets;
 
     //<OUTPUT Clause>
     private Output output;
@@ -144,11 +147,11 @@ public class Update implements Statement {
         this.tableName = tableName;
     }
 
-    public List<Set> getSets() {
+    public List<SetItem> getSets() {
         return sets;
     }
 
-    public void setSets(List<Set> sets) {
+    public void setSets(List<SetItem> sets) {
         this.sets = sets;
     }
 
@@ -237,6 +240,7 @@ public class Update implements Statement {
 
      *
      */
+    @Deprecated
     public static class Set implements Block {
         private ColumnName columnName;
         private Expression expression;
@@ -277,4 +281,265 @@ public class Update implements Statement {
                     .build();
         }
     }
+
+    /**
+     *
+     */
+    public interface SetItem extends Block {
+
+        /**
+         * must override
+         * @return
+         */
+        List<Block> toBlockList();
+    }
+
+    /**
+     * column_name = { expression | DEFAULT | NULL }
+     */
+    public static class ColumnAssignmentSet implements SetItem {
+        private ColumnName columnName;
+        private Expression expression;
+        private boolean useNull = false;
+        private boolean useDefault = false;
+
+        public ColumnName getColumnName() {
+            return columnName;
+        }
+
+        public void setColumnName(ColumnName columnName) {
+            this.columnName = columnName;
+        }
+
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+        public boolean isUseNull() {
+            return useNull;
+        }
+
+        public void setUseNull(boolean useNull) {
+            this.useNull = useNull;
+        }
+
+        public boolean isUseDefault() {
+            return useDefault;
+        }
+
+        public void setUseDefault(boolean useDefault) {
+            this.useDefault = useDefault;
+        }
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(this.columnName)
+                    .append(Assignment.ASSIGNMENT)
+                    .append(this.useNull ?
+                            Keywords.NULL :
+                            this.useDefault ?
+                                    Keywords.DEFAULT :
+                                    this.expression)
+                    .build();
+        }
+    }
+
+    /**
+     * @variable = expression
+     */
+    public static class VariableAssignmentSet implements SetItem {
+        private LocalVariable variable;
+        private Expression expression;
+
+        public LocalVariable getVariable() {
+            return variable;
+        }
+
+        public void setVariable(LocalVariable variable) {
+            this.variable = variable;
+        }
+
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(this.variable)
+                    .append(Assignment.ASSIGNMENT)
+                    .append(this.expression)
+                    .build();
+        }
+    }
+
+    /**
+     * @variable = column = expression
+     */
+    public static class VariableColumnAssignmentSet extends VariableAssignmentSet {
+        private LocalVariable variable;
+        private ColumnName columnName;
+        private Expression expression;
+
+        public LocalVariable getVariable() {
+            return variable;
+        }
+
+        public void setVariable(LocalVariable variable) {
+            this.variable = variable;
+        }
+
+        public ColumnName getColumnName() {
+            return columnName;
+        }
+
+        public void setColumnName(ColumnName columnName) {
+            this.columnName = columnName;
+        }
+
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(this.variable)
+                    .append(Assignment.ASSIGNMENT)
+                    .append(this.columnName)
+                    .append(Assignment.ASSIGNMENT)
+                    .append(this.expression)
+                    .build();
+        }
+    }
+
+    /**
+     * column_name { += | -= | *= | /= | %= | &= | ^= | |= } expression
+     */
+    public static class ColumnCompoundSet implements SetItem {
+        private ColumnName columnName;
+        protected Compound compound;
+        private Expression expression;
+
+        public ColumnName getColumnName() {
+            return columnName;
+        }
+
+        public void setColumnName(ColumnName columnName) {
+            this.columnName = columnName;
+        }
+
+        public Compound getCompound() {
+            return compound;
+        }
+
+        public void setCompound(Compound compound) {
+            this.compound = compound;
+        }
+
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(this.columnName)
+                    .append(this.compound)
+                    .append(this.expression)
+                    .build();
+        }
+    }
+
+    /**
+     * @variable { += | -= | *= | /= | %= | &= | ^= | |= } expression
+     */
+    public static class VariableCompoundSet implements SetItem {
+        protected LocalVariable variable;
+        protected Compound compound;
+        protected Expression expression;
+
+        public LocalVariable getVariable() {
+            return variable;
+        }
+
+        public void setVariable(LocalVariable variable) {
+            this.variable = variable;
+        }
+
+        public Compound getCompound() {
+            return compound;
+        }
+
+        public void setCompound(Compound compound) {
+            this.compound = compound;
+        }
+
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(this.variable)
+                    .append(this.compound)
+                    .append(this.expression)
+                    .build();
+        }
+    }
+
+    /**
+     * @variable = column { += | -= | *= | /= | %= | &= | ^= | |= } expression
+     */
+    public static class VariableColumnCompoundSet extends VariableCompoundSet {
+        private ColumnName columnName;
+
+        public ColumnName getColumnName() {
+            return columnName;
+        }
+
+        public void setColumnName(ColumnName columnName) {
+            this.columnName = columnName;
+        }
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(this.variable)
+                    .append(Assignment.ASSIGNMENT)
+                    .append(this.columnName)
+                    .append(this.compound)
+                    .append(this.expression)
+                    .build();
+        }
+    }
+
+
+
 }

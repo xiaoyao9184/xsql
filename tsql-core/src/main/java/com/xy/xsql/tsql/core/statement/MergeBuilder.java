@@ -12,12 +12,12 @@ import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
+import java.util.stream.Collectors;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.ListBuilder.initList;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
@@ -73,7 +73,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      * @param tableName
      * @return
      */
-    public MergeBuilder withTableName(TableName tableName){
+    public MergeBuilder withTargetTable(TableName tableName){
         tar.setTargetTable(tableName);
         return this;
     }
@@ -83,7 +83,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      * @param tableName
      * @return
      */
-    public MergeBuilder withTableName(String tableName){
+    public MergeBuilder withTargetTable(String tableName){
         tar.setTargetTable(new TableName(tableName));
         return this;
     }
@@ -148,8 +148,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      *
      * @return
      */
-    public MatchedWhenThenBuilder<MergeBuilder> withMatchedWhenThen() {
-        return new MatchedWhenThenBuilder<MergeBuilder>
+    public WhenMatchedThenBuilder<MergeBuilder> withWhenMatchedThen() {
+        return new WhenMatchedThenBuilder<MergeBuilder>
                 (initNew(Merge.MatchedWhenThen::new,
                         tar::getMatchedWhenThenList,
                         tar::setMatchedWhenThenList))
@@ -160,8 +160,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      *
      * @return
      */
-    public NotMatchedTargetWhenThenBuilder<MergeBuilder> withNotMatchedWhenThenTarget() {
-        return new NotMatchedTargetWhenThenBuilder<MergeBuilder>
+    public WhenNotMatchedTargetThenBuilder<MergeBuilder> withWhenNotMatchedTargetThen() {
+        return new WhenNotMatchedTargetThenBuilder<MergeBuilder>
                 (initSet(Merge.NotMatchedWhenThen::new,
                         tar::getNotMatchedWhenThenTarget,
                         tar::setNotMatchedWhenThenTarget))
@@ -172,8 +172,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      *
      * @return
      */
-    public NotMatchedSourceWhenThenBuilder<MergeBuilder> withNotMatchedWhenThenSource() {
-        return new NotMatchedSourceWhenThenBuilder<MergeBuilder>
+    public WhenNotMatchedSourceThenBuilder<MergeBuilder> withWhenNotMatchedSourceThen() {
+        return new WhenNotMatchedSourceThenBuilder<MergeBuilder>
                 (initNew(Merge.MatchedWhenThen::new,
                         tar::getNotMatchedWhenThenSourceList,
                         tar::setNotMatchedWhenThenSourceList))
@@ -207,8 +207,122 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
 
+    /**
+     *
+     * @return
+     */
     public static MergeBuilder MERGE(){
         return new MergeBuilder();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public WithBuilder<MergeBuilder> With(){
+        return withWith();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public TopBuilder<MergeBuilder> $Top(){
+        return withTop();
+    }
+
+    /**
+     * Quick set
+     * @param tableName
+     * @return
+     */
+    public MergeBuilder $Into(TableName tableName){
+        return withInto(true).withTargetTable(tableName);
+    }
+
+    /**
+     * Quick set
+     * @param mergeHints
+     * @return
+     */
+    @Deprecated
+    public MergeBuilder $With(TableHintLimited... mergeHints){
+        return withMergeHint()
+                .withTableHintLimited(mergeHints)
+                .and();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public MergeHintBuilder<MergeBuilder> $With(){
+        return withMergeHint();
+    }
+
+    /**
+     * Quick set
+     * @param tableAlias
+     * @return
+     */
+    public MergeBuilder $As(String tableAlias){
+        return withAs(true).withTableAlias(tableAlias);
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public FromBuilder.TableSourceBuilder<MergeBuilder> $Using(){
+        return withTableSource();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public SearchConditionBuilder<MergeBuilder> $On(){
+        return withMergeSearchCondition();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public WhenMatchedThenBuilder<MergeBuilder> $When_Matched(){
+        return withWhenMatchedThen();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public WhenNotMatchedTargetThenBuilder<MergeBuilder> $When_Not_Matched(){
+        return withWhenNotMatchedTargetThen();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public WhenNotMatchedSourceThenBuilder<MergeBuilder> $When_Not_Matched_Source(){
+        return withWhenNotMatchedSourceThen();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public OutputBuilder<MergeBuilder> $OutPut(){
+        return withOutput();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public OptionBuilder<MergeBuilder> $Option(){
+        return withOption();
     }
 
 
@@ -223,11 +337,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             super(mergeHint);
         }
 
-        public MergeHintBuilder<ParentBuilder> withTableHintLimited(TableHintLimited tableHintLimited){
-            if(this.tar.getTableHintLimitedList() == null){
-                this.tar.setTableHintLimitedList(EnumSet.allOf(TableHintLimited.class));
-            }
-            this.tar.getTableHintLimitedList().add(tableHintLimited);
+        public MergeHintBuilder<ParentBuilder> withTableHintLimited(TableHintLimited... tableHintLimited){
+            initAdd(Arrays.asList(tableHintLimited),
+                    tar::getTableHintLimitedList,
+                    tar::setTableHintLimitedList);
             return this;
         }
 
@@ -236,11 +349,12 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             return this;
         }
 
-        public MergeHintBuilder<ParentBuilder> withTableHintLimited(String valueVal){
-            if(this.tar.getIndexValList() == null){
-                this.tar.setIndexValList(new ArrayList());
-            }
-            tar.getIndexValList().add(new Unknown(valueVal));
+        public MergeHintBuilder<ParentBuilder> withTableHintLimited(String... valueVals){
+            initAdd(Arrays.stream(valueVals)
+                            .map(Unknown::new)
+                            .collect(Collectors.toList()),
+                    tar::getIndexValList,
+                    tar::setIndexValList);
             return this;
         }
     }
@@ -249,24 +363,24 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      *
      * @param <ParentBuilder>
      */
-    public class MatchedWhenThenBuilder<ParentBuilder>
-            extends CodeTreeBuilder<MatchedWhenThenBuilder<ParentBuilder>,ParentBuilder,Merge.MatchedWhenThen> {
+    public class WhenMatchedThenBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WhenMatchedThenBuilder<ParentBuilder>,ParentBuilder,Merge.MatchedWhenThen> {
 
-        public MatchedWhenThenBuilder(Merge.MatchedWhenThen matchedWhenThen) {
+        public WhenMatchedThenBuilder(Merge.MatchedWhenThen matchedWhenThen) {
             super(matchedWhenThen);
         }
 
 
-        public SearchConditionBuilder<MatchedWhenThenBuilder<ParentBuilder>> withClauseSearchCondition() {
-            return new SearchConditionBuilder<MatchedWhenThenBuilder<ParentBuilder>>
+        public SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>> withClauseSearchCondition() {
+            return new SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>>
                     (initSet(SearchCondition::new,
                             tar::getClauseSearchCondition,
                             tar::setClauseSearchCondition))
                     .in(this);
         }
 
-        public MergeMatchedBuilder<MatchedWhenThenBuilder<ParentBuilder>> withMergeMatched() {
-            return new MergeMatchedBuilder<MatchedWhenThenBuilder<ParentBuilder>>
+        public MergeMatchedBuilder<WhenMatchedThenBuilder<ParentBuilder>> withMergeMatched() {
+            return new MergeMatchedBuilder<WhenMatchedThenBuilder<ParentBuilder>>
                     (initSet(Merge.MergeMatched::new,
                             tar::getMergeMatched,
                             tar::setMergeMatched))
@@ -279,29 +393,29 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      *
      * @param <ParentBuilder>
      */
-    public class NotMatchedTargetWhenThenBuilder<ParentBuilder>
-            extends CodeTreeBuilder<NotMatchedTargetWhenThenBuilder<ParentBuilder>,ParentBuilder,Merge.NotMatchedWhenThen> {
+    public class WhenNotMatchedTargetThenBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>,ParentBuilder,Merge.NotMatchedWhenThen> {
 
-        public NotMatchedTargetWhenThenBuilder(Merge.NotMatchedWhenThen notMatchedWhenThen) {
+        public WhenNotMatchedTargetThenBuilder(Merge.NotMatchedWhenThen notMatchedWhenThen) {
             super(notMatchedWhenThen);
         }
 
 
-        public NotMatchedTargetWhenThenBuilder<ParentBuilder> withByTarget(boolean useByTarget){
+        public WhenNotMatchedTargetThenBuilder<ParentBuilder> withByTarget(boolean useByTarget){
             tar.setUseByTarget(useByTarget);
             return this;
         }
 
-        public SearchConditionBuilder<NotMatchedTargetWhenThenBuilder<ParentBuilder>> withClauseSearchCondition() {
-            return new SearchConditionBuilder<NotMatchedTargetWhenThenBuilder<ParentBuilder>>
+        public SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> withClauseSearchCondition() {
+            return new SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>>
                     (initSet(SearchCondition::new,
                             tar::getClauseSearchCondition,
                             tar::setClauseSearchCondition))
                     .in(this);
         }
 
-        public MergeNotMatchedBuilder<NotMatchedTargetWhenThenBuilder<ParentBuilder>> withMergeNotMatched() {
-            return new MergeNotMatchedBuilder<NotMatchedTargetWhenThenBuilder<ParentBuilder>>
+        public MergeNotMatchedBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> withMergeNotMatched() {
+            return new MergeNotMatchedBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>>
                     (initSet(Merge.MergeNotMatched::new,
                             tar::getMergeNotMatched,
                             tar::setMergeNotMatched))
@@ -314,23 +428,23 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      *
      * @param <ParentBuilder>
      */
-    public class NotMatchedSourceWhenThenBuilder<ParentBuilder>
-            extends CodeTreeBuilder<NotMatchedSourceWhenThenBuilder<ParentBuilder>,ParentBuilder,Merge.MatchedWhenThen> {
+    public class WhenNotMatchedSourceThenBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>,ParentBuilder,Merge.MatchedWhenThen> {
 
-        public NotMatchedSourceWhenThenBuilder(Merge.MatchedWhenThen matchedWhenThen) {
+        public WhenNotMatchedSourceThenBuilder(Merge.MatchedWhenThen matchedWhenThen) {
             super(matchedWhenThen);
         }
 
-        public SearchConditionBuilder<NotMatchedSourceWhenThenBuilder<ParentBuilder>> withClauseSearchCondition() {
-            return new SearchConditionBuilder<NotMatchedSourceWhenThenBuilder<ParentBuilder>>
+        public SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> withClauseSearchCondition() {
+            return new SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>>
                     (initSet(SearchCondition::new,
                             tar::getClauseSearchCondition,
                             tar::setClauseSearchCondition))
                     .in(this);
         }
 
-        public MergeNotMatchedBuilder<NotMatchedSourceWhenThenBuilder<ParentBuilder>> withMergeNotMatched() {
-            return new MergeNotMatchedBuilder<NotMatchedSourceWhenThenBuilder<ParentBuilder>>
+        public MergeNotMatchedBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> withMergeNotMatched() {
+            return new MergeNotMatchedBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>>
                     (initSet(Merge.MergeNotMatched::new,
                             tar::getMergeNotMatched,
                             tar::setMergeNotMatched))
@@ -357,11 +471,11 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             return this;
         }
 
-        public UpdateBuilder.SetBuilder<MergeMatchedBuilder<ParentBuilder>> withSetItem(){
-            return new UpdateBuilder.SetBuilder<MergeMatchedBuilder<ParentBuilder>>
-                    (initNew(Update.Set::new,
-                            tar::getSets,
-                            tar::setSets))
+        public UpdateBuilder.SetItemBuilder<MergeMatchedBuilder<ParentBuilder>> withSetItem(){
+            initList(tar::getSets,
+                    tar::setSets);
+            return new UpdateBuilder.SetItemBuilder<MergeMatchedBuilder<ParentBuilder>>
+                    (tar.getSets()::add)
                     .in(this);
         }
 

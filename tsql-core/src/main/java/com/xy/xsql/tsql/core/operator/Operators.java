@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.operator.*;
 public class Operators {
 
     public static class Arithmetic {
-        public static com.xy.xsql.tsql.model.operator.Arithmetic ADDITION = com.xy.xsql.tsql.model.operator.Arithmetic.ADDITION;
+        public static Operator ADDITION = com.xy.xsql.tsql.model.operator.Arithmetic.ADDITION;
         public static Operator SUBTRACTION = com.xy.xsql.tsql.model.operator.Arithmetic.SUBTRACTION;
         public static Operator MULTIPLICATION = com.xy.xsql.tsql.model.operator.Arithmetic.MULTIPLICATION;
         public static Operator DIVISION = com.xy.xsql.tsql.model.operator.Arithmetic.DIVISION;

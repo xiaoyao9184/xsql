@@ -343,15 +343,15 @@ public class Merge implements Statement {
         { [ <table_hint_limited> [ ,...n ] ]
         [ [ , ] INDEX ( index_val [ ,...n ] ) ] }
         */
-        private EnumSet<TableHintLimited> tableHintLimitedList;
+        private List<TableHintLimited> tableHintLimitedList;
         private boolean useDelimiter;
         private List<Unknown> indexValList;
 
-        public EnumSet<TableHintLimited> getTableHintLimitedList() {
+        public List<TableHintLimited> getTableHintLimitedList() {
             return tableHintLimitedList;
         }
 
-        public void setTableHintLimitedList(EnumSet<TableHintLimited> tableHintLimitedList) {
+        public void setTableHintLimitedList(List<TableHintLimited> tableHintLimitedList) {
             this.tableHintLimitedList = tableHintLimitedList;
         }
 
@@ -463,7 +463,7 @@ public class Merge implements Statement {
     public static class MergeMatched implements Block {
         //{ UPDATE SET <set_clause> | DELETE }
         private boolean useSet;
-        private List<Update.Set> sets;
+        private List<Update.SetItem> sets;
 
 
         public boolean isUseSet() {
@@ -474,11 +474,11 @@ public class Merge implements Statement {
             this.useSet = useSet;
         }
 
-        public List<Update.Set> getSets() {
+        public List<Update.SetItem> getSets() {
             return sets;
         }
 
-        public void setSets(List<Update.Set> sets) {
+        public void setSets(List<Update.SetItem> sets) {
             this.sets = sets;
         }
 

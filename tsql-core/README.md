@@ -34,6 +34,7 @@
 | ----- | ----- |
 | e | Expression
 | p | Predicate
+| s | Update.SetItem
 | t | TableName
 | c | ColumnName
 | _ | DataType
