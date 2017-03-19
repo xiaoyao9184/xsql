@@ -46,15 +46,15 @@ public class ReNameBuilder implements BaseBuilder<Void,ReName> {
 
     /**
      * the last is new name
-     * @param name
+     * @param old_new
      * @return
      */
-    public static ReName RENAME_TABLE(String... name){
-        String[] tableNames = Arrays.copyOfRange(name,0,name.length - 1);
+    public static ReName RENAME_TABLE(String... old_new){
+        String[] tableNames = Arrays.copyOfRange(old_new,0,old_new.length - 1);
 
         return new ReNameBuilder()
                 .withTableName(t(tableNames))
-                .withNewName(name[name.length-1])
+                .withNewName(old_new[old_new.length-1])
                 .build();
     }
 

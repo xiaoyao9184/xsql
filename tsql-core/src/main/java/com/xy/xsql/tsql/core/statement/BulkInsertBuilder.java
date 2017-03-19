@@ -2,10 +2,15 @@ package com.xy.xsql.tsql.core.statement;
 
 import com.xy.xsql.core.BaseBuilder;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 
+import java.util.Arrays;
 import java.util.List;
+
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 
 /**
  * Created by xiaoyao9184 on 2017/1/9.
@@ -21,6 +26,10 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
 
     @Override
     public BulkInsert build(Void aVoid) {
+        return bulkInsert;
+    }
+
+    public BulkInsert done() {
         return bulkInsert;
     }
 
@@ -40,7 +49,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFrom(String dataFile){
-        bulkInsert.setFormDataFile(dataFile);
+        bulkInsert.setFormDataFile(e_string(dataFile));
         return this;
     }
 
@@ -50,7 +59,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withBatchSize(Integer batchSize){
-        bulkInsert.setBatchSize(batchSize);
+        bulkInsert.setBatchSize(e_number(batchSize));
         return this;
     }
 
@@ -68,8 +77,31 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @param codePage
      * @return This
      */
-    public BulkInsertBuilder withCodePage(StringConstant codePage){
-        bulkInsert.setCodePage(codePage);
+    public BulkInsertBuilder withCodePage(String codePage){
+        bulkInsert.setCodePage(e_string(codePage));
+        return this;
+    }
+
+    /**
+     * [ [ , ] CODEPAGE = { 'ACP' | 'OEM' | 'RAW' | 'code_page' } ]
+     * @param codePage
+     * @return This
+     */
+    public BulkInsertBuilder withCodePage(BulkInsert.CodePage codePage){
+        bulkInsert.setCodePage(codePage.getValue());
+        return this;
+    }
+
+    /**
+     * [ [ , ] DATAFILETYPE =
+     * { 'char' | 'native'| 'widechar' | 'widenative' } ]
+     * @deprecated can't set other value
+     * @param dataFileType
+     * @return This
+     */
+    @Deprecated
+    public BulkInsertBuilder withDataFileType(StringConstant dataFileType){
+        bulkInsert.setDataFileType(dataFileType);
         return this;
     }
 
@@ -77,10 +109,10 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * [ [ , ] DATAFILETYPE =
      * { 'char' | 'native'| 'widechar' | 'widenative' } ]
      * @param dataFileType
-     * @return This
+     * @return
      */
-    public BulkInsertBuilder withDataFileType(StringConstant dataFileType){
-        bulkInsert.setDataFileType(dataFileType);
+    public BulkInsertBuilder withDataFileType(BulkInsert.DataFileType dataFileType){
+        bulkInsert.setDataFileType(dataFileType.getValue());
         return this;
     }
 
@@ -90,7 +122,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withDataSource(String dataSourceName){
-        bulkInsert.setDataSource(new StringConstant(dataSourceName));
+        bulkInsert.setDataSource(e_string(dataSourceName));
         return this;
     }
 
@@ -100,7 +132,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withErrorFile(String fileName){
-        bulkInsert.setErrorFile(new StringConstant(fileName));
+        bulkInsert.setErrorFile(e_string(fileName));
         return this;
     }
 
@@ -110,7 +142,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withErrorFileDataSource(String dataSourceName){
-        bulkInsert.setErrorFileDataSource(new StringConstant(dataSourceName));
+        bulkInsert.setErrorFileDataSource(e_string(dataSourceName));
         return this;
     }
 
@@ -120,7 +152,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFirstRow(Integer firstRow){
-        bulkInsert.setFirstRow(firstRow);
+        bulkInsert.setFirstRow(e_number(firstRow));
         return this;
     }
 
@@ -139,7 +171,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFireTriggers(String dataSourceName){
-        bulkInsert.setFormatFileDataSource(new StringConstant(dataSourceName));
+        bulkInsert.setFormatFileDataSource(e_string(dataSourceName));
         return this;
     }
 
@@ -167,7 +199,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withKilobytesPerBatch(Integer kilobytesPerBatch){
-        bulkInsert.setKilobytesPerBatch(kilobytesPerBatch);
+        bulkInsert.setKilobytesPerBatch(e_number(kilobytesPerBatch));
         return this;
     }
 
@@ -177,7 +209,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withLastRow(Integer lastRow){
-        bulkInsert.setLastRow(lastRow);
+        bulkInsert.setLastRow(e_number(lastRow));
         return this;
     }
 
@@ -187,7 +219,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withMaxErrors(Integer maxErrors){
-        bulkInsert.setMaxErrors(maxErrors);
+        bulkInsert.setMaxErrors(e_number(maxErrors));
         return this;
     }
 
@@ -207,7 +239,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withRowsPerBatch(Integer rowsPerBatch){
-        bulkInsert.setRowsPerBatch(rowsPerBatch);
+        bulkInsert.setRowsPerBatch(e_number(rowsPerBatch));
         return this;
     }
 
@@ -217,7 +249,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withRowTerminator(String rowTerminator){
-        bulkInsert.setRowTerminator(new StringConstant(rowTerminator));
+        bulkInsert.setRowTerminator(e_string(rowTerminator));
         return this;
     }
     /**
@@ -236,7 +268,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFormat(String format){
-        bulkInsert.setFormat(new StringConstant(format));
+        bulkInsert.setFormat(e_string(format));
         return this;
     }
 
@@ -246,7 +278,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFieldQuote(String quoteCharacters){
-        bulkInsert.setFieldQuote(new StringConstant(quoteCharacters));
+        bulkInsert.setFieldQuote(e_string(quoteCharacters));
         return this;
     }
 
@@ -256,7 +288,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFormatFile(String formatFilePath){
-        bulkInsert.setFormatFile(new StringConstant(formatFilePath));
+        bulkInsert.setFormatFile(e_string(formatFilePath));
         return this;
     }
 
@@ -266,7 +298,7 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFieldTerminator(String fieldTerminator){
-        bulkInsert.setFieldTerminator(new StringConstant(fieldTerminator));
+        bulkInsert.setFieldTerminator(e_string(fieldTerminator));
         return this;
     }
 
@@ -281,31 +313,192 @@ public class BulkInsertBuilder implements BaseBuilder<Void,BulkInsert> {
 //        return this;
 //    }
 
+
+    /**
+     * Quick set
+     * @return
+     */
+    public static BulkInsertBuilder BULK_INSERT(){
+        return new BulkInsertBuilder();
+    }
+
+    /**
+     * Quick set
+     * @param tableName
+     * @return
+     */
+    public BulkInsertBuilder $(TableName tableName){
+        return withTableViewName(tableName);
+    }
+
+    /**
+     * Quick set
+     * @param dataFile
+     * @return
+     */
+    public BulkInsertBuilder $From(String dataFile){
+        return withFrom(dataFile);
+    }
+
+    /**
+     * Quick set
+     * @param items
+     * @return
+     */
+    @SuppressWarnings({"unchecked", "varargs"})
+    public BulkInsertBuilder $With(BulkInsert.SetWith... items){
+        Arrays.stream(items)
+                .forEach(item -> item.set(bulkInsert));
+        return this;
+    }
+
     //CODEPAGE
-    public static StringConstant _code_page(String codePage){
-        return new StringConstant(codePage);
+    public static BulkInsert.CodePage _code_page(String codePage){
+        return new BulkInsert.CodePage(codePage);
     }
-    public static StringConstant _ACP(){
-        return BulkInsert.CodePage.ACP.toExpression();
+    public static BulkInsert.CodePage _ACP(){
+        return BulkInsert.ACP;
     }
-    public static StringConstant _OEM(){
-        return BulkInsert.CodePage.OEM.toExpression();
+    public static BulkInsert.CodePage _OEM(){
+        return BulkInsert.OEM;
     }
-    public static StringConstant _RAW(){
-        return BulkInsert.CodePage.RAW.toExpression();
+    public static BulkInsert.CodePage _RAW(){
+        return BulkInsert.RAW;
     }
 
     //DATAFILETYPE
-    public static StringConstant _char(){
-        return BulkInsert.DataFileType.Char.toExpression();
+    public static BulkInsert.DataFileType _char(){
+        return BulkInsert.Char;
     }
-    public static StringConstant _native(){
-        return BulkInsert.DataFileType.Native.toExpression();
+    public static BulkInsert.DataFileType _native(){
+        return BulkInsert.Native;
     }
-    public static StringConstant _wideChar(){
-        return BulkInsert.DataFileType.WideChar.toExpression();
+    public static BulkInsert.DataFileType _wideChar(){
+        return BulkInsert.WideChar;
     }
-    public static StringConstant _wideNative(){
-        return BulkInsert.DataFileType.WideNative.toExpression();
+    public static BulkInsert.DataFileType _wideNative(){
+        return BulkInsert.WideNative;
     }
+
+
+
+    public static BulkInsert.SetWith BATCHSIZE(Integer batchSize){
+        return new BulkInsert.BatchSize(batchSize);
+    }
+
+    public static BulkInsert.SetWith CHECK_CONSTRAINTS(){
+        return new BulkInsert.CheckConstraints();
+    }
+
+    public static BulkInsert.SetWith CODEPAGE(String codePage){
+        return new BulkInsert.CodePage(codePage);
+    }
+
+    @Deprecated
+    public static BulkInsert.SetWith CODEPAGE(StringConstant codePage){
+        return new BulkInsert.CodePage(codePage);
+    }
+
+    public static BulkInsert.SetWith CODEPAGE(BulkInsert.CodePage codePage){
+        return codePage;
+    }
+
+    @Deprecated
+    public static BulkInsert.SetWith DATAFILETYPE(String dataFileType){
+        return new BulkInsert.DataFileType(dataFileType);
+    }
+
+    @Deprecated
+    public static BulkInsert.SetWith DATAFILETYPE(StringConstant dataFileType){
+        return new BulkInsert.DataFileType(dataFileType);
+    }
+
+    public static BulkInsert.SetWith DATAFILETYPE(BulkInsert.DataFileType dataFileType){
+        return dataFileType;
+    }
+
+    public static BulkInsert.SetWith DATASOURCE(String dataSource){
+        return new BulkInsert.DataSource(dataSource);
+    }
+
+    public static BulkInsert.SetWith ERRORFILE(String errorFile){
+        return new BulkInsert.ErrorFile(errorFile);
+    }
+
+    public static BulkInsert.SetWith ERRORFILE_DATASOURCE(String errorFileDataSource){
+        return new BulkInsert.ErrorFileDataSource(errorFileDataSource);
+    }
+
+    public static BulkInsert.SetWith FIRSTROW(Integer firstRow){
+        return new BulkInsert.FirstRow(firstRow);
+    }
+
+    public static BulkInsert.SetWith FIRE_TRIGGERS(){
+        return new BulkInsert.FireTriggers();
+    }
+
+    public static BulkInsert.SetWith FORMATFILE_DATASOURCE(String dataSourceName){
+        return new BulkInsert.FormatFileDataSource(dataSourceName);
+    }
+
+    public static BulkInsert.SetWith KEEPIDENTITY(){
+        return new BulkInsert.KeepIdentity();
+    }
+
+    public static BulkInsert.SetWith KEEPNULLS(){
+        return new BulkInsert.KeepNulls();
+    }
+
+    public static BulkInsert.SetWith KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
+        return new BulkInsert.KiloBytesPerBatch(kilobytesPerBatch);
+    }
+
+    public static BulkInsert.SetWith LASTROW(Integer lastRow){
+        return new BulkInsert.LastRow(lastRow);
+    }
+
+    public static BulkInsert.SetWith MAXERRORS(Integer maxErrors){
+        return new BulkInsert.MaxErrors(maxErrors);
+    }
+
+    public static BulkInsert.SetWith ORDER(ColumnName... columns){
+        return new BulkInsert.Order(columns);
+    }
+
+    public static BulkInsert.SetWith ORDER_ASC(ColumnName... columns){
+        return new BulkInsert.Order(true,false,columns);
+    }
+
+    public static BulkInsert.SetWith ORDER_DESC(ColumnName... columns){
+        return new BulkInsert.Order(false,true,columns);
+    }
+
+    public static BulkInsert.SetWith ROWS_PER_BATCH(Integer rowsPerBatch){
+        return new BulkInsert.RowsPerBatch(rowsPerBatch);
+    }
+
+    public static BulkInsert.SetWith ROWTERMINATOR(String rowTerminator){
+        return new BulkInsert.RowTerminator(rowTerminator);
+    }
+
+    public static BulkInsert.SetWith TABLOCK (){
+        return new BulkInsert.TabLock();
+    }
+
+    public static BulkInsert.SetWith FORMAT(String format){
+        return new BulkInsert.Format(format);
+    }
+
+    public static BulkInsert.SetWith FIELDQUOTE(String fieldQuote){
+        return new BulkInsert.FieldQuote(fieldQuote);
+    }
+
+    public static BulkInsert.SetWith FORMATFILE(String formatFile){
+        return new BulkInsert.FormatFile(formatFile);
+    }
+
+    public static BulkInsert.SetWith FIELDTERMINATOR(String fieldTerminator){
+        return new BulkInsert.FieldTerminator(fieldTerminator);
+    }
+
 }

@@ -1,12 +1,11 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.statement.BulkInsertBuilder._ACP;
-import static com.xy.xsql.tsql.core.statement.BulkInsertBuilder._char;
+import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.statement.BulkInsertBuilder.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.
@@ -14,33 +13,210 @@ import static com.xy.xsql.tsql.core.statement.BulkInsertBuilder._char;
 public class BulkInsertBuilderTest {
 
     /**
-     * BULK INSERT table FROM 'D:/backup.cvs' WITH ( FORMAT = 'CSV' )
+     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
+     FROM 'f:\orders\lineitem.tbl'
+     WITH
+     (
+     FIELDTERMINATOR =' |',
+     ROWTERMINATOR =' |\n'
+     );
      */
     @Test
-    public void testBaseBuild(){
-        BulkInsert insert = new BulkInsertBuilder()
-                .withTableViewName(new TableName("table"))
-                .withFrom("D:/backup.cvs")
-                .withFormat("CVS")
+    public void testExampleA(){
+        // @formatter:off
+        BulkInsert bulkInsert = new BulkInsertBuilder()
+                .withTableViewName(t("AdventureWorks2012","Sales","SalesOrderDetail"))
+                .withFrom("f:\\orders\\lineitem.tbl")
+                .withFieldTerminator(" |")
+                .withRowTerminator(" |\\n")
                 .build(null);
 
-        Assert.assertEquals(insert.getFormat().toString(),"CVS");
+        //parent+quick
+        BulkInsert quick = BULK_INSERT()
+                .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
+                .$From("f:\\orders\\lineitem.tbl")
+                .$With(
+                    FIELDTERMINATOR(" |"),
+                    ROWTERMINATOR(" |\\n")
+                )
+                .done();
+        // @formatter:on
+
+        Assert.assertEquals(bulkInsert.getTableOrView().toString(),"AdventureWorks2012.Sales.SalesOrderDetail");
+        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'f:\\orders\\lineitem.tbl'");
+        Assert.assertEquals(bulkInsert.getFieldTerminator().toString(),"' |'");
+        Assert.assertEquals(bulkInsert.getRowTerminator().toString(),"' |\\n'");
     }
 
+    /**
+     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
+     FROM 'f:\orders\lineitem.tbl'
+     WITH
+     (
+     FIELDTERMINATOR =' |',
+     ROWTERMINATOR = ':\n',
+     FIRE_TRIGGERS
+     );
+     */
     @Test
-    public void testCodePageDataFileType(){
-        BulkInsert insert = new BulkInsertBuilder()
-            .withTableViewName(new TableName("table"))
-            .withFrom("D:/backup.cvs")
-            .withFormat("CVS")
-            .withCodePage(_ACP())
-            .withDataFileType(_char())
-            .build(null);
+    public void testExampleB(){
+        // @formatter:off
+        BulkInsert bulkInsert = new BulkInsertBuilder()
+                .withTableViewName(t("AdventureWorks2012","Sales","SalesOrderDetail"))
+                .withFrom("f:\\orders\\lineitem.tbl")
+                .withFieldTerminator(" |")
+                .withRowTerminator(" |\\n")
+                .withFireTriggers()
+                .build(null);
 
-        Assert.assertEquals(insert.getCodePage().toString(),"ACP");
-        Assert.assertEquals(insert.getDataFileType().toString(),"Char");
+        //parent+quick
+        BulkInsert quick = BULK_INSERT()
+                .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
+                .$From("f:\\orders\\lineitem.tbl")
+                .$With(
+                    FIELDTERMINATOR(" |"),
+                    ROWTERMINATOR(" |\\n"),
+                    FIRE_TRIGGERS()
+                )
+                .done();
+        // @formatter:on
+
+        Assert.assertEquals(bulkInsert.getTableOrView().toString(),"AdventureWorks2012.Sales.SalesOrderDetail");
+        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'f:\\orders\\lineitem.tbl'");
+        Assert.assertEquals(bulkInsert.getFieldTerminator().toString(),"' |'");
+        Assert.assertEquals(bulkInsert.getRowTerminator().toString(),"' |\\n'");
+        Assert.assertTrue(bulkInsert.isFireTriggers());
     }
 
+    /**
+     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
+     FROM ''<drive>:\<path>\<filename>''
+     WITH (ROWTERMINATOR = '''+CHAR(10)+''')
+     */
+    @Test
+    public void testExampleC(){
+        // @formatter:off
+        BulkInsert bulkInsert = new BulkInsertBuilder()
+                .withTableViewName(t("AdventureWorks2012","Sales","SalesOrderDetail"))
+                .withFrom("<drive>:\\<path>\\<filename>")
+                .withRowTerminator("CHAR(10)")
+                .build(null);
 
+        //parent+quick
+        BulkInsert quick = BULK_INSERT()
+                .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
+                .$From("<drive>:\\<path>\\<filename>")
+                .$With(
+                    ROWTERMINATOR("CHAR(10)")
+                )
+                .done();
+        // @formatter:on
+
+        Assert.assertEquals(bulkInsert.getTableOrView().toString(),"AdventureWorks2012.Sales.SalesOrderDetail");
+        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'<drive>:\\<path>\\<filename>'");
+        Assert.assertEquals(bulkInsert.getRowTerminator().toString(),"'CHAR(10)'");
+    }
+
+    /**
+     * BULK INSERT MyTable
+     FROM 'D:\data.csv'
+     WITH
+     ( CODEPAGE = '65001',
+     DATAFILETYPE = 'char',
+     FIELDTERMINATOR = ','
+     );
+     */
+    @Test
+    public void testExampleD(){
+        // @formatter:off
+        BulkInsert bulkInsert = new BulkInsertBuilder()
+                .withTableViewName(t("MyTable"))
+                .withCodePage("56001")
+                .withDataFileType(_char())
+                .withFieldTerminator(",")
+                .build(null);
+
+        //parent+quick
+        BulkInsert quick = BULK_INSERT()
+                .$(t("MyTable"))
+                .$From("D:\\data.csv")
+                .$With(
+                    CODEPAGE("65001"),
+                    DATAFILETYPE(_char()),
+                    FIELDTERMINATOR(",")
+                )
+                .done();
+        // @formatter:on
+
+        Assert.assertEquals(bulkInsert.getTableOrView().toString(),"MyTable");
+        Assert.assertEquals(bulkInsert.getCodePage().toString(),"'56001'");
+        Assert.assertEquals(bulkInsert.getDataFileType().toString(),"'char'");
+        Assert.assertEquals(bulkInsert.getFieldTerminator().toString(),"','");
+    }
+
+    /**
+     * BULK INSERT Sales.Invoices
+     FROM '\\share\invoices\inv-2016-07-25.csv'
+     WITH (FORMAT = 'CSV');
+     );
+     */
+    @Test
+    public void testExampleE(){
+        // @formatter:off
+        BulkInsert bulkInsert = new BulkInsertBuilder()
+                .withTableViewName(t("Sales","Invoices"))
+                .withFrom("\\\\share\\invoices\\inv-2016-07-25.csv")
+                .withFormat("CSV")
+                .build(null);
+
+        //parent+quick
+        BulkInsert quick = BULK_INSERT()
+                .$(t("Sales","Invoices"))
+                .$From("\\\\share\\invoices\\inv-2016-07-25.csv")
+                .$With(
+                    FORMAT("CVS")
+                )
+                .done();
+        // @formatter:on
+
+        Assert.assertEquals(bulkInsert.getTableOrView().toString(),"Sales.Invoices");
+        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'\\\\share\\invoices\\inv-2016-07-25.csv'");
+        Assert.assertEquals(bulkInsert.getFormat().toString(),"'CSV'");
+    }
+
+    /**
+     * BULK INSERT Sales.Invoices
+     FROM 'inv-2017-01-19.csv'
+     WITH (DATA_SOURCE = 'MyAzureInvoices',
+     FORMAT = 'CSV');
+
+     );
+     */
+    @Test
+    public void testExampleF(){
+        // @formatter:off
+        BulkInsert bulkInsert = new BulkInsertBuilder()
+                .withTableViewName(t("Sales","Invoices"))
+                .withFrom("inv-2017-01-19.csv")
+                .withDataSource("MyAzureInvoices")
+                .withFormat("CSV")
+                .build(null);
+
+        //parent+quick
+        BulkInsert quick = BULK_INSERT()
+                .$(t("Sales","Invoices"))
+                .$From("inv-2017-01-19.csv")
+                .$With(
+                    FORMAT("CSV"),
+                    DATASOURCE("MyAzureInvoices")
+                )
+                .done();
+        // @formatter:on
+
+        Assert.assertEquals(bulkInsert.getTableOrView().toString(),"Sales.Invoices");
+        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'inv-2017-01-19.csv'");
+        Assert.assertEquals(bulkInsert.getDataSource().toString(),"'MyAzureInvoices'");
+        Assert.assertEquals(bulkInsert.getFormat().toString(),"'CSV'");
+    }
 
 }

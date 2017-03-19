@@ -1,7 +1,12 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
+import com.xy.xsql.core.Setter;
+import com.xy.xsql.core.target.SetTarget;
+import com.xy.xsql.core.target.SetTargetBoolean;
+import com.xy.xsql.core.target.SetTargetValue;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
@@ -10,7 +15,11 @@ import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.statement.Statement;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms188365.aspx
@@ -56,11 +65,11 @@ public class BulkInsert implements Statement {
     //
     private TableName tableOrView;
     //FROM 'data_file'
-    private String formDataFile;
+    private StringConstant formDataFile;
 
     //[ WITH (...)]
     //[ [ , ] BATCHSIZE = batch_size ]
-    private Integer batchSize;
+    private NumberConstant batchSize;
     //[ [ , ] CHECK_CONSTRAINTS ]
     private boolean checkConstraints;
     //[ [ , ] CODEPAGE = { 'ACP' | 'OEM' | 'RAW' | 'code_page' } ]
@@ -75,7 +84,7 @@ public class BulkInsert implements Statement {
     //[ [ , ] ERRORFILE_DATASOURCE = 'data_source_name' ]
     private StringConstant errorFileDataSource;
     //[ [ , ] FIRSTROW = first_row ]
-    private Integer firstRow;
+    private NumberConstant firstRow;
     //[ [ , ] FIRE_TRIGGERS ]
     private boolean fireTriggers;
     //[ [ , ] FORMATFILE_DATASOURCE = 'data_source_name' ]
@@ -85,15 +94,15 @@ public class BulkInsert implements Statement {
     //[ [ , ] KEEPNULLS ]
     private boolean keepNulls;
     //[ [ , ] KILOBYTES_PER_BATCH = kilobytes_per_batch ]
-    private Integer kilobytesPerBatch;
+    private NumberConstant kilobytesPerBatch;
     //[ [ , ] LASTROW = last_row ]
-    private Integer lastRow;
+    private NumberConstant lastRow;
     //[ [ , ] MAXERRORS = max_errors ]
-    private Integer maxErrors;
+    private NumberConstant maxErrors;
     //[ [ , ] ORDER ( { column [ ASC | DESC ] } [ ,...n ] ) ]
     private List<OrderColumn> orderList;
     //[ [ , ] ROWS_PER_BATCH = rows_per_batch ]
-    private Integer rowsPerBatch;
+    private NumberConstant rowsPerBatch;
     //[ [ , ] ROWTERMINATOR = 'row_terminator' ]
     private StringConstant rowTerminator;
     //[ [ , ] TABLOCK ]
@@ -121,19 +130,19 @@ public class BulkInsert implements Statement {
         this.tableOrView = tableOrView;
     }
 
-    public String getFormDataFile() {
+    public StringConstant getFormDataFile() {
         return formDataFile;
     }
 
-    public void setFormDataFile(String formDataFile) {
+    public void setFormDataFile(StringConstant formDataFile) {
         this.formDataFile = formDataFile;
     }
 
-    public Integer getBatchSize() {
+    public NumberConstant getBatchSize() {
         return batchSize;
     }
 
-    public void setBatchSize(Integer batchSize) {
+    public void setBatchSize(NumberConstant batchSize) {
         this.batchSize = batchSize;
     }
 
@@ -185,11 +194,11 @@ public class BulkInsert implements Statement {
         this.errorFileDataSource = errorFileDataSource;
     }
 
-    public Integer getFirstRow() {
+    public NumberConstant getFirstRow() {
         return firstRow;
     }
 
-    public void setFirstRow(Integer firstRow) {
+    public void setFirstRow(NumberConstant firstRow) {
         this.firstRow = firstRow;
     }
 
@@ -225,27 +234,27 @@ public class BulkInsert implements Statement {
         this.keepNulls = keepNulls;
     }
 
-    public Integer getKilobytesPerBatch() {
+    public NumberConstant getKilobytesPerBatch() {
         return kilobytesPerBatch;
     }
 
-    public void setKilobytesPerBatch(Integer kilobytesPerBatch) {
+    public void setKilobytesPerBatch(NumberConstant kilobytesPerBatch) {
         this.kilobytesPerBatch = kilobytesPerBatch;
     }
 
-    public Integer getLastRow() {
+    public NumberConstant getLastRow() {
         return lastRow;
     }
 
-    public void setLastRow(Integer lastRow) {
+    public void setLastRow(NumberConstant lastRow) {
         this.lastRow = lastRow;
     }
 
-    public Integer getMaxErrors() {
+    public NumberConstant getMaxErrors() {
         return maxErrors;
     }
 
-    public void setMaxErrors(Integer maxErrors) {
+    public void setMaxErrors(NumberConstant maxErrors) {
         this.maxErrors = maxErrors;
     }
 
@@ -257,11 +266,11 @@ public class BulkInsert implements Statement {
         this.orderList = orderList;
     }
 
-    public Integer getRowsPerBatch() {
+    public NumberConstant getRowsPerBatch() {
         return rowsPerBatch;
     }
 
-    public void setRowsPerBatch(Integer rowsPerBatch) {
+    public void setRowsPerBatch(NumberConstant rowsPerBatch) {
         this.rowsPerBatch = rowsPerBatch;
     }
 
@@ -320,7 +329,7 @@ public class BulkInsert implements Statement {
                 .append(Keywords.WITH)
                 .append(Other.GROUP_START);
 
-        if(batchSize > 0){
+        if(batchSize != null){
             b.append(WithEnum.BATCHSIZE)
                     .append(Comparison.EQUAL)
                     .append(batchSize);
@@ -461,54 +470,6 @@ public class BulkInsert implements Statement {
                 .build();
     }
 
-    /**
-     * CODEPAGE enumerate string expression
-     */
-    public enum CodePage {
-        ACP,
-        OEM,
-        RAW;
-
-        private StringConstant expression;
-
-        CodePage(){
-            this.expression = new StringConstant(this.name());
-        }
-
-        public StringConstant toExpression() {
-            return this.expression;
-        }
-
-        @Override
-        public String toString() {
-            return this.name();
-        }
-    }
-
-    /**
-     * DATAFILETYPE enumerate string expression
-     */
-    public enum DataFileType {
-        Char,
-        Native,
-        WideChar,
-        WideNative;
-
-        private StringConstant expression;
-
-        DataFileType(){
-            this.expression = new StringConstant(this.name());
-        }
-
-        public StringConstant toExpression() {
-            return this.expression;
-        }
-
-        @Override
-        public String toString() {
-            return this.name().toLowerCase();
-        }
-    }
 
     /**
      * WITH keywords
@@ -547,11 +508,13 @@ public class BulkInsert implements Statement {
 
     /**
      * ORDER
+     * TODO maybe same as OrderBy.Item
      */
     public static class OrderColumn implements Block {
 
         private ColumnName column;
         private boolean useAsc;
+        private boolean useDesc;
 
         public OrderColumn(){
 
@@ -573,12 +536,392 @@ public class BulkInsert implements Statement {
             this.useAsc = useAsc;
         }
 
+        public boolean isUseDesc() {
+            return useDesc;
+        }
+
+        public void setUseDesc(boolean useDesc) {
+            this.useDesc = useDesc;
+        }
+
         @Override
         public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(column)
-                    .append(useAsc ? Keywords.ASC : Keywords.DESC)
-                    .build();
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .append(column);
+            if(useAsc){
+                b.append(Keywords.ASC);
+            } else if(useDesc){
+                b.append(Keywords.DESC);
+            }
+            return b.build();
         }
     }
+
+
+    public interface SetWith extends SetTarget<BulkInsert> {
+
+    }
+
+    public static abstract class SetKeyWith
+            extends SetTargetBoolean<BulkInsert>
+            implements SetWith {
+
+        //TODO not use
+        private WithEnum withKey;
+
+        SetKeyWith(WithEnum withKey){
+            this.withKey = withKey;
+        }
+
+    }
+
+    public static abstract class SetStringWith
+            extends SetTargetValue<BulkInsert,StringConstant>
+            implements SetWith {
+
+        //TODO not use
+        private WithEnum withKey;
+
+        public SetStringWith(WithEnum withKey, StringConstant value) {
+            super(value);
+            this.withKey = withKey;
+        }
+
+    }
+
+    public static abstract class SetNumberWith
+            extends SetTargetValue<BulkInsert,NumberConstant>
+            implements SetWith {
+
+        //TODO not use
+        private WithEnum withKey;
+
+        public SetNumberWith(WithEnum withKey, NumberConstant value) {
+            super(value);
+            this.withKey = withKey;
+        }
+
+    }
+
+
+    public static CodePage ACP = new CodePage("ACP");
+    public static CodePage OEM = new CodePage("OEM");
+    public static CodePage RAW = new CodePage("RAW");
+
+    public static DataFileType Char = new DataFileType("char");
+    public static DataFileType Native = new DataFileType("native");
+    public static DataFileType WideChar = new DataFileType("widechar");
+    public static DataFileType WideNative = new DataFileType("widenative");
+
+    public static class BatchSize extends SetNumberWith {
+
+        public BatchSize(Integer batchSize) {
+            super(WithEnum.BATCHSIZE,
+                    new NumberConstant(batchSize));
+        }
+
+        @Override
+        public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setBatchSize;
+        }
+    }
+    public static class CheckConstraints extends SetKeyWith {
+
+        public CheckConstraints() {
+            super(WithEnum.CHECK_CONSTRAINTS);
+        }
+
+        @Override
+        public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setCheckConstraints;
+        }
+    }
+    public static class CodePage extends SetStringWith {
+
+        public CodePage(String codePage) {
+            super(WithEnum.CODEPAGE,
+                    new StringConstant(codePage).withQuote());
+        }
+
+        public CodePage(StringConstant codePage) {
+            super(WithEnum.CODEPAGE,
+                    codePage);
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setCodePage;
+        }
+    }
+    public static class DataFileType extends SetStringWith {
+
+        public DataFileType(String dataType) {
+            super(WithEnum.DATAFILETYPE,
+                    new StringConstant(dataType).withQuote());
+        }
+
+        public DataFileType(StringConstant dataFileType) {
+            super(WithEnum.DATAFILETYPE,
+                    dataFileType);
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setDataFileType;
+        }
+    }
+    public static class DataSource extends SetStringWith {
+
+        public DataSource(String dataSource) {
+            super(WithEnum.DATASOURCE,
+                    new StringConstant(dataSource).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setDataSource;
+        }
+    }
+    public static class ErrorFile extends SetStringWith {
+
+        public ErrorFile(String errorFile) {
+            super(WithEnum.ERRORFILE,
+                    new StringConstant(errorFile).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setErrorFile;
+        }
+    }
+    public static class ErrorFileDataSource extends SetStringWith {
+
+        public ErrorFileDataSource(String errorFileDataSource) {
+            super(WithEnum.ERRORFILE_DATASOURCE,
+                    new StringConstant(errorFileDataSource).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setErrorFileDataSource;
+        }
+    }
+    public static class FirstRow extends SetNumberWith {
+
+        public FirstRow(Number firstRow) {
+            super(WithEnum.FIRSTROW,
+                    new NumberConstant(firstRow));
+        }
+
+        @Override
+        public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setFirstRow;
+        }
+    }
+    public static class FireTriggers extends SetKeyWith {
+
+        public FireTriggers() {
+            super(WithEnum.FIRE_TRIGGERS);
+        }
+
+        @Override
+        public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setFireTriggers;
+        }
+    }
+    public static class FormatFileDataSource extends SetStringWith {
+
+        public FormatFileDataSource(String formatFileDataSource) {
+            super(WithEnum.FORMATFILE_DATASOURCE,
+                    new StringConstant(formatFileDataSource).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setFormatFileDataSource;
+        }
+    }
+    public static class KeepIdentity extends SetKeyWith {
+
+        public KeepIdentity() {
+            super(WithEnum.KEEPIDENTITY);
+        }
+
+        @Override
+        public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setKeepIdentity;
+        }
+    }
+    public static class KeepNulls extends SetKeyWith {
+
+        public KeepNulls() {
+            super(WithEnum.KEEPNULLS);
+        }
+
+        @Override
+        public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setKeepNulls;
+        }
+    }
+    public static class KiloBytesPerBatch extends SetNumberWith {
+
+        public KiloBytesPerBatch(Number kiloBytesPerBatch) {
+            super(WithEnum.KILOBYTES_PER_BATCH,
+                    new NumberConstant(kiloBytesPerBatch));
+        }
+
+        @Override
+        public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setKilobytesPerBatch;
+        }
+    }
+    public static class LastRow extends SetNumberWith {
+
+        public LastRow(Number lastRow) {
+            super(WithEnum.LASTROW,
+                    new NumberConstant(lastRow));
+        }
+
+        @Override
+        public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setLastRow;
+        }
+    }
+    public static class MaxErrors extends SetNumberWith {
+
+        public MaxErrors(Number maxErrors) {
+            super(WithEnum.MAXERRORS,
+                    new NumberConstant(maxErrors));
+        }
+
+        @Override
+        public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setMaxErrors;
+        }
+    }
+    public static class Order implements SetWith {
+
+        private List<OrderColumn> columnList;
+
+        public Order(OrderColumn... columns){
+            this.columnList = Arrays.asList(columns);
+        }
+
+        public Order(ColumnName... columns){
+            this.columnList = Arrays.stream(columns)
+                    .map(column -> {
+                        OrderColumn orderColumn = new OrderColumn();
+                        orderColumn.setColumn(column);
+                        return orderColumn;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        public Order(boolean aes, boolean desc, ColumnName... columns){
+            this.columnList = Arrays.stream(columns)
+                    .map(column -> {
+                        OrderColumn orderColumn = new OrderColumn();
+                        orderColumn.setColumn(column);
+                        orderColumn.setUseAsc(aes);
+                        return orderColumn;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+//        public Order(OrderBy.Item... columns) {
+//            this.columnList = Arrays.asList(columns);
+//        }
+
+        @Override
+        public void set(BulkInsert bulkInsert) {
+            initAdd(columnList,
+                    bulkInsert::getOrderList,
+                    bulkInsert::setOrderList);
+        }
+    }
+    public static class RowsPerBatch extends SetNumberWith {
+
+        public RowsPerBatch(Number rowsPerBatch) {
+            super(WithEnum.ROWS_PER_BATCH,
+                    new NumberConstant(rowsPerBatch));
+        }
+
+        @Override
+        public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setRowsPerBatch;
+        }
+    }
+    public static class RowTerminator extends SetStringWith {
+
+        public RowTerminator(String rowTerminator) {
+            super(WithEnum.ROWTERMINATOR,
+                    new StringConstant(rowTerminator).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setRowTerminator;
+        }
+    }
+    public static class TabLock extends SetKeyWith {
+
+        public TabLock() {
+            super(WithEnum.TABLOCK);
+        }
+
+        @Override
+        public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setTabLock;
+        }
+    }
+    public static class Format extends SetStringWith {
+
+        public Format(String format) {
+            super(WithEnum.FORMAT,
+                    new StringConstant(format).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setFormat;
+        }
+    }
+    public static class FieldQuote extends SetStringWith {
+
+        public FieldQuote(String fieldQuote) {
+            super(WithEnum.FIELDQUOTE,
+                    new StringConstant(fieldQuote).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return null;
+        }
+    }
+    public static class FormatFile extends SetStringWith {
+
+        public FormatFile(String formatFile) {
+            super(WithEnum.FORMATFILE,
+                    new StringConstant(formatFile).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setFormatFile;
+        }
+    }
+    public static class FieldTerminator extends SetStringWith {
+
+        public FieldTerminator(String fieldTerminator) {
+            super(WithEnum.FIELDTERMINATOR,
+                    new StringConstant(fieldTerminator).withQuote());
+        }
+
+        @Override
+        public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
+            return bulkInsert::setFieldTerminator;
+        }
+
+    }
+
 }
