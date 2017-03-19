@@ -1,10 +1,14 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.tsql.core.clause.OutputBuilder;
 import com.xy.xsql.tsql.core.clause.TableValueConstructorBuilder;
 import com.xy.xsql.tsql.core.clause.TopBuilder;
+import com.xy.xsql.tsql.core.clause.WithBuilder;
+import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
@@ -15,29 +19,37 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 /**
  * Created by xiaoyao9184 on 2017/1/9.
  */
-public class InsertBuilder implements BaseBuilder<Void,Insert> {
+public class InsertBuilder extends CodeBuilder<Insert> {
 
-    protected Insert insert;
+    public InsertBuilder(Insert tar) {
+        super(tar);
+    }
 
     public InsertBuilder(){
-        this.insert = new Insert();
+        super(new Insert());
     }
 
-
-    @Override
-    public Insert build(Void aVoid) {
-        return insert;
+    /**
+     *
+     * @return
+     */
+    public WithBuilder<InsertBuilder> withWith(){
+        return new WithBuilder<InsertBuilder>
+                (initSet(With::new,
+                        tar::getWith,
+                        tar::setWith))
+                .in(this);
     }
-
 
     /**
      *
      * @return
      */
     public TopBuilder<InsertBuilder> withTop(){
-        Top top = new Top();
-        insert.setTop(top);
-        return new TopBuilder<InsertBuilder>(top)
+        return new TopBuilder<InsertBuilder>
+                (initSet(Top::new,
+                        tar::getTop,
+                        tar::setTop))
                 .in(this);
     }
 
@@ -47,7 +59,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      * @return
      */
     public InsertBuilder withInto(boolean useInto){
-        insert.setUseInto(useInto);
+        tar.setUseInto(useInto);
         return this;
     }
 
@@ -57,7 +69,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      * @return
      */
     public InsertBuilder withTableName(TableName tableName){
-        insert.setTableName(tableName);
+        tar.setTableName(tableName);
         return this;
     }
 
@@ -67,7 +79,7 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      * @return
      */
     public InsertBuilder withTableName(String tableName){
-        insert.setTableName(new TableName(tableName));
+        tar.setTableName(new TableName(tableName));
         return this;
     }
 
@@ -77,9 +89,21 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
      */
     public InsertBuilder withColumn(ColumnName columnName){
         initAdd(columnName,
-                insert::getColumns,
-                insert::setColumns);
+                tar::getColumns,
+                tar::setColumns);
         return this;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public OutputBuilder<InsertBuilder> withOutput() {
+        return new OutputBuilder<InsertBuilder>
+                (initSet(Output::new,
+                        tar::getOutput,
+                        tar::setOutput))
+                .in(this);
     }
 
     /**
@@ -89,8 +113,8 @@ public class InsertBuilder implements BaseBuilder<Void,Insert> {
     public TableValueConstructorBuilder<InsertBuilder> withValues(){
         return new TableValueConstructorBuilder<InsertBuilder>
                 (initSet(TableValueConstructor::new,
-                        insert::getValues,
-                        insert::setValues))
+                        tar::getValues,
+                        tar::setValues))
                 .in(this);
     }
 

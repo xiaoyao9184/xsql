@@ -14,7 +14,6 @@ import static com.xy.xsql.tsql.core.statement.ddl.ReNameBuilder.RENAME_TABLE;
  */
 public class RenameBuilderTest {
 
-
     /**
      * RENAME DATABASE AdWorks to AdWorks2;
      */

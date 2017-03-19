@@ -1,12 +1,16 @@
 package com.xy.xsql.tsql.core.statement;
 
 import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
+import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
+import static com.xy.xsql.tsql.core.statement.MergeBuilder.MERGE;
+import static com.xy.xsql.tsql.core.statement.ddl.ReNameBuilder.RENAME_DATABASE;
 
 /**
  * Created by xiaoyao9184 on 2017/1/11.
@@ -29,14 +33,14 @@ public class MergeBuilderTest {
                 .withTableName("table")
                 .withTableSource()
                     .withTableName("table2")
-                    .out()
+                    .and()
                 .withMergeSearchCondition()
                     .withPredicate()
                         ._Comparison()
                         .withExpression(e_number(1))
                         .withOperator(Operators.EQUAL)
                         .withExpression(e_number(1))
-                        .out()
+                        .and()
                     .withAndOrNotItem()
                         .withAnd()
                         .withPredicate()
@@ -44,31 +48,25 @@ public class MergeBuilderTest {
                             .withExpression(e_number(1))
                             .withOperator(Operators.EQUAL)
                             .withExpression(e_number(1))
-                            .out()
-                        .out()
-                    .out()
-                .withMatchedWhenThenList()
-                    .withItem()
-                        .withMergeMatched()
-                            .withSet(true)
-                            .withSetList()
-                                .withItem()
-                                    .withColumnName("c1")
-                                    .out()
-                                .out()
-                            .out()
-                        .out()
-                    .out()
+                            .and()
+                        .and()
+                    .and()
+                .withMatchedWhenThen()
+                    .withMergeMatched()
+                        .withSet(true)
+                        .withSetItem()
+                            .withColumnName("c1")
+                            .and()
+                        .and()
+                    .and()
                 .withNotMatchedWhenThenTarget()
                     .withByTarget(true)
                     .withMergeNotMatched()
                         .withColumn(c("c1"))
-                        .out()
-                    .out()
-                .withNotMatchedWhenThenSourceList()
-                    .withItem()
-                        .out()
-                    .out()
+                        .and()
+                    .and()
+                .withNotMatchedWhenThenSource()
+                    .and()
                 .build(null);
 
         Assert.assertEquals(delete.getTargetTable().toString(),"table");
@@ -92,32 +90,57 @@ public class MergeBuilderTest {
                 .withTableAlias("t")
                 .withTableSource()
                     .withTableName("table2")
-                    .out()
-                .withMatchedWhenThenList()
-                    .withItem()
-                        .withMergeMatched()
-                            .withSet(true)
-                            .withSetList()
-                                .withItem()
-                                    .withColumnName("c1")
-                                    .out()
-                                .out()
-                            .out()
-                        .out()
-                    .out()
+                    .and()
+                .withMatchedWhenThen()
+                    .withMergeMatched()
+                        .withSet(true)
+                        .withSetItem()
+                            .withColumnName("c1")
+                            .and()
+                        .and()
+                    .and()
                 .withNotMatchedWhenThenTarget()
                     .withByTarget(true)
                     .withMergeNotMatched()
                         .withColumn(c("c1"))
-                        .out()
-                    .out()
-                .withNotMatchedWhenThenSourceList()
-                    .withItem()
-                        .out()
-                    .out()
+                        .and()
+                    .and()
+                .withNotMatchedWhenThenSource()
+                    .withClauseSearchCondition()
+                        .and()
+                    .and()
                 .build(null);
 
         Assert.assertEquals(delete.getTableAlias().toString(),"t");
+    }
+
+
+
+
+    /**
+     * MERGE Production.UnitMeasure AS target
+     USING (SELECT @UnitMeasureCode, @Name) AS source (UnitMeasureCode, Name)
+     ON (target.UnitMeasureCode = source.UnitMeasureCode)
+     WHEN MATCHED THEN
+     UPDATE SET Name = source.Name
+     WHEN NOT MATCHED THEN
+     INSERT (UnitMeasureCode, Name)
+     VALUES (source.UnitMeasureCode, source.Name)
+     OUTPUT deleted.*, $action, inserted.* INTO #MyTempTable
+     */
+    @Test
+    public void testExampleA(){
+//        // @formatter:off
+//        Merge merge = MERGE()
+//                .$Into(t("Production","UnitMeasure"))
+//                .$As("target")
+//                .$Using()
+//                .$On()
+//
+//        // @formatter:on
+//
+//        Assert.assertEquals(reName.getDbName(),"AdWorks");
+//        Assert.assertEquals(reName.getNewName(),"AdWorks2");
     }
 
 }

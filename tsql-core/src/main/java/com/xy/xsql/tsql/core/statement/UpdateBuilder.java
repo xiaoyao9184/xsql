@@ -1,37 +1,33 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.builder.SubBuilder;
-import com.xy.xsql.tsql.core.clause.FromBuilder;
-import com.xy.xsql.tsql.core.clause.TopBuilder;
-import com.xy.xsql.tsql.core.clause.WhereBuilder;
+import com.xy.xsql.tsql.core.clause.*;
+import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Top;
-import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.ListBuilder.initNew;
+
 /**
  * Created by xiaoyao9184 on 2017/1/7.
  */
-public class UpdateBuilder implements BaseBuilder<Void,Update> {
+public class UpdateBuilder extends CodeBuilder<Update> {
 
-    private Update update;
-
-    public UpdateBuilder(){
-        this.update = new Update();
+    public UpdateBuilder(Update tar) {
+        super(tar);
     }
 
-
-    @Override
-    public Update build(Void aVoid) {
-        return update;
+    public UpdateBuilder(){
+        super(new Update());
     }
 
 
@@ -39,10 +35,23 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      *
      * @return
      */
+    public WithBuilder<UpdateBuilder> withWith(){
+        return new WithBuilder<UpdateBuilder>
+                (initSet(With::new,
+                        tar::getWith,
+                        tar::setWith))
+                .in(this);
+    }
+
+    /**
+     *
+     * @return
+     */
     public TopBuilder<UpdateBuilder> withTop(){
-        Top top = new Top();
-        update.setTop(top);
-        return new TopBuilder<UpdateBuilder>(top)
+        return new TopBuilder<UpdateBuilder>
+                (initSet(Top::new,
+                        tar::getTop,
+                        tar::setTop))
                 .in(this);
     }
 
@@ -52,7 +61,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public UpdateBuilder withTableAlias(String tableAlias){
-        update.setTableAlias(new Alias<Void>(tableAlias));
+        tar.setTableAlias(new Alias<>(tableAlias));
         return this;
     }
 
@@ -61,7 +70,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public UpdateBuilder withTableName(TableName tableName){
-        update.setTableName(tableName);
+        tar.setTableName(tableName);
         return this;
     }
 
@@ -71,7 +80,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public UpdateBuilder withTableName(String tableName){
-        update.setTableName(new TableName(tableName));
+        tar.setTableName(new TableName(tableName));
         return this;
     }
 
@@ -79,10 +88,12 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      *
      * @return
      */
+    @Deprecated
     public SetListBuilder<UpdateBuilder> withSetList(){
         List<Update.Set> setList = new ArrayList<>();
-        update.setSets(setList);
-        return new SetListBuilder<UpdateBuilder>(setList)
+        tar.setSets(setList);
+        return new SetListBuilder<UpdateBuilder>
+                (setList)
                 .in(this);
     }
 
@@ -91,12 +102,22 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public SetBuilder<UpdateBuilder> withSetItem(){
-        Update.Set set = new Update.Set();
-        if(this.update.getSets() == null){
-            this.update.setSets(new ArrayList<Update.Set>());
-        }
-        update.getSets().add(set);
-        return new SetBuilder<UpdateBuilder>(set)
+        return new SetBuilder<UpdateBuilder>
+                (initNew(Update.Set::new,
+                        tar::getSets,
+                        tar::setSets))
+                .in(this);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public OutputBuilder<UpdateBuilder> withOutput() {
+        return new OutputBuilder<UpdateBuilder>
+                (initSet(Output::new,
+                        tar::getOutput,
+                        tar::setOutput))
                 .in(this);
     }
 
@@ -105,9 +126,10 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public FromBuilder<UpdateBuilder> withFrom() {
-        From from = new From();
-        update.setFrom(from);
-        return new FromBuilder<UpdateBuilder>(from)
+        return new FromBuilder<UpdateBuilder>
+                (initSet(From::new,
+                        tar::getFrom,
+                        tar::setFrom))
                 .in(this);
     }
 
@@ -116,9 +138,22 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      * @return
      */
     public WhereBuilder<UpdateBuilder> withWhere() {
-        Where where = new Where();
-        update.setWhere(where);
-        return new WhereBuilder<UpdateBuilder>(where)
+        return new WhereBuilder<UpdateBuilder>
+                (initSet(Where::new,
+                        tar::getWhere,
+                        tar::setWhere))
+                .in(this);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public OptionBuilder<UpdateBuilder> withOption() {
+        return new OptionBuilder<UpdateBuilder>
+                (initSet(Option::new,
+                        tar::getOption,
+                        tar::setOption))
                 .in(this);
     }
 
@@ -127,6 +162,7 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
      *
      * @param <Done>
      */
+    @Deprecated
     public static class SetListBuilder<Done>
             extends SubBuilder<SetListBuilder<Done>,Void,Done> {
 
@@ -149,34 +185,32 @@ public class UpdateBuilder implements BaseBuilder<Void,Update> {
 
     /**
      *
-     * @param <Done>
+     * @param <ParentBuilder>
      */
-    public static class SetBuilder<Done>
-            extends SubBuilder<SetBuilder<Done>,Void,Done> {
-
-        private Update.Set set;
+    public static class SetBuilder<ParentBuilder>
+            extends CodeTreeBuilder<SetBuilder<ParentBuilder>,ParentBuilder,Update.Set> {
 
         public SetBuilder(Update.Set set) {
-            this.set = set;
+            super(set);
         }
 
-        public SetBuilder<Done> withColumnName(ColumnName column){
-            this.set.setColumnName(column);
+        public SetBuilder<ParentBuilder> withColumnName(ColumnName column){
+            tar.setColumnName(column);
             return this;
         }
 
-        public SetBuilder<Done> withColumnName(String columnName) {
-            this.set.setColumnName(new ColumnName(columnName));
+        public SetBuilder<ParentBuilder> withColumnName(String columnName) {
+            tar.setColumnName(new ColumnName(columnName));
             return this;
         }
 
-        public SetBuilder<Done> withExpression(Expression expression){
-            this.set.setExpression(expression);
+        public SetBuilder<ParentBuilder> withExpression(Expression expression){
+            tar.setExpression(expression);
             return this;
         }
 
-        public SetBuilder<Done> withUseNull(boolean useNull){
-            this.set.setUseNull(useNull);
+        public SetBuilder<ParentBuilder> withUseNull(boolean useNull){
+            tar.setUseNull(useNull);
             return this;
         }
     }

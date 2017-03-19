@@ -153,10 +153,13 @@ public class Merge implements Statement {
     private List<MatchedWhenThen> matchedWhenThenList;
     //[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]
     //THEN <merge_not_matched> ]
-    private MatchedNotWhenThen notMatchedWhenThenTarget;
+    private NotMatchedWhenThen notMatchedWhenThenTarget;
     //[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]
     //THEN <merge_matched> ] [ ...n ]
     private List<MatchedWhenThen> notMatchedWhenThenSourceList;
+
+    //<OUTPUT Clause>
+    private Output output;
 
     //<OPTION Clause>
     private Option option;
@@ -242,11 +245,11 @@ public class Merge implements Statement {
         this.matchedWhenThenList = matchedWhenThenList;
     }
 
-    public MatchedNotWhenThen getNotMatchedWhenThenTarget() {
+    public NotMatchedWhenThen getNotMatchedWhenThenTarget() {
         return notMatchedWhenThenTarget;
     }
 
-    public void setNotMatchedWhenThenTarget(MatchedNotWhenThen notMatchedWhenThenTarget) {
+    public void setNotMatchedWhenThenTarget(NotMatchedWhenThen notMatchedWhenThenTarget) {
         this.notMatchedWhenThenTarget = notMatchedWhenThenTarget;
     }
 
@@ -256,6 +259,14 @@ public class Merge implements Statement {
 
     public void setNotMatchedWhenThenSourceList(List<MatchedWhenThen> notMatchedWhenThenSourceList) {
         this.notMatchedWhenThenSourceList = notMatchedWhenThenSourceList;
+    }
+
+    public Output getOutput() {
+        return output;
+    }
+
+    public void setOutput(Output output) {
+        this.output = output;
     }
 
     public Option getOption() {
@@ -322,6 +333,7 @@ public class Merge implements Statement {
 
         return b.build();
     }
+
 
     /**
      * <merge_hint>
@@ -438,9 +450,9 @@ public class Merge implements Statement {
     /**
      *
      */
-    public static class MatchedNotWhenThen extends MatchedWhenThen {
+    public static class NotMatchedWhenThen extends MatchedWhenThen {
 
-        public MatchedNotWhenThen() {
+        public NotMatchedWhenThen() {
             this.useNot = true;
         }
     }
