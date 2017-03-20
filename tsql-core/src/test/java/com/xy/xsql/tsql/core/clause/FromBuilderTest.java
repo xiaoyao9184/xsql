@@ -94,10 +94,11 @@ public class FromBuilderTest {
         MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
-                    .$(t("HumanResources","Employee"),"e")
+                    .$()
+                        .$(t("HumanResources","Employee"),"e")
+//                    .$(t("HumanResources","Employee"),"e")
                         .$Cross_Join()
-                //TODO
-//                            .$(t("HumanResources","Department"),"e")
+                        .$(t("HumanResources","Department"),"d")
                         .and()
                     .and();
         // @formatter:on

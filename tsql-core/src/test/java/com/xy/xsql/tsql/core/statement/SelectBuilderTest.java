@@ -1,6 +1,8 @@
 package com.xy.xsql.tsql.core.statement;
 
+import com.xy.xsql.tsql.core.clause.TableValueConstructorBuilder;
 import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
@@ -143,6 +145,29 @@ public class SelectBuilderTest {
     @Test
     public void testDerivedTable(){
         // @formatter:off
+        TableValueConstructor values = new TableValueConstructorBuilder<Void>()
+                .withRowValues()
+                    .withRowValueExpression(e_rv(1))
+                    .withRowValueExpression(e_rv(2))
+                    .and()
+                .withRowValues()
+                    .withRowValueExpression(e_rv(3))
+                    .withRowValueExpression(e_rv(4))
+                    .and()
+                .withRowValues()
+                    .withRowValueExpression(e_rv(5))
+                    .withRowValueExpression(e_rv(6))
+                    .and()
+                .withRowValues()
+                    .withRowValueExpression(e_rv(7))
+                    .withRowValueExpression(e_rv(8))
+                    .and()
+                .withRowValues()
+                    .withRowValueExpression(e_rv(9))
+                    .withRowValueExpression(e_rv(10))
+                    .and()
+                .build();
+
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withSelectList()
                     .withSelectItem().withAll()
@@ -150,31 +175,10 @@ public class SelectBuilderTest {
                 .out()
                 .withFrom()
                     .withItem()._Derived()
-                        .withValues()
-                            .withRowValues()
-                                .withRowValueExpression(e_rv(1))
-                                .withRowValueExpression(e_rv(2))
-                                .out()
-                            .withRowValues()
-                                .withRowValueExpression(e_rv(3))
-                                .withRowValueExpression(e_rv(4))
-                                .out()
-                            .withRowValues()
-                                .withRowValueExpression(e_rv(5))
-                                .withRowValueExpression(e_rv(6))
-                                .out()
-                            .withRowValues()
-                                .withRowValueExpression(e_rv(7))
-                                .withRowValueExpression(e_rv(8))
-                                .out()
-                            .withRowValues()
-                                .withRowValueExpression(e_rv(9))
-                                .withRowValueExpression(e_rv(10))
-                                .out()
-                            .out()
-                        .out()
+                        .withValues(values)
+                        .and()
                         //TODO derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
-                    .out()
+                    .and()
                 .build(null);
         // @formatter:on
     }
