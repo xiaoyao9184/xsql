@@ -3,7 +3,6 @@ package com.xy.xsql.tsql.core.clause;
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.core.statement.SelectBuilder;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
@@ -12,7 +11,6 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_is_not_null;
 import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_like;
 
@@ -47,7 +45,7 @@ public class WithBuilderTest {
                         .withSelectItem().withColumnName("SalesPersonID").out()
                     .out()
                 .withFrom()
-                    .withTableSource()
+                    .withItem()._Base()
                         .withTableName(t("Sales","SalesOrderHeader"))
                         .and()
                     .out()

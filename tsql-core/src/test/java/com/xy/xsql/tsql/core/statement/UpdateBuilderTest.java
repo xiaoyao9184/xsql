@@ -544,7 +544,7 @@ public class UpdateBuilderTest {
                     .withExpression(e("GETDATE()"))
                     .and()
                 .withFrom()
-                    .withTableSource()
+                    .withItem()._Base()
                         .withTableName(t("HumanResources","Employee"))
                         .withTableAlias("e")
                         .and()

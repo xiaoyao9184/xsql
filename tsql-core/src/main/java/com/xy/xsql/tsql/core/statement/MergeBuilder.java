@@ -126,9 +126,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      */
     public FromBuilder.TableSourceBuilder<MergeBuilder> withTableSource() {
         return new FromBuilder.TableSourceBuilder<MergeBuilder>
-                (initSet(From.TableSource::new,
-                        tar::getTableSource,
-                        tar::setTableSource))
+                (tar::setTableSource)
                 .in(this);
     }
 

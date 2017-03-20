@@ -7,6 +7,7 @@ import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.Arrays;
@@ -42,19 +43,91 @@ public class From implements Clause {
         return b.build();
     }
 
+//    /**
+//     * <table_source>
+//     */
+//    public static class TableSource implements Block  {
+//
+//        //table_or_view_name [ [ AS ] table_alias ]
+//        private TableName tableName;
+//        //derived_table
+//        private Select derivedTable;
+//        private boolean useAs;
+//        private Alias<Void> tableAlias;
+//        //<joined_table>
+//        private JoinedTable joinedTable;
+//
+//
+//        public TableName getTableName() {
+//            return tableName;
+//        }
+//
+//        public void setTableName(TableName table) {
+//            this.tableName = table;
+//        }
+//
+//        public Alias<Void> getTableAlias() {
+//            return tableAlias;
+//        }
+//
+//        public void setTableAlias(Alias<Void> tableAlias) {
+//            this.tableAlias = tableAlias;
+//        }
+//
+//        public JoinedTable getJoinedTable() {
+//            return joinedTable;
+//        }
+//
+//        public void setJoinedTable(JoinedTable joinedTable) {
+//            this.joinedTable = joinedTable;
+//        }
+//
+//        public Select getDerivedTable() {
+//            return derivedTable;
+//        }
+//
+//        public void setDerivedTable(Select derivedTable) {
+//            this.derivedTable = derivedTable;
+//        }
+//
+//
+//        @Override
+//        public List<Block> toBlockList() {
+//            if(joinedTable == null){
+//                ListBlockBuilder b = new ListBlockBuilder()
+//                        .append(tableName);
+//                b.append(useAs ? Keywords.AS : null)
+//                        .append(tableAlias);
+//                return b.build();
+//            }
+//
+//            return joinedTable.toBlockList();
+//        }
+//    }
+
+    public interface TableSource extends Block{
+
+        /**
+         * must override
+         * @return
+         */
+        List<Block> toBlockList();
+
+    }
+
     /**
-     * <table_source>
+     * table_or_view_name [ [ AS ] table_alias ]
+     [ <tablesample_clause> ]
+     [ WITH ( < table_hint > [ [ , ]...n ] ) ]
      */
-    public static class TableSource implements Block  {
+    public static class BaseTable implements TableSource {
 
         //table_or_view_name [ [ AS ] table_alias ]
         private TableName tableName;
-        //derived_table
-        private Select derivedTable;
         private boolean useAs;
         private Alias<Void> tableAlias;
-        //<joined_table>
-        private JoinedTable joinedTable;
+        //TODO [ <tablesample_clause> ]
+        //TODO [ WITH ( < table_hint > [ [ , ]...n ] ) ]
 
 
         public TableName getTableName() {
@@ -65,6 +138,14 @@ public class From implements Clause {
             this.tableName = table;
         }
 
+        public boolean isUseAs() {
+            return useAs;
+        }
+
+        public void setUseAs(boolean useAs) {
+            this.useAs = useAs;
+        }
+
         public Alias<Void> getTableAlias() {
             return tableAlias;
         }
@@ -73,41 +154,96 @@ public class From implements Clause {
             this.tableAlias = tableAlias;
         }
 
-        public JoinedTable getJoinedTable() {
-            return joinedTable;
-        }
-
-        public void setJoinedTable(JoinedTable joinedTable) {
-            this.joinedTable = joinedTable;
-        }
-
-        public Select getDerivedTable() {
-            return derivedTable;
-        }
-
-        public void setDerivedTable(Select derivedTable) {
-            this.derivedTable = derivedTable;
-        }
-
 
         @Override
         public List<Block> toBlockList() {
-            if(joinedTable == null){
-                ListBlockBuilder b = new ListBlockBuilder()
-                        .append(tableName);
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .append(tableName);
+            b.append(useAs ? Keywords.AS : null)
+                    .append(tableAlias);
+            return b.build();
+        }
+    }
+
+    /**
+     * derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
+     */
+    public static class DerivedTable implements TableSource {
+
+        private Select.QuerySpecification subQuery;
+        private TableValueConstructor values;
+        private boolean useAs;
+        private Alias<Void> tableAlias;
+        private List<Alias<Void>> columnAliass;
+
+        public Select.QuerySpecification getSubQuery() {
+            return subQuery;
+        }
+
+        public void setSubQuery(Select.QuerySpecification subQuery) {
+            this.subQuery = subQuery;
+        }
+
+        public TableValueConstructor getValues() {
+            return values;
+        }
+
+        public void setValues(TableValueConstructor values) {
+            this.values = values;
+        }
+
+        public boolean isUseAs() {
+            return useAs;
+        }
+
+        public void setUseAs(boolean useAs) {
+            this.useAs = useAs;
+        }
+
+        public Alias<Void> getTableAlias() {
+            return tableAlias;
+        }
+
+        public void setTableAlias(Alias<Void> tableAlias) {
+            this.tableAlias = tableAlias;
+        }
+
+        public List<Alias<Void>> getColumnAliass() {
+            return columnAliass;
+        }
+
+        public void setColumnAliass(List<Alias<Void>> columnAliass) {
+            this.columnAliass = columnAliass;
+        }
+
+        @Override
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .append(subQuery);
+
+            if(tableAlias != null){
                 b.append(useAs ? Keywords.AS : null)
-                        .append(tableAlias);
-                return b.build();
+                    .append(tableAlias);
             }
 
-            return joinedTable.toBlockList();
+            if(columnAliass != null){
+                b.append(Other.GROUP_START)
+                        .append(columnAliass)
+                        .append(Other.GROUP_END);
+            }
+
+            return b.build();
         }
     }
 
     /**
      * <joined_table>
+     * <table_source> <join_type> <table_source> ON <search_condition>
+     | <table_source> CROSS JOIN <table_source>
+     | left_table_source { CROSS | OUTER } APPLY right_table_source
+     | [ ( ] <joined_table> [ ) ]
      */
-    public static class JoinedTable implements Block {
+    public static class JoinedTable implements TableSource {
         private TableSource tableSource;
         private JoinType joinType;
         private TableSource tableSource2;
@@ -261,5 +397,52 @@ public class From implements Clause {
                     .build(null);
         }
 
+    }
+
+    /**
+     * @variable [ [ AS ] table_alias ]
+     */
+    public static class VariableTable implements TableSource {
+
+        private LocalVariable variable;
+        private boolean useAs;
+        private Alias<Void> tableAlias;
+
+        public LocalVariable getVariable() {
+            return variable;
+        }
+
+        public void setVariable(LocalVariable variable) {
+            this.variable = variable;
+        }
+
+        public boolean isUseAs() {
+            return useAs;
+        }
+
+        public void setUseAs(boolean useAs) {
+            this.useAs = useAs;
+        }
+
+        public Alias<Void> getTableAlias() {
+            return tableAlias;
+        }
+
+        public void setTableAlias(Alias<Void> tableAlias) {
+            this.tableAlias = tableAlias;
+        }
+
+        @Override
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder()
+                    .append(variable);
+
+            if(tableAlias != null){
+                b.append(useAs ? Keywords.AS : null)
+                        .append(tableAlias);
+            }
+
+            return b.build();
+        }
     }
 }

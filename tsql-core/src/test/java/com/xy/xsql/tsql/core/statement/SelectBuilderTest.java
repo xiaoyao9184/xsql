@@ -1,11 +1,11 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
@@ -27,8 +27,8 @@ public class SelectBuilderTest {
                         .build(null)
                     .build(null)
                 .withFrom()
-                    .withTableSource()
-                        .withTableName("table")
+                    .withItem()._Base()
+                        .withTableName(t("table"))
                         .and()
                     .and()
                 .build(null);
@@ -97,11 +97,11 @@ public class SelectBuilderTest {
                         .build(null)
                     .build(null)
                 .withFrom()
-                    .withTableSource()
-                        .withTableName("table")
+                    .withItem()._Base()
+                        .withTableName(t("table"))
                         .and()
-                    .withTableSource()
-                        .withTableName("table2")
+                    .withItem()._Base()
+                        .withTableName(t("table2"))
                         .and()
                     .and()
                 .build(null);
@@ -121,15 +121,13 @@ public class SelectBuilderTest {
                         .build(null)
                     .build(null)
                 .withFrom()
-                    .withTableSource()
-                        .withJoinedTable()
-                            .withTableSource()
-                                .withTableName("table")
-                                .and()
-                            .withJoinType(From.JoinType.LEFT_JOIN)
-                            .withTableSource2()
-                                .withTableName("table2")
-                                .and()
+                    .withItem()._Joined()
+                        .withTableSource()._Base()
+                            .withTableName(t("table"))
+                            .and()
+                        .withJoinType(From.JoinType.LEFT_JOIN)
+                        .withTableSource2()._Base()
+                            .withTableName(t("table2"))
                             .and()
                         .and()
                     .and()
@@ -151,8 +149,8 @@ public class SelectBuilderTest {
                     .out()
                 .out()
                 .withFrom()
-                    .withTableSource()
-                        .withDerivedTable().values()
+                    .withItem()._Derived()
+                        .withValue()
                             .withRowValues()
                                 .withRowValueExpression(e_rv(1))
                                 .withRowValueExpression(e_rv(2))
@@ -177,7 +175,6 @@ public class SelectBuilderTest {
                         .out()
                         //TODO derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
                     .out()
-                .out()
                 .build(null);
         // @formatter:on
     }

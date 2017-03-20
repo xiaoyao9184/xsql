@@ -134,7 +134,7 @@ public class SetVariableBuilderTest {
                         .out()
                     .out()
                 .withFrom()
-                    .withTableSource()
+                    .withItem()._Base()
                         .withTableName(t("Sales","Customer"))
                         .and()
                     .and()

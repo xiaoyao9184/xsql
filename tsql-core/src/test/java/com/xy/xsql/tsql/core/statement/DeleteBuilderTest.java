@@ -4,6 +4,8 @@ import com.xy.xsql.tsql.model.statement.dml.Delete;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+
 /**
  * Created by xiaoyao9184 on 2017/1/9.
  */
@@ -29,8 +31,8 @@ public class DeleteBuilderTest {
         Delete delete = new DeleteBuilder()
                 .withTableAlias("t")
                 .withFrom()
-                    .withTableSource()
-                        .withTableName("table")
+                    .withItem()._Base()
+                        .withTableName(t("table"))
                         .out()
                     .out()
                 .build(null);

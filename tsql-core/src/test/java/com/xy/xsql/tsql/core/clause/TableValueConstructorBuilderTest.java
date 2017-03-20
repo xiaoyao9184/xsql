@@ -9,6 +9,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
@@ -82,7 +83,8 @@ public class TableValueConstructorBuilderTest {
                         .withSelectItem().withColumnName("Name").out()
                         .out()
                     .withFrom()
-                        .withTableSource().withTableName("Production.Product")
+                        .withItem()._Base()
+                            .withTableName(t("Production.Product"))
                         .out()
                         .out()
                     .withWhere().withSearchCondition().withPredicate()._Comparison()
@@ -100,7 +102,8 @@ public class TableValueConstructorBuilderTest {
                         .withSelectItem().withColumnName("ListPrice").out()
                         .out()
                     .withFrom()
-                        .withTableSource().withTableName("Production.Product")
+                        .withItem()._Base()
+                            .withTableName(t("Production.Product"))
                         .out()
                         .out()
                     .withWhere().withSearchCondition().withPredicate()._Comparison()
