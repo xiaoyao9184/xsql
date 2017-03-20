@@ -150,7 +150,7 @@ public class SelectBuilderTest {
                 .out()
                 .withFrom()
                     .withItem()._Derived()
-                        .withValue()
+                        .withValues()
                             .withRowValues()
                                 .withRowValueExpression(e_rv(1))
                                 .withRowValueExpression(e_rv(2))

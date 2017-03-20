@@ -1,5 +1,7 @@
 package com.xy.xsql.tsql.core.clause;
 
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.Comparison;
@@ -28,11 +30,11 @@ public class FromBuilderTest {
                 .build();
 
         //parent+quick
-//        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-//                (FromBuilder.class,From.class)
-//                .$child()
-//                    .$TableName(t("Sales","SalesTerritory"))
-//                    .and();
+        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("Sales","SalesTerritory"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getTableSourceList().size(),1);
@@ -52,6 +54,13 @@ public class FromBuilderTest {
                     .withTableName(t("HumanResources","Employee"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("HumanResources","Employee"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getTableSourceList().size(),1);
@@ -80,6 +89,17 @@ public class FromBuilderTest {
                         .and()
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("HumanResources","Employee"),"e")
+                        .$Cross_Join()
+                //TODO
+//                            .$(t("HumanResources","Department"),"e")
+                        .and()
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(from.getTableSourceList().size(),1);
