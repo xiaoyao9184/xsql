@@ -4,26 +4,26 @@ import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.core.configurator.BaseConfigurator;
 
 /**
- * CodeTreeLazySetBuilder
+ * CodeTreeLazyConfigBuilder
  * use code build Target, set Target if this builder done, compatible CodeTreeBuilder
  * Created by xiaoyao9184 on 2017/3/20.
  * @param <This>
  * @param <Parent>
  * @param <Target>
- * @param <SetterTarget>
+ * @param <ConfigTarget>
  */
-public abstract class CodeTreeLazySetBuilder<This, Parent, Target extends SetterTarget, SetterTarget>
+public abstract class CodeTreeLazyConfigBuilder<This, Parent, Target extends ConfigTarget, ConfigTarget>
         extends TreeBuilder<This, Parent, Void, Target>
-        implements BaseConfigurator<SetterTarget> {
+        implements BaseConfigurator<ConfigTarget> {
 
     protected Target target;
-    protected Setter<SetterTarget> setter;
+    protected Setter<ConfigTarget> setter;
 
-    public CodeTreeLazySetBuilder(Target target){
+    public CodeTreeLazyConfigBuilder(Target target){
         this.target = target;
     }
 
-    public CodeTreeLazySetBuilder(Target target, Setter<SetterTarget> setter){
+    public CodeTreeLazyConfigBuilder(Target target, Setter<ConfigTarget> setter){
         this.target = target;
         this.setter = setter;
     }
@@ -58,7 +58,7 @@ public abstract class CodeTreeLazySetBuilder<This, Parent, Target extends Setter
     }
 
     @Override
-    public void config(SetterTarget target) {
+    public void config(ConfigTarget target) {
         this.setter.set(target);
     }
 }
