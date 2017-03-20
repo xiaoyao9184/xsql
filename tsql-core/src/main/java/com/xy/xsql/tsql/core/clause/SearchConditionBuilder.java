@@ -24,28 +24,28 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     public SearchConditionBuilder<ParentBuilder> withNot(){
-        tar.setUseNot(true);
+        target.setUseNot(true);
         return this;
     }
 
     public PredicateBuilder<SearchConditionBuilder<ParentBuilder>> withPredicate(){
         return new PredicateBuilder<SearchConditionBuilder<ParentBuilder>>
-                (tar::setPredicate)
+                (target::setPredicate)
                 .in(this);
     }
 
     public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> withSearchCondition(){
         return new SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>>
                 (set(SearchCondition::new,
-                        tar::setSearchCondition))
+                        target::setSearchCondition))
                 .in(this);
     }
 
     public AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>> withAndOrNotItem(){
         return new AndOrNotItemBuilder<SearchConditionBuilder<ParentBuilder>>
                 (initNew(SearchCondition.AndOrNotItem::new,
-                        tar::getAndOrList,
-                        tar::setAndOrList))
+                        target::getAndOrList,
+                        target::setAndOrList))
                 .in(this);
     }
 
@@ -56,7 +56,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @return
      */
     public SearchConditionBuilder<ParentBuilder> $Predicate(Predicate predicate){
-        tar.setPredicate(predicate);
+        target.setPredicate(predicate);
         return this;
     }
 
@@ -66,7 +66,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @return
      */
     public SearchConditionBuilder<ParentBuilder> $SearchCondition(SearchCondition searchCondition){
-        tar.setSearchCondition(searchCondition);
+        target.setSearchCondition(searchCondition);
         return this;
     }
 
@@ -76,8 +76,8 @@ public class SearchConditionBuilder<ParentBuilder>
      * @return
      */
     public SearchConditionBuilder<ParentBuilder> $NotPredicate(Predicate predicate){
-        tar.setUseNot(true);
-        tar.setPredicate(predicate);
+        target.setUseNot(true);
+        target.setPredicate(predicate);
         return this;
     }
 
@@ -87,8 +87,8 @@ public class SearchConditionBuilder<ParentBuilder>
      * @return
      */
     public SearchConditionBuilder<ParentBuilder> $NotSearchCondition(SearchCondition searchCondition){
-        tar.setUseNot(true);
-        tar.setSearchCondition(searchCondition);
+        target.setUseNot(true);
+        target.setSearchCondition(searchCondition);
         return this;
     }
 
@@ -154,8 +154,8 @@ public class SearchConditionBuilder<ParentBuilder>
                         .withAnd()
                         .withSearchCondition(searchCondition)
                         .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
+                target::getAndOrList,
+                target::setAndOrList);
         return new SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>>
                 (searchCondition)
                 .in(this);
@@ -171,8 +171,8 @@ public class SearchConditionBuilder<ParentBuilder>
                         .withOr()
                         .withSearchCondition(searchCondition)
                         .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
+                target::getAndOrList,
+                target::setAndOrList);
         return new SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>>
                 (searchCondition)
                 .in(this);
@@ -189,8 +189,8 @@ public class SearchConditionBuilder<ParentBuilder>
                         .withNot(true)
                         .withSearchCondition(searchCondition)
                         .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
+                target::getAndOrList,
+                target::setAndOrList);
         return new SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>>
                 (searchCondition)
                 .in(this);
@@ -207,8 +207,8 @@ public class SearchConditionBuilder<ParentBuilder>
                         .withNot(true)
                         .withSearchCondition(searchCondition)
                         .build(),
-                tar::getAndOrList,
-                tar::setAndOrList);
+                target::getAndOrList,
+                target::setAndOrList);
         return new SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>>
                 (searchCondition)
                 .in(this);
@@ -231,7 +231,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @return
      */
     public SearchConditionBuilder<ParentBuilder> $(Predicate predicate){
-        tar.setPredicate(predicate);
+        target.setPredicate(predicate);
         return this;
     }
 
@@ -241,8 +241,8 @@ public class SearchConditionBuilder<ParentBuilder>
      * @return
      */
     public SearchConditionBuilder<ParentBuilder> $Not(Predicate predicate){
-        tar.setUseNot(true);
-        tar.setPredicate(predicate);
+        target.setUseNot(true);
+        target.setPredicate(predicate);
         return this;
     }
 
@@ -396,40 +396,40 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
         public AndOrNotItemBuilder<ParentBuilder> withAnd() {
-            tar.setUseAnd(true);
+            target.setUseAnd(true);
             return this;
         }
 
         public AndOrNotItemBuilder<ParentBuilder> withOr() {
-            tar.setUseAnd(false);
+            target.setUseAnd(false);
             return this;
         }
 
         public AndOrNotItemBuilder<ParentBuilder> withNot(boolean useNot) {
-            tar.setUseNot(useNot);
+            target.setUseNot(useNot);
             return this;
         }
 
         public AndOrNotItemBuilder<ParentBuilder> withPredicate(Predicate predicate){
-            tar.setPredicate(predicate);
+            target.setPredicate(predicate);
             return this;
         }
 
         public PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>> withPredicate(){
             return new PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>>
-                    (tar::setPredicate)
+                    (target::setPredicate)
                     .in(this);
         }
 
         public SearchConditionBuilder<AndOrNotItemBuilder<ParentBuilder>> withSearchCondition(){
             return new SearchConditionBuilder<AndOrNotItemBuilder<ParentBuilder>>
                     (set(SearchCondition::new,
-                            tar::setSearchCondition))
+                            target::setSearchCondition))
                     .in(this);
         }
 
         public AndOrNotItemBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
-            tar.setSearchCondition(searchCondition);
+            target.setSearchCondition(searchCondition);
             return this;
         }
     }

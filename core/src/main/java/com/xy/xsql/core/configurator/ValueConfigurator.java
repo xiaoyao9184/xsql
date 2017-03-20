@@ -6,6 +6,8 @@ import com.xy.xsql.core.lambda.Setter;
  * ValueConfigurator
  * Config Target' Value field in implement Class
  * Created by xiaoyao9184 on 2017/3/19.
+ * @param <Target>
+ * @param <Value>
  */
 public abstract class ValueConfigurator<Target,Value>
         implements BaseConfigurator<Target> {

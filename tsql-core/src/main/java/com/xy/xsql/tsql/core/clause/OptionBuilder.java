@@ -26,10 +26,10 @@ public class OptionBuilder<ParentBuilder>
 
 
     public QueryOptionBuilder<OptionBuilder<ParentBuilder>> withItem(){
-        initList(this.tar::getQueryOption,
-                this.tar::setQueryOption);
+        initList(this.target::getQueryOption,
+                this.target::setQueryOption);
         return new QueryOptionBuilder<OptionBuilder<ParentBuilder>>
-                (tar.getQueryOption()::add)
+                (target.getQueryOption()::add)
                 .in(this);
     }
 
@@ -66,8 +66,8 @@ public class OptionBuilder<ParentBuilder>
 //
 //        private Setter<Option.QueryOption> setter;
 //
-//        public QueryOptionBuilder(Option.QueryOption tar) {
-//            super(tar);
+//        public QueryOptionBuilder(Option.QueryOption target) {
+//            super(target);
 //        }
 //
 //        public QueryOptionBuilder(Setter<Option.QueryOption> setter) {
@@ -76,8 +76,8 @@ public class OptionBuilder<ParentBuilder>
 //        }
 //
 //        public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
-//            tar = new Option.LabelQueryOption(labelName);
-//            this.setter.set(tar);
+//            target = new Option.LabelQueryOption(labelName);
+//            this.setter.set(target);
 //            return this;
 //        }
 //
@@ -100,13 +100,13 @@ public class OptionBuilder<ParentBuilder>
         }
 
         public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
-            tar.set(new Option.LabelQueryOption(labelName));
+            target.set(new Option.LabelQueryOption(labelName));
             return this;
         }
 
         public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
             Arrays.asList(queryHints)
-                    .forEach((queryHint)-> tar.set(queryHint));
+                    .forEach((queryHint)-> target.set(queryHint));
             return this;
         }
     }

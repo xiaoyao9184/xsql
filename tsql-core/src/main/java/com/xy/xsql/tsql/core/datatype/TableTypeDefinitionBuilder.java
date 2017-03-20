@@ -29,8 +29,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
         return new ColumnDefinitionBuilder<TableTypeDefinitionBuilder<ParentBuilder>>
                 ((ColumnDefinition)
                         initNew(ColumnDefinition::new,
-                                tar::getList,
-                                tar::setList))
+                                target::getList,
+                                target::setList))
                 .in(this);
     }
 
@@ -38,8 +38,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
         return new TableConstraintBuilder<TableTypeDefinitionBuilder<ParentBuilder>>
                 ((TableTypeDefinition.TableConstraint)
                         initNew(TableTypeDefinition.TableConstraint::new,
-                                tar::getList,
-                                tar::setList))
+                                target::getList,
+                                target::setList))
                 .in(this);
     }
 
@@ -50,8 +50,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
      */
     public TableTypeDefinitionBuilder<ParentBuilder> withColumnDefinition(ColumnDefinition... columnDefinitions){
         initAdd(Arrays.asList(columnDefinitions),
-                tar::getList,
-                tar::setList);
+                target::getList,
+                target::setList);
         return this;
     }
 
@@ -63,8 +63,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
      */
     public TableTypeDefinitionBuilder<ParentBuilder> $_(ColumnDefinition... columnDefinitions){
         initAdd(Arrays.asList(columnDefinitions),
-                tar::getList,
-                tar::setList);
+                target::getList,
+                target::setList);
         return this;
     }
 
@@ -118,24 +118,24 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
 
 
         public TableConstraintBuilder<ParentBuilder> withPrimaryKey(){
-            tar.setUsePrimaryKey(true);
+            target.setUsePrimaryKey(true);
             return this;
         }
 
         public TableConstraintBuilder<ParentBuilder> withUnique(){
-            tar.setUseUnique(true);
+            target.setUseUnique(true);
             return this;
         }
 
         public TableConstraintBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
             initAdd(Arrays.asList(columnNames),
-                    tar::getColumnName,
-                    tar::setColumnName);
+                    target::getColumnName,
+                    target::setColumnName);
             return this;
         }
 
         public TableConstraintBuilder<ParentBuilder> withLogicalExpression(Expression logicalExpression){
-            tar.setLogicalExpression(logicalExpression);
+            target.setLogicalExpression(logicalExpression);
             return this;
         }
 
@@ -146,10 +146,10 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
          * @return
          */
         public ParentBuilder _PrimaryKey$(ColumnName... columnNames){
-            tar.setUsePrimaryKey(true);
+            target.setUsePrimaryKey(true);
             initAdd(Arrays.asList(columnNames),
-                    tar::getColumnName,
-                    tar::setColumnName);
+                    target::getColumnName,
+                    target::setColumnName);
             return this.and();
         }
 
@@ -159,10 +159,10 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
          * @return
          */
         public ParentBuilder _Unique$(ColumnName... columnNames){
-            tar.setUseUnique(true);
+            target.setUseUnique(true);
             initAdd(Arrays.asList(columnNames),
-                    tar::getColumnName,
-                    tar::setColumnName);
+                    target::getColumnName,
+                    target::setColumnName);
             return this.and();
         }
 
@@ -172,7 +172,7 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
          * @return
          */
         public ParentBuilder _Check$(Expression logicalExpression){
-            tar.setLogicalExpression(logicalExpression);
+            target.setLogicalExpression(logicalExpression);
             return this.and();
         }
     }

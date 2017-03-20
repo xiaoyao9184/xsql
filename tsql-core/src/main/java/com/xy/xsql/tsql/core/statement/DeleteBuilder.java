@@ -30,8 +30,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     public WithBuilder<DeleteBuilder> withWith(){
         return new WithBuilder<DeleteBuilder>
                 (initSet(With::new,
-                        tar::getWith,
-                        tar::setWith))
+                        target::getWith,
+                        target::setWith))
                 .in(this);
     }
 
@@ -42,8 +42,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     public TopBuilder<DeleteBuilder> withTop(){
         return new TopBuilder<DeleteBuilder>
                 (initSet(Top::new,
-                        tar::getTop,
-                        tar::setTop))
+                        target::getTop,
+                        target::setTop))
                 .in(this);
     }
 
@@ -53,7 +53,7 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @return
      */
     public DeleteBuilder withForm(boolean useForm){
-        tar.setUseForm(useForm);
+        target.setUseForm(useForm);
         return this;
     }
 
@@ -63,7 +63,7 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @return
      */
     public DeleteBuilder withTableAlias(String tableAlias){
-        tar.setTableAlias(new Alias<>(tableAlias));
+        target.setTableAlias(new Alias<>(tableAlias));
         return this;
     }
 
@@ -73,7 +73,7 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @return
      */
     public DeleteBuilder withTableName(TableName tableName){
-        tar.setTableName(tableName);
+        target.setTableName(tableName);
         return this;
     }
 
@@ -83,7 +83,7 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @return
      */
     public DeleteBuilder withTableName(String tableName){
-        tar.setTableName(new TableName(tableName));
+        target.setTableName(new TableName(tableName));
         return this;
     }
 
@@ -94,8 +94,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     public OutputBuilder<DeleteBuilder> withOutput() {
         return new OutputBuilder<DeleteBuilder>
                 (initSet(Output::new,
-                        tar::getOutput,
-                        tar::setOutput))
+                        target::getOutput,
+                        target::setOutput))
                 .in(this);
     }
 
@@ -106,8 +106,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     public FromBuilder<DeleteBuilder> withFrom() {
         return new FromBuilder<DeleteBuilder>
                 (initSet(From::new,
-                        tar::getFrom,
-                        tar::setFrom))
+                        target::getFrom,
+                        target::setFrom))
                 .in(this);
     }
 
@@ -118,8 +118,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     public WhereBuilder<DeleteBuilder> withWhere() {
         return new WhereBuilder<DeleteBuilder>
                 (initSet(Where::new,
-                        tar::getWhere,
-                        tar::setWhere))
+                        target::getWhere,
+                        target::setWhere))
                 .in(this);
     }
 
@@ -130,8 +130,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     public OptionBuilder<DeleteBuilder> withOption() {
         return new OptionBuilder<DeleteBuilder>
                 (initSet(Option::new,
-                        tar::getOption,
-                        tar::setOption))
+                        target::getOption,
+                        target::setOption))
                 .in(this);
     }
 

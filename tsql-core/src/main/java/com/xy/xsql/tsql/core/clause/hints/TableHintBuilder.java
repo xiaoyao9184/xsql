@@ -24,17 +24,17 @@ public class TableHintBuilder<ParentBuilder>
 
 
     public TableHintBuilder<ParentBuilder> withNOEXPAND(){
-        tar.setUseNOEXPAND(true);
+        target.setUseNOEXPAND(true);
         return this;
     }
 
     public TableHintBuilder<ParentBuilder> withType(TableHint.Type type){
-        tar.setType(type);
+        target.setType(type);
         return this;
     }
 
     public TableHintBuilder<ParentBuilder> withIndexValue(String... indexValues){
-        tar.setIndex_value(
+        target.setIndex_value(
                 Arrays.stream(indexValues)
                         .map(StringConstant::new)
                         .collect(Collectors.toList()));
@@ -42,7 +42,7 @@ public class TableHintBuilder<ParentBuilder>
     }
 
     public TableHintBuilder<ParentBuilder> withPercent(String... indexColumnNames){
-        tar.setIndex_column_name(
+        target.setIndex_column_name(
                 Arrays.stream(indexColumnNames)
                         .map(StringConstant::new)
                         .collect(Collectors.toList()));
@@ -50,7 +50,7 @@ public class TableHintBuilder<ParentBuilder>
     }
 
     public TableHintBuilder<ParentBuilder> withInteger(Integer integer){
-        tar.setInteger(integer);
+        target.setInteger(integer);
         return this;
     }
 

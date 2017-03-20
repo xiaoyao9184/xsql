@@ -25,15 +25,15 @@ public class CoalesceBuilder<ParentBuilder>
     @Deprecated
     public CoalesceBuilder<ParentBuilder> withExpression(Expression expression) {
         initAdd(expression,
-                tar::getExpressionList,
-                tar::setExpressionList);
+                target::getExpressionList,
+                target::setExpressionList);
         return this;
     }
 
     public CoalesceBuilder<ParentBuilder> withExpression(Expression... expressions) {
         initAdd(Arrays.asList(expressions),
-                tar::getExpressionList,
-                tar::setExpressionList);
+                target::getExpressionList,
+                target::setExpressionList);
         return this;
     }
 

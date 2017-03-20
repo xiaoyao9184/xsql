@@ -31,20 +31,20 @@ public class BetweenPredicateBuilder<ParentBuilder>
 
     public BetweenPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         if(index == 0){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             index = 1;
         } else if(index == 1) {
-            tar.setStartExpression(expression);
+            target.setStartExpression(expression);
             index = 2;
         } else {
-            tar.setEndExpression(expression);
+            target.setEndExpression(expression);
             index = 0;
         }
         return this;
     }
 
     public BetweenPredicateBuilder<ParentBuilder> withNot() {
-        tar.setUseNotOperator(true);
+        target.setUseNotOperator(true);
         return this;
     }
 

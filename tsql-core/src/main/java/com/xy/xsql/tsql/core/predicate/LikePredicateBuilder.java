@@ -29,22 +29,22 @@ public class LikePredicateBuilder<ParentBuilder>
 
     public LikePredicateBuilder<ParentBuilder> withStringExpression(Expression expression) {
         if(index == 0){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             index = 1;
         } else {
-            tar.setLikeExpression(expression);
+            target.setLikeExpression(expression);
             index = 0;
         }
         return this;
     }
 
     public LikePredicateBuilder<ParentBuilder> withNot() {
-        tar.setUseNotOperator(true);
+        target.setUseNotOperator(true);
         return this;
     }
 
     public LikePredicateBuilder<ParentBuilder> withEscape(StringConstant escape) {
-        tar.setEscapeCharacter(escape);
+        target.setEscapeCharacter(escape);
         return this;
     }
 

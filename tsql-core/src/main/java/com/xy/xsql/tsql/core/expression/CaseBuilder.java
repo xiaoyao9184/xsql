@@ -21,7 +21,7 @@ public class CaseBuilder<ParentBuilder>
     }
 
     public CaseBuilder<ParentBuilder> withInput(Expression inputExpression) {
-        tar.withInputExpression(inputExpression);
+        target.withInputExpression(inputExpression);
         return this;
     }
 
@@ -30,13 +30,13 @@ public class CaseBuilder<ParentBuilder>
                 .withWhenExpression(whenExpression)
                 .withThenExpression(resulExpression);
         initAdd(whenThenExpression,
-                tar::getWhenThenExpressionList,
-                tar::setWhenThenExpressionList);
+                target::getWhenThenExpressionList,
+                target::setWhenThenExpressionList);
         return this;
     }
 
     public CaseBuilder<ParentBuilder> withElse(Expression elseResultExpression) {
-        tar.withElseResultExpression(elseResultExpression);
+        target.withElseResultExpression(elseResultExpression);
         return this;
     }
 }

@@ -4,6 +4,9 @@ import com.xy.xsql.core.holder.ParentHolder;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
+ * @param <This>
+ * @param <Source>
+ * @param <Target>
  */
 @Deprecated
 public abstract class SubBuilder<This, Source, Target>

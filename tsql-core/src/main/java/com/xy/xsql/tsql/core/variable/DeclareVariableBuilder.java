@@ -28,22 +28,22 @@ public class DeclareVariableBuilder<ParentBuilder>
     public DeclareVariableItemBuilder<DeclareVariableBuilder<ParentBuilder>> withItem(){
         return new DeclareVariableItemBuilder<DeclareVariableBuilder<ParentBuilder>>
                 (initNew(DeclareVariable.Item::new,
-                        tar::getItems,
-                        tar::setItems))
+                        target::getItems,
+                        target::setItems))
                 .in(this);
     }
 
     public DeclareVariableBuilder<ParentBuilder> withTable(String tableVariableName){
         initSet(LocalVariable::new,
-                        tar::getTableVariableName,
-                        tar::setTableVariableName);
+                        target::getTableVariableName,
+                        target::setTableVariableName);
         return this;
     }
 
 //    public TableTypeDefinitionBuilder<DeclareVariableBuilder<ParentBuilder>> withTable(String tableVariableName){
 //        initSet(LocalVariable::new,
-//                tar::getTableVariableName,
-//                tar::setTableVariableName);
+//                target::getTableVariableName,
+//                target::setTableVariableName);
 //        return this;
 //    }
 
@@ -56,17 +56,17 @@ public class DeclareVariableBuilder<ParentBuilder>
         }
 
         public DeclareVariableItemBuilder<ParentBuilder> withLocalVariable(String variable){
-            tar.setLocalVariable(e_variable(variable));
+            target.setLocalVariable(e_variable(variable));
             return this;
         }
 
         public DeclareVariableItemBuilder<ParentBuilder> withValue(Expression value){
-            tar.setValue(value);
+            target.setValue(value);
             return this;
         }
 
         public DeclareVariableItemBuilder<ParentBuilder> withDateType(DataType dateType){
-            tar.setDataType(dateType);
+            target.setDataType(dateType);
             return this;
         }
     }

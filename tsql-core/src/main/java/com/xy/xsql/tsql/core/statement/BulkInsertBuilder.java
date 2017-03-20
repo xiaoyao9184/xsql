@@ -31,7 +31,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withTableViewName(TableName tableViewName){
-        tar.setTableOrView(tableViewName);
+        target.setTableOrView(tableViewName);
         return this;
     }
 
@@ -41,7 +41,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFrom(String dataFile){
-        tar.setFormDataFile(e_string(dataFile));
+        target.setFormDataFile(e_string(dataFile));
         return this;
     }
 
@@ -51,7 +51,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withBatchSize(Integer batchSize){
-        tar.setBatchSize(e_number(batchSize));
+        target.setBatchSize(e_number(batchSize));
         return this;
     }
 
@@ -60,7 +60,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withCheckConstraints(){
-        tar.setCheckConstraints(true);
+        target.setCheckConstraints(true);
         return this;
     }
 
@@ -70,7 +70,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withCodePage(String codePage){
-        tar.setCodePage(e_string(codePage));
+        target.setCodePage(e_string(codePage));
         return this;
     }
 
@@ -80,7 +80,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withCodePage(BulkInsert.CodePage codePage){
-        tar.setCodePage(codePage.getValue());
+        target.setCodePage(codePage.getValue());
         return this;
     }
 
@@ -93,7 +93,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      */
     @Deprecated
     public BulkInsertBuilder withDataFileType(StringConstant dataFileType){
-        tar.setDataFileType(dataFileType);
+        target.setDataFileType(dataFileType);
         return this;
     }
 
@@ -104,7 +104,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return
      */
     public BulkInsertBuilder withDataFileType(BulkInsert.DataFileType dataFileType){
-        tar.setDataFileType(dataFileType.getValue());
+        target.setDataFileType(dataFileType.getValue());
         return this;
     }
 
@@ -114,7 +114,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withDataSource(String dataSourceName){
-        tar.setDataSource(e_string(dataSourceName));
+        target.setDataSource(e_string(dataSourceName));
         return this;
     }
 
@@ -124,7 +124,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withErrorFile(String fileName){
-        tar.setErrorFile(e_string(fileName));
+        target.setErrorFile(e_string(fileName));
         return this;
     }
 
@@ -134,7 +134,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withErrorFileDataSource(String dataSourceName){
-        tar.setErrorFileDataSource(e_string(dataSourceName));
+        target.setErrorFileDataSource(e_string(dataSourceName));
         return this;
     }
 
@@ -144,7 +144,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFirstRow(Integer firstRow){
-        tar.setFirstRow(e_number(firstRow));
+        target.setFirstRow(e_number(firstRow));
         return this;
     }
 
@@ -153,7 +153,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFireTriggers(){
-        tar.setFireTriggers(true);
+        target.setFireTriggers(true);
         return this;
     }
 
@@ -163,7 +163,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFireTriggers(String dataSourceName){
-        tar.setFormatFileDataSource(e_string(dataSourceName));
+        target.setFormatFileDataSource(e_string(dataSourceName));
         return this;
     }
 
@@ -172,7 +172,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withKeepIdentity(){
-        tar.setKeepIdentity(true);
+        target.setKeepIdentity(true);
         return this;
     }
 
@@ -181,7 +181,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withKeepNulls(){
-        tar.setKeepNulls(true);
+        target.setKeepNulls(true);
         return this;
     }
 
@@ -191,7 +191,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withKilobytesPerBatch(Integer kilobytesPerBatch){
-        tar.setKilobytesPerBatch(e_number(kilobytesPerBatch));
+        target.setKilobytesPerBatch(e_number(kilobytesPerBatch));
         return this;
     }
 
@@ -201,7 +201,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withLastRow(Integer lastRow){
-        tar.setLastRow(e_number(lastRow));
+        target.setLastRow(e_number(lastRow));
         return this;
     }
 
@@ -211,7 +211,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withMaxErrors(Integer maxErrors){
-        tar.setMaxErrors(e_number(maxErrors));
+        target.setMaxErrors(e_number(maxErrors));
         return this;
     }
 
@@ -221,7 +221,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withOrderList(List<BulkInsert.OrderColumn> orderList){
-        tar.setOrderList(orderList);
+        target.setOrderList(orderList);
         return this;
     }
 
@@ -231,7 +231,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withRowsPerBatch(Integer rowsPerBatch){
-        tar.setRowsPerBatch(e_number(rowsPerBatch));
+        target.setRowsPerBatch(e_number(rowsPerBatch));
         return this;
     }
 
@@ -241,7 +241,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withRowTerminator(String rowTerminator){
-        tar.setRowTerminator(e_string(rowTerminator));
+        target.setRowTerminator(e_string(rowTerminator));
         return this;
     }
     /**
@@ -249,7 +249,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withTabLock(){
-        tar.setTabLock(true);
+        target.setTabLock(true);
         return this;
     }
 
@@ -260,7 +260,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFormat(String format){
-        tar.setFormat(e_string(format));
+        target.setFormat(e_string(format));
         return this;
     }
 
@@ -270,7 +270,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFieldQuote(String quoteCharacters){
-        tar.setFieldQuote(e_string(quoteCharacters));
+        target.setFieldQuote(e_string(quoteCharacters));
         return this;
     }
 
@@ -280,7 +280,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFormatFile(String formatFilePath){
-        tar.setFormatFile(e_string(formatFilePath));
+        target.setFormatFile(e_string(formatFilePath));
         return this;
     }
 
@@ -290,7 +290,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @return This
      */
     public BulkInsertBuilder withFieldTerminator(String fieldTerminator){
-        tar.setFieldTerminator(e_string(fieldTerminator));
+        target.setFieldTerminator(e_string(fieldTerminator));
         return this;
     }
 
@@ -339,7 +339,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      */
     public BulkInsertBuilder $With(BulkInsert.WithSetter... items){
         Arrays.stream(items)
-                .forEach(item -> item.config(tar));
+                .forEach(item -> item.config(target));
         return this;
     }
 

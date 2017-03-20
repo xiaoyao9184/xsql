@@ -4,6 +4,10 @@ import java.util.List;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
+ * @param <This>
+ * @param <Child>
+ * @param <Parent>
+ * @param <TargetList>
  */
 @Deprecated
 public abstract class CodeListBuilder<This, Child, Parent, TargetList>

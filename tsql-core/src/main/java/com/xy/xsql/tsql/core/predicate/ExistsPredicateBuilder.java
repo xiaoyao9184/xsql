@@ -24,7 +24,7 @@ public class ExistsPredicateBuilder<ParentBuilder>
     }
 
     public ExistsPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
-        tar.setSubquery(subquery);
+        target.setSubquery(subquery);
         return this;
     }
 

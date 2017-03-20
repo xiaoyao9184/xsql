@@ -29,24 +29,24 @@ public class InPredicateBuilder<ParentBuilder>
     }
 
     public InPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
-        tar.setExpression(expression);
+        target.setExpression(expression);
         return this;
     }
 
     public InPredicateBuilder<ParentBuilder> withNot() {
-        tar.setUseNotOperator(true);
+        target.setUseNotOperator(true);
         return this;
     }
 
     public InPredicateBuilder<ParentBuilder> withValueExpression(Expression... expressions) {
         initAdd(Arrays.asList(expressions),
-                tar::getExpressionList,
-                tar::setExpressionList);
+                target::getExpressionList,
+                target::setExpressionList);
         return this;
     }
 
     public InPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
-        tar.setSubquery(subquery);
+        target.setSubquery(subquery);
         return this;
     }
 

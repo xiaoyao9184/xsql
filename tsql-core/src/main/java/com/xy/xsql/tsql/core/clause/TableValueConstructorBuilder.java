@@ -30,8 +30,8 @@ public class TableValueConstructorBuilder<ParentBuilder>
     public RowValuesBuilder<TableValueConstructorBuilder<ParentBuilder>> withRowValues(){
         return new RowValuesBuilder<TableValueConstructorBuilder<ParentBuilder>>
                 (initNew(ArrayList::new,
-                        tar::getRowValueExpressionListGroup,
-                        tar::setRowValueExpressionListGroup))
+                        target::getRowValueExpressionListGroup,
+                        target::setRowValueExpressionListGroup))
                 .in(this);
     }
 
@@ -50,7 +50,7 @@ public class TableValueConstructorBuilder<ParentBuilder>
         }
 
         public RowValuesBuilder<ParentBuilder> withRowValueExpression(RowValueExpression... rowValueExpressions){
-            tar.addAll(Arrays.asList(rowValueExpressions));
+            target.addAll(Arrays.asList(rowValueExpressions));
             return this;
         }
     }

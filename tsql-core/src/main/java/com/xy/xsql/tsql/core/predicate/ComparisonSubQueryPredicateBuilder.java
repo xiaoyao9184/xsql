@@ -25,22 +25,22 @@ public class ComparisonSubQueryPredicateBuilder<ParentBuilder>
     }
 
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
-        tar.setExpression(expression);
+        target.setExpression(expression);
         return this;
     }
 
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
-        tar.setOperator(operator);
+        target.setOperator(operator);
         return this;
     }
 
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY oneOf) {
-        tar.setAll_some_any(oneOf);
+        target.setAll_some_any(oneOf);
         return this;
     }
 
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
-        tar.setSubquery(subquery);
+        target.setSubquery(subquery);
         return this;
     }
 

@@ -23,7 +23,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public ComparisonPredicateBuilder<ParentBuilder> _Comparison(){
         Comparison predicate = new Comparison();
-        tar.set(predicate);
+        target.set(predicate);
         return new ComparisonPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -31,7 +31,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public LikePredicateBuilder<ParentBuilder> _Like(){
         Like predicate = new Like();
-        tar.set(predicate);
+        target.set(predicate);
         return new LikePredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -39,7 +39,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public BetweenPredicateBuilder<ParentBuilder> _Between(){
         Between predicate = new Between();
-        tar.set(predicate);
+        target.set(predicate);
         return new BetweenPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -47,7 +47,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public IsNullPredicateBuilder<ParentBuilder> _IsNull(){
         IsNull predicate = new IsNull();
-        tar.set(predicate);
+        target.set(predicate);
         return new IsNullPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -55,7 +55,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public ContainsPredicateBuilder<ParentBuilder> _Contains(){
         Contains predicate = new Contains();
-        tar.set(predicate);
+        target.set(predicate);
         return new ContainsPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -63,7 +63,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public FreeTextPredicateBuilder<ParentBuilder> _FreeText(){
         FreeText predicate = new FreeText();
-        tar.set(predicate);
+        target.set(predicate);
         return new FreeTextPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -71,7 +71,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public InPredicateBuilder<ParentBuilder> _In(){
         In predicate = new In();
-        tar.set(predicate);
+        target.set(predicate);
         return new InPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -79,7 +79,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> _All_Some_Any(){
         ComparisonSubQuery predicate = new ComparisonSubQuery();
-        tar.set(predicate);
+        target.set(predicate);
         return new ComparisonSubQueryPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());
@@ -87,7 +87,7 @@ public class PredicateBuilder<ParentBuilder>
 
     public ExistsPredicateBuilder<ParentBuilder> _Exists(){
         Exists predicate = new Exists();
-        tar.set(predicate);
+        target.set(predicate);
         return new ExistsPredicateBuilder<ParentBuilder>
                 (predicate)
                 .in(out());

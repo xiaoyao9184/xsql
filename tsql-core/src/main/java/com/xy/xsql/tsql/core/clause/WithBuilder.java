@@ -27,8 +27,8 @@ public class WithBuilder<ParentBuilder>
     public CommonTableExpressionBuilder<WithBuilder<ParentBuilder>> withItem(){
         return new CommonTableExpressionBuilder<WithBuilder<ParentBuilder>>
                 (initNew(With.CommonTableExpression::new,
-                        this.tar::getCommonTableExpressionList,
-                        this.tar::setCommonTableExpressionList))
+                        this.target::getCommonTableExpressionList,
+                        this.target::setCommonTableExpressionList))
                 .in(this);
     }
 
@@ -61,7 +61,7 @@ public class WithBuilder<ParentBuilder>
 
 
         public CommonTableExpressionBuilder<ParentBuilder> withExpressionName(String expressionName){
-            this.tar.setExpressionName(expressionName);
+            this.target.setExpressionName(expressionName);
             return this;
         }
 
@@ -72,13 +72,13 @@ public class WithBuilder<ParentBuilder>
          */
         public CommonTableExpressionBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
             initAdd(Arrays.asList(columnNames),
-                     this.tar::getColumnName,
-                    this.tar::setColumnName);
+                     this.target::getColumnName,
+                    this.target::setColumnName);
             return this;
         }
 
         public CommonTableExpressionBuilder<ParentBuilder> withCteQueryDefinition(Select cteQueryDefinition){
-            this.tar.setCteQueryDefinition(cteQueryDefinition);
+            this.target.setCteQueryDefinition(cteQueryDefinition);
             return this;
         }
 

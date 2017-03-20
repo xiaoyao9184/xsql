@@ -24,12 +24,12 @@ public class IsNullPredicateBuilder<ParentBuilder>
     }
 
     public IsNullPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
-        tar.setExpression(expression);
+        target.setExpression(expression);
         return this;
     }
 
     public IsNullPredicateBuilder<ParentBuilder> withNot() {
-        tar.setUseNotOperator(true);
+        target.setUseNotOperator(true);
         return this;
     }
 

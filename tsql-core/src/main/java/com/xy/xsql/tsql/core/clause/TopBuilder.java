@@ -20,17 +20,17 @@ public class TopBuilder<ParentBuilder>
 
 
     public TopBuilder<ParentBuilder> withExpression(Expression countExpression){
-        tar.setExpression(countExpression);
+        target.setExpression(countExpression);
         return this;
     }
 
     public TopBuilder<ParentBuilder> withPercent(){
-        tar.setUsePercent(true);
+        target.setUsePercent(true);
         return this;
     }
 
     public TopBuilder<ParentBuilder> withTies(){
-        tar.setUseTies(true);
+        target.setUseTies(true);
         return this;
     }
 
@@ -41,12 +41,12 @@ public class TopBuilder<ParentBuilder>
      * @return
      */
     public TopBuilder<ParentBuilder> $(Expression countExpression, boolean... percentTies){
-        tar.setExpression(countExpression);
+        target.setExpression(countExpression);
         if(percentTies.length >= 1){
-            tar.setUsePercent(percentTies[0]);
+            target.setUsePercent(percentTies[0]);
         }
         if(percentTies.length == 2){
-            tar.setUseTies(percentTies[1]);
+            target.setUseTies(percentTies[1]);
         }
         return this;
     }

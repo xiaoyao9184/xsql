@@ -36,8 +36,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
     public WithBuilder<InsertBuilder> withWith(){
         return new WithBuilder<InsertBuilder>
                 (initSet(With::new,
-                        tar::getWith,
-                        tar::setWith))
+                        target::getWith,
+                        target::setWith))
                 .in(this);
     }
 
@@ -48,8 +48,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
     public TopBuilder<InsertBuilder> withTop(){
         return new TopBuilder<InsertBuilder>
                 (initSet(Top::new,
-                        tar::getTop,
-                        tar::setTop))
+                        target::getTop,
+                        target::setTop))
                 .in(this);
     }
 
@@ -59,7 +59,7 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      * @return
      */
     public InsertBuilder withInto(boolean useInto){
-        tar.setUseInto(useInto);
+        target.setUseInto(useInto);
         return this;
     }
 
@@ -69,7 +69,7 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      * @return
      */
     public InsertBuilder withTableName(TableName tableName){
-        tar.setTableName(tableName);
+        target.setTableName(tableName);
         return this;
     }
 
@@ -79,7 +79,7 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      * @return
      */
     public InsertBuilder withTableName(String tableName){
-        tar.setTableName(new TableName(tableName));
+        target.setTableName(new TableName(tableName));
         return this;
     }
 
@@ -89,8 +89,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      */
     public InsertBuilder withColumn(ColumnName columnName){
         initAdd(columnName,
-                tar::getColumns,
-                tar::setColumns);
+                target::getColumns,
+                target::setColumns);
         return this;
     }
 
@@ -101,8 +101,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
     public OutputBuilder<InsertBuilder> withOutput() {
         return new OutputBuilder<InsertBuilder>
                 (initSet(Output::new,
-                        tar::getOutput,
-                        tar::setOutput))
+                        target::getOutput,
+                        target::setOutput))
                 .in(this);
     }
 
@@ -113,8 +113,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
     public TableValueConstructorBuilder<InsertBuilder> withValues(){
         return new TableValueConstructorBuilder<InsertBuilder>
                 (initSet(TableValueConstructor::new,
-                        tar::getValues,
-                        tar::setValues))
+                        target::getValues,
+                        target::setValues))
                 .in(this);
     }
 

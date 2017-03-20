@@ -25,7 +25,7 @@ public class WhereBuilder<ParentBuilder>
     public SearchConditionBuilder<WhereBuilder<ParentBuilder>> withSearchCondition(){
         return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
                 (set(SearchCondition::new,
-                        tar::setSearchCondition))
+                        target::setSearchCondition))
                 .in(this);
     }
 

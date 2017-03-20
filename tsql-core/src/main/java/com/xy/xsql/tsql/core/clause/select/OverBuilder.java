@@ -29,16 +29,16 @@ public class OverBuilder<ParentBuilder>
     public PartitionByBuilder<OverBuilder<ParentBuilder>> withPartitionBy(){
         return new PartitionByBuilder<OverBuilder<ParentBuilder>>
                 (initSet(Over.PartitionBy::new,
-                        tar::getPartitionBy,
-                        tar::setPartitionBy))
+                        target::getPartitionBy,
+                        target::setPartitionBy))
                 .in(this);
     }
 
     public OrderByBuilder<OverBuilder<ParentBuilder>> withOrderBy(){
         return new OrderByBuilder<OverBuilder<ParentBuilder>>
                 (initSet(Over.OrderBy::new,
-                        tar::getOrderBy,
-                        tar::setOrderBy))
+                        target::getOrderBy,
+                        target::setOrderBy))
                 .in(this);
     }
 
@@ -103,8 +103,8 @@ public class OverBuilder<ParentBuilder>
 
         public PartitionByBuilder<ParentBuilder> withExpression(Expression... expressions){
             initAdd(Arrays.asList(expressions),
-                    tar::getValueExpressionList,
-                    tar::setValueExpressionList);
+                    target::getValueExpressionList,
+                    target::setValueExpressionList);
             return this;
         }
     }
@@ -123,15 +123,15 @@ public class OverBuilder<ParentBuilder>
         public com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItems(){
             return new com.xy.xsql.tsql.core.clause.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
                     (initNew(OrderBy.Item::new,
-                            tar::getItems,
-                            tar::setItems))
+                            target::getItems,
+                            target::setItems))
                     .in(this);
         }
 
         public OrderByBuilder<ParentBuilder> withItems(OrderBy.Item... orderByItems){
             initAdd(Arrays.asList(orderByItems),
-                            tar::getItems,
-                            tar::setItems);
+                            target::getItems,
+                            target::setItems);
             return this;
         }
     }

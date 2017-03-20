@@ -9,20 +9,15 @@ import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.expression.GroupExpression;
 import com.xy.xsql.tsql.model.operator.Compound;
-import com.xy.xsql.tsql.model.predicate.Predicate;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
-import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2017/1/7.
@@ -45,8 +40,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     public WithBuilder<UpdateBuilder> withWith(){
         return new WithBuilder<UpdateBuilder>
                 (initSet(With::new,
-                        tar::getWith,
-                        tar::setWith))
+                        target::getWith,
+                        target::setWith))
                 .in(this);
     }
 
@@ -57,8 +52,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     public TopBuilder<UpdateBuilder> withTop(){
         return new TopBuilder<UpdateBuilder>
                 (initSet(Top::new,
-                        tar::getTop,
-                        tar::setTop))
+                        target::getTop,
+                        target::setTop))
                 .in(this);
     }
 
@@ -68,7 +63,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return
      */
     public UpdateBuilder withTableAlias(String tableAlias){
-        tar.setTableAlias(new Alias<>(tableAlias));
+        target.setTableAlias(new Alias<>(tableAlias));
         return this;
     }
 
@@ -77,7 +72,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return
      */
     public UpdateBuilder withTableName(TableName tableName){
-        tar.setTableName(tableName);
+        target.setTableName(tableName);
         return this;
     }
 
@@ -87,7 +82,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return
      */
     public UpdateBuilder withTableName(String tableName){
-        tar.setTableName(new TableName(tableName));
+        target.setTableName(new TableName(tableName));
         return this;
     }
 
@@ -98,7 +93,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 //    @Deprecated
 //    public SetListBuilder<UpdateBuilder> withSetList(){
 //        List<Update.SetItem> setList = new ArrayList<>();
-//        tar.setSets(setList);
+//        target.setSets(setList);
 //        return new SetListBuilder<UpdateBuilder>
 //                (setList)
 //                .in(this);
@@ -109,10 +104,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return
      */
     public SetItemBuilder<UpdateBuilder> withSetItem(){
-        initList(tar::getSets,
-                tar::setSets);
+        initList(target::getSets,
+                target::setSets);
         return new SetItemBuilder<UpdateBuilder>
-                (tar.getSets()::add)
+                (target.getSets()::add)
                 .in(this);
     }
 
@@ -123,8 +118,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     public OutputBuilder<UpdateBuilder> withOutput() {
         return new OutputBuilder<UpdateBuilder>
                 (initSet(Output::new,
-                        tar::getOutput,
-                        tar::setOutput))
+                        target::getOutput,
+                        target::setOutput))
                 .in(this);
     }
 
@@ -135,8 +130,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     public FromBuilder<UpdateBuilder> withFrom() {
         return new FromBuilder<UpdateBuilder>
                 (initSet(From::new,
-                        tar::getFrom,
-                        tar::setFrom))
+                        target::getFrom,
+                        target::setFrom))
                 .in(this);
     }
 
@@ -147,8 +142,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     public WhereBuilder<UpdateBuilder> withWhere() {
         return new WhereBuilder<UpdateBuilder>
                 (initSet(Where::new,
-                        tar::getWhere,
-                        tar::setWhere))
+                        target::getWhere,
+                        target::setWhere))
                 .in(this);
     }
 
@@ -159,8 +154,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     public OptionBuilder<UpdateBuilder> withOption() {
         return new OptionBuilder<UpdateBuilder>
                 (initSet(Option::new,
-                        tar::getOption,
-                        tar::setOption))
+                        target::getOption,
+                        target::setOption))
                 .in(this);
     }
 
@@ -222,8 +217,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     public UpdateBuilder $Set(Update.SetItem... items){
         initAdd(Arrays.asList(items),
-                tar::getSets,
-                tar::setSets);
+                target::getSets,
+                target::setSets);
         return this;
     }
 
@@ -276,13 +271,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 //
 //        public SetBuilder<SetListBuilder<ParentBuilder>> withItem(){
 //            Update.Set set = new Update.Set();
-//            if(tar == null){
-//                tar = new ArrayList<>();
+//            if(target == null){
+//                target = new ArrayList<>();
 //            }
-//            tar.add(set);
+//            target.add(set);
 //            return new SetBuilder<SetListBuilder<ParentBuilder>>
 //                    (initSet(Update.Set::new,
-//                            tar::add))
+//                            target::add))
 //                    .in(this);
 //        }
 //
@@ -307,22 +302,22 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 //        }
 //
 //        public SetBuilder<ParentBuilder> withColumnName(ColumnName column){
-//            tar.setColumnName(column);
+//            target.setColumnName(column);
 //            return this;
 //        }
 //
 //        public SetBuilder<ParentBuilder> withColumnName(String columnName) {
-//            tar.setColumnName(new ColumnName(columnName));
+//            target.setColumnName(new ColumnName(columnName));
 //            return this;
 //        }
 //
 //        public SetBuilder<ParentBuilder> withExpression(Expression expression){
-//            tar.setExpression(expression);
+//            target.setExpression(expression);
 //            return this;
 //        }
 //
 //        public SetBuilder<ParentBuilder> withUseNull(boolean useNull){
-//            tar.setUseNull(useNull);
+//            target.setUseNull(useNull);
 //            return this;
 //        }
 //    }
@@ -343,7 +338,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
         public ColumnAssignmentSetBuilder<ParentBuilder> _ColumnAssignment(){
             Update.ColumnAssignmentSet setItem = new Update.ColumnAssignmentSet();
-            tar.set(setItem);
+            target.set(setItem);
             return new ColumnAssignmentSetBuilder<ParentBuilder>
                     (setItem)
                     .in(out());
@@ -351,7 +346,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
         public VariableAssignmentSetBuilder<ParentBuilder> _VariableAssignment(){
             Update.VariableAssignmentSet setItem = new Update.VariableAssignmentSet();
-            tar.set(setItem);
+            target.set(setItem);
             return new VariableAssignmentSetBuilder<ParentBuilder>
                     (setItem)
                     .in(out());
@@ -359,7 +354,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
         public VariableColumnAssignmentSetBuilder<ParentBuilder> _VariableColumnAssignment(){
             Update.VariableColumnAssignmentSet setItem = new Update.VariableColumnAssignmentSet();
-            tar.set(setItem);
+            target.set(setItem);
             return new VariableColumnAssignmentSetBuilder<ParentBuilder>
                     (setItem)
                     .in(out());
@@ -367,7 +362,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
         public ColumnCompoundSetBuilder<ParentBuilder> _ColumnCompound(){
             Update.ColumnCompoundSet setItem = new Update.ColumnCompoundSet();
-            tar.set(setItem);
+            target.set(setItem);
             return new ColumnCompoundSetBuilder<ParentBuilder>
                     (setItem)
                     .in(out());
@@ -375,7 +370,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
         public VariableCompoundSetBuilder<ParentBuilder> _VariableCompound(){
             Update.VariableCompoundSet setItem = new Update.VariableCompoundSet();
-            tar.set(setItem);
+            target.set(setItem);
             return new VariableCompoundSetBuilder<ParentBuilder>
                     (setItem)
                     .in(out());
@@ -383,7 +378,7 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
         public VariableColumnCompoundSetBuilder<ParentBuilder> _VariableColumnCompound(){
             Update.VariableColumnCompoundSet setItem = new Update.VariableColumnCompoundSet();
-            tar.set(setItem);
+            target.set(setItem);
             return new VariableColumnCompoundSetBuilder<ParentBuilder>
                     (setItem)
                     .in(out());
@@ -517,22 +512,22 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         public ColumnAssignmentSetBuilder<ParentBuilder> withColumnName(ColumnName column){
-            tar.setColumnName(column);
+            target.setColumnName(column);
             return this;
         }
 
         public ColumnAssignmentSetBuilder<ParentBuilder> withExpression(Expression expression){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             return this;
         }
 
         public ColumnAssignmentSetBuilder<ParentBuilder> withUseNull(boolean useNull){
-            tar.setUseNull(useNull);
+            target.setUseNull(useNull);
             return this;
         }
 
         public ColumnAssignmentSetBuilder<ParentBuilder> withUseDefault(boolean useDefault){
-            tar.setUseDefault(useDefault);
+            target.setUseDefault(useDefault);
             return this;
         }
     }
@@ -549,12 +544,12 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         public VariableAssignmentSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
-            tar.setVariable(variable);
+            target.setVariable(variable);
             return this;
         }
 
         public VariableAssignmentSetBuilder<ParentBuilder> withExpression(Expression expression){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             return this;
         }
 
@@ -572,17 +567,17 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         public VariableColumnAssignmentSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
-            tar.setVariable(variable);
+            target.setVariable(variable);
             return this;
         }
 
         public VariableColumnAssignmentSetBuilder<ParentBuilder> withColumnName(ColumnName column){
-            tar.setColumnName(column);
+            target.setColumnName(column);
             return this;
         }
 
         public VariableColumnAssignmentSetBuilder<ParentBuilder> withExpression(Expression expression){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             return this;
         }
 
@@ -600,17 +595,17 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         public ColumnCompoundSetBuilder<ParentBuilder> withColumnName(ColumnName column){
-            tar.setColumnName(column);
+            target.setColumnName(column);
             return this;
         }
 
         public ColumnCompoundSetBuilder<ParentBuilder> withCompound(Compound compound){
-            tar.setCompound(compound);
+            target.setCompound(compound);
             return this;
         }
 
         public ColumnCompoundSetBuilder<ParentBuilder> withExpression(Expression expression){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             return this;
         }
 
@@ -628,17 +623,17 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         public VariableCompoundSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
-            tar.setVariable(variable);
+            target.setVariable(variable);
             return this;
         }
 
         public VariableCompoundSetBuilder<ParentBuilder> withCompound(Compound compound){
-            tar.setCompound(compound);
+            target.setCompound(compound);
             return this;
         }
 
         public VariableCompoundSetBuilder<ParentBuilder> withExpression(Expression expression){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             return this;
         }
 
@@ -656,22 +651,22 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         public VariableColumnCompoundSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
-            tar.setVariable(variable);
+            target.setVariable(variable);
             return this;
         }
 
         public VariableColumnCompoundSetBuilder<ParentBuilder> withColumnName(ColumnName columnName){
-            tar.setColumnName(columnName);
+            target.setColumnName(columnName);
             return this;
         }
 
         public VariableColumnCompoundSetBuilder<ParentBuilder> withCompound(Compound compound){
-            tar.setCompound(compound);
+            target.setCompound(compound);
             return this;
         }
 
         public VariableColumnCompoundSetBuilder<ParentBuilder> withExpression(Expression expression){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             return this;
         }
 

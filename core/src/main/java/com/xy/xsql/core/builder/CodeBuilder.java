@@ -9,10 +9,10 @@ package com.xy.xsql.core.builder;
 public abstract class CodeBuilder<Target>
         implements BaseBuilder<Void, Target> {
 
-    protected Target tar;
+    protected Target target;
 
-    public CodeBuilder(Target tar){
-        this.tar = tar;
+    public CodeBuilder(Target target){
+        this.target = target;
     }
 
     /**
@@ -22,7 +22,7 @@ public abstract class CodeBuilder<Target>
      */
     @Override
     public Target build(Void aVoid) {
-        return tar;
+        return target;
     }
 
     /**
@@ -30,7 +30,7 @@ public abstract class CodeBuilder<Target>
      * @return
      */
     public Target build() {
-        return tar;
+        return target;
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class CodeBuilder<Target>
      * @return
      */
     public Target done(){
-        return tar;
+        return target;
     }
 
 }

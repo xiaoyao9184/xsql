@@ -22,12 +22,12 @@ public class AtTimeZoneBuilder<ParentBuilder>
     }
 
     public AtTimeZoneBuilder<ParentBuilder> withExpression(Expression expression) {
-        tar.setInputExpression(expression);
+        target.setInputExpression(expression);
         return this;
     }
 
     public AtTimeZoneBuilder<ParentBuilder> withTimezone(String timezone) {
-        tar.setTimezone(new StringConstant(timezone).withQuote());
+        target.setTimezone(new StringConstant(timezone).withQuote());
         return this;
     }
 

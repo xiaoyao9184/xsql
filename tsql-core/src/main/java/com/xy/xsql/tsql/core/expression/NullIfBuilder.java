@@ -24,10 +24,10 @@ public class NullIfBuilder<ParentBuilder>
 
     public NullIfBuilder<ParentBuilder> withExpression(Expression expression) {
         if(indexFirst){
-            tar.setExpressionLeft(expression);
+            target.setExpressionLeft(expression);
             indexFirst = false;
         }else{
-            tar.setExpressionRight(expression);
+            target.setExpressionRight(expression);
             indexFirst = true;
         }
         return this;

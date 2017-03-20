@@ -25,7 +25,7 @@ public class HavingBuilder<ParentBuilder>
     public SearchConditionBuilder<HavingBuilder<ParentBuilder>> withSearchCondition(){
         return new SearchConditionBuilder<HavingBuilder<ParentBuilder>>
                 (set(SearchCondition::new,
-                        tar::setSearchCondition))
+                        target::setSearchCondition))
                 .in(this);
     }
 

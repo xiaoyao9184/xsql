@@ -27,48 +27,48 @@ public class QueryHintBuilder<ParentBuilder>
 
 
     public QueryHintBuilder<ParentBuilder> withType(QueryHint.Type type){
-        tar.setType(type);
+        target.setType(type);
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withNumberRows(Integer numberRows){
-        tar.setNumberRows(numberRows);
+        target.setNumberRows(numberRows);
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withPercent(Integer percent){
-        tar.setPercent(percent);
+        target.setPercent(percent);
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withNumberOfProcessors(Integer numberOfProcessors){
-        tar.setNumberOfProcessors(numberOfProcessors);
+        target.setNumberOfProcessors(numberOfProcessors);
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withNumber(Integer number){
-        tar.setNumber(number);
+        target.setNumber(number);
         return this;
     }
 
     public OptimizeForBuilder<QueryHintBuilder<ParentBuilder>> withOptimizeFor(){
         return new OptimizeForBuilder<QueryHintBuilder<ParentBuilder>>
                 (initNew(QueryHint.OptimizeFor::new,
-                tar::getOptimizeFor,
-                tar::setOptimizeFor))
+                target::getOptimizeFor,
+                target::setOptimizeFor))
             .in(this);
     }
 
     public QueryHintBuilder<ParentBuilder> withOptimizeFor(QueryHint.OptimizeFor... optimizeFors){
-        tar.setOptimizeFor(Arrays.asList(optimizeFors));
+        target.setOptimizeFor(Arrays.asList(optimizeFors));
         return this;
     }
 
     @Deprecated
     public QueryHintBuilder<ParentBuilder> withHintName(String hintName){
         initAdd(new StringConstant(hintName),
-                tar::getHintNameList,
-                tar::setHintNameList);
+                target::getHintNameList,
+                target::setHintNameList);
         return this;
     }
 
@@ -76,38 +76,38 @@ public class QueryHintBuilder<ParentBuilder>
         initAdd(Arrays.stream(hintNames)
                 .map(StringConstant::new)
                 .collect(Collectors.toList()),
-                tar::getHintNameList,
-                tar::setHintNameList);
+                target::getHintNameList,
+                target::setHintNameList);
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withXmlPlan(String xmlPlan){
-        tar.setXmlPlan(new StringConstant(xmlPlan));
+        target.setXmlPlan(new StringConstant(xmlPlan));
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withExposedObjectName(String exposedObjectName){
-        tar.setExposedObjectName(exposedObjectName);
+        target.setExposedObjectName(exposedObjectName);
         return this;
     }
 
     @Deprecated
     public QueryHintBuilder<ParentBuilder> withHintName(TableHint tableHint){
         initAdd(tableHint,
-                tar::getTableHintList,
-                tar::setTableHintList);
+                target::getTableHintList,
+                target::setTableHintList);
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withHintName(TableHint... tableHints){
         initAdd(Arrays.asList(tableHints),
-                tar::getTableHintList,
-                tar::setTableHintList);
+                target::getTableHintList,
+                target::setTableHintList);
         return this;
     }
 
     public QueryHintBuilder<ParentBuilder> withDelimiter(){
-        tar.setUseDelimiter(true);
+        target.setUseDelimiter(true);
         return this;
     }
 

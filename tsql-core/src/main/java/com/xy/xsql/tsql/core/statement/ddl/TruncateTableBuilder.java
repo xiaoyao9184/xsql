@@ -20,15 +20,15 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
     }
 
     public TruncateTableBuilder withTableName(TableName tableName){
-        tar.setTableName(tableName);
+        target.setTableName(tableName);
         return this;
     }
 
     public TruncateTableBuilder withNumber(Integer number){
         initAdd(
                 e_pn(number),
-                tar::getPartitionsList,
-                tar::setPartitionsList
+                target::getPartitionsList,
+                target::setPartitionsList
         );
         return this;
     }
@@ -36,8 +36,8 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
     public TruncateTableBuilder withRange(Integer range,Integer range2){
         initAdd(
                 e_range(range,range2),
-                tar::getPartitionsList,
-                tar::setPartitionsList
+                target::getPartitionsList,
+                target::setPartitionsList
         );
         return this;
     }

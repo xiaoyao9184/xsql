@@ -28,17 +28,17 @@ public class ComparisonPredicateBuilder<ParentBuilder>
 
     public ComparisonPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         if(index == 0){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             index = 1;
         } else {
-            tar.setOperatorExpression(expression);
+            target.setOperatorExpression(expression);
             index = 0;
         }
         return this;
     }
 
     public ComparisonPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
-        tar.setOperator(operator);
+        target.setOperator(operator);
         return this;
     }
 

@@ -22,13 +22,13 @@ public class ColumnDefinitionBuilder<ParentBuilder>
     }
 
     public ColumnDefinitionBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
-        tar.setTable(columnName.getTable());
-        tar.setName(columnName.getName());
+        target.setTable(columnName.getTable());
+        target.setName(columnName.getName());
         return this;
     }
 
     public ColumnDefinitionBuilder<ParentBuilder> withDataType(DataType dataType) {
-        tar.setDataType(dataType);
+        target.setDataType(dataType);
         return this;
     }
 

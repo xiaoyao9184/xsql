@@ -30,12 +30,12 @@ public class ContainsPredicateBuilder<ParentBuilder>
     }
 
     public ContainsPredicateBuilder<ParentBuilder> withColumnName(String columnName) {
-        tar.setColumnName(c(columnName));
+        target.setColumnName(c(columnName));
         return this;
     }
 
     public ContainsPredicateBuilder<ParentBuilder> withColumn(String... columnNames) {
-        tar.setColumnList(
+        target.setColumnList(
                 Arrays.stream(columnNames)
                         .map(ColumnName::new)
                         .collect(Collectors.toList()));
@@ -43,18 +43,18 @@ public class ContainsPredicateBuilder<ParentBuilder>
     }
 
     public ContainsPredicateBuilder<ParentBuilder> withAllColumn() {
-        tar.setUseAllColumn(true);
+        target.setUseAllColumn(true);
         return this;
     }
 
     public ContainsPredicateBuilder<ParentBuilder> withProperty(String columnName, String propertyName) {
-        tar.setPropertyColumnName(c(columnName));
-        tar.setPropertyName(e_string(propertyName));
+        target.setPropertyColumnName(c(columnName));
+        target.setPropertyName(e_string(propertyName));
         return this;
     }
 
     public ContainsPredicateBuilder<ParentBuilder> withContainsSearchCondition(String containsSearchCondition) {
-        tar.setContainsSearchCondition(e_string(containsSearchCondition));
+        target.setContainsSearchCondition(e_string(containsSearchCondition));
         return this;
     }
 }

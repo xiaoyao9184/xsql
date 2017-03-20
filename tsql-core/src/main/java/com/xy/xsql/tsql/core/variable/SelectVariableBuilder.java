@@ -26,8 +26,8 @@ public class SelectVariableBuilder<ParentBuilder>
     public SelectVariableItemBuilder<SelectVariableBuilder<ParentBuilder>> withItem(){
         return new SelectVariableItemBuilder<SelectVariableBuilder<ParentBuilder>>
                 (initNew(SelectVariable.Item::new,
-                        tar::getItems,
-                        tar::setItems))
+                        target::getItems,
+                        target::setItems))
                 .in(this);
     }
 
@@ -40,17 +40,17 @@ public class SelectVariableBuilder<ParentBuilder>
         }
 
         public SelectVariableItemBuilder<ParentBuilder> withLocalVariable(String variable){
-            tar.setLocalVariable(e_variable(variable));
+            target.setLocalVariable(e_variable(variable));
             return this;
         }
 
         public SelectVariableItemBuilder<ParentBuilder> withCompound(Compound compound){
-            tar.setCompound(compound);
+            target.setCompound(compound);
             return this;
         }
 
         public SelectVariableItemBuilder<ParentBuilder> withExpression(Expression expression){
-            tar.setExpression(expression);
+            target.setExpression(expression);
             return this;
         }
     }

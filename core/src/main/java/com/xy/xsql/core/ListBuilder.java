@@ -13,6 +13,7 @@ import java.util.stream.StreamSupport;
 
 /**
  * Created by xiaoyao9184 on 2016/11/12.
+ * @param <ListType>
  */
 public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
 
@@ -36,12 +37,26 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
     }
 
 
+    /**
+     * Init List if NULL
+     * @param getter
+     * @param setter
+     * @param <T>
+     */
     public static <T> void initList(final Getter<List<T>> getter, final Setter<List<T>> setter) {
         if(getter.get() == null){
             setter.set(new ArrayList<>());
         }
     }
 
+    /**
+     * Add New element to List
+     * @param supplier
+     * @param getter
+     * @param setter
+     * @param <T>
+     * @return
+     */
     public static <T> T initNew(final Supplier<? extends T> supplier, final Getter<List<T>> getter, final Setter<List<T>> setter) {
         if(getter.get() == null){
             setter.set(new ArrayList<>());
@@ -52,6 +67,14 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
         return t;
     }
 
+    /**
+     * Add element to List
+     * @param t
+     * @param getter
+     * @param setter
+     * @param <T>
+     * @return
+     */
     public static <T> T initAdd(final T t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
         if(getter.get() == null){
             setter.set(new ArrayList<>());
@@ -63,6 +86,14 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
         return t;
     }
 
+    /**
+     * Add elements to List
+     * @param t
+     * @param getter
+     * @param setter
+     * @param <T>
+     * @return
+     */
     public static <T> Collection<T> initAdd(final Collection<T> t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
         if(getter.get() == null){
             setter.set(new ArrayList<>());
@@ -72,6 +103,12 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
         return t;
     }
 
+    /**
+     * Call setter with each element
+     * @param t
+     * @param setter
+     * @param <T>
+     */
     public static <T> void setter(final Collection<T> t, final Setter<T>... setter) {
         final int[] index = {0};
         t.forEach((a)->{
@@ -82,7 +119,12 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
         });
     }
 
-
+    /**
+     * Reverse Array to List
+     * @param t
+     * @param <T>
+     * @return
+     */
     public static <T> List<T> reverse(T... t){
         Iterator<T> reversedStream = Stream
                 .of(t)

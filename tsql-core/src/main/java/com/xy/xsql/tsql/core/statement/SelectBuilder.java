@@ -84,7 +84,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          * @return
          */
         public QuerySpecificationBuilder<ParentBuilder> withAll() {
-            tar.setUseAll(true);
+            target.setUseAll(true);
             return this;
         }
 
@@ -93,7 +93,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          * @return
          */
         public QuerySpecificationBuilder<ParentBuilder> withDistinct() {
-            tar.setUseDistinct(true);
+            target.setUseDistinct(true);
             return this;
         }
 
@@ -103,7 +103,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          */
         public TopBuilder<QuerySpecificationBuilder<ParentBuilder>> withTop(){
             Top top = new Top();
-            tar.setTop(top);
+            target.setTop(top);
             return new TopBuilder<QuerySpecificationBuilder<ParentBuilder>>(top)
                     .in(this);
         }
@@ -114,7 +114,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          */
         public SelectListBuilder<QuerySpecificationBuilder<ParentBuilder>> withSelectList(){
             SelectList selectList = new SelectList();
-            tar.setSelectList(selectList);
+            target.setSelectList(selectList);
             return new SelectListBuilder<QuerySpecificationBuilder<ParentBuilder>>(selectList)
                     .in(this);
         }
@@ -125,7 +125,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          * @return
          */
         public QuerySpecificationBuilder<ParentBuilder> withInto(String newTable) {
-            tar.setNewTable(new Unknown(newTable));
+            target.setNewTable(new Unknown(newTable));
             return this;
         }
 
@@ -135,7 +135,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          */
         public FromBuilder<QuerySpecificationBuilder<ParentBuilder>> withFrom() {
             From from = new From();
-            tar.setFrom(from);
+            target.setFrom(from);
             return new FromBuilder<QuerySpecificationBuilder<ParentBuilder>>(from)
                     .in(this);
         }
@@ -146,7 +146,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          */
         public WhereBuilder<QuerySpecificationBuilder<ParentBuilder>> withWhere() {
             Where where = new Where();
-            tar.setWhere(where);
+            target.setWhere(where);
             WhereBuilder<QuerySpecificationBuilder<ParentBuilder>> whereBuilder = new WhereBuilder<>(where);
             return whereBuilder.in(this);
         }
@@ -157,7 +157,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          */
         public GroupByBuilder<QuerySpecificationBuilder<ParentBuilder>> withGroupBy() {
             GroupBy groupBy = new GroupBy();
-            tar.setGroupBy(groupBy);
+            target.setGroupBy(groupBy);
             GroupByBuilder<QuerySpecificationBuilder<ParentBuilder>> groupByBuilder = new GroupByBuilder<>(groupBy);
             return groupByBuilder.in(this);
         }
@@ -168,7 +168,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          */
         public HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> withHaving() {
             Having having = new Having();
-            tar.setHaving(having);
+            target.setHaving(having);
             HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> havingBuilder = new HavingBuilder<>(having);
             return havingBuilder.in(this);
         }

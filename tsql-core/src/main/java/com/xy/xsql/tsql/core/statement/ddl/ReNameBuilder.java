@@ -22,17 +22,17 @@ public class ReNameBuilder extends CodeBuilder<ReName> {
     }
 
     public ReNameBuilder withDBName(String dbName){
-        tar.setDbName(dbName);
+        target.setDbName(dbName);
         return this;
     }
 
     public ReNameBuilder withTableName(TableName tableName){
-        tar.setTableName(tableName);
+        target.setTableName(tableName);
         return this;
     }
 
     public ReNameBuilder withNewName(String tableName){
-        tar.setNewName(tableName);
+        target.setNewName(tableName);
         return this;
     }
 

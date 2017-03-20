@@ -11,10 +11,10 @@ package com.xy.xsql.core.builder;
 public abstract class CodeTreeBuilder<This, Parent, Target>
         extends TreeBuilder<This, Parent, Void, Target> {
 
-    protected Target tar;
+    protected Target target;
 
-    public CodeTreeBuilder(Target tar){
-        this.tar = tar;
+    public CodeTreeBuilder(Target target){
+        this.target = target;
     }
 
     /**
@@ -24,7 +24,7 @@ public abstract class CodeTreeBuilder<This, Parent, Target>
      */
     @Override
     public Target build(Void aVoid) {
-        return tar;
+        return target;
     }
 
     /**
@@ -32,7 +32,7 @@ public abstract class CodeTreeBuilder<This, Parent, Target>
      * @return
      */
     public Target build() {
-        return tar;
+        return target;
     }
 
     /**

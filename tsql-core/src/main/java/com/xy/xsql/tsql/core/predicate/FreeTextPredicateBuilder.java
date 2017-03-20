@@ -30,12 +30,12 @@ public class FreeTextPredicateBuilder<ParentBuilder>
     }
 
     public FreeTextPredicateBuilder<ParentBuilder> withColumnName(String columnName) {
-        tar.setColumnName(c(columnName));
+        target.setColumnName(c(columnName));
         return this;
     }
 
     public FreeTextPredicateBuilder<ParentBuilder> withColumn(String... columnNames) {
-        tar.setColumnList(
+        target.setColumnList(
                 Arrays.stream(columnNames)
                         .map(ColumnName::new)
                         .collect(Collectors.toList()));
@@ -43,12 +43,12 @@ public class FreeTextPredicateBuilder<ParentBuilder>
     }
 
     public FreeTextPredicateBuilder<ParentBuilder> withAllColumn() {
-        tar.setUseAllColumn(true);
+        target.setUseAllColumn(true);
         return this;
     }
 
     public FreeTextPredicateBuilder<ParentBuilder> withFreeText(String freetextString) {
-        tar.setFreetextString(e_string(freetextString));
+        target.setFreetextString(e_string(freetextString));
         return this;
     }
 

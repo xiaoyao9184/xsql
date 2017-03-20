@@ -23,17 +23,17 @@ public class SetVariableBuilder<ParentBuilder>
     }
 
     public SetVariableBuilder<ParentBuilder> withLocalVariable(String variable){
-        tar.setLocalVariable(e_variable(variable));
+        target.setLocalVariable(e_variable(variable));
         return this;
     }
 
     public SetVariableBuilder<ParentBuilder> withCompound(Compound compound){
-        tar.setCompound(compound);
+        target.setCompound(compound);
         return this;
     }
 
     public SetVariableBuilder<ParentBuilder> withExpression(Expression expression){
-        tar.setExpression(expression);
+        target.setExpression(expression);
         return this;
     }
 
