@@ -1,30 +1,32 @@
 package com.xy.xsql.core.builder;
 
-import com.xy.xsql.core.configurator.ConfigInOut;
+import com.xy.xsql.core.holder.ParentHolder;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
-public abstract class SubBuilder<This,SrcType,Done>
+@Deprecated
+public abstract class SubBuilder<This, Source, Target>
         implements
-        BaseBuilder<SrcType,Done>,
-        ConfigInOut<This,Done> {
+        BaseBuilder<Source, Target>,
+        ParentHolder<This, Target> {
 
-    private Done done;
+    private Target done;
 
+    @SuppressWarnings("unchecked")
     @Override
-    public This in(Done done) {
+    public This in(Target done) {
         this.done = done;
         return (This) this;
     }
 
     @Override
-    public Done out() {
+    public Target out() {
         return this.done;
     }
 
     @Override
-    public Done build(SrcType srcType) {
+    public Target build(Source source) {
         return this.done;
     }
 

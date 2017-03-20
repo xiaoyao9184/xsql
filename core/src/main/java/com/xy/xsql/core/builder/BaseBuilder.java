@@ -4,13 +4,15 @@ package com.xy.xsql.core.builder;
  * Base Builder
  * for all builder
  * Created by xiaoyao9184 on 2016/10/15.
+ * @param <Source> build source
+ * @param <Target> build target
  */
-public interface BaseBuilder<SrcType, TarType> {
+public interface BaseBuilder<Source, Target> {
 
     /**
      * core
-     * @param srcType Src
+     * @param source build Source
      * @return Tar
      */
-    TarType build(SrcType srcType);
+    Target build(Source source);
 }

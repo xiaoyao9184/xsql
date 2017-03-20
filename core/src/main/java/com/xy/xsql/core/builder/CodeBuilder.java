@@ -1,15 +1,17 @@
 package com.xy.xsql.core.builder;
 
 /**
+ * CodeBuilder
+ * use code build Target
  * Created by xiaoyao9184 on 2016/12/28.
+ * @param <Target> build target
  */
-public abstract class CodeBuilder<TarType>
-        implements
-        BaseBuilder<Void,TarType> {
+public abstract class CodeBuilder<Target>
+        implements BaseBuilder<Void, Target> {
 
-    protected TarType tar;
+    protected Target tar;
 
-    public CodeBuilder(TarType tar){
+    public CodeBuilder(Target tar){
         this.tar = tar;
     }
 
@@ -19,7 +21,7 @@ public abstract class CodeBuilder<TarType>
      * @return
      */
     @Override
-    public TarType build(Void aVoid) {
+    public Target build(Void aVoid) {
         return tar;
     }
 
@@ -27,7 +29,7 @@ public abstract class CodeBuilder<TarType>
      * @see #build(Void)
      * @return
      */
-    public TarType build() {
+    public Target build() {
         return tar;
     }
 
@@ -35,7 +37,7 @@ public abstract class CodeBuilder<TarType>
      * @see #build(Void)
      * @return
      */
-    public TarType done(){
+    public Target done(){
         return tar;
     }
 

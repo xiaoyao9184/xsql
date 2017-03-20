@@ -1,15 +1,19 @@
 package com.xy.xsql.core.builder;
 
 /**
+ * CodeTreeBuilder
+ * use code build Target, compatible TreeBuilder
  * Created by xiaoyao9184 on 2016/12/28.
+ * @param <This>
+ * @param <Parent>
+ * @param <Target>
  */
-public abstract class CodeTreeBuilder<This,Parent,TarType>
-        extends
-        TreeBuilder<This,Parent,Void,TarType> {
+public abstract class CodeTreeBuilder<This, Parent, Target>
+        extends TreeBuilder<This, Parent, Void, Target> {
 
-    protected TarType tar;
+    protected Target tar;
 
-    public CodeTreeBuilder(TarType tar){
+    public CodeTreeBuilder(Target tar){
         this.tar = tar;
     }
 
@@ -19,7 +23,7 @@ public abstract class CodeTreeBuilder<This,Parent,TarType>
      * @return
      */
     @Override
-    public TarType build(Void aVoid) {
+    public Target build(Void aVoid) {
         return tar;
     }
 
@@ -27,7 +31,7 @@ public abstract class CodeTreeBuilder<This,Parent,TarType>
      * @see #build(Void)
      * @return
      */
-    public TarType build() {
+    public Target build() {
         return tar;
     }
 
