@@ -339,7 +339,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      */
     public BulkInsertBuilder $With(BulkInsert.WithSetter... items){
         Arrays.stream(items)
-                .forEach(item -> item.set(tar));
+                .forEach(item -> item.config(tar));
         return this;
     }
 
