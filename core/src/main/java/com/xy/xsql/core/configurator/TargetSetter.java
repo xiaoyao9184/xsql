@@ -1,4 +1,4 @@
-package com.xy.xsql.core.target;
+package com.xy.xsql.core.configurator;
 
 /**
  * Set Target in implement Class

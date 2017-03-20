@@ -2,14 +2,15 @@ package com.xy.xsql.core.configurator;
 
 /**
  * Configurator
+ * Config Target in implement Class
  * Created by xiaoyao9184 on 2016/12/4.
  */
-public interface Configurator<This, ConfigType> {
+public interface Configurator<This, Target> {
 
     /**
-     * Set Config
-     * @param config Config
+     * Config Target
+     * @param target Configured Target
      */
-    This config(ConfigType config);
+    This config(Target target);
 
 }

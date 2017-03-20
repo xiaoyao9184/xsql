@@ -1,9 +1,9 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.core.lambda.Setter;
-import com.xy.xsql.core.target.TargetSetter;
-import com.xy.xsql.core.target.TargetBooleanSetter;
-import com.xy.xsql.core.target.TargetValueSetter;
+import com.xy.xsql.core.configurator.TargetSetter;
+import com.xy.xsql.core.configurator.TargetBooleanSetter;
+import com.xy.xsql.core.configurator.TargetValueSetter;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
