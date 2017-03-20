@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sentence.data;
 
-import com.xy.xsql.orm.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.orm.core.x.XSelect;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Sentence;
@@ -13,14 +13,14 @@ import com.xy.xsql.orm.data.sql.sentence.select.SelectSentence;
 import java.util.List;
 import java.util.Map;
 
-import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e;
+//import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e;
 
 /**
  * CodeSentenceDataBuilder
  * core BaseElementsSentence by code
  * Created by xiaoyao9184 on 2016/10/15.
  */
-public class SelectSentenceDataBuilder implements BaseBuilder<BaseElementsSentence,SelectSentence>, 
+public class SelectSentenceDataBuilder implements BaseBuilder<BaseElementsSentence,SelectSentence>,
         XSelect<SelectSentenceDataBuilder> {
 
     private List<Element> elementList;
@@ -58,7 +58,7 @@ public class SelectSentenceDataBuilder implements BaseBuilder<BaseElementsSenten
     @Override
     public SelectSentenceDataBuilder top(int count, boolean percent) {
         Top top = new Top();
-        top.setExpression(e(count));
+//        top.setExpression(e(count));
         top.setUsePercent(percent);
         this.selectSentence.withTop(top);
         return this;

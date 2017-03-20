@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sentence.data;
 
-import com.xy.xsql.orm.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.orm.core.x.XInsert;
 import com.xy.xsql.orm.data.sql.element.info.Column;
 import com.xy.xsql.orm.data.sql.element.info.Table;

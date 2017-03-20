@@ -1,7 +1,6 @@
 package com.xy.xsql.spring.config;
 
-
-import com.xy.xsql.orm.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.orm.dialect.mssql.SQLServerTypeMapper;
 import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
 import com.xy.xsql.orm.mapping.type.TypeMapper;

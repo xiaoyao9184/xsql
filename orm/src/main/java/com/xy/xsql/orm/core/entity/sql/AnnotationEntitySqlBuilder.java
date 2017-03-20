@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.entity.sql;
 
-import com.xy.xsql.orm.core.ConfigBuilder;
-import com.xy.xsql.orm.core.ConfigChild;
+import com.xy.xsql.core.builder.ConfigBuilder;
+import com.xy.xsql.core.configurator.ConfigChild;
 import com.xy.xsql.orm.core.entity.template.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntitySqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
 public class AnnotationEntitySqlBuilder implements
         ConfigChild<AnnotationEntitySqlBuildConfig>,
         ConfigBuilder<
-                AnnotationEntitySqlBuilder,
-                AnnotationEntitySqlBuildConfig,
-                Class<?>,
-                AnnotationEntitySqlBuilder> {
+                        AnnotationEntitySqlBuilder,
+                        AnnotationEntitySqlBuildConfig,
+                        Class<?>,
+                        AnnotationEntitySqlBuilder> {
 
     //Fields
 

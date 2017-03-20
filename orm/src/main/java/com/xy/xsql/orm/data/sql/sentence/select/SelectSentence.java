@@ -72,7 +72,7 @@ public class SelectSentence extends CustomizeSentence {
                     .append(GrammarEnum.DISTINCT);
         }
         if(top != null){
-            builder.append(top.toElementList(),OtherEnum.SPACE);
+//            builder.append(top.toElementList(),OtherEnum.SPACE);
         }
 
         return new BaseElementsSentence(builder.build(null));

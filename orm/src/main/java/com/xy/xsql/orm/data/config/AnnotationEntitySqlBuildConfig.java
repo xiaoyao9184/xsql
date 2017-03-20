@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.config;
 
-import com.xy.xsql.orm.core.ConfigInOut;
+import com.xy.xsql.core.holder.ParentHolder;
 import com.xy.xsql.orm.core.entity.sql.AnnotationEntitySqlBuilder;
 import com.xy.xsql.orm.core.entity.sql.EntitySqlBuilder;
 
@@ -8,7 +8,7 @@ import com.xy.xsql.orm.core.entity.sql.EntitySqlBuilder;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class AnnotationEntitySqlBuildConfig implements
-        ConfigInOut<AnnotationEntitySqlBuildConfig,AnnotationEntitySqlBuilder>,
+        ParentHolder<AnnotationEntitySqlBuildConfig,AnnotationEntitySqlBuilder>,
         Cloneable {
 
     private boolean onlySelectUseStatus;

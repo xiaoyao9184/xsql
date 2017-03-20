@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.entity.sql;
 
-import com.xy.xsql.orm.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.orm.data.config.EntityDialectSqlBuildConfig;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 
@@ -9,7 +9,7 @@ import com.xy.xsql.orm.data.entity.EntityTemplate;
  * dialect if you want change default implementation
  * Created by xiaoyao9184 on 2016/1/13.
  */
-public interface EntitySqlBuilder extends BaseBuilder<Void,Void>{
+public interface EntitySqlBuilder extends BaseBuilder<Void,Void> {
 
 
     /**

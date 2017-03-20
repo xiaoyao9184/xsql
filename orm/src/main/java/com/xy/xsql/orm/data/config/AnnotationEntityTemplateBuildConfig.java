@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.config;
 
-import com.xy.xsql.orm.core.ConfigInOut;
+import com.xy.xsql.core.holder.ParentHolder;
 import com.xy.xsql.orm.dialect.none.AllVarCharTypeMapper;
 import com.xy.xsql.orm.mapping.type.TypeMapper;
 
@@ -8,7 +8,7 @@ import com.xy.xsql.orm.mapping.type.TypeMapper;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class AnnotationEntityTemplateBuildConfig<Father> implements
-        ConfigInOut<AnnotationEntityTemplateBuildConfig,Father>,
+        ParentHolder<AnnotationEntityTemplateBuildConfig,Father>,
         Cloneable {
 
     protected TypeMapper<Class<?>, String> typeMapper;

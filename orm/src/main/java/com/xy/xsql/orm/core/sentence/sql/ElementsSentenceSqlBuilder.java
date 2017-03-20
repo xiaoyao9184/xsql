@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sentence.sql;
 
-import com.xy.xsql.orm.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.orm.core.Regulator;
 import com.xy.xsql.orm.data.config.SentenceSqlBuilderConfig;
 import com.xy.xsql.orm.data.sql.sentence.BaseElementsSentence;

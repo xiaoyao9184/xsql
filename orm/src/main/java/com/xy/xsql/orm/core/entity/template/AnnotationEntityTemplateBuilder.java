@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.entity.template;
 
+import com.xy.xsql.core.builder.ConfigBuilder;
 import com.xy.xsql.orm.annotation.*;
-import com.xy.xsql.orm.core.ConfigBuilder;
 import com.xy.xsql.orm.data.config.AnnotationEntityTemplateBuildConfig;
 import com.xy.xsql.orm.data.entity.*;
 import com.xy.xsql.orm.mapping.type.TypeMapper;
@@ -21,9 +21,9 @@ import java.util.List;
  */
 public class AnnotationEntityTemplateBuilder implements
         ConfigBuilder<
-                AnnotationEntityTemplateBuilder,
-                AnnotationEntityTemplateBuildConfig,
-                Class<?>,EntityTemplate>, 
+                        AnnotationEntityTemplateBuilder,
+                        AnnotationEntityTemplateBuildConfig,
+                        Class<?>,EntityTemplate>,
         Cloneable {
 
     private Logger log;

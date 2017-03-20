@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.sentence.data;
 
-import com.xy.xsql.orm.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.orm.data.sql.Element;
 import com.xy.xsql.orm.data.sql.Sentence;
 import com.xy.xsql.orm.data.sql.element.GrammarEnum;

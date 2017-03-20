@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.entity.template;
 
-import com.xy.xsql.orm.core.BaseBuilder;
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.orm.data.entity.EntityLink;
 import com.xy.xsql.orm.data.entity.EntityTemplate;
 import org.apache.commons.logging.Log;

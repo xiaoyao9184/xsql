@@ -91,8 +91,8 @@ public class DeleteSentence extends CustomizeSentence {
                 .append(GrammarEnum.DELETE);
 
         //[ TOP ( expression ) [ PERCENT ] ]
-        builder.append(OtherEnum.SPACE)
-                .append(top.toElementList(),null);
+        builder.append(OtherEnum.SPACE);
+//                .append(top.toElementList(),null);
 
         //[ FROM ]
         builder.append(OtherEnum.SPACE)

@@ -139,8 +139,8 @@ public class InsertSentence extends CustomizeSentence {
                 .append(GrammarEnum.INSERT);
 
         //[ TOP ( expression ) [ PERCENT ] ]
-        builder.append(OtherEnum.SPACE)
-                .append(top.toElementList(),null);
+        builder.append(OtherEnum.SPACE);
+//                .append(top.toElementList(),null);
 
         //[ INTO ]
         if(useInto){

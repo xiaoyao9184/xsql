@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.sun.org.apache.xpath.internal.operations.Variable;
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;

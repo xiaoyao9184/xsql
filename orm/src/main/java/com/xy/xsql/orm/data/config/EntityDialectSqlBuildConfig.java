@@ -1,6 +1,7 @@
 package com.xy.xsql.orm.data.config;
 
-import com.xy.xsql.orm.core.ConfigInOut;
+
+import com.xy.xsql.core.holder.ParentHolder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
  * Created by xiaoyao9184 on 2016/10/15.
  */
 public class EntityDialectSqlBuildConfig<Father> implements
-        ConfigInOut<EntityDialectSqlBuildConfig,Father>,
+        ParentHolder<EntityDialectSqlBuildConfig,Father>,
         Cloneable {
 
     private boolean useSentenceBuilder;

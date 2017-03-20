@@ -1,6 +1,7 @@
 package com.xy.xsql.core.builder;
 
-import com.xy.xsql.core.config.Configurator;
+
+import com.xy.xsql.core.configurator.Configurator;
 
 /**
  * Config Builder
