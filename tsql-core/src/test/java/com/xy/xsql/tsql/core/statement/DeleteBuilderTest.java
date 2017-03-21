@@ -33,8 +33,8 @@ public class DeleteBuilderTest {
                 .withFrom()
                     .withItem()._Base()
                         .withTableName(t("table"))
-                        .out()
-                    .out()
+                        .and()
+                    .and()
                 .build(null);
 
         Assert.assertEquals(delete.getFrom().getTableSourceList().size(),1);

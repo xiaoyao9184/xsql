@@ -79,21 +79,45 @@ public class SearchConditionBuilderTest {
         Select select = null;
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .$Predicate(
-                        p_equal(e("CountryRegionCode"),
-                                all(),
-                                select)
-                )
-                .$_AndNotSearchCondition()
-                    .$Predicate(
-                            p_greater(e("CountryRegionCode"),
-                                e_number(20))
-                    )
-                    .$_AndPredicate(
-                            p_less(e("CountryRegionCode"),
-                                    e_number(50))
-                    )
+                .withPredicate()._All_Some_Any()
+                    .withExpression(e("CountryRegionCode"))
+                    .withOperator(com.xy.xsql.tsql.model.operator.Operators.EQUAL)
+                    .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                    .withSubQuery(select)
                     .and()
+                .withAndOrNotItem()
+                    .withNot(true)
+                    .withSearchCondition()
+                        .withPredicate()._Comparison()
+                            .withExpression(e("CountryRegionCode"))
+                            .withOperator(com.xy.xsql.tsql.model.operator.Operators.GREATER)
+                            .withExpression(e_number(20))
+                            .and()
+                        .withAndOrNotItem()
+                            .withAnd()
+                            .withPredicate()._Comparison()
+                                .withExpression(e("CountryRegionCode"))
+                                .withOperator(com.xy.xsql.tsql.model.operator.Operators.LESS)
+                                .withExpression(e_number(50))
+                                .and()
+                            .and()
+                        .and()
+                    .and()
+//                .$Predicate(
+//                        p_equal(e("CountryRegionCode"),
+//                                all(),
+//                                select)
+//                )
+//                .$_AndNotSearchCondition()
+//                    .$Predicate(
+//                            p_greater(e("CountryRegionCode"),
+//                                e_number(20))
+//                    )
+//                    .$_AndPredicate(
+//                            p_less(e("CountryRegionCode"),
+//                                    e_number(50))
+//                    )
+//                    .and()
                 .build();
         // @formatter:on
         Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
@@ -164,14 +188,25 @@ public class SearchConditionBuilderTest {
     public void testExampleB(){
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .$Predicate(
-                        p_in(e("CountryRegionCode"),
-                                e_string("US"))
-                )
-                .$_AndPredicate(
-                        p_like(e("City"),
-                                e_n_string("Pa%"))
-                )
+                .withPredicate()._In()
+                    .withNot()
+                    .withExpression(e("CountryRegionCode"))
+                    .withValueExpression(e_string("US"))
+                    .and()
+                .withAndOrNotItem()
+                    .withPredicate()._Like()
+                        .withStringExpression(e("City"))
+                        .withStringExpression(e_n_string("Pa%"))
+                        .and()
+                    .and()
+//                .$Predicate(
+//                        p_in(e("CountryRegionCode"),
+//                                e_string("US"))
+//                )
+//                .$_AndPredicate(
+//                        p_like(e("City"),
+//                                e_n_string("Pa%"))
+//                )
                 .build();
 
         //parent+quick

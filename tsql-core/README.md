@@ -13,7 +13,8 @@
 2. 屏蔽数组Builder，含有数组的语句（例如With语句<common_table_expression>的column_name）
 3. 仅含数组的语法使用Item方法（例如With语句<common_table_expression>）
 4. 由枚举组成的语法，应将枚举抽象为接口（例如Option语句中的<query_option>）
-5. 提供静态方法用于快速构建一些简单元素，见下表
+5. 语法中的内部对象（例如search_condition中第一个大括号括住的部分），无复用现象则不用再建立对类增加深度
+6. 提供静态方法用于快速构建一些简单元素，见下表
 
 
 
