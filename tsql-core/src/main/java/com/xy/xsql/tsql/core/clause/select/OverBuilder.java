@@ -12,6 +12,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * OverBuilder
  * Created by xiaoyao9184 on 2017/1/17.
  */
 public class OverBuilder<ParentBuilder>
@@ -43,8 +44,14 @@ public class OverBuilder<ParentBuilder>
     }
 
 
+
+    /*
+    Quick set
+     */
+
     /**
-     * Quick inout set PartitionByBuilder' expression
+     * Quick set partitionBy
+     * into PartitionByBuilder get-out
      * @param expressions
      * @return
      */
@@ -55,7 +62,8 @@ public class OverBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set OrderByBuilder' expression
+     * Quick set orderBy
+     * into OrderByBuilder get-out
      * @param expressions
      * @return
      */
@@ -69,7 +77,8 @@ public class OverBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set OrderByBuilder' expression
+     * Quick set orderBy
+     * into OrderByBuilder get-out
      * @param expressions
      * @return
      */
@@ -91,7 +100,7 @@ public class OverBuilder<ParentBuilder>
 
 
     /**
-     *
+     * PartitionByBuilder
      * @param <ParentBuilder>
      */
     public static class PartitionByBuilder<ParentBuilder>
@@ -110,7 +119,7 @@ public class OverBuilder<ParentBuilder>
     }
 
     /**
-     *
+     * OrderByBuilder
      * @param <ParentBuilder>
      */
     public static class OrderByBuilder<ParentBuilder>

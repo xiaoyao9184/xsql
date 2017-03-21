@@ -12,6 +12,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * QueryHintBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class QueryHintBuilder<ParentBuilder>
@@ -112,6 +113,10 @@ public class QueryHintBuilder<ParentBuilder>
     }
 
 
+    /**
+     * OptimizeForBuilder
+     * @param <ParentBuilder>
+     */
     public static class OptimizeForBuilder<ParentBuilder>
         extends CodeTreeBuilder<OptimizeForBuilder<ParentBuilder>,ParentBuilder,QueryHint.OptimizeFor> {
 
@@ -135,61 +140,105 @@ public class QueryHintBuilder<ParentBuilder>
 
 
 
+
+    /*
+    Quick build
+     */
+
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint HASH_GROUP(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.HASH_GROUP)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint ORDER_GROUP(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.ORDER_GROUP)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint CONCAT_UNION(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.CONCAT_UNION)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint HASH_UNION(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.HASH_UNION)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint MERGE_UNION(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MERGE_UNION)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint LOOP_JOIN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.LOOP_JOIN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint MERGE_JOIN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MERGE_JOIN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint HASH_JOIN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.HASH_JOIN)
                 .build();
     }
 
-
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint EXPAND_VIEWS(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.EXPAND_VIEWS)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint FAST(Integer numberRows){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.FAST)
@@ -197,42 +246,70 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint FORCE_ORDER(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.FORCE_ORDER)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint FORCE_EXTERNALPUSHDOWN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.FORCE_EXTERNALPUSHDOWN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint DISABLE_EXTERNALPUSHDOWN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.DISABLE_EXTERNALPUSHDOWN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint IGNORE_NONCLUSTERED_COLUMNSTORE_INDEX(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.IGNORE_NONCLUSTERED_COLUMNSTORE_INDEX)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint KEEP_PLAN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.KEEP_PLAN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint KEEPFIXED_PLAN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.KEEPFIXED_PLAN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint MAX_GRANT_PERCENT(Integer percent){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MAX_GRANT_PERCENT)
@@ -240,6 +317,10 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint MIN_GRANT_PERCENT(Integer percent){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MIN_GRANT_PERCENT)
@@ -247,6 +328,10 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint MAXDOP(Integer numberOfProcessors){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MAXDOP)
@@ -254,6 +339,10 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint MAXRECURSION(Integer number){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MAXRECURSION)
@@ -261,12 +350,20 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint NO_PERFORMANCE_SPOOL(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.NO_PERFORMANCE_SPOOL)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint OPTIMIZE_FOR(QueryHint.OptimizeFor... optimizeFors){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR)
@@ -274,36 +371,60 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint OPTIMIZE_FOR_UNKNOWN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR_UNKNOWN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint PARAMETERIZATION_SIMPLE(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.PARAMETERIZATION_SIMPLE)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint PARAMETERIZATION_FORCED(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.PARAMETERIZATION_FORCED)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint RECOMPILE(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.RECOMPILE)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint ROBUST_PLAN(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.ROBUST_PLAN)
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint USE_HINT(String... hintName){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.USE_HINT)
@@ -311,6 +432,10 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint USE_PLAN(String xml_plan){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.USE_PLAN)
@@ -318,6 +443,10 @@ public class QueryHintBuilder<ParentBuilder>
                 .build();
     }
 
+    /**
+     * Quick build
+     * @return
+     */
     public static QueryHint TABLE_HINT(String exposedObjectName,TableHint... tableHints){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.TABLE_HINT)

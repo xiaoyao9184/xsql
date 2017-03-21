@@ -20,6 +20,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
+ * FromBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class FromBuilder<ParentBuilder>
@@ -132,14 +133,14 @@ public class FromBuilder<ParentBuilder>
 
 
     /*
-    Quick build
+    Quick set
     If the TableSource is single,
     then the TableSource alias is of little significance,
     you can quickly build use these method
      */
 
     /**
-     * Quick build BaseTableBuilder build BaseTable TableSource
+     * Quick set BaseTableBuilder build BaseTable TableSource
      *
      * @param tableName
      * @return
@@ -448,11 +449,11 @@ public class FromBuilder<ParentBuilder>
 
 
         /*
-        Quick build
+        Quick set
          */
 
         /**
-         * Quick build TableSource:BaseTable
+         * Quick set TableSource:BaseTable
          * into BaseTableBuilder and get-out
          * @param tableName
          * @param tableAlias
@@ -469,7 +470,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick build TableSource:DerivedTable
+         * Quick set tableSource:DerivedTable
          * into DerivedTableBuilder and get-out
          * @param values
          * @param tableAlias
@@ -486,7 +487,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick build TableSource:DerivedTable
+         * Quick set TableSource:DerivedTable
          * into DerivedTableBuilder and get-out
          * @param subQuery
          * @param tableAlias
@@ -503,7 +504,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick build TableSource:VariableTable
+         * Quick set TableSource:VariableTable
          * into VariableTableBuilder and get-out
          * @param variable
          * @param tableAlias
@@ -1052,11 +1053,11 @@ public class FromBuilder<ParentBuilder>
 
 
         /*
-        Quick build
+        Quick set
          */
 
         /**
-         * Quick build tableSource/tableSource2:BaseTable
+         * Quick set tableSource/tableSource2:BaseTable
          * into BaseTableBuilder and get-out
          * @param tableName
          * @param tableAlias
@@ -1078,7 +1079,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick build tableSource/tableSource2::DerivedTable
+         * Quick set tableSource/tableSource2::DerivedTable
          * into DerivedTableBuilder and get-out
          * @param values
          * @param tableAlias
@@ -1100,7 +1101,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick build tableSource/tableSource2::DerivedTable
+         * Quick set tableSource/tableSource2::DerivedTable
          * into DerivedTableBuilder and get-out
          * @param subQuery
          * @param tableAlias
@@ -1122,7 +1123,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick build tableSource/tableSource2:VariableTable
+         * Quick set tableSource/tableSource2:VariableTable
          * into VariableTableBuilder and get-out
          * @param variable
          * @param tableAlias

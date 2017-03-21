@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.core.statement;
 
-import com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public class InsertBuilderTest {
                 .withColumn(c("c1"))
                 .withColumn(c("c2"))
                 .withValues()
-                    .withRowValues()
+                    .withItem()
                         .withRowValueExpression(e_rv(1))
                         .withRowValueExpression(e_rv(2))
                         .out()
@@ -45,7 +44,7 @@ public class InsertBuilderTest {
                 .withColumn(c("c1"))
                 .withColumn(c("c2"))
                 .withValues()
-                    .withRowValues()
+                    .withItem()
                         .withRowValueExpression(e_rv(1))
                         .withRowValueExpression(e_rv(2))
                         .out()

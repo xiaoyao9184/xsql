@@ -9,6 +9,7 @@ import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * WhereBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class WhereBuilder<ParentBuilder>
@@ -30,8 +31,12 @@ public class WhereBuilder<ParentBuilder>
     }
 
 
+    /*
+    Quick set
+     */
+
     /**
-     * Quick inout set SearchConditionBuilder' predicate
+     * Quick set searchCondition.predicate
      * @param predicate
      * @return
      */
@@ -42,18 +47,7 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set SearchConditionBuilder' searchCondition
-     * @param searchCondition
-     * @return
-     */
-    public WhereBuilder<ParentBuilder> $SearchCondition(SearchCondition searchCondition){
-        return withSearchCondition()
-                .$SearchCondition(searchCondition)
-                .and();
-    }
-
-    /**
-     * Quick inout set SearchConditionBuilder' predicate
+     * Quick set searchCondition.predicate
      * @param predicate
      * @return
      */
@@ -63,31 +57,55 @@ public class WhereBuilder<ParentBuilder>
                 .and();
     }
 
+
+
+
+    /*
+    Quick into
+     */
+
     /**
-     * Quick inout set SearchConditionBuilder' searchCondition
-     * @param searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.searchCondition
      * @return
      */
-    public WhereBuilder<ParentBuilder> $NotSearchCondition(SearchCondition searchCondition){
+    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $SearchCondition(){
         return withSearchCondition()
-                .$NotSearchCondition(searchCondition)
-                .and();
+                .$SearchCondition();
+    }
+
+    /**
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.searchCondition
+     * @return
+     */
+    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $NotSearchCondition(){
+        return withSearchCondition()
+                .$NotSearchCondition();
     }
 
 
+
+
+    /*
+    Quick set
+     */
+
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
     public WhereBuilder<ParentBuilder> $_AndPredicate(Predicate predicate) {
         return withSearchCondition()
-                .$_And(predicate)
+                .$_AndPredicate(predicate)
                 .and();
     }
 
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
@@ -98,7 +116,8 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
@@ -109,7 +128,8 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
@@ -119,8 +139,16 @@ public class WhereBuilder<ParentBuilder>
                 .and();
     }
 
+
+
+
+    /*
+    Quick into
+     */
+
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__AndSearchCondition() {
@@ -129,7 +157,8 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__OrSearchCondition() {
@@ -138,7 +167,8 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__AndNotSearchCondition() {
@@ -147,7 +177,8 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__OrNotSearchCondition() {

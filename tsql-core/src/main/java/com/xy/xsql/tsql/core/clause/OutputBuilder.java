@@ -16,6 +16,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * OutputBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class OutputBuilder<ParentBuilder>
@@ -63,6 +64,9 @@ public class OutputBuilder<ParentBuilder>
                 .in(this);
     }
 
+    /*
+    Quick set
+     */
 
     /**
      * Quick set DmlSelect
@@ -220,7 +224,7 @@ public class OutputBuilder<ParentBuilder>
     }
 
     /**
-     * Quick set DmlSelect
+     * Quick set OutputDmlSelect
      * @param names
      * @return
      */
@@ -240,7 +244,7 @@ public class OutputBuilder<ParentBuilder>
     }
 
     /**
-     * Quick set DmlSelect
+     * Quick set OutputDmlSelect
      * @param names
      * @return
      */
@@ -260,9 +264,10 @@ public class OutputBuilder<ParentBuilder>
     }
 
 
-
-
-
+    /**
+     * DmlSelectBuilder
+     * @param <ParentBuilder>
+     */
     public static class DmlSelectBuilder<ParentBuilder>
             extends CodeTreeBuilder<DmlSelectBuilder<ParentBuilder>,ParentBuilder,Output.DmlSelect> {
 
@@ -304,8 +309,10 @@ public class OutputBuilder<ParentBuilder>
 
     }
 
-
-
+    /**
+     * ColumnNameBuilder
+     * @param <ParentBuilder>
+     */
     public static class ColumnNameBuilder<ParentBuilder>
             extends CodeTreeBuilder<ColumnNameBuilder<ParentBuilder>,ParentBuilder,Output.ColumnName> {
 
@@ -344,13 +351,32 @@ public class OutputBuilder<ParentBuilder>
         }
     }
 
+
+
+
+    /*
+    Quick into
+     */
+
+    /**
+     * Quick into ColumnNameBuilder
+     * @return
+     */
     public static ColumnNameBuilder<Output.ColumnName> column_name(){
-        return new ColumnNameBuilder<Output.ColumnName>(new Output.ColumnName());
+        return new ColumnNameBuilder<>
+                (new Output.ColumnName());
     }
 
 
+
+
+    /*
+    Quick build
+     */
+
     /**
-     * with name
+     * Quick build ColumnName
+     * with inserted flag and name
      * @param name
      * @return
      */
@@ -362,7 +388,8 @@ public class OutputBuilder<ParentBuilder>
     }
 
     /**
-     * with all
+     * Quick build ColumnName
+     * with inserted flag
      * @return
      */
     public static Output.ColumnName c_inserted(){
@@ -373,7 +400,8 @@ public class OutputBuilder<ParentBuilder>
     }
 
     /**
-     * with name
+     * Quick build ColumnName
+     * with inserted flag and name
      * @param name
      * @return
      */
@@ -385,7 +413,8 @@ public class OutputBuilder<ParentBuilder>
     }
 
     /**
-     * with all
+     * Quick build ColumnName
+     * with inserted flag
      * @return
      */
     public static Output.ColumnName c_deleted(){
@@ -396,7 +425,8 @@ public class OutputBuilder<ParentBuilder>
     }
 
     /**
-     *
+     * Quick build ColumnName
+     * inserted flag $action
      * @return
      */
     public static Expression c_$action(){

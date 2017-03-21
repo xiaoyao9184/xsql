@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.clause.Top;
 
 /**
+ * TopBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class TopBuilder<ParentBuilder>
@@ -34,31 +35,46 @@ public class TopBuilder<ParentBuilder>
         return this;
     }
 
+
+
+
+    /*
+    Quick set
+     */
+
     /**
-     * Quick set
+     * Quick set countExpression,percent,ties
      * @param countExpression
-     * @param percentTies
+     * @param percent_ties
      * @return
      */
-    public TopBuilder<ParentBuilder> $(Expression countExpression, boolean... percentTies){
+    public TopBuilder<ParentBuilder> $(Expression countExpression, boolean... percent_ties){
         target.setExpression(countExpression);
-        if(percentTies.length >= 1){
-            target.setUsePercent(percentTies[0]);
+        if(percent_ties.length >= 1){
+            target.setUsePercent(percent_ties[0]);
         }
-        if(percentTies.length == 2){
-            target.setUseTies(percentTies[1]);
+        if(percent_ties.length == 2){
+            target.setUseTies(percent_ties[1]);
         }
         return this;
     }
 
+
+
+
+    /*
+    Quick build
+     */
+
     /**
-     * Quick set out
+     * Quick build
+     * And get-out
      * @param countExpression
-     * @param percentTies
+     * @param percent_ties
      * @return
      */
-    public ParentBuilder $_(Expression countExpression, boolean... percentTies){
-        return $(countExpression,percentTies)
+    public ParentBuilder $_(Expression countExpression, boolean... percent_ties){
+        return $(countExpression,percent_ties)
                 .and();
     }
 }

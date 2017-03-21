@@ -7,6 +7,7 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 
 /**
+ * ForBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class ForBuilder<ParentBuilder>
@@ -43,6 +44,10 @@ public class ForBuilder<ParentBuilder>
     }
 
 
+    /**
+     * JsonBuilder
+     * @param <ParentBuilder>
+     */
     public class JsonBuilder<ParentBuilder>
             extends CodeTreeBuilder<JsonBuilder<ParentBuilder>,ParentBuilder,For.Json> {
 
@@ -72,6 +77,10 @@ public class ForBuilder<ParentBuilder>
 
     }
 
+    /**
+     * XmlBuilder
+     * @param <ParentBuilder>
+     */
     public class XmlBuilder<ParentBuilder>
             extends CodeTreeBuilder<XmlBuilder<ParentBuilder>,ParentBuilder,For.Xml> {
 
@@ -160,9 +169,6 @@ public class ForBuilder<ParentBuilder>
         }
 
     }
-
-
-
 
 
 }

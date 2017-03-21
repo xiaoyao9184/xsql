@@ -11,6 +11,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
+ * OptionBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class OptionBuilder<ParentBuilder>
@@ -35,7 +36,8 @@ public class OptionBuilder<ParentBuilder>
 
 
     /**
-     * Quick inout set QueryOptionBuilder' queryHint
+     * Quick set QueryOption:QueryHint
+     * into QueryOptionBuilder and get-out
      * @param queryHint
      * @return
      */
@@ -46,7 +48,8 @@ public class OptionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set QueryOptionBuilder' labelName
+     * Quick set QueryOption:LabelQueryOption
+     * into QueryOptionBuilder and get-out
      * @param labelName
      * @return
      */
@@ -57,39 +60,8 @@ public class OptionBuilder<ParentBuilder>
     }
 
 
-//    /**
-//     * Abstract <query_option> Builder
-//     * @param <ParentBuilder>
-//     */
-//    public static class QueryOptionBuilder<ParentBuilder>
-//            extends CodeTreeBuilder<QueryOptionBuilder<ParentBuilder>,ParentBuilder,Option.QueryOption> {
-//
-//        private Setter<Option.QueryOption> setter;
-//
-//        public QueryOptionBuilder(Option.QueryOption target) {
-//            super(target);
-//        }
-//
-//        public QueryOptionBuilder(Setter<Option.QueryOption> setter) {
-//            super(null);
-//            this.setter = setter;
-//        }
-//
-//        public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
-//            target = new Option.LabelQueryOption(labelName);
-//            this.setter.set(target);
-//            return this;
-//        }
-//
-//        public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
-//            Arrays.asList(queryHints)
-//                    .forEach((queryHint)-> this.setter.set(queryHint));
-//            return this;
-//        }
-//    }
-
     /**
-     * Abstract <query_option> Builder
+     * Abstract QueryOption Builder
      * @param <ParentBuilder>
      */
     public static class QueryOptionBuilder<ParentBuilder>
@@ -99,11 +71,23 @@ public class OptionBuilder<ParentBuilder>
             super(tar);
         }
 
+        /**
+         * Confirm type of QueryOption
+         * And build LabelQueryOption
+         * @param labelName
+         * @return
+         */
         public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
             target.set(new Option.LabelQueryOption(labelName));
             return this;
         }
 
+        /**
+         * Confirm type of QueryOption
+         * And build multiple QueryHint
+         * @param queryHints
+         * @return
+         */
         public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
             Arrays.asList(queryHints)
                     .forEach((queryHint)-> target.set(queryHint));

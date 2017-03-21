@@ -12,6 +12,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * TableValueConstructorBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class TableValueConstructorBuilder<ParentBuilder>
@@ -25,9 +26,7 @@ public class TableValueConstructorBuilder<ParentBuilder>
         super(tableValueConstructor);
     }
 
-
-    //TODO rename withItem
-    public RowValuesBuilder<TableValueConstructorBuilder<ParentBuilder>> withRowValues(){
+    public RowValuesBuilder<TableValueConstructorBuilder<ParentBuilder>> withItem(){
         return new RowValuesBuilder<TableValueConstructorBuilder<ParentBuilder>>
                 (initNew(ArrayList::new,
                         target::getRowValueExpressionListGroup,
@@ -36,12 +35,29 @@ public class TableValueConstructorBuilder<ParentBuilder>
     }
 
 
+
+
+    /*
+    Quick set
+     */
+
+    /**
+     * Quick set
+     * @param rowValueExpressions
+     * @return
+     */
     public TableValueConstructorBuilder<ParentBuilder> $(RowValueExpression... rowValueExpressions){
-        return withRowValues()
+        return withItem()
                 .withRowValueExpression(rowValueExpressions)
                 .and();
     }
 
+
+    /**
+     * TODO may be RowValueExpression same as this
+     * RowValuesBuilder
+     * @param <ParentBuilder>
+     */
     public static class RowValuesBuilder<ParentBuilder>
             extends CodeTreeBuilder<RowValuesBuilder<ParentBuilder>,ParentBuilder,List<RowValueExpression>> {
 

@@ -37,6 +37,12 @@ public class ReNameBuilder extends CodeBuilder<ReName> {
     }
 
 
+
+
+    /*
+    Quick build
+     */
+
     /**
      * Quick build ReName Table
      * @param old_new the last is new name

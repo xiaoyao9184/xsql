@@ -43,6 +43,12 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
     }
 
 
+
+
+    /*
+    Quick build
+     */
+
     /**
      * Quick build TruncateTable
      * @param tableName

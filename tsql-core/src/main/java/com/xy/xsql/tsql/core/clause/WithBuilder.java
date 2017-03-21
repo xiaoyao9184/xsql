@@ -11,6 +11,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * WithBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class WithBuilder<ParentBuilder>
@@ -32,8 +33,16 @@ public class WithBuilder<ParentBuilder>
                 .in(this);
     }
 
+
+
+
+    /*
+    Quick set
+     */
+
     /**
-     * Quick set
+     * Quick set CommonTableExpression
+     * into CommonTableExpressionBuilder get-out
      * @param expressionName
      * @param cteQueryDefinition
      * @param columnNames
@@ -48,6 +57,10 @@ public class WithBuilder<ParentBuilder>
     }
 
 
+    /**
+     * CommonTableExpressionBuilder
+     * @param <ParentBuilder>
+     */
     public static class CommonTableExpressionBuilder<ParentBuilder>
         extends CodeTreeBuilder<CommonTableExpressionBuilder<ParentBuilder>,ParentBuilder,With.CommonTableExpression> {
 
@@ -65,11 +78,6 @@ public class WithBuilder<ParentBuilder>
             return this;
         }
 
-        /**
-         * Quick set column_name List
-         * @param columnNames
-         * @return
-         */
         public CommonTableExpressionBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
             initAdd(Arrays.asList(columnNames),
                      this.target::getColumnName,

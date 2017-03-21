@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.SearchConditionBuilder;
+import com.xy.xsql.tsql.core.clause.WhereBuilder;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.select.Having;
 import com.xy.xsql.tsql.model.predicate.Predicate;
@@ -9,6 +10,7 @@ import com.xy.xsql.tsql.model.predicate.Predicate;
 import static com.xy.xsql.core.FiledBuilder.set;
 
 /**
+ * HavingBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class HavingBuilder<ParentBuilder>
@@ -31,11 +33,12 @@ public class HavingBuilder<ParentBuilder>
 
 
     /*
-        Same as WhereBuilder
+    Quick set
+    Same as WhereBuilder
      */
 
     /**
-     * Quick inout set SearchConditionBuilder' predicate
+     * Quick set searchCondition.predicate
      * @param predicate
      * @return
      */
@@ -46,18 +49,7 @@ public class HavingBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set SearchConditionBuilder' searchCondition
-     * @param searchCondition
-     * @return
-     */
-    public HavingBuilder<ParentBuilder> $SearchCondition(SearchCondition searchCondition){
-        return withSearchCondition()
-                .$SearchCondition(searchCondition)
-                .and();
-    }
-
-    /**
-     * Quick inout set SearchConditionBuilder' predicate
+     * Quick set searchCondition.predicate
      * @param predicate
      * @return
      */
@@ -67,31 +59,55 @@ public class HavingBuilder<ParentBuilder>
                 .and();
     }
 
+
+
+
+    /*
+    Quick into
+     */
+
     /**
-     * Quick inout set SearchConditionBuilder' searchCondition
-     * @param searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.searchCondition
      * @return
      */
-    public HavingBuilder<ParentBuilder> $NotSearchCondition(SearchCondition searchCondition){
+    public SearchConditionBuilder<SearchConditionBuilder<HavingBuilder<ParentBuilder>>> $SearchCondition(){
         return withSearchCondition()
-                .$NotSearchCondition(searchCondition)
-                .and();
+                .$SearchCondition();
+    }
+
+    /**
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.searchCondition
+     * @return
+     */
+    public SearchConditionBuilder<SearchConditionBuilder<HavingBuilder<ParentBuilder>>> $NotSearchCondition(){
+        return withSearchCondition()
+                .$NotSearchCondition();
     }
 
 
+
+
+    /*
+    Quick set
+     */
+
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
     public HavingBuilder<ParentBuilder> $_AndPredicate(Predicate predicate) {
         return withSearchCondition()
-                .$_And(predicate)
+                .$_AndPredicate(predicate)
                 .and();
     }
 
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
@@ -102,7 +118,8 @@ public class HavingBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
@@ -113,7 +130,8 @@ public class HavingBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate
+     * Quick set searchCondition.andOrNotItem.predicate
+     * into SearchConditionBuilder.AndOrNotItemBuilder get-out
      * @param predicate
      * @return
      */
@@ -123,8 +141,16 @@ public class HavingBuilder<ParentBuilder>
                 .and();
     }
 
+
+
+
+    /*
+    Quick into
+     */
+
     /**
-     * Quick inout set SearchConditionBuilder's AndOrNotItem' predicate searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<HavingBuilder<ParentBuilder>>> $__AndSearchCondition() {
@@ -133,7 +159,8 @@ public class HavingBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<HavingBuilder<ParentBuilder>>> $__OrSearchCondition() {
@@ -142,7 +169,8 @@ public class HavingBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<HavingBuilder<ParentBuilder>>> $__AndNotSearchCondition() {
@@ -151,7 +179,8 @@ public class HavingBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * for set searchCondition.andOrNotItem.searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<HavingBuilder<ParentBuilder>>> $__OrNotSearchCondition() {

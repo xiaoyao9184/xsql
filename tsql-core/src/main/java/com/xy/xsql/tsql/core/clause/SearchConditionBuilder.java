@@ -10,6 +10,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * SearchConditionBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class SearchConditionBuilder<ParentBuilder>
@@ -50,6 +51,12 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
 
+
+
+    /*
+    Quick set
+     */
+
     /**
      * Quick set predicate
      * @param predicate
@@ -57,16 +64,6 @@ public class SearchConditionBuilder<ParentBuilder>
      */
     public SearchConditionBuilder<ParentBuilder> $Predicate(Predicate predicate){
         target.setPredicate(predicate);
-        return this;
-    }
-
-    /**
-     * Quick set searchCondition
-     * @param searchCondition
-     * @return
-     */
-    public SearchConditionBuilder<ParentBuilder> $SearchCondition(SearchCondition searchCondition){
-        target.setSearchCondition(searchCondition);
         return this;
     }
 
@@ -86,14 +83,58 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param searchCondition
      * @return
      */
+    @Deprecated
+    public SearchConditionBuilder<ParentBuilder> $SearchCondition(SearchCondition searchCondition){
+        target.setSearchCondition(searchCondition);
+        return this;
+    }
+
+    /**
+     * Quick set searchCondition
+     * @param searchCondition
+     * @return
+     */
+    @Deprecated
     public SearchConditionBuilder<ParentBuilder> $NotSearchCondition(SearchCondition searchCondition){
         target.setUseNot(true);
         target.setSearchCondition(searchCondition);
         return this;
     }
 
+
+    /*
+    Quick into
+     */
+
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick into SearchConditionBuilder
+     * And set searchCondition
+     * @return
+     */
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $SearchCondition(){
+        return withSearchCondition();
+    }
+
+    /**
+     * Quick into SearchConditionBuilder
+     * And set searchCondition
+     * @return
+     */
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $NotSearchCondition(){
+        target.setUseNot(true);
+        return withSearchCondition();
+    }
+
+
+
+
+    /*
+    Quick set
+     */
+
+    /**
+     * Quick set andOrNotItem.predicate
+     * into AndOrNotItemBuilder and set predicate
      * @param predicate
      * @return
      */
@@ -105,7 +146,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick set andOrNotItem.predicate
+     * into AndOrNotItemBuilder and set predicate
      * @param predicate
      * @return
      */
@@ -117,7 +159,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick set andOrNotItem.predicate
+     * into AndOrNotItemBuilder and set predicate
      * @param predicate
      * @return
      */
@@ -130,7 +173,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick set andOrNotItem.predicate
+     * into AndOrNotItemBuilder and set predicate
      * @param predicate
      * @return
      */
@@ -143,9 +187,14 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
 
+    /*
+    Quick into
+     */
+
     /**
      * TODO maybe just use $_And()
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_AndSearchCondition() {
@@ -162,7 +211,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_OrSearchCondition() {
@@ -179,7 +229,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_AndNotSearchCondition() {
@@ -197,7 +248,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in SearchConditionBuilder set AndOrNotItem' searchCondition
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @return
      */
     public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_OrNotSearchCondition() {
@@ -217,19 +269,16 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
 
-
-
-
-
-
-
-
+    /*
+    Quick set
+     */
 
     /**
      * Quick set predicate
      * @param predicate
      * @return
      */
+    @Deprecated
     public SearchConditionBuilder<ParentBuilder> $(Predicate predicate){
         target.setPredicate(predicate);
         return this;
@@ -240,6 +289,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate
      * @return
      */
+    @Deprecated
     public SearchConditionBuilder<ParentBuilder> $Not(Predicate predicate){
         target.setUseNot(true);
         target.setPredicate(predicate);
@@ -247,17 +297,21 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick set searchCondition
+     * Quick into SearchConditionBuilder
+     * And set searchCondition
      * @return
      */
+    @Deprecated
     public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_(){
         return withSearchCondition();
     }
 
     /**
-     * Quick set searchCondition
+     * Quick into SearchConditionBuilder
+     * And set searchCondition
      * @return
      */
+    @Deprecated
     public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $_Not(){
         return withSearchCondition()
                 .withNot();
@@ -265,7 +319,8 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -278,7 +333,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -291,7 +347,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -305,7 +362,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick inout set AndOrNotItem' predicate
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' predicate
      * @param predicate
      * @return
      */
@@ -319,7 +377,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in AndOrNotItem' SearchCondition'
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @see #and()
      * @return
      */
@@ -331,7 +390,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in AndOrNotItem' SearchCondition'
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @see #and()
      * @return
      */
@@ -343,7 +403,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in AndOrNotItem' SearchCondition'
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @see #and()
      * @return
      */
@@ -356,7 +417,8 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in AndOrNotItem' SearchCondition'
+     * Quick into SearchConditionBuilder
+     * And set AndOrNotItem' searchCondition
      * @see #and()
      * @return
      */
@@ -371,15 +433,8 @@ public class SearchConditionBuilder<ParentBuilder>
 
 
 
-
-
-
-
-
-
-
-
     /**
+     * AndOrNotItemBuilder
      * { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) }
      * @param <ParentBuilder>
      */
