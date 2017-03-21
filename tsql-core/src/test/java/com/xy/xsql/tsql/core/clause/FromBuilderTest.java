@@ -5,11 +5,13 @@ import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.Comparison;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_equal;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -96,7 +98,6 @@ public class FromBuilderTest {
                 .$child()
                     .$()
                         .$(t("HumanResources","Employee"),"e")
-//                    .$(t("HumanResources","Employee"),"e")
                         .$Cross_Join()
                         .$(t("HumanResources","Department"),"d")
                         .and()
@@ -150,6 +151,28 @@ public class FromBuilderTest {
                         .and()
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Production","Product"))
+                        .$As("p")
+                        .$Full_Outer_Join()
+                        .$(t("HumanResources","Department"))
+                        .$As("p")
+                //TODO
+                        .and()
+//                        .$(t("HumanResources","Department"),"p")
+                        .$On()
+                            .$(p_equal(
+                                    c("p","ProductID"),
+                                    c("sod","ProductID")
+                            ))
+                            .and()
+                        .and()
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(from.getTableSourceList().size(),1);

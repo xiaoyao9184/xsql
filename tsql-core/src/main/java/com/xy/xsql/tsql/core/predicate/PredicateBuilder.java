@@ -21,6 +21,10 @@ public class PredicateBuilder<ParentBuilder>
         super(setter);
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public ComparisonPredicateBuilder<ParentBuilder> _Comparison(){
         Comparison predicate = new Comparison();
         target.set(predicate);
@@ -29,6 +33,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public LikePredicateBuilder<ParentBuilder> _Like(){
         Like predicate = new Like();
         target.set(predicate);
@@ -37,6 +45,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public BetweenPredicateBuilder<ParentBuilder> _Between(){
         Between predicate = new Between();
         target.set(predicate);
@@ -45,6 +57,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public IsNullPredicateBuilder<ParentBuilder> _IsNull(){
         IsNull predicate = new IsNull();
         target.set(predicate);
@@ -53,6 +69,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public ContainsPredicateBuilder<ParentBuilder> _Contains(){
         Contains predicate = new Contains();
         target.set(predicate);
@@ -61,6 +81,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public FreeTextPredicateBuilder<ParentBuilder> _FreeText(){
         FreeText predicate = new FreeText();
         target.set(predicate);
@@ -69,6 +93,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public InPredicateBuilder<ParentBuilder> _In(){
         In predicate = new In();
         target.set(predicate);
@@ -77,6 +105,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> _All_Some_Any(){
         ComparisonSubQuery predicate = new ComparisonSubQuery();
         target.set(predicate);
@@ -85,6 +117,10 @@ public class PredicateBuilder<ParentBuilder>
                 .in(out());
     }
 
+    /**
+     * Confirm type of Predicate
+     * @return
+     */
     public ExistsPredicateBuilder<ParentBuilder> _Exists(){
         Exists predicate = new Exists();
         target.set(predicate);

@@ -34,10 +34,9 @@ public class FromBuilder<ParentBuilder>
     }
 
     /**
-     *
      * @return
      */
-    public TableSourceBuilder<FromBuilder<ParentBuilder>> withItem(){
+    public TableSourceBuilder<FromBuilder<ParentBuilder>> withItem() {
         initList(
                 target::getTableSourceList,
                 target::setTableSourceList);
@@ -48,69 +47,30 @@ public class FromBuilder<ParentBuilder>
 
 
     /**
-     * Quick in
+     * Quick in TableSourceBuilder
+     *
      * @return
      */
-    public TableSourceBuilder<FromBuilder<ParentBuilder>> $(){
+    public TableSourceBuilder<FromBuilder<ParentBuilder>> $() {
         return withItem();
     }
 
 
+
+
+    /*
+    If the TableSource is NOT single,
+    Then the TableSource alias is very meaningful,
+    you can quickly confirm TableSource type use these method
+     */
+
     /**
-     * Quick inout set BaseTableBuilder
+     * Quick in BaseTableBuilder
+     *
      * @param tableName
      * @return
      */
-    public FromBuilder<ParentBuilder> $(TableName tableName){
-        return withItem()._Base()
-                .withTableName(tableName)
-                .and();
-    }
-
-    /**
-     * Quick inout set DerivedTableBuilder subQuery
-     * @param subQuery
-     * @return
-     */
-    public FromBuilder<ParentBuilder> $(Select.QuerySpecification subQuery){
-        return withItem()._Derived()
-                .withSubQuery(subQuery)
-                .and();
-    }
-
-    /**
-     * Quick inout set DerivedTableBuilder values
-     * @param values
-     * @return
-     */
-    public FromBuilder<ParentBuilder> $(TableValueConstructor values){
-        return withItem()._Derived()
-                .withValues(values)
-                .and();
-    }
-
-    /**
-     * Quick inout set VariableTableBuilder
-     * @param variable
-     * @return
-     */
-    public FromBuilder<ParentBuilder> $(LocalVariable variable){
-        return withItem()._Variable()
-                .withVariable(variable)
-                .and();
-    }
-
-
-
-
-
-
-    /**
-     * Quick in set BaseTableBuilder
-     * @param tableName
-     * @return
-     */
-    public BaseTableBuilder<FromBuilder<ParentBuilder>> $(TableName tableName, String tableAlias){
+    public BaseTableBuilder<FromBuilder<ParentBuilder>> $(TableName tableName, String tableAlias) {
         return withItem()._Base()
                 .withTableName(tableName)
                 .withAs()
@@ -118,11 +78,12 @@ public class FromBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in set DerivedTableBuilder
+     * Quick in DerivedTableBuilder
+     *
      * @param values
      * @return
      */
-    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(TableValueConstructor values, String tableAlias){
+    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(TableValueConstructor values, String tableAlias) {
         return withItem()._Derived()
                 .withValues(values)
                 .withAs()
@@ -130,11 +91,12 @@ public class FromBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in set DerivedTableBuilder
+     * Quick in DerivedTableBuilder
+     *
      * @param subQuery
      * @return
      */
-    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(Select.QuerySpecification subQuery, String tableAlias){
+    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(Select.QuerySpecification subQuery, String tableAlias) {
         return withItem()._Derived()
                 .withSubQuery(subQuery)
                 .withAs()
@@ -142,111 +104,182 @@ public class FromBuilder<ParentBuilder>
     }
 
     /**
-     * Quick in set VariableTableBuilder
+     * Quick in VariableTableBuilder
+     *
      * @param variable
      * @return
      */
-    public VariableTableBuilder<FromBuilder<ParentBuilder>> $(LocalVariable variable, String tableAlias){
+    public VariableTableBuilder<FromBuilder<ParentBuilder>> $(LocalVariable variable, String tableAlias) {
         return withItem()._Variable()
                 .withVariable(variable)
                 .withAs()
                 .withTableAlias(tableAlias);
     }
 
+
+
+
+    /*
+    If the TableSource is single,
+    then the TableSource alias is of little significance,
+    you can quickly build use these method
+     */
+
+    /**
+     * Quick inout BaseTableBuilder build BaseTable TableSource
+     *
+     * @param tableName
+     * @return
+     */
+    public FromBuilder<ParentBuilder> $(TableName tableName) {
+        return withItem()._Base()
+                .withTableName(tableName)
+                .and();
+    }
+
+    /**
+     * Quick inout DerivedTableBuilder build DerivedTable(subQuery) TableSource
+     *
+     * @param subQuery
+     * @return
+     */
+    public FromBuilder<ParentBuilder> $(Select.QuerySpecification subQuery) {
+        return withItem()._Derived()
+                .withSubQuery(subQuery)
+                .and();
+    }
+
+    /**
+     * Quick inout DerivedTableBuilder build DerivedTable(values) TableSource
+     *
+     * @param values
+     * @return
+     */
+    public FromBuilder<ParentBuilder> $(TableValueConstructor values) {
+        return withItem()._Derived()
+                .withValues(values)
+                .and();
+    }
+
+    /**
+     * Quick inout VariableTableBuilder build VariableTable TableSource
+     *
+     * @param variable
+     * @return
+     */
+    public FromBuilder<ParentBuilder> $(LocalVariable variable) {
+        return withItem()._Variable()
+                .withVariable(variable)
+                .and();
+    }
 
 
 
     /**
      * Abstract TableSource Builder
+     *
      * @param <ParentBuilder>
      */
     public static class TableSourceBuilder<ParentBuilder>
-            extends CodeTreeBuilder<TableSourceBuilder<ParentBuilder>,ParentBuilder,Setter<From.TableSource>> {
+            extends CodeTreeBuilder<TableSourceBuilder<ParentBuilder>, ParentBuilder, Setter<From.TableSource>> {
 
         public TableSourceBuilder(Setter<From.TableSource> setter) {
             super(setter);
         }
 
-        public BaseTableBuilder<ParentBuilder> _Base(){
+        /**
+         * Confirm type of TableSource
+         * @return
+         */
+        public BaseTableBuilder<ParentBuilder> _Base() {
             return new BaseTableBuilder<ParentBuilder>
-                    (new From.BaseTable(), target)
+                    (target)
                     .in(out());
         }
 
-        public DerivedTableBuilder<ParentBuilder> _Derived(){
-            From.DerivedTable tableSource = new From.DerivedTable();
-            target.set(tableSource);
+        /**
+         * Confirm type of TableSource
+         * @return
+         */
+        public DerivedTableBuilder<ParentBuilder> _Derived() {
             return new DerivedTableBuilder<ParentBuilder>
-                    (tableSource)
+                    (target)
                     .in(out());
         }
 
-        public JoinedTableBuilder<ParentBuilder> _Joined(){
+        /**
+         * Confirm type of TableSource
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> _Joined() {
             return new JoinedTableBuilder<ParentBuilder>
-                    (new From.JoinedTable(), target)
+                    (target)
                     .in(out());
         }
 
-        public VariableTableBuilder<ParentBuilder> _Variable(){
-            From.VariableTable tableSource = new From.VariableTable();
-            target.set(tableSource);
+        /**
+         * Confirm type of TableSource
+         * @return
+         */
+        public VariableTableBuilder<ParentBuilder> _Variable() {
             return new VariableTableBuilder<ParentBuilder>
-                    (tableSource)
+                    (target)
                     .in(out());
         }
-
-
 
 
         /**
          * Quick inout set BaseTableBuilder
+         *
          * @param tableName
          * @return
          */
-        public BaseTableBuilder<ParentBuilder> $(TableName tableName){
+        public BaseTableBuilder<ParentBuilder> $(TableName tableName) {
             return _Base()
                     .withTableName(tableName);
         }
 
         /**
          * Quick inout set DerivedTableBuilder subQuery
+         *
          * @param subQuery
          * @return
          */
-        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery){
+        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery) {
             return _Derived()
                     .withSubQuery(subQuery);
         }
 
         /**
          * Quick inout set DerivedTableBuilder values
+         *
          * @param values
          * @return
          */
-        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values){
+        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values) {
             return _Derived()
                     .withValues(values);
         }
 
         /**
          * Quick inout set VariableTableBuilder
+         *
          * @param variable
          * @return
          */
-        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable){
+        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable) {
             return _Variable()
                     .withVariable(variable);
         }
 
 
-
-
         /**
          * Quick in set BaseTableBuilder
+         *
          * @param tableName
          * @return
          */
-        public BaseTableBuilder<ParentBuilder> $(TableName tableName, String tableAlias){
+        public BaseTableBuilder<ParentBuilder> $(TableName tableName, String tableAlias) {
             return _Base()
                     .withTableName(tableName)
                     .withAs()
@@ -255,10 +288,11 @@ public class FromBuilder<ParentBuilder>
 
         /**
          * Quick in set DerivedTableBuilder
+         *
          * @param values
          * @return
          */
-        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values, String tableAlias){
+        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values, String tableAlias) {
             return _Derived()
                     .withValues(values)
                     .withAs()
@@ -267,10 +301,11 @@ public class FromBuilder<ParentBuilder>
 
         /**
          * Quick in set DerivedTableBuilder
+         *
          * @param subQuery
          * @return
          */
-        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery, String tableAlias){
+        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery, String tableAlias) {
             return _Derived()
                     .withSubQuery(subQuery)
                     .withAs()
@@ -279,10 +314,11 @@ public class FromBuilder<ParentBuilder>
 
         /**
          * Quick in set VariableTableBuilder
+         *
          * @param variable
          * @return
          */
-        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable, String tableAlias){
+        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable, String tableAlias) {
             return _Variable()
                     .withVariable(variable)
                     .withAs()
@@ -290,21 +326,194 @@ public class FromBuilder<ParentBuilder>
         }
 
 
-
-
-
-
-
-
     }
 
 
+    public static abstract class TransformJoinedBuilder<This, ParentBuilder, Target extends From.TableSource>
+            extends CodeTreeLazyConfigBuilder<This, ParentBuilder, Target, From.TableSource> {
+
+        public TransformJoinedBuilder(Target target) {
+            super(target);
+        }
+
+        public TransformJoinedBuilder(Target target, Setter<From.TableSource> setter) {
+            super(target, setter);
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Cross_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withCrossJoin()
+                    .in(this.out());
+        }
+
+
+        public JoinedTableBuilder<ParentBuilder> $Cross_Apply(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    //TODO
+                    .withCrossJoin()
+                    .in(this.out());
+        }
+
+
+        public JoinedTableBuilder<ParentBuilder> $Outer_Apply(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    //TODO
+                    .withCrossJoin()
+                    .in(this.out());
+        }
+
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Inner_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.INNER_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Inner_Reduce_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.INNER_REDUCE_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Inner_Replicate_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.INNER_REPLICATE_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Inner_Redistribute_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.INNER_REDISTRIBUTE_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Left_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.LEFT_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Right_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.RIGHT_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Full_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.FULL_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Left_Outer_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.LEFT_OUTER_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Right_Outer_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.RIGHT_OUTER_JOIN)
+                    .in(this.out());
+        }
+
+        /**
+         * Quick transform to JoinedTableBuilder
+         * @return
+         */
+        public JoinedTableBuilder<ParentBuilder> $Full_Outer_Join(){
+            return new JoinedTableBuilder<ParentBuilder>
+                    (new From.JoinedTable(),setter)
+                    .withTableSource(this.build())
+                    .withJoinType(From.JoinType.FULL_OUTER_JOIN)
+                    .in(this.out());
+        }
+    }
+
+
+
     /**
-     *
+     * BaseTableBuilder
      * @param <ParentBuilder>
      */
     public static class BaseTableBuilder<ParentBuilder>
-            extends CodeTreeLazyConfigBuilder<BaseTableBuilder<ParentBuilder>,ParentBuilder,From.BaseTable,From.TableSource> {
+            extends TransformJoinedBuilder<BaseTableBuilder<ParentBuilder>,ParentBuilder,From.BaseTable> {
 
         public BaseTableBuilder(From.BaseTable target) {
             super(target);
@@ -312,6 +521,10 @@ public class FromBuilder<ParentBuilder>
 
         public BaseTableBuilder(From.BaseTable target, Setter<From.TableSource> setter) {
             super(target,setter);
+        }
+
+        public BaseTableBuilder(Setter<From.TableSource> setter) {
+            super(new From.BaseTable(),setter);
         }
 
         public BaseTableBuilder<ParentBuilder> withTableName(TableName tableName){
@@ -340,29 +553,74 @@ public class FromBuilder<ParentBuilder>
                     .withTableAlias(aliasName);
         }
 
+    }
+
+    /**
+     * VariableTableBuilder
+     * @param <ParentBuilder>
+     */
+    public static class VariableTableBuilder<ParentBuilder>
+            extends TransformJoinedBuilder<VariableTableBuilder<ParentBuilder>,ParentBuilder,From.VariableTable> {
+
+        public VariableTableBuilder(From.VariableTable target) {
+            super(target);
+        }
+
+        public VariableTableBuilder(From.VariableTable target, Setter<From.TableSource> setter) {
+            super(target,setter);
+        }
+
+        public VariableTableBuilder(Setter<From.TableSource> setter) {
+            super(new From.VariableTable(),setter);
+        }
+
+
+        public VariableTableBuilder<ParentBuilder> withVariable(LocalVariable variable){
+            target.setVariable(variable);
+            return this;
+        }
+
+        public VariableTableBuilder<ParentBuilder> withAs(){
+            target.setUseAs(true);
+            return this;
+        }
+
+        public VariableTableBuilder<ParentBuilder> withTableAlias(String aliasName){
+            target.setTableAlias(new Alias<>(aliasName));
+            return this;
+        }
+
+
         /**
-         * Quick transform to JoinedTableBuilder
+         * Quick set tableAlias
+         * @param aliasName
          * @return
          */
-        public JoinedTableBuilder<ParentBuilder> $Cross_Join(){
-            return new JoinedTableBuilder<ParentBuilder>
-                    (new From.JoinedTable(),setter)
-                    .withTableSource(this.build())
-                    .withCrossJoin()
-                    .in(this.out());
+        public ParentBuilder $As(String aliasName){
+            return withAs()
+                    .withTableAlias(aliasName)
+                    .and();
         }
 
     }
 
     /**
-     *
+     * DerivedTableBuilder
      * @param <ParentBuilder>
      */
     public static class DerivedTableBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DerivedTableBuilder<ParentBuilder>,ParentBuilder,From.DerivedTable> {
+            extends TransformJoinedBuilder<DerivedTableBuilder<ParentBuilder>,ParentBuilder,From.DerivedTable> {
 
-        public DerivedTableBuilder(From.DerivedTable tar) {
-            super(tar);
+        public DerivedTableBuilder(From.DerivedTable target) {
+            super(target);
+        }
+
+        public DerivedTableBuilder(From.DerivedTable target, Setter<From.TableSource> setter) {
+            super(target,setter);
+        }
+
+        public DerivedTableBuilder(Setter<From.TableSource> setter) {
+            super(new From.DerivedTable(), setter);
         }
 
 
@@ -419,8 +677,10 @@ public class FromBuilder<ParentBuilder>
 
     }
 
+
+
     /**
-     * 
+     * JoinedTableBuilder
      * @param <ParentBuilder>
      */
     public static class JoinedTableBuilder<ParentBuilder>
@@ -428,6 +688,10 @@ public class FromBuilder<ParentBuilder>
 
         public JoinedTableBuilder(From.JoinedTable target, Setter<From.TableSource> setter) {
             super(target,setter);
+        }
+
+        public JoinedTableBuilder(Setter<From.TableSource> setter) {
+            super(new From.JoinedTable(),setter);
         }
 
 
@@ -466,18 +730,100 @@ public class FromBuilder<ParentBuilder>
         }
 
 
-//        public TableSourceBuilder<JoinedTableBuilder<ParentBuilder>> $(){
-//            return new TableSourceBuilder<JoinedTableBuilder<ParentBuilder>>
-//                    (target::setTableSource2)
-//                    .in(this);
-//        }
+        /**
+         * Quick in TableSourceBuilder
+         * @return
+         */
+        public TableSourceBuilder<JoinedTableBuilder<ParentBuilder>> $(){
+            if(target.getTableSource() == null) {
+                return withTableSource();
+            }
+            return withTableSource2();
+        }
 
         /**
-         * Quick in set BaseTableBuilder
+         * Quick in BaseTableBuilder
+         *
+         * @param tableName
+         * @return
+         */
+        public BaseTableBuilder<JoinedTableBuilder<ParentBuilder>> $(TableName tableName) {
+            if(target.getTableSource() == null){
+                return withTableSource()._Base()
+                        .withTableName(tableName);
+            }
+            return withTableSource2()._Base()
+                    .withTableName(tableName);
+        }
+
+        /**
+         * Quick in DerivedTableBuilder
+         * @param values
+         * @return
+         */
+        public DerivedTableBuilder<JoinedTableBuilder<ParentBuilder>> $(TableValueConstructor values) {
+            if(target.getTableSource() == null){
+                return withTableSource()._Derived()
+                        .withValues(values);
+            }
+            return withTableSource2()._Derived()
+                    .withValues(values);
+        }
+
+        /**
+         * Quick in set DerivedTableBuilder
+         * @param subQuery
+         * @return
+         */
+        public DerivedTableBuilder<JoinedTableBuilder<ParentBuilder>> $(Select.QuerySpecification subQuery) {
+            if(target.getTableSource() == null){
+                return withTableSource()._Derived()
+                        .withSubQuery(subQuery);
+            }
+            return withTableSource2()._Derived()
+                    .withSubQuery(subQuery);
+        }
+
+        /**
+         * Quick in VariableTableBuilder
+         * @param variable
+         * @return
+         */
+        public VariableTableBuilder<JoinedTableBuilder<ParentBuilder>> $(LocalVariable variable) {
+            if(target.getTableSource() == null){
+                return withTableSource()._Variable()
+                        .withVariable(variable);
+            }
+            return withTableSource2()._Variable()
+                    .withVariable(variable);
+        }
+
+        /**
+         * Quick in SearchConditionBuilder
+         * @return
+         */
+        public SearchConditionBuilder<JoinedTableBuilder<ParentBuilder>> $On(){
+            return withSearchCondition();
+        }
+
+
+
+
+
+
+        /**
+         * Quick inout BaseTableBuilder set TableSource or TableSource2
          * @param tableName
          * @return
          */
         public JoinedTableBuilder<ParentBuilder> $(TableName tableName, String tableAlias){
+            if(target.getTableSource() == null) {
+                return withTableSource()._Base()
+                        .withTableName(tableName)
+                        .withAs()
+                        .withTableAlias(tableAlias)
+                        .and();
+            }
             return withTableSource2()._Base()
                     .withTableName(tableName)
                     .withAs()
@@ -486,11 +832,18 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick in set DerivedTableBuilder
+         * Quick inout DerivedTableBuilder set TableSource or TableSource2
          * @param values
          * @return
          */
         public JoinedTableBuilder<ParentBuilder> $(TableValueConstructor values, String tableAlias){
+            if(target.getTableSource() == null){
+                return withTableSource()._Derived()
+                        .withValues(values)
+                        .withAs()
+                        .withTableAlias(tableAlias)
+                        .and();
+            }
             return withTableSource2()._Derived()
                     .withValues(values)
                     .withAs()
@@ -499,11 +852,18 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick in set DerivedTableBuilder
+         * Quick inout DerivedTableBuilder set TableSource or TableSource2
          * @param subQuery
          * @return
          */
         public JoinedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery, String tableAlias){
+            if(target.getTableSource() == null){
+                return withTableSource()._Derived()
+                        .withSubQuery(subQuery)
+                        .withAs()
+                        .withTableAlias(tableAlias)
+                        .and();
+            }
             return withTableSource2()._Derived()
                     .withSubQuery(subQuery)
                     .withAs()
@@ -512,55 +872,22 @@ public class FromBuilder<ParentBuilder>
         }
 
         /**
-         * Quick in set VariableTableBuilder
+         * Quick inout VariableTableBuilder set TableSource or TableSource2
          * @param variable
          * @return
          */
         public JoinedTableBuilder<ParentBuilder> $(LocalVariable variable, String tableAlias){
+            if(target.getTableSource() == null){
+                return withTableSource()._Variable()
+                        .withVariable(variable)
+                        .withAs()
+                        .withTableAlias(tableAlias)
+                        .and();
+            }
             return withTableSource2()._Variable()
                     .withVariable(variable)
                     .withAs()
                     .withTableAlias(tableAlias)
-                    .and();
-        }
-    }
-
-    /**
-     *
-     * @param <ParentBuilder>
-     */
-    public static class VariableTableBuilder<ParentBuilder>
-            extends CodeTreeBuilder<VariableTableBuilder<ParentBuilder>,ParentBuilder,From.VariableTable> {
-
-        public VariableTableBuilder(From.VariableTable tar) {
-            super(tar);
-        }
-
-
-        public VariableTableBuilder<ParentBuilder> withVariable(LocalVariable variable){
-            target.setVariable(variable);
-            return this;
-        }
-
-        public VariableTableBuilder<ParentBuilder> withAs(){
-            target.setUseAs(true);
-            return this;
-        }
-
-        public VariableTableBuilder<ParentBuilder> withTableAlias(String aliasName){
-            target.setTableAlias(new Alias<>(aliasName));
-            return this;
-        }
-
-
-        /**
-         * Quick set tableAlias
-         * @param aliasName
-         * @return
-         */
-        public ParentBuilder $As(String aliasName){
-            return withAs()
-                    .withTableAlias(aliasName)
                     .and();
         }
 
