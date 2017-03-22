@@ -242,109 +242,110 @@ public class FromBuilder<ParentBuilder>
         }
 
 
-        /*
-        Quick into sub builder
-         */
-
-        /**
-         * Quick into BaseTableBuilder
-         * And set tableName
-         * @param tableName
-         * @return
-         */
-        public BaseTableBuilder<ParentBuilder> $(TableName tableName) {
-            return _Base()
-                    .withTableName(tableName);
-        }
-
-        /**
-         * Quick into DerivedTableBuilder
-         * And set subQuery
-         * @param subQuery
-         * @return
-         */
-        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery) {
-            return _Derived()
-                    .withSubQuery(subQuery);
-        }
-
-        /**
-         * Quick into DerivedTableBuilder
-         * And set values
-         * @param values
-         * @return
-         */
-        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values) {
-            return _Derived()
-                    .withValues(values);
-        }
-
-        /**
-         * Quick into VariableTableBuilder
-         * And set variable
-         * @param variable
-         * @return
-         */
-        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable) {
-            return _Variable()
-                    .withVariable(variable);
-        }
-
-        /**
-         * Quick into BaseTableBuilder
-         * And set tableName,tableAlias
-         * @param tableName
-         * @param tableAlias
-         * @return
-         */
-        public BaseTableBuilder<ParentBuilder> $(TableName tableName, String tableAlias) {
-            return _Base()
-                    .withTableName(tableName)
-                    .withAs()
-                    .withTableAlias(tableAlias);
-        }
-
-        /**
-         * Quick into DerivedTableBuilder
-         * And set values,tableAlias
-         * @param values
-         * @param tableAlias
-         * @return
-         */
-        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values, String tableAlias) {
-            return _Derived()
-                    .withValues(values)
-                    .withAs()
-                    .withTableAlias(tableAlias);
-        }
-
-        /**
-         * Quick into DerivedTableBuilder
-         * And set subQuery,tableAlias
-         * @param subQuery
-         * @param tableAlias
-         * @return
-         */
-        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery, String tableAlias) {
-            return _Derived()
-                    .withSubQuery(subQuery)
-                    .withAs()
-                    .withTableAlias(tableAlias);
-        }
-
-        /**
-         * Quick into VariableTableBuilder
-         * And set variable,tableAlias
-         * @param variable
-         * @param tableAlias
-         * @return
-         */
-        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable, String tableAlias) {
-            return _Variable()
-                    .withVariable(variable)
-                    .withAs()
-                    .withTableAlias(tableAlias);
-        }
+        //TODO we dont into abstract builder
+//        /*
+//        Quick into sub builder
+//         */
+//
+//        /**
+//         * Quick into BaseTableBuilder
+//         * And set tableName
+//         * @param tableName
+//         * @return
+//         */
+//        public BaseTableBuilder<ParentBuilder> $(TableName tableName) {
+//            return _Base()
+//                    .withTableName(tableName);
+//        }
+//
+//        /**
+//         * Quick into DerivedTableBuilder
+//         * And set subQuery
+//         * @param subQuery
+//         * @return
+//         */
+//        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery) {
+//            return _Derived()
+//                    .withSubQuery(subQuery);
+//        }
+//
+//        /**
+//         * Quick into DerivedTableBuilder
+//         * And set values
+//         * @param values
+//         * @return
+//         */
+//        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values) {
+//            return _Derived()
+//                    .withValues(values);
+//        }
+//
+//        /**
+//         * Quick into VariableTableBuilder
+//         * And set variable
+//         * @param variable
+//         * @return
+//         */
+//        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable) {
+//            return _Variable()
+//                    .withVariable(variable);
+//        }
+//
+//        /**
+//         * Quick into BaseTableBuilder
+//         * And set tableName,tableAlias
+//         * @param tableName
+//         * @param tableAlias
+//         * @return
+//         */
+//        public BaseTableBuilder<ParentBuilder> $(TableName tableName, String tableAlias) {
+//            return _Base()
+//                    .withTableName(tableName)
+//                    .withAs()
+//                    .withTableAlias(tableAlias);
+//        }
+//
+//        /**
+//         * Quick into DerivedTableBuilder
+//         * And set values,tableAlias
+//         * @param values
+//         * @param tableAlias
+//         * @return
+//         */
+//        public DerivedTableBuilder<ParentBuilder> $(TableValueConstructor values, String tableAlias) {
+//            return _Derived()
+//                    .withValues(values)
+//                    .withAs()
+//                    .withTableAlias(tableAlias);
+//        }
+//
+//        /**
+//         * Quick into DerivedTableBuilder
+//         * And set subQuery,tableAlias
+//         * @param subQuery
+//         * @param tableAlias
+//         * @return
+//         */
+//        public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery, String tableAlias) {
+//            return _Derived()
+//                    .withSubQuery(subQuery)
+//                    .withAs()
+//                    .withTableAlias(tableAlias);
+//        }
+//
+//        /**
+//         * Quick into VariableTableBuilder
+//         * And set variable,tableAlias
+//         * @param variable
+//         * @param tableAlias
+//         * @return
+//         */
+//        public VariableTableBuilder<ParentBuilder> $(LocalVariable variable, String tableAlias) {
+//            return _Variable()
+//                    .withVariable(variable)
+//                    .withAs()
+//                    .withTableAlias(tableAlias);
+//        }
 
 
     }

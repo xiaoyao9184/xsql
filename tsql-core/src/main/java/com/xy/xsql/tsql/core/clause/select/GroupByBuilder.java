@@ -7,8 +7,9 @@ import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.clause.select.GroupBy.GroupByExpression;
 import com.xy.xsql.tsql.model.expression.Expression;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
+import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
@@ -28,23 +29,74 @@ public class GroupByBuilder<ParentBuilder>
     }
 
 
-    public GroupByItemBuilder<GroupByBuilder<ParentBuilder>> withItem(){
+    public ItemBuilder<GroupByBuilder<ParentBuilder>> withItem(){
         initList(target::getItems,
                 target::setItems);
-        return new GroupByItemBuilder<GroupByBuilder<ParentBuilder>>
+        return new ItemBuilder<GroupByBuilder<ParentBuilder>>
                 (target.getItems()::add)
                 .in(this);
     }
+
+
+    /*
+    Quick set
+     */
+
+    /**
+     * Quick set
+     * @param columnExpressions
+     * @return
+     */
+    public GroupByBuilder<ParentBuilder> $(Expression columnExpressions) {
+        return withItem()._Base()
+                .withColumnExpression(columnExpressions)
+                .and();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public GroupByBuilder<ParentBuilder> $_() {
+        return withItem()._Total();
+    }
+
+    /**
+     * Quick into
+     * @return
+     */
+    public RollupItemBuilder<GroupByBuilder<ParentBuilder>> $Rollup() {
+        return withItem()._Rollup();
+    }
+
+    /**
+     * Quick into
+     * @return
+     */
+    public CubeItemBuilder<GroupByBuilder<ParentBuilder>> $Cube() {
+        return withItem()._Cube();
+    }
+
+    /**
+     * Quick into
+     * @return
+     */
+    public GroupingSetsItemBuilder<GroupByBuilder<ParentBuilder>> $Grouping_Sets() {
+        return withItem()._GroupingSets();
+    }
+
+
+
 
 
     /**
      * Abstract GroupBy.Item Builder
      * @param <ParentBuilder>
      */
-    public static class GroupByItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<GroupByItemBuilder<ParentBuilder>, ParentBuilder, Setter<GroupBy.Item>> {
+    public static class ItemBuilder<ParentBuilder>
+            extends CodeTreeBuilder<ItemBuilder<ParentBuilder>, ParentBuilder, Setter<GroupBy.Item>> {
 
-        public GroupByItemBuilder(Setter<GroupBy.Item> setter) {
+        public ItemBuilder(Setter<GroupBy.Item> setter) {
             super(setter);
         }
 
@@ -67,12 +119,16 @@ public class GroupByBuilder<ParentBuilder>
                     .in(this.out());
         }
 
-        public GroupingSetsItemBuilder<ParentBuilder> _GroupingSet(){
+        public GroupingSetsItemBuilder<ParentBuilder> _GroupingSets(){
             return new GroupingSetsItemBuilder<ParentBuilder>
                     ((item) -> target.set(item))
                     .in(this.out());
         }
 
+        public ParentBuilder _Total() {
+            target.set(new GroupBy.TotalItem());
+            return this.out();
+        }
     }
 
     /**
@@ -93,6 +149,16 @@ public class GroupByBuilder<ParentBuilder>
         public BaseItemBuilder<ParentBuilder> withColumnExpression(Expression columnExpression) {
             target.setExpression(columnExpression);
             return this;
+        }
+
+        /**
+         * @deprecated only support set one GroupBy.Item
+         * @param columnExpression
+         * @return
+         */
+        @Deprecated
+        public BaseItemBuilder<ParentBuilder> $(Expression columnExpression) {
+            return withColumnExpression(columnExpression);
         }
     }
 
@@ -120,6 +186,27 @@ public class GroupByBuilder<ParentBuilder>
                     .in(this);
         }
 
+
+        /**
+         * Quick into GroupByExpressionBuilder
+         * @return
+         */
+        public GroupByExpressionBuilder<RollupItemBuilder<ParentBuilder>> $() {
+            return withItem();
+        }
+
+        /**
+         * Quick set groupByExpressionList
+         * into GroupByExpressionBuilder and get-out
+         * @param expressions
+         * @return
+         */
+        public RollupItemBuilder<ParentBuilder> $(Expression... expressions) {
+            return withItem()
+                    .withColumnExpression(expressions)
+                    .and();
+        }
+
     }
 
     /**
@@ -143,6 +230,27 @@ public class GroupByBuilder<ParentBuilder>
                             target::getGroupByExpressionList,
                             target::setGroupByExpressionList))
                     .in(this);
+        }
+
+
+        /**
+         * Quick into GroupByExpressionBuilder
+         * @return
+         */
+        public GroupByExpressionBuilder<CubeItemBuilder<ParentBuilder>> $() {
+            return withItem();
+        }
+
+        /**
+         * Quick set groupByExpressionList
+         * into GroupByExpressionBuilder and get-out
+         * @param expressions
+         * @return
+         */
+        public CubeItemBuilder<ParentBuilder> $(Expression... expressions) {
+            return withItem()
+                    .withColumnExpression(expressions)
+                    .and();
         }
 
     }
@@ -170,6 +278,15 @@ public class GroupByBuilder<ParentBuilder>
                             target::setGroupingSetItemList))
                     .in(this);
         }
+
+
+        /**
+         * Quick into GroupingSetBuilder
+         * @return
+         */
+        public GroupingSetBuilder<GroupingSetsItemBuilder<ParentBuilder>> $() {
+            return withItem();
+        }
     }
 
 
@@ -188,13 +305,21 @@ public class GroupByBuilder<ParentBuilder>
             super(new GroupBy.GroupByExpression(),setter);
         }
 
-
-        public GroupByExpressionBuilder<ParentBuilder> withColumnExpression(Expression columnExpression) {
-            if(target.getColumnExpressionList() == null){
-                target.setColumnExpressionList(new ArrayList<Expression>());
-            }
-            target.getColumnExpressionList().add(columnExpression);
+        public GroupByExpressionBuilder<ParentBuilder> withColumnExpression(Expression... columnExpressions) {
+            initAdd(Arrays.asList(columnExpressions),
+                    target::getColumnExpressionList,
+                    target::setColumnExpressionList);
             return this;
+        }
+
+
+        /**
+         * Quick set
+         * @param columnExpressions
+         * @return
+         */
+        public GroupByExpressionBuilder<ParentBuilder> $(Expression... columnExpressions) {
+            return withColumnExpression(columnExpressions);
         }
     }
 
@@ -210,6 +335,11 @@ public class GroupByBuilder<ParentBuilder>
         }
 
 
+        public GroupingSetBuilder<ParentBuilder> withTotal() {
+            target.setUseTotal(true);
+            return this;
+        }
+
         public GroupingSetItemBuilder<GroupingSetBuilder<ParentBuilder>> withItem(){
             initList(target::getGroupByExpressionList,
                     target::setGroupByExpressionList);
@@ -217,6 +347,68 @@ public class GroupByBuilder<ParentBuilder>
                     (target.getGroupByExpressionList()::add)
                     .in(this);
         }
+
+
+
+
+        /*
+        Quick set
+         */
+
+        /**
+         * Quick set useTotal
+         * @return
+         */
+        public GroupingSetBuilder<ParentBuilder> $_() {
+            return withTotal();
+        }
+
+        /**
+         * Quick set groupByExpressionList
+         * Confirm type of GroupingSet.Item:BaseItem
+         * And set BaseItem columnExpressions
+         * into GroupByExpressionBuilder and get-out
+         * @param columnExpressions
+         * @return
+         */
+        public GroupingSetBuilder<ParentBuilder> $(Expression... columnExpressions) {
+            return withItem()
+                    ._Base()
+                    .withColumnExpression(columnExpressions)
+                    .and();
+        }
+
+        /**
+         * Quick into RollupItemBuilder
+         * Confirm type of GroupingSet.Item:RollupItem
+         * @return
+         */
+        public RollupItemBuilder<GroupingSetBuilder<ParentBuilder>> $Rollup() {
+            return withItem()._Rollup();
+        }
+
+        /**
+         * Quick into CubeItemBuilder
+         * Confirm type of GroupingSet.Item:CubeItem
+         * @return
+         */
+        public CubeItemBuilder<GroupingSetBuilder<ParentBuilder>> $Cube() {
+            return withItem()._Cube();
+        }
+
+
+
+        //TODO
+        /**
+         * Quick into GroupingSetItemBuilder
+         * create a group of GroupingSetItem
+         * ( <grouping_set_item> [ ,...n ] )
+         * @return
+         */
+//        public GroupingSetItemBuilder<GroupingSetBuilder<ParentBuilder>> $() {
+//            return withItem();
+//        }
+
     }
 
     /**
@@ -251,7 +443,7 @@ public class GroupByBuilder<ParentBuilder>
                     .in(this.out());
         }
 
-        public RollupItemBuilder<ParentBuilder> _Cube(){
+        public RollupItemBuilder<ParentBuilder> _Rollup(){
             return new RollupItemBuilder<ParentBuilder>
                     //TODO lambda or method
 //                    (this::set)
@@ -259,88 +451,12 @@ public class GroupByBuilder<ParentBuilder>
                     .in(this.out());
         }
 
-        public CubeItemBuilder<ParentBuilder> _Rollup(){
+        public CubeItemBuilder<ParentBuilder> _Cube(){
             return new CubeItemBuilder<ParentBuilder>
                     ((item) -> target.set(item))
                     .in(this.out());
         }
+
     }
-
-
-//
-//
-//    /**
-//     * Same as GroupByExpressionBuilder
-//     * @param <ParentBuilder>
-//     */
-//    public static class BaseGroupingSetItemBuilder<ParentBuilder>
-//            extends CodeTreeLazyConfigBuilder<BaseGroupingSetItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.GroupByExpression, GroupBy.GroupingSet.Item> {
-//
-//        public BaseGroupingSetItemBuilder(GroupBy.GroupByExpression item) {
-//            super(item);
-//        }
-//
-//        public BaseGroupingSetItemBuilder(Setter<GroupBy.GroupingSet.Item> setter) {
-//            super(new GroupBy.GroupByExpression(),setter);
-//        }
-//
-//        public BaseGroupingSetItemBuilder<ParentBuilder> withColumnExpression(Expression... columnExpression) {
-//            initAdd(Arrays.asList(columnExpression),
-//                    target::getColumnExpressionList,
-//                    target::setColumnExpressionList);
-//            return this;
-//        }
-//    }
-//
-//    /**
-//     * Same as RollupItemBuilder
-//     * @param <ParentBuilder>
-//     */
-//    public static class RollupGroupingSetItemBuilder<ParentBuilder>
-//            extends CodeTreeLazyConfigBuilder<RollupGroupingSetItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.RollupItem, GroupBy.GroupingSet.Item> {
-//
-//        public RollupGroupingSetItemBuilder(GroupBy.RollupItem item) {
-//            super(item);
-//        }
-//
-//        public RollupGroupingSetItemBuilder(Setter<GroupBy.GroupingSet.Item> setter) {
-//            super(new GroupBy.RollupItem(),setter);
-//        }
-//
-//
-//        public GroupByExpressionBuilder<RollupItemBuilder<ParentBuilder>> withItem() {
-//            return new GroupByExpressionBuilder<RollupItemBuilder<ParentBuilder>>
-//                    (initNew(GroupByExpression::new,
-//                            target::getGroupByExpressionList,
-//                            target::setGroupByExpressionList))
-//                    .in(this);
-//        }
-//
-//    }
-//
-//    /**
-//     * Same as CubeItemBuilder
-//     * @param <ParentBuilder>
-//     */
-//    public static class CubeGroupingSetItemBuilder<ParentBuilder>
-//            extends CodeTreeLazyConfigBuilder<CubeGroupingSetItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.CubeItem, GroupBy.GroupingSet.Item> {
-//
-//        public CubeGroupingSetItemBuilder(GroupBy.CubeItem item) {
-//            super(item);
-//        }
-//
-//        public CubeGroupingSetItemBuilder(Setter<GroupBy.GroupingSet.Item> setter) {
-//            super(new GroupBy.CubeItem(),setter);
-//        }
-//
-//        public GroupByExpressionBuilder<CubeItemBuilder<ParentBuilder>> withItem() {
-//            return new GroupByExpressionBuilder<CubeItemBuilder<ParentBuilder>>
-//                    (initNew(GroupByExpression::new,
-//                            target::getGroupByExpressionList,
-//                            target::setGroupByExpressionList))
-//                    .in(this);
-//        }
-//
-//    }
 
 }

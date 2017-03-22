@@ -1,7 +1,8 @@
 package com.xy.xsql.tsql.core.clause.select;
 
+import com.xy.xsql.tsql.core.MockParent;
+import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
-import com.xy.xsql.tsql.model.element.ColumnName;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,6 +28,14 @@ public class GroupByBuilderTest {
                     .withColumnExpression(c("c2"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("c1"))
+                    .$(c("c2"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),2);
@@ -41,7 +50,7 @@ public class GroupByBuilderTest {
     }
 
     /**
-     * GROUP BY c1, ROLLUP ( c2, (c3, c4) ), CUBE (c5), GROUPING SETS ( (c6, ROLLUP ( c7)))
+     * GROUP BY c1, ROLLUP ( c2, (c3, c4) ), CUBE (c5), GROUPING SETS ( (), c6, CUBE( c7 ), (c8, ROLLUP ( c9 ) ) )
      */
     @Test
     public void testRollupBuild(){
@@ -64,19 +73,75 @@ public class GroupByBuilderTest {
                         .withColumnExpression(c("c5"))
                         .and()
                     .and()
-                .withItem()._GroupingSet()
+                .withItem()._GroupingSets()
+                    .withItem()
+                        .withTotal()
+                        .and()
                     .withItem()
                         .withItem()._Base()
                             .withColumnExpression(c("c6"))
                             .and()
-                        .withItem()._Rollup()
+                        .and()
+                    .withItem()
+                        .withItem()._Cube()
                             .withItem()
                                 .withColumnExpression(c("c7"))
                                 .and()
                             .and()
                         .and()
+                    .withItem()
+                        .withItem()._Base()
+                            .withColumnExpression(c("c8"))
+                            .and()
+                        .withItem()._Rollup()
+                            .withItem()
+                                .withColumnExpression(c("c9"))
+                                .and()
+                            .and()
+                        .and()
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("c1"))
+                    .$Rollup()
+                        .$(c("c2"))
+                        .$(c("c3"),c("c4"))
+//                        .$()
+//                            .$(c("c3"))
+//                            .$(c("c4"))
+//                            .and()
+                        .and()
+                    .$Cube()
+                        .$(c("c5"))
+                        .and()
+                    .$Grouping_Sets()
+                        //grouping_set:()
+                        .$()
+                            .$_()
+                            .and()
+                        //grouping_set:<grouping_set_item>
+                        .$()
+                            .$(e("c6"))
+                            .and()
+                        //grouping_set:<grouping_set_item>
+                        .$()
+                            .$Cube()
+                                .$(e("c7"))
+                                .and()
+                            .and()
+                        //grouping_set:( <grouping_set_item> [ ,...n ] )
+                        .$()
+                            .$(c("c8"))
+                            .$Rollup()
+                                .$(c("c9"))
+                                .and()
+                            .and()
+                        .and()
+                    .and();
         // @formatter:on
 
 
@@ -96,7 +161,7 @@ public class GroupByBuilderTest {
 
         Assert.assertEquals(groupBy.getItems().get(3).getClass(), GroupBy.GroupingSetsItem.class);
         GroupBy.GroupingSetsItem item3 = (GroupBy.GroupingSetsItem) groupBy.getItems().get(3);
-        Assert.assertEquals(item3.getGroupingSetItemList().size(),1);
+        Assert.assertEquals(item3.getGroupingSetItemList().size(),4);
     }
 
     /**
@@ -110,6 +175,13 @@ public class GroupByBuilderTest {
                     .withColumnExpression(c("SalesOrderID"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("SalesOrderID"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);
@@ -130,6 +202,13 @@ public class GroupByBuilderTest {
                     .withColumnExpression(c("a","City"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("a","City"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);
@@ -150,6 +229,13 @@ public class GroupByBuilderTest {
                     .withColumnExpression(e("DATEPART(yyyy,OrderDate)"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(e("DATEPART(yyyy,OrderDate)"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);
@@ -170,6 +256,13 @@ public class GroupByBuilderTest {
                     .withColumnExpression(e("DATEPART(yyyy,OrderDate)"))
                     .and()
                 .build();
+
+        //parent+quick
+        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(e("DATEPART(yyyy,OrderDate)"))
+                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);

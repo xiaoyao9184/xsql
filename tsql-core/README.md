@@ -10,11 +10,13 @@
 # 约定
 
 1. 不与MSDN完全一致
-2. 屏蔽数组Builder，含有数组的语句（例如With语句<common_table_expression>的column_name）
-3. 仅含数组的语法使用Item方法（例如With语句<common_table_expression>）
-4. 由枚举组成的语法，应将枚举抽象为接口（例如Option语句中的<query_option>）
-5. 语法中的内部对象（例如search_condition中第一个大括号括住的部分），无复用现象则不用再建立对类增加深度
-6. 提供静态方法用于快速构建一些简单元素，见下表
+2. 含有数组的语句，不建立数组Builder（例如With语句<common_table_expression>的column_name）
+3. 除关键字以外仅含一个数组的语句，提供'withItem'方法（例如With语句<common_table_expression>）
+4. 由枚举组成的语句，应将枚举抽象为接口（例如Option语句中的<query_option>）
+5. 抽象为接口的语句元素，建立特殊的builder，提供'_'前缀方法，进行类型确认，不在快速构建中进入此builder
+6. 语法中的内部对象（例如search_condition中第一个大括号括住的部分），无复用现象则不用再建立对类增加深度
+7. 
+0. 提供静态方法用于快速构建一些简单元素，见下表
 
 
 

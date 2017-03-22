@@ -265,7 +265,7 @@ public class GroupBy implements Clause {
     /**
      * () --calculates the grand total
      */
-    public static class AllItem implements Item {
+    public static class TotalItem implements Item {
         @Override
         public List<Block> toBlockList() {
             return new ListBlockBuilder()
@@ -330,6 +330,21 @@ public class GroupBy implements Clause {
         }
 
 
+        @Override
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder();
+            if(useTotal){
+                b.append(Other.GROUP_START)
+                        .append(Other.GROUP_END);
+            }else if(CheckUtil.isNullOrEmpty(groupByExpressionList)){
+                b.append(groupByExpressionList.get(0));
+            }else {
+                b.append(Other.GROUP_START)
+                        .append(groupByExpressionList)
+                        .append(Other.GROUP_END);
+            }
+            return b.build();
+        }
 
 
         /**
