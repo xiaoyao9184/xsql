@@ -1,165 +1,285 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.core.builder.SubBuilder;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
+import com.xy.xsql.tsql.model.expression.Expression;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
-public class OrderByBuilder<Done>
-        extends SubBuilder<OrderByBuilder<Done>,Void,Done> {
-
-    private OrderBy orderBy;
+public class OrderByBuilder<ParentBuilder>
+        extends CodeTreeBuilder<OrderByBuilder<ParentBuilder>,ParentBuilder,OrderBy> {
 
     public OrderByBuilder(OrderBy orderBy) {
-        this.orderBy = orderBy;
+        super(orderBy);
+    }
+
+    public OrderByBuilder() {
+        super(new OrderBy());
     }
 
 
-    public OrderByListBuilder<OrderByBuilder<Done>> withItems(){
-        List<OrderBy.Item> items = new ArrayList<>();
-        if(this.orderBy.getItems() == null){
-            this.orderBy.setItems(new ArrayList<OrderBy.Item>());
-        }
-        this.orderBy.setItems(items);
-        return new OrderByListBuilder<OrderByBuilder<Done>>(items)
+    public OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItem(){
+        return new OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
+                (initNew(OrderBy.Item::new,
+                        target::getItems,
+                        target::setItems))
                 .in(this);
     }
 
-    public OffsetFetchBuilder<OrderByBuilder<Done>> withOffsetFetch(){
-        OrderBy.OffsetFetch offsetFetch = new OrderBy.OffsetFetch();
-        this.orderBy.setOffsetFetch(offsetFetch);
-        return new OffsetFetchBuilder<OrderByBuilder<Done>>(offsetFetch)
+    public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> withOffsetFetch(){
+        return new OffsetFetchBuilder<OrderByBuilder<ParentBuilder>>
+                (initSet(OrderBy.OffsetFetch::new,
+                        target::getOffsetFetch,
+                        target::setOffsetFetch))
                 .in(this);
     }
 
-
-
+    /*
+    Quick set
+     */
 
     /**
-     *
-     * @param <Done>
+     * Quick set
+     * @param expression
+     * @return
      */
-    public static class OrderByListBuilder<Done>
-            extends SubBuilder<OrderByListBuilder<Done>,Void,Done> {
-
-        private List<OrderBy.Item> orderByList;
-
-        public OrderByListBuilder(List<OrderBy.Item> orderByList) {
-            this.orderByList = orderByList;
-        }
-
-        public OrderByItemBuilder<OrderByListBuilder<Done>> withItem(){
-            OrderBy.Item orderByItem = new OrderBy.Item();
-            if(this.orderByList == null){
-                this.orderByList = new ArrayList<>();
-            }
-            this.orderByList.add(orderByItem);
-            return new OrderByItemBuilder<OrderByListBuilder<Done>>(orderByItem)
-                    .in(this);
-        }
+    public OrderByBuilder<ParentBuilder> $(Expression expression) {
+        return withItem()
+                .withExpression(expression)
+                .and();
     }
 
     /**
-     *
-     * @param <Done>
+     * Get last Item and set
+     * @return
      */
-    public static class OrderByItemBuilder<Done>
-            extends SubBuilder<OrderByItemBuilder<Done>,Void,Done> {
+    private OrderBy.Item getLastItem(){
+        if(target.getItems().size() > 0){
+            int i = target.getItems().size() - 1;
+            return target.getItems().get(i);
+        }
+        return null;
+    }
 
-        private OrderBy.Item orderByItem;
+    /**
+     * Quick set
+     * @return
+     */
+    public OrderByBuilder<ParentBuilder> $Desc() {
+        OrderBy.Item last = getLastItem();
+        return new OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
+                (last)
+                .in(this)
+                .withDesc()
+                .and();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public OrderByBuilder<ParentBuilder> $Asc() {
+        OrderBy.Item last = getLastItem();
+        return new OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
+                (last)
+                .in(this)
+                .withAsc()
+                .and();
+    }
+
+    /**
+     * Quick into OffsetFetchBuilder
+     * @param integerConstant
+     * @return
+     */
+    public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> $Offset(Integer integerConstant) {
+        return withOffsetFetch()
+                .withIntegerConstant(integerConstant);
+    }
+
+    /**
+     * Quick into OffsetFetchBuilder
+     * @param expression
+     * @return
+     */
+    public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> $Offset(Expression expression) {
+        return withOffsetFetch()
+                .withOffsetRowCountExpression(expression);
+    }
+
+    /**
+     * Quick into OffsetFetchBuilder
+     * @param integerConstant
+     * @return
+     */
+    public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> $Fetch_First(Integer integerConstant) {
+        return withOffsetFetch()
+                .withUseFetchFirst()
+                .withFetchIntegerConstant(integerConstant);
+    }
+
+    /**
+     * Quick into OffsetFetchBuilder
+     * @param expression
+     * @return
+     */
+    public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> $Fetch_First(Expression expression) {
+        return withOffsetFetch()
+                .withUseFetchFirst()
+                .withFetchOffsetRowCountExpression(expression);
+    }
+
+    /**
+     * Quick into OffsetFetchBuilder
+     * @param integerConstant
+     * @return
+     */
+    public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> $Fetch_Next(Integer integerConstant) {
+        return withOffsetFetch()
+                .withUseFetchNext()
+                .withFetchIntegerConstant(integerConstant);
+    }
+
+    /**
+     * Quick into OffsetFetchBuilder
+     * @param expression
+     * @return
+     */
+    public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> $Fetch_Next(Expression expression) {
+        return withOffsetFetch()
+                .withUseFetchNext()
+                .withFetchOffsetRowCountExpression(expression);
+    }
+
+
+    /**
+     * OrderByItemBuilder
+     * @param <ParentBuilder>
+     */
+    public static class OrderByItemBuilder<ParentBuilder>
+            extends CodeTreeBuilder<OrderByItemBuilder<ParentBuilder>,ParentBuilder,OrderBy.Item> {
+
 
         public OrderByItemBuilder(OrderBy.Item orderByItem) {
-            this.orderByItem = orderByItem;
+            super(orderByItem);
         }
 
-        public OrderByItemBuilder<Done> withAsc(){
-            this.orderByItem.setUseAsc(true);
+        public OrderByItemBuilder<ParentBuilder> withAsc(){
+            target.setUseAsc(true);
             return this;
         }
 
         @Deprecated
-        public OrderByItemBuilder<Done> withAsc(boolean useAsc){
-            this.orderByItem.setUseAsc(useAsc);
+        public OrderByItemBuilder<ParentBuilder> withAsc(boolean useAsc){
+            target.setUseAsc(useAsc);
             return this;
         }
 
-        public OrderByItemBuilder<Done> withDesc(){
-            this.orderByItem.setUseDesc(true);
+        public OrderByItemBuilder<ParentBuilder> withDesc(){
+            target.setUseDesc(true);
             return this;
         }
 
         @Deprecated
-        public OrderByItemBuilder<Done> withDesc(boolean useDesc){
-            this.orderByItem.setUseDesc(useDesc);
+        public OrderByItemBuilder<ParentBuilder> withDesc(boolean useDesc){
+            target.setUseDesc(useDesc);
             return this;
         }
 
-        public OrderByItemBuilder<Done> withExpression(Expression expression){
-            this.orderByItem.setOrderByExpression(expression);
+        public OrderByItemBuilder<ParentBuilder> withExpression(Expression expression){
+            target.setOrderByExpression(expression);
             return this;
         }
 
     }
 
     /**
-     *
-     * @param <Done>
+     * OffsetFetchBuilder
+     * @param <ParentBuilder>
      */
-    public static class OffsetFetchBuilder<Done>
-            extends SubBuilder<OffsetFetchBuilder<Done>,Void,Done> {
+    public static class OffsetFetchBuilder<ParentBuilder>
+            extends CodeTreeBuilder<OffsetFetchBuilder<ParentBuilder>,ParentBuilder,OrderBy.OffsetFetch> {
 
-        private OrderBy.OffsetFetch offsetFetch;
 
         public OffsetFetchBuilder(OrderBy.OffsetFetch offsetFetch) {
-            this.offsetFetch = offsetFetch;
+            super(offsetFetch);
         }
 
 
 
-        public OffsetFetchBuilder<Done> withIntegerConstant(Integer integerConstant) {
-            this.offsetFetch.setIntegerConstant(integerConstant);
+        public OffsetFetchBuilder<ParentBuilder> withIntegerConstant(Integer integerConstant) {
+            target.setIntegerConstant(integerConstant);
             return this;
         }
 
-        public OffsetFetchBuilder<Done> setOffsetRowCountExpression(Expression offsetRowCountExpression) {
-            this.offsetFetch.setOffsetRowCountExpression(offsetRowCountExpression);
+        public OffsetFetchBuilder<ParentBuilder> withOffsetRowCountExpression(Expression offsetRowCountExpression) {
+            target.setOffsetRowCountExpression(offsetRowCountExpression);
             return this;
         }
 
-        public OffsetFetchBuilder<Done> setUseRow(boolean useRow) {
-            this.offsetFetch.setUseRow(useRow);
+        public OffsetFetchBuilder<ParentBuilder> withUseRows() {
+            target.setUseRows(true);
             return this;
         }
 
-        public OffsetFetchBuilder<Done> setUseFetch(boolean useFetch) {
-            this.offsetFetch.setUseFetch(useFetch);
+        public OffsetFetchBuilder<ParentBuilder> withUseFetchFirst() {
+            target.setUseFetch(true);
+            target.setUseFetchFirst(true);
             return this;
         }
 
-        public OffsetFetchBuilder<Done> setUseFetchFirst(boolean useFetchFirst) {
-            this.offsetFetch.setUseFetchFirst(useFetchFirst);
+        public OffsetFetchBuilder<ParentBuilder> withUseFetchNext() {
+            target.setUseFetch(true);
+            target.setUseFetchFirst(true);
             return this;
         }
 
-        public OffsetFetchBuilder<Done> setFetchIntegerConstant(Integer fetchIntegerConstant) {
-            this.offsetFetch.setFetchIntegerConstant(fetchIntegerConstant);
+        public OffsetFetchBuilder<ParentBuilder> withFetchIntegerConstant(Integer fetchIntegerConstant) {
+            target.setFetchIntegerConstant(fetchIntegerConstant);
             return this;
         }
 
-        public OffsetFetchBuilder<Done> setFetchOffsetRowCountExpression(Expression fetchOffsetRowCountExpression) {
-            this.offsetFetch.setFetchOffsetRowCountExpression(fetchOffsetRowCountExpression);
+        public OffsetFetchBuilder<ParentBuilder> withFetchOffsetRowCountExpression(Expression fetchOffsetRowCountExpression) {
+            target.setFetchOffsetRowCountExpression(fetchOffsetRowCountExpression);
             return this;
         }
 
-        public OffsetFetchBuilder<Done> setUseFetchRow(boolean useFetchRow) {
-            this.offsetFetch.setUseFetchRow(useFetchRow);
+        public OffsetFetchBuilder<ParentBuilder> withUseFetchRows() {
+            target.setUseFetchRows(true);
             return this;
         }
 
+
+        /**
+         * Quick set
+         * And get-out
+         * @return
+         */
+        public ParentBuilder $Row() {
+            if(target.getFetchOffsetRowCountExpression() != null){
+                target.setUseFetchRows(false);
+                return this.and();
+            }
+            target.setUseRows(false);
+            return this.and();
+        }
+
+        /**
+         * Quick set
+         * And get-out
+         * @return
+         */
+        public ParentBuilder $Rows() {
+            if(target.getFetchOffsetRowCountExpression() != null){
+                return withUseFetchRows()
+                        .and();
+            }
+            return withUseRows()
+                    .and();
+        }
     }
 }

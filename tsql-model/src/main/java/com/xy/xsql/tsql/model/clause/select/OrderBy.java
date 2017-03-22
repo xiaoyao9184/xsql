@@ -169,7 +169,7 @@ public class OrderBy implements Clause {
         private Expression offsetRowCountExpression;
 
         //{ ROW | ROWS }
-        private boolean useRow;
+        private boolean useRows;
 
         //[
         //    FETCH { FIRST | NEXT } {integer_constant | fetch_row_count_expression } { ROW | ROWS } ONLY
@@ -178,7 +178,7 @@ public class OrderBy implements Clause {
         private boolean useFetchFirst;
         private Integer fetchIntegerConstant;
         private Expression fetchOffsetRowCountExpression;
-        private boolean useFetchRow;
+        private boolean useFetchRows;
 
 
         public Integer getIntegerConstant() {
@@ -197,12 +197,12 @@ public class OrderBy implements Clause {
             this.offsetRowCountExpression = offsetRowCountExpression;
         }
 
-        public boolean isUseRow() {
-            return useRow;
+        public boolean isUseRows() {
+            return useRows;
         }
 
-        public void setUseRow(boolean useRow) {
-            this.useRow = useRow;
+        public void setUseRows(boolean useRows) {
+            this.useRows = useRows;
         }
 
         public boolean isUseFetch() {
@@ -237,12 +237,12 @@ public class OrderBy implements Clause {
             this.fetchOffsetRowCountExpression = fetchOffsetRowCountExpression;
         }
 
-        public boolean isUseFetchRow() {
-            return useFetchRow;
+        public boolean isUseFetchRows() {
+            return useFetchRows;
         }
 
-        public void setUseFetchRow(boolean useFetchRow) {
-            this.useFetchRow = useFetchRow;
+        public void setUseFetchRows(boolean useFetchRows) {
+            this.useFetchRows = useFetchRows;
         }
 
         @Override
@@ -255,7 +255,7 @@ public class OrderBy implements Clause {
             } else {
                 b.append(offsetRowCountExpression);
             }
-            b.append(useRow ? Keywords.Key.ROW : Keywords.Key.ROWS);
+            b.append(useRows ? Keywords.Key.ROWS : Keywords.Key.ROW);
 
             if(useFetch){
                 b.append(Keywords.FETCH)
@@ -265,7 +265,7 @@ public class OrderBy implements Clause {
                 } else {
                     b.append(fetchOffsetRowCountExpression);
                 }
-                b.append(useFetchRow ? Keywords.Key.ROW : Keywords.Key.ROWS)
+                b.append(useFetchRows ? Keywords.Key.ROWS : Keywords.Key.ROW)
                         .append(Keywords.Key.ONLY);
             }
 
