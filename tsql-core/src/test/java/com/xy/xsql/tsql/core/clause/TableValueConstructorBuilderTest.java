@@ -9,6 +9,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
@@ -80,38 +81,38 @@ public class TableValueConstructorBuilderTest {
         Select select1 = new SelectBuilder()
                 .withQuery()
                     .withSelectList()
-                        .withSelectItem().withColumnName("Name").out()
-                        .out()
+                        .withSelectItem().withColumnName(c("Name")).and()
+                        .and()
                     .withFrom()
                         .withItem()._Base()
                             .withTableName(t("Production.Product"))
-                        .out()
-                        .out()
+                        .and()
+                        .and()
                     .withWhere().withSearchCondition().withPredicate()._Comparison()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
                         .withExpression(e_number(720))
-                        .out().out().out()
-                .out()
+                        .and().and().and()
+                .and()
                 .build(null);
 
 
         Select select2 = new SelectBuilder()
                 .withQuery()
                     .withSelectList()
-                        .withSelectItem().withColumnName("ListPrice").out()
-                        .out()
+                        .withSelectItem().withColumnName(c("ListPrice")).and()
+                        .and()
                     .withFrom()
                         .withItem()._Base()
                             .withTableName(t("Production.Product"))
-                        .out()
-                        .out()
+                        .and()
+                        .and()
                     .withWhere().withSearchCondition().withPredicate()._Comparison()
                         .withExpression(e("ProductID"))
                         .withOperator(Operators.EQUAL)
                         .withExpression(e_number(720))
-                        .out().out().out()
-                .out()
+                        .and().and().and()
+                .and()
                 .build(null);
 
 

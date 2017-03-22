@@ -11,24 +11,23 @@ import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.element.Unknown;
-import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
-public class SelectBuilder implements BaseBuilder<Void,Select> {
+public class SelectBuilder implements BaseBuilder<Void, com.xy.xsql.tsql.model.statement.dml.Select> {
 
 
-    private Select select;
+    private com.xy.xsql.tsql.model.statement.dml.Select select;
 
 
     public SelectBuilder(){
-        this.select = new Select();
+        this.select = new com.xy.xsql.tsql.model.statement.dml.Select();
     }
 
 
     @Override
-    public Select build(Void aVoid) {
+    public com.xy.xsql.tsql.model.statement.dml.Select build(Void aVoid) {
         return select;
     }
 
@@ -36,7 +35,7 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
 
 
     public QuerySpecificationBuilder<SelectBuilder> withQuery() {
-        Select.QuerySpecification querySpecification = new Select.QuerySpecification();
+        com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification querySpecification = new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification();
         select.setQueryExpression(querySpecification);
         return new QuerySpecificationBuilder<SelectBuilder>
                 (querySpecification)
@@ -67,14 +66,14 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
 
 
     public static class QuerySpecificationBuilder<ParentBuilder>
-            extends CodeTreeBuilder<QuerySpecificationBuilder<ParentBuilder>,ParentBuilder,Select.QuerySpecification> {
+            extends CodeTreeBuilder<QuerySpecificationBuilder<ParentBuilder>,ParentBuilder, com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification> {
 
 
         public QuerySpecificationBuilder() {
-            super(new Select.QuerySpecification());
+            super(new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification());
         }
 
-        public QuerySpecificationBuilder(Select.QuerySpecification tar) {
+        public QuerySpecificationBuilder(com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification tar) {
             super(tar);
         }
 
@@ -112,10 +111,10 @@ public class SelectBuilder implements BaseBuilder<Void,Select> {
          *
          * @return
          */
-        public SelectListBuilder<QuerySpecificationBuilder<ParentBuilder>> withSelectList(){
-            SelectList selectList = new SelectList();
+        public com.xy.xsql.tsql.core.clause.select.SelectBuilder<QuerySpecificationBuilder<ParentBuilder>> withSelectList(){
+            Select selectList = new Select();
             target.setSelectList(selectList);
-            return new SelectListBuilder<QuerySpecificationBuilder<ParentBuilder>>(selectList)
+            return new com.xy.xsql.tsql.core.clause.select.SelectBuilder<QuerySpecificationBuilder<ParentBuilder>>(selectList)
                     .in(this);
         }
 

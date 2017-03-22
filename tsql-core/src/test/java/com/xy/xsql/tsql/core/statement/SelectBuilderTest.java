@@ -26,14 +26,14 @@ public class SelectBuilderTest {
                 .withSelectList()
                     .withSelectItem()
                         .withAll()
-                        .build(null)
-                    .build(null)
+                        .and()
+                    .and()
                 .withFrom()
                     .withItem()._Base()
                         .withTableName(t("table"))
                         .and()
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
         Assert.assertEquals(select.getSelectList().getList().size(),1);
@@ -58,7 +58,7 @@ public class SelectBuilderTest {
     public void testDistinctBuild(){
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withDistinct()
-                .build(null);
+                .build();
 
         Assert.assertTrue(select.isUseDistinct());
     }
@@ -73,7 +73,7 @@ public class SelectBuilderTest {
                 .withTop()
                     .withExpression(e_number(50))
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertEquals(select.getTop().getExpression().toString(),"50");
 
@@ -82,7 +82,7 @@ public class SelectBuilderTest {
                     .withExpression(e_number(50))
                     .withPercent()
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertTrue(select.getTop().isUsePercent());
     }
@@ -96,8 +96,8 @@ public class SelectBuilderTest {
                 .withSelectList()
                     .withSelectItem()
                         .withAll()
-                        .build(null)
-                    .build(null)
+                        .and()
+                    .and()
                 .withFrom()
                     .withItem()._Base()
                         .withTableName(t("table"))
@@ -106,7 +106,7 @@ public class SelectBuilderTest {
                         .withTableName(t("table2"))
                         .and()
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),2);
     }
@@ -120,8 +120,8 @@ public class SelectBuilderTest {
                 .withSelectList()
                     .withSelectItem()
                         .withAll()
-                        .build(null)
-                    .build(null)
+                        .and()
+                    .and()
                 .withFrom()
                     .withItem()._Joined()
                         .withTableSource()._Base()

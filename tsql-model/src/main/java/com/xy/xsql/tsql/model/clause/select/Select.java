@@ -3,7 +3,11 @@ package com.xy.xsql.tsql.model.clause.select;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.element.Alias;
+import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.operator.Operators;
@@ -37,9 +41,42 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2016/12/23.
  */
-public class SelectList implements Clause {
+public class Select implements Clause {
+
+    // [ ALL | DISTINCT ]
+    private boolean useAll;
+    private boolean useDistinct;
+
+    //<TOP Clause>
+    private Top top;
+
+    //<select_list>
     private List<SelectItem> list;
 
+
+    public boolean isUseAll() {
+        return useAll;
+    }
+
+    public void setUseAll(boolean useAll) {
+        this.useAll = useAll;
+    }
+
+    public boolean isUseDistinct() {
+        return useDistinct;
+    }
+
+    public void setUseDistinct(boolean useDistinct) {
+        this.useDistinct = useDistinct;
+    }
+
+    public Top getTop() {
+        return top;
+    }
+
+    public void setTop(Top top) {
+        this.top = top;
+    }
 
     public List<SelectItem> getList() {
         return list;
@@ -53,18 +90,27 @@ public class SelectList implements Clause {
     @Override
     public List<Block> toBlockList() {
         return new ListBlockBuilder()
-                .append(list, Other.DELIMITER)
+                .append(useAll ?
+                        Keywords.ALL :
+                        useDistinct ?
+                                Keywords.DISTINCT :
+                                null)
+                .append(top)
+                .append(list)
                 .build();
     }
 
 
+    /**
+     * TODO maybe use interface
+     */
     public static class SelectItem implements Block {
         //*
         private boolean useAll;
 
         //{ table_name | view_name | table_alias }.*
         private boolean useTableAll;
-        private String tableViewName;
+        private TableName tableViewName;
 
         /*
         {
@@ -77,12 +123,12 @@ public class SelectList implements Clause {
          }
         */
         //column_name
-        private String columnName;
+        private ColumnName columnName;
         //expression
         private Expression expression;
         //[ [ AS ] column_alias ]
         private boolean useAs;
-        private String columnAlias;
+        private Alias<Void> columnAlias;
 
         //column_alias = expression
         private boolean useEQ;
@@ -103,19 +149,19 @@ public class SelectList implements Clause {
             this.useTableAll = useTableAll;
         }
 
-        public String getTableViewName() {
+        public TableName getTableViewName() {
             return tableViewName;
         }
 
-        public void setTableViewName(String tableViewName) {
+        public void setTableViewName(TableName tableViewName) {
             this.tableViewName = tableViewName;
         }
 
-        public String getColumnName() {
+        public ColumnName getColumnName() {
             return columnName;
         }
 
-        public void setColumnName(String columnName) {
+        public void setColumnName(ColumnName columnName) {
             this.columnName = columnName;
         }
 
@@ -135,11 +181,11 @@ public class SelectList implements Clause {
             this.useAs = useAs;
         }
 
-        public String getColumnAlias() {
+        public Alias<Void> getColumnAlias() {
             return columnAlias;
         }
 
-        public void setColumnAlias(String columnAlias) {
+        public void setColumnAlias(Alias<Void> columnAlias) {
             this.columnAlias = columnAlias;
         }
 
@@ -167,8 +213,8 @@ public class SelectList implements Clause {
                         .append(Comparison.EQUAL)
                         .append(expression);
             } else {
-                if(!CheckUtil.isNullOrEmpty(columnName)){
-                    if(!CheckUtil.isNullOrEmpty(tableViewName)){
+                if(!CheckUtil.isNull(columnName)){
+                    if(tableViewName != null){
                         b.append(tableViewName)
                                 .append(".");
                     }

@@ -124,7 +124,7 @@ public class Select implements Statement {
         private Top top;
 
         //< select_list >
-        private SelectList selectList;
+        private com.xy.xsql.tsql.model.clause.select.Select selectList;
         //[ INTO new_table ]
         private Unknown newTable;
 
@@ -161,11 +161,11 @@ public class Select implements Statement {
             this.top = top;
         }
 
-        public SelectList getSelectList() {
+        public com.xy.xsql.tsql.model.clause.select.Select getSelectList() {
             return selectList;
         }
 
-        public void setSelectList(SelectList selectList) {
+        public void setSelectList(com.xy.xsql.tsql.model.clause.select.Select selectList) {
             this.selectList = selectList;
         }
 
