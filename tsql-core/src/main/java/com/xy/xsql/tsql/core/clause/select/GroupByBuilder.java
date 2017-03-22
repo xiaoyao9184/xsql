@@ -1,520 +1,346 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.core.builder.SubBuilder;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.CodeTreeLazyConfigBuilder;
+import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.clause.select.GroupBy.GroupByExpression;
+import com.xy.xsql.tsql.model.expression.Expression;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * GroupByBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
-public class GroupByBuilder<Done>
-        extends SubBuilder<GroupByBuilder<Done>,Void,Done> {
-
-    private GroupBy groupBy;
+public class GroupByBuilder<ParentBuilder>
+        extends CodeTreeBuilder<GroupByBuilder<ParentBuilder>,ParentBuilder,GroupBy> {
 
     public GroupByBuilder(GroupBy groupBy) {
-        this.groupBy = groupBy;
+        super(groupBy);
     }
 
     public GroupByBuilder() {
-        this.groupBy = new GroupBy();
-    }
-
-    public GroupBy build(){
-        return groupBy;
+        super(new GroupBy());
     }
 
 
-    public GroupListByBuilder<GroupByBuilder<Done>> withGroupList(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new GroupListByBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
-    }
-
-    @Deprecated
-    public BaseGroupListByBuilder<GroupByBuilder<Done>> withBaseGroupList(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new BaseGroupListByBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
-    }
-
-    @Deprecated
-    public CubeGroupListByBuilder<GroupByBuilder<Done>> withCubeGroupList(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new CubeGroupListByBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
-    }
-
-    @Deprecated
-    public RollupGroupListByBuilder<GroupByBuilder<Done>> withRollupGroupList(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new RollupGroupListByBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
-    }
-
-    @Deprecated
-    public GroupingSetsGroupByListBuilder<GroupByBuilder<Done>> withGroupingSetsGroupByList(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new GroupingSetsGroupByListBuilder<GroupByBuilder<Done>>(items)
+    public GroupByItemBuilder<GroupByBuilder<ParentBuilder>> withItem(){
+        initList(target::getItems,
+                target::setItems);
+        return new GroupByItemBuilder<GroupByBuilder<ParentBuilder>>
+                (target.getItems()::add)
                 .in(this);
     }
 
 
     /**
-     * @see #withBaseGroupList()
-     * @return
+     * Abstract GroupBy.Item Builder
+     * @param <ParentBuilder>
      */
-    @Deprecated
-    public BaseGroupListByBuilder<GroupByBuilder<Done>> base(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new BaseGroupListByBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
+    public static class GroupByItemBuilder<ParentBuilder>
+            extends CodeTreeBuilder<GroupByItemBuilder<ParentBuilder>, ParentBuilder, Setter<GroupBy.Item>> {
+
+        public GroupByItemBuilder(Setter<GroupBy.Item> setter) {
+            super(setter);
+        }
+
+
+        public BaseItemBuilder<ParentBuilder> _Base(){
+            return new BaseItemBuilder<ParentBuilder>
+                    ((item) -> target.set(item))
+                    .in(this.out());
+        }
+
+        public CubeItemBuilder<ParentBuilder> _Cube(){
+            return new CubeItemBuilder<ParentBuilder>
+                    ((item) -> target.set(item))
+                    .in(this.out());
+        }
+
+        public RollupItemBuilder<ParentBuilder> _Rollup(){
+            return new RollupItemBuilder<ParentBuilder>
+                    ((item) -> target.set(item))
+                    .in(this.out());
+        }
+
+        public GroupingSetsItemBuilder<ParentBuilder> _GroupingSet(){
+            return new GroupingSetsItemBuilder<ParentBuilder>
+                    ((item) -> target.set(item))
+                    .in(this.out());
+        }
+
     }
 
     /**
-     * @see #withCubeGroupList()
-     * @return
+     * BaseItemBuilder
+     * @param <ParentBuilder>
      */
-    @Deprecated
-    public CubeGroupListByBuilder<GroupByBuilder<Done>> cube(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new CubeGroupListByBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
-    }
+    public static class BaseItemBuilder<ParentBuilder>
+            extends CodeTreeLazyConfigBuilder<BaseItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.BaseItem, GroupBy.BaseItem> {
 
-    /**
-     * @see #withRollupGroupList()
-     * @return
-     */
-    @Deprecated
-    public RollupGroupListByBuilder<GroupByBuilder<Done>> rollup(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new RollupGroupListByBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
-    }
-
-    /**
-     * @see #withGroupingSetsGroupByList()
-     * @return
-     */
-    @Deprecated
-    public GroupingSetsGroupByListBuilder<GroupByBuilder<Done>> groupingSet(){
-        List<GroupBy.GroupByItem> items = new ArrayList<>();
-        this.groupBy.setItems(items);
-        return new GroupingSetsGroupByListBuilder<GroupByBuilder<Done>>(items)
-                .in(this);
-    }
-
-
-    public class GroupListByBuilder<Done>
-            extends SubBuilder<GroupListByBuilder<Done>,Void,Done> {
-        private List<GroupBy.GroupByItem> items;
-
-        public GroupListByBuilder(List<GroupBy.GroupByItem> items) {
-            this.items = items;
+        public BaseItemBuilder(GroupBy.BaseItem item) {
+            super(item);
         }
 
-        public BaseGroupByItemBuilder<GroupListByBuilder<Done>> withBaseItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new BaseGroupByItemBuilder<GroupListByBuilder<Done>>(item)
-                    .in(this);
+        public BaseItemBuilder(Setter<GroupBy.BaseItem> setter) {
+            super(new GroupBy.BaseItem(),setter);
         }
 
-        public RollupGroupByItemBuilder<GroupListByBuilder<Done>> withRollupItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new RollupGroupByItemBuilder<GroupListByBuilder<Done>>(item)
-                    .in(this);
-        }
-
-        public CubeGroupByItemBuilder<GroupListByBuilder<Done>> withCubeItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new CubeGroupByItemBuilder<GroupListByBuilder<Done>>(item)
-                    .in(this);
-        }
-
-        public GroupingSetsGroupByItemBuilder<GroupListByBuilder<Done>> withGroupingSetsItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new GroupingSetsGroupByItemBuilder<GroupListByBuilder<Done>>(item)
-                    .in(this);
-        }
-    }
-
-
-    /**
-     *
-     * @param <Done>
-     */
-    public class BaseGroupListByBuilder<Done>
-            extends SubBuilder<BaseGroupListByBuilder<Done>,Void,Done> {
-        private List<GroupBy.GroupByItem> items;
-
-        public BaseGroupListByBuilder(List<GroupBy.GroupByItem> items) {
-            this.items = items;
-        }
-
-        public BaseGroupByItemBuilder<BaseGroupListByBuilder<Done>> withItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new BaseGroupByItemBuilder<BaseGroupListByBuilder<Done>>(item)
-                    .in(this);
-        }
-    }
-
-    /**
-     *
-     * @param <Done>
-     */
-    public class CubeGroupListByBuilder<Done>
-            extends SubBuilder<CubeGroupListByBuilder<Done>,Void,Done> {
-        private List<GroupBy.GroupByItem> items;
-
-        public CubeGroupListByBuilder(List<GroupBy.GroupByItem> items) {
-            this.items = items;
-        }
-
-        public CubeGroupByItemBuilder<CubeGroupListByBuilder<Done>> withItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new CubeGroupByItemBuilder<CubeGroupListByBuilder<Done>>(item)
-                    .in(this);
-        }
-    }
-
-    /**
-     *
-     * @param <Done>
-     */
-    public class RollupGroupListByBuilder<Done>
-            extends SubBuilder<RollupGroupListByBuilder<Done>,Void,Done> {
-        private List<GroupBy.GroupByItem> items;
-
-        public RollupGroupListByBuilder(List<GroupBy.GroupByItem> items) {
-            this.items = items;
-        }
-
-        public RollupGroupByItemBuilder<RollupGroupListByBuilder<Done>> withItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new RollupGroupByItemBuilder<RollupGroupListByBuilder<Done>>(item)
-                    .in(this);
-        }
-    }
-
-    /**
-     *
-     * @param <Done>
-     */
-    public static class GroupingSetsGroupByListBuilder<Done>
-            extends SubBuilder<GroupingSetsGroupByListBuilder<Done>,Void,Done> {
-        private List<GroupBy.GroupByItem> items;
-
-        public GroupingSetsGroupByListBuilder(List<GroupBy.GroupByItem> items) {
-            this.items = items;
-        }
-
-        public GroupingSetsGroupByItemBuilder<GroupingSetsGroupByListBuilder<Done>> withItem(){
-            GroupBy.GroupByItem item = new GroupBy.GroupByItem();
-            if(this.items == null){
-                this.items = new ArrayList<>();
-            }
-            this.items.add(item);
-            return new GroupingSetsGroupByItemBuilder<GroupingSetsGroupByListBuilder<Done>>(item)
-                    .in(this);
-        }
-    }
-
-
-
-
-    /**
-     *
-     * @param <Done>
-     */
-    public static class BaseGroupByItemBuilder<Done>
-            extends SubBuilder<BaseGroupByItemBuilder<Done>,Void,Done> {
-
-        private GroupBy.GroupByItem groupByItem;
-
-        public BaseGroupByItemBuilder(GroupBy.GroupByItem groupByItem) {
-            this.groupByItem = groupByItem;
-            this.groupByItem.setType(GroupBy.ItemType.Base);
-        }
-
-
-        public BaseGroupByItemBuilder<Done> withColumnExpression(Expression columnExpression) {
-            this.groupByItem.setColumnExpression(columnExpression);
+        public BaseItemBuilder<ParentBuilder> withColumnExpression(Expression columnExpression) {
+            target.setExpression(columnExpression);
             return this;
         }
     }
 
     /**
-     *
-     * @param <Done>
+     * RollupItemBuilder
+     * @param <ParentBuilder>
      */
-    public static class RollupGroupByItemBuilder<Done>
-            extends SubBuilder<RollupGroupByItemBuilder<Done>,Void,Done> {
+    public static class RollupItemBuilder<ParentBuilder>
+            extends CodeTreeLazyConfigBuilder<RollupItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.RollupItem, GroupBy.RollupItem> {
 
-        private GroupBy.GroupByItem groupByItem;
+        public RollupItemBuilder(GroupBy.RollupItem item) {
+            super(item);
+        }
 
-        public RollupGroupByItemBuilder(GroupBy.GroupByItem groupByItem) {
-            this.groupByItem = groupByItem;
-            this.groupByItem.setType(GroupBy.ItemType.Rollup);
+        public RollupItemBuilder(Setter<GroupBy.RollupItem> setter) {
+            super(new GroupBy.RollupItem(),setter);
         }
 
 
-        public GroupByExpressionListBuilder<RollupGroupByItemBuilder<Done>> withGroupByExpressionList() {
-            List<GroupByExpression> groupByExpressionList = new ArrayList<>();
-            this.groupByItem.setGroupByExpressionList(groupByExpressionList);
-            return new GroupByExpressionListBuilder<RollupGroupByItemBuilder<Done>>(groupByExpressionList)
+        public GroupByExpressionBuilder<RollupItemBuilder<ParentBuilder>> withItem() {
+            return new GroupByExpressionBuilder<RollupItemBuilder<ParentBuilder>>
+                    (initNew(GroupByExpression::new,
+                            target::getGroupByExpressionList,
+                            target::setGroupByExpressionList))
                     .in(this);
         }
 
-        @Deprecated
-        public RollupGroupByItemBuilder<Done> withColumnExpression(Expression columnExpression) {
-            this.groupByItem.setColumnExpression(columnExpression);
-            return this;
-        }
     }
 
     /**
-     *
-     * @param <Done>
+     * CubeItemBuilder
+     * @param <ParentBuilder>
      */
-    public static class CubeGroupByItemBuilder<Done>
-            extends SubBuilder<CubeGroupByItemBuilder<Done>,Void,Done> {
+    public static class CubeItemBuilder<ParentBuilder>
+            extends CodeTreeLazyConfigBuilder<CubeItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.CubeItem, GroupBy.CubeItem> {
 
-        private GroupBy.GroupByItem groupByItem;
-
-        public CubeGroupByItemBuilder(GroupBy.GroupByItem groupByItem) {
-            this.groupByItem = groupByItem;
-            this.groupByItem.setType(GroupBy.ItemType.Cube);
+        public CubeItemBuilder(GroupBy.CubeItem item) {
+            super(item);
         }
 
-        public GroupByExpressionListBuilder<CubeGroupByItemBuilder<Done>> withGroupByExpressionList() {
-            List<GroupByExpression> groupByExpressionList = new ArrayList<>();
-            this.groupByItem.setGroupByExpressionList(groupByExpressionList);
-            return new GroupByExpressionListBuilder<CubeGroupByItemBuilder<Done>>(groupByExpressionList)
+        public CubeItemBuilder(Setter<GroupBy.CubeItem> setter) {
+            super(new GroupBy.CubeItem(),setter);
+        }
+
+        public GroupByExpressionBuilder<CubeItemBuilder<ParentBuilder>> withItem() {
+            return new GroupByExpressionBuilder<CubeItemBuilder<ParentBuilder>>
+                    (initNew(GroupByExpression::new,
+                            target::getGroupByExpressionList,
+                            target::setGroupByExpressionList))
                     .in(this);
         }
 
-        @Deprecated
-        public CubeGroupByItemBuilder<Done> withColumnExpression(Expression columnExpression) {
-            this.groupByItem.setColumnExpression(columnExpression);
-            return this;
-        }
     }
 
     /**
-     *
-     * @param <Done>
+     * GroupingSetsItemBuilder
+     * @param <ParentBuilder>
      */
-    public static class GroupingSetsGroupByItemBuilder<Done>
-            extends SubBuilder<GroupingSetsGroupByItemBuilder<Done>,Void,Done> {
+    public static class GroupingSetsItemBuilder<ParentBuilder>
+            extends CodeTreeLazyConfigBuilder<GroupingSetsItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.GroupingSetsItem, GroupBy.GroupingSetsItem> {
 
-        private GroupBy.GroupByItem groupByItem;
+        public GroupingSetsItemBuilder(GroupBy.GroupingSetsItem item) {
+            super(item);
+        }
 
-        public GroupingSetsGroupByItemBuilder(GroupBy.GroupByItem groupByItem) {
-            this.groupByItem = groupByItem;
-            this.groupByItem.setType(GroupBy.ItemType.GroupingSet);
+        public GroupingSetsItemBuilder(Setter<GroupBy.GroupingSetsItem> setter) {
+            super(new GroupBy.GroupingSetsItem(),setter);
         }
 
 
-        public GroupingSetListBuilder<GroupingSetsGroupByItemBuilder<Done>> withGroupingSetList() {
-            List<GroupBy.GroupingSet> groupingSetList = new ArrayList<>();
-            this.groupByItem.setGroupingSetList(groupingSetList);
-            return new GroupingSetListBuilder<GroupingSetsGroupByItemBuilder<Done>>(groupingSetList)
+        public GroupingSetBuilder<GroupingSetsItemBuilder<ParentBuilder>> withItem() {
+            return new GroupingSetBuilder<GroupingSetsItemBuilder<ParentBuilder>>
+                    (initNew(GroupBy.GroupingSet::new,
+                            target::getGroupingSetItemList,
+                            target::setGroupingSetItemList))
                     .in(this);
         }
     }
 
 
     /**
-     *
-     * @param <Done>
+     * GroupByExpressionBuilder
+     * @param <ParentBuilder>
      */
-    public static class GroupByExpressionListBuilder<Done>
-            extends SubBuilder<GroupByExpressionListBuilder<Done>,Void,Done> {
-
-        private List<GroupByExpression> groupByExpressionList;
-
-        public GroupByExpressionListBuilder(List<GroupByExpression> groupByExpressionList) {
-            this.groupByExpressionList = groupByExpressionList;
-        }
-
-
-        public GroupByExpressionBuilder<GroupByExpressionListBuilder<Done>> withGroupByExpression() {
-            GroupByExpression groupByExpression = new GroupByExpression();
-            this.groupByExpressionList.add(groupByExpression);
-            return new GroupByExpressionBuilder<GroupByExpressionListBuilder<Done>>(groupByExpression)
-                    .in(this);
-        }
-    }
-
-    /**
-     * 
-     * @param <Done>
-     */
-    public static class GroupByExpressionBuilder<Done>
-            extends SubBuilder<GroupByExpressionBuilder<Done>,Void,Done> {
-
-        private GroupBy.GroupByExpression groupByExpression;
+    public static class GroupByExpressionBuilder<ParentBuilder>
+            extends CodeTreeLazyConfigBuilder<GroupByExpressionBuilder<ParentBuilder>, ParentBuilder, GroupBy.GroupByExpression, GroupBy.GroupByExpression> {
 
         public GroupByExpressionBuilder(GroupBy.GroupByExpression groupByExpression) {
-            this.groupByExpression = groupByExpression;
+            super(groupByExpression);
+        }
+
+        public GroupByExpressionBuilder(Setter<GroupBy.GroupByExpression> setter) {
+            super(new GroupBy.GroupByExpression(),setter);
         }
 
 
-        public GroupByExpressionBuilder<Done> withColumnExpression(Expression columnExpression) {
-            if(this.groupByExpression.getColumnExpressionList() == null){
-                this.groupByExpression.setColumnExpressionList(new ArrayList<Expression>());
+        public GroupByExpressionBuilder<ParentBuilder> withColumnExpression(Expression columnExpression) {
+            if(target.getColumnExpressionList() == null){
+                target.setColumnExpressionList(new ArrayList<Expression>());
             }
-            this.groupByExpression.getColumnExpressionList().add(columnExpression);
+            target.getColumnExpressionList().add(columnExpression);
             return this;
         }
     }
 
-
     /**
-     *
-     * @param <Done>
+     * GroupingSetBuilder
+     * @param <ParentBuilder>
      */
-    public static class GroupingSetListBuilder<Done>
-            extends SubBuilder<GroupingSetListBuilder<Done>,Void,Done> {
-
-        private List<GroupBy.GroupingSet> groupingSetList;
-
-        public GroupingSetListBuilder(List<GroupBy.GroupingSet> groupingSetList) {
-            this.groupingSetList = groupingSetList;
-        }
-
-        public GroupingSetBuilder<GroupingSetListBuilder<Done>> withGroupingSet(){
-            GroupBy.GroupingSet item = new GroupBy.GroupingSet();
-            if(this.groupingSetList == null){
-                this.groupingSetList = new ArrayList<>();
-            }
-            this.groupingSetList.add(item);
-            return new GroupingSetBuilder<GroupingSetListBuilder<Done>>(item)
-                    .in(this);
-        }
-    }
-
-    /**
-     *
-     * @param <Done>
-     */
-    public static class GroupingSetBuilder<Done>
-            extends SubBuilder<GroupingSetBuilder<Done>,Void,Done> {
-
-        private GroupBy.GroupingSet groupingSet;
+    public static class GroupingSetBuilder<ParentBuilder>
+            extends CodeTreeBuilder<GroupingSetBuilder<ParentBuilder>,ParentBuilder,GroupBy.GroupingSet> {
 
         public GroupingSetBuilder(GroupBy.GroupingSet groupingSet) {
-            this.groupingSet = groupingSet;
+            super(groupingSet);
         }
 
 
-        public GroupingSetItemListBuilder<GroupingSetBuilder<Done>> withGroupingSetItemList(){
-            List<GroupBy.GroupingSetItem> groupingSetItemList = new ArrayList<>();
-            this.groupingSet.setGroupingSetItemList(groupingSetItemList);
-            return new GroupingSetItemListBuilder<GroupingSetBuilder<Done>>(groupingSetItemList)
+        public GroupingSetItemBuilder<GroupingSetBuilder<ParentBuilder>> withItem(){
+            initList(target::getGroupByExpressionList,
+                    target::setGroupByExpressionList);
+            return new GroupingSetItemBuilder<GroupingSetBuilder<ParentBuilder>>
+                    (target.getGroupByExpressionList()::add)
                     .in(this);
         }
     }
 
     /**
-     *
-     * @param <Done>
+     * Abstract GroupBy.GroupingSet.Item Builder
+     * @param <ParentBuilder>
      */
-    public static class GroupingSetItemListBuilder<Done>
-            extends SubBuilder<GroupingSetItemListBuilder<Done>,Void,Done> {
+    public static class GroupingSetItemBuilder<ParentBuilder>
+            extends CodeTreeBuilder<GroupingSetItemBuilder<ParentBuilder>, ParentBuilder, Setter<GroupBy.GroupingSet.Item>> {
 
-        private List<GroupBy.GroupingSetItem> groupingSetItemList;
-
-        public GroupingSetItemListBuilder(List<GroupBy.GroupingSetItem> groupingSetItemList) {
-            this.groupingSetItemList = groupingSetItemList;
+        public GroupingSetItemBuilder(Setter<GroupBy.GroupingSet.Item> setter) {
+            super(setter);
         }
 
-        public GroupingSetItemBuilder<GroupingSetItemListBuilder<Done>> withGroupingSetItem(){
-            GroupBy.GroupingSetItem groupingSetItem = new GroupBy.GroupingSetItem();
-            if(this.groupingSetItemList == null){
-                this.groupingSetItemList = new ArrayList<>();
-            }
-            this.groupingSetItemList.add(groupingSetItem);
-            return new GroupingSetItemBuilder<GroupingSetItemListBuilder<Done>>(groupingSetItem)
-                    .in(this);
-        }
-    }
+        //TODO lambda or method
+//
+//        public void set(GroupBy.GroupByExpression item){
+//            target.set(item);
+//        }
+//
+//        public void set(GroupBy.RollupItem item){
+//            target.set(item);
+//        }
+//
+//        public void set(GroupBy.CubeItem item){
+//            target.set(item);
+//        }
 
-    public static class GroupingSetItemBuilder<Done>
-            extends SubBuilder<GroupingSetItemBuilder<Done>,Void,Done> {
 
-        private GroupBy.GroupingSetItem groupingSetItem;
-
-        public GroupingSetItemBuilder(GroupBy.GroupingSetItem groupingSetItem) {
-            this.groupingSetItem = groupingSetItem;
-        }
-
-        public GroupByExpressionBuilder<GroupingSetItemBuilder<Done>> withGroupByExpression(){
-            GroupByExpression groupByExpression = new GroupByExpression();
-            List<GroupByExpression> list = new ArrayList<>();
-            list.add(groupByExpression);
-            this.groupingSetItem.setGroupByExpressionList(list);
-            return new GroupByExpressionBuilder<GroupingSetItemBuilder<Done>>(groupByExpression)
-                    .in(this);
+        public GroupByExpressionBuilder<ParentBuilder> _Base(){
+            return new GroupByExpressionBuilder<ParentBuilder>
+                    ((item) -> target.set(item))
+                    .in(this.out());
         }
 
-
-        public GroupByExpressionListBuilder<GroupingSetItemBuilder<Done>> withRollupGroupByExpressionList(){
-            List<GroupByExpression> groupByExpressionList = new ArrayList<>();
-            this.groupingSetItem.setUseRollup(true);
-            this.groupingSetItem.setGroupByExpressionList(groupByExpressionList);
-            return new GroupByExpressionListBuilder<GroupingSetItemBuilder<Done>>(groupByExpressionList)
-                    .in(this);
+        public RollupItemBuilder<ParentBuilder> _Cube(){
+            return new RollupItemBuilder<ParentBuilder>
+                    //TODO lambda or method
+//                    (this::set)
+                    ((item) -> target.set(item))
+                    .in(this.out());
         }
 
-
-        public GroupByExpressionListBuilder<GroupingSetItemBuilder<Done>> withCubeGroupByExpressionList(){
-            List<GroupByExpression> groupByExpressionList = new ArrayList<>();
-            this.groupingSetItem.setUseCube(true);
-            this.groupingSetItem.setGroupByExpressionList(groupByExpressionList);
-            return new GroupByExpressionListBuilder<GroupingSetItemBuilder<Done>>(groupByExpressionList)
-                    .in(this);
+        public CubeItemBuilder<ParentBuilder> _Rollup(){
+            return new CubeItemBuilder<ParentBuilder>
+                    ((item) -> target.set(item))
+                    .in(this.out());
         }
     }
+
+
+//
+//
+//    /**
+//     * Same as GroupByExpressionBuilder
+//     * @param <ParentBuilder>
+//     */
+//    public static class BaseGroupingSetItemBuilder<ParentBuilder>
+//            extends CodeTreeLazyConfigBuilder<BaseGroupingSetItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.GroupByExpression, GroupBy.GroupingSet.Item> {
+//
+//        public BaseGroupingSetItemBuilder(GroupBy.GroupByExpression item) {
+//            super(item);
+//        }
+//
+//        public BaseGroupingSetItemBuilder(Setter<GroupBy.GroupingSet.Item> setter) {
+//            super(new GroupBy.GroupByExpression(),setter);
+//        }
+//
+//        public BaseGroupingSetItemBuilder<ParentBuilder> withColumnExpression(Expression... columnExpression) {
+//            initAdd(Arrays.asList(columnExpression),
+//                    target::getColumnExpressionList,
+//                    target::setColumnExpressionList);
+//            return this;
+//        }
+//    }
+//
+//    /**
+//     * Same as RollupItemBuilder
+//     * @param <ParentBuilder>
+//     */
+//    public static class RollupGroupingSetItemBuilder<ParentBuilder>
+//            extends CodeTreeLazyConfigBuilder<RollupGroupingSetItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.RollupItem, GroupBy.GroupingSet.Item> {
+//
+//        public RollupGroupingSetItemBuilder(GroupBy.RollupItem item) {
+//            super(item);
+//        }
+//
+//        public RollupGroupingSetItemBuilder(Setter<GroupBy.GroupingSet.Item> setter) {
+//            super(new GroupBy.RollupItem(),setter);
+//        }
+//
+//
+//        public GroupByExpressionBuilder<RollupItemBuilder<ParentBuilder>> withItem() {
+//            return new GroupByExpressionBuilder<RollupItemBuilder<ParentBuilder>>
+//                    (initNew(GroupByExpression::new,
+//                            target::getGroupByExpressionList,
+//                            target::setGroupByExpressionList))
+//                    .in(this);
+//        }
+//
+//    }
+//
+//    /**
+//     * Same as CubeItemBuilder
+//     * @param <ParentBuilder>
+//     */
+//    public static class CubeGroupingSetItemBuilder<ParentBuilder>
+//            extends CodeTreeLazyConfigBuilder<CubeGroupingSetItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.CubeItem, GroupBy.GroupingSet.Item> {
+//
+//        public CubeGroupingSetItemBuilder(GroupBy.CubeItem item) {
+//            super(item);
+//        }
+//
+//        public CubeGroupingSetItemBuilder(Setter<GroupBy.GroupingSet.Item> setter) {
+//            super(new GroupBy.CubeItem(),setter);
+//        }
+//
+//        public GroupByExpressionBuilder<CubeItemBuilder<ParentBuilder>> withItem() {
+//            return new GroupByExpressionBuilder<CubeItemBuilder<ParentBuilder>>
+//                    (initNew(GroupByExpression::new,
+//                            target::getGroupByExpressionList,
+//                            target::setGroupByExpressionList))
+//                    .in(this);
+//        }
+//
+//    }
+
 }

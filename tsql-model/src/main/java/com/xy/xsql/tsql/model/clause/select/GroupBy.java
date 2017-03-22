@@ -4,6 +4,7 @@ package com.xy.xsql.tsql.model.clause.select;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.util.CheckUtil;
@@ -65,8 +66,16 @@ public class GroupBy implements Clause {
     @Deprecated
     private boolean useAll;
 
-    //column-expression [ ,...n ]
-    private List<GroupByItem> items;
+    /*
+    {
+          column-expression
+        | ROLLUP ( <group_by_expression> [ ,...n ] )
+        | CUBE ( <cgroup_by_expression> [ ,...n ] )
+        | GROUPING SETS ( <grouping set> [ ,...n ]  )
+        | () --calculates the grand total
+    }
+     */
+    private List<Item> items;
 
     //[ WITH { CUBE | ROLLUP } ]
     @Deprecated
@@ -82,11 +91,11 @@ public class GroupBy implements Clause {
         this.useAll = useAll;
     }
 
-    public List<GroupByItem> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<GroupByItem> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 
@@ -141,14 +150,6 @@ public class GroupBy implements Clause {
         return b.build();
     }
 
-
-    public enum ItemType {
-        Base,
-        Rollup,
-        Cube,
-        GroupingSet
-    }
-
     /**
      *
 
@@ -162,36 +163,31 @@ public class GroupBy implements Clause {
 
      *
      */
-    public static class GroupByItem implements Block {
+    public interface Item extends Block {
 
-        private GroupBy.ItemType type;
+    }
 
-        //column-expression
-        private Expression columnExpression;
+    /**
+     * column-expression
+     */
+    public static class BaseItem implements Item {
+        private Expression expression;
 
-        //ROLLUP ( <group_by_expression> [ ,...n ] )
-        //CUBE ( <cgroup_by_expression> [ ,...n ] )
+        public Expression getExpression() {
+            return expression;
+        }
+
+        public void setExpression(Expression expression) {
+            this.expression = expression;
+        }
+    }
+
+    /**
+     * ROLLUP ( <group_by_expression> [ ,...n ] )
+     */
+    public static class RollupItem implements Item, GroupingSet.Item {
+
         private List<GroupByExpression> groupByExpressionList;
-
-        //GROUPING SETS ( <grouping set> [ ,...n ]  )
-        private List<GroupingSet> groupingSetList;
-
-
-        public ItemType getType() {
-            return type;
-        }
-
-        public void setType(ItemType type) {
-            this.type = type;
-        }
-
-        public Expression getColumnExpression() {
-            return columnExpression;
-        }
-
-        public void setColumnExpression(Expression columnExpression) {
-            this.columnExpression = columnExpression;
-        }
 
         public List<GroupByExpression> getGroupByExpressionList() {
             return groupByExpressionList;
@@ -201,56 +197,91 @@ public class GroupBy implements Clause {
             this.groupByExpressionList = groupByExpressionList;
         }
 
-        public List<GroupingSet> getGroupingSetList() {
-            return groupingSetList;
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(Keywords.Key.ROLLUP)
+                    .append(Other.GROUP_START)
+                    .append(groupByExpressionList)
+                    .append(Other.GROUP_END)
+                    .build();
+        }
+    }
+
+    /**
+     * CUBE ( <cgroup_by_expression> [ ,...n ] )
+     */
+    public static class CubeItem implements Item, GroupingSet.Item {
+
+        private List<GroupByExpression> groupByExpressionList;
+
+        public List<GroupByExpression> getGroupByExpressionList() {
+            return groupByExpressionList;
         }
 
-        public void setGroupingSetList(List<GroupingSet> groupingSetList) {
-            this.groupingSetList = groupingSetList;
+        public void setGroupByExpressionList(List<GroupByExpression> groupByExpressionList) {
+            this.groupByExpressionList = groupByExpressionList;
         }
 
 
         @Override
         public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-
-            switch (type){
-                case Base:
-                    b.append(columnExpression);
-                    break;
-                case Rollup:
-                    b.append(Keywords.Key.ROLLUP)
-                            .append(Other.GROUP_START)
-                            .append(groupByExpressionList, Other.DELIMITER)
-                            .append(Other.GROUP_END);
-                    break;
-                case Cube:
-                    b.append(Keywords.Key.CUBE)
-                            .append(Other.GROUP_START)
-                            .append(groupByExpressionList, Other.DELIMITER)
-                            .append(Other.GROUP_END);
-                    break;
-                case GroupingSet:
-                    b.append(Keywords.Key.GROUPING)
-                            .append(Keywords.Key.SETS)
-                            .append(Other.GROUP_START)
-                            .append(groupingSetList, Other.DELIMITER)
-                            .append(Other.GROUP_END);
-                    break;
-            }
-
-            return b.build();
+            return new ListBlockBuilder()
+                    .append(Keywords.Key.CUBE)
+                    .append(Other.GROUP_START)
+                    .append(groupByExpressionList)
+                    .append(Other.GROUP_END)
+                    .build();
         }
     }
 
     /**
+     * GROUPING SETS ( <grouping set> [ ,...n ]  )
+     */
+    public static class GroupingSetsItem implements Item {
+
+        private List<GroupingSet> groupingSetItemList;
+
+        public List<GroupingSet> getGroupingSetItemList() {
+            return groupingSetItemList;
+        }
+
+        public void setGroupingSetItemList(List<GroupingSet> groupingSetItemList) {
+            this.groupingSetItemList = groupingSetItemList;
+        }
+
+
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(Keywords.Key.GROUPING)
+                    .append(Keywords.Key.SETS)
+                    .append(groupingSetItemList)
+                    .build();
+        }
+    }
+
+    /**
+     * () --calculates the grand total
+     */
+    public static class AllItem implements Item {
+        @Override
+        public List<Block> toBlockList() {
+            return new ListBlockBuilder()
+                    .append(Other.GROUP_START)
+                    .append(Other.GROUP_END)
+                    .build();
+        }
+    }
+
+
+    /**
      * <group_by_expression>
      */
-    public static class GroupByExpression implements Block {
+    public static class GroupByExpression implements GroupingSet.Item {
 
         private List<Expression> columnExpressionList;
-
 
         public List<Expression> getColumnExpressionList() {
             return columnExpressionList;
@@ -263,13 +294,12 @@ public class GroupBy implements Clause {
 
         @Override
         public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
+            ListBlockBuilder b = new ListBlockBuilder();
             if(CheckUtil.isNullOrEmpty(columnExpressionList)){
                 b.append(columnExpressionList.get(0));
             }else {
                 b.append(Other.GROUP_START)
-                        .append(columnExpressionList, Other.DELIMITER)
+                        .append(columnExpressionList)
                         .append(Other.GROUP_END);
             }
             return b.build();
@@ -280,86 +310,36 @@ public class GroupBy implements Clause {
      * <grouping_set>
      */
     public static class GroupingSet implements Block {
+        private boolean useTotal;
+        private List<Item> groupByExpressionList;
 
-        private List<GroupingSetItem> groupingSetItemList;
-
-        public List<GroupingSetItem> getGroupingSetItemList() {
-            return groupingSetItemList;
+        public boolean isUseTotal() {
+            return useTotal;
         }
 
-        public void setGroupingSetItemList(List<GroupingSetItem> groupingSetItemList) {
-            this.groupingSetItemList = groupingSetItemList;
+        public void setUseTotal(boolean useTotal) {
+            this.useTotal = useTotal;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-            if(CheckUtil.isNullOrEmpty(groupingSetItemList)){
-                b.append(groupingSetItemList.get(0));
-            }else{
-                b.append(Other.GROUP_START)
-                        .append(groupingSetItemList, Other.DELIMITER)
-                        .append(Other.GROUP_END);
-            }
-            return b.build();
-        }
-    }
-
-    /**
-     * <grouping_set_item>
-     */
-    public static class GroupingSetItem implements Block {
-
-        private boolean useRollup;
-        private boolean useCube;
-        private List<GroupByExpression> groupByExpressionList;
-
-        public List<GroupByExpression> getGroupByExpressionList() {
+        public List<Item> getGroupByExpressionList() {
             return groupByExpressionList;
         }
 
-        public void setGroupByExpressionList(List<GroupByExpression> groupByExpressionList) {
+        public void setGroupByExpressionList(List<Item> groupByExpressionList) {
             this.groupByExpressionList = groupByExpressionList;
         }
 
-        public boolean isUseRollup() {
-            return useRollup;
-        }
-
-        public void setUseRollup(boolean useRollup) {
-            this.useRollup = useRollup;
-        }
-
-        public boolean isUseCube() {
-            return useCube;
-        }
-
-        public void setUseCube(boolean useCube) {
-            this.useCube = useCube;
-        }
 
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-            if(CheckUtil.isNullOrEmpty(groupByExpressionList)){
-                b.append(groupByExpressionList.get(0));
-            }else{
-                if(useRollup){
-                    b.append(Keywords.Key.ROLLUP);
-                } else if(useCube){
-                    b.append(Keywords.Key.CUBE);
-                }
-                b.append(Other.GROUP_START)
-                        .append(groupByExpressionList, Other.DELIMITER)
-                        .append(Other.GROUP_END);
-            }
-            return b.build();
+
+        /**
+         * <grouping_set_item>
+         */
+        public interface Item extends Block {
+
         }
     }
+
 
 
 }
