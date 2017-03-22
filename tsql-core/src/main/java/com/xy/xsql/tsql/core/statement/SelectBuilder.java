@@ -1,70 +1,73 @@
 package com.xy.xsql.tsql.core.statement;
 
 import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.core.clause.FromBuilder;
-import com.xy.xsql.tsql.core.clause.TopBuilder;
-import com.xy.xsql.tsql.core.clause.WhereBuilder;
+import com.xy.xsql.tsql.core.clause.*;
 import com.xy.xsql.tsql.core.clause.select.*;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Top;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.element.Unknown;
+import com.xy.xsql.tsql.model.statement.dml.Insert;
+
+import static com.xy.xsql.core.FiledBuilder.initSet;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
  */
-public class SelectBuilder implements BaseBuilder<Void, com.xy.xsql.tsql.model.statement.dml.Select> {
-
-
-    private com.xy.xsql.tsql.model.statement.dml.Select select;
-
+public class SelectBuilder extends CodeBuilder<com.xy.xsql.tsql.model.statement.dml.Select> {
 
     public SelectBuilder(){
-        this.select = new com.xy.xsql.tsql.model.statement.dml.Select();
+        super(new com.xy.xsql.tsql.model.statement.dml.Select());
     }
 
 
-    @Override
-    public com.xy.xsql.tsql.model.statement.dml.Select build(Void aVoid) {
-        return select;
+    public WithBuilder<SelectBuilder> withWith(){
+        return new WithBuilder<SelectBuilder>
+                (initSet(With::new,
+                        target::getWith,
+                        target::setWith))
+                .in(this);
     }
-
-
-
 
     public QuerySpecificationBuilder<SelectBuilder> withQuery() {
         com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification querySpecification = new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification();
-        select.setQueryExpression(querySpecification);
+        target.setQueryExpression(querySpecification);
         return new QuerySpecificationBuilder<SelectBuilder>
                 (querySpecification)
                 .in(this);
     }
 
-    /**
-     *
-     * @return
-     */
     public OrderByBuilder<SelectBuilder> withOrderBy() {
-        OrderBy orderBy = new OrderBy();
-        select.setOrderBy(orderBy);
-        OrderByBuilder<SelectBuilder> groupByBuilder = new OrderByBuilder<>(orderBy);
-        return groupByBuilder.in(this);
+        return new OrderByBuilder<SelectBuilder>
+                (initSet(OrderBy::new,
+                        target::getOrderBy,
+                        target::setOrderBy))
+                .in(this);
     }
+
+    public ForBuilder<SelectBuilder> withFor() {
+        return new ForBuilder<SelectBuilder>
+                (initSet(For::new,
+                        target::getForClause,
+                        target::setForClause))
+                .in(this);
+    }
+
+    public OptionBuilder<SelectBuilder> withOption() {
+        return new OptionBuilder<SelectBuilder>
+                (initSet(Option::new,
+                        target::getOption,
+                        target::setOption))
+                .in(this);
+    }
+
+
 
     /**
-     *
-     * @return
+     * QuerySpecificationBuilder
+     * @param <ParentBuilder>
      */
-    public ForBuilder<SelectBuilder> withFor() {
-        For forClause = new For();
-        select.setForClause(forClause);
-        ForBuilder<SelectBuilder> forBuilder = new ForBuilder<>(forClause);
-        return forBuilder.in(this);
-    }
-
-
     public static class QuerySpecificationBuilder<ParentBuilder>
             extends CodeTreeBuilder<QuerySpecificationBuilder<ParentBuilder>,ParentBuilder, com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification> {
 

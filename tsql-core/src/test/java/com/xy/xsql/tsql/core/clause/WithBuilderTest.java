@@ -43,12 +43,12 @@ public class WithBuilderTest {
                         .withSelectItem().withColumnName(c("SalesPersonID")).and()
                         .withSelectItem().withColumnName(c("SalesOrderID")).and()
                         .withSelectItem().withColumnName(c("SalesPersonID")).and()
-                    .out()
+                    .and()
                 .withFrom()
                     .withItem()._Base()
                         .withTableName(t("Sales","SalesOrderHeader"))
                         .and()
-                    .out()
+                    .and()
                 .withWhere()
                     .withSearchCondition()
                         .$Predicate(p_is_not_null(c("SalesPersonID")))
@@ -64,7 +64,7 @@ public class WithBuilderTest {
                     .withColumnName(c("SalesOrderID"))
                     .withColumnName(c("SalesYear"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick
@@ -112,7 +112,7 @@ public class WithBuilderTest {
                     .withColumnName(c("SalesPersonID"))
                     .withColumnName(c("NumberOfOrders"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick
@@ -171,14 +171,14 @@ public class WithBuilderTest {
                     .withColumnName(c("TotalSales"))
                     .withColumnName(c("SalesYear"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .withItem()
                     .withExpressionName("Sales_Quota_CTE")
                     .withColumnName(c("BusinessEntityID"))
                     .withColumnName(c("SalesQuota"))
                     .withColumnName(c("SalesQuotaYear"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick
@@ -246,7 +246,7 @@ public class WithBuilderTest {
                     .withColumnName(c("Title"))
                     .withColumnName(c("EmployeeLevel"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick
@@ -302,7 +302,7 @@ public class WithBuilderTest {
                     .withColumnName(c("Title"))
                     .withColumnName(c("EmployeeLevel"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick
@@ -368,7 +368,7 @@ public class WithBuilderTest {
                     .withColumnName(c("EmployeeLevel"))
                     .withColumnName(c("Sort"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick
@@ -426,7 +426,7 @@ public class WithBuilderTest {
                     .withColumnName(c("ManagerID"))
                     .withColumnName(c("Title"))
                     .withCteQueryDefinition(select)
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick

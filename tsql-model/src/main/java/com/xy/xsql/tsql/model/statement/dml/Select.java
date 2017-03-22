@@ -112,6 +112,79 @@ public class Select implements Statement {
         return b.build();
     }
 
+
+    @Deprecated
+    public static class QueryExpression implements Block {
+        //{ <query_specification> | ( <query_expression> ) }
+        private QuerySpecification querySpecification;
+        private QueryExpression queryExpression;
+
+        //[  { UNION [ ALL ] | EXCEPT | INTERSECT }
+        //<query_specification> | ( <query_expression> ) [...n ] ]
+        private List<UnionItem> unitItem;
+
+        public QuerySpecification getQuerySpecification() {
+            return querySpecification;
+        }
+
+        public void setQuerySpecification(QuerySpecification querySpecification) {
+            this.querySpecification = querySpecification;
+        }
+
+        public QueryExpression getQueryExpression() {
+            return queryExpression;
+        }
+
+        public void setQueryExpression(QueryExpression queryExpression) {
+            this.queryExpression = queryExpression;
+        }
+
+        public List<UnionItem> getUnitItem() {
+            return unitItem;
+        }
+
+        public void setUnitItem(List<UnionItem> unitItem) {
+            this.unitItem = unitItem;
+        }
+    }
+
+    /**
+     * { UNION [ ALL ] | EXCEPT | INTERSECT }
+     <query_specification> | ( <query_expression> )
+     */
+    @Deprecated
+    private static class UnionItem {
+        private Set operatorSet;
+
+        private QuerySpecification querySpecification;
+        private QueryExpression queryExpression;
+
+        public Set getOperatorSet() {
+            return operatorSet;
+        }
+
+        public void setOperatorSet(Set operatorSet) {
+            this.operatorSet = operatorSet;
+        }
+
+        public QuerySpecification getQuerySpecification() {
+            return querySpecification;
+        }
+
+        public void setQuerySpecification(QuerySpecification querySpecification) {
+            this.querySpecification = querySpecification;
+        }
+
+        public QueryExpression getQueryExpression() {
+            return queryExpression;
+        }
+
+        public void setQueryExpression(QueryExpression queryExpression) {
+            this.queryExpression = queryExpression;
+        }
+    }
+
+
     /**
      *
      */
@@ -252,72 +325,12 @@ public class Select implements Statement {
     }
 
 
-    @Deprecated
-    public static class QueryExpression implements Block {
-        private QuerySpecification querySpecification;
-        private QueryExpression queryExpression;
-
-        private List<UnionItem> unitItem;
-
-        public QuerySpecification getQuerySpecification() {
-            return querySpecification;
-        }
-
-        public void setQuerySpecification(QuerySpecification querySpecification) {
-            this.querySpecification = querySpecification;
-        }
-
-        public QueryExpression getQueryExpression() {
-            return queryExpression;
-        }
-
-        public void setQueryExpression(QueryExpression queryExpression) {
-            this.queryExpression = queryExpression;
-        }
-
-        public List<UnionItem> getUnitItem() {
-            return unitItem;
-        }
-
-        public void setUnitItem(List<UnionItem> unitItem) {
-            this.unitItem = unitItem;
-        }
-    }
-
-    @Deprecated
-    private static class UnionItem {
-        private Set operatorSet;
-
-        private QuerySpecification querySpecification;
-        private QueryExpression queryExpression;
-
-        public Set getOperatorSet() {
-            return operatorSet;
-        }
-
-        public void setOperatorSet(Set operatorSet) {
-            this.operatorSet = operatorSet;
-        }
-
-        public QuerySpecification getQuerySpecification() {
-            return querySpecification;
-        }
-
-        public void setQuerySpecification(QuerySpecification querySpecification) {
-            this.querySpecification = querySpecification;
-        }
-
-        public QueryExpression getQueryExpression() {
-            return queryExpression;
-        }
-
-        public void setQueryExpression(QueryExpression queryExpression) {
-            this.queryExpression = queryExpression;
-        }
-    }
+    /*
+    Other model
+     */
 
     /**
-     *
+     * <query_expression>
      */
     public interface QueryExpression2 extends Block {
         /**
@@ -337,7 +350,7 @@ public class Select implements Statement {
 
      *
      */
-    public static class QueryGroupExpression implements QueryExpression2 {
+    public static class QuerySpecificationGroup implements QueryExpression2 {
         private QueryExpression2 left;
         private Set operatorSet;
         private QueryExpression2 right;
@@ -376,14 +389,14 @@ public class Select implements Statement {
             if(left instanceof QuerySpecification){
                 //only <query_specification> don't need '(' ')'
                 b.append(left);
-            }else if(left instanceof QueryGroupExpression &&
+            }else if(left instanceof QuerySpecificationGroup &&
                     (operatorSet == Set.UNION ||
                     operatorSet == Set.UNION_ALL)){
                 //if left is QueryGroupExpression
                 //and inside operatorSet is UNION [ALL]
                 //and this operatorSet is UNION [ALL]
                 //don't need '(' ')'
-                QueryGroupExpression leftGroup = (QueryGroupExpression) left;
+                QuerySpecificationGroup leftGroup = (QuerySpecificationGroup) left;
                 if(leftGroup.getOperatorSet() == Set.UNION ||
                         leftGroup.getOperatorSet() == Set.UNION_ALL){
                     b.append(left);
@@ -404,14 +417,14 @@ public class Select implements Statement {
             if(right instanceof QuerySpecification){
                 //only <query_specification> don't need '(' ')'
                 b.append(right);
-            }else if(right instanceof QueryGroupExpression &&
+            }else if(right instanceof QuerySpecificationGroup &&
                     (operatorSet == Set.UNION ||
                             operatorSet == Set.UNION_ALL)){
                 //if right is QueryGroupExpression
                 //and inside operatorSet is UNION [ALL]
                 //and this operatorSet is UNION [ALL]
                 //don't need '(' ')'
-                QueryGroupExpression rightGroup = (QueryGroupExpression) right;
+                QuerySpecificationGroup rightGroup = (QuerySpecificationGroup) right;
                 if(rightGroup.getOperatorSet() == Set.UNION ||
                         rightGroup.getOperatorSet() == Set.UNION_ALL){
                     b.append(right);

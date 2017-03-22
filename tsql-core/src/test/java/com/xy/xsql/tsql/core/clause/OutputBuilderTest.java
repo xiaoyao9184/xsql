@@ -225,7 +225,7 @@ public class OutputBuilderTest {
                     .and()
                 .withDmlSelect()
                     .withColumnName(c_inserted("ModifiedDate"))
-                    .out()
+                    .and()
                 .build();
 
         //parent+quick
