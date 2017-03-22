@@ -27,7 +27,7 @@ public class InsertBuilderTest {
                         .withRowValueExpression(e_rv(2))
                         .out()
                     .out()
-                .build(null);
+                .build();
 
         Assert.assertEquals(insert.getTableName().toString(),"table");
         Assert.assertEquals(insert.getColumns().size(),2);
@@ -49,7 +49,7 @@ public class InsertBuilderTest {
                         .withRowValueExpression(e_rv(2))
                         .out()
                     .out()
-                .build(null);
+                .build();
 
         Assert.assertTrue(insert.isUseInto());
     }

@@ -48,7 +48,7 @@ public class Select implements Statement {
     private With with;
 
     //<query_expression>
-    private QueryExpression2 queryExpression;
+    private QueryExpression queryExpression;
 
     //<ORDER BY Clause>
     private OrderBy orderBy;
@@ -66,11 +66,11 @@ public class Select implements Statement {
         this.with = with;
     }
 
-    public QueryExpression2 getQueryExpression() {
+    public QueryExpression getQueryExpression() {
         return queryExpression;
     }
 
-    public void setQueryExpression(QueryExpression2 queryExpression) {
+    public void setQueryExpression(QueryExpression queryExpression) {
         this.queryExpression = queryExpression;
     }
 
@@ -113,7 +113,9 @@ public class Select implements Statement {
     }
 
 
-    @Deprecated
+    /**
+     * <query_expression>
+     */
     public static class QueryExpression implements Block {
         //{ <query_specification> | ( <query_expression> ) }
         private QuerySpecification querySpecification;
@@ -152,8 +154,7 @@ public class Select implements Statement {
      * { UNION [ ALL ] | EXCEPT | INTERSECT }
      <query_specification> | ( <query_expression> )
      */
-    @Deprecated
-    private static class UnionItem {
+    public static class UnionItem {
         private Set operatorSet;
 
         private QuerySpecification querySpecification;
@@ -192,15 +193,12 @@ public class Select implements Statement {
         // [ ALL | DISTINCT ]
         private boolean useAll;
         private boolean useDistinct;
-
         //<TOP Clause>
         private Top top;
-
         //< select_list >
-        private com.xy.xsql.tsql.model.clause.select.Select selectList;
+        private List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> selectList;
         //[ INTO new_table ]
         private Unknown newTable;
-
         //<FROM Clause>
         private From from;
         //<WHERE Clause>
@@ -234,11 +232,11 @@ public class Select implements Statement {
             this.top = top;
         }
 
-        public com.xy.xsql.tsql.model.clause.select.Select getSelectList() {
+        public List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> getSelectList() {
             return selectList;
         }
 
-        public void setSelectList(com.xy.xsql.tsql.model.clause.select.Select selectList) {
+        public void setSelectList(List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> selectList) {
             this.selectList = selectList;
         }
 

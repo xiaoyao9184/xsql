@@ -128,11 +128,9 @@ public class SetVariableBuilderTest {
     public void testExampleF(){
         // @formatter:off
         Select.QuerySpecification querySpecification = new SelectBuilder.QuerySpecificationBuilder<Void>()
-                .withSelectList()
-                    .withSelectItem()
-                        .withExpression(e("COUNT(*)"))
-                        .out()
-                    .out()
+                .withSelectItem()
+                    .withExpression(e("COUNT(*)"))
+                    .and()
                 .withFrom()
                     .withItem()._Base()
                         .withTableName(t("Sales","Customer"))

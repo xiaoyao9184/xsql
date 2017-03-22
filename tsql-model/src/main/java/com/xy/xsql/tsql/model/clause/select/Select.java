@@ -6,11 +6,9 @@ import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Comparison;
-import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.util.CheckUtil;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
@@ -51,7 +49,7 @@ public class Select implements Clause {
     private Top top;
 
     //<select_list>
-    private List<SelectItem> list;
+    private List<SelectItem> selectList;
 
 
     public boolean isUseAll() {
@@ -78,12 +76,12 @@ public class Select implements Clause {
         this.top = top;
     }
 
-    public List<SelectItem> getList() {
-        return list;
+    public List<SelectItem> getSelectList() {
+        return selectList;
     }
 
-    public void setList(List<SelectItem> list) {
-        this.list = list;
+    public void setSelectList(List<SelectItem> selectList) {
+        this.selectList = selectList;
     }
 
 
@@ -96,7 +94,7 @@ public class Select implements Clause {
                                 Keywords.DISTINCT :
                                 null)
                 .append(top)
-                .append(list)
+                .append(selectList)
                 .build();
     }
 

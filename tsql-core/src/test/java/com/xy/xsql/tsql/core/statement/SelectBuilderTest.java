@@ -7,10 +7,11 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
+import static com.xy.xsql.tsql.core.statement.SelectBuilder.SELECT;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
@@ -23,10 +24,8 @@ public class SelectBuilderTest {
     @Test
     public void testBaseBuild(){
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
-                .withSelectList()
-                    .withSelectItem()
-                        .withAll()
-                        .and()
+                .withSelectItem()
+                    .withAll()
                     .and()
                 .withFrom()
                     .withItem()._Base()
@@ -36,7 +35,7 @@ public class SelectBuilderTest {
                 .build();
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
-        Assert.assertEquals(select.getSelectList().getList().size(),1);
+        Assert.assertEquals(select.getSelectList().size(),1);
     }
 
     /**
@@ -46,7 +45,7 @@ public class SelectBuilderTest {
     public void testAllBuild(){
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withAll()
-                .build(null);
+                .build();
 
         Assert.assertTrue(select.isUseAll());
     }
@@ -93,10 +92,8 @@ public class SelectBuilderTest {
     @Test
     public void test2TableBuild(){
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
-                .withSelectList()
-                    .withSelectItem()
-                        .withAll()
-                        .and()
+                .withSelectItem()
+                    .withAll()
                     .and()
                 .withFrom()
                     .withItem()._Base()
@@ -117,11 +114,9 @@ public class SelectBuilderTest {
     @Test
     public void testTableJoinBuild(){
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
-                .withSelectList()
-                    .withSelectItem()
-                        .withAll()
-                        .and()
-                    .and()
+                .withSelectItem()
+                    .withAll()
+                .and()
                 .withFrom()
                     .withItem()._Joined()
                         .withTableSource()._Base()
@@ -133,7 +128,7 @@ public class SelectBuilderTest {
                             .and()
                         .and()
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
     }
@@ -169,19 +164,115 @@ public class SelectBuilderTest {
                 .build();
 
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()
-                .withSelectList()
-                    .withSelectItem().withAll()
-                    .out()
-                .out()
+                .withSelectItem()
+                    .withAll()
+                    .and()
                 .withFrom()
                     .withItem()._Derived()
                         .withValues(values)
                         .and()
                         //TODO derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
                     .and()
-                .build(null);
+                .build();
         // @formatter:on
     }
 
+    /**
+     * SELECT *
+     FROM Production.Product
+     ORDER BY Name ASC;
+     SELECT p.*
+     FROM Production.Product AS p
+     ORDER BY Name ASC;
+     */
+    @Test
+    public void testExampleA(){
+        // @formatter:off
+        Select select = new SelectBuilder()
+                .withQuery()
+                    .withQuerySpecification()
+                        .withSelectItem()
+                            .withAll()
+                            .and()
+                        .withFrom()
+                            .withItem()._Base()
+                                .withTableName(t("Production","Product"))
+                                .and()
+                            .and()
+                        .and()
+                    .and()
+                .withOrderBy()
+                    .$(c("p","*"))
+                    .and()
+                .build();
 
+        Select select1 = new SelectBuilder()
+                .withQuery()
+                    .withQuerySpecification()
+                        .withSelectItem()
+                            .withTableAll(t("p"))
+                            .and()
+                        .withFrom()
+                            .withItem()._Base()
+                                .withTableName(t("Production","Product"))
+                                .withTableAlias("p")
+                                .and()
+                            .and()
+                        .and()
+                    .and()
+                .withOrderBy()
+                    .$(c("Name"))
+                    .$Asc()
+                    .and()
+                .build();
+
+        //parent+quick
+
+        Select quick = SELECT()
+//                .$()
+//                    .$Select()
+//                        .$()
+//                        .and()
+//                    .and()
+                .$Select()
+                    .$()
+                    .$From()
+                        .$()
+                            .$(t("Production","Product"))
+                            .$As("p")
+                            .and()
+                        .and()
+                    .and()
+                .$OrderBy()
+                    .$(c("p","*"))
+                    .and()
+                .build();
+
+        Select quick1 = SELECT()
+//                .$()
+                .$Select()
+                    .$(t("p"))
+                    .$From()
+                        .$()
+                            .$(t("Production","Product"))
+                            .$As("p")
+                            .and()
+                        .and()
+                    .and()
+//                    .and()
+                .$OrderBy()
+                    .$(c("Name"))
+                    .$Asc()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Select.QuerySpecification query = select.getQueryExpression().getQuerySpecification();
+        Assert.assertEquals(query.getSelectList().size(),1);
+//        Assert.assertTrue(select.getList().get(0).isUseAll());
+//
+//        Assert.assertEquals(select1.getList().size(),1);
+//        Assert.assertEquals(select1.getList().get(0).getTableViewName().toString(),"p");
+//        Assert.assertTrue(select1.getList().get(0).isUseTableAll());
+    }
 }

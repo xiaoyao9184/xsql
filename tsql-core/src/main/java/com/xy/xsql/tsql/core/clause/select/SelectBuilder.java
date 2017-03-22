@@ -1,13 +1,15 @@
 package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.tsql.core.clause.TopBuilder;
+import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.select.Select;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
@@ -25,29 +27,65 @@ public class SelectBuilder<ParentBuilder>
     }
 
 
+    public SelectBuilder<ParentBuilder> withAll() {
+        target.setUseAll(true);
+        return this;
+    }
 
     public SelectBuilder<ParentBuilder> withDistinct() {
         target.setUseDistinct(true);
         return this;
     }
 
+    public TopBuilder<SelectBuilder<ParentBuilder>> withTop() {
+        return new TopBuilder<SelectBuilder<ParentBuilder>>
+                (initSet(Top::new,
+                        target::getTop,
+                        target::setTop))
+                .in(this);
+    }
+
     public SelectItemBuilder<SelectBuilder<ParentBuilder>> withSelectItem(){
         return new SelectItemBuilder<SelectBuilder<ParentBuilder>>
                 (initNew(Select.SelectItem::new,
-                        target::getList,
-                        target::setList))
+                        target::getSelectList,
+                        target::setSelectList))
                 .in(this);
     }
 
 
+    /*
+    Quick set/into
+     */
 
+    /**
+     * Quick set useAll
+     * @return
+     */
+    public SelectBuilder<ParentBuilder> $All() {
+        return withAll();
+    }
+
+    /**
+     * Quick set useDistinct
+     * @return
+     */
     public SelectBuilder<ParentBuilder> $Distinct() {
         return withDistinct();
     }
 
+    /**
+     * Quick into TopBuilder
+     * And set top
+     * @return
+     */
+    public TopBuilder<SelectBuilder<ParentBuilder>> $Top(){
+        return withTop();
+    }
 
     /**
-     * Quick set
+     * Quick set selectList
+     * into SelectItemBuilder get-out
      * @return
      */
     public SelectBuilder<ParentBuilder> $() {
@@ -57,7 +95,8 @@ public class SelectBuilder<ParentBuilder>
     }
 
     /**
-     *
+     * Quick set selectList
+     * into SelectItemBuilder get-out
      * @param tableName
      * @return
      */
@@ -67,12 +106,25 @@ public class SelectBuilder<ParentBuilder>
                 .and();
     }
 
+    /**
+     * Quick set selectList
+     * into SelectItemBuilder get-out
+     * @param columnName
+     * @return
+     */
     public SelectBuilder<ParentBuilder> $(ColumnName columnName) {
         return withSelectItem()
                 .withColumnName(columnName)
                 .and();
     }
 
+    /**
+     * Quick set selectList
+     * into SelectItemBuilder get-out
+     * @param columnName
+     * @param columnAlias
+     * @return
+     */
     public SelectBuilder<ParentBuilder> $(ColumnName columnName, String columnAlias) {
         return withSelectItem()
                 .withColumnName(columnName)
@@ -80,6 +132,13 @@ public class SelectBuilder<ParentBuilder>
                 .and();
     }
 
+    /**
+     * Quick set selectList
+     * into SelectItemBuilder get-out
+     * @param columnName
+     * @param expression
+     * @return
+     */
     public SelectBuilder<ParentBuilder> $(ColumnName columnName, Expression expression) {
         return withSelectItem()
                 .withColumnName(columnName)
@@ -87,12 +146,25 @@ public class SelectBuilder<ParentBuilder>
                 .and();
     }
 
+    /**
+     * Quick set selectList
+     * into SelectItemBuilder get-out
+     * @param expression
+     * @return
+     */
     public SelectBuilder<ParentBuilder> $(Expression expression) {
         return withSelectItem()
                 .withExpression(expression)
                 .and();
     }
 
+    /**
+     * Quick set selectList
+     * into SelectItemBuilder get-out
+     * @param expression
+     * @param columnAlias
+     * @return
+     */
     public SelectBuilder<ParentBuilder> $(Expression expression, String columnAlias) {
         return withSelectItem()
                 .withExpression(expression)
@@ -105,7 +177,7 @@ public class SelectBuilder<ParentBuilder>
      * SelectItemBuilder
      * @param <ParentBuilder>
      */
-    public class SelectItemBuilder<ParentBuilder>
+    public static class SelectItemBuilder<ParentBuilder>
             extends CodeTreeBuilder<SelectItemBuilder<ParentBuilder>,ParentBuilder,Select.SelectItem> {
 
         public SelectItemBuilder(Select.SelectItem selectItem) {
@@ -148,6 +220,8 @@ public class SelectBuilder<ParentBuilder>
             return this;
         }
 
+        //TODO
+        @Deprecated
         public SelectItemBuilder<ParentBuilder> withEQ(){
             target.setUseEQ(true);
             return this;

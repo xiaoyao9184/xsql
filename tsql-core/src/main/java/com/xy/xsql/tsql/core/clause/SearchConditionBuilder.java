@@ -435,7 +435,7 @@ public class SearchConditionBuilder<ParentBuilder>
 
     /**
      * AndOrNotItemBuilder
-     * { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) }
+     * All Quick method move to SearchConditionBuilder
      * @param <ParentBuilder>
      */
     public static class AndOrNotItemBuilder<ParentBuilder>

@@ -394,7 +394,7 @@ public class From implements Clause {
         public List<Block> toBlockList() {
             return new ListBlockBuilder()
                     .append(Arrays.asList(this.es), Other.SPACE)
-                    .build(null);
+                    .build();
         }
 
     }

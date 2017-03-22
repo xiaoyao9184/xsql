@@ -29,7 +29,7 @@ public class BulkInsertBuilderTest {
                 .withFrom("f:\\orders\\lineitem.tbl")
                 .withFieldTerminator(" |")
                 .withRowTerminator(" |\\n")
-                .build(null);
+                .build();
 
         //parent+quick
         BulkInsert quick = BULK_INSERT()
@@ -67,7 +67,7 @@ public class BulkInsertBuilderTest {
                 .withFieldTerminator(" |")
                 .withRowTerminator(" |\\n")
                 .withFireTriggers()
-                .build(null);
+                .build();
 
         //parent+quick
         BulkInsert quick = BULK_INSERT()
@@ -100,7 +100,7 @@ public class BulkInsertBuilderTest {
                 .withTableViewName(t("AdventureWorks2012","Sales","SalesOrderDetail"))
                 .withFrom("<drive>:\\<path>\\<filename>")
                 .withRowTerminator("CHAR(10)")
-                .build(null);
+                .build();
 
         //parent+quick
         BulkInsert quick = BULK_INSERT()
@@ -134,7 +134,7 @@ public class BulkInsertBuilderTest {
                 .withCodePage("56001")
                 .withDataFileType(_char())
                 .withFieldTerminator(",")
-                .build(null);
+                .build();
 
         //parent+quick
         BulkInsert quick = BULK_INSERT()
@@ -167,7 +167,7 @@ public class BulkInsertBuilderTest {
                 .withTableViewName(t("Sales","Invoices"))
                 .withFrom("\\\\share\\invoices\\inv-2016-07-25.csv")
                 .withFormat("CSV")
-                .build(null);
+                .build();
 
         //parent+quick
         BulkInsert quick = BULK_INSERT()
@@ -200,7 +200,7 @@ public class BulkInsertBuilderTest {
                 .withFrom("inv-2017-01-19.csv")
                 .withDataSource("MyAzureInvoices")
                 .withFormat("CSV")
-                .build(null);
+                .build();
 
         //parent+quick
         BulkInsert quick = BULK_INSERT()

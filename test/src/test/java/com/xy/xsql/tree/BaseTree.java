@@ -1,13 +1,21 @@
 package com.xy.xsql.tree;
 
-import com.xy.xsql.orm.core.sql.statements.InsertBuilder;
-import com.xy.xsql.orm.core.sql.statements.SelectBuilder;
-import com.xy.xsql.orm.data.sql.element.OperatorEnum;
+import com.xy.xsql.tsql.core.statement.InsertBuilder;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Test;
 
-import static com.xy.xsql.orm.core.sql.ExpressionBuilder.e;
+import com.xy.xsql.tsql.core.statement.SelectBuilder.*;
+
+import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
+import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
+import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
+import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.*;
+import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
+import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_like;
+import static com.xy.xsql.tsql.core.statement.SelectBuilder.SELECT;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.
@@ -25,35 +33,43 @@ public class BaseTree {
     @Test
     public void testSelectOffspring(){
         // @formatter:off
-        Select select = new SelectBuilder()
-                .withSelectList()
-                    .withSelectItem()
-                    .withAll()
-                    .out()
-                .out()
-                .withFrom()
-                    .withTableSource().withTable("test_use_tree_base").out()
-                    .withTableSource().withDerivedTable().select()
-                        .withSelectList().withSelectItem()
-                            .withColumnName("path").out().out()
-                        .withFrom()
-                            .withTableSource().withTable("test_use_tree_base").out()
-                            .out()
-                        .withWhere()
-                            .withSearchCondition()
-                                .withPredicate()
-                                    .withExpression(e("path"))
-                                    .withOperatorEnum(OperatorEnum.LIKE)
-                                    .withAndExpression(e("p"))
-                                    .out()
-                                .out()
-                            .out()
-                        .out()
-                    .out().out()
-                .out()
-                .build(null);
-        // @formatter:on
 
+        Select.QuerySpecification select0 = new QuerySpecificationBuilder<Void>()
+                .$(e_addition(
+                        e_addition(
+                                c("path"),
+                                c("id")
+                        ),
+                        e_string("/%")
+                ),"p")
+                .$From()
+                    .$(t("test_use_tree_base"))
+                    .and()
+                .$Where()
+                    .$Predicate(p_like(
+                            c("path"),
+                            c("p")
+                    ))
+                    .and()
+                .build();
+
+        Select select = SELECT()
+                .$Select()
+                    .$()
+                    .$From()
+                        .$(t("test_use_tree_base"))
+                        .$(select0,"t")
+                            .and()
+                        .and()
+                    .$Where()
+                        .$Predicate(p_like(
+                                c("path"),
+                                c("p")
+                        ))
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
 
     }
 
@@ -78,23 +94,21 @@ public class BaseTree {
         Insert insert = new InsertBuilder()
                 .withInto(true)
                 .withTableName("test_use_tree_base")
-                .withColumnList()
-                    .withItem().withName("id").out()
-                    .withItem().withName("parent_id").out()
-                    .withItem().withName("path").out()
-                    .withItem().withName("level").out()
-                    .withItem().withName("name").out()
-                .out()
+                .withColumn(c("id"))
+                .withColumn(c("parent_id"))
+                .withColumn(c("path"))
+                .withColumn(c("level"))
+                .withColumn(c("name"))
                 .withValues()
-                    .withGroupItem()
-                        .withItem().withExpression(e("9")).out()
-                        .withItem().withExpression(e("1")).out()
-                        .withItem().withExpression(e("/1/")).out()
-                        .withItem().withExpression(e(2)).out()
-                        .withItem().withExpression(e("init-9")).out()
-                    .out()
-                .out()
-                .build(null);
+                    .withItem()
+                        .withRowValueExpression((e_rv("9")))
+                        .withRowValueExpression(e_rv("1"))
+                        .withRowValueExpression(e_rv("/1/"))
+                        .withRowValueExpression(e_rv(2))
+                        .withRowValueExpression(e_rv("init-9"))
+                    .and()
+                .and()
+                .build();
         // @formatter:on
 
     }

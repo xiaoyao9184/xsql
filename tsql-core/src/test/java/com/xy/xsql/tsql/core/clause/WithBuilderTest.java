@@ -39,23 +39,23 @@ public class WithBuilderTest {
         // @formatter:off
         Select select = new SelectBuilder()
                 .withQuery()
-                    .withSelectList()
+                    .withQuerySpecification()
                         .withSelectItem().withColumnName(c("SalesPersonID")).and()
                         .withSelectItem().withColumnName(c("SalesOrderID")).and()
                         .withSelectItem().withColumnName(c("SalesPersonID")).and()
-                    .and()
-                .withFrom()
-                    .withItem()._Base()
-                        .withTableName(t("Sales","SalesOrderHeader"))
+                        .withFrom()
+                            .withItem()._Base()
+                                .withTableName(t("Sales","SalesOrderHeader"))
+                                .and()
+                            .and()
+                        .withWhere()
+                            .withSearchCondition()
+                                .$Predicate(p_is_not_null(c("SalesPersonID")))
+                                .and()
+                            .and()
                         .and()
                     .and()
-                .withWhere()
-                    .withSearchCondition()
-                        .$Predicate(p_is_not_null(c("SalesPersonID")))
-                        .and()
-                    .and()
-                .and()
-                .build(null);
+                .build();
 
         With with = new WithBuilder<Void>()
                 .withItem()
@@ -104,7 +104,7 @@ public class WithBuilderTest {
     public void testExampleB(){
         // @formatter:off
         Select select = new SelectBuilder()
-                .build(null);
+                .build();
 
         With with = new WithBuilder<Void>()
                 .withItem()
@@ -162,7 +162,7 @@ public class WithBuilderTest {
     public void testExampleC(){
         // @formatter:off
         Select select = new SelectBuilder()
-                .build(null);
+                .build();
 
         With with = new WithBuilder<Void>()
                 .withItem()
@@ -236,7 +236,7 @@ public class WithBuilderTest {
     public void testExampleD(){
         // @formatter:off
         Select select = new SelectBuilder()
-                .build(null);
+                .build();
 
         With with = new WithBuilder<Void>()
                 .withItem()
@@ -292,7 +292,7 @@ public class WithBuilderTest {
     public void testExampleE(){
         // @formatter:off
         Select select = new SelectBuilder()
-                .build(null);
+                .build();
 
         With with = new WithBuilder<Void>()
                 .withItem()
@@ -357,7 +357,7 @@ public class WithBuilderTest {
     public void testExampleF(){
         // @formatter:off
         Select select = new SelectBuilder()
-                .build(null);
+                .build();
 
         With with = new WithBuilder<Void>()
                 .withItem()
@@ -417,7 +417,7 @@ public class WithBuilderTest {
     public void testExampleG(){
         // @formatter:off
         Select select = new SelectBuilder()
-                .build(null);
+                .build();
 
         With with = new WithBuilder<Void>()
                 .withItem()

@@ -70,7 +70,7 @@ public class MergeBuilderTest {
                     .and()
                 .withWhenNotMatchedSourceThen()
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertEquals(delete.getTargetTable().toString(),"table");
     }
@@ -112,7 +112,7 @@ public class MergeBuilderTest {
                     .withClauseSearchCondition()
                         .and()
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertEquals(delete.getTableAlias().toString(),"t");
     }

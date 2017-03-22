@@ -92,7 +92,7 @@ public class SearchCondition implements Clause {
                 b.append(andOrNotItem.toBlockList(),null);
             }
         }
-        return b.build(null);
+        return b.build();
     }
 
     /**
@@ -161,7 +161,7 @@ public class SearchCondition implements Clause {
             b.append(useNot ? Keywords.NOT : null)
                     .append(this.predicate != null ? predicate : searchCondition);
 
-            return b.build(null);
+            return b.build();
         }
     }
 }

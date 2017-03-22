@@ -18,7 +18,7 @@ public class DeleteBuilderTest {
     public void testBaseBuild(){
         Delete delete = new DeleteBuilder()
                 .withTableAlias("table")
-                .build(null);
+                .build();
 
         Assert.assertEquals(delete.getTableAlias().toString(),"table");
     }
@@ -35,7 +35,7 @@ public class DeleteBuilderTest {
                         .withTableName(t("table"))
                         .and()
                     .and()
-                .build(null);
+                .build();
 
         Assert.assertEquals(delete.getFrom().getTableSourceList().size(),1);
     }

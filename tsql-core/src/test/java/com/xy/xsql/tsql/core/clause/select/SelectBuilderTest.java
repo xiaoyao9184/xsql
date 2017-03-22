@@ -51,12 +51,12 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),1);
-        Assert.assertTrue(select.getList().get(0).isUseAll());
+        Assert.assertEquals(select.getSelectList().size(),1);
+        Assert.assertTrue(select.getSelectList().get(0).isUseAll());
 
-        Assert.assertEquals(select1.getList().size(),1);
-        Assert.assertEquals(select1.getList().get(0).getTableViewName().toString(),"p");
-        Assert.assertTrue(select1.getList().get(0).isUseTableAll());
+        Assert.assertEquals(select1.getSelectList().size(),1);
+        Assert.assertEquals(select1.getSelectList().get(0).getTableViewName().toString(),"p");
+        Assert.assertTrue(select1.getSelectList().get(0).isUseTableAll());
     }
 
     /**
@@ -88,11 +88,11 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),3);
-        Assert.assertEquals(select.getList().get(0).getColumnName().toString(),"Name");
-        Assert.assertEquals(select.getList().get(1).getColumnName().toString(),"ProductNumber");
-        Assert.assertEquals(select.getList().get(2).getColumnName().toString(),"ListPrice");
-        Assert.assertEquals(select.getList().get(2).getColumnAlias().toString(),"Price");
+        Assert.assertEquals(select.getSelectList().size(),3);
+        Assert.assertEquals(select.getSelectList().get(0).getColumnName().toString(),"Name");
+        Assert.assertEquals(select.getSelectList().get(1).getColumnName().toString(),"ProductNumber");
+        Assert.assertEquals(select.getSelectList().get(2).getColumnName().toString(),"ListPrice");
+        Assert.assertEquals(select.getSelectList().get(2).getColumnAlias().toString(),"Price");
     }
 
     /**
@@ -128,10 +128,10 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),3);
-        Assert.assertEquals(select.getList().get(0).getColumnName().toString(),"p.Name");
-        Assert.assertEquals(select.getList().get(1).getColumnName().toString(),"NonDiscountSales");
-        Assert.assertEquals(select.getList().get(2).getColumnName().toString(),"Discounts");
+        Assert.assertEquals(select.getSelectList().size(),3);
+        Assert.assertEquals(select.getSelectList().get(0).getColumnName().toString(),"p.Name");
+        Assert.assertEquals(select.getSelectList().get(1).getColumnName().toString(),"NonDiscountSales");
+        Assert.assertEquals(select.getSelectList().get(2).getColumnName().toString(),"Discounts");
     }
 
     /**
@@ -168,11 +168,11 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),4);
-        Assert.assertNotNull(select.getList().get(0).getExpression());
-        Assert.assertNotNull(select.getList().get(1).getExpression());
-        Assert.assertNotNull(select.getList().get(2).getExpression());
-        Assert.assertEquals(select.getList().get(3).getColumnName().toString(),"p.Name");
+        Assert.assertEquals(select.getSelectList().size(),4);
+        Assert.assertNotNull(select.getSelectList().get(0).getExpression());
+        Assert.assertNotNull(select.getSelectList().get(1).getExpression());
+        Assert.assertNotNull(select.getSelectList().get(2).getExpression());
+        Assert.assertEquals(select.getSelectList().get(3).getColumnName().toString(),"p.Name");
     }
 
     /**
@@ -197,9 +197,9 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),1);
+        Assert.assertEquals(select.getSelectList().size(),1);
         Assert.assertTrue(select.isUseDistinct());
-        Assert.assertEquals(select.getList().get(0).getColumnName().toString(),"JobTitle");
+        Assert.assertEquals(select.getSelectList().get(0).getColumnName().toString(),"JobTitle");
     }
 
     /**
@@ -228,10 +228,10 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),2);
+        Assert.assertEquals(select.getSelectList().size(),2);
         Assert.assertTrue(select.isUseDistinct());
-        Assert.assertEquals(select.getList().get(0).getColumnName().toString(),"p.LastName");
-        Assert.assertEquals(select.getList().get(1).getColumnName().toString(),"p.FirstName");
+        Assert.assertEquals(select.getSelectList().get(0).getColumnName().toString(),"p.LastName");
+        Assert.assertEquals(select.getSelectList().get(1).getColumnName().toString(),"p.FirstName");
     }
 
     /**
@@ -259,10 +259,10 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),2);
-        Assert.assertEquals(select.getList().get(0).getColumnName().toString(),"SalesOrderID");
-        Assert.assertNotNull(select.getList().get(1).getExpression());
-        Assert.assertEquals(select.getList().get(1).getColumnAlias().toString(),"SubTotal");
+        Assert.assertEquals(select.getSelectList().size(),2);
+        Assert.assertEquals(select.getSelectList().get(0).getColumnName().toString(),"SalesOrderID");
+        Assert.assertNotNull(select.getSelectList().get(1).getExpression());
+        Assert.assertEquals(select.getSelectList().get(1).getColumnAlias().toString(),"SubTotal");
     }
 
     /**
@@ -300,13 +300,13 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),4);
-        Assert.assertEquals(select.getList().get(0).getColumnName().toString(),"ProductID");
-        Assert.assertEquals(select.getList().get(1).getColumnName().toString(),"SpecialOfferID");
-        Assert.assertNotNull(select.getList().get(2).getExpression());
-        Assert.assertEquals(select.getList().get(2).getColumnAlias().toString(),"[Average Price]");
-        Assert.assertNotNull(select.getList().get(3).getExpression());
-        Assert.assertEquals(select.getList().get(3).getColumnAlias().toString(),"SubTotal");
+        Assert.assertEquals(select.getSelectList().size(),4);
+        Assert.assertEquals(select.getSelectList().get(0).getColumnName().toString(),"ProductID");
+        Assert.assertEquals(select.getSelectList().get(1).getColumnName().toString(),"SpecialOfferID");
+        Assert.assertNotNull(select.getSelectList().get(2).getExpression());
+        Assert.assertEquals(select.getSelectList().get(2).getColumnAlias().toString(),"[Average Price]");
+        Assert.assertNotNull(select.getSelectList().get(3).getExpression());
+        Assert.assertEquals(select.getSelectList().get(3).getColumnAlias().toString(),"SubTotal");
     }
 
     /**
@@ -334,10 +334,10 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),2);
-        Assert.assertEquals(select.getList().get(0).getColumnName().toString(),"ProductModelID");
-        Assert.assertNotNull(select.getList().get(1).getExpression());
-        Assert.assertEquals(select.getList().get(1).getColumnAlias().toString(),"[Average List Price]");
+        Assert.assertEquals(select.getSelectList().size(),2);
+        Assert.assertEquals(select.getSelectList().get(0).getColumnName().toString(),"ProductModelID");
+        Assert.assertNotNull(select.getSelectList().get(1).getExpression());
+        Assert.assertEquals(select.getSelectList().get(1).getColumnAlias().toString(),"[Average List Price]");
     }
 
     /**
@@ -367,10 +367,10 @@ public class SelectBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(select.getList().size(),2);
-        Assert.assertNotNull(select.getList().get(0).getExpression());
-        Assert.assertEquals(select.getList().get(0).getColumnAlias().toString(),"[Average Quantity]");
-        Assert.assertEquals(select.getList().get(1).getColumnName().toString(),"NonDiscountSales");
-        Assert.assertNotNull(select.getList().get(1).getExpression());
+        Assert.assertEquals(select.getSelectList().size(),2);
+        Assert.assertNotNull(select.getSelectList().get(0).getExpression());
+        Assert.assertEquals(select.getSelectList().get(0).getColumnAlias().toString(),"[Average Quantity]");
+        Assert.assertEquals(select.getSelectList().get(1).getColumnName().toString(),"NonDiscountSales");
+        Assert.assertNotNull(select.getSelectList().get(1).getExpression());
     }
 }
