@@ -10,6 +10,7 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
+import com.xy.xsql.tsql.model.statement.dml.Update;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -228,6 +229,16 @@ public class MergeBuilder extends CodeBuilder<Merge> {
         return withTop();
     }
 
+
+    /**
+     * Quick set
+     * @param tableName
+     * @return
+     */
+    public MergeBuilder $(TableName tableName){
+        return withTargetTable(tableName);
+    }
+
     /**
      * Quick set
      * @param tableName
@@ -268,6 +279,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick set
+     * TODO CARETE MergeBuilder.TableSourceBuilder
      * @return
      */
     public FromBuilder.TableSourceBuilder<MergeBuilder> $Using(){
@@ -323,6 +335,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
 
+
+
     /**
      *
      * @param <ParentBuilder>
@@ -333,6 +347,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
         public MergeHintBuilder(Merge.MergeHint mergeHint) {
             super(mergeHint);
         }
+
 
         public MergeHintBuilder<ParentBuilder> withTableHintLimited(TableHintLimited... tableHintLimited){
             initAdd(Arrays.asList(tableHintLimited),
@@ -354,6 +369,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     target::setIndexValList);
             return this;
         }
+
+        /*
+        TODO Quick
+         */
     }
 
     /**
@@ -382,6 +401,28 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                             target::getMergeMatched,
                             target::setMergeMatched))
                     .in(this);
+        }
+
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick into
+         * @return
+         */
+        public SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>> $() {
+            return withClauseSearchCondition();
+        }
+
+        /**
+         * Quick into
+         * @return
+         */
+        public MergeMatchedBuilder<WhenMatchedThenBuilder<ParentBuilder>> $Then() {
+            return withMergeMatched();
         }
 
     }
@@ -419,6 +460,29 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
+
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick into
+         * @return
+         */
+        public SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> $() {
+            return withClauseSearchCondition();
+        }
+
+        /**
+         * Quick into
+         * @return
+         */
+        public MergeNotMatchedBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> $Then() {
+            return withMergeNotMatched();
+        }
+
     }
 
     /**
@@ -431,6 +495,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
         public WhenNotMatchedSourceThenBuilder(Merge.MatchedWhenThen matchedWhenThen) {
             super(matchedWhenThen);
         }
+
 
         public SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> withClauseSearchCondition() {
             return new SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>>
@@ -446,6 +511,29 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                             target::getMergeNotMatched,
                             target::setMergeNotMatched))
                     .in(this);
+        }
+
+
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick into
+         * @return
+         */
+        public SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> $() {
+            return withClauseSearchCondition();
+        }
+
+        /**
+         * Quick into
+         * @return
+         */
+        public MergeNotMatchedBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> $Then() {
+            return withMergeNotMatched();
         }
 
     }
@@ -476,6 +564,31 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
+        
+        /*
+        Quick
+         */
+
+        /**
+         * Quick set
+         * @return
+         */
+        public ParentBuilder $Delete() {
+            return withSet(false)
+                    .and();
+        }
+
+        /**
+         * Quick set
+         * @param items
+         * @return
+         */
+        public ParentBuilder $Update_Set(Update.SetItem... items) {
+            initAdd(Arrays.asList(items),
+                    target::getSets,
+                    target::setSets);
+            return and();
+        }
     }
 
     /**
@@ -491,21 +604,13 @@ public class MergeBuilder extends CodeBuilder<Merge> {
         }
 
 
-        /**
-         *
-         * @return
-         */
-        public MergeNotMatchedBuilder<ParentBuilder> withColumn(ColumnName... columnName){
-            initAdd(Arrays.asList(columnName),
+        public MergeNotMatchedBuilder<ParentBuilder> withColumn(ColumnName... columnNames){
+            initAdd(Arrays.asList(columnNames),
                     target::getColumns,
                     target::setColumns);
             return this;
         }
 
-        /**
-         *
-         * @return
-         */
         public TableValueConstructorBuilder<MergeNotMatchedBuilder<ParentBuilder>> withValues(){
             return new TableValueConstructorBuilder<MergeNotMatchedBuilder<ParentBuilder>>
                     (initSet(TableValueConstructor::new,
@@ -514,5 +619,28 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
+
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick set columnNames
+         * @param columnNames
+         * @return
+         */
+        public MergeNotMatchedBuilder<ParentBuilder> $Insert(ColumnName... columnNames){
+            return withColumn(columnNames);
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableValueConstructorBuilder<MergeNotMatchedBuilder<ParentBuilder>> $Values() {
+            return withValues();
+        }
     }
 }
