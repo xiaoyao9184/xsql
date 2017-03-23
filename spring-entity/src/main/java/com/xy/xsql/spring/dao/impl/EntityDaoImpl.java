@@ -1,19 +1,23 @@
 package com.xy.xsql.spring.dao.impl;
 
-import com.xy.xsql.orm.core.entity.arg.EntityColumnsArgsBuilder;
-import com.xy.xsql.orm.core.entity.sql.agreement.*;
-import com.xy.xsql.orm.core.entity.template.AnnotationEntityTemplateBuilder;
-import com.xy.xsql.orm.core.entity.template.EntityColumnFilter;
-import com.xy.xsql.orm.data.entity.EntityColumn;
-import com.xy.xsql.orm.data.entity.EntityTemplate;
-import com.xy.xsql.orm.data.page.PageQuery;
-import com.xy.xsql.orm.data.page.PageResult;
-import com.xy.xsql.orm.data.param.ArgSql;
-import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
-import com.xy.xsql.orm.mapping.row.BaseEntityRowMapper;
-import com.xy.xsql.orm.mapping.row.FieldRowNameHandler;
-import com.xy.xsql.orm.mapping.type.TypeMapper;
+import com.xy.xsql.entity.api.dialect.TypeMapper;
+import com.xy.xsql.entity.api.dialect.jpql.*;
+import com.xy.xsql.entity.core.template.AnnotationEntityTemplateBuilder;
+import com.xy.xsql.entity.core.template.EntityColumnFilter;
+import com.xy.xsql.entity.core.template.EntityColumnsArgsBuilder;
+import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.entity.model.template.EntityColumn;
+import com.xy.xsql.entity.model.template.EntityTemplate;
+import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
+import com.xy.xsql.model.page.PageQuery;
+import com.xy.xsql.model.page.PageResult;
 import com.xy.xsql.spring.config.*;
+import com.xy.xsql.spring.dialect.DialectType;
+import com.xy.xsql.spring.dialect.TemplateRendererBuilder;
+import com.xy.xsql.spring.dialect.TypeMapperBuilder;
+import com.xy.xsql.spring.mapping.BaseEntityRowMapper;
+import com.xy.xsql.spring.mapping.FieldRowNameHandler;
+import com.xy.xsql.spring.mapping.MappingFieldRowNameHandler;
 import com.xy.xsql.spring.dao.EntityDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,7 +49,7 @@ public class EntityDaoImpl<Entity, ID>
 
     protected EntityTemplate entityTemplate;
 
-    protected SqlEntityCRUD entityCRUDSql;
+    protected TemplateCRUDRenderer entityCRUDSql;
 
     protected TypeMapper<Class<?>,String> typeMapper;
 
@@ -85,7 +89,7 @@ public class EntityDaoImpl<Entity, ID>
         
         //语句相关
         if(dialectConfiguration.isOrmTableAutoCreate() &&
-                (this.entityCRUDSql instanceof SqlEntityTableManage)) {
+                (this.entityCRUDSql instanceof TemplateTableManageRenderer)) {
             if(!checkTable()){
                 createTable();
             }
@@ -110,7 +114,7 @@ public class EntityDaoImpl<Entity, ID>
                 .withClassName(dialectConfiguration.getOrmDialectTypeMapper())
                 .build(dialect);
 
-        this.entityCRUDSql = new SqlEntityBuilder()
+        this.entityCRUDSql = new TemplateRendererBuilder()
                 .withClassName(dialectConfiguration.getOrmDialectEntitySql())
                 .build(dialect);
     }
@@ -143,7 +147,7 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public Boolean checkTable() {
-        SqlEntityTableManage entityTableManageSql = safeTo(SqlEntityTableManage.class);
+        TemplateTableManageRenderer entityTableManageSql = safeTo(TemplateTableManageRenderer.class);
         String sql = entityTableManageSql.getTableCountSql(this.entityTemplate);
         log.debug("SQL create:\n" + sql);
         Integer cnt = jdbcTemplate.queryForObject(sql,Integer.class);
@@ -152,7 +156,7 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public void createTable() {
-        SqlEntityTableManage entityTableManageSql = safeTo(SqlEntityTableManage.class);
+        TemplateTableManageRenderer entityTableManageSql = safeTo(TemplateTableManageRenderer.class);
         String sql = entityTableManageSql.getCreateTableSql(this.entityTemplate);
         log.debug("SQL create:\n" + sql);
         jdbcTemplate.execute(sql);
@@ -160,7 +164,7 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public void dropTable() {
-        SqlEntityTableManage entityTableManageSql = safeTo(SqlEntityTableManage.class);
+        TemplateTableManageRenderer entityTableManageSql = safeTo(TemplateTableManageRenderer.class);
         String sql = entityTableManageSql.getDropTableSql(this.entityTemplate);
         log.debug("SQL create:\n" + sql);
         jdbcTemplate.execute(sql);
@@ -295,7 +299,7 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public void updateStatus(Enum status, ID... id) {
-        SqlEntityUpdateStatusId entityUpdateStatusSql = safeTo(SqlEntityUpdateStatusId.class);
+        TemplateUpdateStatusIdRenderer entityUpdateStatusSql = safeTo(TemplateUpdateStatusIdRenderer.class);
         String sql;
         if(id.length == 1){
             sql = entityUpdateStatusSql.getUpdateStatusByIdSql(this.entityTemplate);
@@ -313,8 +317,8 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public Entity getByArg(Object... arg) {
-        SqlEntitySelectArg entitySelectArgSql = safeTo(SqlEntitySelectArg.class);
-        ArgSql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,arg);
+        TemplateSelectArgRenderer entitySelectArgSql = safeTo(TemplateSelectArgRenderer.class);
+        PlaceholderJPql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,arg);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.queryForObject(sql.getSql(), this.rowMapper, sql.getArgs());
@@ -322,8 +326,8 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public List<Entity> listByArg(Object... args) {
-        SqlEntitySelectArg entitySelectArgSql = safeTo(SqlEntitySelectArg.class);
-        ArgSql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,args);
+        TemplateSelectArgRenderer entitySelectArgSql = safeTo(TemplateSelectArgRenderer.class);
+        PlaceholderJPql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.query(sql.getSql(), this.rowMapper, sql.getArgs());
@@ -332,8 +336,8 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public void deleteListByArg(Object... args) {
-        SqlEntityDeleteArg entityDeleteArgSql = safeTo(SqlEntityDeleteArg.class);
-        ArgSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,args);
+        TemplateDeleteArgRenderer entityDeleteArgSql = safeTo(TemplateDeleteArgRenderer.class);
+        PlaceholderJPql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
         jdbcTemplate.update(sql.getSql(), sql.getArgs());
@@ -342,7 +346,7 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public <T> T searchById(Class<T> resultClass, ID id) {
-        SqlEntitySearchId entitySearchIdSql = safeTo(SqlEntitySearchId.class);
+        TemplateSearchIdRenderer entitySearchIdSql = safeTo(TemplateSearchIdRenderer.class);
         String sql = entitySearchIdSql.getSelectJoinByIdSql(this.entityTemplate);
         log.debug("SQL create:\n" + sql);
 
@@ -355,7 +359,7 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public <T> List<T> searchListByIds(Class<T> resultClass, ID... ids) {
-        SqlEntitySearchId entitySearchIdSql = safeTo(SqlEntitySearchId.class);
+        TemplateSearchIdRenderer entitySearchIdSql = safeTo(TemplateSearchIdRenderer.class);
         String sql = entitySearchIdSql.getSelectJoinByIdsSql(this.entityTemplate,ids.length);
         log.debug("SQL create:\n" + sql);
 
@@ -369,8 +373,8 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public <T> List<T> searchListByArg(Class<T> resultClass, Object... args) {
-        SqlEntitySearchArg entitySearchArgSql = safeTo(SqlEntitySearchArg.class);
-        ArgSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
+        TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
+        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.query(
@@ -387,11 +391,11 @@ public class EntityDaoImpl<Entity, ID>
             pageQuery.setTarClass(this.entityTemplate.getClazz());
         }
 
-        SqlEntitySearchArg entitySearchArgSql = safeTo(SqlEntitySearchArg.class);
-        ArgSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
+        TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
+        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
-        SqlPage pageSql = safeTo(SqlPage.class);
+        SqlPageRenderer pageSql = safeTo(SqlPageRenderer.class);
         String sqlCount = pageSql.getCountSql(sql.getSql());
         log.debug("SQL create:\n" + sqlCount);
 
@@ -416,8 +420,8 @@ public class EntityDaoImpl<Entity, ID>
 
     @Override
     public <T> List<T> searchListByTreeArg(Class<T> resultClass, EntityTemplateTreeArg entityTemplateTreeArg){
-        SqlEntitySearchArg entitySearchArgSql = safeTo(SqlEntitySearchArg.class);
-        ArgSql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
+        TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
+        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.query(
@@ -434,11 +438,11 @@ public class EntityDaoImpl<Entity, ID>
             pageQuery.setTarClass(this.entityTemplate.getClazz());
         }
 
-        SqlEntitySearchArg entitySearchArgSql = safeTo(SqlEntitySearchArg.class);
-        ArgSql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
+        TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
+        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
         log.debug("SQL create:\n" + sql.getSql());
 
-        SqlPage pageSql = safeTo(SqlPage.class);
+        SqlPageRenderer pageSql = safeTo(SqlPageRenderer.class);
         String sqlCount = pageSql.getCountSql(sql.getSql());
         log.debug("SQL create:\n" + sqlCount);
 
@@ -462,7 +466,7 @@ public class EntityDaoImpl<Entity, ID>
 
 
     protected  <T> T safeTo(Class<T> clazz){
-        if(!(this.entityCRUDSql instanceof SqlPage)){
+        if(!(this.entityCRUDSql instanceof SqlPageRenderer)){
             throw new RuntimeException(this.entityCRUDSql.getClass().getName() + " 不支持 " + clazz.getName() + "接口！");
         }
 

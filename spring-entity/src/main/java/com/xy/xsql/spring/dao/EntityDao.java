@@ -1,9 +1,8 @@
 package com.xy.xsql.spring.dao;
 
-
-import com.xy.xsql.orm.data.page.PageQuery;
-import com.xy.xsql.orm.data.page.PageResult;
-import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
+import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
+import com.xy.xsql.model.page.PageQuery;
+import com.xy.xsql.model.page.PageResult;
 
 import java.util.List;
 

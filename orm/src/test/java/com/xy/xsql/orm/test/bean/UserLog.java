@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * Created by xiaoyao9184 on 2016/11/28.
  */
+@Deprecated
 @ETable(name = "b_user_log", aliasName = "ulog")
 public class UserLog {
 

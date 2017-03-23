@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/12/2.
  */
+@Deprecated
 public class EntityLinkExpanderTest {
 
     private EntityTemplate entityTemplate;

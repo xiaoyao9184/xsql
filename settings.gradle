@@ -1,12 +1,12 @@
 rootProject.name = 'xsql'
 
-include 'model'
-include 'core'
-include 'orm'
-include 'test'
-include 'spring-entity'
-include 'spring-api'
+include 'base-model'
+include 'base-core'
 include 'tsql-model'
 include 'tsql-core'
 include 'entity-model'
 include 'entity-core'
+include 'spring-entity'
+
+include 'orm'
+include 'test'

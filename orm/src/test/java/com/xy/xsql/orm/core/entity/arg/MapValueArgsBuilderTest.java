@@ -12,6 +12,7 @@ import java.util.Map;
 /**
  * Created by xiaoyao9184 on 2016/12/2.
  */
+@Deprecated
 public class MapValueArgsBuilderTest {
 
     @Test

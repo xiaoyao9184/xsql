@@ -12,6 +12,7 @@ import org.junit.Test;
 /**
  * Created by xiaoyao9184 on 2016/11/17.
  */
+@Deprecated
 public class SQLServerEntitySqlTest {
 
     @Test

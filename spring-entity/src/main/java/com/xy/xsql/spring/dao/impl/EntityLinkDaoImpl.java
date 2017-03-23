@@ -1,20 +1,18 @@
 package com.xy.xsql.spring.dao.impl;
 
-
-
-import com.xy.xsql.entity.annotation.Relationships;
-import com.xy.xsql.orm.core.entity.sql.agreement.SqlEntityDeleteArg;
-import com.xy.xsql.orm.core.entity.sql.agreement.SqlEntityDistinctSearchArg;
-import com.xy.xsql.orm.core.entity.sql.agreement.SqlEntitySearchArg;
-import com.xy.xsql.orm.data.entity.EntityColumn;
-import com.xy.xsql.orm.data.entity.EntityLink;
-import com.xy.xsql.orm.data.entity.EntityParam;
-import com.xy.xsql.orm.data.entity.EntityTemplate;
-import com.xy.xsql.orm.data.param.ArgSql;
-import com.xy.xsql.orm.mapping.row.BaseEntityRowMapper;
-import com.xy.xsql.orm.mapping.row.FieldRowNameHandler;
+import com.xy.xsql.entity.api.annotation.Relationships;
+import com.xy.xsql.entity.api.dialect.jpql.TemplateDeleteArgRenderer;
+import com.xy.xsql.entity.api.dialect.jpql.TemplateDistinctSearchArgRenderer;
+import com.xy.xsql.entity.api.dialect.jpql.TemplateSearchArgRenderer;
+import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.entity.model.template.EntityColumn;
+import com.xy.xsql.entity.model.template.EntityLink;
+import com.xy.xsql.entity.model.template.EntityParam;
+import com.xy.xsql.entity.model.template.EntityTemplate;
 import com.xy.xsql.spring.dao.EntityDao;
 import com.xy.xsql.spring.dao.EntityLinkDao;
+import com.xy.xsql.spring.mapping.BaseEntityRowMapper;
+import com.xy.xsql.spring.mapping.FieldRowNameHandler;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
@@ -106,8 +104,8 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
 
     @Override
     public void deleteByLinkId(LinkID... linkID) {
-        SqlEntityDeleteArg entityDeleteArgSql = safeTo(SqlEntityDeleteArg.class);
-        ArgSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,(Object[]) linkID);
+        TemplateDeleteArgRenderer entityDeleteArgSql = safeTo(TemplateDeleteArgRenderer.class);
+        PlaceholderJPql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,(Object[]) linkID);
         log.debug("SQL create:\n" + sql.getSql());
 
         jdbcTemplate.update(sql.getSql(), sql.getArgs());
@@ -115,10 +113,10 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
 
     @Override
     public void deleteByLinkId(Class linkEntity, LinkID linkID) {
-        SqlEntityDeleteArg entityDeleteArgSql = safeTo(SqlEntityDeleteArg.class);
+        TemplateDeleteArgRenderer entityDeleteArgSql = safeTo(TemplateDeleteArgRenderer.class);
         List<Object> params = getArgsByLinkEntity(linkEntity, linkID);
 
-        ArgSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,params.toArray());
+        PlaceholderJPql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,params.toArray());
         log.debug("SQL create:\n" + sql.getSql());
 
         jdbcTemplate.update(sql.getSql(), sql.getArgs());
@@ -127,7 +125,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
 
     @Override
     public <ResultEntity> List<ResultEntity> listEntityByLinkId(Class<ResultEntity> resultEntity, LinkID... linkID) {
-        SqlEntitySearchArg entitySearchArgSql = safeTo(SqlEntitySearchArg.class);
+        TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
 
         EntityColumn column = getColumnByLinkEntity(resultEntity);
         String aliasNamePrefix = "";
@@ -135,7 +133,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
             aliasNamePrefix = column.getAliasName() + "_";
         }
 
-        ArgSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,(Object[]) linkID);
+        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,(Object[]) linkID);
         log.debug("SQL create:\n" + sql.getSql());
 
         final String finalAliasNamePrefix = aliasNamePrefix;
@@ -152,7 +150,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
 
     @Override
     public <ResultEntity> List<ResultEntity> listEntityByLinkId(Class<ResultEntity> resultEntity, Class linkEntity, LinkID linkID){
-        SqlEntitySearchArg entitySearchArgSql = safeTo(SqlEntitySearchArg.class);
+        TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
 
         List<Object> params = getArgsByLinkEntity(linkEntity, linkID);
         EntityColumn column = getColumnByLinkEntity(resultEntity);
@@ -161,7 +159,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
             aliasNamePrefix = column.getAliasName() + "_";
         }
 
-        ArgSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,params.toArray());
+        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,params.toArray());
         log.debug("SQL create:\n" + sql.getSql());
 
         final String finalAliasNamePrefix = aliasNamePrefix;
@@ -179,7 +177,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
 
     @Override
     public <ResultEntity> List<ResultEntity> distinctEntityByLinkId(Class<ResultEntity> resultEntity, Class linkEntity, LinkID... linkID) {
-        SqlEntityDistinctSearchArg entityDistinctSearchArgSql = safeTo(SqlEntityDistinctSearchArg.class);
+        TemplateDistinctSearchArgRenderer entityDistinctSearchArgSql = safeTo(TemplateDistinctSearchArgRenderer.class);
 
         EntityLink link = getLinkByLinkEntity(resultEntity);
         if(link == null){
@@ -204,7 +202,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
                 .withOrders(this.entityTemplate.getOrders());
         List<Object> params = getArgsByLinkEntity(linkEntity, linkID);
 
-        ArgSql sql = entityDistinctSearchArgSql.getDistinctJoinByArgsSql(entityTemplate,params.toArray());
+        PlaceholderJPql sql = entityDistinctSearchArgSql.getDistinctJoinByArgsSql(entityTemplate,params.toArray());
         log.debug("SQL create:\n" + sql.getSql());
 
         final String finalAliasNamePrefix = aliasNamePrefix;

@@ -5,6 +5,7 @@ import org.junit.Test;
 /**
  * Created by xiaoyao9184 on 2016/11/2.
  */
+@Deprecated
 public class PageQueryTest {
 
     @Test

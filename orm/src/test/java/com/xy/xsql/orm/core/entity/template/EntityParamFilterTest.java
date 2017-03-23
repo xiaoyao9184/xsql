@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/11/25.
  */
+@Deprecated
 public class EntityParamFilterTest {
 
     private List<EntityParam> listAllNeedValue;

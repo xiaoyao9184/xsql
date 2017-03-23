@@ -6,6 +6,7 @@ import com.xy.xsql.entity.annotation.*;
  * TEST
  * Created by xiaoyao9184 on 2016/6/26.
  */
+@Deprecated
 @ETable(name = "b_user", aliasName = "u")
 public class User {
 

@@ -2,7 +2,7 @@
 //
 //import com.xy.xsql.core.SubBuilder;
 //import com.xy.xsql.tsql.model.expression.Expression;
-//import com.xy.xsql.orm.data.sql.element.info.GroupList;
+//import com.xy.xsql.orm.data.jpql.element.info.GroupList;
 //import com.xy.xsql.tsql.model.statement.dml.Insert;
 //
 //import java.util.ArrayList;
