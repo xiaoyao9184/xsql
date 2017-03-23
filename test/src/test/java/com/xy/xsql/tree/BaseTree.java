@@ -13,8 +13,8 @@ import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
 import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
 import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_like;
+import static com.xy.xsql.tsql.core.statement.InsertBuilder.INSERT;
 import static com.xy.xsql.tsql.core.statement.SelectBuilder.SELECT;
 
 /**
@@ -91,23 +91,22 @@ public class BaseTree {
     @Test
     public void testInsert(){
         // @formatter:off
-        Insert insert = new InsertBuilder()
-                .withInto(true)
-                .withTableName("test_use_tree_base")
-                .withColumn(c("id"))
-                .withColumn(c("parent_id"))
-                .withColumn(c("path"))
-                .withColumn(c("level"))
-                .withColumn(c("name"))
-                .withValues()
-                    .withItem()
-                        .withRowValueExpression((e_rv("9")))
-                        .withRowValueExpression(e_rv("1"))
-                        .withRowValueExpression(e_rv("/1/"))
-                        .withRowValueExpression(e_rv(2))
-                        .withRowValueExpression(e_rv("init-9"))
+        Insert insert = INSERT()
+                .$Into()
+                .$(t("test_use_tree_base"))
+                .$(c("id"))
+                .$(c("parent_id"))
+                .$(c("path"))
+                .$(c("level"))
+                .$(c("name"))
+                .$Values()
+                    .$(
+                            e_string("9"),
+                            e_string("1"),
+                            e_string("/1/"),
+                            e_number(2),
+                            e_string("init-9"))
                     .and()
-                .and()
                 .build();
         // @formatter:on
 

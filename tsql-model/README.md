@@ -50,7 +50,7 @@ to be evaluated
 | DISABLE TRIGGER
 | DROP |
 | ENABLE TRIGGER |
-| TRUNCATE TABLE |
+| TRUNCATE TABLE | ALL |
 | UPDATE STATISTICS |
 | RENAME | ALL |
 
@@ -59,19 +59,19 @@ to be evaluated
 | Statement | Support |
 | ----- | ----- |
 | BULK INSERT | ALL |
-| SELECT |
-| DELETE |
-| UPDATE |
-| INSERT |
-| UPDATETEXT | NOT |
-| MERGE |
-| WRITETEXT | NOT |
-| READTEXT | NOT |
+| SELECT | NOT XMLNAMESPACES, column_position 
+| DELETE | NOT rowset_function_limited
+| UPDATE | NOT rowset_function_limited, udt_column_name, WRITE
+| INSERT | NOT rowset_function_limited, execute_statement, <dml_table_source>  
+| UPDATETEXT | _ |
+| MERGE | ALL |
+| WRITETEXT | _ |
+| READTEXT | _ |
 
 
 | Clause | Support |
 | ----- | ----- |
-| FROM |
+| FROM | ONLY table_or_view_name, derived_table, <joined_table>
 | Hints | Query,Table,Join |
 | OPTION Clause | ALL |
 | OUTPUT Clause | ALL |
@@ -81,10 +81,20 @@ to be evaluated
 | WHERE | ALL |
 | WITH common_table_expression | ALL |
 
+| SELECT Clause | Support |
+| ----- | ----- |
+| SELECT | NOT $IDENTITY, $ROWGUID, udt_column_name |
+| FOR | ALL |
+| GROUP BY | NOT For backward |
+| HAVING | ALL |
+| INTO | YES, but model not use |
+| ORDER BY | NOT COLLATE collation_name |
+| OVER | NOT <ROW or RANGE clause> |
+
 
 | Other | Support |
 | ----- | ----- |
-| EXPLAIN
+| EXPLAIN | _ |
 | Subqueries | use SELECT |
 
 ## Data Types

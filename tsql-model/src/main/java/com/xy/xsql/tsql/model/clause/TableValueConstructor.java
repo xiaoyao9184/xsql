@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.model.clause;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.expression.RowValueExpression;
 import com.xy.xsql.tsql.util.ListBlockBuilder;
 
@@ -26,13 +27,13 @@ public class TableValueConstructor implements Clause {
 
     //TODO maybe can replace with Expression
     //( <row value expression list> ) [ ,...n ]
-    private List<List<RowValueExpression>> rowValueExpressionListGroup;
+    private List<List<Expression>> rowValueExpressionListGroup;
 
-    public List<List<RowValueExpression>> getRowValueExpressionListGroup() {
+    public List<List<Expression>> getRowValueExpressionListGroup() {
         return rowValueExpressionListGroup;
     }
 
-    public void setRowValueExpressionListGroup(List<List<RowValueExpression>> rowValueExpressionListGroup) {
+    public void setRowValueExpressionListGroup(List<List<Expression>> rowValueExpressionListGroup) {
         this.rowValueExpressionListGroup = rowValueExpressionListGroup;
     }
 
@@ -42,7 +43,7 @@ public class TableValueConstructor implements Clause {
         ListBlockBuilder b = new ListBlockBuilder()
                 .append(Keywords.VALUES);
 
-        for (List<RowValueExpression> rowValueExpressionList: getRowValueExpressionListGroup()) {
+        for (List<Expression> rowValueExpressionList: getRowValueExpressionListGroup()) {
             b.append(Other.GROUP_START)
                     .appendExpression(rowValueExpressionList,Other.DELIMITER)
                     .append(Other.GROUP_END);

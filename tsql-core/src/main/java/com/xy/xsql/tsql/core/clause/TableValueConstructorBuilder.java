@@ -2,6 +2,8 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.expression.RowValueExpression;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class TableValueConstructorBuilder<ParentBuilder>
      * @param rowValueExpressions
      * @return
      */
-    public TableValueConstructorBuilder<ParentBuilder> $(RowValueExpression... rowValueExpressions){
+    public TableValueConstructorBuilder<ParentBuilder> $(Expression... rowValueExpressions) {
         return withItem()
                 .withRowValueExpression(rowValueExpressions)
                 .and();
@@ -59,13 +61,13 @@ public class TableValueConstructorBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class RowValuesBuilder<ParentBuilder>
-            extends CodeTreeBuilder<RowValuesBuilder<ParentBuilder>,ParentBuilder,List<RowValueExpression>> {
+            extends CodeTreeBuilder<RowValuesBuilder<ParentBuilder>,ParentBuilder,List<Expression>> {
 
-        public RowValuesBuilder(List<RowValueExpression> tar) {
+        public RowValuesBuilder(List<Expression> tar) {
             super(tar);
         }
 
-        public RowValuesBuilder<ParentBuilder> withRowValueExpression(RowValueExpression... rowValueExpressions){
+        public RowValuesBuilder<ParentBuilder> withRowValueExpression(Expression... rowValueExpressions){
             target.addAll(Arrays.asList(rowValueExpressions));
             return this;
         }

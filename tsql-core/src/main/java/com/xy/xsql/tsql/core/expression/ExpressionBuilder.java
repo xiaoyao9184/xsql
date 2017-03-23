@@ -1,9 +1,7 @@
 package com.xy.xsql.tsql.core.expression;
 
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.datatype.BinaryConstant;
-import com.xy.xsql.tsql.model.datatype.NumberConstant;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatype.*;
 import com.xy.xsql.tsql.model.expression.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
@@ -22,7 +20,7 @@ public class ExpressionBuilder {
      * @param expressionString
      * @return
      */
-    public static Expression e(String expressionString){
+    public static UnknownExpression e(String expressionString){
         return new UnknownExpression(expressionString);
     }
 
@@ -30,16 +28,16 @@ public class ExpressionBuilder {
      * null
      * @return
      */
-    public static Expression e_null(){
-        return new KeywordExpression(Keywords.NULL);
+    public static KeywordExpression e_null(){
+        return new Null();
     }
 
     /**
      * default
      * @return
      */
-    public static Expression e_default(){
-        return new KeywordExpression(Keywords.DEFAULT);
+    public static KeywordExpression e_default(){
+        return new Default();
     }
 
     /**
@@ -153,6 +151,12 @@ public class ExpressionBuilder {
     public static Expression e_subquery(Select.QuerySpecification query){
         GroupExpression groupExpression = new GroupExpression();
         groupExpression.setStatement(query);
+        return groupExpression;
+    }
+
+    public static Expression e_subquery(Select select){
+        GroupExpression groupExpression = new GroupExpression();
+        groupExpression.setStatement(select);
         return groupExpression;
     }
 

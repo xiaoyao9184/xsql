@@ -10,7 +10,6 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
 import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
 import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
-import static com.xy.xsql.tsql.core.expression.RowValueExpressionBuilder.e_rv;
 import static com.xy.xsql.tsql.core.statement.SelectBuilder.SELECT;
 
 /**
@@ -141,26 +140,11 @@ public class SelectBuilderTest {
     public void testDerivedTable(){
         // @formatter:off
         TableValueConstructor values = new TableValueConstructorBuilder<Void>()
-                .withItem()
-                    .withRowValueExpression(e_rv(1))
-                    .withRowValueExpression(e_rv(2))
-                    .and()
-                .withItem()
-                    .withRowValueExpression(e_rv(3))
-                    .withRowValueExpression(e_rv(4))
-                    .and()
-                .withItem()
-                    .withRowValueExpression(e_rv(5))
-                    .withRowValueExpression(e_rv(6))
-                    .and()
-                .withItem()
-                    .withRowValueExpression(e_rv(7))
-                    .withRowValueExpression(e_rv(8))
-                    .and()
-                .withItem()
-                    .withRowValueExpression(e_rv(9))
-                    .withRowValueExpression(e_rv(10))
-                    .and()
+                .$(e_number(1),e_number(2))
+                .$(e_number(3),e_number(4))
+                .$(e_number(5),e_number(6))
+                .$(e_number(7),e_number(8))
+                .$(e_number(9),e_number(10))
                 .build();
 
         Select.QuerySpecification select = new SelectBuilder.QuerySpecificationBuilder<Void>()

@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.core.expression;
 
+import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Case;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
@@ -271,7 +272,7 @@ public class CaseBuilderTest {
         // @formatter:on
 
         Assert.assertNull(aCase.getInputExpression());
-        Assert.assertEquals(aCase.getElseResultExpression().getClass(),KeywordExpression.class);
+        Assert.assertEquals(aCase.getElseResultExpression().getClass(),Null.class);
         Assert.assertEquals(aCase.getElseResultExpression().toString(),"NULL");
 
         Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);

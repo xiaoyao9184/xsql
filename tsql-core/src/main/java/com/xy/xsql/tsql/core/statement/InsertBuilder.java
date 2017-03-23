@@ -13,6 +13,8 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 
+import java.util.Arrays;
+
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
@@ -29,10 +31,7 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         super(new Insert());
     }
 
-    /**
-     *
-     * @return
-     */
+
     public WithBuilder<InsertBuilder> withWith(){
         return new WithBuilder<InsertBuilder>
                 (initSet(With::new,
@@ -41,10 +40,6 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-    /**
-     *
-     * @return
-     */
     public TopBuilder<InsertBuilder> withTop(){
         return new TopBuilder<InsertBuilder>
                 (initSet(Top::new,
@@ -53,51 +48,28 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-    /**
-     *
-     * @param useInto
-     * @return
-     */
-    public InsertBuilder withInto(boolean useInto){
-        target.setUseInto(useInto);
+    public InsertBuilder withInto(){
+        target.setUseInto(true);
         return this;
     }
 
-    /**
-     *
-     * @param tableName
-     * @return
-     */
     public InsertBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
     }
 
-    /**
-     *
-     * @param tableName
-     * @return
-     */
     public InsertBuilder withTableName(String tableName){
         target.setTableName(new TableName(tableName));
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
-    public InsertBuilder withColumn(ColumnName columnName){
-        initAdd(columnName,
+    public InsertBuilder withColumn(ColumnName... columnNames){
+        initAdd(Arrays.asList(columnNames),
                 target::getColumns,
                 target::setColumns);
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     public OutputBuilder<InsertBuilder> withOutput() {
         return new OutputBuilder<InsertBuilder>
                 (initSet(Output::new,
@@ -106,10 +78,6 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-    /**
-     *
-     * @return
-     */
     public TableValueConstructorBuilder<InsertBuilder> withValues(){
         return new TableValueConstructorBuilder<InsertBuilder>
                 (initSet(TableValueConstructor::new,
@@ -118,120 +86,47 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-
-//    /**
-//     *
-//     * @param <Done>
-//     */
-//    public static class ColumnListBuilder<Done>
-//            extends SubBuilder<ColumnListBuilder<Done>,Void,Done> {
-//
-//        private List<Column> columnList;
-//
-//        public ColumnListBuilder(List<Column> columnList) {
-//            this.columnList = columnList;
-//        }
-//
-//        public ColumnBuilder<ColumnListBuilder<Done>> withItem(){
-//            Column column = new Column();
-//            if(this.columnList == null){
-//                this.columnList = new ArrayList<>();
-//            }
-//            this.columnList.add(column);
-//            return new ColumnBuilder<ColumnListBuilder<Done>>(column)
-//                    .in(this);
-//        }
-//    }
-//
-//    /**
-//     *
-//     * @param <Done>
-//     */
-//    public static class ColumnBuilder<Done>
-//            extends SubBuilder<ColumnBuilder<Done>,Void,Done> {
-//
-//        private Column column;
-//
-//        public ColumnBuilder(Column column) {
-//            this.column = column;
-//        }
-//
-//        public ColumnBuilder<Done> withName(String name){
-//            this.column.setName(name);
-//            return this;
-//        }
-//    }
+    public InsertBuilder withDefaultValues() {
+        target.setUseDefaultValues(true);
+        return this;
+    }
 
 
-//    /**
-//     *
-//     * @param <Done>
-//     */
-//    public class ValueGroupListBuilder<Done>
-//            extends SubBuilder<ValueGroupListBuilder<Done>,Void,Done> {
-//
-//        private GroupList<Insert.Value> valueGroupList;
-//
-//        public ValueGroupListBuilder(GroupList<Insert.Value> valueGroupList) {
-//            this.valueGroupList = valueGroupList;
-//        }
-//
-//        public ValueListBuilder<ValueGroupListBuilder<Done>> withGroupItem(){
-//            List<Insert.Value> valueList = new ArrayList<>();
-//            if(this.valueGroupList == null){
-//                this.valueGroupList = new GroupList<>();
-//            }
-//            this.valueGroupList.add(valueList);
-//            return new ValueListBuilder<ValueGroupListBuilder<Done>>(valueList)
-//                    .in(this);
-//        }
-//    }
-//
-//    /**
-//     *
-//     * @param <Done>
-//     */
-//    public static class ValueListBuilder<Done>
-//            extends SubBuilder<ValueListBuilder<Done>,Void,Done> {
-//
-//        private List<Insert.Value> valueList;
-//
-//        public ValueListBuilder(List<Insert.Value> valueList) {
-//            this.valueList = valueList;
-//        }
-//
-//        public ValueBuilder<ValueListBuilder<Done>> withItem(){
-//            Insert.Value value = new Insert.Value();
-//            if(this.valueList == null){
-//                this.valueList = new ArrayList<>();
-//            }
-//            this.valueList.add(value);
-//            return new ValueBuilder<ValueListBuilder<Done>>(value)
-//                    .in(this);
-//        }
-//    }
-//
-//    /**
-//     *
-//     * @param <Done>
-//     */
-//    public static class ValueBuilder<Done>
-//            extends SubBuilder<ValueBuilder<Done>,Void,Done> {
-//
-//        private Insert.Value value;
-//
-//        public ValueBuilder(Insert.Value value) {
-//            this.value = value;
-//        }
-//
-//        public ValueBuilder<Done> withExpression(Expression expression){
-//            this.value.setExpression(expression);
-//            return this;
-//        }
-//
-//        public ValueBuilder<Done> withNull(Boolean useNull){
-//            this.value.setUseNull(useNull);
-//            return this;
-//        }
-//    }
+
+    /*
+    Quick
+     */
+
+    public static InsertBuilder INSERT(){
+        return new InsertBuilder();
+    }
+
+    public TopBuilder<InsertBuilder> $Top() {
+        return withTop();
+    }
+
+    public InsertBuilder $Into() {
+        return withInto();
+    }
+
+    public InsertBuilder $(TableName tableName) {
+        return withTableName(tableName);
+    }
+
+    public InsertBuilder $(ColumnName... columnNames) {
+        return withColumn(columnNames);
+    }
+
+    public OutputBuilder<InsertBuilder> $Output() {
+        return withOutput();
+    }
+
+    public TableValueConstructorBuilder<InsertBuilder> $Values() {
+        return withValues();
+    }
+
+    public InsertBuilder $Default_Values() {
+        return withDefaultValues();
+    }
+
 }
