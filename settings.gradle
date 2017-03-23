@@ -4,9 +4,11 @@ include 'base-model'
 include 'base-core'
 include 'tsql-model'
 include 'tsql-core'
+include 'tsql-test'
 include 'entity-model'
 include 'entity-core'
-include 'spring-entity'
+include 'entity-spring'
+include 'entity-test'
+
 
 include 'orm'
-include 'test'
