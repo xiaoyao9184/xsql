@@ -4,12 +4,12 @@ import com.xy.xsql.tsql.model.element.TableName;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
  */
-public class TableNameBuilderTest {
+public class TableNameFactoryTest {
 
     @Test
     public void testQuick(){

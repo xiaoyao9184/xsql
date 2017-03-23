@@ -1,21 +1,18 @@
 package com.xy.xsql.tree;
 
-import com.xy.xsql.tsql.core.statement.InsertBuilder;
+import com.xy.xsql.tsql.core.statement.dml.SelectBuilder.QuerySpecificationBuilder;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Test;
 
-import com.xy.xsql.tsql.core.statement.SelectBuilder.*;
-
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_like;
-import static com.xy.xsql.tsql.core.statement.InsertBuilder.INSERT;
-import static com.xy.xsql.tsql.core.statement.SelectBuilder.SELECT;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_addition;
+import static com.xy.xsql.tsql.core.predicate.Predicates.p_like;
+import static com.xy.xsql.tsql.core.statement.dml.InsertBuilder.INSERT;
+import static com.xy.xsql.tsql.core.statement.dml.SelectBuilder.SELECT;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.

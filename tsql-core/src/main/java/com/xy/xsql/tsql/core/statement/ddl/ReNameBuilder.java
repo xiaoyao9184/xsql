@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 
 import java.util.Arrays;
 
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.

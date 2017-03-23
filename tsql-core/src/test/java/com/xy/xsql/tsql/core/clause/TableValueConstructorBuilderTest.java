@@ -2,16 +2,16 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.core.statement.SelectBuilder;
+import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.

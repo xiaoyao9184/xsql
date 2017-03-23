@@ -7,9 +7,9 @@ import com.xy.xsql.tsql.model.predicate.Comparison;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
-import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_greater;
+import static com.xy.xsql.tsql.core.expression.Expressions.e;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
+import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.model.operator.Operators.GREATER;
 
 /**

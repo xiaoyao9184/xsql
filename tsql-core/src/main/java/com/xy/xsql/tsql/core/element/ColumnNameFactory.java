@@ -9,9 +9,10 @@ import static com.xy.xsql.core.ListBuilder.reverse;
 import static com.xy.xsql.core.ListBuilder.setter;
 
 /**
+ * ColumnNameFactory
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class ColumnNameBuilder {
+public class ColumnNameFactory {
 
     public static ColumnName c(TableName tableName, String name){
         return new ColumnName(tableName,name);

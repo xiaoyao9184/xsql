@@ -9,13 +9,13 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
 
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
  */
-public class ConstantExpressionBuilderTest {
+public class ConstantExpressionsTest {
 
     @Test
     public void testBinary(){

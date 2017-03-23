@@ -4,7 +4,7 @@ import com.xy.xsql.tsql.model.expression.AtTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
 
 
 /**

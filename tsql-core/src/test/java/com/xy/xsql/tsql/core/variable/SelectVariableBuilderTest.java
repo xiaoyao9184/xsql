@@ -6,8 +6,8 @@ import com.xy.xsql.tsql.model.variable.SelectVariable;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_subquery;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_subquery;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.

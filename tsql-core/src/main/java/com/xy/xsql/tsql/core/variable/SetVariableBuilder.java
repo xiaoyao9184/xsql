@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Compound;
 import com.xy.xsql.tsql.model.variable.SetVariable;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_variable;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_variable;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.

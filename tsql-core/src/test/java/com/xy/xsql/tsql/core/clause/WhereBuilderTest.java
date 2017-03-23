@@ -13,8 +13,8 @@ import com.xy.xsql.tsql.model.predicate.Like;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.*;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
+import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.

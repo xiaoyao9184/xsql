@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.core.statement;
+package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
@@ -9,8 +9,8 @@ import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
 
 /**
  * Created by xiaoyao9184 on 2017/1/9.

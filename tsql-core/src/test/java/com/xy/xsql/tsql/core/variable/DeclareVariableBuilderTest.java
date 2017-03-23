@@ -4,9 +4,9 @@ import com.xy.xsql.tsql.model.variable.DeclareVariable;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.datatype.DataTypeBuilder._money;
-import static com.xy.xsql.tsql.core.datatype.DataTypeBuilder._varchar;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
+import static com.xy.xsql.tsql.core.datatype.DataTypes._money;
+import static com.xy.xsql.tsql.core.datatype.DataTypes._varchar;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.

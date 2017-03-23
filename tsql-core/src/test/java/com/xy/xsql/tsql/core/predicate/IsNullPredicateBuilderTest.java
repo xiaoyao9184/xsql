@@ -1,11 +1,10 @@
 package com.xy.xsql.tsql.core.predicate;
 
-import com.xy.xsql.tsql.model.predicate.FreeText;
 import com.xy.xsql.tsql.model.predicate.IsNull;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
+import static com.xy.xsql.tsql.core.expression.Expressions.e;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.

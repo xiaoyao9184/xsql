@@ -4,7 +4,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.select.For;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
 
 /**
  * ForBuilder

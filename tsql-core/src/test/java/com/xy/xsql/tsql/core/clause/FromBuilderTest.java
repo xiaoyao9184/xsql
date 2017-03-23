@@ -9,9 +9,9 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_equal;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.

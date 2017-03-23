@@ -8,10 +8,10 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_addition;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_subtraction;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_addition;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_subtraction;
 
 /**
  * Created by xiaoyao9184 on 2017/3/22.

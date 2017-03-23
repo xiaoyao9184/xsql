@@ -10,11 +10,11 @@ import java.util.Arrays;
 /**
  * Created by xiaoyao9184 on 2017/3/17.
  */
-public class DataTypeBuilderTest {
+public class DataTypesTest {
 
     @Test
     public void testMethodNameSameAsDataTypeName(){
-        Method[] methods = DataTypeBuilder.class.getMethods();
+        Method[] methods = DataTypes.class.getMethods();
         Object[] params = new Object[2];
         params[0] = 1;
         params[1] = new Integer[]{2,3};

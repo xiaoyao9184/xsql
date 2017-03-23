@@ -7,11 +7,12 @@ import com.xy.xsql.tsql.model.operator.*;
 import java.util.Arrays;
 
 /**
+ * Expression Factory
  *
  * expression { binary_operator } expression
  * Created by xiaoyao9184 on 2017/3/10.
  */
-public class GroupExpressionBuilder {
+public class GroupExpressions {
 
     public static GroupExpression e_binary(Expression leftExpression, Operator operator, Expression... rightExpression){
         GroupExpression groupExpression = new GroupExpression();

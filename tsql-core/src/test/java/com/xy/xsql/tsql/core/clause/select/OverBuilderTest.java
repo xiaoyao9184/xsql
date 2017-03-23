@@ -2,14 +2,11 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.model.clause.select.Having;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
-import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_greater;
+import static com.xy.xsql.tsql.core.expression.Expressions.e;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.

@@ -4,15 +4,14 @@ import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Case;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
-import com.xy.xsql.tsql.model.expression.KeywordExpression;
 import com.xy.xsql.tsql.model.operator.Operators;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_and;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_binary;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_and;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_binary;
 
 
 /**

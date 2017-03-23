@@ -4,9 +4,9 @@ import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.datatype.ColumnDefinitionBuilder.c_int;
-import static com.xy.xsql.tsql.core.datatype.DataTypeBuilder._int;
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
+import static com.xy.xsql.tsql.core.datatype.ColumnDefinitionFactory.c_int;
+import static com.xy.xsql.tsql.core.datatype.DataTypes._int;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.

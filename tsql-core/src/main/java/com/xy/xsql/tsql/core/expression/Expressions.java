@@ -1,19 +1,23 @@
 package com.xy.xsql.tsql.core.expression;
 
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.*;
-import com.xy.xsql.tsql.model.expression.*;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.expression.GroupExpression;
+import com.xy.xsql.tsql.model.expression.KeywordExpression;
+import com.xy.xsql.tsql.model.expression.UnknownExpression;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 
 import java.util.UUID;
 
 /**
+ * Expression Factory
+ *
  * https://msdn.microsoft.com/en-us/library/ms190286.aspx
  *
  * Created by xiaoyao9184 on 2017/3/10.
  */
-public class ExpressionBuilder {
+public class Expressions {
 
     /**
      * unknown

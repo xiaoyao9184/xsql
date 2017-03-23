@@ -6,8 +6,8 @@ import com.xy.xsql.tsql.model.clause.Top;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_variable;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_variable;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.

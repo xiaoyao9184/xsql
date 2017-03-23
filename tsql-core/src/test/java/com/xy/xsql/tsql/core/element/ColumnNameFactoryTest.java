@@ -4,13 +4,13 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
  */
-public class ColumnNameBuilderTest {
+public class ColumnNameFactoryTest {
 
     @Test
     public void testQuick(){

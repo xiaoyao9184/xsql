@@ -5,9 +5,9 @@ import com.xy.xsql.tsql.model.expression.NullIf;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_coalesce;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
+import static com.xy.xsql.tsql.core.expression.Expressions.e;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_coalesce;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
 
 
 /**

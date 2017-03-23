@@ -3,9 +3,10 @@ package com.xy.xsql.tsql.core.datatype;
 import com.xy.xsql.tsql.model.datatype.DataType;
 
 /**
+ * DataType Factory
  * Created by xiaoyao9184 on 2017/3/16.
  */
-public class DataTypeBuilder {
+public class DataTypes {
 
     //DateTime
 

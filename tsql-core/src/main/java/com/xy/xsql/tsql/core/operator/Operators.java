@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.core.operator;
 import com.xy.xsql.tsql.model.operator.*;
 
 /**
+ * Operator Factory
  * Created by xiaoyao9184 on 2017/3/18.
  */
 public class Operators {

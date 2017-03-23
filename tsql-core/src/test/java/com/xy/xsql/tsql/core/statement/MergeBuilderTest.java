@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.core.statement;
 
+import com.xy.xsql.tsql.core.statement.dml.MergeBuilder;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -7,15 +8,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.clause.OutputBuilder.*;
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_number;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_plus;
-import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_equal;
-import static com.xy.xsql.tsql.core.predicate.PredicateBuilder.p_less_equal;
-import static com.xy.xsql.tsql.core.statement.MergeBuilder.MERGE;
-import static com.xy.xsql.tsql.core.statement.UpdateBuilder.SetItemBuilder.s;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.Expressions.e;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_plus;
+import static com.xy.xsql.tsql.core.predicate.Predicates.*;
+import static com.xy.xsql.tsql.core.statement.dml.MergeBuilder.MERGE;
+import static com.xy.xsql.tsql.core.statement.dml.UpdateBuilder.SetItemBuilder.s;
 
 /**
  * Created by xiaoyao9184 on 2017/1/11.

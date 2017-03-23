@@ -1,11 +1,12 @@
 package com.xy.xsql.tsql.core.statement;
 
+import com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilder;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.statement.BulkInsertBuilder.*;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilder.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.

@@ -310,7 +310,7 @@ public class OutputBuilder<ParentBuilder>
     }
 
     /**
-     * ColumnNameBuilder
+     * ColumnNameFactory
      * @param <ParentBuilder>
      */
     public static class ColumnNameBuilder<ParentBuilder>
@@ -359,7 +359,7 @@ public class OutputBuilder<ParentBuilder>
      */
 
     /**
-     * Quick into ColumnNameBuilder
+     * Quick into ColumnNameFactory
      * @return
      */
     public static ColumnNameBuilder<Output.ColumnName> column_name(){

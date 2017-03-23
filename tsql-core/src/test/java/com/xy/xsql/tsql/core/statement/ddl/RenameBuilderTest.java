@@ -4,7 +4,7 @@ import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.statement.ddl.ReNameBuilder.RENAME_DATABASE;
 import static com.xy.xsql.tsql.core.statement.ddl.ReNameBuilder.RENAME_TABLE;
 

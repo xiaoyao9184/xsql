@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.variable;
 
-import com.xy.xsql.tsql.core.statement.SelectBuilder;
+import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
 import com.xy.xsql.tsql.model.operator.Compound;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -8,10 +8,10 @@ import com.xy.xsql.tsql.model.variable.SetVariable;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.*;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_addition;
-import static com.xy.xsql.tsql.core.expression.GroupExpressionBuilder.e_multiplication;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_addition;
+import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_multiplication;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.

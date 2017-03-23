@@ -1,15 +1,16 @@
 package com.xy.xsql.tsql.core.statement;
 
+import com.xy.xsql.tsql.core.statement.dml.InsertBuilder;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameBuilder.c;
-import static com.xy.xsql.tsql.core.element.TableNameBuilder.t;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_n_string;
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_string;
-import static com.xy.xsql.tsql.core.statement.InsertBuilder.INSERT;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.Expressions.e;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_n_string;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
+import static com.xy.xsql.tsql.core.statement.dml.InsertBuilder.INSERT;
 
 /**
  * Created by xiaoyao9184 on 2017/1/7.

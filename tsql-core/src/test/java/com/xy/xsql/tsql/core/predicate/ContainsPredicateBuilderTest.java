@@ -4,8 +4,6 @@ import com.xy.xsql.tsql.model.predicate.Contains;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.ExpressionBuilder.e_variable;
-
 /**
  * Created by xiaoyao9184 on 2017/3/16.
  */
