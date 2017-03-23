@@ -52,7 +52,7 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @param useForm
      * @return
      */
-    public DeleteBuilder withForm(boolean useForm){
+    public DeleteBuilder withFrom(boolean useForm){
         target.setUseForm(useForm);
         return this;
     }
@@ -135,4 +135,47 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
+
+
+
+    /*
+    Quick
+     */
+
+    public static DeleteBuilder DELETE(){
+        return new DeleteBuilder();
+    }
+
+    public TopBuilder<DeleteBuilder> $Top(){
+        return withTop();
+    }
+
+    public DeleteBuilder $(TableName tableName) {
+        return withTableName(tableName);
+    }
+
+    public DeleteBuilder $From(String alias) {
+        return withTableAlias(alias);
+    }
+
+    public DeleteBuilder $From(TableName tableName) {
+        return withFrom(true)
+                .withTableName(tableName);
+    }
+
+    public OutputBuilder<DeleteBuilder> $Output() {
+        return withOutput();
+    }
+
+    public FromBuilder<DeleteBuilder> $From() {
+        return withFrom();
+    }
+
+    public WhereBuilder<DeleteBuilder> $Where() {
+        return withWhere();
+    }
+
+    public OptionBuilder<DeleteBuilder> $Option() {
+        return withOption();
+    }
 }
