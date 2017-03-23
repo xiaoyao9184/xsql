@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.test.bean;
 
-import com.xy.xsql.orm.annotation.*;
+import com.xy.xsql.entity.annotation.*;
 
 import java.util.Date;
 

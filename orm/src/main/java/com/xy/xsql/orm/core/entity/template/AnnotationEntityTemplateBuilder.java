@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.core.entity.template;
 
 import com.xy.xsql.core.builder.ConfigBuilder;
-import com.xy.xsql.orm.annotation.*;
+import com.xy.xsql.entity.annotation.*;
 import com.xy.xsql.orm.data.config.AnnotationEntityTemplateBuildConfig;
 import com.xy.xsql.orm.data.entity.*;
 import com.xy.xsql.orm.mapping.type.TypeMapper;

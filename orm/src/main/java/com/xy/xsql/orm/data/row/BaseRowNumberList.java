@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.row;
 
-import com.xy.xsql.orm.annotation.EColumn;
+import com.xy.xsql.entity.annotation.EColumn;
 
 /**
  * BaseRowNumberList

@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.core.entity.sql;
 
-import com.xy.xsql.orm.annotation.EStatus;
+import com.xy.xsql.entity.annotation.EStatus;
 import com.xy.xsql.orm.core.sentence.data.CodeSentenceDataBuilder;
 import com.xy.xsql.orm.core.sentence.sql.ElementsSentenceSqlBuilder;
 import com.xy.xsql.orm.data.config.EntityDialectSqlBuildConfig;

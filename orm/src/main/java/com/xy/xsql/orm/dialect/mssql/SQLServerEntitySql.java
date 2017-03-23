@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.dialect.mssql;
 
 
-import com.xy.xsql.orm.annotation.Relationships;
+import com.xy.xsql.entity.annotation.Relationships;
 import com.xy.xsql.orm.core.entity.sql.agreement.*;
 import com.xy.xsql.orm.core.entity.template.*;
 import com.xy.xsql.orm.data.entity.*;
@@ -10,7 +10,6 @@ import com.xy.xsql.orm.data.param.EntityTemplateTreeArg;
 import com.xy.xsql.orm.util.CheckUtil;
 import com.xy.xsql.orm.util.ListUtil;
 import com.xy.xsql.orm.util.StringUtil;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -2,7 +2,7 @@ package com.xy.xsql.spring.dao.impl;
 
 
 
-import com.xy.xsql.orm.annotation.Relationships;
+import com.xy.xsql.entity.annotation.Relationships;
 import com.xy.xsql.orm.core.entity.sql.agreement.SqlEntityDeleteArg;
 import com.xy.xsql.orm.core.entity.sql.agreement.SqlEntityDistinctSearchArg;
 import com.xy.xsql.orm.core.entity.sql.agreement.SqlEntitySearchArg;

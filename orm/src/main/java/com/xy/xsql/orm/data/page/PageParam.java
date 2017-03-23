@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.page;
 
-import com.xy.xsql.orm.annotation.ESql;
+import com.xy.xsql.entity.annotation.ESql;
 import com.xy.xsql.orm.data.param.EntitySiteParam;
 import com.xy.xsql.orm.data.row.BaseRowNumberList;
 

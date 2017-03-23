@@ -1,6 +1,6 @@
 package com.xy.xsql.orm.data.entity;
 
-import com.xy.xsql.orm.annotation.Relationships;
+import com.xy.xsql.entity.annotation.Relationships;
 import com.xy.xsql.orm.data.sql.element.info.Param;
 
 /**

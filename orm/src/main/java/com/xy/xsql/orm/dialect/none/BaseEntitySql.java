@@ -1,7 +1,7 @@
 package com.xy.xsql.orm.dialect.none;
 
 
-import com.xy.xsql.orm.annotation.Relationships;
+import com.xy.xsql.entity.annotation.Relationships;
 import com.xy.xsql.orm.core.entity.template.EntityColumnComparator;
 import com.xy.xsql.orm.core.entity.template.EntityParamFilter;
 import com.xy.xsql.orm.core.entity.sql.agreement.*;
