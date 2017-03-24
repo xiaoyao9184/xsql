@@ -1,4 +1,4 @@
-package com.xy.xsql.entitytest.bean;
+package com.xy.xsql.entity.test.entity;
 
 
 import com.xy.xsql.entity.api.annotation.*;

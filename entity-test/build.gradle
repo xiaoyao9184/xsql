@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     compile project(':entity-model')
+    compile project(':entity-spring')
+    compile group: 'org.springframework.data', name: 'spring-data-jdbc-core', version: '1.2.1.RELEASE'
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

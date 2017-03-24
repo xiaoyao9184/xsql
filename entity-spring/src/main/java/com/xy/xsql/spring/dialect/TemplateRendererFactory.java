@@ -9,11 +9,11 @@ import com.xy.xsql.spring.dialect.mssql.MSSQLTemplateRenderer;
 /**
  * Created by xiaoyao9184 on 2016/11/25.
  */
-public class TemplateRendererBuilder implements BaseBuilder<DialectType,TemplateCRUDRenderer> {
+public class TemplateRendererFactory implements BaseBuilder<DialectType,TemplateCRUDRenderer> {
 
     private String name;
 
-    public TemplateRendererBuilder withClassName(String name){
+    public TemplateRendererFactory withClassName(String name){
         this.name = name;
         return this;
     }

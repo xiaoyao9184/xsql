@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by xiaoyao9184 on 2016/11/17.
  */
-public class AllVarCharTypeMapperTest {
+public class AllVarcharTypeMapperTest {
 
     @Test
     public void testTypeMapper(){

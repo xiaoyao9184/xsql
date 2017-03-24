@@ -13,8 +13,8 @@ import com.xy.xsql.model.page.PageQuery;
 import com.xy.xsql.model.page.PageResult;
 import com.xy.xsql.spring.config.*;
 import com.xy.xsql.spring.dialect.DialectType;
-import com.xy.xsql.spring.dialect.TemplateRendererBuilder;
-import com.xy.xsql.spring.dialect.TypeMapperBuilder;
+import com.xy.xsql.spring.dialect.TemplateRendererFactory;
+import com.xy.xsql.spring.dialect.TypeMapperFactory;
 import com.xy.xsql.spring.mapping.BaseEntityRowMapper;
 import com.xy.xsql.spring.mapping.FieldRowNameHandler;
 import com.xy.xsql.spring.mapping.MappingFieldRowNameHandler;
@@ -110,11 +110,11 @@ public class EntityDaoImpl<Entity, ID>
         //数据库相关
         DialectType dialect = getDialectType();
 
-        this.typeMapper = new TypeMapperBuilder()
+        this.typeMapper = new TypeMapperFactory()
                 .withClassName(dialectConfiguration.getOrmDialectTypeMapper())
                 .build(dialect);
 
-        this.entityCRUDSql = new TemplateRendererBuilder()
+        this.entityCRUDSql = new TemplateRendererFactory()
                 .withClassName(dialectConfiguration.getOrmDialectEntitySql())
                 .build(dialect);
     }

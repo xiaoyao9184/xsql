@@ -2,7 +2,7 @@ package com.xy.xsql.entity.core.template;
 
 import com.xy.xsql.entity.model.template.EntityLink;
 import com.xy.xsql.entity.model.template.EntityTemplate;
-import com.xy.xsql.entitytest.bean.User;
+import com.xy.xsql.entity.test.entity.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

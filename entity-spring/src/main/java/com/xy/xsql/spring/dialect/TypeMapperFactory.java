@@ -8,11 +8,11 @@ import com.xy.xsql.spring.dialect.mssql.MSSQLTypeMapper;
 /**
  * Created by xiaoyao9184 on 2016/12/2.
  */
-public class TypeMapperBuilder implements BaseBuilder<DialectType,TypeMapper> {
+public class TypeMapperFactory implements BaseBuilder<DialectType,TypeMapper> {
 
     private String name;
 
-    public TypeMapperBuilder withClassName(String name){
+    public TypeMapperFactory withClassName(String name){
         this.name = name;
         return this;
     }

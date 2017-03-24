@@ -4,15 +4,15 @@ import com.xy.xsql.entity.core.template.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
-import com.xy.xsql.entitytest.bean.User;
-import com.xy.xsql.entitytest.bean.UserType;
+import com.xy.xsql.entity.test.entity.User;
+import com.xy.xsql.entity.test.entity.UserType;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Created by xiaoyao9184 on 2016/11/17.
  */
-public class SQLServerEntitySqlTest {
+public class MSSQLTemplateRendererTest {
 
     @Test
     public void testGetTopWithRowNumberSql(){

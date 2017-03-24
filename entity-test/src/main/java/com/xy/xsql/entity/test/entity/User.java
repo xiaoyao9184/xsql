@@ -1,5 +1,4 @@
-package com.xy.xsql.entitytest.bean;
-
+package com.xy.xsql.entity.test.entity;
 
 import com.xy.xsql.entity.api.annotation.*;
 
@@ -7,8 +6,8 @@ import com.xy.xsql.entity.api.annotation.*;
  * TEST
  * Created by xiaoyao9184 on 2016/6/26.
  */
-@ETable(name = "b_user_type", aliasName = "ut")
-public class UserType {
+@ETable(name = "b_user", aliasName = "u")
+public class User {
 
     @EKey
     @EColumn(name = "id")
@@ -22,9 +21,18 @@ public class UserType {
     @EColumn(name = "code")
     private String code;
 
-    @EStatus
+    @ELink(value = UserType.class)
+    @EParam
+    @EColumn(name = "type")
+    private String typeID;
+
+    @EStatus()
     @EColumn(name = "status")
     private int status;
+
+    @EOrder()
+    @EColumn(name = "time")
+    private int time;
 
     public String getId() {
         return id;
@@ -50,11 +58,27 @@ public class UserType {
         this.code = code;
     }
 
+    public String getTypeID() {
+        return typeID;
+    }
+
+    public void setTypeID(String typeID) {
+        this.typeID = typeID;
+    }
+
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 }
