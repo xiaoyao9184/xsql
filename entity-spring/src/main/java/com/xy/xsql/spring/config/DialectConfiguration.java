@@ -8,13 +8,13 @@ import java.util.Properties;
 public class DialectConfiguration {
 
 
-    public static String ORM_DIALECT = "xsql.orm.dialect";
-    public static String ORM_DIALECT_ENTITY_SQL = "xsql.orm.dialect.entity.sql";
-    public static String ORM_DIALECT_TYPE_MAPPER = "xsql.orm.dialect.type.mapper";
+    public static String DIALECT = "xsql.entity.dialect";
+    public static String DIALECT_TEMPLATE_RENDERER = "xsql.entity.dialect.template.renderer";
+    public static String DIALECT_TYPE_MAPPER = "xsql.entity.dialect.type.mapper";
 
-    public static String ORM_TABLE_AUTO_CREATE = "xsql.orm.table.auto.create";
+    public static String TABLE_AUTO_CREATE = "xsql.entity.table.auto.create";
 
-    public static String ORM_PAGE_ROW_NUMBER_NAME = "xsql.orm.page.row.number.name";
+    public static String PAGE_ROW_NUMBER_NAME = "xsql.entity.page.row.number.name";
 
 
     private Properties configurationProperties;
@@ -28,22 +28,22 @@ public class DialectConfiguration {
     }
 
     public String getOrmDialect() {
-        return configurationProperties.getProperty(ORM_DIALECT);
+        return configurationProperties.getProperty(DIALECT);
     }
 
     public String getOrmDialectTypeMapper() {
-        return configurationProperties.getProperty(ORM_DIALECT_TYPE_MAPPER);
+        return configurationProperties.getProperty(DIALECT_TYPE_MAPPER);
     }
 
     public String getOrmDialectEntitySql() {
-        return configurationProperties.getProperty(ORM_DIALECT_ENTITY_SQL);
+        return configurationProperties.getProperty(DIALECT_TEMPLATE_RENDERER);
     }
 
     public Boolean isOrmTableAutoCreate() {
-        return Boolean.parseBoolean(configurationProperties.getProperty(ORM_TABLE_AUTO_CREATE));
+        return Boolean.parseBoolean(configurationProperties.getProperty(TABLE_AUTO_CREATE));
     }
 
     public String getOrmPageRowNumberName(){
-        return configurationProperties.getProperty(ORM_PAGE_ROW_NUMBER_NAME);
+        return configurationProperties.getProperty(PAGE_ROW_NUMBER_NAME);
     }
 }

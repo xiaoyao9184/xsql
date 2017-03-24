@@ -4,6 +4,7 @@ package com.xy.xsql.spring.dialect;
 import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.entity.api.dialect.jpql.TemplateCRUDRenderer;
 import com.xy.xsql.entity.dialect.none.BaseTemplateRenderer;
+import com.xy.xsql.spring.dialect.h2.H2TemplateRenderer;
 import com.xy.xsql.spring.dialect.mssql.MSSQLTemplateRenderer;
 
 /**
@@ -29,6 +30,9 @@ public class TemplateRendererFactory implements BaseBuilder<DialectType,Template
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+                break;
+            case H2:
+                entityCRUDSql = new H2TemplateRenderer();
                 break;
             case SQLSERVER:
                 entityCRUDSql = new MSSQLTemplateRenderer();

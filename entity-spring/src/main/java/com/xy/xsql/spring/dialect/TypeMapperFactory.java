@@ -3,6 +3,7 @@ package com.xy.xsql.spring.dialect;
 import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.entity.api.dialect.TypeMapper;
 import com.xy.xsql.entity.dialect.none.AllVarcharTypeMapper;
+import com.xy.xsql.spring.dialect.h2.H2TypeMapper;
 import com.xy.xsql.spring.dialect.mssql.MSSQLTypeMapper;
 
 /**
@@ -31,6 +32,9 @@ public class TypeMapperFactory implements BaseBuilder<DialectType,TypeMapper> {
                 break;
             case SQLSERVER:
                 mapper = new MSSQLTypeMapper();
+                break;
+            case H2:
+                mapper = new H2TypeMapper();
                 break;
             default:
                 mapper = new AllVarcharTypeMapper();

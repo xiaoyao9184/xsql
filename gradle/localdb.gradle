@@ -1,0 +1,71 @@
+ext {
+    localDBName = "v11.0"
+    dbConfigFile = "${project.projectDir}/src/main/resources/db-mssql.properties"
+    keyUrl = "jdbc.url"
+    keyUsername = "jdbc.username"
+    keyPassword = "jdbc.password"
+}
+
+task initLocalDB() {
+    doFirst{
+
+    }
+
+    doLast{
+        def instance_name = "${localDBName}"
+        //Get DB name from properties
+        Properties properties = new Properties()
+        properties.load(project.file("${dbConfigFile}").newDataInputStream())
+        def valueUrl = properties.getProperty("${keyUrl}")
+        def user_name = properties.getProperty("${keyUsername}")
+        def user_pw = properties.getProperty("${keyPassword}")
+        
+        if(!valueUrl.contains("Pipe")){
+            throw new Exception("Url not included 'Pipe', not a LocalDB url!")
+        }
+        def urlBlocks = valueUrl.split(":")
+        def lastIndex = urlBlocks.length - 1
+        if(!urlBlocks[lastIndex].contains("Pipe")){
+            throw new Exception("Url format error!")
+        }
+        urlBlocks = urlBlocks[lastIndex].split(";")
+        def urlDBBlock = urlBlocks[0]
+        def db_name = urlDBBlock.substring(urlDBBlock.lastIndexOf("/") + 1)
+        println "The DB name is " + db_name
+
+        def cmdUrl = "(localdb)\\${instance_name}"
+
+        //
+        def sql_create_db = "CREATE DATABASE ${db_name}"
+        
+        def cmd = "sqlcmd -S \"${cmdUrl}\" -Q \"${sql_create_db}\""
+        println "Execute this:" + cmd
+        Runtime.getRuntime().exec(cmd)
+
+        //
+        def sql_create_login = "CREATE LOGIN ${user_name} WITH PASSWORD = '${user_pw}'"
+
+        cmd = "sqlcmd -S \"${cmdUrl}\" -Q \"${sql_create_login}\""
+        println "Execute this:" + cmd
+        Runtime.getRuntime().exec(cmd)
+
+        //
+        def sql_create_user = "CREATE USER ${user_name}"
+
+        cmd = "sqlcmd -S \"${cmdUrl}\" -Q \"${sql_create_user}\""
+        println "Execute this:" + cmd
+        Runtime.getRuntime().exec(cmd)
+
+        //
+        def sql_create_auth = "ALTER AUTHORIZATION ON DATABASE::${db_name} TO ${user_name}"
+
+        cmd = "sqlcmd -S \"${cmdUrl}\" -Q \"${sql_create_auth}\""
+        println "Execute this:" + cmd
+        Runtime.getRuntime().exec(cmd)
+    }
+}
+
+configure(initLocalDB) {
+    group = 'init'
+    description = 'Init surroundings'
+}
