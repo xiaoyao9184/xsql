@@ -148,13 +148,27 @@ public class Select implements Statement {
         public void setUnitItem(List<UnionItem> unitItem) {
             this.unitItem = unitItem;
         }
+
+        @Override
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder();
+
+            if(querySpecification != null){
+                b.append(querySpecification);
+            }else if(queryExpression != null){
+                b.append(queryExpression);
+            }
+            b.append(unitItem);
+
+            return b.build();
+        }
     }
 
     /**
      * { UNION [ ALL ] | EXCEPT | INTERSECT }
      <query_specification> | ( <query_expression> )
      */
-    public static class UnionItem {
+    public static class UnionItem implements Block {
         private Set operatorSet;
 
         private QuerySpecification querySpecification;
@@ -183,6 +197,22 @@ public class Select implements Statement {
         public void setQueryExpression(QueryExpression queryExpression) {
             this.queryExpression = queryExpression;
         }
+
+        @Override
+        public List<Block> toBlockList() {
+            ListBlockBuilder b = new ListBlockBuilder();
+
+            b.append(operatorSet);
+            if(querySpecification != null){
+                b.append(querySpecification);
+            }else if(queryExpression != null){
+                b.append(Other.GROUP_START);
+                b.append(queryExpression);
+                b.append(Other.GROUP_END);
+            }
+
+            return b.build();
+        }
     }
 
 
@@ -198,7 +228,7 @@ public class Select implements Statement {
         //< select_list >
         private List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> selectList;
         //[ INTO new_table ]
-        private Unknown newTable;
+        private Into into;
         //<FROM Clause>
         private From from;
         //<WHERE Clause>
@@ -240,12 +270,12 @@ public class Select implements Statement {
             this.selectList = selectList;
         }
 
-        public Unknown getNewTable() {
-            return newTable;
+        public Into getInto() {
+            return into;
         }
 
-        public void setNewTable(Unknown newTable) {
-            this.newTable = newTable;
+        public void setInto(Into into) {
+            this.into = into;
         }
 
         public From getFrom() {
@@ -300,9 +330,9 @@ public class Select implements Statement {
             b.append(selectList);
 
             //[ INTO new_table ]
-            if (newTable != null) {
+            if (into != null) {
                 b.append(Keywords.INTO)
-                        .append(newTable);
+                        .append(into);
             }
 
             //[ FROM{ <table_source> } [ ,...n ] ]

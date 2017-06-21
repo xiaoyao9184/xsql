@@ -3,18 +3,11 @@ package com.xy.xsql.tsql.core.statement.dml;
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.*;
-import com.xy.xsql.tsql.core.clause.select.ForBuilder;
-import com.xy.xsql.tsql.core.clause.select.GroupByBuilder;
-import com.xy.xsql.tsql.core.clause.select.HavingBuilder;
-import com.xy.xsql.tsql.core.clause.select.OrderByBuilder;
+import com.xy.xsql.tsql.core.clause.select.*;
 import com.xy.xsql.tsql.model.clause.*;
-import com.xy.xsql.tsql.model.clause.select.For;
-import com.xy.xsql.tsql.model.clause.select.GroupBy;
-import com.xy.xsql.tsql.model.clause.select.Having;
-import com.xy.xsql.tsql.model.clause.select.OrderBy;
+import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Set;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -433,8 +426,13 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         public QuerySpecificationBuilder<ParentBuilder> withInto(String newTable) {
-            target.setNewTable(new Unknown(newTable));
-            return this;
+            return new IntoBuilder<QuerySpecificationBuilder<ParentBuilder>>
+                    (initSet(Into::new,
+                            target::getInto,
+                            target::setInto))
+                    .in(this)
+                    .withNewTable(new TableName(newTable))
+                    .out();
         }
 
         public FromBuilder<QuerySpecificationBuilder<ParentBuilder>> withFrom() {
