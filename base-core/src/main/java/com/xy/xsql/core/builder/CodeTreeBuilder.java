@@ -1,5 +1,7 @@
 package com.xy.xsql.core.builder;
 
+import java.util.function.Consumer;
+
 /**
  * CodeTreeBuilder
  * use code build Target, compatible TreeBuilder
@@ -12,6 +14,7 @@ public abstract class CodeTreeBuilder<This, Parent, Target>
         extends TreeBuilder<This, Parent, Void, Target> {
 
     protected Target target;
+    protected Consumer<Target> backHandleFunction;
 
     public CodeTreeBuilder(Target target){
         this.target = target;
@@ -23,6 +26,7 @@ public abstract class CodeTreeBuilder<This, Parent, Target>
      * @return
      */
     @Override
+    @Deprecated
     public Target build(Void aVoid) {
         return target;
     }
@@ -40,6 +44,25 @@ public abstract class CodeTreeBuilder<This, Parent, Target>
      * @return
      */
     public Parent and() {
+        return out();
+    }
+
+    /**
+     * @see #in(Object)
+     * @param parent
+     * @return This
+     */
+    public This enter(Parent parent,Consumer<Target> function) {
+        this.backHandleFunction = function;
+        return in(parent);
+    }
+
+    /**
+     * @see #out()
+     * @return Parent
+     */
+    public Parent back() {
+        this.backHandleFunction.accept(this.target);
         return out();
     }
 }
