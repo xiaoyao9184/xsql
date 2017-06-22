@@ -1,0 +1,36 @@
+package com.xy.xsql.block.tsql.core.statement.dml;
+
+import com.xy.xsql.block.core.ReferenceBlockPrinter;
+import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.tsql.core.statement.ddl.ReNameDatabaseConverter;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.StringWriter;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by xiaoyao9184 on 2017/6/17.
+ */
+public class SelectConverterTest {
+
+    @Test
+    public void test() throws Exception {
+        ReferenceBlock b = SelectConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.print(writer);
+        Assert.assertEquals(writer.toString(),
+                "<SELECT statement> ::=\n" +
+                        "[ [ WITH { [ XMLNAMESPACES ,] [ <common_table_expression> [,...n] ] } ] ]\n" +
+                        "<query_specification>\n" +
+                        "[ ORDER BY { order_by_expression | column_position [ ASC | DESC ] } [ ,...n ] ]\n" +
+                        "[ <FOR Clause> ]\n" +
+                        "[ OPTION ( <query_hint> [ ,...n ] ) ]");
+    }
+
+
+}

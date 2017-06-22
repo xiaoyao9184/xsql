@@ -11,6 +11,11 @@ import java.util.List;
  */
 public interface Statement extends Block {
 
+    @Override
+    default boolean hasChild() {
+        return true;
+    }
+
     /**
      * must override
      * @return

@@ -170,5 +170,53 @@ public class ColumnDefinition
         private boolean useUique;
         //CHECK ( logical_expression )
         private Expression logicalExpression;
+
+        public String getConstraint_name() {
+            return constraint_name;
+        }
+
+        public void setConstraint_name(String constraint_name) {
+            this.constraint_name = constraint_name;
+        }
+
+        public boolean isUseNull() {
+            return useNull;
+        }
+
+        public void setUseNull(boolean useNull) {
+            this.useNull = useNull;
+        }
+
+        public boolean isUseNotNull() {
+            return useNotNull;
+        }
+
+        public void setUseNotNull(boolean useNotNull) {
+            this.useNotNull = useNotNull;
+        }
+
+        public boolean isUsePrimaryKey() {
+            return usePrimaryKey;
+        }
+
+        public void setUsePrimaryKey(boolean usePrimaryKey) {
+            this.usePrimaryKey = usePrimaryKey;
+        }
+
+        public boolean isUseUique() {
+            return useUique;
+        }
+
+        public void setUseUique(boolean useUique) {
+            this.useUique = useUique;
+        }
+
+        public Expression getLogicalExpression() {
+            return logicalExpression;
+        }
+
+        public void setLogicalExpression(Expression logicalExpression) {
+            this.logicalExpression = logicalExpression;
+        }
     }
 }

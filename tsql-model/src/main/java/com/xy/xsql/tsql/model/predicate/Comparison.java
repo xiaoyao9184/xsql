@@ -12,7 +12,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/3/12.
  */
 public class Comparison implements Predicate, Expression {
-    //{ expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
+    //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
     private Expression expression;
     private com.xy.xsql.tsql.model.operator.Operator operator;
     private Expression operatorExpression;

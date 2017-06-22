@@ -10,7 +10,8 @@ public enum Other implements Block {
     DELIMITER(","),
     GROUP_START("("),
     GROUP_END(")"),
-    __("_");
+    __("_"),
+    POINT(".");
 
     private String string;
 

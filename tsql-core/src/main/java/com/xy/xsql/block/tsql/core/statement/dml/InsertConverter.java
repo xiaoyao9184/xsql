@@ -1,0 +1,91 @@
+package com.xy.xsql.block.tsql.core.statement.dml;
+
+import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.Output;
+import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.clause.With;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.statement.dml.Delete;
+import com.xy.xsql.tsql.model.statement.dml.Insert;
+
+/**
+ * Created by xiaoyao9184 on 2017/6/17.
+ */
+public class InsertConverter
+        implements BlockConverter<Insert> {
+
+    // @formatter:off
+    private static ReferenceBlockBuilder<Void,Insert> builder =
+            new ReferenceBlockBuilder<Void,Insert>()
+                    .overall("INSERT")
+                    .sub("WITH <common_table_expression> [ ,...n ]")
+                        .optional(d -> d.getWith() == null)
+                        .data(Insert::getWith)
+                        .and()
+                    .sub_keyword(Keywords.INSERT)
+                    .sub("TOP ( expression ) [ PERCENT ]")
+                        .optional(d -> d.getTop() == null)
+                        .data(Insert::getTop)
+                        .and()
+                    .sub("INTO")
+                        .optional(d -> !d.isUseInto())
+                        .keyword(Keywords.INTO)
+                        .and()
+                    .sub()
+                        .required()
+                        .oneOf("<object>")
+                            .data(Insert::getTableName)
+                            .and()
+    //                    .oneOf("rowset_function_limited")
+                        .and()
+                    .sub()
+                        .optional(d -> d.getColumns() == null)
+                        .sub_keyword(Other.GROUP_START)
+                        .sub("column_list")
+                            .data(Insert::getColumns)
+                            .and()
+                        .sub_keyword(Other.GROUP_END)
+                        .and()
+                    .sub("OUTPUT Clause")
+                        .optional(d -> d.getOutput() == null)
+                        .ref(Output.class)
+                        .data(Insert::getOutput)
+                        .and()
+                    .sub()
+                        .required()
+                        .oneOf("VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]")
+                            .optional(d -> d.getValues() == null)
+                            .ref(TableValueConstructor.class)
+                            .data(Insert::getValues)
+                            .and()
+    //                    .oneOf("derived_table")
+    //                    .oneOf("execute_statement")
+    //                    .oneOf("<dml_table_source>")
+                        .oneOf("DEFAULT VALUES")
+                            .optional(Insert::isUseDefaultValues)
+                            .sub_keyword(Keywords.DEFAULT)
+                            .sub_keyword(Keywords.VALUES)
+                            .and()
+                        .headFootTakeLine()
+                        .subTakeLine()
+                        .and()
+                    .subTakeLine();
+    // @formatter:on
+
+    public static ReferenceBlock meta() {
+        return builder.build();
+    }
+
+    @Override
+    public Block convert(Insert insert) {
+        return builder
+                .data(insert)
+                .build();
+    }
+
+}

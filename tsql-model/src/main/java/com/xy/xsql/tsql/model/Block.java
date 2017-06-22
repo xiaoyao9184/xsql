@@ -12,7 +12,11 @@ public interface Block {
      */
     String toString();
 
-    default List<Block> toBlockList(){
+    default boolean hasChild(){
+        return false;
+    }
+
+    default <T extends Block> List<T> toBlockList(){
         return null;
     }
 }

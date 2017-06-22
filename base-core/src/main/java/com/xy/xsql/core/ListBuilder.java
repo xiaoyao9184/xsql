@@ -67,6 +67,17 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
         return t;
     }
 
+    public static <T,R extends T> R initNew2(final Supplier<R> supplier, final Getter<List<T>> getter, final Setter<List<T>> setter) {
+        if(getter.get() == null){
+            setter.set(new ArrayList<>());
+        }
+        R r = supplier.get();
+        getter.get().add(r);
+
+        return r;
+    }
+
+
     /**
      * Add element to List
      * @param t

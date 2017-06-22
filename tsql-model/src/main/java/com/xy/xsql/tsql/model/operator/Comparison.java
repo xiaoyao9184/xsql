@@ -37,4 +37,9 @@ public enum Comparison implements Operator {
     public Type getType(){
         return this.type;
     }
+
+    @Override
+    public java.lang.String toString(){
+        return getKeyword();
+    }
 }

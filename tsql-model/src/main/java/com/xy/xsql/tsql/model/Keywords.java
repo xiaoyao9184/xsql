@@ -72,7 +72,7 @@ public enum Keywords implements Block {
     EXEC,PRECISION,WITH,
     EXECUTE,PRIMARY,WITHIN_GROUP("WITHIN GROUP"),
     EXISTS,PRINT,WRITETEXT,
-    EXIT,PROC;
+    EXIT,PROC, EXTERNALPUSHDOWN;
 
 
 //    ASSERTION,FOUND,PUBLIC,
@@ -287,7 +287,15 @@ public enum Keywords implements Block {
         //AtTimeZone
         AT, TIME, ZONE,
         //TruncateTable
-        PARTITIONS;
+        PARTITIONS, XML, JSON,
+
+        //FreeText
+        LANGUAGE,
+        //Contains
+        PROPERTY,
+
+        //QueryHint
+        HASH, CONCAT, MERGE, LOOP, FORCE, DISABLE, PARAMETERIZATION, SIMPLE;
 
         @Override
         public String toString(){

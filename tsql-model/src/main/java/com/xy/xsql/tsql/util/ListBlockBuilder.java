@@ -15,9 +15,15 @@ import java.util.List;
 public class ListBlockBuilder extends ListBuilder<Block> {
 
     private Block delimiter;
+    private boolean autoRemoveNull = true;
 
     public ListBlockBuilder withDelimiter(Block delimiter) {
         this.delimiter = delimiter;
+        return this;
+    }
+
+    public ListBlockBuilder withAutoRemoveNull(boolean autoRemoveNull) {
+        this.autoRemoveNull = autoRemoveNull;
         return this;
     }
 
@@ -48,6 +54,9 @@ public class ListBlockBuilder extends ListBuilder<Block> {
         Block listDelimiter = delimiter;
         if (listDelimiter == null) {
             listDelimiter = this.delimiter;
+        }
+        if(elementCollection == null){
+            return this;
         }
         int i = 0;
         for (Block element : elementCollection) {

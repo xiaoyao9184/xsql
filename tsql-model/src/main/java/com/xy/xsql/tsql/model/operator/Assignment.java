@@ -29,4 +29,10 @@ public enum Assignment implements Operator {
     public Type getType(){
         return this.type;
     }
+
+
+    @Override
+    public String toString() {
+        return getKeyword();
+    }
 }
