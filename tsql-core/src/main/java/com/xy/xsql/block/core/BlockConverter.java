@@ -1,6 +1,5 @@
 package com.xy.xsql.block.core;
 
-import com.xy.xsql.block.model.DataBlock;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.tsql.model.Block;
@@ -23,11 +22,4 @@ public interface BlockConverter<T>
         return convert(t);
     }
 
-    @Deprecated
-    static Block lazyBuild(Object object, String name){
-        DataBlock dataBlock = new DataBlock();
-        dataBlock.setName(name);
-        dataBlock.setData(object);
-        return dataBlock;
-    }
 }
