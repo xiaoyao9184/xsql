@@ -1,12 +1,7 @@
 package com.xy.xsql.tsql.model.predicate;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -82,24 +77,4 @@ public class Contains implements Predicate {
         this.containsSearchCondition = containsSearchCondition;
     }
 
-    @SuppressWarnings("Duplicates")
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.CONTAINS);
-
-        if(columnName != null){
-            b.append(columnName);
-        }else if(columnList != null){
-            b.append(Other.GROUP_START)
-                    .append(columnList)
-                    .append(Other.GROUP_END);
-        }else if(useAllColumn){
-            b.append(new ColumnName());
-        }
-        b.append(Other.DELIMITER)
-                .append(containsSearchCondition);
-
-        return b.build();
-    }
 }

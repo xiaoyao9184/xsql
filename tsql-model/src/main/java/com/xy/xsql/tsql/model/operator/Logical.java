@@ -18,7 +18,7 @@ public enum Logical implements Operator {
     OR(Keywords.OR, Type.Logical),
     SOME(Keywords.SOME, Type.Logical);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Logical(Keywords keyword, Type type){
@@ -26,15 +26,23 @@ public enum Logical implements Operator {
         this.type = type;
     }
 
-    Logical(java.lang.String keyword, Type type){
+    Logical(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }

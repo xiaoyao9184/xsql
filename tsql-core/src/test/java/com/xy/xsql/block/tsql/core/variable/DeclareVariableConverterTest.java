@@ -2,9 +2,6 @@ package com.xy.xsql.block.tsql.core.variable;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.variable.DeclareVariableBuilder;
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.variable.DeclareVariable;
 import org.junit.Test;
 
 import java.io.StringWriter;

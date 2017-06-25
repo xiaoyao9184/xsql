@@ -1,11 +1,7 @@
 package com.xy.xsql.tsql.model.datatype;
 
-
-import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -62,13 +58,6 @@ public class StringConstant implements Expression {
     public StringConstant withNQuote() {
         this.useNQuote = true;
         return this;
-    }
-
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(this)
-                .build();
     }
 
     @Override

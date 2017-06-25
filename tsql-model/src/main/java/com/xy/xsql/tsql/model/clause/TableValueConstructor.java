@@ -1,11 +1,6 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.expression.RowValueExpression;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -37,18 +32,4 @@ public class TableValueConstructor implements Clause {
         this.rowValueExpressionListGroup = rowValueExpressionListGroup;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.VALUES);
-
-        for (List<Expression> rowValueExpressionList: getRowValueExpressionListGroup()) {
-            b.append(Other.GROUP_START)
-                    .appendExpression(rowValueExpressionList,Other.DELIMITER)
-                    .append(Other.GROUP_END);
-        }
-
-        return b.build();
-    }
 }

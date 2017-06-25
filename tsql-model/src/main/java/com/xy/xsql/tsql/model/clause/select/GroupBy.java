@@ -1,14 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.util.CheckUtil;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -115,40 +108,6 @@ public class GroupBy implements Clause {
         this.useWithRollup = useWithRollup;
     }
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE)
-                .append(Keywords.ORDER)
-                .append(Keywords.BY);
-
-        //[ ALL ]
-//        b.append(useAll ? Keywords.ALL : null);
-
-        /*
-        {
-              column-expression
-            | ROLLUP ( <group_by_expression> [ ,...n ] )
-            | CUBE ( <cgroup_by_expression> [ ,...n ] )
-            | GROUPING SETS ( <grouping set> [ ,...n ]  )
-            | () --calculates the grand total
-        } [ ,...n ]
-         */
-        b.append(items, Other.DELIMITER);
-
-        //[ WITH { CUBE | ROLLUP } ]
-//        if(!useAll){
-//            if(useWithCube){
-//                b.append(Keywords.WITH)
-//                        .append(Keywords.CUBE);
-//            }else if(useWithRollup){
-//                b.append(Keywords.WITH)
-//                        .append(Keywords.ROLLUP);
-//            }
-//        }
-
-        return b.build();
-    }
 
     /**
      *
@@ -163,7 +122,7 @@ public class GroupBy implements Clause {
 
      *
      */
-    public interface Item extends Block {
+    public interface Item {
 
     }
 
@@ -197,16 +156,6 @@ public class GroupBy implements Clause {
             this.groupByExpressionList = groupByExpressionList;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Keywords.Key.ROLLUP)
-                    .append(Other.GROUP_START)
-                    .append(groupByExpressionList)
-                    .append(Other.GROUP_END)
-                    .build();
-        }
     }
 
     /**
@@ -224,16 +173,6 @@ public class GroupBy implements Clause {
             this.groupByExpressionList = groupByExpressionList;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Keywords.Key.CUBE)
-                    .append(Other.GROUP_START)
-                    .append(groupByExpressionList)
-                    .append(Other.GROUP_END)
-                    .build();
-        }
     }
 
     /**
@@ -251,28 +190,13 @@ public class GroupBy implements Clause {
             this.groupingSetItemList = groupingSetItemList;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Keywords.Key.GROUPING)
-                    .append(Keywords.Key.SETS)
-                    .append(groupingSetItemList)
-                    .build();
-        }
     }
 
     /**
      * () --calculates the grand total
      */
     public static class TotalItem implements Item {
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Other.GROUP_START)
-                    .append(Other.GROUP_END)
-                    .build();
-        }
+
     }
 
 
@@ -291,25 +215,12 @@ public class GroupBy implements Clause {
             this.columnExpressionList = columnExpressionList;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-            if(CheckUtil.isNullOrEmpty(columnExpressionList)){
-                b.append(columnExpressionList.get(0));
-            }else {
-                b.append(Other.GROUP_START)
-                        .append(columnExpressionList)
-                        .append(Other.GROUP_END);
-            }
-            return b.build();
-        }
     }
 
     /**
      * <grouping_set>
      */
-    public static class GroupingSet implements Block {
+    public static class GroupingSet {
         private boolean useTotal;
         private List<Item> groupByExpressionList;
 
@@ -330,27 +241,10 @@ public class GroupBy implements Clause {
         }
 
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-            if(useTotal){
-                b.append(Other.GROUP_START)
-                        .append(Other.GROUP_END);
-            }else if(CheckUtil.isNullOrEmpty(groupByExpressionList)){
-                b.append(groupByExpressionList.get(0));
-            }else {
-                b.append(Other.GROUP_START)
-                        .append(groupByExpressionList)
-                        .append(Other.GROUP_END);
-            }
-            return b.build();
-        }
-
-
         /**
          * <grouping_set_item>
          */
-        public interface Item extends Block {
+        public interface Item {
 
         }
     }

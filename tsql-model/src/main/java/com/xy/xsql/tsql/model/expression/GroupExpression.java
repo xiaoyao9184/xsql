@@ -1,13 +1,7 @@
 package com.xy.xsql.tsql.model.expression;
 
-
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Operator;
 import com.xy.xsql.tsql.model.statement.Statement;
-
-import java.util.List;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
@@ -74,21 +68,4 @@ public class GroupExpression implements Expression {
         return this;
     }
 
-    @Override
-    public List<Block> toBlockList(){
-        if(statement != null){
-            return new ListBlockBuilder()
-                    .append(Other.GROUP_START)
-                    .append(statement)
-                    .append(Other.GROUP_END)
-                    .build();
-        }
-        return new ListBlockBuilder()
-                .append(Other.GROUP_START)
-                .append(expressionLeft)
-                .append(operator)
-                .append(expressionRight)
-                .append(Other.GROUP_END)
-                .build();
-    }
 }

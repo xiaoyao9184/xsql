@@ -1,11 +1,7 @@
 package com.xy.xsql.tsql.model.statement.ddl.drop;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -51,21 +47,4 @@ public class DropTable implements Statement {
         this.tableNameList = tableNameList;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE)
-                .append(Keywords.DROP)
-                .append(Keywords.TABLE)
-                .append(useIfExists ? Keywords.IF : null)
-                .append(useIfExists ? Keywords.EXISTS : null);
-        int i = 0;
-        for (TableName tableName: tableNameList) {
-            b.append(i==0 ? null : Other.DELIMITER)
-                    .append(tableName);
-            i++;
-        }
-        return b.build();
-    }
 }

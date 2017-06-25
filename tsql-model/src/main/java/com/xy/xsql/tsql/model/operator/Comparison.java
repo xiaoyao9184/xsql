@@ -17,7 +17,7 @@ public enum Comparison implements Operator {
     NOT_LESS_NOT_ISO("!<",Type.Comparison),
     NOT_GREATER_NOT_ISO("!>",Type.Comparison);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Comparison(Keywords keyword, Type type){
@@ -25,21 +25,25 @@ public enum Comparison implements Operator {
         this.type = type;
     }
 
-    Comparison(java.lang.String keyword, Type type){
+    Comparison(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
+        return getKeyword();
+    }
+
+    @Override
+    public String getKeyword(){
         return this.keyword;
     }
 
+    @Override
     public Type getType(){
         return this.type;
     }
 
-    @Override
-    public java.lang.String toString(){
-        return getKeyword();
-    }
 }

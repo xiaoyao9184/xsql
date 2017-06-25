@@ -1,14 +1,9 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.select.*;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.operator.Set;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -99,24 +94,10 @@ public class Select implements Statement {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-
-        b.append(with);
-        b.append(queryExpression);
-        b.append(orderBy);
-        b.append(forClause);
-        b.append(option);
-
-        return b.build();
-    }
-
-
     /**
      * <query_expression>
      */
-    public static class QueryExpression implements Block {
+    public static class QueryExpression {
         //{ <query_specification> | ( <query_expression> ) }
         private QuerySpecification querySpecification;
         private QueryExpression queryExpression;
@@ -149,26 +130,13 @@ public class Select implements Statement {
             this.unitItem = unitItem;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-
-            if(querySpecification != null){
-                b.append(querySpecification);
-            }else if(queryExpression != null){
-                b.append(queryExpression);
-            }
-            b.append(unitItem);
-
-            return b.build();
-        }
     }
 
     /**
      * { UNION [ ALL ] | EXCEPT | INTERSECT }
      <query_specification> | ( <query_expression> )
      */
-    public static class UnionItem implements Block {
+    public static class UnionItem {
         private Set operatorSet;
 
         private QuerySpecification querySpecification;
@@ -198,21 +166,6 @@ public class Select implements Statement {
             this.queryExpression = queryExpression;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-
-            b.append(operatorSet);
-            if(querySpecification != null){
-                b.append(querySpecification);
-            }else if(queryExpression != null){
-                b.append(Other.GROUP_START);
-                b.append(queryExpression);
-                b.append(Other.GROUP_END);
-            }
-
-            return b.build();
-        }
     }
 
 
@@ -310,46 +263,6 @@ public class Select implements Statement {
             this.having = having;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(Keywords.SELECT);
-
-            //[ ALL | DISTINCT ]
-            b.append(useAll ?
-                    Keywords.ALL :
-                    useDistinct ?
-                            Keywords.DISTINCT :
-                            null);
-
-            //[TOP ( expression ) [PERCENT] [ WITH TIES ] ]
-            b.append(top);
-
-            //< select_list >
-            b.append(selectList);
-
-            //[ INTO new_table ]
-            if (into != null) {
-                b.append(Keywords.INTO)
-                        .append(into);
-            }
-
-            //[ FROM{ <table_source> } [ ,...n ] ]
-            b.append(from);
-
-            //[ WHERE <search_condition> ]
-            b.append(where);
-
-            //[ <GROUP BY> ]
-            b.append(groupBy);
-
-            //[ HAVING < search_condition > ]
-            b.append(having);
-
-            return b.build();
-        }
-
     }
 
 
@@ -360,12 +273,8 @@ public class Select implements Statement {
     /**
      * <query_expression>
      */
-    public interface QueryExpression2 extends Block {
-        /**
-         * must override
-         * @return
-         */
-        List<Block> toBlockList();
+    public interface QueryExpression2 {
+
     }
 
     /**
@@ -406,70 +315,6 @@ public class Select implements Statement {
         public void setRight(QueryExpression2 right) {
             this.right = right;
         }
-
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-
-            //
-            //noinspection Duplicates
-            if(left instanceof QuerySpecification){
-                //only <query_specification> don't need '(' ')'
-                b.append(left);
-            }else if(left instanceof QuerySpecificationGroup &&
-                    (operatorSet == Set.UNION ||
-                    operatorSet == Set.UNION_ALL)){
-                //if left is QueryGroupExpression
-                //and inside operatorSet is UNION [ALL]
-                //and this operatorSet is UNION [ALL]
-                //don't need '(' ')'
-                QuerySpecificationGroup leftGroup = (QuerySpecificationGroup) left;
-                if(leftGroup.getOperatorSet() == Set.UNION ||
-                        leftGroup.getOperatorSet() == Set.UNION_ALL){
-                    b.append(left);
-                }else{
-                    b.append(Other.GROUP_START)
-                            .append(left)
-                            .append(Other.GROUP_END);
-                }
-            }else{
-                b.append(Other.GROUP_START)
-                        .append(left)
-                        .append(Other.GROUP_END);
-            }
-
-            b.append(operatorSet);
-
-            //noinspection Duplicates
-            if(right instanceof QuerySpecification){
-                //only <query_specification> don't need '(' ')'
-                b.append(right);
-            }else if(right instanceof QuerySpecificationGroup &&
-                    (operatorSet == Set.UNION ||
-                            operatorSet == Set.UNION_ALL)){
-                //if right is QueryGroupExpression
-                //and inside operatorSet is UNION [ALL]
-                //and this operatorSet is UNION [ALL]
-                //don't need '(' ')'
-                QuerySpecificationGroup rightGroup = (QuerySpecificationGroup) right;
-                if(rightGroup.getOperatorSet() == Set.UNION ||
-                        rightGroup.getOperatorSet() == Set.UNION_ALL){
-                    b.append(right);
-                }else{
-                    b.append(Other.GROUP_START)
-                            .append(right)
-                            .append(Other.GROUP_END);
-                }
-            }else{
-                b.append(Other.GROUP_START)
-                        .append(right)
-                        .append(Other.GROUP_END);
-            }
-
-            return b.build();
-        }
-
 
     }
 

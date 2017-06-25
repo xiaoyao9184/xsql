@@ -12,7 +12,7 @@ public enum Set implements Operator {
     UNION("UNION",Type.Set),
     UNION_ALL("UNION ALL",Type.Set);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Set(Keywords keyword, Type type){
@@ -20,16 +20,25 @@ public enum Set implements Operator {
         this.type = type;
     }
 
-    Set(java.lang.String keyword, Type type){
+    Set(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }
+
 }

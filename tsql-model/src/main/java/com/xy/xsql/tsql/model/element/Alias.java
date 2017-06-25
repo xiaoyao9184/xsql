@@ -1,11 +1,9 @@
 package com.xy.xsql.tsql.model.element;
 
-import com.xy.xsql.tsql.model.Block;
-
 /**
  * Created by xiaoyao9184 on 2016/11/12.
  */
-public class Alias<THIS> implements Block {
+public class Alias<THIS> {
 
     protected String aliasName;
 

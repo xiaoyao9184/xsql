@@ -3,10 +3,9 @@ package com.xy.xsql.block.tsql.core.statement.ddl;
 import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
-import com.xy.xsql.tsql.model.variable.DeclareVariable;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.

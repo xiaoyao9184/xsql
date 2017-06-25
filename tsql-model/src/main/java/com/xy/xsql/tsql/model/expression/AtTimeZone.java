@@ -1,11 +1,6 @@
 package com.xy.xsql.tsql.model.expression;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * https://msdn.microsoft.com/en-us/library/mt612795.aspx
@@ -48,15 +43,4 @@ public class AtTimeZone implements Expression {
         return this;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(inputExpression)
-                .append(Keywords.Key.AT)
-                .append(Keywords.Key.TIME)
-                .append(Keywords.Key.ZONE)
-                .append(timezone)
-                .build();
-    }
 }

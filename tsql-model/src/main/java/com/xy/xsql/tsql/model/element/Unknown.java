@@ -1,11 +1,9 @@
 package com.xy.xsql.tsql.model.element;
 
-import com.xy.xsql.tsql.model.Block;
-
 /**
  * Created by xiaoyao9184 on 2016/11/12.
  */
-public class Unknown implements Block {
+public class Unknown {
 
     private String string;
 
@@ -14,8 +12,6 @@ public class Unknown implements Block {
     public Unknown(String string){
         this.string = string;
     }
-
-
 
     @Override
     public String toString(){

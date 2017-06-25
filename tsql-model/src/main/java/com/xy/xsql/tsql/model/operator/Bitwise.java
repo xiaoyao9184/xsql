@@ -15,7 +15,7 @@ public enum Bitwise implements Operator {
     XOR_EQUALS("^=",Type.Bitwise),
     NOT("~",Type.Bitwise);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Bitwise(Keywords keyword, Type type){
@@ -23,15 +23,23 @@ public enum Bitwise implements Operator {
         this.type = type;
     }
 
-    Bitwise(java.lang.String keyword, Type type){
+    Bitwise(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }

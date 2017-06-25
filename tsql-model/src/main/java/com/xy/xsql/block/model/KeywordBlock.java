@@ -3,7 +3,7 @@ package com.xy.xsql.block.model;
 /**
  * Created by xiaoyao9184 on 2017/6/6.
  */
-public class KeywordBlock {
+public class KeywordBlock implements Block {
 
     private String keyword;
 

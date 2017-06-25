@@ -1,9 +1,5 @@
 package com.xy.xsql.tsql.model.expression;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,24 +83,6 @@ public class Case implements Expression {
     }
 
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.CASE)
-                .append(inputExpression);
-        for (WhenThenExpression whenThenExpression: whenThenExpressionList) {
-            b.append(whenThenExpression.toBlockList());
-        }
-        if(elseResultExpression != null){
-            b.append(Keywords.ELSE);
-            b.append(elseResultExpression);
-        }
-        b.append(Keywords.END);
-        return b.build();
-    }
-
-
     /**
      * WHEN when_expression THEN result_expression
      *
@@ -140,16 +118,6 @@ public class Case implements Expression {
             return this;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(Keywords.WHEN)
-                    .append(whenExpression)
-                    .append(Keywords.THEN)
-                    .append(resultExpression);
-            return b.build();
-        }
     }
 
 }

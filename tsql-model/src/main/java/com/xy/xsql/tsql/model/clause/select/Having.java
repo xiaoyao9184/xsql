@@ -1,13 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms180199.aspx
@@ -32,12 +26,4 @@ public class Having implements Clause {
         this.searchCondition = searchCondition;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.HAVING)
-                .append(searchCondition);
-        return b.build();
-    }
 }

@@ -1,16 +1,11 @@
 package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Comparison;
-import com.xy.xsql.tsql.util.CheckUtil;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -85,24 +80,10 @@ public class Select implements Clause {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(useAll ?
-                        Keywords.ALL :
-                        useDistinct ?
-                                Keywords.DISTINCT :
-                                null)
-                .append(top)
-                .append(selectList)
-                .build();
-    }
-
-
     /**
      * TODO maybe use interface
      */
-    public static class SelectItem implements Block {
+    public static class SelectItem {
         //*
         private boolean useAll;
 
@@ -195,37 +176,5 @@ public class Select implements Clause {
             this.useEQ = useEQ;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-
-            if(useAll){
-                b.append("*");
-            } else if(useTableAll){
-                b.append(tableViewName)
-                        .append(".")
-                        .append("*");
-            } else if(useEQ){
-                b.append(columnAlias)
-                        .append(Comparison.EQUAL)
-                        .append(expression);
-            } else {
-                if(!CheckUtil.isNull(columnName)){
-                    if(tableViewName != null){
-                        b.append(tableViewName)
-                                .append(".");
-                    }
-                    b.append(columnName);
-                }else if(!CheckUtil.isNull(expression)){
-                    b.append(expression);
-                }
-
-                b.append(useAs ? Keywords.AS : null)
-                        .append(columnAlias);
-            }
-
-            return b.build();
-        }
     }
 }

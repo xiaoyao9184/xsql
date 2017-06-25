@@ -1,19 +1,13 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Assignment;
-import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.operator.Compound;
 import com.xy.xsql.tsql.model.statement.Statement;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -188,39 +182,6 @@ public class Update implements Statement {
     }
 
 
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-
-        b.append(with);
-        b.append(Keywords.UPDATE);
-        b.append(top);
-
-        /*
-        { { table_alias | <object> | rowset_function_limited
-             [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
-          }
-          | @table_variable
-        }
-         */
-        if(this.tableAlias != null){
-            b.append(tableAlias);
-        } else if(this.tableName != null){
-            b.append(tableName);
-        }
-
-        //SET { column_name = { expression | NULL } } [ ,...n ]
-        b.append(Keywords.SET)
-                .append(sets);
-
-        b.append(output);
-        b.append(from);
-        b.append(where);
-        b.append(option);
-
-        return b.build();
-    }
-
-
     /**
      * Set Item
 
@@ -241,7 +202,7 @@ public class Update implements Statement {
      *
      */
     @Deprecated
-    public static class Set implements Block {
+    public static class Set {
         private ColumnName columnName;
         private Expression expression;
         private boolean useNull = false;
@@ -270,28 +231,13 @@ public class Update implements Statement {
             this.useNull = useNull;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE)
-                    .append(this.columnName)
-                    .append(Comparison.EQUAL)
-                    .append(this.useNull ? Keywords.NULL : this.expression)
-                    .build();
-        }
     }
 
     /**
      *
      */
-    public interface SetItem extends Block {
+    public interface SetItem {
 
-        /**
-         * must override
-         * @return
-         */
-        List<Block> toBlockList();
     }
 
     /**
@@ -335,18 +281,6 @@ public class Update implements Statement {
             this.useDefault = useDefault;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(this.columnName)
-                    .append(Assignment.ASSIGNMENT)
-                    .append(this.useNull ?
-                            Keywords.NULL :
-                            this.useDefault ?
-                                    Keywords.DEFAULT :
-                                    this.expression)
-                    .build();
-        }
     }
 
     /**
@@ -372,15 +306,6 @@ public class Update implements Statement {
             this.expression = expression;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(this.variable)
-                    .append(Assignment.ASSIGNMENT)
-                    .append(this.expression)
-                    .build();
-        }
     }
 
     /**
@@ -415,17 +340,6 @@ public class Update implements Statement {
             this.expression = expression;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(this.variable)
-                    .append(Assignment.ASSIGNMENT)
-                    .append(this.columnName)
-                    .append(Assignment.ASSIGNMENT)
-                    .append(this.expression)
-                    .build();
-        }
     }
 
     /**
@@ -460,15 +374,6 @@ public class Update implements Statement {
             this.expression = expression;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(this.columnName)
-                    .append(this.compound)
-                    .append(this.expression)
-                    .build();
-        }
     }
 
     /**
@@ -503,15 +408,6 @@ public class Update implements Statement {
             this.expression = expression;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(this.variable)
-                    .append(this.compound)
-                    .append(this.expression)
-                    .build();
-        }
     }
 
     /**
@@ -528,16 +424,6 @@ public class Update implements Statement {
             this.columnName = columnName;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(this.variable)
-                    .append(Assignment.ASSIGNMENT)
-                    .append(this.columnName)
-                    .append(this.compound)
-                    .append(this.expression)
-                    .build();
-        }
     }
 
 

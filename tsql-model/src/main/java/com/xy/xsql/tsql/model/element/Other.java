@@ -1,11 +1,9 @@
 package com.xy.xsql.tsql.model.element;
 
-import com.xy.xsql.tsql.model.Block;
-
 /**
  * Created by xiaoyao9184 on 2016/10/22.
  */
-public enum Other implements Block {
+public enum Other {
     SPACE(" "),
     DELIMITER(","),
     GROUP_START("("),

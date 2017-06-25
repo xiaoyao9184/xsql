@@ -2,38 +2,16 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.TreeBlock;
-import com.xy.xsql.tsql.core.SimpleBlockRenderer;
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.clause.Option;
-import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.clause.select.For;
-import com.xy.xsql.tsql.model.clause.select.OrderBy;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class SelectConverter
         implements BlockConverter<Select> {
-
-    @Deprecated
-    public List<Block> getChildBlock(Select select){
-        ListBlockBuilder b = new ListBlockBuilder()
-                .withAutoRemoveNull(false);
-
-        b.append(select.getWith());
-        b.append(select.getQueryExpression());
-        b.append(select.getOrderBy());
-        b.append(select.getForClause());
-        b.append(select.getOption());
-        return b.build();
-    }
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Select> builder =

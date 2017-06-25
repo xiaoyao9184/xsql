@@ -1,12 +1,9 @@
 package com.xy.xsql.tsql.model.datatype;
 
-import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -56,14 +53,6 @@ public class BinaryConstant implements Expression {
 
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(this)
-                .build();
     }
 
     @Override

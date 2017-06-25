@@ -1,19 +1,14 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.core.configurator.BaseConfigurator;
 import com.xy.xsql.core.configurator.BooleanValueConfigurator;
 import com.xy.xsql.core.configurator.ValueConfigurator;
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -323,158 +318,10 @@ public class BulkInsert implements Statement {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.WITH)
-                .append(Other.GROUP_START);
-
-        if(batchSize != null){
-            b.append(WithEnum.BATCHSIZE)
-                    .append(Comparison.EQUAL)
-                    .append(batchSize);
-        }
-
-        if(checkConstraints){
-            b.append(WithEnum.CHECK_CONSTRAINTS);
-        }
-
-        if(codePage != null){
-            b.append(WithEnum.CODEPAGE)
-                    .append(Comparison.EQUAL)
-                    .append(codePage);
-        }
-
-        if(dataFileType != null){
-            b.append(WithEnum.DATAFILETYPE)
-                    .append(Comparison.EQUAL)
-                    .append(dataFileType);
-        }
-
-        if(dataSource != null){
-            b.append(WithEnum.DATASOURCE)
-                    .append(Comparison.EQUAL)
-                    .append(dataSource);
-        }
-
-        if(errorFile != null){
-            b.append(WithEnum.ERRORFILE)
-                    .append(Comparison.EQUAL)
-                    .append(errorFile);
-        }
-
-        if(errorFileDataSource != null){
-            b.append(WithEnum.ERRORFILE_DATASOURCE)
-                    .append(Comparison.EQUAL)
-                    .append(errorFileDataSource);
-        }
-
-        if(firstRow != null){
-            b.append(WithEnum.FIRSTROW)
-                    .append(Comparison.EQUAL)
-                    .append(firstRow);
-        }
-
-        if(fireTriggers){
-            b.append(WithEnum.FIRE_TRIGGERS);
-        }
-
-        if(formatFileDataSource != null){
-            b.append(WithEnum.FORMATFILE_DATASOURCE)
-                    .append(Comparison.EQUAL)
-                    .append(formatFileDataSource);
-        }
-
-        if(keepIdentity){
-            b.append(WithEnum.KEEPIDENTITY);
-        }
-
-        if(keepNulls){
-            b.append(WithEnum.KEEPNULLS);
-        }
-
-        if(kilobytesPerBatch != null){
-            b.append(WithEnum.KILOBYTES_PER_BATCH)
-                    .append(Comparison.EQUAL)
-                    .append(kilobytesPerBatch);
-        }
-
-        if(lastRow != null){
-            b.append(WithEnum.LASTROW)
-                    .append(Comparison.EQUAL)
-                    .append(lastRow);
-        }
-
-        if(maxErrors != null){
-            b.append(WithEnum.MAXERRORS)
-                    .append(Comparison.EQUAL)
-                    .append(maxErrors);
-        }
-
-        if(orderList != null){
-            b.append(WithEnum.ORDER)
-                    .append(Comparison.EQUAL)
-                    .append(orderList);
-        }
-
-        if(rowsPerBatch != null){
-            b.append(WithEnum.ROWS_PER_BATCH)
-                    .append(Comparison.EQUAL)
-                    .append(rowsPerBatch);
-        }
-
-        if(rowTerminator != null){
-            b.append(WithEnum.ROWTERMINATOR)
-                    .append(Comparison.EQUAL)
-                    .append(rowTerminator);
-        }
-
-        if(tabLock){
-            b.append(WithEnum.TABLOCK);
-        }
-
-        if(format != null){
-            b.append(WithEnum.FORMAT)
-                    .append(Comparison.EQUAL)
-                    .append(format);
-        }
-
-        if(fieldQuote != null){
-            b.append(WithEnum.FIELDQUOTE)
-                    .append(Comparison.EQUAL)
-                    .append(fieldQuote);
-        }
-
-        if(formatFile != null){
-            b.append(WithEnum.FORMATFILE)
-                    .append(Comparison.EQUAL)
-                    .append(formatFile);
-        }
-
-        if(fieldTerminator != null){
-            b.append(WithEnum.FIELDTERMINATOR)
-                    .append(Comparison.EQUAL)
-                    .append(fieldTerminator);
-        }
-
-        b.append(Other.GROUP_END);
-
-
-        return new ListBlockBuilder()
-                .append(Keywords.BULK)
-                .append(Keywords.INSERT)
-                .append(tableOrView)
-                .append(Keywords.FROM)
-                .append(formDataFile)
-                .append(b)
-                .build();
-    }
-
-
     /**
      * WITH keywords
      */
-    public enum WithEnum implements Block {
+    public enum WithEnum {
         BATCHSIZE,
         CHECK_CONSTRAINTS,
         CODEPAGE,
@@ -510,7 +357,7 @@ public class BulkInsert implements Statement {
      * ORDER
      * TODO maybe same as OrderBy.Item
      */
-    public static class OrderColumn implements Block {
+    public static class OrderColumn {
 
         private ColumnName column;
         private boolean useAsc;
@@ -544,17 +391,6 @@ public class BulkInsert implements Statement {
             this.useDesc = useDesc;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(column);
-            if(useAsc){
-                b.append(Keywords.ASC);
-            } else if(useDesc){
-                b.append(Keywords.DESC);
-            }
-            return b.build();
-        }
     }
 
 

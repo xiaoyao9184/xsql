@@ -1,12 +1,8 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -87,49 +83,12 @@ public class Output implements Clause {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE);
-
-        b.append(Keywords.Key.OUTPUT)
-                    .append(dmlSelectList);
-
-        if(tableVariable != null){
-            b.append(Keywords.INTO)
-                    .append(tableVariable);
-
-            if(columnList != null && !columnList.isEmpty()){
-                b.append(Other.GROUP_START)
-                        .append(columnList)
-                        .append(Other.GROUP_END);
-            }
-        } else if(outputTable != null) {
-            b.append(Keywords.INTO)
-                    .append(outputTable);
-
-            if(columnList != null && !columnList.isEmpty()){
-                b.append(Other.GROUP_START)
-                        .append(columnList)
-                        .append(Other.GROUP_END);
-            }
-        }
-
-        if(outputDmlSelectList != null){
-            b.append(Keywords.Key.OUTPUT)
-                    .append(outputDmlSelectList);
-        }
-
-        return b.build();
-    }
-
-
     /**
      * name from <dml_select_list>
      *
      * { <column_name> | scalar_expression } [ [AS] column_alias_identifier ]
      */
-    public static class DmlSelect implements Block {
+    public static class DmlSelect {
 
         private ColumnName columnName;
         private Expression scalarExpression;
@@ -179,31 +138,12 @@ public class Output implements Clause {
             this.columnAliasIdentifier = columnAliasIdentifier;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-
-            if(columnName != null){
-                b.append(columnName.toBlockList());
-            }else {
-                b.append(scalarExpression);
-            }
-
-            if(columnAliasIdentifier != null){
-                b.append(useAs ? Keywords.AS : null)
-                        .append(columnAliasIdentifier);
-            }
-
-            return b.build();
-        }
     }
 
     /**
      * <column_name>
      */
-    public static class ColumnName implements Block, Expression {
+    public static class ColumnName implements Expression {
 
         //{ DELETED | INSERTED | from_table_name }
         private boolean useDeleted;
@@ -273,27 +213,5 @@ public class Output implements Clause {
             this.$action = $action;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-
-            if(useDeleted){
-                b.append(Keywords.Key.DELETED);
-            } else if(useInserted){
-                b.append(Keywords.Key.INSERTED);
-            } else{
-                b.append(fromTableName);
-            }
-
-            b.append(".");
-            if(useAll){
-                b.append("*");
-            } else{
-                b.append(columnName);
-            }
-
-            return b.build();
-        }
     }
 }

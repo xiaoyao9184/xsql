@@ -1,14 +1,7 @@
 package com.xy.xsql.tsql.model.variable;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.operator.Compound;
-import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
@@ -44,7 +37,7 @@ import java.util.List;
 
  *
  */
-public class SetVariable implements Statement {
+public class SetVariable {
 
     //@local_variable
     private LocalVariable localVariable;
@@ -77,16 +70,4 @@ public class SetVariable implements Statement {
         this.expression = expression;
     }
 
-
-
-
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(Keywords.SET)
-                .append(localVariable)
-                .append(compound == null ? Assignment.ASSIGNMENT : compound)
-                .append(expression)
-                .build();
-    }
 }

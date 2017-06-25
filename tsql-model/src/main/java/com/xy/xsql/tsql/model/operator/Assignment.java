@@ -9,7 +9,7 @@ public enum Assignment implements Operator {
 
     ASSIGNMENT("=", Type.Assignment);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Assignment(Keywords keyword, Type type){
@@ -17,22 +17,24 @@ public enum Assignment implements Operator {
         this.type = type;
     }
 
-    Assignment(java.lang.String keyword, Type type){
+    Assignment(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }
 
-
-    @Override
-    public String toString() {
-        return getKeyword();
-    }
 }

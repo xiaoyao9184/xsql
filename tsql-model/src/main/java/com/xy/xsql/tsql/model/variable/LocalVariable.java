@@ -1,12 +1,11 @@
 package com.xy.xsql.tsql.model.variable;
 
-import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.expression.Expression;
 
 /**
  * Created by xiaoyao9184 on 2017/1/13.
  */
-public class LocalVariable implements Block,Expression {
+public class LocalVariable implements Expression {
 
     private String name;
 

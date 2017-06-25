@@ -1,13 +1,9 @@
 package com.xy.xsql.tsql.model.variable;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.DataType;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -51,7 +47,7 @@ import java.util.List;
 
  *
  */
-public class DeclareVariable implements Statement {
+public class DeclareVariable {
 
     private List<Item> items;
 
@@ -85,16 +81,7 @@ public class DeclareVariable implements Statement {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(Keywords.DECLARE)
-                .append(items)
-                .build();
-    }
-
-
-    public static class Item implements Block {
+    public static class Item {
 
         //@local_variable
         private LocalVariable localVariable;
@@ -127,18 +114,5 @@ public class DeclareVariable implements Statement {
             this.value = value;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(localVariable)
-                    .append(Keywords.AS)
-                    .append(dataType);
-            if(value != null){
-                 b.append(Assignment.ASSIGNMENT)
-                        .append(value);
-            }
-
-            return b.build();
-        }
     }
 }

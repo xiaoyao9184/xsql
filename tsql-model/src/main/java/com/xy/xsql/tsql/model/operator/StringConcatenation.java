@@ -10,7 +10,7 @@ public enum StringConcatenation implements Operator {
     CONCATENATION("+",Type.String),
     CONCATENATION_SET("+=",Type.String);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     StringConcatenation(Keywords keyword, Type type){
@@ -18,16 +18,25 @@ public enum StringConcatenation implements Operator {
         this.type = type;
     }
 
-    StringConcatenation(java.lang.String keyword, Type type){
+    StringConcatenation(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }
+
 }

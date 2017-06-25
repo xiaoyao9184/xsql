@@ -1,15 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.util.CheckUtil;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  *
@@ -51,20 +43,6 @@ public class For implements Clause {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-        if(useBrowse) {
-            b.append(Keywords.BROWSE);
-        } else if(xml != null){
-            b.append(xml);
-        } else if(json != null){
-            b.append(json);
-        }
-        return b.build();
-    }
-
-
     /**
      *
      *
@@ -96,7 +74,7 @@ public class For implements Clause {
 
      *
      */
-    public static class Xml implements Block {
+    public static class Xml {
         private boolean useRaw;
         private boolean useAuto;
         private boolean useExplicit;
@@ -205,7 +183,6 @@ public class For implements Clause {
             this.useElementsAbsent = useElementsAbsent;
         }
 
-
         public boolean isUseBinaryBase64() {
             return useBinaryBase64;
         }
@@ -238,74 +215,6 @@ public class For implements Clause {
             this.rootName = rootName;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-            if(useRaw || useAuto){
-                b.append(useRaw ? Keywords.Key.RAW : Keywords.Key.AUTO)
-                        .append(useRaw && !CheckUtil.isNull(elementName) ?
-                                "'" + elementName + "'" :
-                                null);
-            } else if(useExplicit){
-                b.append(Keywords.Key.EXPLICIT);
-            } else if(usePath){
-                b.append(Keywords.Key.PATH)
-                        .append(CheckUtil.isNull(elementName) ?
-                                null :
-                                "'" + elementName + "'");
-            }
-
-            if(useBinaryBase64){
-                b.append(Other.DELIMITER)
-                        .append(Keywords.Key.BINARY)
-                        .append(Keywords.Key.BASE64);
-            } else if(useType){
-                b.append(Other.DELIMITER)
-                        .append(Keywords.Key.TYPE);
-            } else if(useRoot){
-                b.append(Other.DELIMITER)
-                        .append(Keywords.Key.ROOT)
-                        .append(rootName);
-            }
-
-
-            if(useRaw || useAuto){
-                if(useXmlData){
-                    b.append(Other.DELIMITER)
-                            .append(Keywords.Key.XMLDATA);
-                }else if(useXmlSchema){
-                    b.append(Other.DELIMITER)
-                            .append(Keywords.Key.XMLSCHEMA)
-                            .append(targetNameSpaceURI);
-                }
-
-                if(useElementsAbsent){
-                    b.append(Other.DELIMITER)
-                            .append(Keywords.Key.ELEMENTS)
-                            .append(Keywords.Key.ABSENT);
-                }else if(useElementsXsinil){
-                    b.append(Other.DELIMITER)
-                            .append(Keywords.Key.ELEMENTS)
-                            .append(Keywords.Key.XSINIL);
-                }
-            } else if(useExplicit && useXmlData){
-                b.append(Other.DELIMITER)
-                        .append(Keywords.Key.XMLDATA);
-            } else if(usePath){
-                if(useElementsAbsent){
-                    b.append(Other.DELIMITER)
-                            .append(Keywords.Key.ELEMENTS)
-                            .append(Keywords.Key.ABSENT);
-                }else if(useElementsXsinil){
-                    b.append(Other.DELIMITER)
-                            .append(Keywords.Key.ELEMENTS)
-                            .append(Keywords.Key.XSINIL);
-                }
-            }
-
-            return b.build();
-        }
     }
 
 
@@ -329,7 +238,7 @@ public class For implements Clause {
 
      *
      */
-    public static class Json implements Block {
+    public static class Json {
 
         //{ AUTO | PATH }
         private boolean usePath;
@@ -385,27 +294,5 @@ public class For implements Clause {
             this.useWithoutArrayWrapper = useWithoutArrayWrapper;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(usePath ? Keywords.Key.PATH : Keywords.Key.AUTO);
-            if(useRoot){
-                b.append(Keywords.Key.ROOT)
-                        .append(CheckUtil.isNullOrEmpty(rootName) ?
-                                null :
-                                "'" + rootName + "'");
-            }
-            if(useIncludeNullValue){
-                b.append(Other.DELIMITER)
-                        .append(Keywords.Key.INCLUDE_NULL_VALUES);
-            }
-            if(useWithoutArrayWrapper){
-                b.append(Other.DELIMITER)
-                        .append(Keywords.Key.WITHOUT_ARRAY_WRAPPER);
-            }
-
-            return b.build();
-        }
     }
 }

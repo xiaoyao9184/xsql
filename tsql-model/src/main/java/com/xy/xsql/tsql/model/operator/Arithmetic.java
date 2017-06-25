@@ -12,7 +12,7 @@ public enum Arithmetic implements Operator {
     DIVISION("/", Type.Arithmetic),
     MODULO("%", Type.Arithmetic);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Arithmetic(Keywords keyword, Type type){
@@ -20,15 +20,23 @@ public enum Arithmetic implements Operator {
         this.type = type;
     }
 
-    Arithmetic(java.lang.String keyword, Type type){
+    Arithmetic(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }

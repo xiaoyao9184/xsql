@@ -1,14 +1,9 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  *
@@ -164,38 +159,4 @@ public class Delete implements Statement {
         this.option = option;
     }
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-
-        b.append(with);
-        b.append(Keywords.DELETE);
-        b.append(top);
-
-        //[ FROM ]
-        if(useForm){
-            b.append(Keywords.FROM);
-        }
-
-        /*
-        { { table_alias
-          | <object>
-          | rowset_function_limited
-          [ WITH ( table_hint_limited [ ...n ] ) ] }
-          | @table_variable
-        }
-         */
-        if(this.tableAlias != null){
-            b.append(tableAlias);
-        } else if(this.tableName != null){
-            b.append(tableName);
-        }
-
-        b.append(output);
-        b.append(from);
-        b.append(where);
-        b.append(option);
-
-        return b.build();
-    }
 }

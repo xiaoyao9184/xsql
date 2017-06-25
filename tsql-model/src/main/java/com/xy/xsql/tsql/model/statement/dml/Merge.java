@@ -1,15 +1,13 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
-import com.xy.xsql.tsql.model.element.*;
+import com.xy.xsql.tsql.model.element.Alias;
+import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.CheckUtil;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
-import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -278,67 +276,10 @@ public class Merge implements Statement {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-
-        b.append(with);
-        b.append(Keywords.MERGE);
-        b.append(top);
-
-        //[ INTO ] <target_table> [ WITH ( <merge_hint> ) ] [ [ AS ] table_alias ]
-        b.append(useInto ? Keywords.INTO : null)
-                .append(targetTable)
-                .append(mergeHint)
-                .append(useAs ? Keywords.AS : null)
-                .append(tableAlias);
-
-        //USING <table_source>
-        b.append(Keywords.Key.USING)
-                .append(tableSource);
-
-        //ON <merge_search_condition>
-        b.append(Keywords.ON)
-                .append(mergeSearchCondition);
-
-        //[ WHEN MATCHED [ AND <clause_search_condition> ]
-        //THEN <merge_matched> ] [ ...n ]
-        if(matchedWhenThenList != null){
-            int i = 0;
-            for (MatchedWhenThen matchedWhenThen: matchedWhenThenList) {
-                b.append(i == 0 ? null : Other.DELIMITER)
-                        .append(matchedWhenThen);
-                i++;
-            }
-        }
-
-        //[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]
-        //THEN <merge_not_matched> ]
-        if(notMatchedWhenThenTarget != null){
-            b.append(notMatchedWhenThenTarget);
-        }
-
-        //[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]
-        //THEN <merge_matched> ] [ ...n ]
-        if(notMatchedWhenThenSourceList != null){
-            int i = 0;
-            for (MatchedWhenThen matchedWhenThen: notMatchedWhenThenSourceList) {
-                b.append(i == 0 ? null : Other.DELIMITER)
-                        .append(matchedWhenThen);
-                i++;
-            }
-        }
-
-        b.append(option);
-
-        return b.build();
-    }
-
-
     /**
      * <merge_hint>
      */
-    public static class MergeHint implements Block {
+    public static class MergeHint {
         /*
         { [ <table_hint_limited> [ ,...n ] ]
         [ [ , ] INDEX ( index_val [ ,...n ] ) ] }
@@ -371,24 +312,13 @@ public class Merge implements Statement {
             this.indexValList = indexValList;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(tableHintLimitedList,Other.DELIMITER)
-                    .append(useDelimiter ? Other.DELIMITER : null)
-                    .append(Keywords.INDEX)
-                    .append(Other.GROUP_START)
-                    .append(indexValList,Other.DELIMITER)
-                    .append(Other.GROUP_END)
-                    .build();
-        }
     }
 
     /**
      * WHEN MATCHED
      * WHEN NOT MATCHED
      */
-    public static class MatchedWhenThen implements Block {
+    public static class MatchedWhenThen {
         protected boolean useNot;
 
         private boolean useByTarget;
@@ -429,22 +359,6 @@ public class Merge implements Statement {
             this.mergeNotMatched = mergeNotMatched;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE)
-                    .append(Keywords.WHEN)
-                    .append(useNot ? Keywords.NOT : null)
-                    .append(Keywords.Key.MATCHED)
-                    .append(useByTarget ? Keywords.BY : null)
-                    .append(useByTarget ? Keywords.Key.TARGET : null)
-                    .append(clauseSearchCondition != null ? Keywords.AND : null)
-                    .append(clauseSearchCondition != null ? clauseSearchCondition : null)
-                    .append(Keywords.THEN)
-                    .append(useNot ? mergeNotMatched : mergeMatched);
-            return b.build();
-        }
     }
 
     /**
@@ -460,7 +374,7 @@ public class Merge implements Statement {
     /**
      * <merge_matched>
      */
-    public static class MergeMatched implements Block {
+    public static class MergeMatched {
         //{ UPDATE SET <set_clause> | DELETE }
         private boolean useSet;
         private List<Update.SetItem> sets;
@@ -482,26 +396,12 @@ public class Merge implements Statement {
             this.sets = sets;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-            if(useSet){
-                b.append(Keywords.UPDATE)
-                        .append(Keywords.SET)
-                        .append(sets);
-            }else{
-                b.append(Keywords.DELETE);
-            }
-            return b.build();
-        }
     }
 
     /**
      * <merge_not_matched>
      */
-    public static class MergeNotMatched implements Block {
+    public static class MergeNotMatched {
         //INSERT [ ( column_list ) ]
         //{ VALUES ( values_list )
         //        | DEFAULT VALUES }
@@ -534,31 +434,5 @@ public class Merge implements Statement {
             this.useDefaultValues = useDefaultValues;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE)
-                    .append(Keywords.INSERT);
-
-            //[ ( column_list ) ]
-            if(!CheckUtil.isNullOrEmpty(columns)){
-                b.append(Other.GROUP_START)
-                        .append(columns)
-                        .append(Other.GROUP_END);
-            }
-
-            //{ VALUES ( values_list )
-            //        | DEFAULT VALUES }
-            if(values != null){
-                b.append(Keywords.VALUES)
-                        .append(this.values);
-            }else if(useDefaultValues){
-                b.append(Keywords.DEFAULT)
-                        .append(Keywords.VALUES);
-            }
-
-            return b.build();
-        }
     }
 }

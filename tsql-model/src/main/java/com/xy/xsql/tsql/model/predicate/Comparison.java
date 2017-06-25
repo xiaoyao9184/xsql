@@ -1,10 +1,6 @@
 package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * TODO maybe use Comparison.Comparison named
@@ -41,13 +37,4 @@ public class Comparison implements Predicate, Expression {
         this.operatorExpression = operatorExpression;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-        b.append(expression)
-                .append(operator)
-                .append(operatorExpression);
-        return b.build();
-    }
 }

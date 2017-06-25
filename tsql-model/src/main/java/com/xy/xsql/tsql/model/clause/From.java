@@ -1,16 +1,11 @@
 package com.xy.xsql.tsql.model.clause;
 
-
-import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Alias;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,17 +25,6 @@ public class From implements Clause {
 
     public void setTableSourceList(List<TableSource> tableSourceList) {
         this.tableSourceList = tableSourceList;
-    }
-
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.FROM);
-        for (TableSource table: getTableSourceList()) {
-            b.append(table.toBlockList(), Other.DELIMITER);
-        }
-        return b.build();
     }
 
 //    /**
@@ -105,13 +89,7 @@ public class From implements Clause {
 //        }
 //    }
 
-    public interface TableSource extends Block{
-
-        /**
-         * must override
-         * @return
-         */
-        List<Block> toBlockList();
+    public interface TableSource {
 
     }
 
@@ -154,15 +132,6 @@ public class From implements Clause {
             this.tableAlias = tableAlias;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(tableName);
-            b.append(useAs ? Keywords.AS : null)
-                    .append(tableAlias);
-            return b.build();
-        }
     }
 
     /**
@@ -216,24 +185,6 @@ public class From implements Clause {
             this.columnAliass = columnAliass;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(subQuery);
-
-            if(tableAlias != null){
-                b.append(useAs ? Keywords.AS : null)
-                    .append(tableAlias);
-            }
-
-            if(columnAliass != null){
-                b.append(Other.GROUP_START)
-                        .append(columnAliass)
-                        .append(Other.GROUP_END);
-            }
-
-            return b.build();
-        }
     }
 
     /**
@@ -329,49 +280,13 @@ public class From implements Clause {
             this.useParenthesis = useParenthesis;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-            if(isUseParenthesis()){
-                b.append(Other.GROUP_START);
-            }
-            if(isUseJoinOn()){
-                b.append(getTableSource())
-                        .append(getJoinType())
-                        .append(getTableSource2())
-                        .append(Keywords.ON)
-                        .append(getSearchCondition());
-            }else if(isUseCrossJoin()){
-                b.append(getTableSource())
-                        .append(Keywords.CROSS)
-                        .append(Keywords.JOIN)
-                        .append(getTableSource2());
-            }else if(isUseCrossApply()){
-                b.append(getTableSource())
-                        .append(Keywords.CROSS)
-                        .append(Keywords.Key.APPLY)
-                        .append(getTableSource2());
-            }else if(isUseOuterApply()){
-                b.append(getTableSource())
-                        .append(Keywords.OUTER)
-                        .append(Keywords.Key.APPLY)
-                        .append(getTableSource2());
-            }
-
-            if(isUseParenthesis()){
-                b.append(Other.GROUP_END);
-            }
-            return b.build();
-        }
-
     }
 
     /**
      * <join_type>
      *     <join_hint>
      */
-    public enum JoinType implements Block {
+    public enum JoinType {
         JOIN(Keywords.JOIN),
         INNER_JOIN(Keywords.INNER,Keywords.JOIN),
         INNER_REDUCE_JOIN(Keywords.INNER,Keywords.Key.REDUCE,Keywords.JOIN),
@@ -384,17 +299,10 @@ public class From implements Clause {
         RIGHT_OUTER_JOIN(Keywords.RIGHT,Keywords.OUTER,Keywords.JOIN),
         FULL_OUTER_JOIN(Keywords.FULL,Keywords.OUTER,Keywords.JOIN);
 
-        private Block[] es;
+        private Enum[] es;
 
-        JoinType(Block... elements){
+        JoinType(Enum... elements){
             this.es = elements;
-        }
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Arrays.asList(this.es), Other.SPACE)
-                    .build();
         }
 
     }
@@ -432,17 +340,5 @@ public class From implements Clause {
             this.tableAlias = tableAlias;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(variable);
-
-            if(tableAlias != null){
-                b.append(useAs ? Keywords.AS : null)
-                        .append(tableAlias);
-            }
-
-            return b.build();
-        }
     }
 }

@@ -1,11 +1,5 @@
 package com.xy.xsql.tsql.model.expression;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
 import java.util.List;
 
 /**
@@ -33,14 +27,4 @@ public class Coalesce implements Expression {
         this.expressionList = expressionList;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(Keywords.COALESCE)
-                .append(Other.GROUP_START)
-                .append(expressionList)
-                .append(Other.GROUP_END)
-                .build();
-    }
 }

@@ -1,16 +1,9 @@
 package com.xy.xsql.tsql.model.datatype;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
-
-import static com.xy.xsql.tsql.model.Keywords.k;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms175010.aspx
@@ -34,12 +27,8 @@ public class TableTypeDefinition {
     }
 
 
-    public interface Item extends Block {
-        /**
-         * must override
-         * @return
-         */
-        List<Block> toBlockList();
+    public interface Item {
+
     }
 
     /**
@@ -90,19 +79,6 @@ public class TableTypeDefinition {
             this.logicalExpression = logicalExpression;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(usePrimaryKey ?
-                            k(Keywords.PRIMARY,Keywords.KEY):
-                            (useUnique ?
-                                    Keywords.UNIQUE :
-                                    null))
-                    .append(columnName)
-                    .append(Keywords.CHECK)
-                    .append(logicalExpression)
-                    .build();
-        }
     }
 
 }

@@ -1,14 +1,7 @@
 package com.xy.xsql.tsql.model.predicate;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * EXISTS ( subquery )
@@ -35,13 +28,4 @@ public class Exists implements Predicate, Expression {
         this.subquery = subquery;
     }
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-        b.append(Keywords.EXISTS)
-                .append(Other.GROUP_START)
-                .append(subquery)
-                .append(Other.GROUP_END);
-        return b.build();
-    }
 }

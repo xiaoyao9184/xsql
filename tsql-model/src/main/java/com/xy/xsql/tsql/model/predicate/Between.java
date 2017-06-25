@@ -1,12 +1,6 @@
 package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Logical;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * expression [ NOT ] BETWEEN expression AND expression
@@ -51,15 +45,4 @@ public class Between implements Predicate, Expression {
         this.endExpression = endExpression;
     }
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-        b.append(expression)
-                .append(useNotOperator ? Keywords.NOT : null)
-                .append(Logical.BETWEEN)
-                .append(startExpression)
-                .append(Keywords.AND)
-                .append(endExpression);
-        return b.build();
-    }
 }

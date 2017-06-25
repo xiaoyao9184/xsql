@@ -9,7 +9,7 @@ public enum Scope_Resolution implements Operator {
 
     SCOPE_RESOLUTION("::",Type.Scope_Resolution);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Scope_Resolution(Keywords keyword, Type type){
@@ -17,16 +17,25 @@ public enum Scope_Resolution implements Operator {
         this.type = type;
     }
 
-    Scope_Resolution(java.lang.String keyword, Type type){
+    Scope_Resolution(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }
+
 }

@@ -16,7 +16,7 @@ public enum Compound implements Operator {
     BITWISE_EXCLUSIVE_OR_EQUALS("^=",Type.Compound),
     BITWISE_OR_EQUALS("|=",Type.Compound);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Compound(Keywords keyword, Type type){
@@ -24,15 +24,23 @@ public enum Compound implements Operator {
         this.type = type;
     }
 
-    Compound(java.lang.String keyword, Type type){
+    Compound(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }

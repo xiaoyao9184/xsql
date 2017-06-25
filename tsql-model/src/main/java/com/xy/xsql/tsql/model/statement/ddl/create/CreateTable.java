@@ -1,12 +1,8 @@
 package com.xy.xsql.tsql.model.statement.ddl.create;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -46,18 +42,4 @@ public class CreateTable implements Statement {
         this.columnDefinitionList = columnDefinitionList;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE)
-                .append(Keywords.CREATE)
-                .append(Keywords.TABLE)
-                .append(tableName)
-                .append(Other.GROUP_START)
-                .append(columnDefinitionList)
-                .append(Other.GROUP_END);
-
-        return b.build();
-    }
 }

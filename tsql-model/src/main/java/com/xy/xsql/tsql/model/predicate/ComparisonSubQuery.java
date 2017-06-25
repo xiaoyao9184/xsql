@@ -1,13 +1,8 @@
 package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  * TODO maybe use Comparison.Logical named
@@ -56,20 +51,7 @@ public class ComparisonSubQuery implements Predicate, Expression {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-        b.append(expression)
-                .append(operator)
-                .append(all_some_any.toOperator())
-                .append(Other.GROUP_START)
-                .append(subquery)
-                .append(Other.GROUP_END);
-        return b.build();
-    }
-
-
-    public enum ALL_SOME_ANY implements Block {
+    public enum ALL_SOME_ANY {
         ALL(Logical.ALL),
         SOME(Logical.SOME),
         ANY(Logical.ANY);

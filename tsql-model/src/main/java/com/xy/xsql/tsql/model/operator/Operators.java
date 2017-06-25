@@ -112,10 +112,12 @@ public enum Operators implements Operator {
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+    @Override
+    public String getKeyword(){
         return this.operator.getKeyword();
     }
 
+    @Override
     public Type getType(){
         return this.type;
     }

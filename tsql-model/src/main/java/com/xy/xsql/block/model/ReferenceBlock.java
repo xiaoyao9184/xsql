@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public class ReferenceBlock {
+public class ReferenceBlock implements Block {
 
     private boolean overall;
 

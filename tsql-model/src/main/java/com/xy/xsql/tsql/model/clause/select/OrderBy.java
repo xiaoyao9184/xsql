@@ -1,11 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -73,17 +69,6 @@ public class OrderBy implements Clause {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.ORDER)
-                .append(Keywords.BY)
-                .append(items)
-                .append(offsetFetch);
-        return b.build();
-    }
-
-
     /**
      *
 
@@ -93,7 +78,7 @@ public class OrderBy implements Clause {
 
      *
      */
-    public static class Item implements Block {
+    public static class Item {
 
         //order_by_expression
         private Expression orderByExpression;
@@ -135,18 +120,6 @@ public class OrderBy implements Clause {
             this.useDesc = useDesc;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(orderByExpression);
-            if(useAsc){
-                b.append(Keywords.ASC);
-            } else if(useDesc){
-                b.append(Keywords.DESC);
-            }
-            return b.build();
-        }
     }
 
     /**
@@ -162,7 +135,7 @@ public class OrderBy implements Clause {
 
      *
      */
-    public static class OffsetFetch implements Block {
+    public static class OffsetFetch {
 
         //{ integer_constant | offset_row_count_expression }
         private Integer integerConstant;
@@ -245,32 +218,6 @@ public class OrderBy implements Clause {
             this.useFetchRows = useFetchRows;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE)
-                    .append(Keywords.Key.OFFSET);
-            if(integerConstant != null){
-                b.append(integerConstant);
-            } else {
-                b.append(offsetRowCountExpression);
-            }
-            b.append(useRows ? Keywords.Key.ROWS : Keywords.Key.ROW);
-
-            if(useFetch){
-                b.append(Keywords.FETCH)
-                        .append(useFetchFirst ? Keywords.Key.FIRST : Keywords.Key.NEXT);
-                if(integerConstant != null){
-                    b.append(fetchIntegerConstant);
-                } else {
-                    b.append(fetchOffsetRowCountExpression);
-                }
-                b.append(useFetchRows ? Keywords.Key.ROWS : Keywords.Key.ROW)
-                        .append(Keywords.Key.ONLY);
-            }
-
-            return b.build();
-        }
     }
 
 }

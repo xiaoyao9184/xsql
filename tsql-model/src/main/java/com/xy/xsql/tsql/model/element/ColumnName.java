@@ -1,17 +1,13 @@
 package com.xy.xsql.tsql.model.element;
 
-
-import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.expression.Expression;
-
-import java.util.List;
 
 /**
  * TODO
  * Created by xiaoyao9184 on 2016/7/14.
  */
 public class ColumnName
-        implements Block, Expression, Cloneable {
+        implements Expression, Cloneable {
 
     protected TableName table;
 
@@ -87,11 +83,6 @@ public class ColumnName
         return this.table == null ?
                 this.name :
                 this.table.toString() + "." + this.name;
-    }
-
-    @Override
-    public List<Block> toBlockList() {
-        return null;
     }
 
 }

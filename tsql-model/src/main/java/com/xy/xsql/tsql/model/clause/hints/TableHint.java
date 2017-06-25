@@ -1,12 +1,7 @@
 package com.xy.xsql.tsql.model.clause.hints;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Comparison;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -73,47 +68,7 @@ public class TableHint implements Clause {
         this.integer = integer;
     }
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(type);
-
-        if(useNOEXPAND){
-            b.append(Keywords.Key.NOEXPAND);
-        }
-        b.append(type);
-        switch (type){
-            case INDEX:
-                if(useOneIndexValue){
-                    b.append(Other.GROUP_START)
-                            .append(index_value)
-                            .append(Other.GROUP_END);
-                }else{
-                    b.append(Comparison.EQUAL)
-                            .append(index_value.get(0));
-                }
-                break;
-            case FORCESEEK:
-                if(index_value.size() > 0){
-                    b.append(Other.GROUP_START)
-                            .append(index_value)
-                            .append(Other.GROUP_START)
-                            .append(index_column_name,Other.DELIMITER)
-                            .append(Other.GROUP_END)
-                            .append(Other.GROUP_END);
-                }
-                break;
-            case SPATIAL_WINDOW_MAX_CELLS:
-                b.append(Comparison.EQUAL)
-                        .append(integer);
-                break;
-        }
-
-        return b.build();
-    }
-
-
-    public enum Type implements Block {
+    public enum Type {
         INDEX,
         FORCESCAN,
         FORCESEEK,

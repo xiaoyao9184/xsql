@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.util;
+package com.xy.xsql.util;
 
 import java.util.Collection;
 import java.util.regex.Pattern;

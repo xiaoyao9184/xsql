@@ -1,12 +1,5 @@
 package com.xy.xsql.tsql.model.expression;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
-
 /**
  * https://msdn.microsoft.com/en-us/library/ms177562.aspx
  *
@@ -41,16 +34,4 @@ public class NullIf implements Expression {
         this.expressionRight = expressionRight;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.NULLIF)
-                .append(Other.GROUP_START)
-                .append(expressionLeft)
-                .append(Other.DELIMITER)
-                .append(expressionRight)
-                .append(Other.GROUP_END);
-        return b.build();
-    }
 }

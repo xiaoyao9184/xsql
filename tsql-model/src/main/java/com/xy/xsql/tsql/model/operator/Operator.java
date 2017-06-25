@@ -1,19 +1,22 @@
 package com.xy.xsql.tsql.model.operator;
 
 
-import com.xy.xsql.tsql.model.Block;
-
 /**
  * Comparison
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public interface Operator extends Block {
+public interface Operator {
 
     /**
-     * @see Block#toString()
+     *
      * @return
      */
-    java.lang.String getKeyword();
+    String toString();
+
+    /**
+     * @return
+     */
+    String getKeyword();
 
     /**
      *

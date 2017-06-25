@@ -1,15 +1,9 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,15 +33,6 @@ public class With implements Clause {
 
     public void setCommonTableExpressionList(List<CommonTableExpression> commonTableExpressionList) {
         this.commonTableExpressionList = commonTableExpressionList;
-    }
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-        b.append(Keywords.WITH)
-                .append(commonTableExpressionList);
-
-        return b.build();
     }
 
 
@@ -84,20 +69,6 @@ public class With implements Clause {
 
         public void setCteQueryDefinition(Select cteQueryDefinition) {
             this.cteQueryDefinition = cteQueryDefinition;
-        }
-
-
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .append(new Unknown(expressionName));
-            b.append(columnName);
-            b.append(Keywords.AS)
-                    .append(Other.GROUP_START)
-                    .append(cteQueryDefinition)
-                    .append(Other.GROUP_START);
-
-            return b.build();
         }
 
     }

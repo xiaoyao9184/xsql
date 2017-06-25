@@ -1,18 +1,11 @@
 package com.xy.xsql.tsql.model.statement.ddl;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Operator;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
-
-import static com.xy.xsql.tsql.model.Keywords.k;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms177570.aspx
@@ -53,33 +46,7 @@ public class TruncateTable implements Statement {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(Keywords.TRUNCATE)
-                .append(Keywords.TABLE)
-                .append(tableName);
-
-        if(partitionsList != null){
-            b.append(Keywords.WITH)
-                    .append(Other.GROUP_START)
-                    .append(Keywords.Key.PARTITIONS)
-                    .append(Other.GROUP_START)
-                    .append(partitionsList)
-                    .append(Other.GROUP_END)
-                    .append(Other.GROUP_END);
-        }
-        return b.build();
-    }
-
-
-    public interface Partitions extends Block {
-
-        /**
-         * must override
-         * @return
-         */
-        List<Block> toBlockList();
+    public interface Partitions {
 
     }
 
@@ -112,14 +79,6 @@ public class TruncateTable implements Statement {
             this.partitionNumberExpressionRight = partitionNumberExpressionRight;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(partitionNumberExpressionLeft)
-                    .append(Keywords.TO)
-                    .append(partitionNumberExpressionRight)
-                    .build();
-        }
     }
 
     public static class PartitionNumberExpression extends NumberConstant implements Partitions {
@@ -128,10 +87,6 @@ public class TruncateTable implements Statement {
             super(number);
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            return null;
-        }
     }
 
 }

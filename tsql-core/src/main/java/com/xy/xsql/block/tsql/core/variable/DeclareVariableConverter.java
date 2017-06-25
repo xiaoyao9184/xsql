@@ -3,7 +3,7 @@ package com.xy.xsql.block.tsql.core.variable;
 import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.operator.Comparison;
@@ -50,11 +50,6 @@ public class DeclareVariableConverter
     // @formatter:on
 
     public static ReferenceBlock meta() {
-        return builder.build();
-    }
-
-    @Override
-    public ReferenceBlock convert() {
         return builder.build();
     }
 

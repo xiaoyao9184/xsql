@@ -10,7 +10,7 @@ public enum Unary implements Operator {
     PLUS("+",Type.Unary),
     NEGATIVE("-",Type.Unary);
 
-    private java.lang.String keyword;
+    private String keyword;
     private Type type;
 
     Unary(Keywords keyword, Type type){
@@ -18,15 +18,23 @@ public enum Unary implements Operator {
         this.type = type;
     }
 
-    Unary(java.lang.String keyword, Type type){
+    Unary(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
 
-    public java.lang.String getKeyword(){
+
+    @Override
+    public String toString(){
         return this.keyword;
     }
 
+    @Override
+    public String getKeyword(){
+        return this.keyword;
+    }
+
+    @Override
     public Type getType(){
         return this.type;
     }

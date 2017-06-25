@@ -1,13 +1,8 @@
 package com.xy.xsql.tsql.model.clause.hints;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Comparison;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -137,50 +132,8 @@ public class QueryHint implements Clause, Option.QueryOption {
         this.useDelimiter = useDelimiter;
     }
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .append(type);
 
-        switch (type){
-            case FAST:
-                b.append(numberRows);
-                break;
-            case MAX_GRANT_PERCENT:
-            case MIN_GRANT_PERCENT:
-                b.append(percent);
-                break;
-            case MAXDOP:
-                b.append(numberOfProcessors);
-                break;
-            case MAXRECURSION:
-                b.append(number);
-                break;
-            case OPTIMIZE_FOR:
-                b.append(optimizeFor, Other.DELIMITER);
-                break;
-            case USE_HINT:
-                for(StringConstant unknownString : hintNameList){
-                    unknownString.withQuote();
-                }
-                b.append(hintNameList,Other.DELIMITER);
-                break;
-            case USE_PLAN:
-                b.append(xmlPlan.withNQuote());
-                break;
-            case TABLE_HINT:
-                b.append(Other.GROUP_START)
-                            .append(exposedObjectName)
-                            .append(tableHintList,useDelimiter ? Other.DELIMITER : null)
-                            .append(Other.GROUP_END);
-                break;
-        }
-
-        return b.build();
-    }
-
-
-    public enum Type implements Block {
+    public enum Type {
         HASH_GROUP("HASH GROUP"),
         ORDER_GROUP("ORDER GROUP"),
         CONCAT_UNION("CONCAT UNION"),
@@ -229,7 +182,7 @@ public class QueryHint implements Clause, Option.QueryOption {
         }
     }
 
-    public static class OptimizeFor implements Block {
+    public static class OptimizeFor {
         private String variableName;
         private boolean useUnknown;
         private String literalConstant;
@@ -258,18 +211,6 @@ public class QueryHint implements Clause, Option.QueryOption {
             this.literalConstant = literalConstant;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder();
-            b.append("@" + variableName);
-            if(useUnknown){
-                b.append(Keywords.Key.UNKNOWN);
-            } else {
-                b.append(Comparison.EQUAL)
-                        .append(literalConstant);
-            }
-            return b.build();
-        }
     }
 
 }

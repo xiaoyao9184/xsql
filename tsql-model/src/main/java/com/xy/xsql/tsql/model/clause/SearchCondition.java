@@ -1,11 +1,6 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.Predicate;
-import com.xy.xsql.tsql.util.CheckUtil;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -79,26 +74,10 @@ public class SearchCondition implements Clause {
         this.andOrList = otherSearchCondition;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-
-        b.append(useNot ? Keywords.NOT : null)
-                .append(this.predicate != null ? predicate : searchCondition);
-
-        if(!CheckUtil.isNullOrEmpty(this.andOrList)){
-            for (AndOrNotItem andOrNotItem : this.andOrList) {
-                b.append(andOrNotItem.toBlockList(),null);
-            }
-        }
-        return b.build();
-    }
-
     /**
      * { AND | OR } [ NOT ] { <predicate> | ( <search_condition> )
      */
-    public static class AndOrNotItem implements Block {
+    public static class AndOrNotItem {
 
         private boolean useAnd;
         private boolean useNot;
@@ -151,17 +130,5 @@ public class SearchCondition implements Clause {
             this.searchCondition = searchCondition;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            ListBlockBuilder b = new ListBlockBuilder()
-                    .withDelimiter(Other.SPACE);
-
-            b.append(useAnd ? Keywords.AND : Keywords.OR);
-
-            b.append(useNot ? Keywords.NOT : null)
-                    .append(this.predicate != null ? predicate : searchCondition);
-
-            return b.build();
-        }
     }
 }

@@ -1,12 +1,7 @@
 package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -51,24 +46,6 @@ public class In implements Predicate, Expression {
 
     public void setExpressionList(List<Expression> expressionList) {
         this.expressionList = expressionList;
-    }
-
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-        b.append(expression)
-                .append(useNotOperator ? Keywords.NOT : null)
-                .append(Logical.IN)
-                .append(Other.GROUP_START)
-                .append(Keywords.AND);
-        if(subquery != null){
-            b.append(subquery);
-        }else {
-            b.append(expressionList);
-        }
-        b.append(Other.GROUP_END);
-        return b.build();
     }
 
 }

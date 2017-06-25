@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Keywords implements Block {
+public enum Keywords {
 
     ADD,EXTERNAL,PROCEDURE,
     ALL,FETCH,PUBLIC,
@@ -254,7 +254,7 @@ public enum Keywords implements Block {
 
 
 
-    public enum Key implements Block {
+    public enum Key {
 
         //Output
         DELETED, INSERTED,

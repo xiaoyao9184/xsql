@@ -1,17 +1,12 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.CheckUtil;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -210,53 +205,4 @@ public class Insert implements Statement {
         this.useDefaultValues = useDefaultValues;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder();
-
-        b.append(with);
-        b.append(Keywords.INSERT);
-        b.append(top);
-
-        //[ INTO ]
-        b.append(useInto ? Keywords.INTO : null);
-
-        /*
-        { <object> | rowset_function_limited
-          [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
-        }
-         */
-        b.append(Other.SPACE)
-                .append(tableName);
-
-        //[ ( column_list ) ]
-        if(!CheckUtil.isNullOrEmpty(columns)){
-            b.append(Other.GROUP_START);
-            b.append(columns);
-            b.append(Other.GROUP_END);
-        }
-
-        b.append(output);
-
-        /*
-        { VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
-        | derived_table
-        | execute_statement
-        | <dml_table_source>
-        | DEFAULT VALUES
-        }
-         */
-        if(values != null){
-            //VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]
-            b.append(Keywords.VALUES)
-                    .append(this.values);
-        }else if(useDefaultValues){
-            //DEFAULT VALUES
-            b.append(Keywords.DEFAULT)
-                    .append(Keywords.VALUES);
-        }
-
-        return b.build();
-    }
 }

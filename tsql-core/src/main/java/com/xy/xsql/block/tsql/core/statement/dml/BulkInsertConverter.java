@@ -3,11 +3,10 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.model.Block;
+import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.

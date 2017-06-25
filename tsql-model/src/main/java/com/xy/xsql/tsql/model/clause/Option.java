@@ -1,15 +1,5 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.hints.QueryHint;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Assignment;
-import com.xy.xsql.tsql.model.operator.Operators;
-import com.xy.xsql.tsql.util.CheckUtil;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
 import java.util.List;
 
 /**
@@ -52,25 +42,11 @@ public class Option implements Clause {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        return new ListBlockBuilder()
-                .append(Keywords.OPTION)
-                .append(queryOption)
-                .build();
-    }
-
-
     /**
      * <query_option>
      */
-    public interface QueryOption extends Block {
+    public interface QueryOption {
 
-        /**
-         * must override
-         * @return
-         */
-        List<Block> toBlockList();
     }
 
     /**
@@ -94,13 +70,5 @@ public class Option implements Clause {
             this.labelName = labelName;
         }
 
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Keywords.Key.LABEL)
-                    .append(Assignment.ASSIGNMENT)
-                    .append(labelName)
-                    .build();
-        }
     }
 }

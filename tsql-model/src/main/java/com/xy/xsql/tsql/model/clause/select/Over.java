@@ -1,12 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
-
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Clause;
-import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
 
 import java.util.List;
 
@@ -92,26 +87,10 @@ public class Over implements Clause {
     }
 
 
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder b = new ListBlockBuilder()
-                .withDelimiter(Other.SPACE)
-                .append(Keywords.OVER)
-                .append(Other.GROUP_START);
-
-        b.append(partitionBy != null ? partitionBy : null);
-
-        b.append(orderBy != null ? orderBy : null);
-
-        return b
-                .append(Other.GROUP_END)
-                .build();
-    }
-
     /**
      * <PARTITION BY clause>
      */
-    public static class PartitionBy implements Block {
+    public static class PartitionBy {
         //PARTITION BY value_expression , ... [ n ]
         private List<Expression> valueExpressionList;
 
@@ -123,22 +102,13 @@ public class Over implements Clause {
             this.valueExpressionList = valueExpressionList;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Keywords.Key.PARTITION)
-                    .append(Keywords.BY)
-                    .append(valueExpressionList)
-                    .build();
-        }
     }
 
     /**
      * <ORDER BY clause>
      * TODO maybe use select.OrderBy replace
      */
-    public static class OrderBy implements Block {
+    public static class OrderBy {
         /*
         ORDER BY order_by_expression
             [ COLLATE collation_name ]
@@ -155,15 +125,6 @@ public class Over implements Clause {
             this.items = items;
         }
 
-
-        @Override
-        public List<Block> toBlockList() {
-            return new ListBlockBuilder()
-                    .append(Keywords.ORDER)
-                    .append(Keywords.BY)
-                    .append(items)
-                    .build();
-        }
     }
 
 }

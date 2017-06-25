@@ -1,13 +1,7 @@
 package com.xy.xsql.tsql.model.statement.ddl.rename;
 
-import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.util.ListBlockBuilder;
-
-import java.util.List;
 
 /**
  *
@@ -64,16 +58,4 @@ public class ReName implements Statement {
         this.newName = newName;
     }
 
-
-    @Override
-    public List<Block> toBlockList() {
-        ListBlockBuilder builder = new ListBlockBuilder()
-                .append(Keywords.Key.RENAME)
-                .append(dbName == null ? Keywords.Key.OBJECT : Keywords.DATABASE)
-                .append(dbName == null ? tableName : new Unknown(dbName))
-                .append(Keywords.TO)
-                .append(newName);
-
-        return builder.build();
-    }
 }

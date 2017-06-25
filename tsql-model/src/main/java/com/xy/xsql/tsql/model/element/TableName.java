@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.model.element;
 
-import com.xy.xsql.tsql.model.Block;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -23,7 +22,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/1/9.
  */
 public class TableName
-        implements Block, Cloneable {
+        implements Cloneable {
 
     private String serverName;
     private String databaseName;
@@ -94,8 +93,4 @@ public class TableName
         return getFullName();
     }
 
-    @Override
-    public List<Block> toBlockList() {
-        return null;
-    }
 }

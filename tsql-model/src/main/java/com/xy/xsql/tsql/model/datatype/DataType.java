@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.model.datatype;
 
-import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.element.Other;
 
 /**
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.element.Other;
  *
  * Created by xiaoyao9184 on 2017/3/16.
  */
-public class DataType implements Block {
+public class DataType {
 
     private Synonyms synonym;
     private Integer precision;
