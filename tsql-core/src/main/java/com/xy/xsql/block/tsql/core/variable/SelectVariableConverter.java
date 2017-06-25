@@ -22,7 +22,7 @@ public class SelectVariableConverter
                         .description("{ @local_variable { = | += | -= | *= | /= | %= | &= | ^= | |= } expression } [ ,...n ]")
                         .list(SelectVariableItemConverter.meta())
                         .data(SelectVariable::getItems)
-                    .and();
+                        .and();
     // @formatter:on
 
     public static ReferenceBlock meta() {

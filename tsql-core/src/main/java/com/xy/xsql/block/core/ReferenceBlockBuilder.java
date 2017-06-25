@@ -148,6 +148,11 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .and();
     }
 
+    /**
+     * Not allowed to modify
+     * @param meta
+     * @return
+     */
     public ReferenceBlockBuilder<ParentBuilder, Reference> list(ReferenceBlock meta) {
         target.setList(true);
         initAdd(meta,
@@ -167,6 +172,11 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .and();
     }
 
+    /**
+     * Not allowed to modify
+     * @param meta
+     * @return
+     */
     public ReferenceBlockBuilder<ParentBuilder, Reference> repeat(ReferenceBlock meta) {
         target.setRepeat(true);
         initAdd(meta,
@@ -203,6 +213,11 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .name(name);
     }
 
+    /**
+     * Not allowed to modify
+     * @param meta
+     * @return
+     */
     public ReferenceBlockBuilder<ParentBuilder, Reference> sub_meta(ReferenceBlock meta) {
         initAdd(meta,
                 target::getSub,
