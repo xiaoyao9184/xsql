@@ -33,17 +33,8 @@ public class TruncateTableConverter
                             .sub_keyword(Keywords.Key.PARTITIONS)
                             .sub_keyword(Other.GROUP_START)
                             .sub()
-                                .list()
-                                .sub()
-                                    .oneOf("partition_number_expression")
-                                        .ref(TruncateTable.PartitionNumberExpression.class)
-                                        .and()
-                                    .oneOf("range")
-                                        .ref(TruncateTable.Range.class)
-                                        .and()
-                                    .and()
+                                .list(PartitionsConverter.meta())
                                 .data(TruncateTable::getPartitionsList)
-                                .oneMore()
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
@@ -61,6 +52,35 @@ public class TruncateTableConverter
         return builder
                 .data(truncateTable)
                 .build();
+    }
+
+
+    public static class PartitionsConverter
+            implements BlockConverter<TruncateTable.Partitions> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,TruncateTable.Partitions> builder =
+                new ReferenceBlockBuilder<Void,TruncateTable.Partitions>()
+                        .czse(d -> d instanceof TruncateTable.PartitionNumberExpression)
+                            .name("partition_number_expression")
+                            .ref(TruncateTable.PartitionNumberExpression.class)
+                            .and()
+                        .czse(d -> d instanceof TruncateTable.Range)
+                            .name("range")
+                            .ref(TruncateTable.Range.class)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public Block convert(TruncateTable.Partitions partitions) {
+            return builder
+                    .data(partitions)
+                    .build();
+        }
     }
 
 

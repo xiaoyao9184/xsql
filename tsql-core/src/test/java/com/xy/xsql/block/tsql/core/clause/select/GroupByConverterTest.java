@@ -23,13 +23,13 @@ public class GroupByConverterTest {
 
         System.out.print(writer);
         Assert.assertEquals(writer.toString(),
-                "GROUP BY { \n" +
+                "GROUP BY {\n" +
                         "column-expression\n" +
                         "| ROLLUP ( { <group_by_expression> } [,...n] )\n" +
                         "| CUBE ( { <group_by_expression> } [,...n] )\n" +
                         "| GROUPING SETS ( { <grouping_set> } [,...n] )\n" +
                         "| ()\n" +
-                        " } [,...n]");
+                        "} [,...n]");
     }
 
     @Test

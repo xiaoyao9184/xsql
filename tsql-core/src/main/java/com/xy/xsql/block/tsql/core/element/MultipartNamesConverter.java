@@ -4,8 +4,6 @@ import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -24,8 +22,7 @@ public class MultipartNamesConverter {
                         .description("[ { database_name .[ schema_name ] . | schema_name . } ]  table_name")
                         .sub()
                             .optional()
-                            .oneOf()
-                                .filter(d -> d.getDatabaseName() == null)
+                            .czse(d -> d.getDatabaseName() != null)
                                 .sub("database_name")
                                     .data(TableName::getDatabaseName)
                                     .and()
@@ -36,8 +33,7 @@ public class MultipartNamesConverter {
                                     .and()
                                 .sub_keyword(Other.POINT)
                                 .and()
-                            .oneOf()
-                                .filter(d -> d.getSchemaName() == null)
+                            .czse(d -> d.getSchemaName() != null)
                                 .sub("schema_name")
                                     .and()
                                 .sub_keyword(Other.POINT)
@@ -70,7 +66,7 @@ public class MultipartNamesConverter {
                         .description("[ { database_name .[ schema_name ] . | schema_name . } ]  table_name")
                         .sub()
                             .optional()
-                            .sub(TableNameConverter.meta())
+                            .sub_meta(TableNameConverter.meta())
                             .sub_keyword(Other.POINT)
                             .and()
                         .sub("column_name")

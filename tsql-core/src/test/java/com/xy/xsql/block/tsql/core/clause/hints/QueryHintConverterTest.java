@@ -45,8 +45,8 @@ public class QueryHintConverterTest {
                         "| PARAMETERIZATION { SIMPLE | SIMPLE }\n" +
                         "| RECOMPILE\n" +
                         "| ROBUST_PLAN\n" +
-                        "| USE_HINT ( '<hint_name>' )\n" +
+                        "| USE_HINT ( '<hint_name>' [,...n] )\n" +
                         "| USE_PLAN N'xml_plan'\n" +
-                        "| TABLE_HINT ( exposed_object_name [ , <table_hint> [,...n] [...n] ] )");
+                        "| TABLE_HINT ( exposed_object_name [ , <table_hint> [ [, ]...n ] ] )");
     }
 }

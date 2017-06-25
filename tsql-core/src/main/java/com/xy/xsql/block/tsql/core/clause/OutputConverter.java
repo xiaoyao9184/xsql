@@ -6,7 +6,6 @@ import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Output;
-import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.Other;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class OutputConverter
     private static ReferenceBlockBuilder<Void,Output> builder =
             new ReferenceBlockBuilder<Void,Output>()
                     .overall("OUTPUT_CLAUSE")
-                    .oneOf()
+                    .czse(d -> d.getOutputDmlSelectList() != null)
                         .description("Output Into")
                         .sub_keyword(Keywords.Key.OUTPUT)
                         .sub("dml_select_list")
@@ -32,10 +31,10 @@ public class OutputConverter
                         .sub()
                             .required()
                             .description("{ @table_variable | output_table }")
-                            .oneOf("@table_variable")
+                            .czse(d -> d.getTableVariable() != null, "@table_variable")
                                 .data(Output::getTableVariable)
                                 .and()
-                            .oneOf("output_table")
+                            .czse(d -> d.getOutputTable() != null, "output_table")
                                 .data(Output::getOutputTable)
                                 .and()
                             .and()
@@ -49,9 +48,8 @@ public class OutputConverter
                             .sub_keyword(Other.GROUP_END)
                             .and()
                         .and()
-                    .oneOf()
+                    .czse(d -> d.getOutputDmlSelectList() == null)
                         .description("Output")
-                        .optional(d -> d.getOutputDmlSelectList() == null)
                         .sub_keyword(Keywords.Key.OUTPUT)
                         .sub("dml_select_list")
                             .ref(Output.DmlSelect.class)
@@ -80,7 +78,7 @@ public class OutputConverter
                 new ReferenceBlockBuilder<Void,List<Output.DmlSelect>>()
                         .overall("dml_select_list")
                         .list()
-                        .sub(DmlSelectConverter.meta())
+                        .sub_meta(DmlSelectConverter.meta())
                         .more();
         // @formatter:on
 
@@ -106,11 +104,11 @@ public class OutputConverter
                         .sub()
                             .description("{ <column_name> | scalar_expression }")
                             .required()
-                            .oneOf("column_name")
+                            .czse(d -> d.getColumnName() != null, "column_name")
                                 .ref(Output.ColumnName.class)
                                 .data(Output.DmlSelect::getColumnName)
                                 .and()
-                            .oneOf("scalar_expression")
+                            .czse(d -> d.getScalarExpression() != null, "scalar_expression")
                                 .data(Output.DmlSelect::getScalarExpression)
                                 .and()
                             .required()
@@ -147,34 +145,38 @@ public class OutputConverter
         private static ReferenceBlockBuilder<Void,Output.ColumnName> builder =
                 new ReferenceBlockBuilder<Void,Output.ColumnName>()
                         .overall("column_name")
-                        .oneOf()
+                        .czse(d ->
+                            d.isUseDeleted() ||
+                            d.isUseInserted() ||
+                            d.getFromTableName() != null
+                        )
                             .sub("{ DELETED | INSERTED | from_table_name }")
                                 .required()
-                                .oneOf()
+                                .czse(d -> d.isUseDeleted())
                                     .keyword(Keywords.Key.DELETED)
                                     .and()
-                                .oneOf()
+                                .czse(d -> d.isUseInserted())
                                     .keyword(Keywords.Key.INSERTED)
                                     .and()
-                                .oneOf("from_table_name")
+                                .czse(d -> d.getFromTableName() != null,"from_table_name")
                                     .data(Output.ColumnName::getFromTableName)
                                     .and()
                                 .and()
                             .sub(".")
-                                .data(".")
+                                .keyword(Other.POINT)
                                 .and()
                             .sub()
                                 .description("{ * | column_name }")
                                 .required()
-                                .oneOf("*")
-                                    .data("*")
+                                .czse(d -> d.isUseAll(), "*")
+                                    .keyword(Other.ASTERISK)
                                     .and()
-                                .oneOf("column_name")
+                                .czse(d -> !d.isUseAll(), "column_name")
                                     .data(Output.ColumnName::getColumnName)
                                     .and()
                                 .and()
                             .and()
-                        .oneOf("$action")
+                        .czse(Output.ColumnName::is$action, "$action")
                             .data("$action")
                             .and()
                         .subTakeLine();

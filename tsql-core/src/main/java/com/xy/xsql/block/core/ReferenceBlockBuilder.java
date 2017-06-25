@@ -1,18 +1,15 @@
 package com.xy.xsql.block.core;
 
-import com.xy.xsql.block.model.ItemReferenceBlock;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static com.xy.xsql.core.ListBuilder.*;
+import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.ListBuilder.initNew2;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -110,7 +107,16 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder,Reference> oneMore() {
+        target.setRequired(true);
+        target.setMore(true);
+        target.addVerifier(notNull);
+        target.addVerifier(oneMore);
+        return this;
+    }
+
+    public ReferenceBlockBuilder<ParentBuilder,Reference> requiredMore() {
         target.setRequired(true);
         target.setMore(true);
         target.addVerifier(notNull);
@@ -138,13 +144,6 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         target.setType(type);
         return this;
     }
-
-    @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder,Reference> group() {
-        target.setGroup(true);
-        return this;
-    }
-
 
     public ReferenceBlockBuilder<ParentBuilder,Reference> check(Predicate<Reference> filter) {
         target.addVerifier(notNull);
@@ -190,6 +189,16 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+    public ReferenceBlockBuilder<ParentBuilder, Reference> exclusive() {
+        target.setExclusive(true);
+        return this;
+    }
+
+
+    /*
+    Sub Block
+     */
+
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub() {
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
                 (initNew2(ReferenceBlock::new,
@@ -198,6 +207,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .in(this)
                 .name(null);
     }
+
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub(String name) {
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
@@ -208,7 +218,16 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .name(name);
     }
 
-    public ReferenceBlockBuilder<ParentBuilder, Reference> sub(ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub(ReferenceBlock meta) {
+        return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
+                (initNew2(ReferenceBlock::new,
+                        target::getSub,
+                        target::setSub))
+                .in(this)
+                .sub_meta(meta);
+    }
+
+    public ReferenceBlockBuilder<ParentBuilder, Reference> sub_meta(ReferenceBlock meta) {
         initAdd(meta,
                 target::getSub,
                 target::setSub);
@@ -226,18 +245,69 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .and();
     }
 
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> oneOf() {
-        target.setExclusive(true);
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(String name) {
+        return sub()
+                .list(name)
+                .more();
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(ReferenceBlock meta) {
+        return sub()
+                .list(meta)
+                .more();
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(String name) {
+        return sub()
+                .repeat(name)
+                .more();
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(ReferenceBlock meta) {
+        return sub()
+                .repeat(meta)
+                .more();
+    }
+
+
+
+    /*
+    Case Block
+     */
+
+    public WhenThenReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> when(Predicate<Reference> predicate) {
+        exclusive();
+        return new WhenThenReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
+                ()
+                .enter(this,
+                        d -> {
+                            initAdd(predicate,
+                                    target::getCasePredicate,
+                                    target::setCasePredicate);
+                            initAdd(d,
+                                    target::getSub,
+                                    target::setSub);
+                        });
+    }
+
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse(Predicate<Reference> predicate) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
                 (initNew2(ReferenceBlock::new,
                         target::getSub,
                         target::setSub))
-                .in(this)
-                .name(null);
+                .in(this);
     }
 
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> oneOf(String name) {
-        target.setExclusive(true);
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse(Predicate<Reference> predicate,String name) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
                 (initNew2(ReferenceBlock::new,
                         target::getSub,
@@ -246,22 +316,15 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .name(name);
     }
 
-    public ReferenceBlockBuilder<ParentBuilder, Reference> oneOf(ReferenceBlock meta) {
-        target.setExclusive(true);
+    public ReferenceBlockBuilder<ParentBuilder,Reference> czse(Predicate<Reference> predicate, ReferenceBlock meta) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
         initAdd(meta,
                 target::getSub,
                 target::setSub);
         return this;
-    }
-
-    @Deprecated
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> item(String name) {
-        return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
-                (initNew2(ItemReferenceBlock::new,
-                        target::getSub,
-                        target::setSub))
-                .in(this)
-                .name(name);
     }
 
 
@@ -284,6 +347,37 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
     public ReferenceBlockBuilder<ParentBuilder,Reference> endNewline() {
         target.setEndNewLine(true);
         return this;
+    }
+
+    public class WhenThenReferenceBlockBuilder<ParentBuilder,Reference>
+            extends CodeTreeBuilder<WhenThenReferenceBlockBuilder<ParentBuilder,Reference>, ParentBuilder, ReferenceBlock> {
+
+        public WhenThenReferenceBlockBuilder() {
+            super(new ReferenceBlock());
+        }
+
+        public WhenThenReferenceBlockBuilder(ReferenceBlock referenceBlock) {
+            super(referenceBlock);
+        }
+
+        public ReferenceBlockBuilder<ParentBuilder,Reference> then(){
+            return new ReferenceBlockBuilder<ParentBuilder,Reference>
+                    (target)
+                    .in(this.back());
+        }
+
+        public ReferenceBlockBuilder<ParentBuilder,Reference> then(String name){
+            return new ReferenceBlockBuilder<ParentBuilder,Reference>
+                    (target)
+                    .in(this.back())
+                    .name(name);
+        }
+
+        public ParentBuilder then(ReferenceBlock referenceBlock){
+            this.target = referenceBlock;
+            return this.back();
+        }
+
     }
 
 }

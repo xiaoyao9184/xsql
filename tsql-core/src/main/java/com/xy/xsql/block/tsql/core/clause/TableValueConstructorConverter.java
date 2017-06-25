@@ -6,6 +6,8 @@ import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.datatype.Default;
+import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.Expression;
 
@@ -85,11 +87,11 @@ public class TableValueConstructorConverter
                 new ReferenceBlockBuilder<Void,Expression>()
                         .overall("row value expression")
                         .required()
-                        .oneOf("DEFAULT")
+                        .czse(d -> d instanceof Default,"DEFAULT")
                             .and()
-                        .oneOf("NULL")
+                        .czse(d -> d instanceof Null,"NULL")
                             .and()
-                        .oneOf("expression")
+                        .czse(d -> true,"expression")
                             .and();
         // @formatter:on
 

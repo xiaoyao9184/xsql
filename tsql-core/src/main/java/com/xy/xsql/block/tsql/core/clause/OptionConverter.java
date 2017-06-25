@@ -53,8 +53,8 @@ public class OptionConverter
         private static ReferenceBlockBuilder<Void,Option.QueryOption> builder =
                 new ReferenceBlockBuilder<Void,Option.QueryOption>()
                         .overall("query_option")
-                        .oneOf(OptionLabelQueryOptionConverter.meta())
-                        .oneOf("query_hint")
+                        .czse(d -> d instanceof Option.LabelQueryOption, OptionLabelQueryOptionConverter.meta())
+                        .czse(d -> d instanceof QueryHint, "query_hint")
                             .ref(QueryHint.class)
                             .data(d -> d)
                             .and()

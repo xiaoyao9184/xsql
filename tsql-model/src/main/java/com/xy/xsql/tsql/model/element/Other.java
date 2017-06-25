@@ -11,7 +11,8 @@ public enum Other implements Block {
     GROUP_START("("),
     GROUP_END(")"),
     __("_"),
-    POINT(".");
+    POINT("."),
+    ASTERISK(".");
 
     private String string;
 

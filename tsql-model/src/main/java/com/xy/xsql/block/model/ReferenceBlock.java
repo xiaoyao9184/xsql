@@ -1,7 +1,5 @@
 package com.xy.xsql.block.model;
 
-import com.xy.xsql.tsql.model.Block;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -10,7 +8,7 @@ import java.util.function.Predicate;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public class ReferenceBlock implements Block {
+public class ReferenceBlock {
 
     private boolean overall;
 
@@ -24,13 +22,12 @@ public class ReferenceBlock implements Block {
 
     private boolean required;
     private boolean optional;
-    //TODO ()是语法是描述
-    private boolean group;
 
 
     private String name;
     private String description;
     private List<ReferenceBlock> sub;
+    private List<Predicate<?>> casePredicate = new ArrayList<>();
 
     //style
     private boolean eachSubTakeLine;
@@ -64,17 +61,6 @@ public class ReferenceBlock implements Block {
                         "" :
                         this.getDescription());
     }
-
-    @Override
-    public boolean hasChild() {
-        return sub.size() > 0;
-    }
-
-    @Override
-    public List<ReferenceBlock> toBlockList() {
-        return sub;
-    }
-
 
 
     public boolean isOptional() {
@@ -127,16 +113,6 @@ public class ReferenceBlock implements Block {
 
     public void setType(Class<?> type) {
         this.type = type;
-    }
-
-    @Deprecated
-    public boolean isGroup() {
-        return group;
-    }
-
-    @Deprecated
-    public void setGroup(boolean group) {
-        this.group = group;
     }
 
     public Predicate<?> getOptionalFilter() {
@@ -261,5 +237,13 @@ public class ReferenceBlock implements Block {
 
     public void setEndNewLine(boolean endNewLine) {
         this.endNewLine = endNewLine;
+    }
+
+    public List<Predicate<?>> getCasePredicate() {
+        return casePredicate;
+    }
+
+    public void setCasePredicate(List<Predicate<?>> casePredicate) {
+        this.casePredicate = casePredicate;
     }
 }

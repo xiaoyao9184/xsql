@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.Other;
 
@@ -22,17 +22,8 @@ public class TableTypeDefinitionConverter
                     .sub_keyword(Keywords.TABLE)
                     .sub_keyword(Other.GROUP_START)
                     .sub()
-                        .list()
-                        .sub()
-                            .oneOf("column_definition")
-                                .ref(ColumnTypeDefinitionConverter.class)
-                                .and()
-                            .oneOf("table_constraint")
-                                .ref(TableConstraintConverter.class)
-                                .and()
-                            .and()
+                        .list(ItemConverter.meta())
                         .data(TableTypeDefinition::getList)
-                        .oneMore()
                         .and()
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
@@ -49,6 +40,35 @@ public class TableTypeDefinitionConverter
     }
 
 
+    public static class ItemConverter
+            implements BlockConverter<TableTypeDefinition.Item> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,TableTypeDefinition.Item> builder =
+                new ReferenceBlockBuilder<Void,TableTypeDefinition.Item>()
+                        .czse(d -> d instanceof ColumnDefinition)
+                            .name("column_definition")
+                            .ref(ColumnTypeDefinitionConverter.class)
+                            .and()
+                        .czse(d -> d instanceof TableTypeDefinition.TableConstraint)
+                            .name("table_constraint")
+                            .ref(TableConstraintConverter.class)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public Block convert(TableTypeDefinition.Item item) {
+            return builder
+                    .data(item)
+                    .build();
+        }
+
+    }
+
     public static class TableConstraintConverter
             implements BlockConverter<TableTypeDefinition.TableConstraint> {
 
@@ -56,33 +76,31 @@ public class TableTypeDefinitionConverter
         private static ReferenceBlockBuilder<Void,TableTypeDefinition.TableConstraint> builder =
                 new ReferenceBlockBuilder<Void,TableTypeDefinition.TableConstraint>()
                         .overall("table_constraint")
-                        .oneOf()
+                        .czse(d -> d.getColumnName() != null)
                             .sub()
                                 .description("PRIMARY KEY | UNIQUE")
                                 .required()
-                                .oneOf()
-                                    .filter(d -> d.isUsePrimaryKey())
+                                .czse(TableTypeDefinition.TableConstraint::isUsePrimaryKey)
                                     .sub_keyword(Keywords.PRIMARY)
                                     .sub_keyword(Keywords.KEY)
                                     .and()
-                                .oneOf()
-                                    .filter(d -> d.isUseUnique())
+                                .czse(TableTypeDefinition.TableConstraint::isUseUnique)
                                     .keyword(Keywords.UNIQUE)
                                     .and()
                                 .and()
                             .sub_keyword(Other.GROUP_START)
                             .sub()
                                 .list("column_name")
-                                .data(d -> d.getColumnName())
+                                .data(TableTypeDefinition.TableConstraint::getColumnName)
                                 .more()
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .oneOf()
+                        .czse(d -> d.getLogicalExpression() != null)
                             .sub_keyword(Keywords.CHECK)
                             .sub_keyword(Other.GROUP_START)
                             .sub("logical_expression")
-                                .data(d -> d.getLogicalExpression())
+                                .data(TableTypeDefinition.TableConstraint::getLogicalExpression)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()

@@ -30,7 +30,7 @@ public class OverConverter
                             .ref(Over.OrderBy.class)
                             .data(Over::getOrderBy)
                             .and()
-    //                    .sub("<ROW or RANGE clause>")
+    //                    .sub_meta("<ROW or RANGE clause>")
     //                        .data(d -> d.getPartitionBy())
     //                        .and()
                         .subTakeLine()
@@ -64,8 +64,8 @@ public class OverConverter
                         .sub()
                             .description("value_expression , ... [ n ]")
                             .list("value_expression")
-                            .data(Over.PartitionBy::getValueExpressionList)
                             .more()
+                            .data(Over.PartitionBy::getValueExpressionList)
                             .and();
         // @formatter:on
 
@@ -91,9 +91,10 @@ public class OverConverter
                         .sub_keyword(Keywords.ORDER)
                         .sub_keyword(Keywords.BY)
                         .sub()
-                            .list(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
-                            .data(Over.OrderBy::getItems)
+                            .list()
                             .more()
+                            .sub_meta(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
+                            .data(Over.OrderBy::getItems)
                             .and();
         // @formatter:on
 

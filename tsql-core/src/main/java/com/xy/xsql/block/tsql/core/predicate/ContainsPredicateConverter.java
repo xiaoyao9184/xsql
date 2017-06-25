@@ -6,7 +6,6 @@ import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.predicate.Contains;
 
 /**
@@ -25,19 +24,19 @@ public class ContainsPredicateConverter
                         .list()
                         .sub()
                             .required()
-                            .oneOf("column_name")
+                            .czse(d -> d.getColumnName() != null, "column_name")
                                 .data(Contains::getColumnName)
                                 .and()
-                            .oneOf()
+                            .czse(d -> d.getColumnList() != null)
                                 .sub_keyword(Other.GROUP_START)
                                 .sub("column_list")
                                     .data(Contains::getColumnList)
                                     .and()
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
-                            .oneOf("*")
+                            .czse(Contains::isUseAllColumn, "*")
                                 .and()
-                            .oneOf()
+                            .czse(d -> d.getPropertyName() != null)
                                 .sub_keyword(Keywords.Key.PROPERTY)
                                 .sub_keyword(Other.GROUP_START)
                                 .sub()

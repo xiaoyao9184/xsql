@@ -88,21 +88,24 @@ public class ReferenceBlockPrinter {
                 writer.append(" }");
             }
         }
-
-        if(referenceBlock.isList() &&
-                referenceBlock.isMore()){
-            writer.append(" [,...n]");
-        }
-        if(referenceBlock.isRepeat() &&
-                referenceBlock.isMore()){
-            writer.append(" [...n]");
-        }
         if(referenceBlock.isOptional()){
             if(referenceBlock.isHeadFootTakeLine()){
                 writer.append("\n]");
             }else{
                 writer.append(" ]");
             }
+        }
+
+        if(referenceBlock.isList() &&
+                referenceBlock.isRepeat() &&
+                referenceBlock.isMore()){
+            writer.append(" [ [, ]...n ]");
+        }else if(referenceBlock.isList() &&
+                referenceBlock.isMore()){
+            writer.append(" [,...n]");
+        }else if(referenceBlock.isRepeat() &&
+                referenceBlock.isMore()){
+            writer.append(" [...n]");
         }
 
         if(referenceBlock.isHeadFootTakeLine() &&

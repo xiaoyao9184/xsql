@@ -19,13 +19,9 @@ public class WithConverter
             new ReferenceBlockBuilder<Void,With>()
                     .overall("WITH common_table_expression")
                     .sub_keyword(Keywords.WITH)
-                    .sub()
-                        .list()
-                        .sub("common_table_expression")
-                            .ref(With.CommonTableExpression.class)
-                            .and()
+                    .sub_list("common_table_expression")
+                        .ref(With.CommonTableExpression.class)
                         .data(With::getCommonTableExpressionList)
-                        .more()
                         .and();
     // @formatter:on
 
@@ -55,10 +51,8 @@ public class WithConverter
                             .optional(data -> data.getColumnName() == null ||
                                     data.getColumnName().isEmpty())
                             .sub_keyword(Other.GROUP_START)
-                            .sub()
-                                .list("column_name")
+                            .sub_list("column_name")
                                 .data(With.CommonTableExpression::getColumnName)
-                                .oneMore()
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()

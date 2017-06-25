@@ -4,7 +4,6 @@ import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Block;
-import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 
 /**
@@ -18,20 +17,16 @@ public class JoinHintConverter
             new ReferenceBlockBuilder<Void,JoinHint>()
                     .overall("join_hint")
                     .required()
-                    .oneOf()
-                        .filter(d -> d.equals(JoinHint.LOOP))
+                    .czse(d -> d.equals(JoinHint.LOOP))
                         .keyword(JoinHint.LOOP)
                         .and()
-                    .oneOf()
-                        .filter(d -> d.equals(JoinHint.HASH))
+                    .czse(d -> d.equals(JoinHint.HASH))
                         .keyword(JoinHint.HASH)
                         .and()
-                    .oneOf()
-                        .filter(d -> d.equals(JoinHint.MERGE))
+                    .czse(d -> d.equals(JoinHint.MERGE))
                         .keyword(JoinHint.MERGE)
                         .and()
-                    .oneOf()
-                        .filter(d -> d.equals(JoinHint.REMOTE))
+                    .czse(d -> d.equals(JoinHint.REMOTE))
                         .keyword(JoinHint.REMOTE)
                         .and();
     // @formatter:on

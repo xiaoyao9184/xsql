@@ -7,7 +7,6 @@ import com.xy.xsql.tsql.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.In;
-import com.xy.xsql.tsql.model.predicate.IsNull;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.
@@ -29,10 +28,10 @@ public class InPredicateConverter
                     .sub_keyword(Keywords.IN)
                     .sub_keyword(Other.GROUP_START)
                     .sub()
-                        .oneOf("subquery")
+                        .czse(d -> d.getSubquery() != null,"subquery")
                             .data(In::getSubquery)
                             .and()
-                        .oneOf()
+                        .czse(d -> d.getExpressionList() != null)
                             .list("expression")
                             .data(In::getExpressionList)
                             .oneMore()
