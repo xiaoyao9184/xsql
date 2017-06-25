@@ -12,13 +12,12 @@ public class ReferenceBlock implements Block {
 
     private boolean overall;
 
-    //KeywordBlock or MultiBlock
+    //KeywordBlock
     private boolean keyword;
     //MultiBlock
     private boolean exclusive;
     private boolean list;
     private boolean repeat;
-    private boolean more;
 
     private boolean required;
     private boolean optional;
@@ -217,14 +216,6 @@ public class ReferenceBlock implements Block {
 
     public void setOverall(boolean overall) {
         this.overall = overall;
-    }
-
-    public boolean isMore() {
-        return more;
-    }
-
-    public void setMore(boolean more) {
-        this.more = more;
     }
 
     public boolean isStartNewLine() {

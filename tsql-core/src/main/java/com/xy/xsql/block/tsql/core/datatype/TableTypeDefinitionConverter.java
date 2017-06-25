@@ -24,7 +24,6 @@ public class TableTypeDefinitionConverter
                     .sub()
                         .list(ItemConverter.meta())
                         .data(TableTypeDefinition::getList)
-                        .more()
                         .and()
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
@@ -94,7 +93,6 @@ public class TableTypeDefinitionConverter
                             .sub()
                                 .list("column_name")
                                 .data(TableTypeDefinition.TableConstraint::getColumnName)
-                                .more()
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()

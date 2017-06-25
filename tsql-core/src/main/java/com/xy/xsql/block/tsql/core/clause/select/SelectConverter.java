@@ -64,8 +64,7 @@ public class SelectConverter
         private static ReferenceBlockBuilder<Void,List<Select.SelectItem>> builder =
                 new ReferenceBlockBuilder<Void,List<Select.SelectItem>>()
                         .overall("select_list")
-                        .list(SelectItemConverter.meta())
-                        .more();
+                        .list(SelectItemConverter.meta());
         // @formatter:on
 
         public static ReferenceBlock meta() {
@@ -111,9 +110,9 @@ public class SelectConverter
                                             .data(Select.SelectItem::getColumnName)
                                             .and()
                                         //TODO
-//                                        .czse("$IDENTITY")
+//                                        .czse_meta("$IDENTITY")
 //                                            .and()
-//                                        .czse("$ROWGUID")
+//                                        .czse_meta("$ROWGUID")
 //                                            .and()
                                         .and()
                                     .and()

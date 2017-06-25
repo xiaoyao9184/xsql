@@ -29,7 +29,6 @@ public class OptionConverter
                             .ref(QueryHint.class)
                             .and()
                         .data(Option::getQueryOption)
-                        .more()
                         .and()
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
@@ -53,7 +52,7 @@ public class OptionConverter
         private static ReferenceBlockBuilder<Void,Option.QueryOption> builder =
                 new ReferenceBlockBuilder<Void,Option.QueryOption>()
                         .overall("query_option")
-                        .czse(d -> d instanceof Option.LabelQueryOption, OptionLabelQueryOptionConverter.meta())
+                        .czse_meta(d -> d instanceof Option.LabelQueryOption, OptionLabelQueryOptionConverter.meta())
                         .czse(d -> d instanceof QueryHint, "query_hint")
                             .ref(QueryHint.class)
                             .data(d -> d)

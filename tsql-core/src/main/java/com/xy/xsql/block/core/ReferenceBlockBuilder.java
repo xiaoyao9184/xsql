@@ -75,6 +75,10 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return false;
     };
 
+    /**
+     *
+     * @return
+     */
     public ReferenceBlockBuilder<ParentBuilder,Reference> required(){
         target.setRequired(true);
         target.addVerifier(notNull);
@@ -102,51 +106,33 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
     }
 
 
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder,Reference> filter(Predicate<Reference> predicate) {
         target.setOptionalFilter(predicate);
         return this;
     }
 
     @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder,Reference> oneMore() {
-        target.setRequired(true);
-        target.setMore(true);
-        target.addVerifier(notNull);
-        target.addVerifier(oneMore);
-        return this;
-    }
-
-    public ReferenceBlockBuilder<ParentBuilder,Reference> requiredMore() {
-        target.setRequired(true);
-        target.setMore(true);
-        target.addVerifier(notNull);
-        target.addVerifier(oneMore);
-        return this;
-    }
-
-    public ReferenceBlockBuilder<ParentBuilder,Reference> more() {
-        target.setMore(true);
-        return this;
-    }
-
-
-    public ReferenceBlockBuilder<ParentBuilder, Reference> ref(Class<?> refClass) {
-        target.setRefClass(refClass);
-        return this;
-    }
-
     public ReferenceBlockBuilder<ParentBuilder,Reference> type(Class<?> type) {
         target.setType(type);
         return this;
     }
 
+
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder,Reference> is(Class<?> type) {
         target.setType(type);
         return this;
     }
 
+
     public ReferenceBlockBuilder<ParentBuilder,Reference> check(Predicate<Reference> filter) {
-        target.addVerifier(notNull);
+        target.addVerifier(filter);
+        return this;
+    }
+
+    public ReferenceBlockBuilder<ParentBuilder, Reference> ref(Class<?> refClass) {
+        target.setRefClass(refClass);
         return this;
     }
 
@@ -208,7 +194,6 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .name(null);
     }
 
-
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub(String name) {
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
                 (initNew2(ReferenceBlock::new,
@@ -216,15 +201,6 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                         target::setSub))
                 .in(this)
                 .name(name);
-    }
-
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub(ReferenceBlock meta) {
-        return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
-                (initNew2(ReferenceBlock::new,
-                        target::getSub,
-                        target::setSub))
-                .in(this)
-                .sub_meta(meta);
     }
 
     public ReferenceBlockBuilder<ParentBuilder, Reference> sub_meta(ReferenceBlock meta) {
@@ -247,26 +223,22 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(String name) {
         return sub()
-                .list(name)
-                .more();
+                .list(name);
     }
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(ReferenceBlock meta) {
         return sub()
-                .list(meta)
-                .more();
+                .list(meta);
     }
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(String name) {
         return sub()
-                .repeat(name)
-                .more();
+                .repeat(name);
     }
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(ReferenceBlock meta) {
         return sub()
-                .repeat(meta)
-                .more();
+                .repeat(meta);
     }
 
 
@@ -275,6 +247,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
     Case Block
      */
 
+    @Deprecated
     public WhenThenReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> when(Predicate<Reference> predicate) {
         exclusive();
         return new WhenThenReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
@@ -316,7 +289,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .name(name);
     }
 
-    public ReferenceBlockBuilder<ParentBuilder,Reference> czse(Predicate<Reference> predicate, ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ParentBuilder,Reference> czse_meta(Predicate<Reference> predicate, ReferenceBlock meta) {
         exclusive();
         initAdd(predicate,
                 target::getCasePredicate,
@@ -327,7 +300,50 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+    public ReferenceBlockBuilder<ParentBuilder,Reference> czse_keyword(Predicate<Reference> predicate, Enum keywords) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
+        return sub_keyword(keywords);
+    }
 
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, String name) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
+        return sub_list(name);
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, ReferenceBlock meta) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
+        return sub_list(meta);
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, String name) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
+        return sub_repeat(name);
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, ReferenceBlock meta) {
+        exclusive();
+        initAdd(predicate,
+                target::getCasePredicate,
+                target::setCasePredicate);
+        return sub_repeat(meta);
+    }
+
+
+    /*
+    Style
+     */
 
     public ReferenceBlockBuilder<ParentBuilder,Reference> subTakeLine() {
         target.setEachSubTakeLine(true);
@@ -349,6 +365,8 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+
+    @Deprecated
     public class WhenThenReferenceBlockBuilder<ParentBuilder,Reference>
             extends CodeTreeBuilder<WhenThenReferenceBlockBuilder<ParentBuilder,Reference>, ParentBuilder, ReferenceBlock> {
 

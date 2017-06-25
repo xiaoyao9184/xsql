@@ -23,7 +23,6 @@ public class CoalesceConverter
                     .sub()
                         .list("expression")
                         .data(Coalesce::getExpressionList)
-                        .more()
                         .and()
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on

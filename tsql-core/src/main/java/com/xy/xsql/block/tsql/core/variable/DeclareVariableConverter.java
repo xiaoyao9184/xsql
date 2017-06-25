@@ -27,7 +27,6 @@ public class DeclareVariableConverter
                     .czse(d -> d.getItems() != null)
                         .description("local&cursor_variable list")
                         .list(DeclareVariableItemPredicateRenderer.meta())
-                        .oneMore()
                         .data(DeclareVariable::getItems)
                         .headFootTakeLine()
                         .and()

@@ -34,9 +34,6 @@ public class TableValueConstructorConverter
                             .sub_keyword(Other.GROUP_END)
                             .and()
                         .data(TableValueConstructor::getRowValueExpressionListGroup)
-                        .more()
-                    //TODO
-                        .data(TableValueConstructor::getRowValueExpressionListGroup)
                         .and();
     // @formatter:on
 
@@ -61,9 +58,9 @@ public class TableValueConstructorConverter
                         .overall("row value expression list")
                         .list()
                         .sub("row value expression")
+                            .required()
                             .ref(RowValueExpressionConverter.class)
-                            .and()
-                        .oneMore();
+                            .and();
         // @formatter:on
 
         public static ReferenceBlock meta() {

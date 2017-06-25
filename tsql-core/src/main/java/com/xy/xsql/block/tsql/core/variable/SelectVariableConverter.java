@@ -21,7 +21,6 @@ public class SelectVariableConverter
                     .sub()
                         .description("{ @local_variable { = | += | -= | *= | /= | %= | &= | ^= | |= } expression } [ ,...n ]")
                         .list(SelectVariableItemConverter.meta())
-                        .oneMore()
                         .data(SelectVariable::getItems)
                     .and();
     // @formatter:on

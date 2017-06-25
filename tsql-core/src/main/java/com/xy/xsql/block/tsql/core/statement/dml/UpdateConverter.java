@@ -36,8 +36,8 @@ public class UpdateConverter
                         .czse(d -> d.getTableName() != null, "<object>")
                             .data(Update::getTableName)
                             .and()
-    //                    .czse("rowset_function_limited")
-    //                    .czse("@table_variable")
+    //                    .czse_meta("rowset_function_limited")
+    //                    .czse_meta("@table_variable")
                         .headFootTakeLine()
                         .subTakeLine()
                         .and()
@@ -45,8 +45,6 @@ public class UpdateConverter
                     .sub()
                         .list(UpdateConverter.SetItemConverter.meta())
                         .data(Update::getSets)
-                        .oneMore()
-                        .headFootTakeLine()
                         .and()
                     .sub("<OUTPUT Clause>")
                         .optional(d -> d.getOutput() == null)
@@ -85,12 +83,14 @@ public class UpdateConverter
         private static ReferenceBlockBuilder<Void,Update.SetItem> builder =
                 new ReferenceBlockBuilder<Void,Update.SetItem>()
                         .subTakeLine()
-                        .czse(d -> d instanceof Update.ColumnAssignmentSet, ColumnAssignmentSetConverter.meta())
-                        .czse(d -> d instanceof Update.VariableAssignmentSet, VariableAssignmentSetConverter.meta())
-                        .czse(d -> d instanceof Update.VariableColumnAssignmentSet, VariableColumnAssignmentSetConverter.meta())
-                        .czse(d -> d instanceof Update.ColumnCompoundSet, ColumnCompoundSetConverter.meta())
-                        .czse(d -> d instanceof Update.VariableCompoundSet, VariableCompoundSetConverter.meta())
-                        .czse(d -> d instanceof Update.VariableColumnCompoundSet, VariableColumnCompoundSetConverter.meta());
+                        .required()
+                        .czse_meta(d -> d instanceof Update.ColumnAssignmentSet, ColumnAssignmentSetConverter.meta())
+                        .czse_meta(d -> d instanceof Update.VariableAssignmentSet, VariableAssignmentSetConverter.meta())
+                        .czse_meta(d -> d instanceof Update.VariableColumnAssignmentSet, VariableColumnAssignmentSetConverter.meta())
+                        .czse_meta(d -> d instanceof Update.ColumnCompoundSet, ColumnCompoundSetConverter.meta())
+                        .czse_meta(d -> d instanceof Update.VariableCompoundSet, VariableCompoundSetConverter.meta())
+                        .czse_meta(d -> d instanceof Update.VariableColumnCompoundSet, VariableColumnCompoundSetConverter.meta())
+                        .headFootTakeLine();
         // @formatter:on
 
         public static ReferenceBlock meta() {

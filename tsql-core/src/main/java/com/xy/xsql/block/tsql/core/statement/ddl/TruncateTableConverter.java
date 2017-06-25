@@ -34,7 +34,6 @@ public class TruncateTableConverter
                             .sub_keyword(Other.GROUP_START)
                             .sub()
                                 .list(PartitionsConverter.meta())
-                                .more()
                                 .data(TruncateTable::getPartitionsList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)

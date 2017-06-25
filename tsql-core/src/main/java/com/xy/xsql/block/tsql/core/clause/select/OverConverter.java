@@ -63,7 +63,6 @@ public class OverConverter
                         .sub()
                             .description("value_expression , ... [ n ]")
                             .list("value_expression")
-                            .more()
                             .data(Over.PartitionBy::getValueExpressionList)
                             .and();
         // @formatter:on
@@ -91,7 +90,6 @@ public class OverConverter
                         .sub_keyword(Keywords.BY)
                         .sub()
                             .list()
-                            .more()
                             .sub_meta(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
                             .data(Over.OrderBy::getItems)
                             .and();

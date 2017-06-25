@@ -25,7 +25,6 @@ public class CaseConverter
                         .description("WHEN when_expression THEN result_expression [ ...n ]")
                         .repeat(CaseWhenThenExpressionRenderer.meta())
                         .data(Case::getWhenThenExpressionList)
-                        .oneMore()
                         .and()
                     .sub()
                         .description("[ ELSE else_result_expression ]")

@@ -80,8 +80,7 @@ public class OutputConverter
                 new ReferenceBlockBuilder<Void,List<Output.DmlSelect>>()
                         .overall("dml_select_list")
                         .list()
-                        .sub_meta(DmlSelectConverter.meta())
-                        .more();
+                        .sub_meta(DmlSelectConverter.meta());
         // @formatter:on
 
         public static ReferenceBlock meta() {

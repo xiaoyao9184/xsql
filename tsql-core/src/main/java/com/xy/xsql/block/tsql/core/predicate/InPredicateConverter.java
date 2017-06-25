@@ -33,8 +33,8 @@ public class InPredicateConverter
                             .and()
                         .czse(d -> d.getExpressionList() != null)
                             .list("expression")
+                            .required()
                             .data(In::getExpressionList)
-                            .oneMore()
                             .and()
                         .and()
                     .sub_keyword(Other.GROUP_END);

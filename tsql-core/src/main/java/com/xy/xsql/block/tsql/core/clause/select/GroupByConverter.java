@@ -45,10 +45,10 @@ public class GroupByConverter
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.Item> builder =
                 new ReferenceBlockBuilder<Void,GroupBy.Item>()
-                        .czse(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta())
-                        .czse(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta())
-                        .czse(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta())
-                        .czse(d -> d instanceof GroupBy.GroupingSetsItem, GroupingSetsItemConverter.meta())
+                        .czse_meta(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta())
+                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta())
+                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta())
+                        .czse_meta(d -> d instanceof GroupBy.GroupingSetsItem, GroupingSetsItemConverter.meta())
                         .czse(d -> d instanceof GroupBy.TotalItem, "()")
                             .description("calculates the grand total")
                             .data("()")
@@ -106,7 +106,6 @@ public class GroupByConverter
                             .description("{ <group_by_expression> } [,...n]")
                             .required()
                             .list()
-                            .more()
                             .ref(GroupByExpressionConverter.class)
                             .data(GroupBy.RollupItem::getGroupByExpressionList)
                             .and()
@@ -138,7 +137,6 @@ public class GroupByConverter
                             .description("{ <group_by_expression> } [,...n]")
                             .required()
                             .list()
-                            .more()
                             .ref(GroupByExpressionConverter.class)
                             .data(GroupBy.CubeItem::getGroupByExpressionList)
                             .and()
@@ -171,10 +169,8 @@ public class GroupByConverter
                             .description("{ <grouping_set> } [,...n]")
                             .required()
                             .list()
-                            .more()
                             .ref(GroupingSetConverter.class)
                             .data(GroupBy.GroupingSetsItem::getGroupingSetItemList)
-                            .oneMore()
                             .and()
                         .sub_keyword(Other.GROUP_END);
         // @formatter:on
@@ -229,7 +225,6 @@ public class GroupByConverter
                             .sub_keyword(Other.GROUP_START)
                             .sub("column-expression")
                                 .list()
-                                .more()
                                 .data(GroupBy.GroupByExpression::getColumnExpressionList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
@@ -272,7 +267,6 @@ public class GroupByConverter
                             .sub_keyword(Other.GROUP_START)
                             .sub("grouping_set_item")
                                 .list()
-                                .more()
                                 .ref(GroupBy.GroupingSet.Item.class)
                                 .data(GroupBy.GroupingSet::getGroupByExpressionList)
                                 .and()
@@ -303,8 +297,8 @@ public class GroupByConverter
                         .overall("grouping_set_item")
                         .czse(d -> d instanceof GroupBy.GroupByExpression,"group_by_expression")
                             .and()
-                        .czse(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta())
-                        .czse(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta())
+                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta())
+                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta())
                         .subTakeLine();
         // @formatter:on
 

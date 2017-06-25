@@ -48,7 +48,6 @@ public class SearchConditionConverter
                         .description("--And Or List")
                         .filter(d -> d.getAndOrList() == null)
                         .list(AndOrNotItemConverter.meta())
-                        .more()
                         .data(SearchCondition::getAndOrList)
                         .and()
                     .subTakeLine();
@@ -127,15 +126,15 @@ public class SearchConditionConverter
         private static ReferenceBlockBuilder<Void,Predicate> builder =
                 new ReferenceBlockBuilder<Void,Predicate>()
                         .overall("predicate")
-                        .czse(d -> d instanceof Comparison, ComparisonPredicateConverter.meta())
-                        .czse(d -> d instanceof Like, LikePredicateConverter.meta())
-                        .czse(d -> d instanceof Between, BetweenPredicateConverter.meta())
-                        .czse(d -> d instanceof IsNull, IsNullPredicateConverter.meta())
-                        .czse(d -> d instanceof Contains, ContainsPredicateConverter.meta())
-                        .czse(d -> d instanceof FreeText, FreeTextPredicateConverter.meta())
-                        .czse(d -> d instanceof In, InPredicateConverter.meta())
-                        .czse(d -> d instanceof ComparisonSubQuery, ComparisonSubPredicateConverter.meta())
-                        .czse(d -> d instanceof Exists, ExistsPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof Comparison, ComparisonPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof Like, LikePredicateConverter.meta())
+                        .czse_meta(d -> d instanceof Between, BetweenPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof IsNull, IsNullPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof Contains, ContainsPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof FreeText, FreeTextPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof In, InPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof ComparisonSubQuery, ComparisonSubPredicateConverter.meta())
+                        .czse_meta(d -> d instanceof Exists, ExistsPredicateConverter.meta())
                         .subTakeLine();
         // @formatter:on
 

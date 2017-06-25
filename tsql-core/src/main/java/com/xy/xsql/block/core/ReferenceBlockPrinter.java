@@ -115,14 +115,11 @@ public class ReferenceBlockPrinter {
 
         //list repeat
         if(referenceBlock.isList() &&
-                referenceBlock.isRepeat() &&
-                referenceBlock.isMore()){
+                referenceBlock.isRepeat()){
             writer.append(" [ [, ]...n ]");
-        }else if(referenceBlock.isList() &&
-                referenceBlock.isMore()){
+        }else if(referenceBlock.isList()){
             writer.append(" [,...n]");
-        }else if(referenceBlock.isRepeat() &&
-                referenceBlock.isMore()){
+        }else if(referenceBlock.isRepeat()){
             writer.append(" [...n]");
         }
 
