@@ -10,7 +10,7 @@ public enum Other {
     GROUP_END(")"),
     __("_"),
     POINT("."),
-    ASTERISK(".");
+    ASTERISK("*");
 
     private String string;
 

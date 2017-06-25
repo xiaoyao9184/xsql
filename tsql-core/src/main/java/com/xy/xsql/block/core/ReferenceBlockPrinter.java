@@ -30,11 +30,12 @@ public class ReferenceBlockPrinter {
             writer.append("> ::=\n");
         }
 
-
+        //start
         if(referenceBlock.isStartNewLine()){
             writer.append("\n");
         }
 
+        //style
         if(referenceBlock.isOptional()){
             if(referenceBlock.isHeadFootTakeLine()){
                 writer.append("[\n");
@@ -51,12 +52,12 @@ public class ReferenceBlockPrinter {
             writer.append("\n");
         }
 
-
-
+        //data
         if(referenceBlock.isKeyword()){
             //Keyword
             writer.append(referenceBlock.getData().toString());
-        }else if(referenceBlock.isReference()){
+        }else if(referenceBlock.isReference() &&
+                referenceBlock.getName() != null){
             //Reference
             writer.append('<');
             writer.append(referenceBlock.getName());
@@ -72,30 +73,47 @@ public class ReferenceBlockPrinter {
                 //Exclusive
                 print(referenceBlock.getSub(),line + "| ",writer);
             }else if(referenceBlock.isList()){
+                if(referenceBlock.isReference()){
+                    writer.append('<');
+                }
                 //List
                 print(referenceBlock.getSub(),line + ", ",writer);
+                if(referenceBlock.isReference()){
+                    writer.append('>');
+                }
             }else if(referenceBlock.getSub() != null){
+                if(referenceBlock.isReference()){
+                    writer.append('<');
+                }
+                //Repeat
                 print(referenceBlock.getSub(),line,writer);
+                if(referenceBlock.isReference()){
+                    writer.append('>');
+                }
             }else{
 //                throw new Exception("error block");
             }
         }
 
+
+        //style
         if(referenceBlock.isRequired()){
             if(referenceBlock.isHeadFootTakeLine()){
                 writer.append("\n}");
             }else{
                 writer.append(" }");
             }
-        }
-        if(referenceBlock.isOptional()){
+        }else if(referenceBlock.isOptional()){
             if(referenceBlock.isHeadFootTakeLine()){
                 writer.append("\n]");
             }else{
                 writer.append(" ]");
             }
+        }else if(referenceBlock.isHeadFootTakeLine()){
+            writer.append("\n");
         }
 
+        //list repeat
         if(referenceBlock.isList() &&
                 referenceBlock.isRepeat() &&
                 referenceBlock.isMore()){
@@ -108,12 +126,7 @@ public class ReferenceBlockPrinter {
             writer.append(" [...n]");
         }
 
-        if(referenceBlock.isHeadFootTakeLine() &&
-                !referenceBlock.isOptional() &&
-                !referenceBlock.isRequired()){
-            writer.append("\n");
-        }
-
+        //end
         if(referenceBlock.isEndNewLine()){
             writer.append("\n");
         }

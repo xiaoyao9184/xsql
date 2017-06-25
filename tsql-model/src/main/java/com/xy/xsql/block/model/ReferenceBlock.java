@@ -54,12 +54,16 @@ public class ReferenceBlock implements Block {
 
 
     public String toString(){
-        return this.getName() == null ?
-                "" :
-                this.getName()
-                        + (this.getDescription() == null ?
-                        "" :
-                        this.getDescription());
+        if(keyword){
+            return data.toString();
+        }
+        if(name != null){
+            return name;
+        }
+        if(description != null){
+            return description;
+        }
+        return "";
     }
 
 

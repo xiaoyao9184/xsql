@@ -12,12 +12,12 @@ public class BlockManagerTest {
     @Test
     public void printAll(){
         // @formatter:off
-        BlockManager.INSTANCE.getTypeBlockBuilderMap()
+        BlockManager.INSTANCE.getTypeBlockConverterMap()
                 .entrySet()
                 .stream()
-                .sorted(Comparator.comparing(kv -> kv.getKey().getName()))
+                .sorted(Comparator.comparing(kv -> kv.getKey().getTypeName()))
                 .forEach(type -> {
-                    System.out.print(type.getKey().getName());
+                    System.out.print(type.getKey().getTypeName());
                     System.out.print(" -> ");
                     System.out.print(type.getValue().getClass().getName());
                     System.out.println("");

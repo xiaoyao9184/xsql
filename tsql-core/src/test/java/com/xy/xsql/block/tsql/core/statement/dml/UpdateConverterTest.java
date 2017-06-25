@@ -29,8 +29,8 @@ public class UpdateConverterTest {
                         "UPDATE\n" +
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
                         "{\n" +
-                        "[ table_alias ]\n" +
-                        "| [ <object> ]\n" +
+                        "table_alias\n" +
+                        "| <object>\n" +
                         "}\n" +
                         "SET\n" +
                         "{\n" +

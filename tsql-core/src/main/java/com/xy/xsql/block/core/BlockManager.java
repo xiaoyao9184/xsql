@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 public enum BlockManager {
     INSTANCE;
 
-    private static Map<Class<?>,BlockConverter> typeBlockBuilderMap;
+    private static Map<Type,BlockConverter> typeBlockBuilderMap;
 
-    public void register(Class<?> clazz, BlockConverter blockConverter){
+    public void register(Type clazz, BlockConverter blockConverter){
         typeBlockBuilderMap.put(clazz, blockConverter);
     }
 
@@ -26,7 +26,7 @@ public enum BlockManager {
 
         Set<Class<? extends BlockConverter>> subTypes = reflections.getSubTypesOf(BlockConverter.class);
 
-        subTypes.stream()
+        subTypes
                 .forEach(b -> {
                     Type[] types = b.getGenericInterfaces();
                     Stream.of(types)
@@ -43,10 +43,11 @@ public enum BlockManager {
                             })
                             .findFirst()
                             .ifPresent(pt -> {
-                                Class data = (Class) pt.getActualTypeArguments()[0];
+                                System.out.print(pt.getActualTypeArguments()[0]);
                                 try {
+                                    Type type = pt.getActualTypeArguments()[0];
                                     BlockConverter obj = b.newInstance();
-                                    typeBlockBuilderMap.put(data,obj);
+                                    typeBlockBuilderMap.put(type,obj);
                                 } catch (InstantiationException | IllegalAccessException e) {
                                     e.printStackTrace();
                                 }
@@ -58,7 +59,7 @@ public enum BlockManager {
 
 
 
-    public Map<Class<?>,BlockConverter> getTypeBlockBuilderMap(){
+    public Map<Type,BlockConverter> getTypeBlockConverterMap(){
         return typeBlockBuilderMap;
     }
 

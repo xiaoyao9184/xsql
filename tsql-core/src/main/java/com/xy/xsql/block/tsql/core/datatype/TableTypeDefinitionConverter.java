@@ -24,6 +24,7 @@ public class TableTypeDefinitionConverter
                     .sub()
                         .list(ItemConverter.meta())
                         .data(TableTypeDefinition::getList)
+                        .more()
                         .and()
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
@@ -46,6 +47,7 @@ public class TableTypeDefinitionConverter
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TableTypeDefinition.Item> builder =
                 new ReferenceBlockBuilder<Void,TableTypeDefinition.Item>()
+                        .required()
                         .czse(d -> d instanceof ColumnDefinition)
                             .name("column_definition")
                             .ref(ColumnTypeDefinitionConverter.class)

@@ -22,8 +22,8 @@ public class OutputConverterTest {
         System.out.print(writer);
         Assert.assertEquals(writer.toString(),
                 "<OUTPUT_CLAUSE> ::=\n" +
-                        "OUTPUT <dml_select_list> INTO { @table_variable | output_table } [ ( column_list ) ]\n" +
-                        "| [ OUTPUT <dml_select_list> ]");
+                        "[ OUTPUT <dml_select_list> INTO { @table_variable | output_table } [ ( column_list ) ] ]\n" +
+                        "[ OUTPUT <dml_select_list> ]");
     }
 
     @Test

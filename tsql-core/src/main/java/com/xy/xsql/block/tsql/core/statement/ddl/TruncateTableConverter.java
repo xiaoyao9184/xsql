@@ -34,6 +34,7 @@ public class TruncateTableConverter
                             .sub_keyword(Other.GROUP_START)
                             .sub()
                                 .list(PartitionsConverter.meta())
+                                .more()
                                 .data(TruncateTable::getPartitionsList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
@@ -61,6 +62,7 @@ public class TruncateTableConverter
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TruncateTable.Partitions> builder =
                 new ReferenceBlockBuilder<Void,TruncateTable.Partitions>()
+                        .required()
                         .czse(d -> d instanceof TruncateTable.PartitionNumberExpression)
                             .name("partition_number_expression")
                             .ref(TruncateTable.PartitionNumberExpression.class)

@@ -65,8 +65,7 @@ public class SelectConverter
                 new ReferenceBlockBuilder<Void,List<Select.SelectItem>>()
                         .overall("select_list")
                         .list(SelectItemConverter.meta())
-                        .oneMore()
-                        .headFootTakeLine();
+                        .more();
         // @formatter:on
 
         public static ReferenceBlock meta() {
@@ -88,6 +87,7 @@ public class SelectConverter
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Select.SelectItem> builder =
                 new ReferenceBlockBuilder<Void,Select.SelectItem>()
+                        .required()
                         .czse(Select.SelectItem::isUseAll, "*")
                             .description("all")
                             .keyword(Other.ASTERISK)
@@ -193,7 +193,8 @@ public class SelectConverter
                                 .data(Select.SelectItem::getExpression)
                                 .and()
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .headFootTakeLine();
         // @formatter:on
 
         public static ReferenceBlock meta() {
