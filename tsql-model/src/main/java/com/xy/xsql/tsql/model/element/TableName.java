@@ -1,10 +1,9 @@
 package com.xy.xsql.tsql.model.element;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -76,8 +75,11 @@ public class TableName
         nameList.add(databaseName);
         nameList.add(schemaName);
         nameList.add(tableOrViewName);
+        //noinspection SuspiciousMethodCalls
         nameList.removeAll(Collections.singleton(null));
-        return StringUtils.join(nameList,".");
+        return nameList
+                .stream()
+                .collect(Collectors.joining(Other.POINT.toString()));
     }
 
     public TableName clone() {
