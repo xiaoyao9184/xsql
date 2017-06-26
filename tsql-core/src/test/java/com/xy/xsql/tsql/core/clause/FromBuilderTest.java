@@ -19,6 +19,16 @@ import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 public class FromBuilderTest {
 
 
+    // @formatter:off
+    public From exampleA = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+            (FromBuilder.class,From.class)
+            .$child()
+                .$(t("Sales","SalesTerritory"))
+                .and()
+            .get();
+    // @formatter:on
+
+
     /**
      * FROM Sales.SalesTerritory
      */
@@ -70,6 +80,21 @@ public class FromBuilderTest {
         From.BaseTable tableSource = (From.BaseTable) option.getTableSourceList().get(0);
         Assert.assertEquals(tableSource.getTableName().toString(),"HumanResources.Employee");
     }
+
+
+
+    // @formatter:off
+    public From exampleC = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+            (FromBuilder.class,From.class)
+            .$child()
+                .$()
+                    .$(t("HumanResources","Employee"),"e")
+                    .$Cross_Join()
+                    .$(t("HumanResources","Department"),"d")
+                    .and()
+                .and()
+            .get();
+    // @formatter:on
 
     /**
      * FROM HumanResources.Employee AS e

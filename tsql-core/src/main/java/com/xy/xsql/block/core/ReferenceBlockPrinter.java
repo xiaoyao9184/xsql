@@ -4,6 +4,7 @@ import com.xy.xsql.block.model.ReferenceBlock;
 
 import java.io.StringWriter;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -17,12 +18,11 @@ public class ReferenceBlockPrinter {
         writer = new StringWriter();
     }
 
-    public StringWriter print(ReferenceBlock referenceBlock) throws Exception {
+    public StringWriter print(ReferenceBlock referenceBlock) {
         return print(referenceBlock,writer,true);
     }
 
-
-    public StringWriter print(ReferenceBlock referenceBlock,StringWriter writer, boolean printOverall) throws Exception {
+    public StringWriter print(ReferenceBlock referenceBlock, StringWriter writer, boolean printOverall) {
         if(referenceBlock.isOverall() && printOverall) {
             //Syntax
             writer.append('<');
@@ -131,23 +131,160 @@ public class ReferenceBlockPrinter {
         return writer;
     }
 
-
-    public void print(List<ReferenceBlock> referenceBlockList,String delimiter,StringWriter writer) throws Exception {
+    public void print(List<ReferenceBlock> referenceBlockList, String delimiter, StringWriter writer) {
         writer.append(
                 referenceBlockList
                 .stream()
                 .map(sub -> {
-                    try {
-                        StringWriter stringWriter = new StringWriter();
-                        print(sub,stringWriter,false);
-                        return stringWriter.toString();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return "";
-                    }
+                    StringWriter stringWriter = new StringWriter();
+                    print(sub,stringWriter,false);
+                    return stringWriter.toString();
                 })
                 .collect(Collectors.joining(delimiter))
         );
+    }
+
+
+    public StringWriter printBlock(ReferenceBlock referenceBlock){
+        return printBlock(referenceBlock, referenceBlock.getData(), writer);
+    }
+
+    @SuppressWarnings({"Duplicates", "unchecked"})
+    public StringWriter printBlock(ReferenceBlock block, Object data, StringWriter writer){
+
+        //Optional just return
+        if(block.isOptional() &&
+            block.getOptionalFilter().test(data)){
+            return writer;
+        }
+
+        //start
+        if(block.isStartNewLine()){
+            writer.append("\n");
+        }
+
+        //style
+        if(block.isHeadFootTakeLine()){
+            writer.append("\n");
+        }else{
+            writer.append(" ");
+        }
+
+
+        //data
+        if(block.isKeyword()){
+            //Keyword
+            writer.append(block.getData().toString());
+        }else if(block.isReference()){
+            //Reference
+            ReferenceBlockConverter converter = BlockManager
+                    .INSTANCE
+                    .getTypeBlockConverterByConverterType(block.getRefClass());
+
+            if(block.isList() &&
+                    data instanceof List){
+                //List
+                printBlock(converter, (List) data,"\n, ",writer);
+            }else if(block.isRepeat() &&
+                    data instanceof List){
+                //Repeat
+                printBlock(converter, (List) data," ",writer);
+            }else{
+                ReferenceBlock referenceBlock = converter.convert(data);
+                printBlock(referenceBlock, data, writer);
+            }
+        }else if(block.isExclusive()){
+            //Exclusive
+            int index = 0;
+            for(Predicate p : block.getCasePredicate()){
+                if(p.test(data)){
+                    ReferenceBlock subBlock = block.getSub().get(index);
+                    printBlock(subBlock, data, writer);
+                    break;
+                }
+                index++;
+            }
+        }else if(block.isList()){
+            //List
+            ReferenceBlock itemBlock = block.getSub().get(0);
+            Object dataList = block.getDataOrGetterData(data);
+            if(dataList instanceof List){
+                List listData = (List) dataList;
+                for (Object itemData : listData) {
+                    printBlock(itemBlock, itemData, writer);
+                }
+            }
+        }else if(block.isRepeat()){
+            //Repeat
+            for (ReferenceBlock itemBlock : block.getSub()) {
+                printBlock(itemBlock, data, writer);
+            }
+        }else if(block.getSub() != null){
+            //
+            for (ReferenceBlock subBlock : block.getSub()) {
+                Object subData = subBlock.getDataOrGetterData(data);
+                printBlock(subBlock, subData, writer);
+            }
+        }else{
+            writer.append(data.toString());
+        }
+
+
+        //style
+        if(block.isHeadFootTakeLine()){
+            writer.append("\n");
+        }else{
+            writer.append(" ");
+        }
+
+        //end
+        if(block.isEndNewLine()){
+            writer.append("\n");
+        }
+
+        return writer;
+    }
+
+
+    public void printBlock(ReferenceBlockConverter converter, List<Object> dataList, String delimiter, StringWriter writer) {
+        writer.append(
+                dataList
+                        .stream()
+                        .map(data -> {
+                            StringWriter stringWriter = new StringWriter();
+                            ReferenceBlock itemBlock = converter.build(data);
+                            printBlock(itemBlock, data, writer);
+                            return stringWriter.toString();
+                        })
+                        .collect(Collectors.joining(delimiter))
+        );
+    }
+
+    /**
+     *
+     * @param object
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static StringWriter print(Object object){
+        ReferenceBlockConverter converter = BlockManager
+                .INSTANCE
+                .getTypeBlockConverter(object.getClass());
+
+        ReferenceBlock b = converter.convert(object);
+
+        return new ReferenceBlockPrinter().printBlock(b);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static StringWriter print(Class clazz){
+        ReferenceBlockConverter converter = BlockManager
+                .INSTANCE
+                .getTypeBlockConverter(clazz);
+
+        ReferenceBlock b = converter.convert(null);
+
+        return new ReferenceBlockPrinter().print(b);
     }
 
 }

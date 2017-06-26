@@ -2,7 +2,10 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.tsql.core.clause.FromBuilderTest;
+import com.xy.xsql.tsql.model.clause.From;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
@@ -105,6 +108,38 @@ public class FromConverterTest {
         Assert.assertEquals(writer.toString(),
                 "[ { INNER | { { LEFT | RIGHT | FULL } [ OUTER ] } } [ <join_hint> ] ]\n" +
                         "JOIN");
+    }
+
+
+
+    private FromBuilderTest fromBuilderTest;
+
+    @Before
+    public void init(){
+        fromBuilderTest = new FromBuilderTest();
+    }
+
+    @Test
+    public void testPrintA() throws Exception {
+        From from = fromBuilderTest.exampleA;
+
+        StringWriter writer = ReferenceBlockPrinter.print(from);
+
+        System.out.print(writer);
+        Assert.assertEquals(writer.toString(),
+                "  FROM     Sales.SalesTerritory     ");
+    }
+
+
+    @Test
+    public void testPrintC() throws Exception {
+        From from = fromBuilderTest.exampleC;
+
+        StringWriter writer = ReferenceBlockPrinter.print(from);
+
+        System.out.print(writer);
+        Assert.assertEquals(writer.toString(),
+                "  FROM          HumanResources.Employee   e      CROSS  JOIN     HumanResources.Department   d           ");
     }
 
 }

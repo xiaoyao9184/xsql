@@ -43,7 +43,7 @@ public class UpdateConverterTest {
                         "} [,...n]\n" +
                         "[ <OUTPUT Clause> ]\n" +
                         "[ FROM table_source [ ,...n ]  ]\n" +
-                        "[ WHERE { <search_condition> ]\n" +
+                        "[ WHERE <search_condition> ]\n" +
                         "[ OPTION ( <Query Hint> [ ,...n ] ) ]");
     }
 
