@@ -27,14 +27,15 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         super(block);
     }
 
-    public ReferenceBlockBuilder<ParentBuilder,Reference> name(String name){
-        target.setName(name);
-        return this;
-    }
 
     public ReferenceBlockBuilder<ParentBuilder,Reference> overall(String name) {
         target.setName(name);
         target.setOverall(true);
+        return this;
+    }
+
+    public ReferenceBlockBuilder<ParentBuilder,Reference> name(String name){
+        target.setName(name);
         return this;
     }
 
@@ -105,28 +106,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
-
-    @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder,Reference> filter(Predicate<Reference> predicate) {
-        target.setOptionalFilter(predicate);
-        return this;
-    }
-
-    @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder,Reference> type(Class<?> type) {
-        target.setType(type);
-        return this;
-    }
-
-
-    @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder,Reference> is(Class<?> type) {
-        target.setType(type);
-        return this;
-    }
-
-
-    public ReferenceBlockBuilder<ParentBuilder,Reference> check(Predicate<Reference> filter) {
+    public ReferenceBlockBuilder<ParentBuilder,Reference> verifier(Predicate<Reference> filter) {
         target.addVerifier(filter);
         return this;
     }
@@ -135,7 +115,6 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         target.setRefClass(refClass);
         return this;
     }
-
 
     public ReferenceBlockBuilder<ParentBuilder,Reference> list() {
         target.setList(true);

@@ -43,8 +43,6 @@ public class ReferenceBlock implements Block {
     //check
     private Predicate<?> optionalFilter;
 
-    private Class<?> type;
-
 
 
     public ReferenceBlock (){
@@ -105,17 +103,6 @@ public class ReferenceBlock implements Block {
 
     public boolean isReference(){
         return this.refClass != null;
-    }
-
-
-
-
-    public Class<?> getType() {
-        return type;
-    }
-
-    public void setType(Class<?> type) {
-        this.type = type;
     }
 
     public Predicate<?> getOptionalFilter() {

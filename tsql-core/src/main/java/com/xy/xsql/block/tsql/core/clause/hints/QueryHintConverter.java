@@ -172,7 +172,6 @@ public class QueryHintConverter
                                 .keyword(Keywords.Key.SIMPLE)
                                 .and()
                             .czse(d -> QueryHint.Type.PARAMETERIZATION_FORCED.equals(d.getType()))
-                                .filter(d -> d.getType().equals(QueryHint.Type.PARAMETERIZATION_FORCED))
                                 .keyword(Keywords.Key.SIMPLE)
                                 .and()
                             .and()

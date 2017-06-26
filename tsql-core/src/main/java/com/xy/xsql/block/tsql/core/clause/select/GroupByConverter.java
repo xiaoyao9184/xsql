@@ -254,7 +254,6 @@ public class GroupByConverter
                         .overall("grouping_set")
                         .czse(d -> d.isUseTotal(), "()")
                             .description("() --calculates the grand total")
-                            .filter(d -> !d.isUseTotal())
                             .data("()")
                             .and()
                         .czse(d -> d.getGroupByExpressionList().size() == 1, "grouping_set_item")
