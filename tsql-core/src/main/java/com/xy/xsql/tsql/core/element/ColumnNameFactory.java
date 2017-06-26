@@ -27,6 +27,7 @@ public class ColumnNameFactory {
      * @param server_db_schema_table_column Max length is 4
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static ColumnName c(String... server_db_schema_table_column){
         List<String> listReversedOrder = reverse(server_db_schema_table_column);
 

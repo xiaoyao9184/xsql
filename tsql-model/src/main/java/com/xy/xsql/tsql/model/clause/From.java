@@ -201,7 +201,7 @@ public class From implements Clause {
         private SearchCondition searchCondition;
 
         //
-        private boolean useJoinOn = true;
+        private boolean useJoinOn = false;
         private boolean useCrossJoin = false;
         private boolean useCrossApply = false;
         private boolean useOuterApply = false;

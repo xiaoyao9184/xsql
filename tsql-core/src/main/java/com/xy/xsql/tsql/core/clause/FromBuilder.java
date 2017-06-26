@@ -940,6 +940,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         public JoinedTableBuilder<ParentBuilder> withJoinType(From.JoinType joinType){
+            target.setUseJoinOn(true);
             target.setJoinType(joinType);
             return this;
         }
