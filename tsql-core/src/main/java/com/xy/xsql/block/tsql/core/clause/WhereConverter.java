@@ -20,7 +20,7 @@ public class WhereConverter
                     .overall("WHERE")
                     .sub_keyword(Keywords.WHERE)
                     .sub("search_condition")
-                        .ref(SearchCondition.class)
+                        .ref(SearchConditionConverter.class)
                         .data(Where::getSearchCondition)
                         .and();
     // @formatter:on

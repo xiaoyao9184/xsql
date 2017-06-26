@@ -22,7 +22,6 @@ public class ComparisonPredicateConverter
                     .sub("= | < > | ! = | > | > = | ! > | < | < = | ! <")
                         .data(Comparison::getOperator)
                         .required()
-                        .type(com.xy.xsql.tsql.model.operator.Comparison.class)
                         .and()
                     .sub("expression")
                         .data(Comparison::getOperatorExpression)

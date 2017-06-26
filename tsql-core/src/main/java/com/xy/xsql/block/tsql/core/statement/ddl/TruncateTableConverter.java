@@ -64,11 +64,11 @@ public class TruncateTableConverter
                         .required()
                         .czse(d -> d instanceof TruncateTable.PartitionNumberExpression)
                             .name("partition_number_expression")
-                            .ref(TruncateTable.PartitionNumberExpression.class)
+                            .ref(PartitionNumberExpressionConverter.class)
                             .and()
                         .czse(d -> d instanceof TruncateTable.Range)
                             .name("range")
-                            .ref(TruncateTable.Range.class)
+                            .ref(RangeConverter.class)
                             .and();
         // @formatter:on
 
@@ -93,12 +93,12 @@ public class TruncateTableConverter
                 new ReferenceBlockBuilder<Void,TruncateTable.Range>()
                         .overall("range")
                         .sub()
-                            .ref(TruncateTable.PartitionNumberExpression.class)
+                            .ref(PartitionNumberExpressionConverter.class)
                             .data(TruncateTable.Range::getPartitionNumberExpressionLeft)
                             .and()
                         .sub_keyword(Keywords.TO)
                         .sub()
-                            .ref(TruncateTable.PartitionNumberExpression.class)
+                            .ref(PartitionNumberExpressionConverter.class)
                             .data(TruncateTable.Range::getPartitionNumberExpressionRight)
                             .and();
         // @formatter:on

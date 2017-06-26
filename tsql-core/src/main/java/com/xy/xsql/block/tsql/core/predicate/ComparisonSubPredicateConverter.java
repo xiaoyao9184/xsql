@@ -23,7 +23,6 @@ public class ComparisonSubPredicateConverter
                     .sub("= | < > | ! = | > | > = | ! > | < | < = | ! <")
                         .data(ComparisonSubQuery::getOperator)
                         .required()
-                        .type(com.xy.xsql.tsql.model.operator.Comparison.class)
                         .and()
                     .sub("ALL | SOME | ANY")
                         .data(ComparisonSubQuery::getAll_some_any)

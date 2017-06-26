@@ -4,6 +4,7 @@ import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.model.Block;
+import com.xy.xsql.block.tsql.core.clause.hints.QueryHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
@@ -26,7 +27,7 @@ public class OptionConverter
                         .description("<query_hint> [ ,...n ]")
                         .list()
                         .sub("query_hint")
-                            .ref(QueryHint.class)
+                            .ref(QueryHintConverter.class)
                             .and()
                         .data(Option::getQueryOption)
                         .and()
@@ -54,7 +55,7 @@ public class OptionConverter
                         .overall("query_option")
                         .czse_meta(d -> d instanceof Option.LabelQueryOption, OptionLabelQueryOptionConverter.meta())
                         .czse(d -> d instanceof QueryHint, "query_hint")
-                            .ref(QueryHint.class)
+                            .ref(QueryHintConverter.class)
                             .data(d -> d)
                             .and()
                         .subTakeLine();

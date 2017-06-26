@@ -4,6 +4,8 @@ import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.model.Block;
+import com.xy.xsql.block.tsql.core.clause.OutputConverter;
+import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
@@ -50,7 +52,7 @@ public class InsertConverter
                         .and()
                     .sub("OUTPUT Clause")
                         .optional(d -> d.getOutput() == null)
-                        .ref(Output.class)
+                        .ref(OutputConverter.class)
                         .data(Insert::getOutput)
                         .and()
                     .sub()
@@ -58,7 +60,7 @@ public class InsertConverter
                         //TODO
                         .czse(d -> d.getValues() != null, "VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]")
                             .optional(d -> d.getValues() == null)
-                            .ref(TableValueConstructor.class)
+                            .ref(TableValueConstructorConverter.class)
                             .data(Insert::getValues)
                             .and()
     //                    .czse_meta("derived_table")

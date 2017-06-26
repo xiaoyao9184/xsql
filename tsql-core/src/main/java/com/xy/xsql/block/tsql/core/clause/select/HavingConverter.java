@@ -4,6 +4,7 @@ import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.model.Block;
+import com.xy.xsql.block.tsql.core.clause.SearchConditionConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.select.Having;
@@ -20,7 +21,7 @@ public class HavingConverter
                     .overall("HAVING")
                     .sub_keyword(Keywords.HAVING)
                     .sub("search condition")
-                        .ref(SearchCondition.class)
+                        .ref(SearchConditionConverter.class)
                         .data(Having::getSearchCondition)
                         .and();
     // @formatter:on

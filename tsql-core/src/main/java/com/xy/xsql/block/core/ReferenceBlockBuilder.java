@@ -111,7 +111,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
-    public ReferenceBlockBuilder<ParentBuilder, Reference> ref(Class<?> refClass) {
+    public <C extends BlockConverter> ReferenceBlockBuilder<ParentBuilder, Reference> ref(Class<C> refClass) {
         target.setRefClass(refClass);
         return this;
     }

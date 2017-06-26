@@ -32,5 +32,54 @@ public class SelectConverterTest {
                         "[ OPTION ( <query_hint> [ ,...n ] ) ]");
     }
 
+    @Test
+    public void testQueryExpression() throws Exception {
+        ReferenceBlock b = SelectConverter.QueryExpressionConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.print(writer);
+        Assert.assertEquals(writer.toString(),
+                "<query_expression> ::=\n" +
+                        "{ <query_specification> | ( <query_expression> ) }\n" +
+                        "[ { UNION [ ALL ] | EXCEPT | INTERSECT }\n" +
+                        "<query_specification> | ( <query_expression> ) ] [,...n]");
+    }
+
+    @Test
+    public void testQuerySpecification() throws Exception {
+        ReferenceBlock b = SelectConverter.QuerySpecificationConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.print(writer);
+        Assert.assertEquals(writer.toString(),
+                "<query_specification> ::=\n" +
+                        "SELECT\n" +
+                        "[ ALL | DISTINCT ]\n" +
+                        "[ TOP ( expression ) [ PERCENT ] ]\n" +
+                        "<select_list>\n" +
+                        "INTO new_table [ ON filegroup ]\n" +
+                        "[ FROM { <table_source> } [ ,...n ] ]\n" +
+                        "[ WHERE <search_condition> ]\n" +
+                        "[ <GROUP BY> ]\n" +
+                        "[ HAVING < search_condition > ]");
+    }
+
+    @Test
+    public void testUnionItem() throws Exception {
+        ReferenceBlock b = SelectConverter.UnionItemConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.print(writer);
+        Assert.assertEquals(writer.toString(),
+                "{ UNION [ ALL ] | EXCEPT | INTERSECT }\n" +
+                        "<query_specification> | ( <query_expression> )");
+    }
+
 
 }

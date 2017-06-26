@@ -24,7 +24,7 @@ public class OrderByConverter
                         .and()
                     .sub("offset_fetch")
                         .optional(d -> d.getOffsetFetch() == null)
-                        .ref(OrderBy.OffsetFetch.class)
+                        .ref(OffsetFetchConverter.class)
                         .data(OrderBy::getOffsetFetch)
                         .startNewline()
                         .and();

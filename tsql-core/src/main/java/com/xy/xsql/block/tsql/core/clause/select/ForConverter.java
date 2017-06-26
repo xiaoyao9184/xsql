@@ -26,11 +26,11 @@ public class ForConverter
                         .keyword(Keywords.BROWSE)
                         .and()
                     .czse(d -> d.getXml() != null, "XML")
-                        .ref(For.Xml.class)
+                        .ref(XmlConverter.class)
                         .data(For::getXml)
                         .and()
                     .czse(d -> d.getJson() != null, "JSON")
-                        .ref(For.Json.class)
+                        .ref(JsonConverter.class)
                         .data(For::getJson)
                         .and()
                     .and();

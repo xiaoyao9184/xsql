@@ -20,7 +20,7 @@ public class WithConverter
                     .overall("WITH common_table_expression")
                     .sub_keyword(Keywords.WITH)
                     .sub_list("common_table_expression")
-                        .ref(With.CommonTableExpression.class)
+                        .ref(CommonTableExpressionConverter.class)
                         .data(With::getCommonTableExpressionList)
                         .and();
     // @formatter:on

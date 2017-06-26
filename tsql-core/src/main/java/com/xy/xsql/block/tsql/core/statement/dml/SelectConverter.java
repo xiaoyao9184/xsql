@@ -4,8 +4,19 @@ import com.xy.xsql.block.core.BlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.tsql.core.clause.select.ForConverter;
+import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
+import com.xy.xsql.block.tsql.core.clause.select.IntoConverter;
+import com.xy.xsql.tsql.core.operator.Operators;
+import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.For;
+import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.operator.Set;
+import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.statement.dml.Update;
+
+import javax.swing.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -22,7 +33,7 @@ public class SelectConverter
                         .data(Select::getWith)
                         .and()
                     .sub("query_specification")
-                        .ref(Select.QuerySpecification.class)
+                        .ref(QuerySpecificationConverter.class)
                         .data(Select::getQueryExpression)
                         .and()
                     .sub("ORDER BY { order_by_expression | column_position [ ASC | DESC ] } [ ,...n ]")
@@ -31,7 +42,7 @@ public class SelectConverter
                         .and()
                     .sub("FOR Clause")
                         .optional(d -> d.getForClause() == null)
-                        .ref(For.class)
+                        .ref(ForConverter.class)
                         .data(Select::getForClause)
                         .and()
                     .sub("OPTION ( <query_hint> [ ,...n ] )")
@@ -53,5 +64,153 @@ public class SelectConverter
     }
 
 
+    public static class QueryExpressionConverter
+            implements BlockConverter<Select.QueryExpression> {
 
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Select.QueryExpression> builder =
+                new ReferenceBlockBuilder<Void,Select.QueryExpression>()
+                        .overall("query_expression")
+                        .sub()
+                            .required()
+                            .czse(d -> d.getQueryExpression() != null,"query_specification")
+                                .ref(QuerySpecificationConverter.class)
+                                .and()
+                            .czse(d -> d.getQuerySpecification() != null)
+                                .sub_keyword(Other.GROUP_START)
+                                .sub("query_expression")
+                                    .ref(QueryExpressionConverter.class)
+                                    .and()
+                                .sub_keyword(Other.GROUP_END)
+                                .and()
+                            .and()
+                        .sub()
+                            .optional()
+                            .list(UnionItemConverter.meta())
+                            .data(Select.QueryExpression::getUnitItem)
+                            .and()
+                        .subTakeLine();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public Block convert(Select.QueryExpression queryExpression) {
+            return builder
+                    .data(queryExpression)
+                    .build();
+        }
+
+    }
+
+
+    public static class UnionItemConverter
+            implements BlockConverter<Select.UnionItem> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Select.UnionItem> builder =
+                new ReferenceBlockBuilder<Void,Select.UnionItem>()
+                        .sub()
+                            .required()
+                            .czse(d ->
+                                    Set.UNION_ALL.equals(d.getOperatorSet()) ||
+                                    Set.UNION.equals(d.getOperatorSet())
+                            )
+                                .sub_keyword(Keywords.UNION)
+                                .sub()
+                                    .optional(d -> Set.UNION.equals(d.getOperatorSet()))
+                                    .keyword(Keywords.ALL)
+                                    .and()
+                                .and()
+                            .czse(d -> Set.EXCEPT.equals(d.getOperatorSet()))
+                                .keyword(Keywords.EXCEPT)
+                                .and()
+                            .czse(d -> Set.INTERSECT.equals(d.getOperatorSet()))
+                                .keyword(Keywords.INTERSECT)
+                                .and()
+                            .and()
+                        .sub()
+                            .czse(d -> d.getQueryExpression() != null,"query_specification")
+                                .ref(QuerySpecificationConverter.class)
+                                .and()
+                            .czse(d -> d.getQuerySpecification() != null)
+                                .sub_keyword(Other.GROUP_START)
+                                .sub("query_expression")
+                                    .ref(QueryExpressionConverter.class)
+                                    .and()
+                                .sub_keyword(Other.GROUP_END)
+                                .and()
+                            .and()
+                        .subTakeLine();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public Block convert(Select.UnionItem unionItem) {
+            return builder
+                    .data(unionItem)
+                    .build();
+        }
+
+    }
+
+
+    public static class QuerySpecificationConverter
+            implements BlockConverter<Select.QuerySpecification> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Select.QuerySpecification> builder =
+                new ReferenceBlockBuilder<Void,Select.QuerySpecification>()
+                        .overall("query_specification")
+                        .sub_keyword(Keywords.SELECT)
+                        .sub()
+                            .optional()
+                            .czse_keyword(d -> d.isUseAll(), Keywords.ALL)
+                            .czse_keyword(d -> d.isUseDistinct(), Keywords.DISTINCT)
+                            .and()
+                        .sub("TOP ( expression ) [ PERCENT ]")
+                            .optional(d -> d.getTop() == null)
+                            .data(d -> d.getTop())
+                            .and()
+                        .sub("select_list")
+                            .ref(com.xy.xsql.block.tsql.core.clause.select.SelectConverter.SelectListConverter.class)
+                            .and()
+                        .sub_meta(IntoConverter.meta())
+                        .sub("FROM { <table_source> } [ ,...n ]")
+                            .optional(d -> d.getFrom() == null)
+                            .data(Select.QuerySpecification::getFrom)
+                            .and()
+                        .sub("WHERE <search_condition>")
+                            .optional(d -> d.getWhere() == null)
+                            .data(Select.QuerySpecification::getWhere)
+                            .and()
+                        .sub("GROUP BY")
+                            .optional(d -> d.getGroupBy() == null)
+                            .ref(GroupByConverter.class)
+                            .data(Select.QuerySpecification::getGroupBy)
+                            .and()
+                        .sub("HAVING < search_condition >")
+                            .optional(d -> d.getHaving() == null)
+                            .data(Select.QuerySpecification::getHaving)
+                            .and()
+                        .subTakeLine();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public Block convert(Select.QuerySpecification querySpecification) {
+            return builder
+                    .data(querySpecification)
+                    .build();
+        }
+
+    }
 }

@@ -55,7 +55,7 @@ public class UpdateConverter
                         .data(Update::getFrom)
                         .and()
                     //TODO
-                    .sub("WHERE { <search_condition>")
+                    .sub("WHERE <search_condition>")
                         .optional(d -> d.getWhere() == null)
                         .data(Update::getWhere)
                         .and()
