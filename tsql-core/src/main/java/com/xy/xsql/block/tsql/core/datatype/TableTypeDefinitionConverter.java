@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
@@ -13,7 +12,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class TableTypeDefinitionConverter
-        implements BlockConverter<TableTypeDefinition> {
+        implements ReferenceBlockConverter<TableTypeDefinition> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,TableTypeDefinition> builder =
@@ -33,7 +32,7 @@ public class TableTypeDefinitionConverter
     }
 
     @Override
-    public Block convert(TableTypeDefinition tableTypeDefinition) {
+    public ReferenceBlock convert(TableTypeDefinition tableTypeDefinition) {
         return builder
                 .data(tableTypeDefinition)
                 .build();
@@ -41,7 +40,7 @@ public class TableTypeDefinitionConverter
 
 
     public static class ItemConverter
-            implements BlockConverter<TableTypeDefinition.Item> {
+            implements ReferenceBlockConverter<TableTypeDefinition.Item> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TableTypeDefinition.Item> builder =
@@ -62,7 +61,7 @@ public class TableTypeDefinitionConverter
         }
 
         @Override
-        public Block convert(TableTypeDefinition.Item item) {
+        public ReferenceBlock convert(TableTypeDefinition.Item item) {
             return builder
                     .data(item)
                     .build();
@@ -71,7 +70,7 @@ public class TableTypeDefinitionConverter
     }
 
     public static class TableConstraintConverter
-            implements BlockConverter<TableTypeDefinition.TableConstraint> {
+            implements ReferenceBlockConverter<TableTypeDefinition.TableConstraint> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TableTypeDefinition.TableConstraint> builder =
@@ -112,7 +111,7 @@ public class TableTypeDefinitionConverter
         }
 
         @Override
-        public Block convert(TableTypeDefinition.TableConstraint tableConstraint) {
+        public ReferenceBlock convert(TableTypeDefinition.TableConstraint tableConstraint) {
             return builder
                     .data(tableConstraint)
                     .build();

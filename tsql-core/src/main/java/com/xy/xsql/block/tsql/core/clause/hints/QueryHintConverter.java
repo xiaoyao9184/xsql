@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import com.xy.xsql.tsql.model.element.Other;
@@ -13,7 +12,7 @@ import com.xy.xsql.tsql.model.operator.Assignment;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class QueryHintConverter
-        implements BlockConverter<QueryHint> {
+        implements ReferenceBlockConverter<QueryHint> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,QueryHint> builder =
@@ -229,7 +228,7 @@ public class QueryHintConverter
     }
 
     @Override
-    public Block convert(QueryHint queryHint) {
+    public ReferenceBlock convert(QueryHint queryHint) {
         return builder
                 .data(queryHint)
                 .build();
@@ -237,7 +236,7 @@ public class QueryHintConverter
 
 
     public static class OptimizeForConverter
-            implements BlockConverter<QueryHint.OptimizeFor> {
+            implements ReferenceBlockConverter<QueryHint.OptimizeFor> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,QueryHint.OptimizeFor> builder =
@@ -264,7 +263,7 @@ public class QueryHintConverter
         }
 
         @Override
-        public Block convert(QueryHint.OptimizeFor optimizeFor) {
+        public ReferenceBlock convert(QueryHint.OptimizeFor optimizeFor) {
             return builder
                     .data(optimizeFor)
                     .build();

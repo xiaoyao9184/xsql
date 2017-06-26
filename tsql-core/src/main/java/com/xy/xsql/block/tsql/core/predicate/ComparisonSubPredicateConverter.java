@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class ComparisonSubPredicateConverter
-        implements BlockConverter<ComparisonSubQuery> {
+        implements ReferenceBlockConverter<ComparisonSubQuery> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,ComparisonSubQuery> builder =
@@ -40,7 +39,7 @@ public class ComparisonSubPredicateConverter
     }
 
     @Override
-    public Block convert(ComparisonSubQuery comparisonSubQuery) {
+    public ReferenceBlock convert(ComparisonSubQuery comparisonSubQuery) {
         return builder
                 .data(comparisonSubQuery)
                 .build();

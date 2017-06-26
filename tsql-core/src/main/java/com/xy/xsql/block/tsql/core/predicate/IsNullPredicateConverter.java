@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.predicate.IsNull;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.predicate.IsNull;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class IsNullPredicateConverter
-        implements BlockConverter<IsNull> {
+        implements ReferenceBlockConverter<IsNull> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,IsNull> builder =
@@ -33,7 +32,7 @@ public class IsNullPredicateConverter
     }
 
     @Override
-    public Block convert(IsNull isNull) {
+    public ReferenceBlock convert(IsNull isNull) {
         return builder
                 .data(isNull)
                 .build();

@@ -1,16 +1,15 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class JoinHintConverter
-        implements BlockConverter<JoinHint> {
+        implements ReferenceBlockConverter<JoinHint> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,JoinHint> builder =
@@ -36,7 +35,7 @@ public class JoinHintConverter
     }
 
     @Override
-    public Block convert(JoinHint joinHint) {
+    public ReferenceBlock convert(JoinHint joinHint) {
         return builder
                 .data(joinHint)
                 .build();

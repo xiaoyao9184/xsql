@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.statement.dml.Update;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.statement.dml.Update;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class UpdateConverter
-        implements BlockConverter<Update> {
+        implements ReferenceBlockConverter<Update> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Update> builder =
@@ -70,14 +69,14 @@ public class UpdateConverter
     }
 
     @Override
-    public Block convert(Update update) {
+    public ReferenceBlock convert(Update update) {
         return builder
                 .data(update)
                 .build();
     }
 
     public static class SetItemConverter
-            implements BlockConverter<Update.SetItem> {
+            implements ReferenceBlockConverter<Update.SetItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Update.SetItem> builder =
@@ -98,7 +97,7 @@ public class UpdateConverter
         }
 
         @Override
-        public Block convert(Update.SetItem setItem) {
+        public ReferenceBlock convert(Update.SetItem setItem) {
             return builder
                     .data(setItem)
                     .build();
@@ -107,7 +106,7 @@ public class UpdateConverter
 
 
     public static class ColumnAssignmentSetConverter
-            implements BlockConverter<Update.ColumnAssignmentSet> {
+            implements ReferenceBlockConverter<Update.ColumnAssignmentSet> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Update.ColumnAssignmentSet> builder =
@@ -126,7 +125,7 @@ public class UpdateConverter
         }
 
         @Override
-        public Block convert(Update.ColumnAssignmentSet columnAssignmentSet) {
+        public ReferenceBlock convert(Update.ColumnAssignmentSet columnAssignmentSet) {
             return builder
                     .data(columnAssignmentSet)
                     .build();
@@ -134,7 +133,7 @@ public class UpdateConverter
     }
 
     public static class VariableAssignmentSetConverter
-            implements BlockConverter<Update.VariableAssignmentSet> {
+            implements ReferenceBlockConverter<Update.VariableAssignmentSet> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Update.VariableAssignmentSet> builder =
@@ -153,7 +152,7 @@ public class UpdateConverter
         }
 
         @Override
-        public Block convert(Update.VariableAssignmentSet variableAssignmentSet) {
+        public ReferenceBlock convert(Update.VariableAssignmentSet variableAssignmentSet) {
             return builder
                     .data(variableAssignmentSet)
                     .build();
@@ -162,7 +161,7 @@ public class UpdateConverter
 
 
     public static class VariableColumnAssignmentSetConverter
-            implements BlockConverter<Update.VariableColumnAssignmentSet> {
+            implements ReferenceBlockConverter<Update.VariableColumnAssignmentSet> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Update.VariableColumnAssignmentSet> builder =
@@ -185,7 +184,7 @@ public class UpdateConverter
         }
 
         @Override
-        public Block convert(Update.VariableColumnAssignmentSet variableColumnAssignmentSet) {
+        public ReferenceBlock convert(Update.VariableColumnAssignmentSet variableColumnAssignmentSet) {
             return builder
                     .data(variableColumnAssignmentSet)
                     .build();
@@ -194,7 +193,7 @@ public class UpdateConverter
 
 
     public static class ColumnCompoundSetConverter
-            implements BlockConverter<Update.ColumnCompoundSet> {
+            implements ReferenceBlockConverter<Update.ColumnCompoundSet> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Update.ColumnCompoundSet> builder =
@@ -215,7 +214,7 @@ public class UpdateConverter
         }
 
         @Override
-        public Block convert(Update.ColumnCompoundSet columnCompoundSet) {
+        public ReferenceBlock convert(Update.ColumnCompoundSet columnCompoundSet) {
             return builder
                     .data(columnCompoundSet)
                     .build();
@@ -224,7 +223,7 @@ public class UpdateConverter
 
 
     public static class VariableCompoundSetConverter
-            implements BlockConverter<Update.VariableCompoundSet> {
+            implements ReferenceBlockConverter<Update.VariableCompoundSet> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Update.VariableCompoundSet> builder =
@@ -246,7 +245,7 @@ public class UpdateConverter
         }
 
         @Override
-        public Block convert(Update.VariableCompoundSet variableCompoundSet) {
+        public ReferenceBlock convert(Update.VariableCompoundSet variableCompoundSet) {
             return builder
                     .data(variableCompoundSet)
                     .build();
@@ -255,7 +254,7 @@ public class UpdateConverter
 
 
     public static class VariableColumnCompoundSetConverter
-            implements BlockConverter<Update.VariableColumnCompoundSet> {
+            implements ReferenceBlockConverter<Update.VariableColumnCompoundSet> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Update.VariableColumnCompoundSet> builder =
@@ -281,7 +280,7 @@ public class UpdateConverter
         }
 
         @Override
-        public Block convert(Update.VariableColumnCompoundSet variableColumnCompoundSet) {
+        public ReferenceBlock convert(Update.VariableColumnCompoundSet variableColumnCompoundSet) {
             return builder
                     .data(variableColumnCompoundSet)
                     .build();

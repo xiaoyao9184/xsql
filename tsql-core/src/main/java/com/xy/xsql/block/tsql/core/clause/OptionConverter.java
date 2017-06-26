@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.tsql.core.clause.hints.QueryHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Option;
@@ -15,7 +14,7 @@ import com.xy.xsql.tsql.model.operator.Assignment;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class OptionConverter
-        implements BlockConverter<Option> {
+        implements ReferenceBlockConverter<Option> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Option> builder =
@@ -39,7 +38,7 @@ public class OptionConverter
     }
 
     @Override
-    public Block convert(Option option) {
+    public ReferenceBlock convert(Option option) {
         return builder
                 .data(option)
                 .build();
@@ -47,7 +46,7 @@ public class OptionConverter
 
 
     public static class OptionQueryOptionConverter
-            implements BlockConverter<Option.QueryOption> {
+            implements ReferenceBlockConverter<Option.QueryOption> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Option.QueryOption> builder =
@@ -66,7 +65,7 @@ public class OptionConverter
         }
 
         @Override
-        public Block convert(Option.QueryOption queryOption) {
+        public ReferenceBlock convert(Option.QueryOption queryOption) {
             return builder
                     .data(queryOption)
                     .build();
@@ -75,7 +74,7 @@ public class OptionConverter
 
 
     public static class OptionLabelQueryOptionConverter
-            implements BlockConverter<Option.LabelQueryOption> {
+            implements ReferenceBlockConverter<Option.LabelQueryOption> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Option.LabelQueryOption> builder =
@@ -92,7 +91,7 @@ public class OptionConverter
         }
 
         @Override
-        public Block convert(Option.LabelQueryOption labelQueryOption) {
+        public ReferenceBlock convert(Option.LabelQueryOption labelQueryOption) {
             return builder
                     .data(labelQueryOption)
                     .build();

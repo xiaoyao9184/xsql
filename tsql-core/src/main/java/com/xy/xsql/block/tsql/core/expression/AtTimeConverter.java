@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.AtTimeZone;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.expression.AtTimeZone;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class AtTimeConverter
-        implements BlockConverter<AtTimeZone> {
+        implements ReferenceBlockConverter<AtTimeZone> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,AtTimeZone> builder =
@@ -33,7 +32,7 @@ public class AtTimeConverter
     }
 
     @Override
-    public Block convert(AtTimeZone atTimeZone) {
+    public ReferenceBlock convert(AtTimeZone atTimeZone) {
         return builder
                 .data(atTimeZone)
                 .build();

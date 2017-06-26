@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Case;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.expression.Case;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class CaseConverter
-        implements BlockConverter<Case> {
+        implements ReferenceBlockConverter<Case> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Case> builder =
@@ -42,7 +41,7 @@ public class CaseConverter
     }
 
     @Override
-    public Block convert(Case aCase) {
+    public ReferenceBlock convert(Case aCase) {
         return builder
                 .data(aCase)
                 .build();
@@ -50,7 +49,7 @@ public class CaseConverter
 
 
     public static class CaseWhenThenExpressionRenderer
-            implements BlockConverter<Case.WhenThenExpression> {
+            implements ReferenceBlockConverter<Case.WhenThenExpression> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Case.WhenThenExpression> builder =
@@ -70,7 +69,7 @@ public class CaseConverter
         }
 
         @Override
-        public Block convert(Case.WhenThenExpression whenThenExpression) {
+        public ReferenceBlock convert(Case.WhenThenExpression whenThenExpression) {
             return builder
                     .data(whenThenExpression)
                     .build();

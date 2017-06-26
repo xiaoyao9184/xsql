@@ -1,18 +1,16 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.Where;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class WhereConverter
-        implements BlockConverter<Where> {
+        implements ReferenceBlockConverter<Where> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Where> builder =
@@ -30,7 +28,7 @@ public class WhereConverter
     }
 
     @Override
-    public Block convert(Where where) {
+    public ReferenceBlock convert(Where where) {
         return builder
                 .data(where)
                 .build();

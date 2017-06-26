@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.For;
 import com.xy.xsql.tsql.model.element.Other;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class ForConverter
-        implements BlockConverter<For> {
+        implements ReferenceBlockConverter<For> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,For> builder =
@@ -41,7 +40,7 @@ public class ForConverter
     }
 
     @Override
-    public Block convert(For aFor) {
+    public ReferenceBlock convert(For aFor) {
         return builder
                 .data(aFor)
                 .build();
@@ -49,7 +48,7 @@ public class ForConverter
 
 
     public static class XmlConverter
-            implements BlockConverter<For.Xml> {
+            implements ReferenceBlockConverter<For.Xml> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,For.Xml> builder =
@@ -237,7 +236,7 @@ public class ForConverter
         }
 
         @Override
-        public Block convert(For.Xml xml) {
+        public ReferenceBlock convert(For.Xml xml) {
             return builder
                     .data(xml)
                     .build();
@@ -246,7 +245,7 @@ public class ForConverter
 
 
     public static class CommonDirectivesForXMLConverter
-            implements BlockConverter<For.Xml> {
+            implements ReferenceBlockConverter<For.Xml> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,For.Xml> builder =
@@ -284,7 +283,7 @@ public class ForConverter
         }
 
         @Override
-        public Block convert(For.Xml xml) {
+        public ReferenceBlock convert(For.Xml xml) {
             return builder
                     .data(xml)
                     .build();
@@ -293,7 +292,7 @@ public class ForConverter
 
 
     public static class JsonConverter
-            implements BlockConverter<For.Json> {
+            implements ReferenceBlockConverter<For.Json> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,For.Json> builder =
@@ -354,7 +353,7 @@ public class ForConverter
         }
 
         @Override
-        public Block convert(For.Json json) {
+        public ReferenceBlock convert(For.Json json) {
             return builder
                     .data(json)
                     .build();

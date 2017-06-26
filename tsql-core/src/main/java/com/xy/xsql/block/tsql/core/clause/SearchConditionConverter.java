@@ -1,10 +1,9 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.predicate.*;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.element.Other;
@@ -14,7 +13,7 @@ import com.xy.xsql.tsql.model.predicate.*;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class SearchConditionConverter
-        implements BlockConverter<SearchCondition> {
+        implements ReferenceBlockConverter<SearchCondition> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,SearchCondition> builder =
@@ -57,7 +56,7 @@ public class SearchConditionConverter
     }
 
     @Override
-    public Block convert(SearchCondition searchCondition) {
+    public ReferenceBlock convert(SearchCondition searchCondition) {
         return builder
                 .data(searchCondition)
                 .build();
@@ -65,7 +64,7 @@ public class SearchConditionConverter
 
 
     public static class AndOrNotItemConverter
-            implements BlockConverter<SearchCondition.AndOrNotItem> {
+            implements ReferenceBlockConverter<SearchCondition.AndOrNotItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,SearchCondition.AndOrNotItem> builder =
@@ -109,7 +108,7 @@ public class SearchConditionConverter
         }
 
         @Override
-        public Block convert(SearchCondition.AndOrNotItem andOrNotItem) {
+        public ReferenceBlock convert(SearchCondition.AndOrNotItem andOrNotItem) {
             return builder
                     .data(andOrNotItem)
                     .build();
@@ -118,7 +117,7 @@ public class SearchConditionConverter
 
 
     public static class PredicateConverter
-            implements BlockConverter<Predicate> {
+            implements ReferenceBlockConverter<Predicate> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Predicate> builder =
@@ -141,7 +140,7 @@ public class SearchConditionConverter
         }
 
         @Override
-        public Block convert(Predicate predicate) {
+        public ReferenceBlock convert(Predicate predicate) {
             return builder
                     .data(predicate)
                     .build();

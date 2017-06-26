@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.variable.SetVariable;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.variable.SetVariable;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class SetVariableConverter
-        implements BlockConverter<SetVariable> {
+        implements ReferenceBlockConverter<SetVariable> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,SetVariable> builder =
@@ -36,7 +35,7 @@ public class SetVariableConverter
 
 
     @Override
-    public Block convert(SetVariable setVariable) {
+    public ReferenceBlock convert(SetVariable setVariable) {
         return builder
                 .data(setVariable)
                 .build();

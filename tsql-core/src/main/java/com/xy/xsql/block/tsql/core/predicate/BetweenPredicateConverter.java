@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.tsql.model.predicate.Between;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.predicate.Between;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class BetweenPredicateConverter
-        implements BlockConverter<Between> {
+        implements ReferenceBlockConverter<Between> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Between> builder =
@@ -41,7 +40,7 @@ public class BetweenPredicateConverter
     }
 
     @Override
-    public Block convert(Between between) {
+    public ReferenceBlock convert(Between between) {
         return builder
                 .data(between)
                 .build();

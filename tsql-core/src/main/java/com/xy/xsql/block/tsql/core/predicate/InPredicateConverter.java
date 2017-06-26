@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.In;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.predicate.In;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class InPredicateConverter
-        implements BlockConverter<In> {
+        implements ReferenceBlockConverter<In> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,In> builder =
@@ -45,7 +44,7 @@ public class InPredicateConverter
     }
 
     @Override
-    public Block convert(In in) {
+    public ReferenceBlock convert(In in) {
         return builder
                 .data(in)
                 .build();

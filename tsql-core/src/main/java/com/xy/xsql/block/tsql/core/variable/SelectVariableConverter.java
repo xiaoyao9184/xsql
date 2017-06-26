@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.variable.SelectVariable;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.variable.SelectVariable;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class SelectVariableConverter
-        implements BlockConverter<SelectVariable> {
+        implements ReferenceBlockConverter<SelectVariable> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,SelectVariable> builder =
@@ -30,7 +29,7 @@ public class SelectVariableConverter
     }
 
     @Override
-    public Block convert(SelectVariable selectVariable) {
+    public ReferenceBlock convert(SelectVariable selectVariable) {
         return builder
                 .data(selectVariable)
                 .build();
@@ -38,7 +37,7 @@ public class SelectVariableConverter
 
 
     public static class SelectVariableItemConverter
-            implements BlockConverter<SelectVariable.Item> {
+            implements ReferenceBlockConverter<SelectVariable.Item> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,SelectVariable.Item> builder =
@@ -60,7 +59,7 @@ public class SelectVariableConverter
         }
 
         @Override
-        public Block convert(SelectVariable.Item item) {
+        public ReferenceBlock convert(SelectVariable.Item item) {
             return builder
                     .data(item)
                     .build();

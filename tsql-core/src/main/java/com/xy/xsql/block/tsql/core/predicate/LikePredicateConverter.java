@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.predicate.Like;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.predicate.Like;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class LikePredicateConverter
-        implements BlockConverter<Like> {
+        implements ReferenceBlockConverter<Like> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Like> builder =
@@ -43,7 +42,7 @@ public class LikePredicateConverter
     }
 
     @Override
-    public Block convert(Like like) {
+    public ReferenceBlock convert(Like like) {
         return builder
                 .data(like)
                 .build();

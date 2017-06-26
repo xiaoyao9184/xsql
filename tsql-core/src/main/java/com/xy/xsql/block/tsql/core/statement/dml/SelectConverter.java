@@ -1,28 +1,21 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.clause.select.ForConverter;
 import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
 import com.xy.xsql.block.tsql.core.clause.select.IntoConverter;
-import com.xy.xsql.tsql.core.operator.Operators;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.select.For;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Set;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.model.statement.dml.Update;
-
-import javax.swing.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class SelectConverter
-        implements BlockConverter<Select> {
+        implements ReferenceBlockConverter<Select> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Select> builder =
@@ -57,7 +50,7 @@ public class SelectConverter
     }
 
     @Override
-    public Block convert(Select select) {
+    public ReferenceBlock convert(Select select) {
         return builder
                 .data(select)
                 .build();
@@ -65,7 +58,7 @@ public class SelectConverter
 
 
     public static class QueryExpressionConverter
-            implements BlockConverter<Select.QueryExpression> {
+            implements ReferenceBlockConverter<Select.QueryExpression> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Select.QueryExpression> builder =
@@ -99,7 +92,7 @@ public class SelectConverter
         }
 
         @Override
-        public Block convert(Select.QueryExpression queryExpression) {
+        public ReferenceBlock convert(Select.QueryExpression queryExpression) {
             return builder
                     .data(queryExpression)
                     .build();
@@ -109,7 +102,7 @@ public class SelectConverter
 
 
     public static class UnionItemConverter
-            implements BlockConverter<Select.UnionItem> {
+            implements ReferenceBlockConverter<Select.UnionItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Select.UnionItem> builder =
@@ -155,7 +148,7 @@ public class SelectConverter
         }
 
         @Override
-        public Block convert(Select.UnionItem unionItem) {
+        public ReferenceBlock convert(Select.UnionItem unionItem) {
             return builder
                     .data(unionItem)
                     .build();
@@ -165,7 +158,7 @@ public class SelectConverter
 
 
     public static class QuerySpecificationConverter
-            implements BlockConverter<Select.QuerySpecification> {
+            implements ReferenceBlockConverter<Select.QuerySpecification> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Select.QuerySpecification> builder =
@@ -212,7 +205,7 @@ public class SelectConverter
         }
 
         @Override
-        public Block convert(Select.QuerySpecification querySpecification) {
+        public ReferenceBlock convert(Select.QuerySpecification querySpecification) {
             return builder
                     .data(querySpecification)
                     .build();

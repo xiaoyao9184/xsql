@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.Other;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class WithConverter
-        implements BlockConverter<With> {
+        implements ReferenceBlockConverter<With> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,With> builder =
@@ -30,7 +29,7 @@ public class WithConverter
     }
 
     @Override
-    public Block convert(With with) {
+    public ReferenceBlock convert(With with) {
         return builder
                 .data(with)
                 .build();
@@ -38,7 +37,7 @@ public class WithConverter
 
 
     public static class CommonTableExpressionConverter
-            implements BlockConverter<With.CommonTableExpression> {
+            implements ReferenceBlockConverter<With.CommonTableExpression> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,With.CommonTableExpression> builder =
@@ -75,7 +74,7 @@ public class WithConverter
         }
 
         @Override
-        public Block convert(With.CommonTableExpression commonTableExpression) {
+        public ReferenceBlock convert(With.CommonTableExpression commonTableExpression) {
             return builder
                     .data(commonTableExpression)
                     .build();

@@ -1,19 +1,17 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.tsql.core.clause.SearchConditionConverter;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.select.Having;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class HavingConverter
-        implements BlockConverter<Having> {
+        implements ReferenceBlockConverter<Having> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Having> builder =
@@ -31,7 +29,7 @@ public class HavingConverter
     }
 
     @Override
-    public Block convert(Having having) {
+    public ReferenceBlock convert(Having having) {
         return builder
                 .data(having)
                 .build();

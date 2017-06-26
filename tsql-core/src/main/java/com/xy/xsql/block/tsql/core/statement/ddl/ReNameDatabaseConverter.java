@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class ReNameDatabaseConverter
-        implements BlockConverter<ReName> {
+        implements ReferenceBlockConverter<ReName> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,ReName> builder =
@@ -37,7 +36,7 @@ public class ReNameDatabaseConverter
     }
 
     @Override
-    public Block convert(ReName reName) {
+    public ReferenceBlock convert(ReName reName) {
         return builder
                 .data(reName)
                 .build();

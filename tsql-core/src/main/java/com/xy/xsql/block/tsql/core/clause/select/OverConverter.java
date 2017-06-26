@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import com.xy.xsql.tsql.model.element.Other;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class OverConverter
-        implements BlockConverter<Over> {
+        implements ReferenceBlockConverter<Over> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Over> builder =
@@ -43,7 +42,7 @@ public class OverConverter
     }
 
     @Override
-    public Block convert(Over over) {
+    public ReferenceBlock convert(Over over) {
         return builder
                 .data(over)
                 .build();
@@ -52,7 +51,7 @@ public class OverConverter
 
 
     public static class PartitionByConverter
-            implements BlockConverter<Over.PartitionBy> {
+            implements ReferenceBlockConverter<Over.PartitionBy> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Over.PartitionBy> builder =
@@ -72,7 +71,7 @@ public class OverConverter
         }
 
         @Override
-        public Block convert(Over.PartitionBy partitionBy) {
+        public ReferenceBlock convert(Over.PartitionBy partitionBy) {
             return builder
                     .data(partitionBy)
                     .build();
@@ -80,7 +79,7 @@ public class OverConverter
     }
 
     public static class OrderByConverter
-            implements BlockConverter<Over.OrderBy> {
+            implements ReferenceBlockConverter<Over.OrderBy> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Over.OrderBy> builder =
@@ -100,7 +99,7 @@ public class OverConverter
         }
 
         @Override
-        public Block convert(Over.OrderBy orderBy) {
+        public ReferenceBlock convert(Over.OrderBy orderBy) {
             return builder
                     .data(orderBy)
                     .build();

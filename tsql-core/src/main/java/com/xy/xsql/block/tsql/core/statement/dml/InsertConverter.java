@@ -1,14 +1,11 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.Output;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 
@@ -16,7 +13,7 @@ import com.xy.xsql.tsql.model.statement.dml.Insert;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class InsertConverter
-        implements BlockConverter<Insert> {
+        implements ReferenceBlockConverter<Insert> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Insert> builder =
@@ -82,7 +79,7 @@ public class InsertConverter
     }
 
     @Override
-    public Block convert(Insert insert) {
+    public ReferenceBlock convert(Insert insert) {
         return builder
                 .data(insert)
                 .build();

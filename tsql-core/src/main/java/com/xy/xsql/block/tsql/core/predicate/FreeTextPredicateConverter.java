@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.FreeText;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.predicate.FreeText;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class FreeTextPredicateConverter
-        implements BlockConverter<FreeText> {
+        implements ReferenceBlockConverter<FreeText> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,FreeText> builder =
@@ -58,7 +57,7 @@ public class FreeTextPredicateConverter
     }
 
     @Override
-    public Block convert(FreeText freeText) {
+    public ReferenceBlock convert(FreeText freeText) {
         return builder
                 .data(freeText)
                 .build();

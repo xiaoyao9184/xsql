@@ -1,16 +1,15 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class ComparisonPredicateConverter
-        implements BlockConverter<Comparison> {
+        implements ReferenceBlockConverter<Comparison> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Comparison> builder =
@@ -33,7 +32,7 @@ public class ComparisonPredicateConverter
     }
 
     @Override
-    public Block convert(Comparison comparison) {
+    public ReferenceBlock convert(Comparison comparison) {
         return builder
                 .data(comparison)
                 .build();

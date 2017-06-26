@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.Other;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class ColumnTypeDefinitionConverter
-        implements BlockConverter<ColumnDefinition> {
+        implements ReferenceBlockConverter<ColumnDefinition> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,ColumnDefinition> builder =
@@ -79,7 +78,7 @@ public class ColumnTypeDefinitionConverter
     }
 
     @Override
-    public Block convert(ColumnDefinition columnDefinition) {
+    public ReferenceBlock convert(ColumnDefinition columnDefinition) {
         return builder
                 .data(columnDefinition)
                 .build();
@@ -87,7 +86,7 @@ public class ColumnTypeDefinitionConverter
 
 
     public static class ColumnConstraintConverter
-            implements BlockConverter<ColumnDefinition.ColumnConstraint> {
+            implements ReferenceBlockConverter<ColumnDefinition.ColumnConstraint> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,ColumnDefinition.ColumnConstraint> builder =
@@ -129,7 +128,7 @@ public class ColumnTypeDefinitionConverter
         }
 
         @Override
-        public Block convert(ColumnDefinition.ColumnConstraint columnConstraint) {
+        public ReferenceBlock convert(ColumnDefinition.ColumnConstraint columnConstraint) {
             return builder
                     .data(columnConstraint)
                     .build();

@@ -1,31 +1,28 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.tsql.core.clause.hints.JoinHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.element.Other;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class FromConverter
-        implements BlockConverter<From> {
+        implements ReferenceBlockConverter<From> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,From> builder =
             new ReferenceBlockBuilder<Void,From>()
                     .overall("FROM")
                     .sub_keyword(Keywords.FROM)
-                    .sub("table_source")
+                    .sub()
                         .description("{ <table_source> } [ ,...n ]")
                         .required()
-                        .list()
+                        .list("table_source")
                         .ref(TableSourceConverter.class)
                         .data(From::getTableSourceList)
                         .and();
@@ -36,7 +33,7 @@ public class FromConverter
     }
 
     @Override
-    public Block convert(From from) {
+    public ReferenceBlock convert(From from) {
         return builder
                 .data(from)
                 .build();
@@ -44,7 +41,7 @@ public class FromConverter
 
 
     public static class TableSourceConverter
-            implements BlockConverter<From.TableSource> {
+            implements ReferenceBlockConverter<From.TableSource> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,From.TableSource> builder =
@@ -91,7 +88,7 @@ public class FromConverter
         }
 
         @Override
-        public Block convert(From.TableSource tableSource) {
+        public ReferenceBlock convert(From.TableSource tableSource) {
             return builder
                     .data(tableSource)
                     .build();
@@ -99,7 +96,7 @@ public class FromConverter
     }
 
     public static class BaseTableConverter
-            implements BlockConverter<From.BaseTable> {
+            implements ReferenceBlockConverter<From.BaseTable> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,From.BaseTable> builder =
@@ -125,7 +122,7 @@ public class FromConverter
         }
 
         @Override
-        public Block convert(From.BaseTable baseTable) {
+        public ReferenceBlock convert(From.BaseTable baseTable) {
             return builder
                     .data(baseTable)
                     .build();
@@ -133,7 +130,7 @@ public class FromConverter
     }
 
     public static class DerivedTableConverter
-            implements BlockConverter<From.DerivedTable> {
+            implements ReferenceBlockConverter<From.DerivedTable> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,From.DerivedTable> builder =
@@ -168,7 +165,7 @@ public class FromConverter
         }
 
         @Override
-        public Block convert(From.DerivedTable derivedTable) {
+        public ReferenceBlock convert(From.DerivedTable derivedTable) {
             return builder
                     .data(derivedTable)
                     .build();
@@ -176,7 +173,7 @@ public class FromConverter
     }
 
     public static class JoinedTableConverter
-            implements BlockConverter<From.JoinedTable> {
+            implements ReferenceBlockConverter<From.JoinedTable> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,From.JoinedTable> builder =
@@ -258,7 +255,7 @@ public class FromConverter
         }
 
         @Override
-        public Block convert(From.JoinedTable joinedTable) {
+        public ReferenceBlock convert(From.JoinedTable joinedTable) {
             return builder
                     .data(joinedTable)
                     .build();
@@ -266,7 +263,7 @@ public class FromConverter
     }
 
     public static class VariableTableConverter
-            implements BlockConverter<From.VariableTable> {
+            implements ReferenceBlockConverter<From.VariableTable> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,From.VariableTable> builder =
@@ -292,7 +289,7 @@ public class FromConverter
         }
 
         @Override
-        public Block convert(From.VariableTable variableTable) {
+        public ReferenceBlock convert(From.VariableTable variableTable) {
             return builder
                     .data(variableTable)
                     .build();
@@ -301,7 +298,7 @@ public class FromConverter
 
 
     public static class JoinTypeConverter
-            implements BlockConverter<From.JoinType> {
+            implements ReferenceBlockConverter<From.JoinType> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,From.JoinType> builder =
@@ -351,7 +348,7 @@ public class FromConverter
         }
 
         @Override
-        public Block convert(From.JoinType joinType) {
+        public ReferenceBlock convert(From.JoinType joinType) {
             return builder
                     .data(joinType)
                     .build();

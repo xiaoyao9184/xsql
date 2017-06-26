@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class TruncateTableConverter
-        implements BlockConverter<TruncateTable> {
+        implements ReferenceBlockConverter<TruncateTable> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,TruncateTable> builder =
@@ -48,7 +47,7 @@ public class TruncateTableConverter
     }
 
     @Override
-    public Block convert(TruncateTable truncateTable) {
+    public ReferenceBlock convert(TruncateTable truncateTable) {
         return builder
                 .data(truncateTable)
                 .build();
@@ -56,7 +55,7 @@ public class TruncateTableConverter
 
 
     public static class PartitionsConverter
-            implements BlockConverter<TruncateTable.Partitions> {
+            implements ReferenceBlockConverter<TruncateTable.Partitions> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TruncateTable.Partitions> builder =
@@ -77,7 +76,7 @@ public class TruncateTableConverter
         }
 
         @Override
-        public Block convert(TruncateTable.Partitions partitions) {
+        public ReferenceBlock convert(TruncateTable.Partitions partitions) {
             return builder
                     .data(partitions)
                     .build();
@@ -86,7 +85,7 @@ public class TruncateTableConverter
 
 
     public static class RangeConverter
-            implements BlockConverter<TruncateTable.Range> {
+            implements ReferenceBlockConverter<TruncateTable.Range> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TruncateTable.Range> builder =
@@ -108,7 +107,7 @@ public class TruncateTableConverter
         }
 
         @Override
-        public Block convert(TruncateTable.Range range) {
+        public ReferenceBlock convert(TruncateTable.Range range) {
             return builder
                     .data(range)
                     .build();
@@ -117,7 +116,7 @@ public class TruncateTableConverter
 
 
     public static class PartitionNumberExpressionConverter
-            implements BlockConverter<TruncateTable.PartitionNumberExpression> {
+            implements ReferenceBlockConverter<TruncateTable.PartitionNumberExpression> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TruncateTable.PartitionNumberExpression> builder =
@@ -131,7 +130,7 @@ public class TruncateTableConverter
         }
 
         @Override
-        public Block convert(TruncateTable.PartitionNumberExpression partitionNumberExpression) {
+        public ReferenceBlock convert(TruncateTable.PartitionNumberExpression partitionNumberExpression) {
             return builder
                     .data(partitionNumberExpression)
                     .build();

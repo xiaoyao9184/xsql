@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.Other;
@@ -14,7 +13,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class OutputConverter
-        implements BlockConverter<Output> {
+        implements ReferenceBlockConverter<Output> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Output> builder =
@@ -66,14 +65,14 @@ public class OutputConverter
     }
 
     @Override
-    public Block convert(Output output) {
+    public ReferenceBlock convert(Output output) {
         return builder
                 .data(output)
                 .build();
     }
 
     public static class DmlSelectListConverter
-            implements BlockConverter<List<Output.DmlSelect>> {
+            implements ReferenceBlockConverter<List<Output.DmlSelect>> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,List<Output.DmlSelect>> builder =
@@ -88,7 +87,7 @@ public class OutputConverter
         }
 
         @Override
-        public Block convert(List<Output.DmlSelect> dmlSelectList) {
+        public ReferenceBlock convert(List<Output.DmlSelect> dmlSelectList) {
             return builder
                     .data(dmlSelectList)
                     .build();
@@ -97,7 +96,7 @@ public class OutputConverter
 
 
     public static class DmlSelectConverter
-            implements BlockConverter<Output.DmlSelect> {
+            implements ReferenceBlockConverter<Output.DmlSelect> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Output.DmlSelect> builder =
@@ -132,7 +131,7 @@ public class OutputConverter
         }
 
         @Override
-        public Block convert(Output.DmlSelect dmlSelect) {
+        public ReferenceBlock convert(Output.DmlSelect dmlSelect) {
             return builder
                     .data(dmlSelect)
                     .build();
@@ -140,7 +139,7 @@ public class OutputConverter
     }
 
     public static class ColumnNameConverter
-            implements BlockConverter<Output.ColumnName> {
+            implements ReferenceBlockConverter<Output.ColumnName> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Output.ColumnName> builder =
@@ -188,7 +187,7 @@ public class OutputConverter
         }
 
         @Override
-        public Block convert(Output.ColumnName columnName) {
+        public ReferenceBlock convert(Output.ColumnName columnName) {
             return builder
                     .data(columnName)
                     .build();

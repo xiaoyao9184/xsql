@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.element.Other;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class GroupByConverter
-        implements BlockConverter<GroupBy> {
+        implements ReferenceBlockConverter<GroupBy> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,GroupBy> builder =
@@ -32,7 +31,7 @@ public class GroupByConverter
     }
 
     @Override
-    public Block convert(GroupBy groupBy) {
+    public ReferenceBlock convert(GroupBy groupBy) {
         return builder
                 .data(groupBy)
                 .build();
@@ -40,7 +39,7 @@ public class GroupByConverter
 
 
     public static class ItemConverter
-            implements BlockConverter<GroupBy.Item> {
+            implements ReferenceBlockConverter<GroupBy.Item> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.Item> builder =
@@ -62,7 +61,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.Item item) {
+        public ReferenceBlock convert(GroupBy.Item item) {
             return builder
                     .data(item)
                     .build();
@@ -70,7 +69,7 @@ public class GroupByConverter
     }
 
     public static class BaseItemConverter
-            implements BlockConverter<GroupBy.BaseItem> {
+            implements ReferenceBlockConverter<GroupBy.BaseItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.BaseItem> builder =
@@ -86,7 +85,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.BaseItem item) {
+        public ReferenceBlock convert(GroupBy.BaseItem item) {
             return builder
                     .data(item)
                     .build();
@@ -95,7 +94,7 @@ public class GroupByConverter
 
 
     public static class RollupItemConverter
-            implements BlockConverter<GroupBy.RollupItem> {
+            implements ReferenceBlockConverter<GroupBy.RollupItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.RollupItem> builder =
@@ -117,7 +116,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.RollupItem item) {
+        public ReferenceBlock convert(GroupBy.RollupItem item) {
             return builder
                     .data(item)
                     .build();
@@ -126,7 +125,7 @@ public class GroupByConverter
 
 
     public static class CubeItemConverter
-            implements BlockConverter<GroupBy.CubeItem> {
+            implements ReferenceBlockConverter<GroupBy.CubeItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.CubeItem> builder =
@@ -148,7 +147,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.CubeItem item) {
+        public ReferenceBlock convert(GroupBy.CubeItem item) {
             return builder
                     .data(item)
                     .build();
@@ -157,7 +156,7 @@ public class GroupByConverter
 
 
     public static class GroupingSetsItemConverter
-            implements BlockConverter<GroupBy.GroupingSetsItem> {
+            implements ReferenceBlockConverter<GroupBy.GroupingSetsItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.GroupingSetsItem> builder =
@@ -180,7 +179,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.GroupingSetsItem item) {
+        public ReferenceBlock convert(GroupBy.GroupingSetsItem item) {
             return builder
                     .data(item)
                     .build();
@@ -189,7 +188,7 @@ public class GroupByConverter
 
 
     public static class TotalItemConverter
-            implements BlockConverter<GroupBy.TotalItem> {
+            implements ReferenceBlockConverter<GroupBy.TotalItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.TotalItem> builder =
@@ -202,7 +201,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.TotalItem item) {
+        public ReferenceBlock convert(GroupBy.TotalItem item) {
             return builder
                     .data(item)
                     .build();
@@ -211,7 +210,7 @@ public class GroupByConverter
 
 
     public static class GroupByExpressionConverter
-            implements BlockConverter<GroupBy.GroupByExpression> {
+            implements ReferenceBlockConverter<GroupBy.GroupByExpression> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.GroupByExpression> builder =
@@ -237,7 +236,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.GroupByExpression item) {
+        public ReferenceBlock convert(GroupBy.GroupByExpression item) {
             return builder
                     .data(item)
                     .build();
@@ -246,7 +245,7 @@ public class GroupByConverter
 
 
     public static class GroupingSetConverter
-            implements BlockConverter<GroupBy.GroupingSet> {
+            implements ReferenceBlockConverter<GroupBy.GroupingSet> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.GroupingSet> builder =
@@ -279,7 +278,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.GroupingSet item) {
+        public ReferenceBlock convert(GroupBy.GroupingSet item) {
             return builder
                     .data(item)
                     .build();
@@ -288,7 +287,7 @@ public class GroupByConverter
 
 
     public static class GroupingSetItemConverter
-            implements BlockConverter<GroupBy.GroupingSet.Item> {
+            implements ReferenceBlockConverter<GroupBy.GroupingSet.Item> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,GroupBy.GroupingSet.Item> builder =
@@ -306,7 +305,7 @@ public class GroupByConverter
         }
 
         @Override
-        public Block convert(GroupBy.GroupingSet.Item item) {
+        public ReferenceBlock convert(GroupBy.GroupingSet.Item item) {
             return builder
                     .data(item)
                     .build();

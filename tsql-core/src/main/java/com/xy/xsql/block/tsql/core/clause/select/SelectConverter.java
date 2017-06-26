@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Select;
 import com.xy.xsql.tsql.model.element.Other;
@@ -15,7 +14,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class SelectConverter
-        implements BlockConverter<Select> {
+        implements ReferenceBlockConverter<Select> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Select> builder =
@@ -49,7 +48,7 @@ public class SelectConverter
     }
 
     @Override
-    public Block convert(Select select) {
+    public ReferenceBlock convert(Select select) {
         return builder
                 .data(select)
                 .build();
@@ -57,7 +56,7 @@ public class SelectConverter
 
 
     public static class SelectListConverter
-            implements BlockConverter<List<Select.SelectItem>> {
+            implements ReferenceBlockConverter<List<Select.SelectItem>> {
 
 
         // @formatter:off
@@ -72,7 +71,7 @@ public class SelectConverter
         }
 
         @Override
-        public Block convert(List<Select.SelectItem> selectList) {
+        public ReferenceBlock convert(List<Select.SelectItem> selectList) {
             return builder
                     .data(selectList)
                     .build();
@@ -81,7 +80,7 @@ public class SelectConverter
 
 
     public static class SelectItemConverter
-            implements BlockConverter<Select.SelectItem> {
+            implements ReferenceBlockConverter<Select.SelectItem> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Select.SelectItem> builder =
@@ -201,7 +200,7 @@ public class SelectConverter
         }
 
         @Override
-        public Block convert(Select.SelectItem selectItem) {
+        public ReferenceBlock convert(Select.SelectItem selectItem) {
             return builder
                     .data(selectItem)
                     .build();

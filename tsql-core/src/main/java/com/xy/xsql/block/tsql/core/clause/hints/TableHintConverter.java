@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.element.Other;
@@ -13,7 +12,7 @@ import com.xy.xsql.tsql.model.operator.Assignment;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class TableHintConverter
-        implements BlockConverter<TableHint> {
+        implements ReferenceBlockConverter<TableHint> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,TableHint> builder =
@@ -144,7 +143,7 @@ public class TableHintConverter
     }
 
     @Override
-    public Block convert(TableHint tableHint) {
+    public ReferenceBlock convert(TableHint tableHint) {
         return builder
                 .data(tableHint)
                 .build();

@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.Exists;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.predicate.Exists;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class ExistsPredicateConverter
-        implements BlockConverter<Exists> {
+        implements ReferenceBlockConverter<Exists> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Exists> builder =
@@ -31,7 +30,7 @@ public class ExistsPredicateConverter
     }
 
     @Override
-    public Block convert(Exists exists) {
+    public ReferenceBlock convert(Exists exists) {
         return builder
                 .data(exists)
                 .build();

@@ -1,16 +1,15 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class TableHintLimitedConverter
-        implements BlockConverter<TableHintLimited> {
+        implements ReferenceBlockConverter<TableHintLimited> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,TableHintLimited> builder =
@@ -84,7 +83,7 @@ public class TableHintLimitedConverter
     }
 
     @Override
-    public Block convert(TableHintLimited tableHintLimited) {
+    public ReferenceBlock convert(TableHintLimited tableHintLimited) {
         return builder
                 .data(tableHintLimited)
                 .build();

@@ -1,12 +1,10 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.tsql.core.datatype.TableTypeDefinitionConverter;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.variable.DeclareVariable;
 
@@ -14,7 +12,7 @@ import com.xy.xsql.tsql.model.variable.DeclareVariable;
  * Created by xiaoyao9184 on 2017/5/13.
  */
 public class DeclareVariableConverter
-        implements BlockConverter<DeclareVariable> {
+        implements ReferenceBlockConverter<DeclareVariable> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,DeclareVariable> builder =
@@ -54,7 +52,7 @@ public class DeclareVariableConverter
     }
 
     @Override
-    public Block convert(DeclareVariable declareVariable) {
+    public ReferenceBlock convert(DeclareVariable declareVariable) {
         return builder
                 .data(declareVariable)
                 .build();
@@ -62,7 +60,7 @@ public class DeclareVariableConverter
 
 
     public static class DeclareVariableItemPredicateRenderer
-            implements BlockConverter<DeclareVariable.Item> {
+            implements ReferenceBlockConverter<DeclareVariable.Item> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,DeclareVariable.Item> builder =
@@ -112,7 +110,7 @@ public class DeclareVariableConverter
         }
 
         @Override
-        public Block convert(DeclareVariable.Item item) {
+        public ReferenceBlock convert(DeclareVariable.Item item) {
             return builder
                     .data(item)
                     .build();

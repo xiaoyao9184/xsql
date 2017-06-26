@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.statement.dml.Delete;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class DeleteConverter
-        implements BlockConverter<Delete> {
+        implements ReferenceBlockConverter<Delete> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Delete> builder =
@@ -68,7 +67,7 @@ public class DeleteConverter
     }
 
     @Override
-    public Block convert(Delete delete) {
+    public ReferenceBlock convert(Delete delete) {
         return builder
                 .data(delete)
                 .build();

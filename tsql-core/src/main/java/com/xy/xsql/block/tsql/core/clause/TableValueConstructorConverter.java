@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.datatype.Default;
@@ -17,7 +16,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class TableValueConstructorConverter
-        implements BlockConverter<TableValueConstructor> {
+        implements ReferenceBlockConverter<TableValueConstructor> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,TableValueConstructor> builder =
@@ -42,7 +41,7 @@ public class TableValueConstructorConverter
     }
 
     @Override
-    public Block convert(TableValueConstructor tableValueConstructor) {
+    public ReferenceBlock convert(TableValueConstructor tableValueConstructor) {
         return builder
                 .data(tableValueConstructor)
                 .build();
@@ -50,7 +49,7 @@ public class TableValueConstructorConverter
 
 
     public static class RowValueExpressionListConverter
-            implements BlockConverter<List<Expression>> {
+            implements ReferenceBlockConverter<List<Expression>> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,List<Expression>> builder =
@@ -68,7 +67,7 @@ public class TableValueConstructorConverter
         }
 
         @Override
-        public Block convert(List<Expression> expressionList) {
+        public ReferenceBlock convert(List<Expression> expressionList) {
             return builder
                     .data(expressionList)
                     .build();
@@ -77,7 +76,7 @@ public class TableValueConstructorConverter
 
 
     public static class RowValueExpressionConverter
-            implements BlockConverter<Expression> {
+            implements ReferenceBlockConverter<Expression> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Expression> builder =
@@ -97,7 +96,7 @@ public class TableValueConstructorConverter
         }
 
         @Override
-        public Block convert(Expression expression) {
+        public ReferenceBlock convert(Expression expression) {
             return builder
                     .data(expression)
                     .build();

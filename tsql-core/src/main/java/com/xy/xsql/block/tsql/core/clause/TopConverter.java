@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.element.Other;
@@ -12,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class TopConverter
-        implements BlockConverter<Top> {
+        implements ReferenceBlockConverter<Top> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Top> builder =
@@ -40,7 +39,7 @@ public class TopConverter
     }
 
     @Override
-    public Block convert(Top top) {
+    public ReferenceBlock convert(Top top) {
         return builder
                 .data(top)
                 .build();

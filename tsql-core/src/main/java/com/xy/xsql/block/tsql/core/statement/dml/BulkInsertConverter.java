@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Assignment;
@@ -17,7 +16,7 @@ import java.util.function.Predicate;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class BulkInsertConverter
-        implements BlockConverter<BulkInsert> {
+        implements ReferenceBlockConverter<BulkInsert> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,BulkInsert> builder =
@@ -339,7 +338,7 @@ public class BulkInsertConverter
     }
 
     @Override
-    public Block convert(BulkInsert bulkInsert) {
+    public ReferenceBlock convert(BulkInsert bulkInsert) {
         return builder
                 .data(bulkInsert)
                 .build();
@@ -347,7 +346,7 @@ public class BulkInsertConverter
 
 
     public static class OrderColumnConverter
-            implements BlockConverter<BulkInsert.OrderColumn> {
+            implements ReferenceBlockConverter<BulkInsert.OrderColumn> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,BulkInsert.OrderColumn> builder =
@@ -368,7 +367,7 @@ public class BulkInsertConverter
         }
 
         @Override
-        public Block convert(BulkInsert.OrderColumn column) {
+        public ReferenceBlock convert(BulkInsert.OrderColumn column) {
             return builder
                     .data(column)
                     .build();

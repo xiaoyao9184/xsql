@@ -15,16 +15,25 @@ import java.util.stream.Stream;
 public enum BlockManager {
     INSTANCE;
 
-    private static Map<Type,BlockConverter> typeBlockBuilderMap;
+    private static Map<Type,ReferenceBlockConverter> typeBlockBuilderMap;
+    private static Map<Type,ReferenceBlockConverter> converterTypeBlockConverterMap;
 
-    public void register(Type clazz, BlockConverter blockConverter){
-        typeBlockBuilderMap.put(clazz, blockConverter);
+    static {
+        typeBlockBuilderMap = new HashMap<>();
+        converterTypeBlockConverterMap = new HashMap<>();
+        BlockManager.INSTANCE.scan("com.xy.xsql.block.tsql.core");
+    }
+
+
+    public void register(Type clazz, ReferenceBlockConverter referenceBlockConverter){
+        typeBlockBuilderMap.put(clazz, referenceBlockConverter);
+        converterTypeBlockConverterMap.put(referenceBlockConverter.getClass(), referenceBlockConverter);
     }
 
     public void scan(String basePackage){
         Reflections reflections = new Reflections(basePackage);
 
-        Set<Class<? extends BlockConverter>> subTypes = reflections.getSubTypesOf(BlockConverter.class);
+        Set<Class<? extends ReferenceBlockConverter>> subTypes = reflections.getSubTypesOf(ReferenceBlockConverter.class);
 
         subTypes
                 .forEach(b -> {
@@ -35,7 +44,7 @@ public enum BlockManager {
                             })
                             .map(t -> (ParameterizedType)t)
                             .filter(pt -> {
-                                return BlockConverter.class.equals(pt.getRawType());
+                                return ReferenceBlockConverter.class.equals(pt.getRawType());
                             })
                             .filter(pt -> {
                                 return pt.getActualTypeArguments() != null &&
@@ -46,8 +55,8 @@ public enum BlockManager {
                                 System.out.print(pt.getActualTypeArguments()[0]);
                                 try {
                                     Type type = pt.getActualTypeArguments()[0];
-                                    BlockConverter obj = b.newInstance();
-                                    typeBlockBuilderMap.put(type,obj);
+                                    ReferenceBlockConverter obj = b.newInstance();
+                                    register(type,obj);
                                 } catch (InstantiationException | IllegalAccessException e) {
                                     e.printStackTrace();
                                 }
@@ -59,13 +68,15 @@ public enum BlockManager {
 
 
 
-    public Map<Type,BlockConverter> getTypeBlockConverterMap(){
+    public Map<Type,ReferenceBlockConverter> getTypeBlockConverterMap(){
         return typeBlockBuilderMap;
     }
 
+    public ReferenceBlockConverter getTypeBlockConverter(Type type) {
+        return typeBlockBuilderMap.get(type);
+    }
 
-    static {
-        typeBlockBuilderMap = new HashMap<>();
-        BlockManager.INSTANCE.scan("com.xy.xsql.block.tsql.core");
+    public ReferenceBlockConverter getTypeBlockConverterByConverterType(Class refClass) {
+        return converterTypeBlockConverterMap.get(refClass);
     }
 }

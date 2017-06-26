@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.clause.select.OrderBy;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class OrderByConverter
-        implements BlockConverter<OrderBy> {
+        implements ReferenceBlockConverter<OrderBy> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,OrderBy> builder =
@@ -35,7 +34,7 @@ public class OrderByConverter
     }
 
     @Override
-    public Block convert(OrderBy orderBy) {
+    public ReferenceBlock convert(OrderBy orderBy) {
         return builder
                 .data(orderBy)
                 .build();
@@ -43,7 +42,7 @@ public class OrderByConverter
 
 
     public static class ItemConverter
-            implements BlockConverter<OrderBy.Item> {
+            implements ReferenceBlockConverter<OrderBy.Item> {
 
         // @formatter:off
     private static ReferenceBlockBuilder<Void,OrderBy.Item> builder =
@@ -73,7 +72,7 @@ public class OrderByConverter
         }
 
         @Override
-        public Block convert(OrderBy.Item item) {
+        public ReferenceBlock convert(OrderBy.Item item) {
             return builder
                     .data(item)
                     .build();
@@ -82,7 +81,7 @@ public class OrderByConverter
 
 
     public static class OffsetFetchConverter
-            implements BlockConverter<OrderBy.OffsetFetch> {
+            implements ReferenceBlockConverter<OrderBy.OffsetFetch> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,OrderBy.OffsetFetch> builder =
@@ -154,7 +153,7 @@ public class OrderByConverter
         }
 
         @Override
-        public Block convert(OrderBy.OffsetFetch item) {
+        public ReferenceBlock convert(OrderBy.OffsetFetch item) {
             return builder
                     .data(item)
                     .build();

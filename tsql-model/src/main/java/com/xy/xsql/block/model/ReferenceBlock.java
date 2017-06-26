@@ -37,7 +37,7 @@ public class ReferenceBlock implements Block {
     //reference
     private Class refClass;
     private Object data;
-    private Function<?,?> dataGetter;
+    private Function dataGetter;
     private List<Predicate<?>> verifierList;
 
     //check
@@ -55,6 +55,12 @@ public class ReferenceBlock implements Block {
             return data.toString();
         }
         if(name != null){
+            if(overall){
+                return "<" + name + ">::=";
+            }
+            if(refClass != null){
+                return "<" + name + ">";
+            }
             return name;
         }
         if(description != null){
@@ -96,6 +102,13 @@ public class ReferenceBlock implements Block {
         this.data = data;
     }
 
+    public Object getDataOrGetterData(Object data){
+        if(dataGetter == null){
+            return data;
+        }
+        return dataGetter.apply(data);
+    }
+
     public boolean isDataOrReference(){
         return this.data != null ||
                 this.dataGetter != null;
@@ -105,7 +118,7 @@ public class ReferenceBlock implements Block {
         return this.refClass != null;
     }
 
-    public Predicate<?> getOptionalFilter() {
+    public Predicate getOptionalFilter() {
         return optionalFilter;
     }
 

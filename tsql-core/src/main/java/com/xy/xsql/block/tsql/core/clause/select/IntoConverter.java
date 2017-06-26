@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Into;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.clause.select.Into;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class IntoConverter
-        implements BlockConverter<Into> {
+        implements ReferenceBlockConverter<Into> {
 
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Into> builder =
@@ -37,7 +36,7 @@ public class IntoConverter
     }
 
     @Override
-    public Block convert(Into into) {
+    public ReferenceBlock convert(Into into) {
         return builder
                 .data(into)
                 .build();

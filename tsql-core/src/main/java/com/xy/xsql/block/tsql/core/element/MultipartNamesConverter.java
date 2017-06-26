@@ -1,9 +1,8 @@
 package com.xy.xsql.block.tsql.core.element;
 
-import com.xy.xsql.block.core.BlockConverter;
+import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.model.Block;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -14,7 +13,7 @@ import com.xy.xsql.tsql.model.element.TableName;
 public class MultipartNamesConverter {
 
     public static class TableNameConverter
-            implements BlockConverter<TableName> {
+            implements ReferenceBlockConverter<TableName> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TableName> builder =
@@ -49,7 +48,7 @@ public class MultipartNamesConverter {
         }
 
         @Override
-        public Block convert(TableName tableName) {
+        public ReferenceBlock convert(TableName tableName) {
             return builder
                     .data(tableName)
                     .build();
@@ -58,7 +57,7 @@ public class MultipartNamesConverter {
     }
 
     public static class ColumnNameConverter
-            implements BlockConverter<ColumnName> {
+            implements ReferenceBlockConverter<ColumnName> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,ColumnName> builder =
@@ -79,7 +78,7 @@ public class MultipartNamesConverter {
         }
 
         @Override
-        public Block convert(ColumnName columnName) {
+        public ReferenceBlock convert(ColumnName columnName) {
             return builder
                     .data(columnName)
                     .build();
