@@ -51,7 +51,7 @@ public class OrderByConverter
                         .sub("order_by_expression")
                             .data(OrderBy.Item::getOrderByExpression)
                             .and()
-                        //TODO
+                        //TODO support COLLATE
     //                    .sub_meta("COLLATE collation_name")
                         .sub()
                             .description("ASC | DESC")

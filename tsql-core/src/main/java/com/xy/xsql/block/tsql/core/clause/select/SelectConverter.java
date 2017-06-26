@@ -109,14 +109,14 @@ public class SelectConverter
                                         .czse(d -> d.getColumnName() != null, "column_name")
                                             .data(Select.SelectItem::getColumnName)
                                             .and()
-                                        //TODO
+                                        //TODO support $IDENTITY $ROWGUID
 //                                        .czse_meta("$IDENTITY")
 //                                            .and()
 //                                        .czse_meta("$ROWGUID")
 //                                            .and()
                                         .and()
                                     .and()
-                                //TODO
+                                //TODO support property/field/method
 //                                .oneOf()
 //                                    .description("property/field/method")
 ////                                    .filter()

@@ -51,7 +51,7 @@ public class DeleteConverter
                         .optional(d -> d.getFrom() == null)
                         .data(Delete::getFrom)
                         .and()
-                    //TODO
+                    //TODO support CURRENT OF
                     .sub("WHERE { <search_condition>")
                         .optional(d -> d.getWhere() == null)
                         .data(Delete::getWhere)

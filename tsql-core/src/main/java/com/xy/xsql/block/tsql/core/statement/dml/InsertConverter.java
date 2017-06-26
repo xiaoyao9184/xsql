@@ -57,7 +57,7 @@ public class InsertConverter
                         .and()
                     .sub()
                         .required()
-                        //TODO
+                        //TODO donot use ref
                         .czse(d -> d.getValues() != null, "VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]")
                             .optional(d -> d.getValues() == null)
                             .ref(TableValueConstructorConverter.class)
@@ -66,7 +66,7 @@ public class InsertConverter
     //                    .czse_meta("derived_table")
     //                    .czse_meta("execute_statement")
     //                    .czse_meta("<dml_table_source>")
-                        .czse(d -> d.isUseDefaultValues(),"DEFAULT VALUES")
+                        .czse(Insert::isUseDefaultValues,"DEFAULT VALUES")
                             .optional(Insert::isUseDefaultValues)
                             .sub_keyword(Keywords.DEFAULT)
                             .sub_keyword(Keywords.VALUES)

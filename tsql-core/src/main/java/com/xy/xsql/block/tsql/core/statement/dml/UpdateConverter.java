@@ -54,7 +54,7 @@ public class UpdateConverter
                         .optional(d -> d.getFrom() == null)
                         .data(Update::getFrom)
                         .and()
-                    //TODO
+                    //TODO support CURRENT OF
                     .sub("WHERE <search_condition>")
                         .optional(d -> d.getWhere() == null)
                         .data(Update::getWhere)
