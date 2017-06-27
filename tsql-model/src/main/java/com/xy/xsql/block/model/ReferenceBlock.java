@@ -58,11 +58,11 @@ public class ReferenceBlock implements Block {
         StringBuilder sb = new StringBuilder();
         if(name != null){
             if(overall){
-                sb.append("-----><")
+                sb.append("<")
                         .append(name)
                         .append(">");
             }else if(refClass != null){
-                sb.append('<')
+                sb.append("-----><")
                         .append(name)
                         .append('>');
             }else{

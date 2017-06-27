@@ -4,9 +4,11 @@ import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.clause.hints.JoinHintConverter;
+import com.xy.xsql.block.tsql.core.clause.select.SelectConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -138,6 +140,7 @@ public class FromConverter
                 new ReferenceBlockBuilder<Void,From.DerivedTable>()
                         .description("derived table")
                         .sub("derived_table")
+//                            .ref(com.xy.xsql.block.tsql.core.statement.dml.SelectConverter.QuerySpecificationConverter.class)
                             .data(From.DerivedTable::getSubQuery)
                             .and()
                         .sub()

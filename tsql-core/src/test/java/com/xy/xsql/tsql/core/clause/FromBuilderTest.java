@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
+import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.operator.Operators;
@@ -158,7 +159,7 @@ public class FromBuilderTest {
 
 
     // @formatter:off
-    public From exampleD =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+    public From exampleD = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
                     .$()
@@ -253,7 +254,7 @@ public class FromBuilderTest {
 
 
     // @formatter:off
-    public From exampleE =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+    public From exampleE = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
                     .$()
@@ -327,7 +328,7 @@ public class FromBuilderTest {
 
 
     // @formatter:off
-    public From exampleF =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+    public From exampleF = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
                     .$()
@@ -401,7 +402,7 @@ public class FromBuilderTest {
 
 
     // @formatter:off
-    public From exampleG =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+    public From exampleG = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
                     .$()
@@ -475,7 +476,8 @@ public class FromBuilderTest {
 
 
     // @formatter:off
-    public From exampleH =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+
+    public From exampleH = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
                     .$()
@@ -502,6 +504,7 @@ public class FromBuilderTest {
                         .and()
                     .and()
                 .get();
+
     // @formatter:on
 
     /**
@@ -584,6 +587,59 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
+
+
+
+
+    // @formatter:off
+    private Select.QuerySpecification querySpecification = new SelectBuilder.QuerySpecificationBuilder<Void>()
+            .$(c("bea", "BusinessEntityID"))
+            .$(c("a", "City"))
+            .$From()
+                .$()
+                    .$(t("Person","Address"))
+                    .$As("a")
+                    .$Inner_Join()
+                    .$(t("Person","BusinessEntityAddress"))
+                    .$As("bea")
+                    .$On()
+                        .$(
+                                p_equal(c("a","AddressID"),
+                                        c("bea","AddressID"))
+                        )
+                        .and()
+                    .and()
+                .and()
+                .build();
+
+    public From exampleI = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Person","Person"))
+                        .$As("p")
+                        .$Inner_Join()
+                        .$(t("HumanResources","Employee"))
+                        .$As("e")
+                        .$On()
+                            .$(p_equal(
+                                    c("p","BusinessEntityID"),
+                                    c("e","BusinessEntityID")
+                            ))
+                            .and()
+                        .$Inner_Join()
+                        .$(querySpecification)
+                        .$As("d")
+                        .$On()
+                            .$(p_equal(
+                                    c("p","BusinessEntityID"),
+                                    c("d","BusinessEntityID")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * FROM Person.Person AS p

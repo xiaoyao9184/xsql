@@ -178,4 +178,24 @@ public class FromConverterTest {
                 ok);
     }
 
+    @Test
+    public void testPrintI() throws Exception {
+        From from = fromBuilderTest.exampleI;
+
+        StringWriter writer = ReferenceBlockPrinter.print(from);
+
+        System.out.println(writer);
+
+        //TODO
+        String ok = "FROM Person.Person p" +
+                " INNER JOIN HumanResources.Employee e" +
+                " ON p.BusinessEntityID = e.BusinessEntityID" +
+                " INNER JOIN (" +
+                " ) d" +
+                " ON p.BusinessEntityID = d.BusinessEntityID";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
+
 }

@@ -3,11 +3,16 @@ package com.xy.xsql.block.tsql.core.clause.hints;
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.clause.OptionConverter;
+import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringWriter;
 
+import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.HASH;
+import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.MERGE_JOIN;
+import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.OPTIMIZE_FOR;
+import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.OptimizeForBuilder.OPTIMIZE_FOR_Item;
 import static org.junit.Assert.*;
 
 /**
@@ -48,5 +53,33 @@ public class QueryHintConverterTest {
                         "| USE_HINT ( '<hint_name>' [,...n] )\n" +
                         "| USE_PLAN N'xml_plan'\n" +
                         "| TABLE_HINT ( exposed_object_name [ , <table_hint> [ [, ]...n ] ] )");
+    }
+
+    @Test
+    public void testPrintA() throws Exception {
+        StringWriter writer = ReferenceBlockPrinter.print(MERGE_JOIN());
+
+        String ok = "MERGE JOIN";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
+
+    @Test
+    public void testPrintB() throws Exception {
+        QueryHint queryHint = OPTIMIZE_FOR(
+                OPTIMIZE_FOR_Item("city_name",false,"Seattle"),
+                OPTIMIZE_FOR_Item("postal_code",true,null));
+
+        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN)";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(
+                check,
+                ok);
     }
 }

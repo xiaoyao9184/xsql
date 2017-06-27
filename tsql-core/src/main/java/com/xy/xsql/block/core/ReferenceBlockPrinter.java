@@ -218,17 +218,18 @@ public class ReferenceBlockPrinter {
         }else if(block.isList()){
             //List
             ReferenceBlock itemBlock = block.getSub().get(0);
-            Object dataList = block.getDataOrGetterData(context);
-            if(dataList instanceof List){
-                List listData = (List) dataList;
-                for (Object itemData : listData) {
-                    printBlock(itemBlock, itemData, writer);
-                }
+            //list must change context
+            Object dataListContext = block.getDataOrGetterData(context);
+            if(dataListContext instanceof List){
+                printBlock(itemBlock,(List)dataListContext, "\n, ", writer);
             }
         }else if(block.isRepeat()){
             //Repeat
-            for (ReferenceBlock itemBlock : block.getSub()) {
-                printBlock(itemBlock, context, writer);
+            ReferenceBlock itemBlock = block.getSub().get(0);
+            //repeat must change context
+            Object dataListContext = block.getDataOrGetterData(context);
+            if(dataListContext instanceof List){
+                printBlock(itemBlock,(List)dataListContext, "\n ", writer);
             }
         }else if(block.getSub() != null){
             //
@@ -276,6 +277,19 @@ public class ReferenceBlockPrinter {
         return writer;
     }
 
+    public void printBlock(ReferenceBlock itemBlock, List<Object> listContext, String delimiter, StringWriter writer) {
+        writer.append(
+                listContext
+                        .stream()
+                        .map(context -> {
+                            StringWriter stringWriter = new StringWriter();
+                            printBlock(itemBlock, context, stringWriter);
+                            return stringWriter.toString();
+                        })
+                        .collect(Collectors.joining(delimiter))
+        );
+    }
+
 
     public void printBlock(ReferenceBlockConverter converter, List<Object> dataList, String delimiter, StringWriter writer) {
         writer.append(
@@ -284,7 +298,7 @@ public class ReferenceBlockPrinter {
                         .map(data -> {
                             StringWriter stringWriter = new StringWriter();
                             ReferenceBlock itemBlock = converter.build(data);
-                            printBlock(itemBlock, data, writer);
+                            printBlock(itemBlock, data, stringWriter);
                             return stringWriter.toString();
                         })
                         .collect(Collectors.joining(delimiter))

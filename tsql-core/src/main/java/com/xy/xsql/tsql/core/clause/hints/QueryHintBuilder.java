@@ -4,6 +4,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -130,9 +131,9 @@ public class QueryHintBuilder<ParentBuilder>
                 boolean useUnknown,
                 String literalConstant){
             QueryHint.OptimizeFor optimizeFor = new  QueryHint.OptimizeFor();
-            optimizeFor.setVariableName(variableName);
+            optimizeFor.setVariableName(new LocalVariable(variableName));
             optimizeFor.setUseUnknown(useUnknown);
-            optimizeFor.setLiteralConstant(literalConstant);
+            optimizeFor.setLiteralConstant(new StringConstant(literalConstant).withQuote());
             return optimizeFor;
         }
 

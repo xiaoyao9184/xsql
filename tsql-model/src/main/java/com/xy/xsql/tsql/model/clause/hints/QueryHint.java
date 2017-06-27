@@ -1,8 +1,10 @@
 package com.xy.xsql.tsql.model.clause.hints;
 
+import com.sun.org.apache.xpath.internal.operations.Variable;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 
 import java.util.List;
 
@@ -178,20 +180,20 @@ public class QueryHint implements Clause, Option.QueryOption {
 
         @Override
         public String toString() {
-            return this.name();
+            return this.string;
         }
     }
 
     public static class OptimizeFor {
-        private String variableName;
+        private LocalVariable variableName;
         private boolean useUnknown;
-        private String literalConstant;
+        private StringConstant literalConstant;
 
-        public String getVariableName() {
+        public LocalVariable getVariableName() {
             return variableName;
         }
 
-        public void setVariableName(String variableName) {
+        public void setVariableName(LocalVariable variableName) {
             this.variableName = variableName;
         }
 
@@ -203,11 +205,11 @@ public class QueryHint implements Clause, Option.QueryOption {
             this.useUnknown = useUnknown;
         }
 
-        public String getLiteralConstant() {
+        public StringConstant getLiteralConstant() {
             return literalConstant;
         }
 
-        public void setLiteralConstant(String literalConstant) {
+        public void setLiteralConstant(StringConstant literalConstant) {
             this.literalConstant = literalConstant;
         }
 
