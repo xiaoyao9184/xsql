@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.model.clause;
 
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -300,11 +301,20 @@ public class From implements Clause {
         FULL_OUTER_JOIN(Keywords.FULL,Keywords.OUTER,Keywords.JOIN);
 
         private Enum[] es;
+        private JoinHint joinHint;
 
         JoinType(Enum... elements){
             this.es = elements;
         }
 
+
+        public JoinHint getJoinHint() {
+            return joinHint;
+        }
+
+        public void setJoinHint(JoinHint joinHint) {
+            this.joinHint = joinHint;
+        }
     }
 
     /**
