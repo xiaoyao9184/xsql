@@ -22,7 +22,7 @@ public class TruncateTableConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<TRUNCATE TABLE> ::=\n" +
                         "TRUNCATE TABLE \n" +

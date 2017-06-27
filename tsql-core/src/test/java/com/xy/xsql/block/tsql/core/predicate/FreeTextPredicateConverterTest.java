@@ -21,7 +21,7 @@ public class FreeTextPredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<FREETEXT> ::=\n" +
                         "FREETEXT ( { column_name | ( column_list ) | * } , 'freetext_string' , [ LANGUAGE language_term ] )");

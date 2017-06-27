@@ -21,7 +21,7 @@ public class ComparisonSubPredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<Comparison Predicate with SubQuery> ::=\n" +
                         "expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } { ALL | SOME | ANY } ( subquery )");

@@ -21,7 +21,7 @@ public class HavingConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<HAVING> ::=\n" +
                         "HAVING <search condition>");

@@ -21,7 +21,7 @@ public class TableHintConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<table_hint> ::=\n" +
                         "[ NOEXPAND ]\n" +

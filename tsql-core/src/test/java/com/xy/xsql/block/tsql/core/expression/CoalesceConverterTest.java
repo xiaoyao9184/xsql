@@ -20,7 +20,7 @@ public class CoalesceConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         assert true;
     }
 

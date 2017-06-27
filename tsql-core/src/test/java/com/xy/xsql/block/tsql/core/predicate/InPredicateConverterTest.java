@@ -21,7 +21,7 @@ public class InPredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<IN> ::=\n" +
                         "expression [ NOT ] IN ( subquery | { expression } [,...n] )");

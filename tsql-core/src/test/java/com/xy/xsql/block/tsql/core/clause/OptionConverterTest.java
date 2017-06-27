@@ -19,7 +19,7 @@ public class OptionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<OPTION Clause> ::=\n" +
                         "OPTION ( <query_hint> [,...n] )");
@@ -32,7 +32,7 @@ public class OptionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<query_option> ::=\n" +
                         "LABEL = label_name\n" +
@@ -46,7 +46,7 @@ public class OptionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "LABEL = label_name");
     }

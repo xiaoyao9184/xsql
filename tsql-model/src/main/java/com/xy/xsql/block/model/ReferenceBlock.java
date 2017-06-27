@@ -54,19 +54,28 @@ public class ReferenceBlock implements Block {
         if(keyword){
             return data.toString();
         }
+
+        StringBuilder sb = new StringBuilder();
         if(name != null){
             if(overall){
-                return "<" + name + ">::=";
+                sb.append("-----><")
+                        .append(name)
+                        .append(">");
+            }else if(refClass != null){
+                sb.append('<')
+                        .append(name)
+                        .append('>');
+            }else{
+                sb.append(name);
             }
-            if(refClass != null){
-                return "<" + name + ">";
-            }
-            return name;
         }
+
         if(description != null){
-            return description;
+            sb.append('(')
+                    .append(description)
+                    .append(')');
         }
-        return "";
+        return sb.toString();
     }
 
 

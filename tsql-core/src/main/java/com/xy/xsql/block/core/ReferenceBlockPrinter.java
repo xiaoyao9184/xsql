@@ -1,5 +1,6 @@
 package com.xy.xsql.block.core;
 
+import com.xy.xsql.block.exception.BlockStructureCorrectException;
 import com.xy.xsql.block.model.ReferenceBlock;
 
 import java.io.StringWriter;
@@ -145,17 +146,28 @@ public class ReferenceBlockPrinter {
     }
 
 
+    @Deprecated
     public StringWriter printBlock(ReferenceBlock referenceBlock){
         return printBlock(referenceBlock, referenceBlock.getData(), writer);
     }
 
+    public StringWriter printBlock(ReferenceBlock referenceBlock, Object context){
+        return printBlock(referenceBlock, context, writer);
+    }
+
     @SuppressWarnings({"Duplicates", "unchecked"})
-    public StringWriter printBlock(ReferenceBlock block, Object data, StringWriter writer){
+    public StringWriter printBlock(ReferenceBlock block, Object context, StringWriter writer){
 
         //Optional just return
-        if(block.isOptional() &&
-            block.getOptionalFilter().test(data)){
-            return writer;
+        if(block.isOptional()){
+            Predicate optionalPredicate = block.getOptionalFilter();
+            if(optionalPredicate == null){
+                throw new RuntimeException(new BlockStructureCorrectException(block,
+                        BlockStructureCorrectException.StructureCorrect.OPTION_FILTER_MISS));
+            }
+            if(optionalPredicate.test(context)){
+                return writer;
+            }
         }
 
         //start
@@ -164,42 +176,41 @@ public class ReferenceBlockPrinter {
         }
 
         //style
-        if(block.isHeadFootTakeLine()){
-            writer.append("\n");
-        }else{
-            writer.append(" ");
-        }
+//        if(block.isHeadFootTakeLine()){
+//            writer.append("\n");
+//        }else{
+//            writer.append(" ");
+//        }
 
 
         //data
-        if(block.isKeyword()){
-            //Keyword
-            writer.append(block.getData().toString());
-        }else if(block.isReference()){
+        if(block.isReference()){
             //Reference
             ReferenceBlockConverter converter = BlockManager
                     .INSTANCE
                     .getTypeBlockConverterByConverterType(block.getRefClass());
 
+            Object referenceContext = block.getDataOrGetterData(context);
+
             if(block.isList() &&
-                    data instanceof List){
+                    referenceContext instanceof List){
                 //List
-                printBlock(converter, (List) data,"\n, ",writer);
+                printBlock(converter, (List) referenceContext,"\n, ",writer);
             }else if(block.isRepeat() &&
-                    data instanceof List){
+                    referenceContext instanceof List){
                 //Repeat
-                printBlock(converter, (List) data," ",writer);
+                printBlock(converter, (List) referenceContext," ",writer);
             }else{
-                ReferenceBlock referenceBlock = converter.convert(data);
-                printBlock(referenceBlock, data, writer);
+                ReferenceBlock referenceBlock = converter.convert(referenceContext);
+                printBlock(referenceBlock, referenceContext, writer);
             }
         }else if(block.isExclusive()){
             //Exclusive
             int index = 0;
             for(Predicate p : block.getCasePredicate()){
-                if(p.test(data)){
+                if(p.test(context)){
                     ReferenceBlock subBlock = block.getSub().get(index);
-                    printBlock(subBlock, data, writer);
+                    printBlock(subBlock, context, writer);
                     break;
                 }
                 index++;
@@ -207,7 +218,7 @@ public class ReferenceBlockPrinter {
         }else if(block.isList()){
             //List
             ReferenceBlock itemBlock = block.getSub().get(0);
-            Object dataList = block.getDataOrGetterData(data);
+            Object dataList = block.getDataOrGetterData(context);
             if(dataList instanceof List){
                 List listData = (List) dataList;
                 for (Object itemData : listData) {
@@ -217,25 +228,45 @@ public class ReferenceBlockPrinter {
         }else if(block.isRepeat()){
             //Repeat
             for (ReferenceBlock itemBlock : block.getSub()) {
-                printBlock(itemBlock, data, writer);
+                printBlock(itemBlock, context, writer);
             }
         }else if(block.getSub() != null){
             //
             for (ReferenceBlock subBlock : block.getSub()) {
-                Object subData = subBlock.getDataOrGetterData(data);
-                printBlock(subBlock, subData, writer);
+                printBlock(subBlock, context, writer);
             }
         }else{
-            writer.append(data.toString());
+            String blockString;
+            if(block.isKeyword()){
+                //Keyword
+                blockString = block.getData().toString();
+            }else{
+                Object data = block.getDataOrGetterData(context);
+                blockString = data.toString();
+            }
+
+            if(block.isHeadFootTakeLine()){
+                writer.append("\n");
+            }else{
+                writer.append(" ");
+            }
+
+            writer.append(blockString);
+
+            if(block.isHeadFootTakeLine()){
+                writer.append("\n");
+            }else{
+                writer.append(" ");
+            }
         }
 
 
         //style
-        if(block.isHeadFootTakeLine()){
-            writer.append("\n");
-        }else{
-            writer.append(" ");
-        }
+//        if(block.isHeadFootTakeLine()){
+//            writer.append("\n");
+//        }else{
+//            writer.append(" ");
+//        }
 
         //end
         if(block.isEndNewLine()){
@@ -273,7 +304,7 @@ public class ReferenceBlockPrinter {
 
         ReferenceBlock b = converter.convert(object);
 
-        return new ReferenceBlockPrinter().printBlock(b);
+        return new ReferenceBlockPrinter().printBlock(b,object);
     }
 
     @SuppressWarnings("unchecked")

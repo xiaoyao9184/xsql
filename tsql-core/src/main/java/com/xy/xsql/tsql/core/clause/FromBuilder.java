@@ -1070,6 +1070,12 @@ public class FromBuilder<ParentBuilder>
             return this;
         }
 
+        public JoinedTableBuilder<ParentBuilder> withJoinType(From.JoinTypeKeywords joinType, JoinHint joinHint){
+            target.setUseJoinOn(true);
+            target.setJoinType(new From.JoinType(joinType,joinHint));
+            return this;
+        }
+
         public JoinedTableBuilder<ParentBuilder> withCrossJoin(){
             target.setUseCrossJoin(true);
             return this;

@@ -22,7 +22,7 @@ public class ReNameDatabaseConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<RENAME> ::=\n" +
                         "RENAME DATABASE [ :: ] database_name TO new_database_name");

@@ -22,7 +22,7 @@ public class BetweenPredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<BETWEEN> ::=\n" +
                         "expression [ NOT ] BETWEEN { expression } AND expression");

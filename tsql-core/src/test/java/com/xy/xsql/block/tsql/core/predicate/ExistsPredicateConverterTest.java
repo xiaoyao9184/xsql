@@ -21,7 +21,7 @@ public class ExistsPredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<EXISTS> ::=\n" +
                         "EXISTS ( subquery )");

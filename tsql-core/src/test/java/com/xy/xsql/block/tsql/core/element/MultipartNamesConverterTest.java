@@ -22,7 +22,7 @@ public class MultipartNamesConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "[ database_name . [ schema_name ] . | schema_name . ] table_name");
     }
@@ -34,7 +34,7 @@ public class MultipartNamesConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "[ [ database_name . [ schema_name ] . | schema_name . ] table_name . ] column_name");
     }

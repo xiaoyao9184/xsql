@@ -21,7 +21,7 @@ public class ComparisonPredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<Comparison Predicate> ::=\n" +
                         "expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression");

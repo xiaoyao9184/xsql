@@ -21,7 +21,7 @@ public class JoinHintConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<join_hint> ::=\n" +
                         "{ LOOP | HASH | MERGE | REMOTE }");

@@ -22,7 +22,7 @@ public class ColumnTypeDefinitionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<column_definition> ::=\n" +
                         "column_name\n" +
@@ -39,7 +39,7 @@ public class ColumnTypeDefinitionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<column_constraint> ::=\n" +
                         "[ NULL | NOT NULL ]\n" +

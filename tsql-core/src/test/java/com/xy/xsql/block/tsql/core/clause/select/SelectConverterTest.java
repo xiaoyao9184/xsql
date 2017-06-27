@@ -21,7 +21,7 @@ public class SelectConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<SELECT Clause> ::=\n" +
                         "SELECT [ ALL | DISTINCT ] \n" +
@@ -36,7 +36,7 @@ public class SelectConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<select_list> ::=\n" +
                         "{\n" +

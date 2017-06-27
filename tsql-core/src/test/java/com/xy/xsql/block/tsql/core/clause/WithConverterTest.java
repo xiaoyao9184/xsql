@@ -19,7 +19,7 @@ public class WithConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<WITH common_table_expression> ::=\n" +
                         "WITH <common_table_expression> [,...n]");
@@ -32,7 +32,7 @@ public class WithConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<common_table_expression> ::=\n" +
                         "expression_name [ ( column_name [,...n] ) ] \n" +

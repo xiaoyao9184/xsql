@@ -21,7 +21,7 @@ public class OverConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<OVER> ::=\n" +
                         "OVER ( \n" +
@@ -37,7 +37,7 @@ public class OverConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<PARTITION BY clause> ::=\n" +
                         "PARTITION BY value_expression [,...n]");
@@ -50,7 +50,7 @@ public class OverConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<ORDER BY clause> ::=\n" +
                         "ORDER BY order_by_expression [ ASC | DESC ] [,...n]");

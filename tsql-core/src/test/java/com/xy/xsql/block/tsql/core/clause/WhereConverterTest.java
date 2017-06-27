@@ -19,7 +19,7 @@ public class WhereConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<WHERE> ::=\n" +
                         "WHERE <search_condition>");

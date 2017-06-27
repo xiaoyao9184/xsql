@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.core.clause;
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -53,6 +54,16 @@ public class FromBuilderTest {
         From.BaseTable tableSource = (From.BaseTable) option.getTableSourceList().get(0);
         Assert.assertEquals(tableSource.getTableName().toString(),"Sales.SalesTerritory");
     }
+
+
+    // @formatter:off
+    public From exampleB = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+            (FromBuilder.class,From.class)
+            .$child()
+                .$(t("HumanResources","Employee"))
+                .and()
+            .get();
+    // @formatter:on
 
     /**
      * FROM HumanResources.Employee
@@ -471,12 +482,21 @@ public class FromBuilderTest {
                         .$(t("Production","Product"))
                         .$As("p")
                         .$Inner_Merge_Join()
-                        .$(t("Sales","SalesPerson"))
-                        .$As("sp")
+                        .$(t("Purchasing","ProductVendor"))
+                        .$As("pv")
                         .$On()
                             .$(p_equal(
-                                    c("st","TerritoryID"),
-                                    c("sp","TerritoryID")
+                                    c("p","ProductID"),
+                                    c("pv","ProductID")
+                            ))
+                            .and()
+                        .$Inner_Hash_Join()
+                        .$(t("Purchasing","Vendor"))
+                        .$As("v")
+                        .$On()
+                            .$(p_equal(
+                                    c("pv","BusinessEntityID"),
+                                    c("v","BusinessEntityID")
                             ))
                             .and()
                         .and()
@@ -493,48 +513,75 @@ public class FromBuilderTest {
      */
     @Test
     public void testExampleH(){
-//        // @formatter:off
-//        From from = new FromBuilder<From>()
-//                .withItem()._Joined()
-//                    .withTableSource()._Base()
-//                        .withTableName(t("Production","Product"))
-//                        .withTableAlias("p")
-//                        .and()
-//                    .withJoinType(From.JoinType.INNER_JOIN)
-//                    .withTableSource2()._Base()
-//                        .withTableName(t("Sales","SalesPerson"))
-//                        .withTableAlias("sp")
-//                        .and()
-//                    .withSearchCondition()
-//                        .withPredicate()._Comparison()
-//                            .withExpression(c("st","TerritoryID"))
-//                            .withOperator(Operators.EQUAL)
-//                            .withExpression(c("sp","TerritoryID"))
-//                            .and()
-//                        .and()
-//                    .and()
-//                .build();
-//
-//        // @formatter:on
-//
-//        Assert.assertEquals(from.getTableSourceList().size(),1);
-//
-//        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
-//        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
-//
-//        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
-//        From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-//        Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
-//        Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
-//
-//        Assert.assertEquals(tableSource.getKeywords(), From.JoinType.INNER_JOIN);
-//
-//        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
-//        From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
-//        Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
-//        Assert.assertEquals(tableSource2.getTableAlias().toString(),"sod");
-//
-//        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Joined()
+                    .withTableSource()._Joined()
+                        .withTableSource()._Base()
+                            .withTableName(t("Production","Product"))
+                            .withTableAlias("p")
+                            .and()
+                        .withJoinType(From.JoinTypeKeywords.INNER_JOIN, JoinHint.MERGE)
+                        .withTableSource2()._Base()
+                            .withTableName(t("Purchasing","ProductVendor"))
+                            .withTableAlias("pv")
+                            .and()
+                        .withSearchCondition()
+                            .withPredicate()._Comparison()
+                                .withExpression(c("p","ProductID"))
+                                .withOperator(Operators.EQUAL)
+                                .withExpression(c("pv","ProductID"))
+                                .and()
+                            .and()
+                        .and()
+                    .withJoinType(From.JoinTypeKeywords.INNER_JOIN, JoinHint.HASH)
+                    .withTableSource2()._Base()
+                        .withTableName(t("Purchasing","Vendor"))
+                        .withTableAlias("v")
+                        .and()
+                    .withSearchCondition()
+                        .withPredicate()._Comparison()
+                            .withExpression(c("pv","BusinessEntityID"))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(c("v","BusinessEntityID"))
+                            .and()
+                        .and()
+                    .and()
+                .build();
+
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
+
+        Assert.assertEquals(tableSource.getTableSource().getClass(),From.JoinedTable.class);
+        From.JoinedTable tableSource01 = (From.JoinedTable) tableSource.getTableSource();
+
+            Assert.assertEquals(tableSource01.getTableSource().getClass(),From.BaseTable.class);
+            From.BaseTable tableSource11 = (From.BaseTable) tableSource01.getTableSource();
+            Assert.assertEquals(tableSource11.getTableName().toString(),"Production.Product");
+            Assert.assertEquals(tableSource11.getTableAlias().toString(),"p");
+
+            Assert.assertEquals(tableSource01.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
+            Assert.assertEquals(tableSource01.getJoinType().getJoinHint(), JoinHint.MERGE);
+
+            Assert.assertEquals(tableSource01.getTableSource2().getClass(),From.BaseTable.class);
+            From.BaseTable tableSource12 = (From.BaseTable) tableSource01.getTableSource2();
+            Assert.assertEquals(tableSource12.getTableName().toString(),"Purchasing.ProductVendor");
+            Assert.assertEquals(tableSource12.getTableAlias().toString(),"pv");
+
+
+        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
+        Assert.assertEquals(tableSource.getJoinType().getJoinHint(), JoinHint.HASH);
+
+        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource02 = (From.BaseTable) tableSource.getTableSource2();
+        Assert.assertEquals(tableSource02.getTableName().toString(),"Purchasing.Vendor");
+        Assert.assertEquals(tableSource02.getTableAlias().toString(),"v");
+
+        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 

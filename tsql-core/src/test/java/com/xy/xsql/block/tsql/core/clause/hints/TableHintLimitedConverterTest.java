@@ -21,7 +21,7 @@ public class TableHintLimitedConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<table_hint_limited> ::=\n" +
                         "KEEPIDENTITY\n" +

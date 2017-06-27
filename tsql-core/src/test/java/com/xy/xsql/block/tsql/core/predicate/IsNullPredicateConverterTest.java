@@ -21,7 +21,7 @@ public class IsNullPredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<IS NULL> ::=\n" +
                         "expression IS [ NOT ] NULL");

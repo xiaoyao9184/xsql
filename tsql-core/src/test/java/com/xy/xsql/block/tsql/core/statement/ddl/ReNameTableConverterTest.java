@@ -22,7 +22,7 @@ public class ReNameTableConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<RENAME> ::=\n" +
                         "RENAME OBJECT [ :: ] [ [ database_name .  [schema_name ] ] . ] | [schema_name . ] ] table_name TO new_table_name");

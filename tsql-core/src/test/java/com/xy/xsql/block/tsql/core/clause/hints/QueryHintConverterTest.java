@@ -22,7 +22,7 @@ public class QueryHintConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<query_hint> ::=\n" +
                         "{ HASH | ORDER } GROUP\n" +

@@ -22,7 +22,7 @@ public class SelectConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<SELECT statement> ::=\n" +
                         "[ [ WITH { [ XMLNAMESPACES ,] [ <common_table_expression> [,...n] ] } ] ]\n" +
@@ -39,7 +39,7 @@ public class SelectConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<query_expression> ::=\n" +
                         "{ <query_specification> | ( <query_expression> ) }\n" +
@@ -54,7 +54,7 @@ public class SelectConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<query_specification> ::=\n" +
                         "SELECT\n" +
@@ -75,7 +75,7 @@ public class SelectConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "{ UNION [ ALL ] | EXCEPT | INTERSECT }\n" +
                         "<query_specification> | ( <query_expression> )");

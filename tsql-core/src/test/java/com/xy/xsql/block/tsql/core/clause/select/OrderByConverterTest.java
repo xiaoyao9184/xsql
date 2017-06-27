@@ -21,7 +21,7 @@ public class OrderByConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "ORDER BY \n" +
                         "order_by_expression [ ASC | DESC ] [,...n] \n" +
@@ -35,7 +35,7 @@ public class OrderByConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<offset_fetch> ::=\n" +
                         "OFFSET { integer_constant | offset_row_count_expression } { ROW | ROWS } \n" +

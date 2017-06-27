@@ -19,7 +19,7 @@ public class TopConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<TOP> ::=\n" +
                         "TOP ( expression ) [ PERCENT ] [ WITH TIES ]");

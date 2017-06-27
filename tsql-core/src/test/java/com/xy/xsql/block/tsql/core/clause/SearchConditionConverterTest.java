@@ -21,7 +21,7 @@ public class SearchConditionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<search_condition> ::=\n" +
                         "{ [ NOT ] <predicate> | ( <search_condition> ) }\n" +
@@ -35,7 +35,7 @@ public class SearchConditionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "[ { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) } ]");
     }
@@ -47,7 +47,7 @@ public class SearchConditionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<predicate> ::=\n" +
                         "expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression\n" +

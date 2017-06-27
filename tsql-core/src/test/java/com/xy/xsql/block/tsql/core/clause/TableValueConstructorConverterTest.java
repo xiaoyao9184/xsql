@@ -19,7 +19,7 @@ public class TableValueConstructorConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<Table Value Constructor> ::=\n" +
                         "VALUES ( <row value expression list> ) [,...n]");
@@ -32,7 +32,7 @@ public class TableValueConstructorConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<row value expression list> ::=\n" +
                         "{ <row value expression> } [,...n]");
@@ -45,7 +45,7 @@ public class TableValueConstructorConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<row value expression> ::=\n" +
                         "{ DEFAULT | NULL | expression }");

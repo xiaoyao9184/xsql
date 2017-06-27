@@ -21,7 +21,7 @@ public class LikePredicateConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<LIKE> ::=\n" +
                         "string_expression [ NOT ] LIKE string_expression [ ESCAPE 'escape_character' ]");

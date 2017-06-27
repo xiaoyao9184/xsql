@@ -299,6 +299,11 @@ public class From implements Clause {
             this.keywords = keywords;
         }
 
+        public JoinType(JoinTypeKeywords joinType, JoinHint joinHint) {
+            this.keywords = joinType;
+            this.joinHint = joinHint;
+        }
+
         public JoinTypeKeywords getKeywords() {
             return keywords;
         }

@@ -22,7 +22,7 @@ public class AtTimeConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<AT TIME ZONE> ::=\n" +
                         "inputdate AT TIME ZONE timezone");

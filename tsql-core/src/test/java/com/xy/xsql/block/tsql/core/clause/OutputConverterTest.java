@@ -19,7 +19,7 @@ public class OutputConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<OUTPUT_CLAUSE> ::=\n" +
                         "[ OUTPUT <dml_select_list> INTO { @table_variable | output_table } [ ( column_list ) ] ]\n" +
@@ -33,7 +33,7 @@ public class OutputConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<dml_select_list> ::=\n" +
                         "{ <column_name> | scalar_expression } [ [ AS ] column_alias_identifier ] [,...n]");
@@ -46,7 +46,7 @@ public class OutputConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "{ <column_name> | scalar_expression } [ [ AS ] column_alias_identifier ]");
     }
@@ -58,7 +58,7 @@ public class OutputConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<column_name> ::=\n" +
                         "{ { DELETED | INSERTED | from_table_name } } . { * | column_name }\n" +

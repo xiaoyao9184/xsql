@@ -19,7 +19,7 @@ public class ForConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<FOR> ::=\n" +
                         "FOR { BROWSE | <XML> | <JSON> }");
@@ -32,7 +32,7 @@ public class ForConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<XML> ::=\n" +
                         "XML\n" +
@@ -63,7 +63,7 @@ public class ForConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<CommonDirectivesForXML> ::=\n" +
                         "[ , BINARY BASE64 ]\n" +
@@ -78,7 +78,7 @@ public class ForConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "JSON\n" +
                         "{\n" +

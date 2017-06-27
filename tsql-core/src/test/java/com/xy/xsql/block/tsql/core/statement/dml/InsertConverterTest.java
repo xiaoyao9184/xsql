@@ -22,7 +22,7 @@ public class InsertConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<INSERT> ::=\n" +
                         "[ WITH <common_table_expression> [ ,...n ] ]\n" +

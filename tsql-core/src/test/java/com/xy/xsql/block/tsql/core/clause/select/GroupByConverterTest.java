@@ -21,7 +21,7 @@ public class GroupByConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "GROUP BY {\n" +
                         "column-expression\n" +
@@ -39,7 +39,7 @@ public class GroupByConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<group_by_expression> ::=\n" +
                         "column-expression\n" +
@@ -53,7 +53,7 @@ public class GroupByConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<grouping_set> ::=\n" +
                         "()\n" +
@@ -68,7 +68,7 @@ public class GroupByConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<grouping_set_item> ::=\n" +
                         "group_by_expression\n" +

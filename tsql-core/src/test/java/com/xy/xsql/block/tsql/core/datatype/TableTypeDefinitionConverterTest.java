@@ -21,7 +21,7 @@ public class TableTypeDefinitionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<table_type_definition> ::=\n" +
                         "TABLE ( { <column_definition> | <table_constraint> } [,...n] )");
@@ -34,7 +34,7 @@ public class TableTypeDefinitionConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<table_constraint> ::=\n" +
                         "{ PRIMARY KEY | UNIQUE } ( column_name [,...n] )\n" +

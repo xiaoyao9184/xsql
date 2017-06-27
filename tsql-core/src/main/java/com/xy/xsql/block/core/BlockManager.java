@@ -52,7 +52,6 @@ public enum BlockManager {
                             })
                             .findFirst()
                             .ifPresent(pt -> {
-                                System.out.print(pt.getActualTypeArguments()[0]);
                                 try {
                                     Type type = pt.getActualTypeArguments()[0];
                                     ReferenceBlockConverter obj = b.newInstance();

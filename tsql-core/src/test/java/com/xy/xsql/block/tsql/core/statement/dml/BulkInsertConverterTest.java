@@ -22,7 +22,7 @@ public class BulkInsertConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "BULK INSERT \n" +
                         "[ database_name . [ schema_name ] . | schema_name . ][ table_name | view_name ]  \n" +

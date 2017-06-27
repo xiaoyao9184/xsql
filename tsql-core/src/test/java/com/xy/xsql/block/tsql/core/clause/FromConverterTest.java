@@ -22,7 +22,7 @@ public class FromConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<FROM> ::=\n" +
                         "FROM { <table_source> } [,...n]");
@@ -35,7 +35,7 @@ public class FromConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<table_source> ::=\n" +
                         "table_or_view_name [ [ AS ] table_alias ]\n" +
@@ -51,7 +51,7 @@ public class FromConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "table_or_view_name [ [ AS ] table_alias ]");
     }
@@ -63,7 +63,7 @@ public class FromConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "derived_table [ [ AS ] table_alias ] [ ( column_alias [,...n] ) ]");
     }
@@ -75,7 +75,7 @@ public class FromConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<joined_table> ::=\n" +
                         "<table_source> <join_type> <table_source> ON <search_condition>\n" +
@@ -91,7 +91,7 @@ public class FromConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "@variable [ [ AS ] table_alias ]");
     }
@@ -104,7 +104,7 @@ public class FromConverterTest {
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
-        System.out.print(writer);
+        System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "[ { INNER | { { LEFT | RIGHT | FULL } [ OUTER ] } } [ <join_hint> ] ]\n" +
                         "JOIN");
@@ -125,11 +125,11 @@ public class FromConverterTest {
 
         StringWriter writer = ReferenceBlockPrinter.print(from);
 
-        System.out.print(writer);
-        Assert.assertEquals(writer.toString(),
-                "  FROM     Sales.SalesTerritory     ");
+        String ok = "FROM Sales.SalesTerritory";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
     }
-
 
     @Test
     public void testPrintC() throws Exception {
@@ -137,9 +137,45 @@ public class FromConverterTest {
 
         StringWriter writer = ReferenceBlockPrinter.print(from);
 
-        System.out.print(writer);
-        Assert.assertEquals(writer.toString(),
-                "  FROM          HumanResources.Employee   e      CROSS  JOIN     HumanResources.Department   d           ");
+        String ok = "FROM HumanResources.Employee e" +
+                " CROSS JOIN HumanResources.Department d";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
+
+    @Test
+    public void testPrintD() throws Exception {
+        From from = fromBuilderTest.exampleD;
+
+        StringWriter writer = ReferenceBlockPrinter.print(from);
+
+        System.out.println(writer);
+
+        String ok = "FROM Production.Product p" +
+                " FULL OUTER JOIN HumanResources.Department p" +
+                " ON p.ProductID = sod.ProductID";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
+
+    @Test
+    public void testPrintH() throws Exception {
+        From from = fromBuilderTest.exampleH;
+
+        StringWriter writer = ReferenceBlockPrinter.print(from);
+
+        System.out.println(writer);
+
+        String ok = "FROM Production.Product p" +
+                " INNER MERGE JOIN Purchasing.ProductVendor pv" +
+                " ON p.ProductID = pv.ProductID" +
+                " INNER HASH JOIN Purchasing.Vendor v" +
+                " ON pv.BusinessEntityID = v.BusinessEntityID";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
     }
 
 }
