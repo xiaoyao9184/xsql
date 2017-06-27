@@ -122,7 +122,7 @@ public class SelectBuilderTest {
                         .withTableSource()._Base()
                             .withTableName(t("table"))
                             .and()
-                        .withJoinType(From.JoinType.LEFT_JOIN)
+                        .withJoinType(From.JoinTypeKeywords.LEFT_JOIN)
                         .withTableSource2()._Base()
                             .withTableName(t("table2"))
                             .and()

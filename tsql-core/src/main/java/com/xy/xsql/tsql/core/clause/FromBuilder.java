@@ -6,6 +6,7 @@ import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -587,15 +588,20 @@ public class FromBuilder<ParentBuilder>
         /**
          * Quick transform to JoinedTableBuilder
          * And set joinType
-         * @param joinType
+         * @param joinTypeKeyword
+         * @param joinHint
          * @return
          */
-        private TransformJoinedBuilder<ParentBuilder> transformJoinedTable(From.JoinType joinType){
+        private TransformJoinedBuilder<ParentBuilder> transformJoinedTable(From.JoinTypeKeywords joinTypeKeyword, JoinHint joinHint){
             /*
             it will create JoinedTable,
             use target as JoinedTable's TableSource1
             then replace target
              */
+            From.JoinType joinType = new From.JoinType();
+            joinType.setKeyword(joinTypeKeyword);
+            joinType.setJoinHint(joinHint);
+
             JoinedTableBuilder<TransformJoinedBuilder<ParentBuilder>> b = new TableSourceBuilder<TransformJoinedBuilder<ParentBuilder>>
                     (this::setTarget)
                     .in(this)
@@ -613,7 +619,7 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Join(){
-            return transformJoinedTable(From.JoinType.JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.JOIN, null);
         }
 
         /**
@@ -622,7 +628,23 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Inner_Join(){
-            return transformJoinedTable(From.JoinType.INNER_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_JOIN, null);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Inner_Loop_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_JOIN, JoinHint.LOOP);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Inner_Hash_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_JOIN, JoinHint.HASH);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Inner_Merge_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_JOIN, JoinHint.MERGE);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Inner_Remote_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_JOIN, JoinHint.REMOTE);
         }
 
         /**
@@ -631,7 +653,7 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Inner_Reduce_Join(){
-            return transformJoinedTable(From.JoinType.INNER_REDUCE_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_REDUCE_JOIN, null);
         }
 
         /**
@@ -640,7 +662,7 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Inner_Replicate_Join(){
-            return transformJoinedTable(From.JoinType.INNER_REPLICATE_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_REPLICATE_JOIN, null);
         }
 
         /**
@@ -649,7 +671,7 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Inner_Redistribute_Join(){
-            return transformJoinedTable(From.JoinType.INNER_REDISTRIBUTE_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.INNER_REDISTRIBUTE_JOIN, null);
         }
 
         /**
@@ -658,7 +680,23 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Left_Join(){
-            return transformJoinedTable(From.JoinType.LEFT_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_JOIN, null);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Loop_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_JOIN, JoinHint.LOOP);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Hash_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_JOIN, JoinHint.HASH);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Merge_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_JOIN, JoinHint.MERGE);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Remote_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_JOIN, JoinHint.REMOTE);
         }
 
         /**
@@ -667,8 +705,25 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Right_Join(){
-            return transformJoinedTable(From.JoinType.RIGHT_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_JOIN, null);
         }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Loop_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_JOIN, JoinHint.LOOP);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Hash_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_JOIN, JoinHint.HASH);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Merge_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_JOIN, JoinHint.MERGE);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Remote_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_JOIN, JoinHint.REMOTE);
+        }
+
 
         /**
          * Quick transform to JoinedTableBuilder
@@ -676,7 +731,23 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Full_Join(){
-            return transformJoinedTable(From.JoinType.FULL_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_JOIN, null);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Loop_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_JOIN, JoinHint.LOOP);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Hash_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_JOIN, JoinHint.HASH);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Merge_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_JOIN, JoinHint.MERGE);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Remote_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_JOIN, JoinHint.REMOTE);
         }
 
         /**
@@ -685,7 +756,23 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Left_Outer_Join(){
-            return transformJoinedTable(From.JoinType.LEFT_OUTER_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_OUTER_JOIN, null);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Outer_Loop_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_OUTER_JOIN, JoinHint.LOOP);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Outer_Hash_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_OUTER_JOIN, JoinHint.HASH);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Outer_Merge_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_OUTER_JOIN, JoinHint.MERGE);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Left_Outer_Remote_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.LEFT_OUTER_JOIN, JoinHint.REMOTE);
         }
 
         /**
@@ -694,7 +781,23 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Right_Outer_Join(){
-            return transformJoinedTable(From.JoinType.RIGHT_OUTER_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_OUTER_JOIN, null);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Outer_Loop_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_OUTER_JOIN, JoinHint.LOOP);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Outer_Hash_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_OUTER_JOIN, JoinHint.HASH);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Outer_Merge_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_OUTER_JOIN, JoinHint.MERGE);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Right_Outer_Remote_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.RIGHT_OUTER_JOIN, JoinHint.REMOTE);
         }
 
         /**
@@ -703,7 +806,23 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public TransformJoinedBuilder<ParentBuilder> $Full_Outer_Join(){
-            return transformJoinedTable(From.JoinType.FULL_OUTER_JOIN);
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_OUTER_JOIN, null);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Outer_Loop_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_OUTER_JOIN, JoinHint.LOOP);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Outer_Hash_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_OUTER_JOIN, JoinHint.HASH);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Outer_Merge_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_OUTER_JOIN, JoinHint.MERGE);
+        }
+
+        public TransformJoinedBuilder<ParentBuilder> $Full_Outer_Remote_Join() {
+            return transformJoinedTable(From.JoinTypeKeywords.FULL_OUTER_JOIN, JoinHint.REMOTE);
         }
 
 
@@ -718,7 +837,7 @@ public class FromBuilder<ParentBuilder>
          */
         public SearchConditionBuilder<TransformJoinedBuilder<ParentBuilder>> $On() {
             if(!(this.target instanceof From.JoinedTable)){
-                transformJoinedTable(From.JoinType.JOIN);
+                transformJoinedTable(From.JoinTypeKeywords.JOIN, null);
             }
             SearchCondition searchCondition = new SearchCondition();
             From.JoinedTable joinedTable = (From.JoinedTable) this.target;
@@ -942,6 +1061,12 @@ public class FromBuilder<ParentBuilder>
         public JoinedTableBuilder<ParentBuilder> withJoinType(From.JoinType joinType){
             target.setUseJoinOn(true);
             target.setJoinType(joinType);
+            return this;
+        }
+
+        public JoinedTableBuilder<ParentBuilder> withJoinType(From.JoinTypeKeywords joinType){
+            target.setUseJoinOn(true);
+            target.setJoinType(new From.JoinType(joinType));
             return this;
         }
 

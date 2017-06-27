@@ -28,7 +28,6 @@ public class FromBuilderTest {
             .get();
     // @formatter:on
 
-
     /**
      * FROM Sales.SalesTerritory
      */
@@ -80,7 +79,6 @@ public class FromBuilderTest {
         From.BaseTable tableSource = (From.BaseTable) option.getTableSourceList().get(0);
         Assert.assertEquals(tableSource.getTableName().toString(),"HumanResources.Employee");
     }
-
 
 
     // @formatter:off
@@ -148,6 +146,27 @@ public class FromBuilderTest {
     }
 
 
+    // @formatter:off
+    public From exampleD =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Production","Product"))
+                        .$As("p")
+                        .$Full_Outer_Join()
+                        .$(t("HumanResources","Department"))
+                        .$As("p")
+                        .$On()
+                            .$(p_equal(
+                                    c("p","ProductID"),
+                                    c("sod","ProductID")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * FROM Production.Product AS p
      FULL OUTER JOIN Sales.SalesOrderDetail AS sod
@@ -162,7 +181,7 @@ public class FromBuilderTest {
                         .withTableName(t("Production","Product"))
                         .withTableAlias("p")
                         .and()
-                    .withJoinType(From.JoinType.FULL_OUTER_JOIN)
+                    .withJoinType(From.JoinTypeKeywords.FULL_OUTER_JOIN)
                     .withTableSource2()._Base()
                         .withTableName(t("Sales","SalesOrderDetail"))
                         .withTableAlias("sod")
@@ -187,7 +206,7 @@ public class FromBuilderTest {
                         .$Full_Outer_Join()
                         .$(t("HumanResources","Department"))
                         .$As("p")
-                //TODO
+                //TODO i dont know wtf about this tag
 //                        .and()
 //                        .$(t("HumanResources","Department"),"p")
                         .$On()
@@ -210,7 +229,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-        Assert.assertEquals(tableSource.getJoinType(), From.JoinType.FULL_OUTER_JOIN);
+        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.FULL_OUTER_JOIN);
 
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
@@ -220,6 +239,28 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
+
+
+    // @formatter:off
+    public From exampleE =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Production","Product"))
+                        .$As("p")
+                        .$Left_Outer_Join()
+                        .$(t("Sales","SalesOrderDetail"))
+                        .$As("sod")
+                        .$On()
+                            .$(p_equal(
+                                    c("p","ProductID"),
+                                    c("sod","ProductID")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * FROM Production.Product AS p
@@ -235,7 +276,7 @@ public class FromBuilderTest {
                         .withTableName(t("Production","Product"))
                         .withTableAlias("p")
                         .and()
-                    .withJoinType(From.JoinType.LEFT_OUTER_JOIN)
+                    .withJoinType(From.JoinTypeKeywords.LEFT_OUTER_JOIN)
                     .withTableSource2()._Base()
                         .withTableName(t("Sales","SalesOrderDetail"))
                         .withTableAlias("sod")
@@ -262,7 +303,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-        Assert.assertEquals(tableSource.getJoinType(), From.JoinType.LEFT_OUTER_JOIN);
+        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.LEFT_OUTER_JOIN);
 
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
@@ -272,6 +313,28 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
+
+
+    // @formatter:off
+    public From exampleF =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Production","Product"))
+                        .$As("p")
+                        .$Inner_Join()
+                        .$(t("Sales","SalesOrderDetail"))
+                        .$As("sod")
+                        .$On()
+                            .$(p_equal(
+                                    c("p","ProductID"),
+                                    c("sod","ProductID")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * FROM Production.Product AS p
@@ -287,7 +350,7 @@ public class FromBuilderTest {
                         .withTableName(t("Production","Product"))
                         .withTableAlias("p")
                         .and()
-                    .withJoinType(From.JoinType.INNER_JOIN)
+                    .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
                     .withTableSource2()._Base()
                         .withTableName(t("Sales","SalesOrderDetail"))
                         .withTableAlias("sod")
@@ -314,7 +377,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-        Assert.assertEquals(tableSource.getJoinType(), From.JoinType.INNER_JOIN);
+        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
 
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
@@ -324,6 +387,28 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
+
+
+    // @formatter:off
+    public From exampleG =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Sales","SalesTerritory"))
+                        .$As("st")
+                        .$Right_Outer_Join()
+                        .$(t("Sales","SalesPerson"))
+                        .$As("sp")
+                        .$On()
+                            .$(p_equal(
+                                    c("st","TerritoryID"),
+                                    c("sp","TerritoryID")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * FROM Sales.SalesTerritory AS st
@@ -339,7 +424,7 @@ public class FromBuilderTest {
                         .withTableName(t("Sales","SalesTerritory"))
                         .withTableAlias("st")
                         .and()
-                    .withJoinType(From.JoinType.RIGHT_OUTER_JOIN)
+                    .withJoinType(From.JoinTypeKeywords.RIGHT_OUTER_JOIN)
                     .withTableSource2()._Base()
                         .withTableName(t("Sales","SalesPerson"))
                         .withTableAlias("sp")
@@ -366,7 +451,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource1.getTableName().toString(),"Sales.SalesTerritory");
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"st");
 
-        Assert.assertEquals(tableSource.getJoinType(), From.JoinType.RIGHT_OUTER_JOIN);
+        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.RIGHT_OUTER_JOIN);
 
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
@@ -376,6 +461,28 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
+
+
+    // @formatter:off
+    public From exampleH =  new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Production","Product"))
+                        .$As("p")
+                        .$Inner_Merge_Join()
+                        .$(t("Sales","SalesPerson"))
+                        .$As("sp")
+                        .$On()
+                            .$(p_equal(
+                                    c("st","TerritoryID"),
+                                    c("sp","TerritoryID")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * FROM Production.Product AS p
@@ -420,7 +527,7 @@ public class FromBuilderTest {
 //        Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
 //        Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 //
-//        Assert.assertEquals(tableSource.getJoinType(), From.JoinType.INNER_JOIN);
+//        Assert.assertEquals(tableSource.getKeywords(), From.JoinType.INNER_JOIN);
 //
 //        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
 //        From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
@@ -451,7 +558,7 @@ public class FromBuilderTest {
                             .withTableName(t("Person","Person"))
                             .withTableAlias("p")
                             .and()
-                        .withJoinType(From.JoinType.INNER_JOIN)
+                        .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
                         .withTableSource2()._Base()
                             .withTableName(t("HumanResources","Employee"))
                             .withTableAlias("e")
@@ -464,7 +571,7 @@ public class FromBuilderTest {
                                 .and()
                             .and()
                         .and()
-                    .withJoinType(From.JoinType.INNER_JOIN)
+                    .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
                     .withTableSource2()._Derived()
                         .withSubQuery(new Select.QuerySpecification())
                         .withTableAlias("d")
@@ -522,14 +629,14 @@ public class FromBuilderTest {
             Assert.assertNotNull(tableSource1.getTableName().toString(),"Person.Person");
             Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-            Assert.assertEquals(tableSource0.getJoinType(), From.JoinType.INNER_JOIN);
+            Assert.assertEquals(tableSource0.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
 
             Assert.assertEquals(tableSource0.getTableSource2().getClass(),From.BaseTable.class);
             From.BaseTable tableSource2 = (From.BaseTable) tableSource0.getTableSource2();
             Assert.assertNotNull(tableSource2.getTableName().toString(),"HumanResources.Employee");
             Assert.assertEquals(tableSource2.getTableAlias().toString(),"e");
 
-        Assert.assertEquals(tableSource.getJoinType(), From.JoinType.INNER_JOIN);
+        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
 
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.DerivedTable.class);
         From.DerivedTable tableSource3 = (From.DerivedTable) tableSource.getTableSource2();

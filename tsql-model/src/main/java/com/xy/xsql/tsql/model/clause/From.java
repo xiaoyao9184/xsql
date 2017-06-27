@@ -287,7 +287,37 @@ public class From implements Clause {
      * <join_type>
      *     <join_hint>
      */
-    public enum JoinType {
+    public static class JoinType {
+        private JoinTypeKeywords keywords;
+        private JoinHint joinHint;
+
+        public JoinType(){
+
+        }
+
+        public JoinType(JoinTypeKeywords keywords){
+            this.keywords = keywords;
+        }
+
+        public JoinTypeKeywords getKeywords() {
+            return keywords;
+        }
+
+        public void setKeyword(JoinTypeKeywords keywords) {
+            this.keywords = keywords;
+        }
+
+        public JoinHint getJoinHint() {
+            return joinHint;
+        }
+
+        public void setJoinHint(JoinHint joinHint) {
+            this.joinHint = joinHint;
+        }
+    }
+
+
+    public enum JoinTypeKeywords {
         JOIN(Keywords.JOIN),
         INNER_JOIN(Keywords.INNER,Keywords.JOIN),
         INNER_REDUCE_JOIN(Keywords.INNER,Keywords.Key.REDUCE,Keywords.JOIN),
@@ -301,19 +331,9 @@ public class From implements Clause {
         FULL_OUTER_JOIN(Keywords.FULL,Keywords.OUTER,Keywords.JOIN);
 
         private Enum[] es;
-        private JoinHint joinHint;
 
-        JoinType(Enum... elements){
+        JoinTypeKeywords(Enum... elements){
             this.es = elements;
-        }
-
-
-        public JoinHint getJoinHint() {
-            return joinHint;
-        }
-
-        public void setJoinHint(JoinHint joinHint) {
-            this.joinHint = joinHint;
         }
     }
 
