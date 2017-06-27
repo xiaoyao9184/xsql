@@ -113,6 +113,11 @@ public enum Operators implements Operator {
     }
 
     @Override
+    public String toString(){
+        return this.operator.toString();
+    }
+
+    @Override
     public String getKeyword(){
         return this.operator.getKeyword();
     }
