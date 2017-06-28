@@ -2,10 +2,14 @@ package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.tsql.core.clause.select.ForBuilder;
+import com.xy.xsql.tsql.model.clause.select.For;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringWriter;
+
+import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESCAN;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -89,6 +93,30 @@ public class ForConverterTest {
                         "[ , WITHOUT_ARRAY_WRAPPER ]\n" +
                         "]\n" +
                         "}");
+    }
+
+
+    @Test
+    public void testPrintForXMLExample() throws Exception {
+        For for1 = new ForBuilder<Void>()
+                .withXml()
+                    .withAuto()
+                    .withType()
+                    .withXmlSchema()
+                    .withElementsXsinil()
+                    .and()
+                .build();
+
+        StringWriter writer = ReferenceBlockPrinter.print(for1);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "FOR XML AUTO, TYPE, XMLSCHEMA, ELEMENTS XSINIL";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(
+                check,
+                ok);
     }
 
 }

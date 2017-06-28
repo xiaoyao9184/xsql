@@ -7,6 +7,10 @@ import org.junit.Test;
 
 import java.io.StringWriter;
 
+import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.MERGE_JOIN;
+import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESCAN;
+import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESEEK;
+import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.TABLOCK;
 import static org.junit.Assert.*;
 
 /**
@@ -52,4 +56,47 @@ public class TableHintConverterTest {
                         "}");
     }
 
+
+    @Test
+    public void testPrintA() throws Exception {
+        StringWriter writer = ReferenceBlockPrinter.print(TABLOCK());
+
+        String ok = "TABLOCK";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
+
+
+    @Test
+    public void testPrintB1() throws Exception {
+        StringWriter writer = ReferenceBlockPrinter.print(FORCESEEK());
+
+        String ok = "FORCESEEK";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
+
+
+    @Test
+    public void testPrintB2() throws Exception {
+        StringWriter writer = ReferenceBlockPrinter.print(FORCESEEK("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID","SalesOrderID"));
+
+        String ok = "FORCESEEK (PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID (SalesOrderID))";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
+
+
+    @Test
+    public void testPrintC() throws Exception {
+        StringWriter writer = ReferenceBlockPrinter.print(FORCESCAN());
+
+        String ok = "FORCESCAN";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(writer.toString().replace(" ",""),
+                ok);
+    }
 }
