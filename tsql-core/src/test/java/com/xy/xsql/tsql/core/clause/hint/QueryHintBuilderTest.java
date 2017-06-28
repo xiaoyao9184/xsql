@@ -107,11 +107,11 @@ public class QueryHintBuilderTest {
 
         QueryHint queryHint2 = TABLE_HINT(
                 "e",
-                INDEX("IX_Employee_ManagerID","IX_Employee_ManagerID"));
+                INDEX("PK_Employee_EmployeeID","IX_Employee_ManagerID"));
 
         Assert.assertEquals(queryHint2.getType(),QueryHint.Type.TABLE_HINT);
         Assert.assertEquals(queryHint2.getTableHintList().size(),1);
-        Assert.assertEquals(queryHint2.getTableHintList().get(0).getIndex_value().get(0).toString(),"IX_Employee_ManagerID");
+        Assert.assertEquals(queryHint2.getTableHintList().get(0).getIndex_value().get(0).toString(),"PK_Employee_EmployeeID");
         Assert.assertEquals(queryHint2.getTableHintList().get(0).getIndex_value().get(1).toString(),"IX_Employee_ManagerID");
     }
 

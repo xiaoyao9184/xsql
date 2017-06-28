@@ -186,7 +186,7 @@ public class FromConverterTest {
 
         System.out.println(writer);
 
-        //TODO
+        //TODO support not ref with data context
         String ok = "FROM Person.Person p" +
                 " INNER JOIN HumanResources.Employee e" +
                 " ON p.BusinessEntityID = e.BusinessEntityID" +
