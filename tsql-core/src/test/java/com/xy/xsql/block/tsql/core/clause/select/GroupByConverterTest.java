@@ -2,12 +2,13 @@ package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.tsql.core.clause.select.GroupByBuilderTest;
+import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -76,4 +77,58 @@ public class GroupByConverterTest {
                         "| CUBE ( { <group_by_expression> } [,...n] )");
     }
 
+    private GroupByBuilderTest builderTest;
+
+    @Before
+    public void init(){
+        builderTest = new GroupByBuilderTest();
+    }
+
+    @Test
+    public void testPrintA() throws Exception {
+        GroupBy groupBy = builderTest.exampleA;
+
+        StringWriter writer = ReferenceBlockPrinter.print(groupBy);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "GROUP BY SalesOrderID";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(
+                check,
+                ok);
+    }
+
+    @Test
+    public void testPrintB() throws Exception {
+        GroupBy groupBy = builderTest.exampleB;
+
+        StringWriter writer = ReferenceBlockPrinter.print(groupBy);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "GROUP BY a.City";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(
+                check,
+                ok);
+    }
+
+    @Test
+    public void testPrintC() throws Exception {
+        GroupBy groupBy = builderTest.exampleC;
+
+        StringWriter writer = ReferenceBlockPrinter.print(groupBy);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "GROUP BY DATEPART(yyyy,OrderDate)";
+        ok = ok.replaceAll(" ","");
+        Assert.assertEquals(
+                check,
+                ok);
+    }
 }

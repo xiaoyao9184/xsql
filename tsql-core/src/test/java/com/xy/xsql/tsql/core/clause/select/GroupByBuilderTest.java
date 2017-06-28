@@ -164,6 +164,17 @@ public class GroupByBuilderTest {
         Assert.assertEquals(item3.getGroupingSetItemList().size(),4);
     }
 
+
+    // @formatter:off
+    //parent+quick
+    public GroupBy exampleA = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("SalesOrderID"))
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * GROUP BY SalesOrderID
      */
@@ -175,13 +186,6 @@ public class GroupByBuilderTest {
                     .withColumnExpression(c("SalesOrderID"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
-                (GroupByBuilder.class,GroupBy.class)
-                .$child()
-                    .$(c("SalesOrderID"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);
@@ -190,6 +194,16 @@ public class GroupByBuilderTest {
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
         Assert.assertEquals(item.getExpression().toString(),"SalesOrderID");
     }
+
+    // @formatter:off
+    //parent+quick
+    public GroupBy exampleB = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("a","City"))
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * GROUP BY a.City
@@ -202,13 +216,6 @@ public class GroupByBuilderTest {
                     .withColumnExpression(c("a","City"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
-                (GroupByBuilder.class,GroupBy.class)
-                .$child()
-                    .$(c("a","City"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);
@@ -218,9 +225,20 @@ public class GroupByBuilderTest {
         Assert.assertEquals(item.getExpression().toString(),"a.City");
     }
 
+    // @formatter:off
+    //parent+quick
+    public GroupBy exampleC = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(e("DATEPART(yyyy,OrderDate)"))
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * GROUP BY DATEPART(yyyy,OrderDate)
      */
+    @SuppressWarnings("Duplicates")
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -229,13 +247,6 @@ public class GroupByBuilderTest {
                     .withColumnExpression(e("DATEPART(yyyy,OrderDate)"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
-                (GroupByBuilder.class,GroupBy.class)
-                .$child()
-                    .$(e("DATEPART(yyyy,OrderDate)"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);
@@ -248,6 +259,7 @@ public class GroupByBuilderTest {
     /**
      * GROUP BY DATEPART(yyyy,OrderDate)
      */
+    @SuppressWarnings("Duplicates")
     @Test
     public void testExampleD(){
         // @formatter:off
