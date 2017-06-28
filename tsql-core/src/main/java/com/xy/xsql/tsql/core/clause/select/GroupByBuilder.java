@@ -6,6 +6,7 @@ import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.clause.select.GroupBy.GroupByExpression;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -306,6 +307,9 @@ public class GroupByBuilder<ParentBuilder>
         }
 
         public GroupByExpressionBuilder<ParentBuilder> withColumnExpression(Expression... columnExpressions) {
+            if(CheckUtil.isNullOrEmpty(columnExpressions)){
+                return this;
+            }
             initAdd(Arrays.asList(columnExpressions),
                     target::getColumnExpressionList,
                     target::setColumnExpressionList);

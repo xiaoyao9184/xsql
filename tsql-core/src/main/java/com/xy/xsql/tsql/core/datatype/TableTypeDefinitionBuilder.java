@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -49,6 +50,9 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
      * @return
      */
     public TableTypeDefinitionBuilder<ParentBuilder> withColumnDefinition(ColumnDefinition... columnDefinitions){
+        if(CheckUtil.isNullOrEmpty(columnDefinitions)){
+            return this;
+        }
         initAdd(Arrays.asList(columnDefinitions),
                 target::getList,
                 target::setList);
@@ -62,6 +66,9 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
      * @return
      */
     public TableTypeDefinitionBuilder<ParentBuilder> $_(ColumnDefinition... columnDefinitions){
+        if(CheckUtil.isNullOrEmpty(columnDefinitions)){
+            return this;
+        }
         initAdd(Arrays.asList(columnDefinitions),
                 target::getList,
                 target::setList);
@@ -128,6 +135,9 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
         }
 
         public TableConstraintBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
+            if(CheckUtil.isNullOrEmpty(columnNames)){
+                return this;
+            }
             initAdd(Arrays.asList(columnNames),
                     target::getColumnName,
                     target::setColumnName);

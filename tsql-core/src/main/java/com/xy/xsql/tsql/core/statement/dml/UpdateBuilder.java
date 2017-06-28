@@ -12,6 +12,7 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Compound;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -216,6 +217,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return
      */
     public UpdateBuilder $Set(Update.SetItem... items){
+        if(CheckUtil.isNullOrEmpty(items)){
+            return this;
+        }
         initAdd(Arrays.asList(items),
                 target::getSets,
                 target::setSets);

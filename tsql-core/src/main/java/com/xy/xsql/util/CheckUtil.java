@@ -62,13 +62,13 @@ public class CheckUtil {
     }
 
     /**
-     * Check String Array is NULL or Empty
-     * @param str String Array
+     * Check Object Array is NULL or Empty
+     * @param objects Object Array
      * @return True/False
      */
-    public static boolean isNullOrEmpty(String[] str){
-        return str == null ||
-                str.length == 0;
+    public static boolean isNullOrEmpty(Object[] objects){
+        return objects == null ||
+                objects.length == 0;
     }
 
     /**

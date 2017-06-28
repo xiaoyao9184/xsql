@@ -4,6 +4,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -111,6 +112,9 @@ public class OverBuilder<ParentBuilder>
         }
 
         public PartitionByBuilder<ParentBuilder> withExpression(Expression... expressions){
+            if(CheckUtil.isNullOrEmpty(expressions)){
+                return this;
+            }
             initAdd(Arrays.asList(expressions),
                     target::getValueExpressionList,
                     target::setValueExpressionList);
@@ -138,6 +142,9 @@ public class OverBuilder<ParentBuilder>
         }
 
         public OrderByBuilder<ParentBuilder> withItems(OrderBy.Item... orderByItems){
+            if(CheckUtil.isNullOrEmpty(orderByItems)){
+                return this;
+            }
             initAdd(Arrays.asList(orderByItems),
                             target::getItems,
                             target::setItems);

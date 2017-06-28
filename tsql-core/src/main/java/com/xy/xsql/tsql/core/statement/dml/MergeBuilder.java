@@ -11,6 +11,7 @@ import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import com.xy.xsql.tsql.model.statement.dml.Update;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -350,6 +351,9 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
 
         public MergeHintBuilder<ParentBuilder> withTableHintLimited(TableHintLimited... tableHintLimited){
+            if(CheckUtil.isNullOrEmpty(tableHintLimited)){
+                return this;
+            }
             initAdd(Arrays.asList(tableHintLimited),
                     target::getTableHintLimitedList,
                     target::setTableHintLimitedList);
@@ -362,6 +366,9 @@ public class MergeBuilder extends CodeBuilder<Merge> {
         }
 
         public MergeHintBuilder<ParentBuilder> withTableHintLimited(String... valueVals){
+            if(CheckUtil.isNullOrEmpty(valueVals)){
+                return this;
+            }
             initAdd(Arrays.stream(valueVals)
                             .map(Unknown::new)
                             .collect(Collectors.toList()),
@@ -584,6 +591,9 @@ public class MergeBuilder extends CodeBuilder<Merge> {
          * @return
          */
         public ParentBuilder $Update_Set(Update.SetItem... items) {
+            if(CheckUtil.isNullOrEmpty(items)){
+                return and();
+            }
             initAdd(Arrays.asList(items),
                     target::getSets,
                     target::setSets);
@@ -605,6 +615,9 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
 
         public MergeNotMatchedBuilder<ParentBuilder> withColumn(ColumnName... columnNames){
+            if(CheckUtil.isNullOrEmpty(columnNames)){
+                return this;
+            }
             initAdd(Arrays.asList(columnNames),
                     target::getColumns,
                     target::setColumns);

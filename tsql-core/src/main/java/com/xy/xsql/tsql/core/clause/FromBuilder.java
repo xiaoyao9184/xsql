@@ -11,6 +11,7 @@ import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -986,6 +987,9 @@ public class FromBuilder<ParentBuilder>
         }
 
         public DerivedTableBuilder<ParentBuilder> withColumnAlias(String... columnAliass){
+            if(CheckUtil.isNullOrEmpty(columnAliass)){
+                return this;
+            }
             List<Alias<Void>> list = Arrays.stream(columnAliass)
                     .map(Alias<Void>::new)
                     .collect(Collectors.toList());

@@ -12,6 +12,7 @@ import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -64,6 +65,9 @@ public class InsertBuilder extends CodeBuilder<Insert> {
     }
 
     public InsertBuilder withColumn(ColumnName... columnNames){
+        if(CheckUtil.isNullOrEmpty(columnNames)){
+            return this;
+        }
         initAdd(Arrays.asList(columnNames),
                 target::getColumns,
                 target::setColumns);

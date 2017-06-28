@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -75,8 +76,11 @@ public class QueryHintBuilder<ParentBuilder>
     }
 
     public QueryHintBuilder<ParentBuilder> withHintName(String... hintNames){
+        if(CheckUtil.isNullOrEmpty(hintNames)){
+            return this;
+        }
         initAdd(Arrays.stream(hintNames)
-                .map(StringConstant::new)
+                .map(n -> new StringConstant(n).withQuote())
                 .collect(Collectors.toList()),
                 target::getHintNameList,
                 target::setHintNameList);
@@ -102,6 +106,9 @@ public class QueryHintBuilder<ParentBuilder>
     }
 
     public QueryHintBuilder<ParentBuilder> withHintName(TableHint... tableHints){
+        if(CheckUtil.isNullOrEmpty(tableHints)){
+            return this;
+        }
         initAdd(Arrays.asList(tableHints),
                 target::getTableHintList,
                 target::setTableHintList);

@@ -6,6 +6,7 @@ import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +51,9 @@ public class OutputBuilder<ParentBuilder>
     }
 
     public OutputBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
+        if(CheckUtil.isNullOrEmpty(columnNames)){
+            return this;
+        }
         initAdd(Arrays.asList(columnNames),
                 target::getColumnList,
                 target::setColumnList);
@@ -75,6 +79,9 @@ public class OutputBuilder<ParentBuilder>
      */
     @Deprecated
     public OutputBuilder<ParentBuilder> $(String... names){
+        if(CheckUtil.isNullOrEmpty(names)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((Output.ColumnName::new))
                 .map(Output.DmlSelect::new)
@@ -91,6 +98,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $(Output.ColumnName... columnNames){
+        if(CheckUtil.isNullOrEmpty(columnNames)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(columnNames)
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
@@ -107,6 +117,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $(Expression... expressions){
+        if(CheckUtil.isNullOrEmpty(expressions)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(expressions)
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
@@ -122,6 +135,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $Inserted(String... names){
+        if(CheckUtil.isNullOrEmpty(names)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((name -> {
                     Output.ColumnName columnName = new Output.ColumnName(name);
@@ -142,6 +158,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $Deleted(String... names){
+        if(CheckUtil.isNullOrEmpty(names)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((name -> {
                     Output.ColumnName columnName = new Output.ColumnName(name);
@@ -183,6 +202,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $Output(String... names){
+        if(CheckUtil.isNullOrEmpty(names)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((Output.ColumnName::new))
                 .map(Output.DmlSelect::new)
@@ -199,6 +221,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $Output(Output.ColumnName... columnNames){
+        if(CheckUtil.isNullOrEmpty(columnNames)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(columnNames)
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
@@ -214,6 +239,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $Output(Expression... expressions){
+        if(CheckUtil.isNullOrEmpty(expressions)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(expressions)
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
@@ -229,6 +257,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $Output_Inserted(String... names){
+        if(CheckUtil.isNullOrEmpty(names)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((name -> {
                     Output.ColumnName columnName = new Output.ColumnName(name);
@@ -249,6 +280,9 @@ public class OutputBuilder<ParentBuilder>
      * @return
      */
     public OutputBuilder<ParentBuilder> $Output_Deleted(String... names){
+        if(CheckUtil.isNullOrEmpty(names)){
+            return this;
+        }
         List<Output.DmlSelect> list = Arrays.stream(names)
                 .map((name -> {
                     Output.ColumnName columnName = new Output.ColumnName(name);

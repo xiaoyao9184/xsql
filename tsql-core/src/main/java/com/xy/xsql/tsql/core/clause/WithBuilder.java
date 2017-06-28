@@ -4,6 +4,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -79,6 +80,9 @@ public class WithBuilder<ParentBuilder>
         }
 
         public CommonTableExpressionBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
+            if(CheckUtil.isNullOrEmpty(columnNames)){
+                return this;
+            }
             initAdd(Arrays.asList(columnNames),
                      this.target::getColumnName,
                     this.target::setColumnName);

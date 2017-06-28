@@ -4,6 +4,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -39,6 +40,9 @@ public class InPredicateBuilder<ParentBuilder>
     }
 
     public InPredicateBuilder<ParentBuilder> withValueExpression(Expression... expressions) {
+        if(CheckUtil.isNullOrEmpty(expressions)){
+            return this;
+        }
         initAdd(Arrays.asList(expressions),
                 target::getExpressionList,
                 target::setExpressionList);

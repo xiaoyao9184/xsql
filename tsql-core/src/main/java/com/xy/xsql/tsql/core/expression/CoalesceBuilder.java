@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.core.expression;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Coalesce;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 
@@ -31,6 +32,9 @@ public class CoalesceBuilder<ParentBuilder>
     }
 
     public CoalesceBuilder<ParentBuilder> withExpression(Expression... expressions) {
+        if(CheckUtil.isNullOrEmpty(expressions)){
+            return this;
+        }
         initAdd(Arrays.asList(expressions),
                 target::getExpressionList,
                 target::setExpressionList);
