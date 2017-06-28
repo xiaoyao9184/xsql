@@ -9,13 +9,27 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.predicate.Predicates.*;
+import static com.xy.xsql.tsql.core.predicate.Predicates.p_greater;
 import static com.xy.xsql.tsql.model.operator.Operators.GREATER;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
  */
 public class HavingBuilderTest {
+
+    // @formatter:off
+    //parent+quick
+    public Having example = new MockParentBuilder<HavingBuilder<MockParent<Having>>,Having>
+                (HavingBuilder.class,Having.class)
+                .$child()
+                    .$Predicate(
+                        p_greater(
+                                e("SUM(LineTotal)"),
+                                e_number(100000.00))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * HAVING SUM(LineTotal) > 100000.00
