@@ -168,6 +168,9 @@ public class ReferenceBlockPrinter {
             if(optionalPredicate.test(context)){
                 return writer;
             }
+        }else if(context == null){
+            throw new RuntimeException(new BlockStructureCorrectException(block,
+                    BlockStructureCorrectException.StructureCorrect.CONTEXT_MISS));
         }
 
         //start

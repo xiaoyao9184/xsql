@@ -15,10 +15,15 @@ public class BlockStructureCorrectException
         this.correct = correct;
     }
 
+    @Override
+    public String getMessage() {
+        return super.getMessage() + ": " + correct.name();
+    }
+
     public enum StructureCorrect {
 
         OPTION_FILTER_MISS,
-        OTHER;
+        OTHER, CONTEXT_MISS;
 
     }
 }
