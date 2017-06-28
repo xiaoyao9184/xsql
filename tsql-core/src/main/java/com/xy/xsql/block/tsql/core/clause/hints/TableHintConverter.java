@@ -19,7 +19,7 @@ public class TableHintConverter
             new ReferenceBlockBuilder<Void,TableHint>()
                     .overall("table_hint")
                     .sub()
-                        .optional(TableHint::isUseNOEXPAND)
+                        .optional(d -> !d.isUseNOEXPAND())
                         .keyword(Keywords.Key.NOEXPAND)
                         .and()
                     .sub()
