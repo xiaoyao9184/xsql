@@ -92,7 +92,6 @@ public class OrderBy implements Clause {
 
         public Item(Expression orderByExpression){
             this.orderByExpression = orderByExpression;
-            this.useAsc = true;
         }
 
 
