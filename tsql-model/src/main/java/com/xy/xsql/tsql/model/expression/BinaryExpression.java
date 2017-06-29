@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.statement.Statement;
 /**
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class BinaryExpression implements Expression {
+public class BinaryExpression implements Expression, ScalarExpression {
     private Expression expressionLeft;
     private Operator operator;
     private Expression expressionRight;

@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.model.clause;
 
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.expression.ScalarExpression;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 
 import java.util.List;
@@ -91,7 +92,7 @@ public class Output implements Clause {
     public static class DmlSelect {
 
         private ColumnName columnName;
-        private Expression scalarExpression;
+        private ScalarExpression scalarExpression;
 
         private boolean useAs;
         private String columnAliasIdentifier;
@@ -102,7 +103,7 @@ public class Output implements Clause {
             this.columnName = columnName;
         }
 
-        public DmlSelect(Expression scalarExpression){
+        public DmlSelect(ScalarExpression scalarExpression){
             this.scalarExpression = scalarExpression;
         }
 
@@ -114,11 +115,11 @@ public class Output implements Clause {
             this.columnName = columnName;
         }
 
-        public Expression getScalarExpression() {
+        public ScalarExpression getScalarExpression() {
             return scalarExpression;
         }
 
-        public void setScalarExpression(Expression scalarExpression) {
+        public void setScalarExpression(ScalarExpression scalarExpression) {
             this.scalarExpression = scalarExpression;
         }
 
@@ -158,7 +159,7 @@ public class Output implements Clause {
         private boolean $action;
 
         public ColumnName() {
-            this.useAll = true;
+
         }
 
         public ColumnName(String name) {

@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.expression.ScalarExpression;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 
@@ -110,13 +111,36 @@ public class OutputBuilder<ParentBuilder>
         return this;
     }
 
+    @SuppressWarnings("Duplicates")
+    public OutputBuilder<ParentBuilder> $(ColumnName... columnNames) {
+        if(CheckUtil.isNullOrEmpty(columnNames)){
+            return this;
+        }
+        List<Output.DmlSelect> list = Arrays.stream(columnNames)
+                .map(columnName -> {
+                    Output.ColumnName c = new Output.ColumnName();
+                    c.setColumnName(columnName.getName());
+                    if(columnName.getTable() != null){
+                        c.setFromTableName(columnName.getTable().getFullName());
+                    }
+                    return c;
+                })
+                .map(Output.DmlSelect::new)
+                .collect(Collectors.toList());
+        initAdd(list,
+                this.target::getDmlSelectList,
+                this.target::setDmlSelectList);
+        return this;
+    }
+
+
     /**
      * Quick set DmlSelect
      * TODO maybe use Expression replace ColumnName and GroupExpression
      * @param expressions
      * @return
      */
-    public OutputBuilder<ParentBuilder> $(Expression... expressions){
+    public OutputBuilder<ParentBuilder> $(ScalarExpression... expressions){
         if(CheckUtil.isNullOrEmpty(expressions)){
             return this;
         }
@@ -196,6 +220,14 @@ public class OutputBuilder<ParentBuilder>
                 .withColumnName(columnNames);
     }
 
+    public DmlSelectBuilder<OutputBuilder<ParentBuilder>> $Output(){
+        return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
+                (initNew(Output.DmlSelect::new,
+                        target::getOutputDmlSelectList,
+                        target::setOutputDmlSelectList))
+                .in(this);
+    }
+
     /**
      * Quick set OutputDmlSelect
      * @param names
@@ -228,8 +260,30 @@ public class OutputBuilder<ParentBuilder>
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
         initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+                this.target::getOutputDmlSelectList,
+                this.target::setOutputDmlSelectList);
+        return this;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public OutputBuilder<ParentBuilder> $Output(ColumnName... columnNames) {
+        if(CheckUtil.isNullOrEmpty(columnNames)){
+            return this;
+        }
+        List<Output.DmlSelect> list = Arrays.stream(columnNames)
+                .map(columnName -> {
+                    Output.ColumnName c = new Output.ColumnName();
+                    c.setColumnName(columnName.getName());
+                    if(columnName.getTable() != null){
+                        c.setFromTableName(columnName.getTable().getFullName());
+                    }
+                    return c;
+                })
+                .map(Output.DmlSelect::new)
+                .collect(Collectors.toList());
+        initAdd(list,
+                this.target::getOutputDmlSelectList,
+                this.target::setOutputDmlSelectList);
         return this;
     }
 
@@ -238,7 +292,7 @@ public class OutputBuilder<ParentBuilder>
      * @param expressions
      * @return
      */
-    public OutputBuilder<ParentBuilder> $Output(Expression... expressions){
+    public OutputBuilder<ParentBuilder> $Output(ScalarExpression... expressions){
         if(CheckUtil.isNullOrEmpty(expressions)){
             return this;
         }
@@ -246,8 +300,8 @@ public class OutputBuilder<ParentBuilder>
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
         initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+                this.target::getOutputDmlSelectList,
+                this.target::setOutputDmlSelectList);
         return this;
     }
 
@@ -269,8 +323,8 @@ public class OutputBuilder<ParentBuilder>
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
         initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+                this.target::getOutputDmlSelectList,
+                this.target::setOutputDmlSelectList);
         return this;
     }
 
@@ -292,11 +346,10 @@ public class OutputBuilder<ParentBuilder>
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
         initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+                this.target::getOutputDmlSelectList,
+                this.target::setOutputDmlSelectList);
         return this;
     }
-
 
     /**
      * DmlSelectBuilder
@@ -326,7 +379,7 @@ public class OutputBuilder<ParentBuilder>
             return this;
         }
 
-        public DmlSelectBuilder<ParentBuilder> withScalarExpression(Expression scalarExpression){
+        public DmlSelectBuilder<ParentBuilder> withScalarExpression(ScalarExpression scalarExpression){
             this.target.setScalarExpression(scalarExpression);
             return this;
         }
@@ -463,9 +516,11 @@ public class OutputBuilder<ParentBuilder>
      * inserted flag $action
      * @return
      */
-    public static Expression c_$action(){
+    public static Output.ColumnName c_$action(){
+        Output.ColumnName c = new Output.ColumnName();
+        c.set$action(true);
         return new ColumnNameBuilder<Output.ColumnName>
-                (new Output.ColumnName("$action"))
+                (c)
                 .build();
     }
 

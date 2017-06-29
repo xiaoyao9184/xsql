@@ -21,10 +21,10 @@ public class OutputConverter
                     .overall("OUTPUT_CLAUSE")
                     .sub()
                         .description("Output Into")
-                        .optional(d -> d.getOutputDmlSelectList() != null)
+                        .optional(d -> d.getDmlSelectList() == null)
                         .sub_keyword(Keywords.Key.OUTPUT)
                         .sub("dml_select_list")
-                            .ref(DmlSelectConverter.class)
+                            .ref(DmlSelectListConverter.class)
                             .data(Output::getDmlSelectList)
                             .and()
                         .sub_keyword(Keywords.INTO)
@@ -115,7 +115,7 @@ public class OutputConverter
                             .and()
                         .sub()
                             .description("[ [AS] column_alias_identifier ]")
-                            .optional(data -> data.getScalarExpression() == null)
+                            .optional(data -> data.getColumnAliasIdentifier() == null)
                             .sub()
                                 .optional(Output.DmlSelect::isUseAs)
                                 .keyword(Keywords.AS)
@@ -148,14 +148,15 @@ public class OutputConverter
                         .czse(d ->
                             d.isUseDeleted() ||
                             d.isUseInserted() ||
-                            d.getFromTableName() != null
+                            d.getFromTableName() != null ||
+                            d.getColumnName() != null
                         )
                             .sub("{ DELETED | INSERTED | from_table_name }")
                                 .required()
-                                .czse(d -> d.isUseDeleted())
+                                .czse(Output.ColumnName::isUseDeleted)
                                     .keyword(Keywords.Key.DELETED)
                                     .and()
-                                .czse(d -> d.isUseInserted())
+                                .czse(Output.ColumnName::isUseInserted)
                                     .keyword(Keywords.Key.INSERTED)
                                     .and()
                                 .czse(d -> d.getFromTableName() != null,"from_table_name")
@@ -168,7 +169,7 @@ public class OutputConverter
                             .sub()
                                 .description("{ * | column_name }")
                                 .required()
-                                .czse(d -> d.isUseAll(), "*")
+                                .czse(Output.ColumnName::isUseAll, "*")
                                     .keyword(Other.ASTERISK)
                                     .and()
                                 .czse(d -> !d.isUseAll(), "column_name")
@@ -177,7 +178,7 @@ public class OutputConverter
                                 .and()
                             .and()
                         .czse(Output.ColumnName::is$action, "$action")
-                            .data("$action")
+                            .data(d -> "$action")
                             .and()
                         .subTakeLine();
         // @formatter:on
