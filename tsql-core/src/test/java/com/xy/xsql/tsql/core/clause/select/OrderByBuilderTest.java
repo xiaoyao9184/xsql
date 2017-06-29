@@ -8,16 +8,28 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.core.predicate.Predicates.p_equal;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_addition;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_subtraction;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_addition;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_subtraction;
 
 /**
  * Created by xiaoyao9184 on 2017/3/22.
  */
 public class OrderByBuilderTest {
 
+    // @formatter:off
+    //parent+quick
+    public OrderBy example1A = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("ProductID"))
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY ProductID;
@@ -30,13 +42,6 @@ public class OrderByBuilderTest {
                     .withExpression(c("ProductID"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("ProductID"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -45,6 +50,16 @@ public class OrderByBuilderTest {
         OrderBy.Item item = orderBy.getItems().get(0);
         Assert.assertEquals(item.getOrderByExpression().toString(),"ProductID");
     }
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example1D = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("DATEPART(year, HireDate)"))
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY DATEPART(year, HireDate);
@@ -57,13 +72,6 @@ public class OrderByBuilderTest {
                     .withExpression(e("DATEPART(year, HireDate)"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("DATEPART(year, HireDate)"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -72,6 +80,17 @@ public class OrderByBuilderTest {
         OrderBy.Item item = orderBy.getItems().get(0);
         Assert.assertEquals(item.getOrderByExpression().toString(),"DATEPART(year, HireDate)");
     }
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example2A = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("ProductID"))
+                    .$Desc()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY ProductID DESC;
@@ -85,14 +104,6 @@ public class OrderByBuilderTest {
                     .withDesc()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("ProductID"))
-                    .$Desc()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -102,6 +113,17 @@ public class OrderByBuilderTest {
         Assert.assertEquals(item.getOrderByExpression().toString(),"ProductID");
         Assert.assertTrue(item.isUseDesc());
     }
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example2B = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("Name"))
+                    .$Asc()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY Name ASC ;
@@ -115,14 +137,6 @@ public class OrderByBuilderTest {
                     .withAsc()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("Name"))
-                    .$Asc()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -132,6 +146,20 @@ public class OrderByBuilderTest {
         Assert.assertEquals(item.getOrderByExpression().toString(),"Name");
         Assert.assertTrue(item.isUseAsc());
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example2C = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("FirstName"))
+                    .$Asc()
+                    .$(c("LastName"))
+                    .$Desc()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY FirstName ASC, LastName DESC ;
@@ -149,16 +177,6 @@ public class OrderByBuilderTest {
                     .withDesc()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("FirstName"))
-                    .$Asc()
-                    .$(c("LastName"))
-                    .$Desc()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),2);
@@ -173,6 +191,27 @@ public class OrderByBuilderTest {
         Assert.assertEquals(item1.getOrderByExpression().toString(),"LastName");
         Assert.assertTrue(item1.isUseDesc());
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example3A1 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("DepartmentID"))
+                    .$Offset(5)
+                    .$Rows()
+                    .and()
+                .get();
+    public OrderBy example3A2 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("DepartmentID"))
+                    .$Offset(0).$Rows()
+                    .$Fetch_Next(e_number(10)).$Rows()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY DepartmentID OFFSET 5 ROWS;
@@ -208,23 +247,6 @@ public class OrderByBuilderTest {
                     .withUseFetchRows()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("DepartmentID"))
-                    .$Offset(5)
-                    .$Rows()
-                    .and();
-
-        MockParent<OrderBy> parent1 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("FirstName"))
-                    .$Offset(0).$Rows()
-                    .$Fetch_Next(e_number(10)).$Rows()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -240,6 +262,19 @@ public class OrderByBuilderTest {
         Assert.assertEquals(orderBy1.getOffsetFetch().getFetchIntegerConstant().toString(),"10");
         Assert.assertTrue(orderBy1.getOffsetFetch().isUseFetchRows());
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example3B = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("DepartmentID")).$Asc()
+                    .$Offset(e_variable("StartingRowNumber")).$Rows()
+                    .$Fetch_Next(e_variable("FetchRows")).$Rows()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY DepartmentID ASC
@@ -262,15 +297,6 @@ public class OrderByBuilderTest {
                     .withUseFetchRows()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("DepartmentID")).$Asc()
-                    .$Offset(e_variable("StartingRowNumber")).$Rows()
-                    .$Fetch_Next(e_variable("FetchRows")).$Rows()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -280,9 +306,31 @@ public class OrderByBuilderTest {
 
         Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().toString(),"@StartingRowNumber");
         Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
+        Assert.assertTrue(!orderBy.getOffsetFetch().isUseFetchFirst());
         Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(),"@FetchRows");
         Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example3C = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("DepartmentID"))
+                    .$Asc()
+                    .$Offset(e_subtraction(
+                                    e_variable("StartingRowNumber"),
+                                    e_number(1))).$Rows()
+                    .$Fetch_Next(e_addition(
+                                    e_subtraction(
+                                        e_variable("EndingRowNumber"),
+                                        e_variable("StartingRowNumber")),
+                                    e_number(1)
+                            )).$Rows()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY DepartmentID ASC
@@ -307,30 +355,13 @@ public class OrderByBuilderTest {
                     .withFetchOffsetRowCountExpression(
                             e_addition(
                                     e_subtraction(
-                                        e_variable("StartingRowNumber"),
-                                        e_number(1)),
+                                        e_variable("EndingRowNumber"),
+                                        e_variable("StartingRowNumber")),
                                     e_number(1)
                             ))
                     .withUseFetchRows()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("DepartmentID"))
-                    .$Asc()
-                    .$Offset(e_subtraction(
-                                    e_variable("StartingRowNumber"),
-                                    e_number(1))).$Rows()
-                    .$Fetch_Next(e_addition(
-                                    e_subtraction(
-                                        e_variable("StartingRowNumber"),
-                                        e_number(1)),
-                                    e_number(1)
-                            )).$Rows()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -343,6 +374,32 @@ public class OrderByBuilderTest {
         Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), GroupExpression.class);
         Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
+
+
+    // @formatter:off
+    //parent+quick
+
+    private Select.QuerySpecification querySpecification = QUERY()
+            .$(c("PageSize"))
+            .$From()
+                .$(t("dbo","AppSettings"))
+                .and()
+            .$Where()
+                .$Predicate(p_equal(c("AppSettingID"),e_number(1)))
+                .and()
+            .build();
+
+
+    public OrderBy example3D = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("DepartmentID"))
+                    .$Asc()
+                    .$Offset(e_variable("StartingRowNumber")).$Rows()
+                    .$Fetch_Next(e_subquery(querySpecification)).$Rows()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY DepartmentID ASC
@@ -368,16 +425,6 @@ public class OrderByBuilderTest {
                     .withUseFetchRows()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("DepartmentID"))
-                    .$Asc()
-                    .$Offset(e_variable("StartingRowNumber")).$Rows()
-                    .$Fetch_Next(e_subquery(new Select.QuerySpecification())).$Rows()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -390,6 +437,23 @@ public class OrderByBuilderTest {
         Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), GroupExpression.class);
         Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public OrderBy example3E = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("DepartmentID"))
+                    .$Asc()
+                    .$Offset(
+                            e_subtraction(
+                                    e_variable("StartingRowNumber"),
+                                    e_number(1))).$Rows()
+                    .$Fetch_Next(e_variable("RowCountPerPage")).$Rows()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * ORDER BY DepartmentID ASC
@@ -415,19 +479,6 @@ public class OrderByBuilderTest {
                     .withUseFetchRows()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<OrderBy> parent = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
-                (OrderByBuilder.class,OrderBy.class)
-                .$child()
-                    .$(c("DepartmentID"))
-                    .$Asc()
-                    .$Offset(
-                            e_subtraction(
-                                    e_variable("StartingRowNumber"),
-                                    e_number(1))).$Rows()
-                    .$Fetch_Next(e_variable("RowCountPerPage")).$Row()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(orderBy.getItems().size(),1);
@@ -440,4 +491,5 @@ public class OrderByBuilderTest {
         Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(), "@RowCountPerPage");
         Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
+
 }

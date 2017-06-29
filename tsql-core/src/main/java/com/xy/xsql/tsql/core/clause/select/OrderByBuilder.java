@@ -234,7 +234,6 @@ public class OrderByBuilder<ParentBuilder>
 
         public OffsetFetchBuilder<ParentBuilder> withUseFetchNext() {
             target.setUseFetch(true);
-            target.setUseFetchFirst(true);
             return this;
         }
 
