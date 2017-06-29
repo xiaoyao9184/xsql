@@ -11,40 +11,64 @@ import com.xy.xsql.tsql.model.expression.NullIf;
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
-public class GroupExpressionConverter
-        implements ReferenceBlockConverter<GroupExpression> {
+public class GroupExpressionConverter {
 
-    // @formatter:off
-    private static ReferenceBlockBuilder<Void,GroupExpression> builder =
-            new ReferenceBlockBuilder<Void,GroupExpression>()
-                    .description("binary expression")
-                    .czse(d -> d.getStatement() == null)
-                        .description("expression { binary_operator } expression")
+    public static class ExpressionConverter
+            implements ReferenceBlockConverter<GroupExpression> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,GroupExpression> builder =
+                new ReferenceBlockBuilder<Void,GroupExpression>()
+                        .description("( expression )")
+                        .sub_keyword(Other.GROUP_START)
                         .sub("expression")
-                            .data(GroupExpression::getExpressionLeft)
+                            .data(GroupExpression::getExpression)
                             .and()
-                        .sub("binary_operator")
-                            .data(GroupExpression::getOperator)
-                            .and()
-                        .sub("expression")
-                            .data(GroupExpression::getExpressionRight)
-                            .and()
-                        .and()
-                    .czse(d -> d.getStatement() != null,"")
-                        .data(GroupExpression::getStatement)
-                        .and();
-    // @formatter:on
+                        .sub_keyword(Other.GROUP_END);
+        // @formatter:on
 
 
-    public static ReferenceBlock meta() {
-        return builder.build();
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(GroupExpression groupExpression) {
+            return builder
+                    .data(groupExpression)
+                    .build();
+        }
+
     }
 
-    @Override
-    public ReferenceBlock convert(GroupExpression groupExpression) {
-        return builder
-                .data(groupExpression)
-                .build();
+    public static class ScalarSubqueryConverter
+            implements ReferenceBlockConverter<GroupExpression> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,GroupExpression> builder =
+                new ReferenceBlockBuilder<Void,GroupExpression>()
+                        .description("( scalar_subquery )")
+                        .sub_keyword(Other.GROUP_START)
+                        .sub("scalar_subquery")
+                            .data(GroupExpression::getStatement)
+                            .and()
+                        .sub_keyword(Other.GROUP_END);
+        // @formatter:on
+
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(GroupExpression groupExpression) {
+            return builder
+                    .data(groupExpression)
+                    .build();
+        }
+
     }
+
+
 
 }

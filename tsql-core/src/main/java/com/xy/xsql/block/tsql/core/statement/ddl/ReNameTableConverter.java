@@ -19,7 +19,7 @@ public class ReNameTableConverter
                     .sub_keyword(Keywords.Key.RENAME)
                     .sub_keyword(Keywords.Key.OBJECT)
                     .sub("::")
-                        .optional()
+                        .optional(d -> true)
                         .data("::")
                         .and()
                     .sub("[ [ database_name .  [schema_name ] ] . ] | [schema_name . ] ] table_name")

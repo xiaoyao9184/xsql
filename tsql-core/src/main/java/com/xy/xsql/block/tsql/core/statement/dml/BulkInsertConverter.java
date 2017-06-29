@@ -356,7 +356,7 @@ public class BulkInsertConverter
                             .data(BulkInsert.OrderColumn::getColumn)
                             .and()
                         .sub()
-                            .optional()
+                            .optional(d -> !d.isUseAsc() && !d.isUseDesc())
                             .czse_keyword(BulkInsert.OrderColumn::isUseAsc, Keywords.ASC)
                             .czse_keyword(BulkInsert.OrderColumn::isUseDesc, Keywords.DESC)
                             .and();

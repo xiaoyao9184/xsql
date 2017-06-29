@@ -85,6 +85,7 @@ public class SelectConverter
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Select.SelectItem> builder =
                 new ReferenceBlockBuilder<Void,Select.SelectItem>()
+                        .description("select item")
                         .required()
                         .czse(Select.SelectItem::isUseAll, "*")
                             .description("all")
@@ -94,7 +95,8 @@ public class SelectConverter
                             .description("table all")
                             .data(d -> d.getTableViewName() + ".*")
                             .and()
-                        .czse(Select.SelectItem::isUseEQ)
+                        .czse(d -> !d.isUseEQ())
+                            .description("base")
                             .required()
                             .sub()
                                 .czse(d -> d.getColumnName() != null)

@@ -5,6 +5,7 @@ import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
@@ -29,15 +30,10 @@ public class ExpressionConverter
                         .and()
                     .czse(d -> d instanceof LocalVariable,"variable")
                         .and()
-//                    .czse(d -> d instanceof ,"( expression )")
-//                        .and()
+                    .czse_meta(d -> d instanceof GroupExpression,GroupExpressionConverter.ExpressionConverter.meta())
 //                    .czse(d -> d instanceof ,"{ unary_operator } expression")
 //                        .and()
-                    .czse(d -> d instanceof GroupExpression)
-                        .description("expression { binary_operator } expression")
-                        .sub_meta(GroupExpressionConverter.meta())
-                        .data(d -> d)
-                        .and();
+                    .czse_meta(d -> d instanceof BinaryExpression,BinaryExpressionConverter.meta());
     // @formatter:on
 
 

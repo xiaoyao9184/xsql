@@ -41,7 +41,7 @@ public class FreeTextPredicateConverter
                             .and()
                         .sub_keyword(Other.DELIMITER)
                         .sub()
-                            .optional()
+                            .optional(d -> true)
                             .sub_keyword(Keywords.Key.LANGUAGE)
                             .sub("language_term")
                                 //TODO support language_term

@@ -19,7 +19,7 @@ public class ReNameDatabaseConverter
                     .sub_keyword(Keywords.Key.RENAME)
                     .sub_keyword(Keywords.DATABASE)
                     .sub("::")
-                        .optional()
+                        .optional(d -> true)
                         .data("::")
                         .and()
                     .sub("database_name")
