@@ -1,7 +1,8 @@
 package com.xy.xsql.tsql.core.expression;
 
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.expression.GroupExpression;
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.operator.*;
 
 import java.util.Arrays;
@@ -12,10 +13,10 @@ import java.util.Arrays;
  * expression { binary_operator } expression
  * Created by xiaoyao9184 on 2017/3/10.
  */
-public class GroupExpressions {
+public class BinaryExpressions {
 
-    public static GroupExpression e_binary(Expression leftExpression, Operator operator, Expression... rightExpression){
-        GroupExpression groupExpression = new GroupExpression();
+    public static BinaryExpression e_binary(Expression leftExpression, Operator operator, Expression... rightExpression){
+        BinaryExpression groupExpression = new BinaryExpression();
         groupExpression.setOperator(operator);
         groupExpression.setExpressionLeft(leftExpression);
         groupExpression.setExpressionRight(rightExpression[0]);
@@ -34,7 +35,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_addition(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_addition(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Arithmetic.ADDITION, rightExpression);
     }
 
@@ -44,7 +45,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_subtraction(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_subtraction(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Arithmetic.SUBTRACTION, rightExpression);
     }
 
@@ -54,7 +55,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_multiplication(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_multiplication(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Arithmetic.MULTIPLICATION, rightExpression);
     }
 
@@ -64,7 +65,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_division(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_division(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Arithmetic.DIVISION, rightExpression);
     }
 
@@ -74,7 +75,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_modulo(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_modulo(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Arithmetic.MODULO, rightExpression);
     }
 
@@ -84,7 +85,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_assignment(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_assignment(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Assignment.ASSIGNMENT, rightExpression);
     }
 
@@ -94,7 +95,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_bitwise_and(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bitwise_and(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Bitwise.AND, rightExpression);
     }
 
@@ -104,7 +105,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_bitwise_and_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bitwise_and_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Bitwise.AND_EQUALS, rightExpression);
     }
 
@@ -114,7 +115,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_bitwise_or(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bitwise_or(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Bitwise.OR, rightExpression);
     }
 
@@ -124,7 +125,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_bitwise_or_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bitwise_or_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Bitwise.OR_EQUALS, rightExpression);
     }
 
@@ -134,7 +135,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_bitwise_xor(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bitwise_xor(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Bitwise.XOR, rightExpression);
     }
 
@@ -144,7 +145,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_bitwise_xor_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bitwise_xor_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Bitwise.XOR_EQUALS, rightExpression);
     }
 
@@ -154,41 +155,41 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_bitwise_not(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bitwise_not(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Bitwise.NOT, rightExpression);
     }
 
 
 
-    public static GroupExpression e_add_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_add_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.ADD_EQUALS, rightExpression);
     }
 
-    public static GroupExpression e_subtract_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_subtract_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.SUBTRACT_EQUALS, rightExpression);
     }
 
-    public static GroupExpression e_multiply_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_multiply_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.MULTIPLY_EQUALS, rightExpression);
     }
 
-    public static GroupExpression e_divide_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_divide_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.DIVIDE_EQUALS, rightExpression);
     }
 
-    public static GroupExpression e_modulo_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_modulo_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.MODULO_EQUALS, rightExpression);
     }
 
-    public static GroupExpression e_bit_and_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bit_and_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.BITWISE_AND_EQUALS, rightExpression);
     }
 
-    public static GroupExpression e_bit_exclusive_or_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bit_exclusive_or_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.BITWISE_EXCLUSIVE_OR_EQUALS, rightExpression);
     }
 
-    public static GroupExpression e_bit_or_equals(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_bit_or_equals(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Compound.BITWISE_OR_EQUALS, rightExpression);
     }
 
@@ -199,7 +200,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_all(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_all(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Logical.ALL, rightExpression);
     }
 
@@ -209,7 +210,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_some(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_some(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Logical.SOME, rightExpression);
     }
 
@@ -219,7 +220,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_any(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_any(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Logical.ANY, rightExpression);
     }
 
@@ -232,7 +233,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_and(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_and(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Logical.AND, rightExpression);
     }
 
@@ -242,7 +243,7 @@ public class GroupExpressions {
      * @param rightExpression
      * @return
      */
-    public static GroupExpression e_or(Expression leftExpression, Expression rightExpression){
+    public static BinaryExpression e_or(Expression leftExpression, Expression rightExpression){
         return e_binary(leftExpression, Logical.OR, rightExpression);
     }
 

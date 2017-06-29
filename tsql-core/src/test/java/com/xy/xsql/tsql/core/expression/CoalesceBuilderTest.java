@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_binary;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_binary;
 
 
 /**

@@ -12,7 +12,7 @@ import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_plus;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_plus;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.dml.MergeBuilder.MERGE;
 import static com.xy.xsql.tsql.core.statement.dml.UpdateBuilder.SetItemBuilder.s;

@@ -9,7 +9,7 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.*;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.*;
 import static com.xy.xsql.tsql.core.statement.dml.UpdateBuilder.SetItemBuilder.*;
 import static com.xy.xsql.tsql.core.statement.dml.UpdateBuilder.UPDATE;
 

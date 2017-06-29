@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_addition;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_multiplication;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_addition;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_multiplication;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
