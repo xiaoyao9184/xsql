@@ -83,6 +83,7 @@ public class TableValueConstructorConverterTest {
                 "VALUES ('Recommendation','Other'), ('Review', 'Marketing'), ('Internet', 'Promotion')");
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
         model2StringMap.forEach((key, value) -> {

@@ -16,6 +16,16 @@ public class TopBuilderTest {
 
      //Basic syntax
 
+
+    // @formatter:off
+    //parent+quick
+    public Top example1A = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
+                (TopBuilder.class,Top.class)
+                .$child()
+                    .$_(e_number(10))
+                .get();
+    // @formatter:on
+
     /**
      * TOP(10)
      */
@@ -25,17 +35,21 @@ public class TopBuilderTest {
         Top top = new TopBuilder<Void>()
                 .withExpression(e_number(10))
                 .build();
-
-        //parent+quick
-        MockParent<Top> parent = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
-                (TopBuilder.class,Top.class)
-                .$child()
-                    .$_(e_number(10));
         // @formatter:on
 
         Assert.assertEquals(top.getExpression().toString(),"10");
-        Assert.assertEquals(parent.get().getExpression().toString(),"10");
+        Assert.assertEquals(example1A.getExpression().toString(),"10");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Top example1B = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
+                (TopBuilder.class,Top.class)
+                .$child()
+                    .$_(e_variable("p"))
+                .get();
+    // @formatter:on
 
     /**
      * TOP(@p)
@@ -46,17 +60,21 @@ public class TopBuilderTest {
         Top top = new TopBuilder<Void>()
                 .withExpression(e_variable("p"))
                 .build();
-
-        //parent+quick
-        MockParent<Top> parent = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
-                (TopBuilder.class,Top.class)
-                .$child()
-                    .$_(e_variable("p"));
         // @formatter:on
 
         Assert.assertEquals(top.getExpression().toString(),"@p");
-        Assert.assertEquals(parent.get().getExpression().toString(),"@p");
+        Assert.assertEquals(example1B.getExpression().toString(),"@p");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Top example1C = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
+                (TopBuilder.class,Top.class)
+                .$child()
+                    .$_(e_number(5),true)
+                .get();
+    // @formatter:on
 
     /**
      * TOP(5)PERCENT
@@ -68,21 +86,25 @@ public class TopBuilderTest {
                 .withExpression(e_number(5))
                 .withPercent()
                 .build();
-
-        //parent+quick
-        MockParent<Top> parent = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
-                (TopBuilder.class,Top.class)
-                .$child()
-                    .$_(e_number(5),true);
         // @formatter:on
 
         Assert.assertEquals(top.getExpression().toString(),"5");
         Assert.assertEquals(top.isUsePercent(),true);
-        Assert.assertEquals(parent.get().getExpression().toString(),"5");
-        Assert.assertEquals(parent.get().isUsePercent(),true);
+        Assert.assertEquals(example1C.getExpression().toString(),"5");
+        Assert.assertEquals(example1C.isUsePercent(),true);
     }
 
     //Including tie values
+
+
+    // @formatter:off
+    //parent+quick
+    public Top example2A = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
+                (TopBuilder.class,Top.class)
+                .$child()
+                    .$_(e_number(10),false,true)
+                .get();
+    // @formatter:on
 
     /**
      * TOP(10)WITH TIES
@@ -94,21 +116,25 @@ public class TopBuilderTest {
                 .withExpression(e_number(10))
                 .withTies()
                 .build();
-
-        //parent+quick
-        MockParent<Top> parent = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
-                (TopBuilder.class,Top.class)
-                .$child()
-                    .$_(e_number(10),false,true);
         // @formatter:on
 
         Assert.assertEquals(top.getExpression().toString(),"10");
         Assert.assertEquals(top.isUseTies(),true);
-        Assert.assertEquals(parent.get().getExpression().toString(),"10");
-        Assert.assertEquals(parent.get().isUseTies(),true);
+        Assert.assertEquals(example2A.getExpression().toString(),"10");
+        Assert.assertEquals(example2A.isUseTies(),true);
     }
 
     //Limiting the rows affected by DELETE, INSERT, or UPDATE
+
+
+    // @formatter:off
+    //parent+quick
+    public Top example3A = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
+                (TopBuilder.class,Top.class)
+                .$child()
+                    .$_(e_number(20))
+                .get();
+    // @formatter:on
 
     /**
      * TOP (20)
@@ -119,17 +145,21 @@ public class TopBuilderTest {
         Top top = new TopBuilder<Void>()
                 .withExpression(e_number(20))
                 .build();
-
-        //parent+quick
-        MockParent<Top> parent = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
-                (TopBuilder.class,Top.class)
-                .$child()
-                    .$_(e_number(20));
         // @formatter:on
 
         Assert.assertEquals(top.getExpression().toString(),"20");
-        Assert.assertEquals(parent.get().getExpression().toString(),"20");
+        Assert.assertEquals(example3A.getExpression().toString(),"20");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Top example3B = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
+                (TopBuilder.class,Top.class)
+                .$child()
+                    .$_(e_number(5))
+                .get();
+    // @formatter:on
 
     /**
      * TOP (5)
@@ -140,17 +170,21 @@ public class TopBuilderTest {
         Top top = new TopBuilder<Void>()
                 .withExpression(e_number(5))
                 .build();
-
-        //parent+quick
-        MockParent<Top> parent = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
-                (TopBuilder.class,Top.class)
-                .$child()
-                    .$_(e_number(5));
         // @formatter:on
 
         Assert.assertEquals(top.getExpression().toString(),"5");
-        Assert.assertEquals(parent.get().getExpression().toString(),"5");
+        Assert.assertEquals(example3B.getExpression().toString(),"5");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Top example3C = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
+                (TopBuilder.class,Top.class)
+                .$child()
+                    .$_(e_number(10))
+                .get();
+    // @formatter:on
 
 
     /**
@@ -163,16 +197,10 @@ public class TopBuilderTest {
         Top top = new TopBuilder<Void>()
                 .withExpression(e_number(10))
                 .build();
-
-        //parent+quick
-        MockParent<Top> parent = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
-                (TopBuilder.class,Top.class)
-                .$child()
-                    .$_(e_number(10));
         // @formatter:on
 
         Assert.assertEquals(top.getExpression().toString(),"10");
-        Assert.assertEquals(parent.get().getExpression().toString(),"10");
+        Assert.assertEquals(example3C.getExpression().toString(),"10");
     }
 
 
