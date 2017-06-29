@@ -9,7 +9,7 @@ import java.util.UUID;
  * uniqueidentifier constants(output like Character string)
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class StringConstant implements Expression {
+public class StringConstant implements Constant, Expression {
 
     private boolean useQuote;
     private boolean useNQuote;

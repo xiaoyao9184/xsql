@@ -10,7 +10,7 @@ import com.xy.xsql.tsql.model.expression.Expression;
  * money constants
  * Created by xiaoyao9184 on 2016/11/13.
  */
-public class NumberConstant implements Expression {
+public class NumberConstant implements Constant, Expression {
 
     private boolean flagMoney;
     private Number number;

@@ -11,7 +11,7 @@ import java.util.UUID;
  * uniqueidentifier constants(output like Binary string)
  * Created by xiaoyao9184 on 2017/3/17.
  */
-public class BinaryConstant implements Expression {
+public class BinaryConstant implements Constant, Expression {
 
     private byte[] data;
 

@@ -3,6 +3,7 @@ package com.xy.xsql.block.tsql.core.expression;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.tsql.model.datatype.Constant;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
@@ -20,15 +21,16 @@ public class ExpressionConverter
     private static ReferenceBlockBuilder<Void,Expression> builder =
             new ReferenceBlockBuilder<Void,Expression>()
                     .description("expression")
-                    .czse(d -> d instanceof StringConstant,"constant")
-                        .data(d -> d)
+                    .czse(d -> d instanceof Constant,"constant")
+                        .data(Object::toString)
                         .and()
 //                    .czse(d -> d instanceof ,"scalar_function")
 //                        .and()
                     .czse(d -> d instanceof ColumnName,"column")
-                        .data(d -> d)
+                        .data(Object::toString)
                         .and()
                     .czse(d -> d instanceof LocalVariable,"variable")
+                        .data(Object::toString)
                         .and()
                     .czse_meta(d -> d instanceof GroupExpression,GroupExpressionConverter.ExpressionConverter.meta())
 //                    .czse(d -> d instanceof ,"{ unary_operator } expression")
