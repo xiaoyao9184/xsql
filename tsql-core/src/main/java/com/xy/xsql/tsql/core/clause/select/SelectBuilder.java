@@ -135,14 +135,15 @@ public class SelectBuilder<ParentBuilder>
     /**
      * Quick set selectList
      * into SelectItemBuilder get-out
-     * @param columnName
+     * @param columnAlias
      * @param expression
      * @return
      */
-    public SelectBuilder<ParentBuilder> $(ColumnName columnName, Expression expression) {
+    public SelectBuilder<ParentBuilder> $(String columnAlias, Expression expression) {
         return withSelectItem()
-                .withColumnName(columnName)
+                .withColumnAlias(columnAlias)
                 .withExpression(expression)
+                .withEQ()
                 .and();
     }
 
@@ -220,8 +221,6 @@ public class SelectBuilder<ParentBuilder>
             return this;
         }
 
-        //TODO
-        @Deprecated
         public SelectItemBuilder<ParentBuilder> withEQ(){
             target.setUseEQ(true);
             return this;
