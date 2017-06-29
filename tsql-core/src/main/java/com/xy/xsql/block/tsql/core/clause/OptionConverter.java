@@ -23,10 +23,10 @@ public class OptionConverter
                     .sub_keyword(Keywords.OPTION)
                     .sub_keyword(Other.GROUP_START)
                     .sub()
-                        .description("<query_hint> [ ,...n ]")
+                        .description("<query_option> [ ,...n ]")
                         .list()
                         .sub("query_hint")
-                            .ref(QueryHintConverter.class)
+                            .ref(QueryOptionConverter.class)
                             .and()
                         .data(Option::getQueryOption)
                         .and()
@@ -45,14 +45,14 @@ public class OptionConverter
     }
 
 
-    public static class OptionQueryOptionConverter
+    public static class QueryOptionConverter
             implements ReferenceBlockConverter<Option.QueryOption> {
 
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Option.QueryOption> builder =
                 new ReferenceBlockBuilder<Void,Option.QueryOption>()
                         .overall("query_option")
-                        .czse_meta(d -> d instanceof Option.LabelQueryOption, OptionLabelQueryOptionConverter.meta())
+                        .czse_meta(d -> d instanceof Option.LabelQueryOption, LabelQueryOptionConverter.meta())
                         .czse(d -> d instanceof QueryHint, "query_hint")
                             .ref(QueryHintConverter.class)
                             .data(d -> d)
@@ -73,7 +73,7 @@ public class OptionConverter
     }
 
 
-    public static class OptionLabelQueryOptionConverter
+    public static class LabelQueryOptionConverter
             implements ReferenceBlockConverter<Option.LabelQueryOption> {
 
         // @formatter:off

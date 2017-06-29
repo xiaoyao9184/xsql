@@ -88,13 +88,13 @@ public class QueryHintConverter
                         .sub_keyword(QueryHint.Type.FORCE_ORDER)
                         .and()
                     .czse(d ->
-                            QueryHint.Type.DISABLE_EXTERNALPUSHDOWN.equals(d.getType()) ||
+                            QueryHint.Type.FORCE_EXTERNALPUSHDOWN.equals(d.getType()) ||
                             QueryHint.Type.DISABLE_EXTERNALPUSHDOWN.equals(d.getType())
                     )
                         .description("{ FORCE | DISABLE } EXTERNALPUSHDOWN")
                         .sub()
                             .required()
-                            .czse(d -> QueryHint.Type.DISABLE_EXTERNALPUSHDOWN.equals(d.getType()))
+                            .czse(d -> QueryHint.Type.FORCE_EXTERNALPUSHDOWN.equals(d.getType()))
                                 .keyword(Keywords.Key.FORCE)
                                 .and()
                             .czse(d -> QueryHint.Type.DISABLE_EXTERNALPUSHDOWN.equals(d.getType()))

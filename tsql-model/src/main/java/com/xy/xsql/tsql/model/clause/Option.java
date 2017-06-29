@@ -1,5 +1,7 @@
 package com.xy.xsql.tsql.model.clause;
 
+import com.xy.xsql.tsql.model.datatype.StringConstant;
+
 import java.util.List;
 
 /**
@@ -56,17 +58,17 @@ public class Option implements Clause {
     public static class LabelQueryOption implements QueryOption {
 
         //label_name
-        private String labelName;
+        private StringConstant labelName;
 
         public LabelQueryOption(String labelName) {
-            this.labelName = labelName;
+            this.labelName = new StringConstant(labelName).withQuote();
         }
 
-        public String getLabelName() {
+        public StringConstant getLabelName() {
             return labelName;
         }
 
-        public void setLabelName(String labelName) {
+        public void setLabelName(StringConstant labelName) {
             this.labelName = labelName;
         }
 

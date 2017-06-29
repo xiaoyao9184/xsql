@@ -750,6 +750,26 @@ public class FromBuilderTest {
 
     }
 
+
+    // @formatter:off
+    public From exampleJ = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Sales","Customer"))
+            //TODO
+                //                        .$TableSample()
+                //                            .$System()
+                //                            .$Percent(10)
+                //                            .$Row(10)
+                //                            .$RereaTable()
+                //                            .and()
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * FROM Sales.Customer TABLESAMPLE SYSTEM (10 PERCENT) ;
      */
@@ -762,23 +782,6 @@ public class FromBuilderTest {
 //                    .withTABLESAMPLE
                     .and()
                 .build();
-
-
-        //parent+quick
-        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-                (FromBuilder.class,From.class)
-                .$child()
-                    .$()
-                        .$(t("Sales","Customer"))
-//                        .$TableSample()
-//                            .$System()
-//                            .$Percent(10)
-//                            .$Row(10)
-//                            .$RereaTable()
-//                            .and()
-                        .and()
-                        .and()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(from.getTableSourceList().size(),1);
@@ -787,6 +790,23 @@ public class FromBuilderTest {
         From.BaseTable tableSource = (From.BaseTable) from.getTableSourceList().get(0);
         Assert.assertEquals(tableSource.getTableName().toString(),"Sales.Customer");
     }
+
+
+    // @formatter:off
+    public From exampleK = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("Departments"))
+                        .$As("d")
+                        .$Cross_Apply()
+            //TODO
+//                        .$(f("dbo.GetReports"),
+//                                c("d","DeptMgrID"))
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * FROM Departments d CROSS APPLY dbo.GetReports(d.DeptMgrID) ;
@@ -807,20 +827,6 @@ public class FromBuilderTest {
 //                        .and()
                     .and()
                 .build();
-
-
-        //parent+quick
-        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-                (FromBuilder.class,From.class)
-                .$child()
-                    .$()
-                        .$(t("Departments"))
-                        .$As("d")
-                        .$Cross_Apply()
-//                        .$(f("dbo.GetReports"),
-//                                c("d","DeptMgrID"))
-                        .and()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(from.getTableSourceList().size(),1);
