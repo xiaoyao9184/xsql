@@ -155,6 +155,24 @@ public class TableValueConstructorBuilderTest {
     }
 
 
+    // @formatter:off
+    //parent+quick
+    public TableValueConstructor exampleA = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
+                (TableValueConstructorBuilder.class,TableValueConstructor.class)
+                .$child()
+                    .$(e_n_string("FT2"),
+                            e_n_string("Square Feet "),
+                            e_string("20080923"))
+                    .$(e_n_string("Y"),
+                            e_n_string("Yards"),
+                            e_string("20080923"))
+                    .$(e_n_string("Y3"),
+                            e_n_string("Cubic Yards"),
+                            e_string("20080923"))
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * VALUES (N'FT2', N'Square Feet ', '20080923'), (N'Y', N'Yards', '20080923'), (N'Y3', N'Cubic Yards', '20080923');
      */
@@ -178,21 +196,6 @@ public class TableValueConstructorBuilderTest {
                     .withRowValueExpression(e_string("20080923"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<TableValueConstructor> parent = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
-                (TableValueConstructorBuilder.class,TableValueConstructor.class)
-                .$child()
-                    .$(e_n_string("FT2"),
-                            e_n_string("Square Feet "),
-                            e_string("20080923"))
-                    .$(e_n_string("Y"),
-                            e_n_string("Yards"),
-                            e_string("20080923"))
-                    .$(e_n_string("Y3"),
-                            e_n_string("Cubic Yards"),
-                            e_string("20080923"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
@@ -209,6 +212,22 @@ public class TableValueConstructorBuilderTest {
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(2).toString(),"'20080923'");
 
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public TableValueConstructor exampleB = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
+                (TableValueConstructorBuilder.class,TableValueConstructor.class)
+                .$child()
+                    .$(e_string("Recommendation"),
+                            e_string("Other"))
+                    .$(e_string("Advertisement"),
+                            e_default())
+                    .$(e_null(),
+                            e_string("Promotion"))
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * VALUES ('Recommendation','Other'), ('Advertisement', DEFAULT), (NULL, 'Promotion');
@@ -230,18 +249,6 @@ public class TableValueConstructorBuilderTest {
                     .withRowValueExpression(e_string("Promotion"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<TableValueConstructor> parent = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
-                (TableValueConstructorBuilder.class,TableValueConstructor.class)
-                .$child()
-                    .$(e_string("Recommendation"),
-                            e_string("Other"))
-                    .$(e_string("Advertisement"),
-                            e_default())
-                    .$(e_null(),
-                            e_string("Promotion"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
@@ -254,6 +261,19 @@ public class TableValueConstructorBuilderTest {
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"NULL");
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1).toString(),"'Promotion'");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public TableValueConstructor exampleC = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
+                (TableValueConstructorBuilder.class,TableValueConstructor.class)
+                .$child()
+                    .$(e_string("Blade"))
+                    .$(e_string("Crown Race"))
+                    .$(e_string("AWC Logo Cap"))
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * VALUES ('Blade'), ('Crown Race'), ('AWC Logo Cap')
@@ -272,15 +292,6 @@ public class TableValueConstructorBuilderTest {
                     .withRowValueExpression(e_string("AWC Logo Cap"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<TableValueConstructor> parent = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
-                (TableValueConstructorBuilder.class,TableValueConstructor.class)
-                .$child()
-                    .$(e_string("Blade"))
-                    .$(e_string("Crown Race"))
-                    .$(e_string("AWC Logo Cap"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
@@ -291,8 +302,21 @@ public class TableValueConstructorBuilderTest {
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"'AWC Logo Cap'");
     }
 
+
+    // @formatter:off
+    //parent+quick
+    public TableValueConstructor exampleD = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
+                (TableValueConstructorBuilder.class,TableValueConstructor.class)
+                .$child()
+                    .$(e_string("Recommendation"),e_string("Other"))
+                    .$(e_string("Review"),e_string("Marketing"))
+                    .$(e_string("Internet"),e_string("Promotion"))
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
-     * VALUES ('Recommendation','Other'), ('Review', 'Marketing'), ('Internet', 'Promotion'))
+     * VALUES ('Recommendation','Other'), ('Review', 'Marketing'), ('Internet', 'Promotion')
      * VALUES (NewName, NewReasonType)
      */
     @Test
@@ -312,15 +336,6 @@ public class TableValueConstructorBuilderTest {
                     .withRowValueExpression(e_string("Promotion"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<TableValueConstructor> parent = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
-                (TableValueConstructorBuilder.class,TableValueConstructor.class)
-                .$child()
-                    .$(e_string("Recommendation"),e_string("Other"))
-                    .$(e_string("Review"),e_string("Marketing"))
-                    .$(e_string("Internet"),e_string("Promotion"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
@@ -333,4 +348,5 @@ public class TableValueConstructorBuilderTest {
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"'Internet'");
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1).toString(),"'Promotion'");
     }
+
 }
