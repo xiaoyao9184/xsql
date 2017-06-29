@@ -139,6 +139,23 @@ public class SearchConditionBuilderTest {
 
 
 
+
+
+    // @formatter:off
+    //parent+quick
+    public SearchCondition exampleA = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_like(
+                                e("LargePhotoFileName"),
+                                e_string("%greena_%"),
+                                e_string("a"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * WHERE LargePhotoFileName LIKE '%greena_%' ESCAPE 'a' ;
      */
@@ -152,18 +169,6 @@ public class SearchConditionBuilderTest {
                         .withEscape(e_string("a"))
                         .and()
                 .build();
-
-        //parent+quick
-        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
-                (SearchConditionBuilder.class,SearchCondition.class)
-                .$child()
-                    .$Predicate(
-                            p_like(
-                                e("LargePhotoFileName"),
-                                e_string("%greena_%"),
-                                e_string("a"))
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
@@ -172,12 +177,30 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(predicate.getLikeExpression().toString(), "'%greena_%'");
         Assert.assertEquals(predicate.getEscapeCharacter().toString(), "'a'");
 
-        Assert.assertEquals(parent.get().getPredicate().getClass(), Like.class);
-        Like predicate2 = (Like) parent.get().getPredicate();
+        Assert.assertEquals(exampleA.getPredicate().getClass(), Like.class);
+        Like predicate2 = (Like) exampleA.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "LargePhotoFileName");
         Assert.assertEquals(predicate2.getLikeExpression().toString(), "'%greena_%'");
         Assert.assertEquals(predicate2.getEscapeCharacter().toString(), "'a'");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public SearchCondition exampleB = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_in(e("CountryRegionCode"),
+                                e_string("US"))
+                    )
+                    .$_AndPredicate(
+                            p_like(e("City"),
+                                e_n_string("Pa%"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE CountryRegionCode NOT IN ('US')
@@ -207,20 +230,6 @@ public class SearchConditionBuilderTest {
 //                                e_n_string("Pa%"))
 //                )
                 .build();
-
-        //parent+quick
-        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
-                (SearchConditionBuilder.class,SearchCondition.class)
-                .$child()
-                    .$Predicate(
-                            p_in(e("CountryRegionCode"),
-                                e_string("US"))
-                    )
-                    .$_AndPredicate(
-                            p_like(e("City"),
-                                e_n_string("Pa%"))
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(searchCondition.getPredicate().getClass(), In.class);
@@ -235,6 +244,20 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(predicate1.getLikeExpression().toString(), "N'Pa%'");
     }
 
+
+    // @formatter:off
+    //parent+quick
+    public SearchCondition exampleC = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_like(e("LastName"),
+                                    e_string("%and%"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * WHERE LastName LIKE '%and%';
      */
@@ -247,16 +270,6 @@ public class SearchConditionBuilderTest {
                                 e_string("%and%"))
                 )
                 .build();
-
-        //parent+quick
-        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
-                (SearchConditionBuilder.class,SearchCondition.class)
-                .$child()
-                    .$Predicate(
-                            p_like(e("LastName"),
-                                    e_string("%and%"))
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
@@ -264,6 +277,20 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
         Assert.assertEquals(predicate.getLikeExpression().toString(), "'%and%'");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public SearchCondition exampleD = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Predicate(
+                            p_like(e("LastName"),
+                                    e_n_string("%and%"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE LastName LIKE N'%and%';
@@ -277,16 +304,6 @@ public class SearchConditionBuilderTest {
                                 e_n_string("%and%"))
                 )
                 .build();
-
-        //parent+quick
-        MockParent<SearchCondition> parent = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
-                (SearchConditionBuilder.class,SearchCondition.class)
-                .$child()
-                    .$Predicate(
-                            p_like(e("LastName"),
-                                    e_string("%and%"))
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);

@@ -2,7 +2,11 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.tsql.core.clause.SearchConditionBuilderTest;
+import com.xy.xsql.tsql.model.clause.Output;
+import com.xy.xsql.tsql.model.clause.SearchCondition;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
@@ -59,5 +63,83 @@ public class SearchConditionConverterTest {
                         "| expression [ NOT ] IN ( subquery | { expression } [,...n] )\n" +
                         "| expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } { ALL | SOME | ANY } ( subquery )\n" +
                         "| EXISTS ( subquery )");
+    }
+
+
+
+    private SearchConditionBuilderTest builderTest;
+
+    @Before
+    public void init(){
+        builderTest = new SearchConditionBuilderTest();
+    }
+
+    @Test
+    public void testPrintA() throws Exception {
+        SearchCondition searchCondition = builderTest.exampleA;
+
+        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "LargePhotoFileName LIKE '%greena_%' ESCAPE 'a'";
+        ok = ok.replaceAll(" ","")
+                .replaceAll("\n","");
+        Assert.assertEquals(
+                check,
+                ok);
+    }
+
+    @Test
+    public void testPrintB() throws Exception {
+        SearchCondition searchCondition = builderTest.exampleB;
+
+        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "CountryRegionCode NOT IN ('US')\n" +
+                "     AND City LIKE N'Pa%'";
+        ok = ok.replaceAll(" ","")
+                .replaceAll("\n","");
+        Assert.assertEquals(
+                check,
+                ok);
+    }
+
+    @Test
+    public void testPrintC() throws Exception {
+        SearchCondition searchCondition = builderTest.exampleC;
+
+        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "LastName LIKE '%and%'";
+        ok = ok.replaceAll(" ","")
+                .replaceAll("\n","");
+        Assert.assertEquals(
+                check,
+                ok);
+    }
+
+    @Test
+    public void testPrintD() throws Exception {
+        SearchCondition searchCondition = builderTest.exampleD;
+
+        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        String check = writer.toString()
+                .replace(" ","")
+                .replace("\n","");
+
+        String ok = "LastName LIKE N'%and%'";
+        ok = ok.replaceAll(" ","")
+                .replaceAll("\n","");
+        Assert.assertEquals(
+                check,
+                ok);
     }
 }

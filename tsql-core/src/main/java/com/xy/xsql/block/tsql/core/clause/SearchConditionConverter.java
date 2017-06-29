@@ -9,6 +9,8 @@ import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.*;
 
+import java.util.Objects;
+
 /**
  * Created by xiaoyao9184 on 2017/6/20.
  */
@@ -69,7 +71,7 @@ public class SearchConditionConverter
         // @formatter:off
         private static ReferenceBlockBuilder<Void,SearchCondition.AndOrNotItem> builder =
                 new ReferenceBlockBuilder<Void,SearchCondition.AndOrNotItem>()
-                        .optional()
+                        .optional(Objects::isNull)
                         .sub()
                             .description("AND | OR")
                             .required()
