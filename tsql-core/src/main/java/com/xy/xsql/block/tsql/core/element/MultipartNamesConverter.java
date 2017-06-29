@@ -62,9 +62,9 @@ public class MultipartNamesConverter {
         // @formatter:off
         private static ReferenceBlockBuilder<Void,ColumnName> builder =
                 new ReferenceBlockBuilder<Void,ColumnName>()
-                        .description("[ { database_name .[ schema_name ] . | schema_name . } ]  table_name")
+                        .description("[ [ { database_name .[ schema_name ] . | schema_name . } ]  table_name . ] column_name")
                         .sub()
-                            .optional()
+                            .optional(d -> d.getTable() == null)
                             .sub_meta(TableNameConverter.meta())
                             .sub_keyword(Other.POINT)
                             .and()
