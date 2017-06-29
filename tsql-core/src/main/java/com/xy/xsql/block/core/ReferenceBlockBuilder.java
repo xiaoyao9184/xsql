@@ -90,6 +90,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
      * Can be optional
      * @return
      */
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder,Reference> optional(){
         target.setOptional(true);
         return this;

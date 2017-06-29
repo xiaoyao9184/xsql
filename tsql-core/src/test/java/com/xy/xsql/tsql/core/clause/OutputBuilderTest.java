@@ -10,8 +10,7 @@ import static com.xy.xsql.tsql.core.clause.OutputBuilder.*;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
-import static com.xy.xsql.tsql.core.expression.GroupExpressions.e_subtraction;
-import static com.xy.xsql.tsql.core.predicate.Predicates.*;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_subtraction;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.

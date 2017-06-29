@@ -246,7 +246,21 @@ public class ReferenceBlockPrinter {
                 blockString = block.getData().toString();
             }else{
                 Object data = block.getDataOrGetterData(context);
-                blockString = data.toString();
+
+                if(BlockManager
+                        .INSTANCE
+                        .checkTypeBlockConverter(data.getClass())){
+                    ReferenceBlock block1 = BlockManager
+                            .INSTANCE
+                            .getTypeBlockConverter(data.getClass())
+                            .convert(data);
+
+                    blockString = new ReferenceBlockPrinter()
+                            .printBlock(block1,data)
+                            .toString();
+                }else{
+                    blockString = data.toString();
+                }
             }
 
             if(block.isHeadFootTakeLine()){

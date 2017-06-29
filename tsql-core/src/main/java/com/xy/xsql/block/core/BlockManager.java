@@ -78,4 +78,8 @@ public enum BlockManager {
     public ReferenceBlockConverter getTypeBlockConverterByConverterType(Class refClass) {
         return converterTypeBlockConverterMap.get(refClass);
     }
+
+    public boolean checkTypeBlockConverter(Type type) {
+        return typeBlockBuilderMap.containsKey(type);
+    }
 }
