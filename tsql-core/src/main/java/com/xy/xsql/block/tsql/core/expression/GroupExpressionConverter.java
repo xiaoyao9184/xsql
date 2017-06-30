@@ -13,6 +13,7 @@ import com.xy.xsql.tsql.model.expression.NullIf;
  */
 public class GroupExpressionConverter {
 
+    //TODO same type GroupExpression
     public static class ExpressionConverter
             implements ReferenceBlockConverter<GroupExpression> {
 

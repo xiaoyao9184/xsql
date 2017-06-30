@@ -184,8 +184,8 @@ public class SelectBuilder extends CodeBuilder<Select> {
         public UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>> withUnitItem(){
             return new UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>>
                     (initNew(Select.UnionItem::new,
-                            target::getUnitItem,
-                            target::setUnitItem))
+                            target::getUnionItems,
+                            target::setUnionItems))
                     .in(this);
         }
 

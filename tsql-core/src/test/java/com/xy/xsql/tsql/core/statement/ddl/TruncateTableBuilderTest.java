@@ -14,18 +14,27 @@ import static com.xy.xsql.tsql.core.statement.ddl.TruncateTableBuilder.TRUNCATE_
 public class TruncateTableBuilderTest {
 
 
+    // @formatter:off
+    public TruncateTable exampleA = TRUNCATE_TABLE(t("HumanResources","JobCandidate"));
+    // @formatter:on
+
     /**
      * TRUNCATE TABLE HumanResources.JobCandidate;
      */
     @Test
     public void testExampleA(){
-        // @formatter:off
-        TruncateTable truncateTable = TRUNCATE_TABLE(t("HumanResources","JobCandidate"));
-        // @formatter:on
-
-        Assert.assertEquals(truncateTable.getTableName().toString(),"HumanResources.JobCandidate");
+        Assert.assertEquals(exampleA.getTableName().toString(),"HumanResources.JobCandidate");
     }
 
+
+    // @formatter:off
+    public TruncateTable exampleB = new TruncateTableBuilder()
+            .withTableName(t("PartitionTable1"))
+            .withNumber(2)
+            .withNumber(4)
+            .withRange(6,8)
+            .build();
+    // @formatter:on
 
     /**
      * RTRUNCATE TABLE PartitionTable1

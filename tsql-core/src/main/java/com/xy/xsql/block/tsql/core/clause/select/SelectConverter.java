@@ -63,7 +63,8 @@ public class SelectConverter
         private static ReferenceBlockBuilder<Void,List<Select.SelectItem>> builder =
                 new ReferenceBlockBuilder<Void,List<Select.SelectItem>>()
                         .overall("select_list")
-                        .list(SelectItemConverter.meta());
+                        .list()
+                        .ref(SelectItemConverter.meta());
         // @formatter:on
 
         public static ReferenceBlock meta() {

@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew2;
 
@@ -28,6 +29,10 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
     }
 
 
+    /*
+    Block Base Info
+     */
+
     public ReferenceBlockBuilder<ParentBuilder,Reference> overall(String name) {
         target.setName(name);
         target.setOverall(true);
@@ -44,6 +49,11 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+
+    /*
+    Block Data&Context
+     */
+
     public ReferenceBlockBuilder<ParentBuilder,Reference> data(Function<Reference,?> getter){
         target.setDataGetter(getter);
         return this;
@@ -51,13 +61,6 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 
     public ReferenceBlockBuilder<ParentBuilder,Reference> data(Object data){
         target.setData(data);
-        return this;
-    }
-
-
-    public ReferenceBlockBuilder<ParentBuilder,Reference> keyword(Enum keywords) {
-        target.setKeyword(true);
-        target.setData(keywords.toString());
         return this;
     }
 
@@ -75,6 +78,13 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         }
         return false;
     };
+
+
+
+
+    /*
+    Block Style
+     */
 
     /**
      *
@@ -112,9 +122,34 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+
+    /*
+    Block Type
+     */
+
+    public ReferenceBlockBuilder<ParentBuilder,Reference> keyword(Enum keywords) {
+        target.setKeyword(true);
+        target.setData(keywords.toString());
+        target.setName(keywords.toString());
+        return this;
+    }
+
     public <C extends ReferenceBlockConverter> ReferenceBlockBuilder<ParentBuilder, Reference> ref(Class<C> refClass) {
         target.setRefClass(refClass);
         return this;
+    }
+
+    public ReferenceBlockBuilder<ParentBuilder, Reference> ref(ReferenceBlock meta) {
+        target.setRefMeta(meta);
+        return this;
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder, Reference>,Reference> meta() {
+        return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder, Reference>, Reference>
+                (initSet(ReferenceBlock::new,
+                        target::getRefMeta,
+                        target::setRefMeta))
+                .in(this);
     }
 
     public ReferenceBlockBuilder<ParentBuilder,Reference> list() {
@@ -122,6 +157,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder,Reference> list(String name) {
         target.setList(true);
         return sub(name)
@@ -133,6 +169,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
      * @param meta
      * @return
      */
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder, Reference> list(ReferenceBlock meta) {
         target.setList(true);
         initAdd(meta,
@@ -146,6 +183,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder,Reference> repeat(String name) {
         target.setRepeat(true);
         return sub(name)
@@ -157,6 +195,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
      * @param meta
      * @return
      */
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder, Reference> repeat(ReferenceBlock meta) {
         target.setRepeat(true);
         initAdd(meta,
@@ -198,6 +237,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
      * @param meta
      * @return
      */
+    @Deprecated
     public ReferenceBlockBuilder<ParentBuilder, Reference> sub_meta(ReferenceBlock meta) {
         initAdd(meta,
                 target::getSub,
@@ -211,29 +251,51 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                         target::getSub,
                         target::setSub))
                 .in(this)
-                .name(null)
                 .keyword(keywords)
                 .and();
     }
 
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(String name) {
+    public ReferenceBlockBuilder<ParentBuilder, Reference> sub_ref(ReferenceBlock meta, Object context) {
         return sub()
-                .list(name);
+                .name(meta.getName())
+                .description(meta.getDescription())
+                .ref(meta)
+                .data(context)
+                .and();
+    }
+
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(String name) {
+        return sub(name)
+                .list();
+//        return sub()
+//                .list(name);
     }
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(ReferenceBlock meta) {
         return sub()
-                .list(meta);
+                .name(meta.getName())
+                .description(meta.getDescription())
+                .list()
+                .ref(meta);
+//        return sub()
+//                .list(meta);
     }
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(String name) {
-        return sub()
-                .repeat(name);
+        return sub(name)
+                .repeat();
+//        return sub()
+//                .repeat(name);
     }
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(ReferenceBlock meta) {
         return sub()
-                .repeat(meta);
+                .name(meta.getName())
+                .description(meta.getDescription())
+                .repeat()
+                .ref(meta);
+//        return sub()
+//                .repeat(meta);
     }
 
 

@@ -106,7 +106,8 @@ public class FromConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "[ { INNER | { { LEFT | RIGHT | FULL } [ OUTER ] } } [ <join_hint> ] ]\n" +
+                "<join_type> ::=\n" +
+                        "[ { INNER | { { LEFT | RIGHT | FULL } [ OUTER ] } } [ <join_hint> ] ]\n" +
                         "JOIN");
     }
 
@@ -186,15 +187,24 @@ public class FromConverterTest {
 
         System.out.println(writer);
 
-        //TODO support not ref with data context
-        String ok = "FROM Person.Person p" +
-                " INNER JOIN HumanResources.Employee e" +
-                " ON p.BusinessEntityID = e.BusinessEntityID" +
-                " INNER JOIN (" +
-                " ) d" +
-                " ON p.BusinessEntityID = d.BusinessEntityID";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
+        //TODO derived table ()
+        String ok = "FROM Person.Person p\n" +
+                "     INNER JOIN HumanResources.Employee e ON p.BusinessEntityID = e.BusinessEntityID\n" +
+                "     INNER JOIN\n" +
+                "     (SELECT bea.BusinessEntityID, a.City\n" +
+                "     FROM Person.Address a\n" +
+                "     INNER JOIN Person.BusinessEntityAddress bea\n" +
+                "     ON a.AddressID = bea.AddressID) d\n" +
+                "     ON p.BusinessEntityID = d.BusinessEntityID";
+
+        String check = writer.toString()
+                .replaceAll(" ", "")
+                .replaceAll("\n", "");
+
+        ok = ok
+                .replaceAll(" ", "")
+                .replaceAll("\n", "");
+        Assert.assertEquals(check,
                 ok);
     }
 

@@ -41,7 +41,7 @@ public class SearchConditionConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "[ { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) } ]");
+                "{ AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) }");
     }
 
     @Test

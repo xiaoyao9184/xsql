@@ -61,9 +61,9 @@ public class OverConverter
                         .overall("PARTITION BY clause")
                         .sub_keyword(Keywords.Key.PARTITION)
                         .sub_keyword(Keywords.BY)
-                        .sub()
+                        .sub("value_expression")
                             .description("value_expression , ... [ n ]")
-                            .list("value_expression")
+                            .list()
                             .data(Over.PartitionBy::getValueExpressionList)
                             .and();
         // @formatter:on
@@ -91,7 +91,8 @@ public class OverConverter
                         .sub_keyword(Keywords.BY)
                         .sub()
                             .list()
-                            .sub_meta(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
+                            .ref(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
+//                            .sub_meta(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
                             .data(Over.OrderBy::getItems)
                             .and();
         // @formatter:on

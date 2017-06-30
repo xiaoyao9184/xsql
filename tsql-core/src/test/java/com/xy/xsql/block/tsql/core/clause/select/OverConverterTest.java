@@ -28,8 +28,8 @@ public class OverConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<OVER> ::=\n" +
                         "OVER ( \n" +
-                        "<PARTITION BY clause>\n" +
-                        "<ORDER BY clause>\n" +
+                        "[ <PARTITION BY clause> ]\n" +
+                        "[ <ORDER BY clause> ]\n" +
                         " )");
     }
 

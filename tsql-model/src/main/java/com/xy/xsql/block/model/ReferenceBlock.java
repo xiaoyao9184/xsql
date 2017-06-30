@@ -35,6 +35,7 @@ public class ReferenceBlock implements Block {
     private boolean endNewLine;
 
     //reference
+    private ReferenceBlock refMeta;
     private Class refClass;
     private Object data;
     private Function dataGetter;
@@ -51,29 +52,30 @@ public class ReferenceBlock implements Block {
 
 
     public String toString(){
+        StringBuilder sb = new StringBuilder();
+        if(list || repeat){
+            sb.append("▤");
+        }
+        if(exclusive){
+            sb.append("▥");
+        }
+        if(refClass != null){
+            sb.append("⇲");
+        }
+        if(overall){
+            sb.append("⇱");
+        }
         if(keyword){
-            return data.toString();
+            sb.append("🔑");
         }
 
-        StringBuilder sb = new StringBuilder();
         if(name != null){
-            if(overall){
-                sb.append("<")
-                        .append(name)
-                        .append(">");
-            }else if(refClass != null){
-                sb.append("-----><")
-                        .append(name)
-                        .append('>');
-            }else{
-                sb.append(name);
-            }
+            sb.append(name);
         }
 
         if(description != null){
-            sb.append('(')
-                    .append(description)
-                    .append(')');
+            sb.append('⚑')
+                    .append(description);
         }
         return sb.toString();
     }
@@ -124,7 +126,16 @@ public class ReferenceBlock implements Block {
     }
 
     public boolean isReference(){
+        return this.refClass != null ||
+                this.refMeta != null;
+    }
+
+    public boolean isReferenceClass(){
         return this.refClass != null;
+    }
+
+    public boolean isReferenceMeta(){
+        return this.refMeta != null;
     }
 
     public Predicate getOptionalFilter() {
@@ -249,5 +260,13 @@ public class ReferenceBlock implements Block {
 
     public void setCasePredicate(List<Predicate<?>> casePredicate) {
         this.casePredicate = casePredicate;
+    }
+
+    public ReferenceBlock getRefMeta() {
+        return refMeta;
+    }
+
+    public void setRefMeta(ReferenceBlock refMeta) {
+        this.refMeta = refMeta;
     }
 }

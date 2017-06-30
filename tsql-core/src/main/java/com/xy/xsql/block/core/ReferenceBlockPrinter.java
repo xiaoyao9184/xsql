@@ -5,7 +5,9 @@ import com.xy.xsql.block.model.ReferenceBlock;
 
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -20,11 +22,12 @@ public class ReferenceBlockPrinter {
     }
 
     public StringWriter print(ReferenceBlock referenceBlock) {
-        return print(referenceBlock,writer,true);
+        return print(referenceBlock,true,writer);
     }
 
-    public StringWriter print(ReferenceBlock referenceBlock, StringWriter writer, boolean printOverall) {
-        if(referenceBlock.isOverall() && printOverall) {
+    public StringWriter print(ReferenceBlock referenceBlock, boolean printOverall, StringWriter writer) {
+        if(referenceBlock.isOverall() &&
+                printOverall) {
             //Syntax
             writer.append('<');
             writer.append(referenceBlock.getName());
@@ -57,7 +60,7 @@ public class ReferenceBlockPrinter {
         if(referenceBlock.isKeyword()){
             //Keyword
             writer.append(referenceBlock.getData().toString());
-        }else if(referenceBlock.isReference() &&
+        }else if(referenceBlock.isReferenceClass() &&
                 referenceBlock.getName() != null){
             //Reference
             writer.append('<');
@@ -66,28 +69,33 @@ public class ReferenceBlockPrinter {
         }else if(!referenceBlock.isOverall() &&
                 referenceBlock.getName() != null){
             writer.append(referenceBlock.getName());
+        }else if(referenceBlock.isReferenceMeta()){
+            print(referenceBlock.getRefMeta(),false,writer);
         }else{
             //Sub
             String line = referenceBlock.isEachSubTakeLine() ? "\n" : " ";
 
             if(referenceBlock.isExclusive()){
                 //Exclusive
-                print(referenceBlock.getSub(),line + "| ",writer);
+                print(referenceBlock.getSub(),false,line + "| ",writer);
             }else if(referenceBlock.isList()){
+                //List
                 if(referenceBlock.isReference()){
                     writer.append('<');
+                    print(referenceBlock.getSub(),false,line + ", ",writer);
+                    if(referenceBlock.isReference()){
+                        writer.append('>');
+                    }
+                }else{
+
                 }
-                //List
-                print(referenceBlock.getSub(),line + ", ",writer);
-                if(referenceBlock.isReference()){
-                    writer.append('>');
-                }
+
             }else if(referenceBlock.getSub() != null){
                 if(referenceBlock.isReference()){
                     writer.append('<');
                 }
                 //Repeat
-                print(referenceBlock.getSub(),line,writer);
+                print(referenceBlock.getSub(),false,line,writer);
                 if(referenceBlock.isReference()){
                     writer.append('>');
                 }
@@ -132,13 +140,13 @@ public class ReferenceBlockPrinter {
         return writer;
     }
 
-    public void print(List<ReferenceBlock> referenceBlockList, String delimiter, StringWriter writer) {
+    public void print(List<ReferenceBlock> referenceBlockList, boolean printOverall, String delimiter, StringWriter writer) {
         writer.append(
                 referenceBlockList
                 .stream()
                 .map(sub -> {
                     StringWriter stringWriter = new StringWriter();
-                    print(sub,stringWriter,false);
+                    print(sub,printOverall,stringWriter);
                     return stringWriter.toString();
                 })
                 .collect(Collectors.joining(delimiter))
@@ -189,24 +197,44 @@ public class ReferenceBlockPrinter {
         //data
         if(block.isReference()){
             //Reference
-            ReferenceBlockConverter converter = BlockManager
-                    .INSTANCE
-                    .getTypeBlockConverterByConverterType(block.getRefClass());
-
+            ReferenceBlock referenceBlock;
+            if(block.isReferenceClass()){
+                ReferenceBlockConverter converter = BlockManager
+                        .INSTANCE
+                        .getTypeBlockConverterByConverterType(block.getRefClass());
+                referenceBlock = converter.build(null);
+            }else{
+                referenceBlock = block.getRefMeta();
+            }
             Object referenceContext = block.getDataOrGetterData(context);
 
             if(block.isList() &&
                     referenceContext instanceof List){
                 //List
-                printBlock(converter, (List) referenceContext,"\n, ",writer);
+                printBlock(referenceBlock, (List) referenceContext,"\n, ",writer);
             }else if(block.isRepeat() &&
                     referenceContext instanceof List){
                 //Repeat
-                printBlock(converter, (List) referenceContext," ",writer);
+                printBlock(referenceBlock, (List) referenceContext," ",writer);
             }else{
-                ReferenceBlock referenceBlock = converter.convert(referenceContext);
                 printBlock(referenceBlock, referenceContext, writer);
             }
+//        }else if(block.isReferenceMeta()) {
+//            //Reference
+//            ReferenceBlock referenceBlock = block.getRefMeta();
+//            Object referenceContext = block.getDataOrGetterData(context);
+//
+//            if (block.isList() &&
+//                    referenceContext instanceof List) {
+//                //List
+//                printBlock(referenceBlock, (List) referenceContext, "\n, ", writer);
+//            } else if (block.isRepeat() &&
+//                    referenceContext instanceof List) {
+//                //Repeat
+//                printBlock(referenceBlock, (List) referenceContext, " ", writer);
+//            } else {
+//                printBlock(referenceBlock, referenceContext, writer);
+//            }
         }else if(block.isExclusive()){
             //Exclusive
             int index = 0;
@@ -218,46 +246,83 @@ public class ReferenceBlockPrinter {
                 }
                 index++;
             }
-        }else if(block.isList()){
-            //List
-            ReferenceBlock itemBlock = block.getSub().get(0);
-            //list must change context
-            Object dataListContext = block.getDataOrGetterData(context);
-            if(dataListContext instanceof List){
-                printBlock(itemBlock,(List)dataListContext, "\n, ", writer);
-            }
-        }else if(block.isRepeat()){
-            //Repeat
-            ReferenceBlock itemBlock = block.getSub().get(0);
-            //repeat must change context
-            Object dataListContext = block.getDataOrGetterData(context);
-            if(dataListContext instanceof List){
-                printBlock(itemBlock,(List)dataListContext, "\n ", writer);
-            }
         }else if(block.getSub() != null){
-            //
-            for (ReferenceBlock subBlock : block.getSub()) {
-                printBlock(subBlock, context, writer);
+            //Virtual
+            if(block.isList() ||
+                    block.isRepeat()){
+                if(block.getSub().size() != 1){
+                    throw new RuntimeException(new BlockStructureCorrectException(block,
+                            BlockStructureCorrectException.StructureCorrect.COLLECTION_META_AMOUNT_ERROR));
+                }
+                Object data = block.getDataOrGetterData(context);
+                if(!(data instanceof List)){
+                    throw new RuntimeException(new BlockStructureCorrectException(block,
+                            BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MUST_LIST));
+                }
+                List<Object> listData = (List)data;
+                String delimiter = null;
+                if(block.isList()){
+                    delimiter = "\n, ";
+                }else if(block.isRepeat()) {
+                    delimiter = "\n ";
+                }
+                printBlock(block.getSub().get(0), listData, delimiter, writer);
+            }else{
+                for (ReferenceBlock subBlock : block.getSub()) {
+                    printBlock(subBlock, context, writer);
+                }
             }
         }else{
+            //Data
             String blockString;
             if(block.isKeyword()){
                 //Keyword
                 blockString = block.getData().toString();
             }else{
                 Object data = block.getDataOrGetterData(context);
-
                 if(BlockManager
                         .INSTANCE
                         .checkTypeBlockConverter(data.getClass())){
-                    ReferenceBlock block1 = BlockManager
+                    ReferenceBlock hiddenBlock = BlockManager
                             .INSTANCE
                             .getTypeBlockConverter(data.getClass())
                             .convert(data);
 
                     blockString = new ReferenceBlockPrinter()
-                            .printBlock(block1,data)
+                            .printBlock(hiddenBlock,data)
                             .toString();
+                }else if(data instanceof List){
+                    List<Object> listData = (List)data;
+                    String delimiter = null;
+                    if(block.isList()){
+                        delimiter = "\n, ";
+                    }else if(block.isRepeat()) {
+                        delimiter = "\n ";
+                    }else{
+
+                    }
+                    if(listData.size() <= 0){
+                        throw new RuntimeException(new BlockStructureCorrectException(block,
+                                BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MISS));
+                    }
+                    Object itemData = listData.get(0);
+                    if(BlockManager
+                            .INSTANCE
+                            .checkTypeBlockConverter(itemData.getClass())){
+                        ReferenceBlock hiddenBlock = BlockManager
+                                .INSTANCE
+                                .getTypeBlockConverter(itemData.getClass())
+                                .convert(itemData);
+
+                        StringWriter writer1 = new StringWriter();
+                        printBlock(hiddenBlock, listData, delimiter, writer1);
+                        blockString = writer1.toString();
+                    }else{
+                        blockString = listData
+                                .stream()
+                                .map(Objects::toString)
+                                .collect(Collectors.joining(delimiter));
+                    }
                 }else{
                     blockString = data.toString();
                 }
@@ -307,7 +372,7 @@ public class ReferenceBlockPrinter {
         );
     }
 
-
+    @Deprecated
     public void printBlock(ReferenceBlockConverter converter, List<Object> dataList, String delimiter, StringWriter writer) {
         writer.append(
                 dataList

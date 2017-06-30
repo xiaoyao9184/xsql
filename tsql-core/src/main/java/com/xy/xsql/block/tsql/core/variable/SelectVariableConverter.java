@@ -19,7 +19,8 @@ public class SelectVariableConverter
                     .sub_keyword(Keywords.SELECT)
                     .sub()
                         .description("{ @local_variable { = | += | -= | *= | /= | %= | &= | ^= | |= } expression } [ ,...n ]")
-                        .list(SelectVariableItemConverter.meta())
+                        .list()
+                        .ref(SelectVariableItemConverter.meta())
                         .data(SelectVariable::getItems)
                         .and();
     // @formatter:on

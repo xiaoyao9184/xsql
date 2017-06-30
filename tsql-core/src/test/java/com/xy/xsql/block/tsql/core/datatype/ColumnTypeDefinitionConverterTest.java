@@ -3,10 +3,15 @@ package com.xy.xsql.block.tsql.core.datatype;
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.element.MultipartNamesConverter;
+import com.xy.xsql.tsql.core.datatype.ColumnDefinitionBuilderTest;
+import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -28,8 +33,7 @@ public class ColumnTypeDefinitionConverterTest {
                         "column_name\n" +
                         "scalar_data_type\n" +
                         "[ COLLATE <collation_definition> ]\n" +
-                        "[ ROWGUIDCOL ]\n" +
-                        "[ column_constraint ] [,...n]");
+                        "[ ROWGUIDCOL ]");
     }
 
     @Test
@@ -46,5 +50,35 @@ public class ColumnTypeDefinitionConverterTest {
                         "| [ PRIMARY KEY | UNIQUE ]\n" +
                         "| CHECK ( logical_expression )");
     }
+    private ColumnDefinitionBuilderTest builderTest;
+    private Map<ColumnDefinition,String> model2StringMap;
 
+    @Before
+    public void init(){
+        builderTest = new ColumnDefinitionBuilderTest();
+        model2StringMap = new HashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "EmpID int");
+
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Test
+    public void testPrint() throws Exception {
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    check,
+                    ok);
+        });
+    }
 }

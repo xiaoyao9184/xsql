@@ -24,7 +24,10 @@ public class TableHintConverter
                         .and()
                     .sub()
                         .required()
-                        .czse(d -> d.getIndex_value() != null)
+                        .czse(d ->
+                                TableHint.Type.INDEX.equals(d.getType()) &&
+                                d.getIndex_value().size() > 1
+                        )
                             .description("INDEX ( index_value [ ,...n ] )")
                             .sub_keyword(Keywords.INDEX)
                             .sub_keyword(Other.GROUP_START)
@@ -38,7 +41,10 @@ public class TableHintConverter
 //                                .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .czse(d -> d.getInteger() != null)
+                        .czse(d ->
+                                TableHint.Type.INDEX.equals(d.getType()) &&
+                                        d.getIndex_value().size() == 1
+                        )
                             .sub_keyword(Keywords.INDEX)
                             .sub_keyword(Assignment.ASSIGNMENT)
                             .sub_keyword(Other.GROUP_START)

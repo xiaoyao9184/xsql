@@ -24,14 +24,16 @@ public class TableValueConstructorConverter
                     .overall("Table Value Constructor")
                     .sub_keyword(Keywords.VALUES)
                     .sub()
-                        .list()
-                        .sub()
+                        .description("( <row value expression list> ) list")
+                        .meta()
+                            .description("( <row value expression list> )")
                             .sub_keyword(Other.GROUP_START)
                             .sub("row value expression list")
                                 .ref(RowValueExpressionListConverter.class)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
+                        .list()
                         .data(TableValueConstructor::getRowValueExpressionListGroup)
                         .and();
     // @formatter:on
@@ -55,10 +57,11 @@ public class TableValueConstructorConverter
         private static ReferenceBlockBuilder<Void,List<Expression>> builder =
                 new ReferenceBlockBuilder<Void,List<Expression>>()
                         .overall("row value expression list")
-                        .list()
                         .sub("row value expression")
+                            .list()
                             .required()
                             .ref(RowValueExpressionConverter.class)
+                            .data(d -> d)
                             .and();
         // @formatter:on
 

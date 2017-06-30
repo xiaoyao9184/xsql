@@ -63,13 +63,13 @@ public class ColumnTypeDefinitionConverter
                         .optional(d -> true)
                         .keyword(Keywords.ROWGUIDCOL)
                         .and()
-                    .sub()
-                        .list()
-                        .sub("column_constraint")
-                            .optional()
-                            .and()
-                        .data(d -> d.getCollationName())
-                        .and()
+//                    .sub()
+//                        .list()
+//                        .sub("column_constraint")
+//                            .optional()
+//                            .and()
+//                        .data(d -> d.getCollationName())
+//                        .and()
                     .subTakeLine();
     // @formatter:on
 

@@ -879,7 +879,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         public BaseTableBuilder<ParentBuilder> withTableAlias(String aliasName){
-            target.setTableAlias(new Alias<>(aliasName));
+            target.setTableAlias(aliasName == null ? null : new Alias<>(aliasName));
             return this;
         }
 

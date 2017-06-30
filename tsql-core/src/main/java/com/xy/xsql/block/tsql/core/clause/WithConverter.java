@@ -19,6 +19,7 @@ public class WithConverter
                     .overall("WITH common_table_expression")
                     .sub_keyword(Keywords.WITH)
                     .sub_list("common_table_expression")
+                        .description("common_table_expression list")
                         .ref(CommonTableExpressionConverter.class)
                         .data(With::getCommonTableExpressionList)
                         .and();
@@ -47,6 +48,7 @@ public class WithConverter
                             .data(With.CommonTableExpression::getExpressionName)
                             .and()
                         .sub()
+                            .description("column_name list")
                             .optional(data -> data.getColumnName() == null ||
                                     data.getColumnName().isEmpty())
                             .sub_keyword(Other.GROUP_START)

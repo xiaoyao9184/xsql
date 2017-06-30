@@ -13,6 +13,10 @@ import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
  */
 public class ColumnDefinitionBuilderTest {
 
+
+
+    public ColumnDefinition exampleA = c_int("EmpID");
+
     /**
      * table(
      * EmpID int NOT NULL,
@@ -27,15 +31,13 @@ public class ColumnDefinitionBuilderTest {
                 .withColumnName(c("EmpID"))
                 .withDataType(_int())
                 .build();
-
-        ColumnDefinition quick = c_int("EmpID");
         // @formatter:on
 
         Assert.assertEquals(columnDefinition.getName(), "EmpID");
         Assert.assertEquals(columnDefinition.getDataType().toString(), "int");
 
-        Assert.assertEquals(quick.getName(), "EmpID");
-        Assert.assertEquals(quick.getDataType().toString(), "int");
+        Assert.assertEquals(exampleA.getName(), "EmpID");
+        Assert.assertEquals(exampleA.getDataType().toString(), "int");
     }
 
 }

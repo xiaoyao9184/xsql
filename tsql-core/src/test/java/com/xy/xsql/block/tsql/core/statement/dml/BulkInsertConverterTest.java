@@ -44,7 +44,7 @@ public class BulkInsertConverterTest {
                         "[ [ , ] KILOBYTES_PER_BATCH = kilobytes_per_batch ]\n" +
                         "[ [ , ] LASTROW = last_row ]\n" +
                         "[ [ , ] MAXERRORS = max_errors ]\n" +
-                        "[ [ , ] , { column [ ASC | DESC ] } ] [,...n]\n" +
+                        "[ [ , ] ORDER ( { column [ ASC | DESC ] } [,...n] ) ]\n" +
                         "[ [ , ] ROWS_PER_BATCH = rows_per_batch ]\n" +
                         "[ [ , ] ROWTERMINATOR = 'row_terminator' ]\n" +
                         "[ [ , ] TABLOCK ]\n" +

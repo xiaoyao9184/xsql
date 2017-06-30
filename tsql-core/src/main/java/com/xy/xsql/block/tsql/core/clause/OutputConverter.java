@@ -18,9 +18,9 @@ public class OutputConverter
     // @formatter:off
     private static ReferenceBlockBuilder<Void,Output> builder =
             new ReferenceBlockBuilder<Void,Output>()
-                    .overall("OUTPUT_CLAUSE")
+                    .overall("OUTPUT Clause")
                     .sub()
-                        .description("Output Into")
+                        .description("output with into")
                         .optional(d -> d.getDmlSelectList() == null)
                         .sub_keyword(Keywords.Key.OUTPUT)
                         .sub("dml_select_list")
@@ -29,8 +29,8 @@ public class OutputConverter
                             .and()
                         .sub_keyword(Keywords.INTO)
                         .sub()
+                            .description("@table_variable/output_table")
                             .required()
-                            .description("{ @table_variable | output_table }")
                             .czse(d -> d.getTableVariable() != null, "@table_variable")
                                 .data(Output::getTableVariable)
                                 .and()
@@ -49,7 +49,7 @@ public class OutputConverter
                             .and()
                         .and()
                     .sub()
-                        .description("Output")
+                        .description("output without into")
                         .optional(d -> d.getOutputDmlSelectList() == null)
                         .sub_keyword(Keywords.Key.OUTPUT)
                         .sub("dml_select_list")
@@ -79,7 +79,8 @@ public class OutputConverter
                 new ReferenceBlockBuilder<Void,List<Output.DmlSelect>>()
                         .overall("dml_select_list")
                         .list()
-                        .sub_meta(DmlSelectConverter.meta());
+                        .ref(DmlSelectConverter.meta());
+//                        .sub_meta(DmlSelectConverter.meta());
         // @formatter:on
 
         public static ReferenceBlock meta() {
@@ -101,8 +102,9 @@ public class OutputConverter
         // @formatter:off
         private static ReferenceBlockBuilder<Void,Output.DmlSelect> builder =
                 new ReferenceBlockBuilder<Void,Output.DmlSelect>()
+                        .description("dml_select_list's item")
                         .sub()
-                            .description("{ <column_name> | scalar_expression }")
+                            .description("column_name/scalar_expression")
                             .required()
                             .czse(d -> d.getColumnName() != null, "column_name")
                                 .ref(ColumnNameConverter.class)
@@ -114,7 +116,7 @@ public class OutputConverter
                             .required()
                             .and()
                         .sub()
-                            .description("[ [AS] column_alias_identifier ]")
+                            .description("as column_alias_identifier")
                             .optional(data -> data.getColumnAliasIdentifier() == null)
                             .sub()
                                 .optional(Output.DmlSelect::isUseAs)
@@ -151,7 +153,9 @@ public class OutputConverter
                             d.getFromTableName() != null ||
                             d.getColumnName() != null
                         )
-                            .sub("{ DELETED | INSERTED | from_table_name }")
+                            .description("deleted/inserted/from_table_name column_name")
+                            .sub()
+                                .description("deleted/inserted/from_table_name")
                                 .required()
                                 .czse(Output.ColumnName::isUseDeleted)
                                     .keyword(Keywords.Key.DELETED)
@@ -167,7 +171,7 @@ public class OutputConverter
                                 .keyword(Other.POINT)
                                 .and()
                             .sub()
-                                .description("{ * | column_name }")
+                                .description("*/column_name")
                                 .required()
                                 .czse(Output.ColumnName::isUseAll, "*")
                                     .keyword(Other.ASTERISK)

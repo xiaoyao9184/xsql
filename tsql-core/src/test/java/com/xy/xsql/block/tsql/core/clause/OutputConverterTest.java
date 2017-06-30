@@ -27,7 +27,7 @@ public class OutputConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "<OUTPUT_CLAUSE> ::=\n" +
+                "<OUTPUT Clause> ::=\n" +
                         "[ OUTPUT <dml_select_list> INTO { @table_variable | output_table } [ ( column_list ) ] ]\n" +
                         "[ OUTPUT <dml_select_list> ]");
     }
@@ -67,7 +67,7 @@ public class OutputConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<column_name> ::=\n" +
-                        "{ { DELETED | INSERTED | from_table_name } } . { * | column_name }\n" +
+                        "{ DELETED | INSERTED | from_table_name } . { * | column_name }\n" +
                         "| $action");
     }
 

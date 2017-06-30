@@ -18,15 +18,15 @@ public class MultipartNamesConverter {
         // @formatter:off
         private static ReferenceBlockBuilder<Void,TableName> builder =
                 new ReferenceBlockBuilder<Void,TableName>()
-                        .description("[ { database_name .[ schema_name ] . | schema_name . } ]  table_name")
+                        .description("database_name.schema_name.table_name")
                         .sub()
-                            .description("server database schema")
+                            .description("database_name.schema_name.")
                             .optional(d ->
                                     d.getDatabaseName() == null &&
                                     d.getSchemaName() == null
                             )
                             .czse(d -> d.getDatabaseName() != null)
-                                .description("database schema")
+                                .description("database_name.schema_name.")
                                 .sub("database_name")
                                     .data(TableName::getDatabaseName)
                                     .and()
@@ -38,7 +38,7 @@ public class MultipartNamesConverter {
                                 .sub_keyword(Other.POINT)
                                 .and()
                             .czse(d -> d.getSchemaName() != null)
-                                .description("schema")
+                                .description("schema_name.")
                                 .sub("schema_name")
                                     .data(TableName::getSchemaName)
                                     .and()
@@ -69,11 +69,13 @@ public class MultipartNamesConverter {
         // @formatter:off
         private static ReferenceBlockBuilder<Void,ColumnName> builder =
                 new ReferenceBlockBuilder<Void,ColumnName>()
-                        .description("[ [ { database_name .[ schema_name ] . | schema_name . } ]  table_name . ] column_name")
+                        .description("database_name.schema_name.table_name.column_name")
                         .sub()
+                            .description("table_name.")
                             .optional(d -> d.getTable() == null)
                             .sub()
-                                .sub_meta(TableNameConverter.meta())
+                                .description("table_name")
+                                .ref(TableNameConverter.meta())
                                 .data(ColumnName::getTable)
                                 .and()
                             .sub_keyword(Other.POINT)

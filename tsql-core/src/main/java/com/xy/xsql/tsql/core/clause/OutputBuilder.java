@@ -483,6 +483,7 @@ public class OutputBuilder<ParentBuilder>
         return new ColumnNameBuilder<Output.ColumnName>
                 (new Output.ColumnName())
                 .withInserted()
+                .withAll()
                 .build();
     }
 
@@ -508,6 +509,7 @@ public class OutputBuilder<ParentBuilder>
         return new ColumnNameBuilder<Output.ColumnName>
                 (new Output.ColumnName())
                 .withDeleted()
+                .withAll()
                 .build();
     }
 

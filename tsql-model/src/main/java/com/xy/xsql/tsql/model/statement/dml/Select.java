@@ -104,7 +104,7 @@ public class Select implements Statement {
 
         //[  { UNION [ ALL ] | EXCEPT | INTERSECT }
         //<query_specification> | ( <query_expression> ) [...n ] ]
-        private List<UnionItem> unitItem;
+        private List<UnionItem> unionItems;
 
         public QuerySpecification getQuerySpecification() {
             return querySpecification;
@@ -122,12 +122,12 @@ public class Select implements Statement {
             this.queryExpression = queryExpression;
         }
 
-        public List<UnionItem> getUnitItem() {
-            return unitItem;
+        public List<UnionItem> getUnionItems() {
+            return unionItems;
         }
 
-        public void setUnitItem(List<UnionItem> unitItem) {
-            this.unitItem = unitItem;
+        public void setUnionItems(List<UnionItem> unionItems) {
+            this.unionItems = unionItems;
         }
 
     }

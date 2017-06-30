@@ -19,8 +19,8 @@ public class CoalesceConverter
                     .overall("COALESCE")
                     .sub_keyword(Keywords.COALESCE)
                     .sub_keyword(Other.GROUP_START)
-                    .sub()
-                        .list("expression")
+                    .sub("expression")
+                        .list()
                         .data(Coalesce::getExpressionList)
                         .and()
                     .sub_keyword(Other.GROUP_END);

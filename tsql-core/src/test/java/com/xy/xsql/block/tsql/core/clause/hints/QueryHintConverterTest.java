@@ -176,7 +176,8 @@ public class QueryHintConverterTest {
                 .replace(" ", "")
                 .replace("\n", "");
 
-        String ok = "TABLE HINT(e, INDEX (IX_Employee_ManagerID))";
+        //TODO make sure INDEX '=' omitted
+        String ok = "TABLE HINT(e, INDEX = (IX_Employee_ManagerID))";
         ok = ok.replaceAll(" ", "");
         Assert.assertEquals(
                 check,
@@ -230,7 +231,7 @@ public class QueryHintConverterTest {
                 .replace(" ","")
                 .replace("\n","");
 
-        String ok = "TABLE HINT (e, INDEX( IX_Employee_ManagerID))";
+        String ok = "TABLE HINT (e, INDEX = ( IX_Employee_ManagerID))";
         ok = ok.replaceAll(" ","");
         Assert.assertEquals(
                 check,
@@ -285,7 +286,7 @@ public class QueryHintConverterTest {
                 .replace(" ","")
                 .replace("\n","");
 
-        String ok = "TABLE HINT (e, INDEX(IX_Employee_ManagerID), NOLOCK, FORCESEEK)";
+        String ok = "TABLE HINT (e, INDEX = (IX_Employee_ManagerID), NOLOCK, FORCESEEK)";
         ok = ok.replaceAll(" ","");
         Assert.assertEquals(
                 check,

@@ -26,7 +26,7 @@ public class SelectConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<SELECT statement> ::=\n" +
                         "[ [ WITH { [ XMLNAMESPACES ,] [ <common_table_expression> [,...n] ] } ] ]\n" +
-                        "<query_specification>\n" +
+                        "<query_expression>\n" +
                         "[ ORDER BY { order_by_expression | column_position [ ASC | DESC ] } [ ,...n ] ]\n" +
                         "[ <FOR Clause> ]\n" +
                         "[ OPTION ( <query_hint> [ ,...n ] ) ]");
@@ -61,7 +61,7 @@ public class SelectConverterTest {
                         "[ ALL | DISTINCT ]\n" +
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
                         "<select_list>\n" +
-                        "INTO new_table [ ON filegroup ]\n" +
+                        "[ INTO new_table ]\n" +
                         "[ FROM { <table_source> } [ ,...n ] ]\n" +
                         "[ WHERE <search_condition> ]\n" +
                         "[ <GROUP BY> ]\n" +
