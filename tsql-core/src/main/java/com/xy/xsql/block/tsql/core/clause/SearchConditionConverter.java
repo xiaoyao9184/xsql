@@ -47,7 +47,7 @@ public class SearchConditionConverter
                         .and()
                     .sub()
                         .description("--And Or List")
-                        .list(AndOrNotItemConverter.meta())
+                        .repeat(AndOrNotItemConverter.meta())
                         .data(SearchCondition::getAndOrList)
                         .and()
                     .subTakeLine();

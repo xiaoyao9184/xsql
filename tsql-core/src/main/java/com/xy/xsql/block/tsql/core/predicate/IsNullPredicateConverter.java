@@ -21,8 +21,8 @@ public class IsNullPredicateConverter
                         .and()
                     .sub_keyword(Keywords.IS)
                     .sub()
+                        .optional(d -> !d.isUseNotOperator())
                         .keyword(Keywords.NOT)
-                        .optional(IsNull::isUseNotOperator)
                         .and()
                     .sub_keyword(Keywords.NULL);
     // @formatter:on

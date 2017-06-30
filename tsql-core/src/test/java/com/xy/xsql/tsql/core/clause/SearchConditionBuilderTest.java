@@ -191,7 +191,7 @@ public class SearchConditionBuilderTest {
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
                     .$Predicate(
-                            p_in(e("CountryRegionCode"),
+                            p_not_in(e("CountryRegionCode"),
                                 e_string("US"))
                     )
                     .$_AndPredicate(

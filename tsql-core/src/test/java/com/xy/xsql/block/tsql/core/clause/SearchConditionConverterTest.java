@@ -29,7 +29,7 @@ public class SearchConditionConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<search_condition> ::=\n" +
                         "{ [ NOT ] <predicate> | ( <search_condition> ) }\n" +
-                        "[ { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) } ] [,...n]");
+                        "[ { AND | OR } [ NOT ] { <predicate> | ( <search_condition> ) } ] [...n]");
     }
 
     @Test
