@@ -21,6 +21,22 @@ import static com.xy.xsql.tsql.core.predicate.Predicates.*;
  */
 public class WhereBuilderTest {
 
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleA = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                            p_equal(
+                                    e("Name"),
+                                    e_string("Blade")
+                            )
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * WHERE Name = 'Blade' ;
      */
@@ -36,18 +52,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                            p_equal(
-                                    e("Name"),
-                                    e_string("Blade")
-                            )
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Comparison.class);
@@ -55,6 +59,22 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getExpression().toString(), "Name");
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "'Blade'");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleB = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                            p_like(
+                                    e("Name"),
+                                    e_string("%Frame%")
+                            )
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE Name LIKE ('%Frame%');
@@ -70,18 +90,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                            p_like(
-                                    e("name"),
-                                    e_string("%Frame%")
-                            )
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Like.class);
@@ -89,6 +97,21 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getExpression().toString(), "Name");
         Assert.assertEquals(predicate.getLikeExpression().toString(), "'%Frame%'");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleC = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                            p_less_equal(
+                                    e("ProductID"),
+                                    e_number(12))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE ProductID <= 12 ;
@@ -105,17 +128,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                            p_less_equal(
-                                    e("ProductID"),
-                                    e_number(12))
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Comparison.class);
@@ -123,6 +135,25 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getExpression().toString(), "ProductID");
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "12");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleD = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                            p_equal(e("ProductID"),e_number(2))
+                    )
+                    .$_OrPredicate(
+                            p_equal(e("ProductID"),e_number(4))
+                    )
+                    .$_OrPredicate(
+                            p_equal(e("Name"),e_string("Spokes"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE ProductID = 2
@@ -157,21 +188,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                            p_equal(e("ProductID"),e_number(2))
-                    )
-                    .$_OrPredicate(
-                            p_equal(e("ProductID"),e_number(4))
-                    )
-                    .$_OrPredicate(
-                            p_equal(e("Name"),e_string("Spokes"))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -197,6 +213,25 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate2.getOperator(), Operators.EQUAL);
         Assert.assertEquals(predicate2.getOperatorExpression().toString(), "'Spokes'");
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleE = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                            p_like(e("Name"),e_string("%Frame%"))
+                    )
+                    .$_AndPredicate(
+                            p_like(e("Name"),e_string("HL%"))
+                    )
+                    .$_AndPredicate(
+                            p_equal(e("Color"),e_string("Red"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE Name LIKE ('%Frame%')
@@ -229,21 +264,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                            p_like(e("Name"),e_string("%Frame%"))
-                    )
-                    .$_AndPredicate(
-                            p_like(e("Name"),e_string("HL%"))
-                    )
-                    .$_AndPredicate(
-                            p_equal(e("Color"),e_string("Red"))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -268,6 +288,23 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate2.getOperatorExpression().toString(), "'Red'");
     }
 
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleF = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_in(
+                                e("Name"),
+                                e_string("Blade"),
+                                e_string("Crown Race"),
+                                e_string("Spokes"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * WHERE Name IN ('Blade', 'Crown Race', 'Spokes');
      */
@@ -284,19 +321,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_in(
-                                e("Name"),
-                                e_string("Blade"),
-                                e_string("Crown Race"),
-                                e_string("Spokes"))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -314,6 +338,22 @@ public class WhereBuilderTest {
         Assert.assertEquals(expression2.toString(), "'Spokes'");
     }
 
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleG = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_between(
+                                e("ProductID"),
+                                e_number(725),
+                                e_number(734))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * WHERE ProductID BETWEEN 725 AND 734;
      */
@@ -329,18 +369,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_between(
-                                e("ProductID"),
-                                e_number(725),
-                                e_number(734))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -351,6 +379,21 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getEndExpression().toString(), "734");
 
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleH = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_equal(
+                                e("LastName"),
+                                e_string("Smith"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE LastName = 'Smith' ;
@@ -367,17 +410,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_equal(
-                                e("LastName"),
-                                e_string("Smith"))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -388,6 +420,21 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "'Smith'");
 
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleI = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_like(
+                                e("LastName"),
+                                e_string("%Smi%"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE LastName LIKE ('%Smi%');
@@ -403,17 +450,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_like(
-                                e("LastName"),
-                                e_string("%Smi%"))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -423,6 +459,21 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getLikeExpression().toString(), "'%Smi%'");
 
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleJ = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_less_equal(
+                                e("EmployeeKey"),
+                                e_number(500))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE EmployeeKey  <= 500;
@@ -439,17 +490,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_less_equal(
-                                e("EmployeeKey"),
-                                e_number(500))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -460,6 +500,31 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getOperatorExpression().toString(), "500");
 
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleK = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_equal(
+                            e("EmployeeKey"),
+                            e_number(1))
+                    )
+                    .$_OrPredicate(
+                        p_equal(
+                            e("EmployeeKey"),
+                            e_number(8))
+                    )
+                    .$_OrPredicate(
+                        p_equal(
+                            e("EmployeeKey"),
+                            e_number(12))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * EmployeeKey = 1 OR EmployeeKey = 8 OR EmployeeKey = 12;
@@ -492,27 +557,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_equal(
-                            e("EmployeeKey"),
-                            e_number(1))
-                    )
-                    .$_OrPredicate(
-                        p_equal(
-                            e("EmployeeKey"),
-                            e_number(8))
-                    )
-                    .$_OrPredicate(
-                        p_equal(
-                            e("EmployeeKey"),
-                            e_number(12))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -540,6 +584,31 @@ public class WhereBuilderTest {
 
 
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleL = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_less_equal(
+                                e("EmployeeKey"),
+                                e_number(500))
+                    )
+                    .$_AndPredicate(
+                        p_like(
+                                e("LastName"),
+                                e_string("%Smi%"))
+                    )
+                    .$_AndPredicate(
+                        p_like(
+                                e("FirstName"),
+                                e_string("%A%"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE EmployeeKey <= 500 AND LastName LIKE '%Smi%' AND FirstName LIKE '%A%';
@@ -570,27 +639,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_less_equal(
-                                e("EmployeeKey"),
-                                e_number(500))
-                    )
-                    .$_AndPredicate(
-                        p_like(
-                                e("LastName"),
-                                e_string("%Smi%"))
-                    )
-                    .$_AndPredicate(
-                        p_like(
-                                e("FirstName"),
-                                e_string("%A%"))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -617,6 +665,23 @@ public class WhereBuilderTest {
 
     }
 
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleM = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_in(
+                            e("LastName"),
+                            e_string("Smith"),
+                            e_string("Godfrey"),
+                            e_string("Johnson"))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     /**
      * WHERE LastName IN ('Smith', 'Godfrey', 'Johnson');
      */
@@ -633,19 +698,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_in(
-                            e("LastName"),
-                            e_string("Smith"),
-                            e_string("Godfrey"),
-                            e_string("Johnson"))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();
@@ -657,6 +709,22 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getExpressionList().get(2).toString(), "'Johnson'");
 
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Where exampleN = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$Predicate(
+                        p_between(
+                            e("EmployeeKey"),
+                            e_number(100),
+                            e_number(200))
+                    )
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE EmployeeKey Between 100 AND 200;
@@ -673,18 +741,6 @@ public class WhereBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Where> parent = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$Predicate(
-                        p_between(
-                            e("EmployeeKey"),
-                            e_number(100),
-                            e_number(200))
-                    )
-                    .and();
         // @formatter:on
 
         SearchCondition searchCondition = where.getSearchCondition();

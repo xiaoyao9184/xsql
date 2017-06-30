@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
@@ -25,7 +26,8 @@ public class WhereBuilder<ParentBuilder>
 
     public SearchConditionBuilder<WhereBuilder<ParentBuilder>> withSearchCondition(){
         return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
-                (set(SearchCondition::new,
+                (initSet(SearchCondition::new,
+                        target::getSearchCondition,
                         target::setSearchCondition))
                 .in(this);
     }
