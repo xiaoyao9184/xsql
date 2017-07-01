@@ -365,6 +365,13 @@ public class Predicates {
                 .build();
     }
 
+    public static Predicate p_in(Expression left, Select subQuery){
+        return new InPredicateBuilder<Void>()
+                .withExpression(left)
+                .withSubQuery(subQuery)
+                .build();
+    }
+
     /**
      * In Predicate
      * @param left
@@ -376,6 +383,14 @@ public class Predicates {
                 .withExpression(left)
                 .withNot()
                 .withValueExpression(in)
+                .build();
+    }
+
+    public static Predicate p_not_in(Expression left, Select subQuery){
+        return new InPredicateBuilder<Void>()
+                .withExpression(left)
+                .withNot()
+                .withSubQuery(subQuery)
                 .build();
     }
 
