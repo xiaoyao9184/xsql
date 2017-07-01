@@ -8,12 +8,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.clause.OutputBuilder.*;
+import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_negative;
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
 import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_plus;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_variable;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
+import static com.xy.xsql.tsql.core.statement.StatementBuilderFactory.SELECT;
 import static com.xy.xsql.tsql.core.statement.dml.MergeBuilder.MERGE;
 import static com.xy.xsql.tsql.core.statement.dml.UpdateBuilder.SetItemBuilder.s;
 
@@ -34,7 +38,7 @@ public class MergeBuilderTest {
      */
     @Test
     public void testBaseBuild(){
-        Merge delete = new MergeBuilder()
+        Merge merge = new MergeBuilder()
                 .withTargetTable("table")
                 .withTableSource()._Base()
                     .withTableName(t("table2"))
@@ -74,7 +78,7 @@ public class MergeBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(delete.getTargetTable().toString(),"table");
+        Assert.assertEquals(merge.getTargetTable().toString(),"table");
     }
     /**
      * MERGE INTO table AS t USING table2
@@ -88,7 +92,7 @@ public class MergeBuilderTest {
      */
     @Test
     public void testClauseSearchConditionBuild(){
-        Merge delete = new MergeBuilder()
+        Merge merge = new MergeBuilder()
                 .withInto(true)
                 .withTargetTable("table")
                 .withAs(true)
@@ -116,29 +120,18 @@ public class MergeBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(delete.getTableAlias().toString(),"t");
+        Assert.assertEquals(merge.getTableAlias().toString(),"t");
     }
 
 
+    // @formatter:off
+    Select.QuerySpecification query = QUERY()
+            .$(c("@UnitMeasureCode"))
+            .$(c("@Name"))
+            .build();
 
-
-    /**
-     * MERGE Production.UnitMeasure AS target
-     USING (SELECT @UnitMeasureCode, @Name) AS source (UnitMeasureCode, Name)
-     ON (target.UnitMeasureCode = source.UnitMeasureCode)
-     WHEN MATCHED THEN
-     UPDATE SET Name = source.Name
-     WHEN NOT MATCHED THEN
-     INSERT (UnitMeasureCode, Name)
-     VALUES (source.UnitMeasureCode, source.Name)
-     OUTPUT deleted.*, $action, inserted.* INTO #MyTempTable
-     */
-    @Test
-    public void testExampleA(){
-        // @formatter:off
-        Select.QuerySpecification query = new Select.QuerySpecification();
-
-        Merge merge = MERGE()
+    //parent+quick
+    public Merge exampleA = MERGE()
                 .$(t("Production","UnitMeasure"))
                 .$As("target")
                 .$Using()
@@ -175,13 +168,96 @@ public class MergeBuilderTest {
                     .$Into("MyTempTable")
                     .and()
                 .done();
-        // @formatter:on
+    // @formatter:on
 
-        Assert.assertEquals(merge.getTargetTable().toString(),"Production.UnitMeasure");
-        Assert.assertEquals(merge.getTableAlias().toString(),"target");
-        Assert.assertEquals(merge.getMatchedWhenThenList().size(),1);
-        Assert.assertNotNull(merge.getNotMatchedWhenThenTarget());
+    /**
+     * MERGE Production.UnitMeasure AS target
+     USING (SELECT @UnitMeasureCode, @Name) AS source (UnitMeasureCode, Name)
+     ON (target.UnitMeasureCode = source.UnitMeasureCode)
+     WHEN MATCHED THEN
+     UPDATE SET Name = source.Name
+     WHEN NOT MATCHED THEN
+     INSERT (UnitMeasureCode, Name)
+     VALUES (source.UnitMeasureCode, source.Name)
+     OUTPUT deleted.*, $action, inserted.* INTO #MyTempTable
+     */
+    @Test
+    public void testExampleA(){
+        Assert.assertEquals(exampleA.getTargetTable().toString(),"Production.UnitMeasure");
+        Assert.assertEquals(exampleA.getTableAlias().toString(),"target");
+        Assert.assertEquals(exampleA.getMatchedWhenThenList().size(),1);
+        Assert.assertNotNull(exampleA.getNotMatchedWhenThenTarget());
     }
+
+
+    // @formatter:off
+    Select.QuerySpecification queryB = QUERY()
+            .$(c("ProductID"))
+            .$(c("SUM(OrderQty)"))
+            .$From()
+                .$()
+                    .$(t("Sales","SalesOrderDetail"),"sod")
+                    .$Join()
+                    .$(t("Sales","SalesOrderHeader"),"soh")
+                    .$On()
+                        .$Predicate(p_equal(
+                                c("sod","SalesOrderID"),
+                                c("soh","SalesOrderID")))
+                        .$_AndPredicate(p_equal(c("soh","OrderDate"),
+                                e_variable("OrderDate")))
+                        .and()
+                    .and()
+                .and()
+            .$GroupBy()
+                .$(c("ProductID"))
+                .and()
+            .build();
+    //parent+quick
+    public Merge exampleB = MERGE()
+                .$(t("Production","ProductInventory"))
+                .$As("target")
+                .$Using()
+                    .$(queryB)
+                    .$As("source","ProductID","OrderQty")
+                .$On()
+                    .$(p_equal(
+                            c("target","ProductID"),
+                            c("source","ProductID")
+                    ))
+                    .and()
+                .$When_Matched()
+                    .$()
+                        .$Predicate(p_less_equal(
+                                e_negative(c("target","Quantity"),
+                                        c("source","OrderQty")),
+                                e_number(0)
+                        ))
+                        .and()
+                    .$Then()
+                        .$Delete()
+                    .and()
+                .$When_Matched()
+                    .$Then()
+                        .$Update_Set(
+                                s(c("target","Quantity"),
+                                       e_negative(
+                                    c("target","Quantity"),
+                                    c("source","OrderQty"))),
+                                s(c("target","ModifiedDate"),
+                                       e("GETDATE()"))
+                        )
+                    .and()
+                .$OutPut()
+                    .$Output(c_$action())
+                    .$Output(c_inserted("ProductID"),
+                            c_inserted("Quantity"),
+                            c_inserted("ModifiedDate"),
+                            c_deleted("ProductID"),
+                            c_deleted("Quantity"),
+                            c_deleted("ModifiedDate"))
+                    .and()
+                .done();
+    // @formatter:on
 
     /**
      * MERGE Production.ProductInventory AS target
@@ -201,61 +277,10 @@ public class MergeBuilderTest {
      */
     @Test
     public void testExampleB(){
-        // @formatter:off
-        Select.QuerySpecification query = new Select.QuerySpecification();
-
-        Merge merge = MERGE()
-                .$Into(t("Production","ProductInventory"))
-                .$As("target")
-                .$Using()
-                    .$(query)
-                    .$As("source","ProductID","OrderQty")
-                .$On()
-                    .$(p_equal(
-                            c("target","ProductID"),
-                            c("source","ProductID")
-                    ))
-                    .and()
-                .$When_Matched()
-                    .$()
-                        .$Predicate(p_less_equal(
-                                e_plus(c("target","Quantity"),
-                                        c("source","OrderQty")),
-                                e_number(0)
-                        ))
-                        .and()
-                    .$Then()
-                        .$Delete()
-                    .and()
-                .$When_Matched()
-                    .$Then()
-                        .$Update_Set(
-                                s(c("target","Quantity"),
-                                       e_plus(
-                                    c("target","Quantity"),
-                                    c("source","OrderQty"))),
-                                s(c("target","ModifiedDate"),
-                                       e("GETDATE()"))
-                        )
-                    .and()
-                //OUTPUT deleted.*, $action, inserted.* INTO #MyTempTable
-                .$OutPut()
-                    .$(c_$action())
-                    .$(c_inserted("ProductID"),
-                            c_inserted("ProductID"),
-                            c_inserted("Quantity"),
-                            c_inserted("ModifiedDate"),
-                            c_deleted("ProductID"),
-                            c_deleted("Quantity"),
-                            c_deleted("ModifiedDate"))
-                    .and()
-                .done();
-        // @formatter:on
-
-        Assert.assertEquals(merge.getTargetTable().toString(),"Production.ProductInventory");
-        Assert.assertEquals(merge.getTableAlias().toString(),"target");
-        Assert.assertEquals(merge.getMatchedWhenThenList().size(),2);
-        Assert.assertNull(merge.getNotMatchedWhenThenTarget());
+        Assert.assertEquals(exampleB.getTargetTable().toString(),"Production.ProductInventory");
+        Assert.assertEquals(exampleB.getTableAlias().toString(),"target");
+        Assert.assertEquals(exampleB.getMatchedWhenThenList().size(),2);
+        Assert.assertNull(exampleB.getNotMatchedWhenThenTarget());
     }
 
 }

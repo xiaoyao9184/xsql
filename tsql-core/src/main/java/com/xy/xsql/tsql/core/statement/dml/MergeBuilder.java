@@ -564,6 +564,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
         }
 
         public UpdateBuilder.SetItemBuilder<MergeMatchedBuilder<ParentBuilder>> withSetItem(){
+            withSet(true);
             initList(target::getSets,
                     target::setSets);
             return new UpdateBuilder.SetItemBuilder<MergeMatchedBuilder<ParentBuilder>>
@@ -597,7 +598,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             initAdd(Arrays.asList(items),
                     target::getSets,
                     target::setSets);
-            return and();
+            return withSet(true)
+                    .and();
         }
     }
 

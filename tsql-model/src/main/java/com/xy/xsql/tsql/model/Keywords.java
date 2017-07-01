@@ -275,7 +275,7 @@ public enum Keywords {
         //Over
         PARTITION,
         //Merge
-        MATCHED, TARGET,USING,
+        MATCHED, TARGET, SOURCE, USING,
         //ReNameTable
         RENAME, OBJECT,
         //QueryHint
