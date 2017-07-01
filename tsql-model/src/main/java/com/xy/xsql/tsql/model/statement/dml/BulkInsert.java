@@ -97,16 +97,16 @@ public class BulkInsert implements Statement {
 
     //-- input file format options
     //[ [ , ] FORMAT = 'CSV' ]
-    private StringConstant format = new StringConstant().withQuote();
+    private StringConstant format;
     //[ [ , ] FIELDQUOTE = 'quote_characters']
-    private StringConstant fieldQuote = new StringConstant().withQuote();
+    private StringConstant fieldQuote;
     //[ [ , ] FORMATFILE = 'format_file_path' ]
-    private StringConstant formatFile = new StringConstant().withQuote();
+    private StringConstant formatFile;
     //[ [ , ] FIELDTERMINATOR = 'field_terminator' ]
-    private StringConstant fieldTerminator = new StringConstant().withQuote();
+    private StringConstant fieldTerminator;
     //may be repeat
     //[ [ , ] ROWTERMINATOR = 'row_terminator' ]
-//    private StringConstant rowTerminator = new StringConstant().withQuote(true);
+//    private StringConstant rowTerminator;
 
 
     public TableName getTableOrView() {

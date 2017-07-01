@@ -206,7 +206,7 @@ public class ReferenceBlockPrinter {
             }else{
                 referenceBlock = block.getRefMeta();
             }
-            Object referenceContext = block.getDataOrGetterData(context);
+            Object referenceContext = block.getContext(context);
 
             if(block.isList() &&
                     referenceContext instanceof List){
@@ -242,9 +242,14 @@ public class ReferenceBlockPrinter {
                 if(p.test(context)){
                     ReferenceBlock subBlock = block.getSub().get(index);
                     printBlock(subBlock, context, writer);
+                    index = -1;
                     break;
                 }
                 index++;
+            }
+            if(index != -1){
+                throw new RuntimeException(new BlockStructureCorrectException(block,
+                        BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
             }
         }else if(block.getSub() != null){
             //Virtual
@@ -254,7 +259,7 @@ public class ReferenceBlockPrinter {
                     throw new RuntimeException(new BlockStructureCorrectException(block,
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_META_AMOUNT_ERROR));
                 }
-                Object data = block.getDataOrGetterData(context);
+                Object data = block.getContext(context);
                 if(!(data instanceof List)){
                     throw new RuntimeException(new BlockStructureCorrectException(block,
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MUST_LIST));
@@ -280,6 +285,10 @@ public class ReferenceBlockPrinter {
                 blockString = block.getData().toString();
             }else{
                 Object data = block.getDataOrGetterData(context);
+                if(data == null){
+                    throw new RuntimeException(new BlockStructureCorrectException(block,
+                            BlockStructureCorrectException.StructureCorrect.NO_DATA));
+                }
                 if(BlockManager
                         .INSTANCE
                         .checkTypeBlockConverter(data.getClass())){

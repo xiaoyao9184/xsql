@@ -3,10 +3,15 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.statement.ddl.ReNameDatabaseConverter;
+import com.xy.xsql.tsql.core.statement.BulkInsertBuilderTest;
+import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -55,5 +60,82 @@ public class BulkInsertConverterTest {
                         ") ]");
     }
 
+    private BulkInsertBuilderTest builderTest;
+    private Map<BulkInsert,String> model2StringMap;
+
+    @Before
+    public void init(){
+        builderTest = new BulkInsertBuilderTest();
+        model2StringMap = new HashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
+                        "     FROM 'f:\\orders\\lineitem.tbl'\n" +
+                        "     WITH\n" +
+                        "     (\n" +
+                        "     ROWTERMINATOR =' |\\n',\n" +
+                        "     FIELDTERMINATOR =' |'\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
+                        "     FROM 'f:\\orders\\lineitem.tbl'\n" +
+                        "     WITH\n" +
+                        "     (\n" +
+                        "     FIRE_TRIGGERS,\n" +
+                        "     ROWTERMINATOR = ':\\n',\n" +
+                        "     FIELDTERMINATOR =' |'\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleC,
+                "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
+                        "     FROM ''<drive>:\\<path>\\<filename>''\n" +
+                        "     WITH (ROWTERMINATOR = '''+CHAR(10)+''')");
+
+        model2StringMap.put(
+                builderTest.exampleD,
+                "BULK INSERT MyTable\n" +
+                        "     FROM 'D:\\data.csv'\n" +
+                        "     WITH\n" +
+                        "     ( CODEPAGE = '65001',\n" +
+                        "     DATAFILETYPE = 'char',\n" +
+                        "     FIELDTERMINATOR = ','\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleE,
+                "BULK INSERT Sales.Invoices\n" +
+                        "     FROM '\\\\share\\invoices\\inv-2016-07-25.csv'\n" +
+                        "     WITH (FORMAT = 'CSV')");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "BULK INSERT Sales.Invoices\n" +
+                        "     FROM 'inv-2017-01-19.csv'\n" +
+                        "     WITH (DATASOURCE = 'MyAzureInvoices',\n" +
+                        "     FORMAT = 'CSV')");
+
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Test
+    public void testPrint() throws Exception {
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    check,
+                    ok);
+        });
+    }
 
 }
