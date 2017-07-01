@@ -6,8 +6,11 @@ import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
+
+import java.util.List;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -33,6 +36,7 @@ public class InsertConverter
                         .keyword(Keywords.INTO)
                         .and()
                     .sub()
+                        .description("into target")
                         .required()
                         .czse(d -> d.getTableName() != null, "<object>")
                             .data(Insert::getTableName)
@@ -40,9 +44,11 @@ public class InsertConverter
     //                    .czse_meta("rowset_function_limited")
                         .and()
                     .sub()
+                        .description("(column_list)")
                         .optional(d -> d.getColumns() == null)
                         .sub_keyword(Other.GROUP_START)
                         .sub("column_list")
+                            .ref(ColumnListConverter.meta())
                             .data(Insert::getColumns)
                             .and()
                         .sub_keyword(Other.GROUP_END)
@@ -53,10 +59,10 @@ public class InsertConverter
                         .data(Insert::getOutput)
                         .and()
                     .sub()
+                        .description("values")
                         .required()
                         //TODO donot use ref
                         .czse(d -> d.getValues() != null, "VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]")
-                            .optional(d -> d.getValues() == null)
                             .ref(TableValueConstructorConverter.class)
                             .data(Insert::getValues)
                             .and()
@@ -64,7 +70,6 @@ public class InsertConverter
     //                    .czse_meta("execute_statement")
     //                    .czse_meta("<dml_table_source>")
                         .czse(Insert::isUseDefaultValues,"DEFAULT VALUES")
-                            .optional(Insert::isUseDefaultValues)
                             .sub_keyword(Keywords.DEFAULT)
                             .sub_keyword(Keywords.VALUES)
                             .and()
@@ -83,6 +88,30 @@ public class InsertConverter
         return builder
                 .data(insert)
                 .build();
+    }
+
+    public static class ColumnListConverter
+            implements ReferenceBlockConverter<List<ColumnName>> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,List<ColumnName>> builder =
+                new ReferenceBlockBuilder<Void,List<ColumnName>>()
+                        .description("column_list")
+                        .list()
+                        .data(d -> d)
+                        .subTakeLine();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(List<ColumnName> columnNames) {
+            return builder
+                    .data(columnNames)
+                    .build();
+        }
     }
 
 }

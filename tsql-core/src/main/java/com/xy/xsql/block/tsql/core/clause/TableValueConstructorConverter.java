@@ -87,10 +87,13 @@ public class TableValueConstructorConverter
                         .overall("row value expression")
                         .required()
                         .czse(d -> d instanceof Default,"DEFAULT")
+                            .data(d -> d)
                             .and()
                         .czse(d -> d instanceof Null,"NULL")
+                            .data(d -> d)
                             .and()
                         .czse(d -> true,"expression")
+                            .data(d -> d)
                             .and();
         // @formatter:on
 

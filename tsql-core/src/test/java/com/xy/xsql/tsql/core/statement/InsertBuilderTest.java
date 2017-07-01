@@ -17,6 +17,18 @@ import static com.xy.xsql.tsql.core.statement.dml.InsertBuilder.INSERT;
  */
 public class InsertBuilderTest {
 
+
+    // @formatter:off
+    //parent+quick
+    public Insert example1A = INSERT()
+                .$Into()
+                .$(t("Production","UnitMeasure"))
+                .$Values()
+                    .$(e_n_string("FT"),e_n_string("Feet"),e_string("20080414"))
+                    .and()
+                .done();
+    // @formatter:on
+
     /**
      * INSERT INTO Production.UnitMeasure
      VALUES (N'FT', N'Feet', '20080414');
@@ -35,15 +47,6 @@ public class InsertBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //quick
-        Insert quick = INSERT()
-                .$Into()
-                .$(t("Production","UnitMeasure"))
-                .$Values()
-                    .$(e_n_string("FT"),e_n_string("Feet"),e_string("20080414"))
-                    .and()
-                .done();
         // @formatter:on
 
         Assert.assertTrue(insert.isUseInto());
@@ -51,6 +54,20 @@ public class InsertBuilderTest {
         Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
         Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Insert example1B = INSERT()
+                .$Into()
+                .$(t("Production","UnitMeasure"))
+                .$Values()
+                    .$(e_n_string("FT2"),e_n_string("Square Feet "),e_string("20080923"))
+                    .$(e_n_string("Y"),e_n_string("Yards"),e_string("20080923"))
+                    .$(e_n_string("Y3"),e_n_string("Cubic Yards"),e_string("20080923"))
+                    .and()
+                .done();
+    // @formatter:on
 
     /**
      * INSERT INTO Production.UnitMeasure
@@ -64,7 +81,7 @@ public class InsertBuilderTest {
                 .withTableName(t("Production","UnitMeasure"))
                 .withValues()
                     .withItem()
-                        .withRowValueExpression(e_n_string("FT"))
+                        .withRowValueExpression(e_n_string("FT2"))
                         .withRowValueExpression(e_n_string("Square Feet "))
                         .withRowValueExpression(e_string("20080923"))
                         .and()
@@ -80,17 +97,6 @@ public class InsertBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //quick
-        Insert quick = INSERT()
-                .$Into()
-                .$(t("Production","UnitMeasure"))
-                .$Values()
-                    .$(e_n_string("FT"),e_n_string("Square Feet "),e_string("20080923"))
-                    .$(e_n_string("Y"),e_n_string("Yards"),e_string("20080923"))
-                    .$(e_n_string("Y3"),e_n_string("Cubic Yards"),e_string("20080923"))
-                    .and()
-                .done();
         // @formatter:on
 
         Assert.assertTrue(insert.isUseInto());
@@ -100,6 +106,19 @@ public class InsertBuilderTest {
         Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(1).size(),3);
         Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(2).size(),3);
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Insert example1C = INSERT()
+                .$Into()
+                .$(t("Production","UnitMeasure"))
+                .$(c("Name"),c("UnitMeasureCode"),c("ModifiedDate"))
+                .$Values()
+                    .$(e_n_string("Square Yards"),e_n_string("Y2"),e("GETDATE()"))
+                    .and()
+                .done();
+    // @formatter:on
 
     /**
      * INSERT INTO Production.UnitMeasure (Name, UnitMeasureCode,
@@ -123,16 +142,6 @@ public class InsertBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //quick
-        Insert quick = INSERT()
-                .$Into()
-                .$(t("Production","UnitMeasure"))
-                .$(c("Name"),c("UnitMeasureCode"),c("ModifiedDate"))
-                .$Values()
-                    .$(e_n_string("Square Yards"),e_n_string("Y2"),e("GETDATE()"))
-                    .and()
-                .done();
         // @formatter:on
 
         Assert.assertTrue(insert.isUseInto());
@@ -141,6 +150,43 @@ public class InsertBuilderTest {
         Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
         Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
     }
+
+
+    // @formatter:off
+    //parent+quick
+    public Insert example2A = INSERT()
+            .$Into()
+            .$(t("dbo","T1"))
+            .$(c("column_4"))
+            .$Values()
+            .$(e_string("Explicit value"))
+            .and()
+            .done();
+
+    public Insert example2A1 = INSERT()
+            .$Into()
+            .$(t("dbo","T1"))
+            .$(c("column_2"),c("column_4"))
+            .$Values()
+            .$(e_string("Explicit value"),e_string("Explicit value"))
+            .and()
+            .done();
+
+    public Insert example2A2 = INSERT()
+            .$Into()
+            .$(t("dbo","T1"))
+            .$(c("column_2"))
+            .$Values()
+            .$(e_string("Explicit value"))
+            .and()
+            .done();
+
+    public Insert example2A3 = INSERT()
+            .$Into()
+            .$(t("T1"))
+            .$Default_Values()
+            .done();
+    // @formatter:on
 
     /**
      * INSERT INTO dbo.T1 (column_4)
@@ -194,40 +240,6 @@ public class InsertBuilderTest {
                 .withTableName(t("T1"))
                 .withDefaultValues()
                 .build();
-
-        //quick
-        Insert quick = INSERT()
-                .$Into()
-                .$(t("dbo","T1"))
-                .$(c("column_4"))
-                .$Values()
-                    .$(e_string("Explicit value"))
-                    .and()
-                .done();
-
-        Insert quick1 = INSERT()
-                .$Into()
-                .$(t("dbo","T1"))
-                .$(c("column_2"),c("column_4"))
-                .$Values()
-                    .$(e_string("Explicit value"),e_string("Explicit value"))
-                    .and()
-                .done();
-
-        Insert quick2 = INSERT()
-                .$Into()
-                .$(t("dbo","T1"))
-                .$(c("column_2"))
-                .$Values()
-                    .$(e_string("Explicit value"))
-                    .and()
-                .done();
-
-        Insert quick3 = INSERT()
-                .$Into()
-                .$(t("T1"))
-                .$Default_Values()
-                .done();
         // @formatter:on
 
         Assert.assertTrue(insert.isUseInto());

@@ -57,19 +57,21 @@ public class ReferenceBlockPrinter {
         }
 
         //data
-        if(referenceBlock.isKeyword()){
+        if(referenceBlock.isKeyword()) {
             //Keyword
             writer.append(referenceBlock.getData().toString());
-        }else if(referenceBlock.isReferenceClass() &&
-                referenceBlock.getName() != null){
-            //Reference
+        }else if(referenceBlock.getName() != null &&
+                referenceBlock.isReferenceClass()){
+            //Reference Name
             writer.append('<');
             writer.append(referenceBlock.getName());
             writer.append('>');
-        }else if(!referenceBlock.isOverall() &&
-                referenceBlock.getName() != null){
+        }else if(referenceBlock.getName() != null &&
+                !referenceBlock.isOverall()){
+            //Name
             writer.append(referenceBlock.getName());
         }else if(referenceBlock.isReferenceMeta()){
+            //Reference Meta
             print(referenceBlock.getRefMeta(),false,writer);
         }else{
             //Sub
@@ -308,7 +310,8 @@ public class ReferenceBlockPrinter {
                     }else if(block.isRepeat()) {
                         delimiter = "\n ";
                     }else{
-
+                        throw new RuntimeException(new BlockStructureCorrectException(block,
+                                BlockStructureCorrectException.StructureCorrect.COLLECTION_DATA_CANT_FIND_BLOCK_META));
                     }
                     if(listData.size() <= 0){
                         throw new RuntimeException(new BlockStructureCorrectException(block,
