@@ -30,6 +30,7 @@ public class DeleteConverter
                         .keyword(Keywords.FROM)
                         .and()
                     .sub()
+                        .description("delete target")
                         .required()
                         .czse(d -> d.getTableAlias() != null, "table_alias")
                             .data(Delete::getTableAlias)

@@ -4,6 +4,8 @@ import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.datatype.Default;
+import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 
@@ -28,6 +30,7 @@ public class UpdateConverter
                         .data(Update::getTop)
                         .and()
                     .sub()
+                        .description("update target")
                         .required()
                         .czse(d -> d.getTableAlias() != null, "table_alias")
                             .data(Update::getTableAlias)
@@ -42,6 +45,7 @@ public class UpdateConverter
                         .and()
                     .sub_keyword(Keywords.SET)
                     .sub()
+                        .description("set clause")
                         .list()
                         .ref(UpdateConverter.SetItemConverter.meta())
                         .data(Update::getSets)
@@ -116,8 +120,17 @@ public class UpdateConverter
                         .data(Update.ColumnAssignmentSet::getColumnName)
                         .and()
                     .sub_keyword(Assignment.ASSIGNMENT)
-                    .sub("expression | DEFAULT | NULL")
-                        .data(Update.ColumnAssignmentSet::getExpression)
+                    .sub()
+                        .data("default/null/expression")
+                        .czse(Update.ColumnAssignmentSet::isUseDefault,"DEFAULT")
+                            .keyword(Keywords.DEFAULT)
+                            .and()
+                        .czse(Update.ColumnAssignmentSet::isUseNull,"NULL")
+                            .keyword(Keywords.NULL)
+                            .and()
+                        .czse(d -> d.getExpression() != null,"expression")
+                            .data(Update.ColumnAssignmentSet::getExpression)
+                            .and()
                         .and();
         // @formatter:on
 
