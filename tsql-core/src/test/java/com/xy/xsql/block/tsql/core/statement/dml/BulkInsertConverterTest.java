@@ -2,7 +2,6 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.tsql.core.statement.ddl.ReNameDatabaseConverter;
 import com.xy.xsql.tsql.core.statement.BulkInsertBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import org.junit.Assert;
@@ -10,10 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -29,7 +26,8 @@ public class BulkInsertConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "BULK INSERT \n" +
+                "<BULK INSERT> ::=\n" +
+                        "BULK INSERT \n" +
                         "[ database_name . [ schema_name ] . | schema_name . ][ table_name | view_name ]  \n" +
                         "FROM 'data_file' \n" +
                         "[ WITH\n" +
@@ -60,13 +58,12 @@ public class BulkInsertConverterTest {
                         ") ]");
     }
 
-    private BulkInsertBuilderTest builderTest;
     private Map<BulkInsert,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new BulkInsertBuilderTest();
-        model2StringMap = new HashMap<>();
+        BulkInsertBuilderTest builderTest = new BulkInsertBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
                 builderTest.exampleA,
@@ -123,6 +120,7 @@ public class BulkInsertConverterTest {
     @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
+        final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = ReferenceBlockPrinter.print(key);
             String check = writer.toString()
@@ -133,8 +131,10 @@ public class BulkInsertConverterTest {
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
             Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
                     check,
                     ok);
+            index[0]++;
         });
     }
 

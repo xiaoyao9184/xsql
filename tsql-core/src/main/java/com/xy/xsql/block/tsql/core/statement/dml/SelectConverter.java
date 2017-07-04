@@ -84,7 +84,7 @@ public class SelectConverter
                         .sub()
                             .description("union list")
                             .optional(d -> d.getUnionItems() == null)
-                            .list()
+                            .repeat()
                             .ref(UnionItemConverter.meta())
                             .data(Select.QueryExpression::getUnionItems)
                             .and()

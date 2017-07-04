@@ -286,8 +286,7 @@ public class WithBuilderTest {
                         .$Predicate(p_is_null(e("ManagerID")))
                         .and()
                     .and()
-                .$Union_All_()
-                .$Select()
+                .$Union_All_Select()
                     .$(c("e","ManagerID"))
                     .$(c("e","EmployeeID"))
                     .$(c("e","Title"))
@@ -304,7 +303,6 @@ public class WithBuilderTest {
                         .and()
                     .and()
                 .and()
-            .and()
             .build();
 
     //parent+quick

@@ -2,7 +2,6 @@ package com.xy.xsql.block.tsql.core.statement.ddl;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.tsql.core.variable.DeclareVariableConverter;
 import com.xy.xsql.tsql.core.statement.ddl.TruncateTableBuilderTest;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
 import org.junit.Assert;
@@ -10,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static org.junit.Assert.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -33,48 +32,43 @@ public class TruncateTableConverterTest {
                         "[ WITH ( PARTITIONS ( { <partition_number_expression> | <range> } [,...n] ) ) ]");
     }
 
-    private TruncateTableBuilderTest builderTest;
+
+    private Map<TruncateTable,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new TruncateTableBuilderTest();
+        TruncateTableBuilderTest builderTest = new TruncateTableBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "TRUNCATE TABLE HumanResources.JobCandidate");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "TRUNCATE TABLE PartitionTable1\n" +
+                        "     WITH (PARTITIONS (2, 4, 6 TO 8))");
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        TruncateTable example = builderTest.exampleA;
-        String ok = "TRUNCATE TABLE HumanResources.JobCandidate";
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(example);
-        String check = writer.toString()
-                .replaceAll(" ", "")
-                .replaceAll("\n", "");
-
-        ok = ok
-                .replaceAll(" ", "")
-                .replaceAll("\n", "");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintB() throws Exception {
-        TruncateTable example = builderTest.exampleB;
-        String ok = "TRUNCATE TABLE PartitionTable1\n" +
-                "     WITH (PARTITIONS (2, 4, 6 TO 8))";
-
-        StringWriter writer = ReferenceBlockPrinter.print(example);
-        String check = writer.toString()
-                .replaceAll(" ", "")
-                .replaceAll("\n", "");
-
-        ok = ok
-                .replaceAll(" ", "")
-                .replaceAll("\n", "");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
 }

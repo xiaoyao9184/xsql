@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -30,13 +30,12 @@ public class WhereConverterTest {
                         "WHERE <search_condition>");
     }
 
-    private WhereBuilderTest builderTest;
     private Map<Where,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new WhereBuilderTest();
-        model2StringMap = new HashMap<>();
+        WhereBuilderTest builderTest = new WhereBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
                 builderTest.exampleA,
@@ -102,6 +101,7 @@ public class WhereConverterTest {
     @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
+        final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = ReferenceBlockPrinter.print(key);
             String check = writer.toString()
@@ -112,8 +112,10 @@ public class WhereConverterTest {
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
             Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
                     check,
                     ok);
+            index[0]++;
         });
     }
 

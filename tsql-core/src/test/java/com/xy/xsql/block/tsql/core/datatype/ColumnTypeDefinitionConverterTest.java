@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -56,7 +57,7 @@ public class ColumnTypeDefinitionConverterTest {
     @Before
     public void init(){
         builderTest = new ColumnDefinitionBuilderTest();
-        model2StringMap = new HashMap<>();
+        model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
                 builderTest.exampleA,

@@ -2,7 +2,6 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.tsql.core.statement.ddl.ReNameDatabaseConverter;
 import com.xy.xsql.tsql.core.statement.DeleteBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
 import org.junit.Assert;
@@ -10,10 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -44,13 +41,12 @@ public class DeleteConverterTest {
                         "[ OPTION ( <Query Hint> [ ,...n ] ) ]");
     }
 
-    private DeleteBuilderTest builderTest;
     private Map<Delete,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new DeleteBuilderTest();
-        model2StringMap = new HashMap<>();
+        DeleteBuilderTest builderTest = new DeleteBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
                 builderTest.exampleA,
@@ -137,6 +133,7 @@ public class DeleteConverterTest {
     @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
+        final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = ReferenceBlockPrinter.print(key);
             String check = writer.toString()
@@ -147,10 +144,11 @@ public class DeleteConverterTest {
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
             Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
                     check,
                     ok);
+            index[0]++;
         });
     }
-
 
 }

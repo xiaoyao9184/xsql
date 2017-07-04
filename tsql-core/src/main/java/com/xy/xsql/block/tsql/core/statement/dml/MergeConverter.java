@@ -209,6 +209,7 @@ public class MergeConverter
                         .sub_keyword(Keywords.NOT)
                         .sub_keyword(Keywords.Key.MATCHED)
                         .sub()
+                            .description("target keyword")
                             .optional(d -> !d.isUseByTarget())
                             .sub_keyword(Keywords.BY)
                             .sub_keyword(Keywords.Key.TARGET)

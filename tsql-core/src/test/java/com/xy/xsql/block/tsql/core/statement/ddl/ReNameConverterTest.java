@@ -1,9 +1,9 @@
-package com.xy.xsql.block.tsql.core.clause;
+package com.xy.xsql.block.tsql.core.statement.ddl;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.clause.TableValueConstructorBuilderTest;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.core.statement.ddl.RenameBuilderTest;
+import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,72 +13,70 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by xiaoyao9184 on 2017/6/20.
+ * Created by xiaoyao9184 on 2017/6/17.
  */
-public class TableValueConstructorConverterTest {
+public class ReNameConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = TableValueConstructorConverter.meta();
+        ReferenceBlock b = ReNameConverter.meta();
 
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "<Table Value Constructor> ::=\n" +
-                        "VALUES ( <row value expression list> ) [,...n]");
+                "<RENAME> ::=\n" +
+                        "RENAME DATABASE [ :: ] database_name TO new_database_name\n" +
+                        "| RENAME OBJECT [ :: ] [ [ database_name .  [schema_name ] ] . ] | [schema_name . ] ] table_name TO new_table_name");
     }
 
     @Test
-    public void testRowValueExpressionList() throws Exception {
-        ReferenceBlock b = TableValueConstructorConverter.RowValueExpressionListConverter.meta();
+    public void testReNameDataBase() throws Exception {
+        ReferenceBlock b = ReNameConverter.ReNameDataBaseConverter.meta();
 
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "<row value expression list> ::=\n" +
-                        "{ <row value expression> } [,...n]");
+                "<RENAME> ::=\n" +
+                        "RENAME DATABASE [ :: ] database_name TO new_database_name");
     }
 
     @Test
-    public void testRowValueExpression() throws Exception {
-        ReferenceBlock b = TableValueConstructorConverter.RowValueExpressionConverter.meta();
+    public void testReNameTable() throws Exception {
+        ReferenceBlock b = ReNameConverter.ReNameTableConverter.meta();
 
         StringWriter writer = new ReferenceBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "<row value expression> ::=\n" +
-                        "{ DEFAULT | NULL | expression }");
+                "<RENAME> ::=\n" +
+                        "RENAME OBJECT [ :: ] [ [ database_name .  [schema_name ] ] . ] | [schema_name . ] ] table_name TO new_table_name");
     }
 
 
-    private Map<TableValueConstructor,String> model2StringMap;
+    private Map<ReName,String> model2StringMap;
 
     @Before
     public void init(){
-        TableValueConstructorBuilderTest builderTest = new TableValueConstructorBuilderTest();
+        RenameBuilderTest builderTest = new RenameBuilderTest();
         model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
                 builderTest.exampleA,
-                "VALUES (N'FT2', N'Square Feet ', '20080923'), (N'Y', N'Yards', '20080923'), (N'Y3', N'Cubic Yards', '20080923')");
+                "RENAME DATABASE AdWorks TO AdWorks2");
 
         model2StringMap.put(
-                builderTest.exampleB,
-                "VALUES ('Recommendation','Other'), ('Advertisement', DEFAULT), (NULL, 'Promotion')");
+                builderTest.exampleB1,
+                "RENAME OBJECT Customer TO Customer1");
 
         model2StringMap.put(
-                builderTest.exampleC,
-                "VALUES ('Blade'), ('Crown Race'), ('AWC Logo Cap')");
+                builderTest.exampleB2,
+                "RENAME OBJECT mydb.dbo.Customer TO Customer1");
 
-        model2StringMap.put(
-                builderTest.exampleD,
-                "VALUES ('Recommendation','Other'), ('Review', 'Marketing'), ('Internet', 'Promotion')");
     }
 
     @SuppressWarnings("Duplicates")

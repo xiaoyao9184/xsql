@@ -2,16 +2,14 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.statement.InsertBuilderTest;
 import com.xy.xsql.tsql.core.statement.MergeBuilderTest;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -135,13 +133,12 @@ public class MergeConverterTest {
                         "}");
     }
 
-    private MergeBuilderTest builderTest;
     private Map<Merge,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new MergeBuilderTest();
-        model2StringMap = new HashMap<>();
+        MergeBuilderTest builderTest = new MergeBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
 //        model2StringMap.put(
 //                builderTest.exampleA,
@@ -155,28 +152,29 @@ public class MergeConverterTest {
 //                        "     VALUES (source.UnitMeasureCode, source.Name)\n" +
 //                        "     OUTPUT DELETED.*, $action, INSERTED.* INTO @MyTempTable");
 
-        model2StringMap.put(
-                builderTest.exampleB,
-                "MERGE Production.ProductInventory AS target\n" +
-                        "     USING (SELECT ProductID, SUM(OrderQty) FROM Sales.SalesOrderDetail AS sod\n" +
-                        "     JOIN Sales.SalesOrderHeader AS soh\n" +
-                        "     ON sod.SalesOrderID = soh.SalesOrderID\n" +
-                        "     AND soh.OrderDate = @OrderDate\n" +
-                        "     GROUP BY ProductID) AS source (ProductID, OrderQty)\n" +
-                        "     ON (target.ProductID = source.ProductID)\n" +
-                        "     WHEN MATCHED AND target.Quantity - source.OrderQty <= 0\n" +
-                        "     THEN DELETE\n" +
-                        "     WHEN MATCHED\n" +
-                        "     THEN UPDATE SET target.Quantity = target.Quantity - source.OrderQty,\n" +
-                        "     target.ModifiedDate = GETDATE()\n" +
-                        "     OUTPUT $action, INSERTED.ProductID, INSERTED.Quantity, INSERTED.ModifiedDate, DELETED.ProductID,\n" +
-                        "     DELETED.Quantity, DELETED.ModifiedDate");
+//        model2StringMap.put(
+//                builderTest.exampleB,
+//                "MERGE Production.ProductInventory AS target\n" +
+//                        "     USING (SELECT ProductID, SUM(OrderQty) FROM Sales.SalesOrderDetail AS sod\n" +
+//                        "     JOIN Sales.SalesOrderHeader AS soh\n" +
+//                        "     ON sod.SalesOrderID = soh.SalesOrderID\n" +
+//                        "     AND soh.OrderDate = @OrderDate\n" +
+//                        "     GROUP BY ProductID) AS source (ProductID, OrderQty)\n" +
+//                        "     ON (target.ProductID = source.ProductID)\n" +
+//                        "     WHEN MATCHED AND target.Quantity - source.OrderQty <= 0\n" +
+//                        "     THEN DELETE\n" +
+//                        "     WHEN MATCHED\n" +
+//                        "     THEN UPDATE SET target.Quantity = target.Quantity - source.OrderQty,\n" +
+//                        "     target.ModifiedDate = GETDATE()\n" +
+//                        "     OUTPUT $action, INSERTED.ProductID, INSERTED.Quantity, INSERTED.ModifiedDate, DELETED.ProductID,\n" +
+//                        "     DELETED.Quantity, DELETED.ModifiedDate");
 
     }
 
     @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
+        final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = ReferenceBlockPrinter.print(key);
             String check = writer.toString()
@@ -187,10 +185,11 @@ public class MergeConverterTest {
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
             Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
                     check,
                     ok);
+            index[0]++;
         });
     }
-
 
 }

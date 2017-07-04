@@ -7,6 +7,7 @@ import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.select.Having;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 
 /**
@@ -26,7 +27,8 @@ public class HavingBuilder<ParentBuilder>
 
     public SearchConditionBuilder<HavingBuilder<ParentBuilder>> withSearchCondition(){
         return new SearchConditionBuilder<HavingBuilder<ParentBuilder>>
-                (set(SearchCondition::new,
+                (initSet(SearchCondition::new,
+                        target::getSearchCondition,
                         target::setSearchCondition))
                 .in(this);
     }

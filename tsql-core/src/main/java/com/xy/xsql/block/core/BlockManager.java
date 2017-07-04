@@ -26,6 +26,7 @@ public enum BlockManager {
 
 
     public void register(Type clazz, ReferenceBlockConverter referenceBlockConverter){
+        //TODO same type
         typeBlockBuilderMap.put(clazz, referenceBlockConverter);
         converterTypeBlockConverterMap.put(referenceBlockConverter.getClass(), referenceBlockConverter);
     }

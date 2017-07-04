@@ -36,7 +36,7 @@ public class BulkInsertConverter
                         .data(BulkInsert::getFormDataFile)
                         .and()
                     .sub()
-                        .description("with")
+                        .description("with attributes")
                         .optional(d -> {
                             return
                                 d.getBatchSize() == null &&

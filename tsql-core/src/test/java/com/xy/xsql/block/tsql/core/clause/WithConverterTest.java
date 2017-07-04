@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -45,13 +45,12 @@ public class WithConverterTest {
                         "( CTE_query_definition )");
     }
 
-    private WithBuilderTest builderTest;
     private Map<With,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new WithBuilderTest();
-        model2StringMap = new HashMap<>();
+        WithBuilderTest builderTest = new WithBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
                 builderTest.exampleA,
@@ -163,6 +162,7 @@ public class WithConverterTest {
     @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
+        final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = ReferenceBlockPrinter.print(key);
             String check = writer.toString()
@@ -173,8 +173,10 @@ public class WithConverterTest {
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
             Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
                     check,
                     ok);
+            index[0]++;
         });
     }
 

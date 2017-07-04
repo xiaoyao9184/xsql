@@ -213,6 +213,9 @@ public class SelectBuilder extends CodeBuilder<Select> {
             return withQueryExpression();
         }
 
+        public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $(){
+            return withQueryExpression();
+        }
 
         /**
          * Quick into QuerySpecificationBuilder
@@ -341,7 +344,6 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     (group)
                     .in(this);
         }
-
     }
 
 

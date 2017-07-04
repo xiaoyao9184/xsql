@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -30,13 +30,12 @@ public class TopConverterTest {
                         "TOP ( expression ) [ PERCENT ] [ WITH TIES ]");
     }
 
-    private TopBuilderTest builderTest;
     private Map<Top,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new TopBuilderTest();
-        model2StringMap = new HashMap<>();
+        TopBuilderTest builderTest = new TopBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
                 builderTest.example1A,
@@ -70,6 +69,7 @@ public class TopConverterTest {
     @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
+        final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = ReferenceBlockPrinter.print(key);
             String check = writer.toString()
@@ -80,8 +80,10 @@ public class TopConverterTest {
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
             Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
                     check,
                     ok);
+            index[0]++;
         });
     }
 
