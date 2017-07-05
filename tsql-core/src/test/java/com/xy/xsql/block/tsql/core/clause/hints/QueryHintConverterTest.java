@@ -2,20 +2,15 @@ package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.tsql.core.clause.OptionConverter;
+import com.xy.xsql.tsql.core.clause.hint.QueryHintBuilderTest;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.HASH;
-import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.*;
-import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.OptimizeForBuilder.OPTIMIZE_FOR_Item;
-import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESEEK;
-import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.INDEX;
-import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.NOLOCK;
-import static org.junit.Assert.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -57,289 +52,102 @@ public class QueryHintConverterTest {
                         "| TABLE HINT ( exposed_object_name [ , <table_hint> [ [, ]...n ] ] )");
     }
 
-    @Test
-    public void testPrintA() throws Exception {
-        StringWriter writer = ReferenceBlockPrinter.print(MERGE_JOIN());
+    private Map<QueryHint,String> model2StringMap;
 
-        String ok = "MERGE JOIN";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
+    @Before
+    public void init(){
+        QueryHintBuilderTest builderTest = new QueryHintBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "MERGE JOIN");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN)");
+
+        model2StringMap.put(
+                builderTest.exampleC,
+                "MAXRECURSION 2");
+
+        model2StringMap.put(
+                builderTest.exampleD,
+                "MERGE UNION");
+
+        model2StringMap.put(
+                builderTest.exampleE1,
+                "HASH GROUP");
+
+        model2StringMap.put(
+                builderTest.exampleE2,
+                "FAST 10");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "MAXDOP 2");
+
+        model2StringMap.put(
+                builderTest.exampleG1,
+                "TABLE HINT(e, INDEX (IX_Employee_ManagerID))");
+
+        model2StringMap.put(
+                builderTest.exampleG2,
+                "TABLE HINT(e, INDEX(PK_Employee_EmployeeID, IX_Employee_ManagerID))");
+
+        model2StringMap.put(
+                builderTest.exampleH,
+                "TABLE HINT( HumanResources.Employee, FORCESEEK)");
+
+        model2StringMap.put(
+                builderTest.exampleI1,
+                "TABLE HINT (e, INDEX( IX_Employee_ManagerID))");
+
+        model2StringMap.put(
+                builderTest.exampleI2,
+                "TABLE HINT (c, FORCESEEK)");
+
+        model2StringMap.put(
+                builderTest.exampleJ,
+                "TABLE HINT(e)");
+
+        model2StringMap.put(
+                builderTest.exampleK1,
+                "TABLE HINT (e, INDEX(IX_Employee_ManagerID), NOLOCK, FORCESEEK)");
+
+        model2StringMap.put(
+                builderTest.exampleK2,
+                "TABLE HINT (e, NOLOCK)");
+
+        model2StringMap.put(
+                builderTest.exampleL1,
+                "RECOMPILE");
+
+        model2StringMap.put(
+                builderTest.exampleL2,
+                "USE HINT ('ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES', 'DISABLE_PARAMETER_SNIFFING')");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintB() throws Exception {
-        QueryHint queryHint = OPTIMIZE_FOR(
-                OPTIMIZE_FOR_Item("city_name",false,"Seattle"),
-                OPTIMIZE_FOR_Item("postal_code",true,null));
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
-    @Test
-    public void testPrintC() throws Exception {
-        QueryHint queryHint = MAXRECURSION(2);
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "MAXRECURSION 2";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintD() throws Exception {
-        QueryHint queryHint = MERGE_UNION();
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "MERGE UNION";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintE1() throws Exception {
-        QueryHint queryHint = HASH_GROUP();
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "HASH GROUP";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintE2() throws Exception {
-        QueryHint queryHint = FAST(10);
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "FAST 10";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintF() throws Exception {
-        QueryHint queryHint = MAXDOP(2);
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "MAXDOP 2";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintG1() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "e",
-                INDEX("IX_Employee_ManagerID"));
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ", "")
-                .replace("\n", "");
-
-        //TODO make sure INDEX '=' omitted
-        String ok = "TABLE HINT(e, INDEX = (IX_Employee_ManagerID))";
-        ok = ok.replaceAll(" ", "");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintG2() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "e",
-                INDEX("PK_Employee_EmployeeID","IX_Employee_ManagerID"));
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "TABLE HINT(e, INDEX(PK_Employee_EmployeeID, IX_Employee_ManagerID))";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintH() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "HumanResources.Employee",
-                FORCESEEK());
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "TABLE HINT( HumanResources.Employee, FORCESEEK)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintI1() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "e",
-                INDEX("IX_Employee_ManagerID"));
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "TABLE HINT (e, INDEX = ( IX_Employee_ManagerID))";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintI2() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "c",
-                FORCESEEK());
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "TABLE HINT (c, FORCESEEK)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintJ() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "e");
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "TABLE HINT(e)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintK1() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "e",
-                INDEX("IX_Employee_ManagerID"),
-                NOLOCK(),
-                FORCESEEK());
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "TABLE HINT (e, INDEX = (IX_Employee_ManagerID), NOLOCK, FORCESEEK)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintK2() throws Exception {
-        QueryHint queryHint = TABLE_HINT(
-                "e",
-                NOLOCK());
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "TABLE HINT (e, NOLOCK)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintL1() throws Exception {
-        QueryHint queryHint = RECOMPILE();
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "RECOMPILE";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintL2() throws Exception {
-        QueryHint queryHint = USE_HINT("ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES", "DISABLE_PARAMETER_SNIFFING");
-
-        StringWriter writer = ReferenceBlockPrinter.print(queryHint);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "USE HINT ('ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES', 'DISABLE_PARAMETER_SNIFFING')";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
 }

@@ -2,16 +2,15 @@ package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.tsql.core.clause.hint.TableHintBuilderTest;
+import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.MERGE_JOIN;
-import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESCAN;
-import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESEEK;
-import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.TABLOCK;
-import static org.junit.Assert.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -56,47 +55,50 @@ public class TableHintConverterTest {
                         "}");
     }
 
+    private Map<TableHint,String> model2StringMap;
 
-    @Test
-    public void testPrintA() throws Exception {
-        StringWriter writer = ReferenceBlockPrinter.print(TABLOCK());
+    @Before
+    public void init(){
+        TableHintBuilderTest builderTest = new TableHintBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
-        String ok = "TABLOCK";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
+        model2StringMap.put(
+                builderTest.exampleA,
+                "TABLOCK");
+
+        model2StringMap.put(
+                builderTest.exampleB1,
+                "FORCESEEK");
+
+        model2StringMap.put(
+                builderTest.exampleB2,
+                "FORCESEEK (PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID (SalesOrderID))");
+
+        model2StringMap.put(
+                builderTest.exampleC,
+                "FORCESCAN");
+
     }
 
-
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintB1() throws Exception {
-        StringWriter writer = ReferenceBlockPrinter.print(FORCESEEK());
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        String ok = "FORCESEEK";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
-
-    @Test
-    public void testPrintB2() throws Exception {
-        StringWriter writer = ReferenceBlockPrinter.print(FORCESEEK("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID","SalesOrderID"));
-
-        String ok = "FORCESEEK (PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID (SalesOrderID))";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
-    }
-
-
-    @Test
-    public void testPrintC() throws Exception {
-        StringWriter writer = ReferenceBlockPrinter.print(FORCESCAN());
-
-        String ok = "FORCESCAN";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
-    }
 }

@@ -2,16 +2,16 @@ package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.clause.FromBuilderTest;
-import com.xy.xsql.tsql.core.clause.hint.JoinHintBuilderTest;
-import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.HASH;
+import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -31,13 +31,44 @@ public class JoinHintConverterTest {
                         "{ LOOP | HASH | MERGE | REMOTE }");
     }
 
+    private Map<JoinHint,String> model2StringMap;
 
+    @Before
+    public void init(){
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                HASH(),
+                "HASH");
+
+        model2StringMap.put(
+                LOOP(),
+                "LOOP");
+
+        model2StringMap.put(
+                MERGE(),
+                "MERGE");
+
+    }
+
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        StringWriter writer = ReferenceBlockPrinter.print(HASH());
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        String ok = "HASH";
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 }

@@ -12,20 +12,27 @@ import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.*;
  */
 public class TableHintBuilderTest {
 
+    // @formatter:off
+    public TableHint exampleA = TABLOCK();
+    // @formatter:on
+
     /**
      * WITH (TABLOCK)
      */
     @Test
     public void testExampleA() {
-        new TableHintBuilder()
+        TableHint queryHint = new TableHintBuilder<Void>()
                 .withType(TableHint.Type.TABLOCK)
                 .build();
-
-        TableHint queryHint = TABLOCK();
 
         Assert.assertEquals(queryHint.getType(),TableHint.Type.TABLOCK);
     }
 
+
+    // @formatter:off
+    public TableHint exampleB1 = FORCESEEK();
+    public TableHint exampleB2 = FORCESEEK("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID","SalesOrderID");
+    // @formatter:on
 
     /**
      * WITH (FORCESEEK)
@@ -33,23 +40,23 @@ public class TableHintBuilderTest {
      */
     @Test
     public void testExampleB() {
-        TableHint queryHint = FORCESEEK();
-        TableHint queryHint2 = FORCESEEK("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID","SalesOrderID");
-
-        Assert.assertEquals(queryHint.getType(),TableHint.Type.FORCESEEK);
-        Assert.assertEquals(queryHint2.getType(),TableHint.Type.FORCESEEK);
-        Assert.assertEquals(queryHint2.getIndex_value().get(0).toString(),"PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID");
-        Assert.assertEquals(queryHint2.getIndex_column_name().get(0).toString(),"SalesOrderID");
+        Assert.assertEquals(exampleB1.getType(),TableHint.Type.FORCESEEK);
+        Assert.assertEquals(exampleB2.getType(),TableHint.Type.FORCESEEK);
+        Assert.assertEquals(exampleB2.getIndex_value().get(0).toString(),"PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID");
+        Assert.assertEquals(exampleB2.getIndex_column_name().get(0).toString(),"SalesOrderID");
     }
+
+
+    // @formatter:off
+    public TableHint exampleC = FORCESCAN();
+    // @formatter:on
 
     /**
      * WITH (FORCESCAN)
      */
     @Test
     public void testExampleC() {
-        TableHint queryHint = FORCESCAN();
-
-        Assert.assertEquals(queryHint.getType(),TableHint.Type.FORCESCAN);
+        Assert.assertEquals(exampleC.getType(),TableHint.Type.FORCESCAN);
     }
 
 }
