@@ -6,6 +6,7 @@ import com.xy.xsql.tsql.model.datatype.StringConstant;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -57,6 +58,14 @@ public class TableHintBuilder<ParentBuilder>
 
 
 
+    /**
+     * Quick in
+     * @return
+     */
+    public static TableHintIndexBuilder<Void> INDEX(){
+        return new TableHintIndexBuilder<>();
+    }
+
 
     /*
     Quick build
@@ -73,6 +82,10 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
+     * By default an element will NOT enable ONE index_value mode(increase equal(=) symbol),
+     * If you want to enable ONE index_value mode(add equal symbol(=)), you can pass a 'null' parameter at position 2
+     * like this {@code INDEX('IX_Employee_ManagerID',null)}
+     * Or use {@link #INDEX} like this {@code INDEX().$EQUAL('IX_Employee_ManagerID')}
      * @return
      */
     public static TableHint INDEX(String... indexValues){
@@ -80,8 +93,15 @@ public class TableHintBuilder<ParentBuilder>
         tableHint.setType(TableHint.Type.INDEX);
         tableHint.setIndex_value(
                 Arrays.stream(indexValues)
+                        .filter(Objects::nonNull)
                         .map(StringConstant::new)
                         .collect(Collectors.toList()));
+        if(tableHint.getIndex_value().size() == 1){
+            if(indexValues.length != 1){
+                tableHint.setUseOneIndexValue(true);
+            }
+        }
+
         return tableHint;
     }
 
@@ -290,6 +310,47 @@ public class TableHintBuilder<ParentBuilder>
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.XLOCK);
         return tableHint;
+    }
+
+
+
+    public static class TableHintIndexBuilder<ParentBuilder>
+            extends CodeTreeBuilder<TableHintIndexBuilder<ParentBuilder>,ParentBuilder,TableHint> {
+
+        public TableHintIndexBuilder() {
+            super(new TableHint());
+            target.setType(TableHint.Type.INDEX);
+        }
+
+        public TableHintIndexBuilder(TableHint tableHint) {
+            super(tableHint);
+            target.setType(TableHint.Type.INDEX);
+        }
+
+        public TableHintIndexBuilder<ParentBuilder> withIndex_value(String... indexValues){
+            target.setIndex_value(
+                    Arrays.stream(indexValues)
+                            .filter(Objects::nonNull)
+                            .map(StringConstant::new)
+                            .collect(Collectors.toList()));
+            return this;
+        }
+
+        public TableHintIndexBuilder<ParentBuilder> withUseOneIndexValue(){
+            target.setUseOneIndexValue(true);
+            return this;
+        }
+
+        public TableHintIndexBuilder<ParentBuilder> $EQUAL(String indexValue){
+            return withUseOneIndexValue()
+                    .withIndex_value(indexValue);
+        }
+
+        public TableHint $(String... indexValues){
+            return withIndex_value(indexValues)
+                    .build();
+        }
+
     }
 
 }

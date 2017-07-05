@@ -26,7 +26,7 @@ public class TableHintConverter
                         .required()
                         .czse(d ->
                                 TableHint.Type.INDEX.equals(d.getType()) &&
-                                d.getIndex_value().size() > 1
+                                !d.isUseOneIndexValue()
                         )
                             .description("INDEX ( index_value [ ,...n ] )")
                             .sub_keyword(Keywords.INDEX)
@@ -43,7 +43,7 @@ public class TableHintConverter
                             .and()
                         .czse(d ->
                                 TableHint.Type.INDEX.equals(d.getType()) &&
-                                        d.getIndex_value().size() == 1
+                                d.isUseOneIndexValue()
                         )
                             .sub_keyword(Keywords.INDEX)
                             .sub_keyword(Assignment.ASSIGNMENT)
