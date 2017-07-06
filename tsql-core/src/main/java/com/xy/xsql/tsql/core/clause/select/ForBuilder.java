@@ -1,10 +1,13 @@
 package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.lambda.Configurator;
 import com.xy.xsql.tsql.model.clause.select.For;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
+
+import java.util.Arrays;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
 
 /**
  * ForBuilder
@@ -45,37 +48,31 @@ public class ForBuilder<ParentBuilder>
 
 
     /**
-     * JsonBuilder
-     * @param <ParentBuilder>
+     * Quick set
+     * @return
      */
-    public class JsonBuilder<ParentBuilder>
-            extends CodeTreeBuilder<JsonBuilder<ParentBuilder>,ParentBuilder,For.Json> {
-
-        public JsonBuilder(For.Json tar) {
-            super(tar);
-        }
-        public JsonBuilder<ParentBuilder> withPath(){
-            target.setUsePath(true);
-            return this;
-        }
-
-        public JsonBuilder<ParentBuilder> withRoot(String rootName){
-            target.setUseRoot(true);
-            target.setRootName(rootName);
-            return this;
-        }
-
-        public JsonBuilder<ParentBuilder> withIncludeNullValue(){
-            target.setUseIncludeNullValue(true);
-            return this;
-        }
-
-        public JsonBuilder<ParentBuilder> withWithoutArrayWrapper(){
-            target.setUseWithoutArrayWrapper(true);
-            return this;
-        }
-
+    public ForBuilder<ParentBuilder> $BROWSE(){
+        return withBrowse();
     }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public ForBuilder<ParentBuilder> $XML(XmlConfigurator... items){
+        return withXml().$(items).and();
+    }
+
+    /**
+     * Quick set
+     * @return
+     */
+    public ForBuilder<ParentBuilder> $JSON(JsonConfigurator... items){
+        return withJson().$(items).and();
+    }
+
+
+
 
     /**
      * XmlBuilder
@@ -88,11 +85,6 @@ public class ForBuilder<ParentBuilder>
             super(tar);
         }
 
-        public XmlBuilder<ParentBuilder> withAuto(){
-            target.setUseAuto(true);
-            return this;
-        }
-
         public XmlBuilder<ParentBuilder> withRaw(){
             target.setUseRaw(true);
             return this;
@@ -100,7 +92,14 @@ public class ForBuilder<ParentBuilder>
 
         public XmlBuilder<ParentBuilder> withRaw(String elementName){
             target.setUseRaw(true);
-            target.setElementName(e_string(elementName));
+            if(elementName != null){
+                target.setRootName(new StringConstant(elementName).withQuote());
+            }
+            return this;
+        }
+
+        public XmlBuilder<ParentBuilder> withAuto(){
+            target.setUseAuto(true);
             return this;
         }
 
@@ -116,7 +115,9 @@ public class ForBuilder<ParentBuilder>
 
         public XmlBuilder<ParentBuilder> withPath(String elementName){
             target.setUsePath(true);
-            target.setElementName(e_string(elementName));
+            if(elementName != null){
+                target.setRootName(new StringConstant(elementName).withQuote());
+            }
             return this;
         }
 
@@ -132,10 +133,11 @@ public class ForBuilder<ParentBuilder>
 
         public XmlBuilder<ParentBuilder> withXmlSchema(String targetNameSpaceURI){
             target.setUseXmlSchema(true);
-            target.setTargetNameSpaceURI(targetNameSpaceURI);
+            if(targetNameSpaceURI != null){
+                target.setRootName(new StringConstant(targetNameSpaceURI).withQuote());
+            }
             return this;
         }
-
 
         public XmlBuilder<ParentBuilder> withElementsAbsent(){
             target.setUseElementsAbsent(true);
@@ -164,11 +166,197 @@ public class ForBuilder<ParentBuilder>
 
         public XmlBuilder<ParentBuilder> withRoot(String rootName){
             target.setUseRoot(true);
-            target.setRootName(e_string(rootName));
+            if(rootName != null){
+                target.setRootName(new StringConstant(rootName).withQuote());
+            }
+            return this;
+        }
+
+
+        /**
+         * Quick config
+         * @param items
+         * @return
+         */
+        public XmlBuilder<ParentBuilder> $(XmlConfigurator... items){
+            Arrays.stream(items)
+                    .forEach(item -> item.config(target));
             return this;
         }
 
     }
 
+    /**
+     * JsonBuilder
+     * @param <ParentBuilder>
+     */
+    public class JsonBuilder<ParentBuilder>
+            extends CodeTreeBuilder<JsonBuilder<ParentBuilder>,ParentBuilder,For.Json> {
+
+        public JsonBuilder(For.Json tar) {
+            super(tar);
+        }
+
+        public JsonBuilder<ParentBuilder> withPath(){
+            target.setUsePath(true);
+            return this;
+        }
+
+        public JsonBuilder<ParentBuilder> withRoot(String rootName){
+            target.setUseRoot(true);
+            if(rootName != null){
+                target.setRootName(new StringConstant(rootName).withQuote());
+            }
+            return this;
+        }
+
+        public JsonBuilder<ParentBuilder> withIncludeNullValue(){
+            target.setUseIncludeNullValue(true);
+            return this;
+        }
+
+        public JsonBuilder<ParentBuilder> withWithoutArrayWrapper(){
+            target.setUseWithoutArrayWrapper(true);
+            return this;
+        }
+
+
+        /**
+         * Quick config
+         * @param items
+         * @return
+         */
+        public JsonBuilder<ParentBuilder> $(JsonConfigurator... items){
+            Arrays.stream(items)
+                    .forEach(item -> item.config(target));
+            return this;
+        }
+
+    }
+
+
+    /**
+     * Quick config
+     */
+    public interface XmlConfigurator
+            extends Configurator<For.Xml> {
+
+        static XmlConfigurator RAW(){
+            return xml -> xml.setUseRaw(true);
+        }
+
+        static XmlConfigurator RAW(String elementName){
+            return xml -> {
+                xml.setUseRaw(true);
+                if(elementName != null){
+                    xml.setElementName(new StringConstant(elementName).withQuote());
+                }
+            };
+        }
+
+        static XmlConfigurator AUTO(){
+            return xml -> xml.setUseAuto(true);
+        }
+
+        static XmlConfigurator EXPLICIT(){
+            return xml -> xml.setUseExplicit(true);
+        }
+
+        static XmlConfigurator PATH(){
+            return xml -> xml.setUsePath(true);
+        }
+
+        static XmlConfigurator PATH(String elementName){
+            return xml -> {
+                xml.setUsePath(true);
+                if(elementName != null){
+                    xml.setElementName(new StringConstant(elementName).withQuote());
+                }
+            };
+        }
+
+        static XmlConfigurator XMLDATA(){
+            return xml -> xml.setUseXmlData(true);
+        }
+
+        static XmlConfigurator XMLSCHEMA(){
+            return xml -> xml.setUseXmlSchema(true);
+        }
+
+        static XmlConfigurator XMLSCHEMA(String targetNameSpaceURI){
+            return xml -> {
+                xml.setUseXmlSchema(true);
+                if(targetNameSpaceURI != null){
+                    xml.setRootName(new StringConstant(targetNameSpaceURI).withQuote());
+                }
+            };
+        }
+
+        static XmlConfigurator ELEMENTS_XSINIL(){
+            return xml -> xml.setUseElementsXsinil(true);
+        }
+
+        static XmlConfigurator ELEMENTS_ABSENT(){
+            return xml -> xml.setUseElementsAbsent(true);
+        }
+
+        static XmlConfigurator BINARY_BASE64(){
+            return xml -> xml.setUseBinaryBase64(true);
+        }
+
+        static XmlConfigurator TYPE(){
+            return xml -> xml.setUseType(true);
+        }
+
+        static XmlConfigurator ROOT(){
+            return xml -> xml.setUseRoot(true);
+        }
+
+        static XmlConfigurator ROOT(String rootName){
+            return xml -> {
+                xml.setUseRoot(true);
+                if(rootName != null){
+                    xml.setRootName(new StringConstant(rootName).withQuote());
+                }
+            };
+        }
+    }
+
+    /**
+     * Quick config
+     */
+    public interface JsonConfigurator
+            extends Configurator<For.Json> {
+
+        static JsonConfigurator AUTO(){
+            return json -> json.setUsePath(false);
+        }
+
+        static JsonConfigurator PATH(){
+            return json -> json.setUsePath(true);
+        }
+
+        static XmlConfigurator ROOT(){
+            return json -> json.setUseRoot(true);
+        }
+
+        static JsonConfigurator ROOT(String rootName){
+            return json -> {
+                json.setUseRoot(true);
+                if(rootName != null){
+                    json.setRootName(new StringConstant(rootName).withQuote());
+                }
+            };
+        }
+
+        static JsonConfigurator INCLUDE_NULL_VALUES(){
+            return json -> json.setUseIncludeNullValue(true);
+        }
+
+        static JsonConfigurator WITHOUT_ARRAY_WRAPPER(){
+            return json -> json.setUseWithoutArrayWrapper(true);
+        }
+
+    }
 
 }

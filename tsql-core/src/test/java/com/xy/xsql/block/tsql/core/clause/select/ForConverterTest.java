@@ -3,11 +3,15 @@ package com.xy.xsql.block.tsql.core.clause.select;
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.core.clause.select.ForBuilder;
+import com.xy.xsql.tsql.core.clause.select.ForBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.For;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESCAN;
 
@@ -96,27 +100,38 @@ public class ForConverterTest {
     }
 
 
+    private Map<For,String> model2StringMap;
+
+    @Before
+    public void init(){
+        ForBuilderTest builderTest = new ForBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleXML,
+                "FOR XML AUTO, TYPE, XMLSCHEMA, ELEMENTS XSINIL");
+
+    }
+
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintForXMLExample() throws Exception {
-        For for1 = new ForBuilder<Void>()
-                .withXml()
-                    .withAuto()
-                    .withType()
-                    .withXmlSchema()
-                    .withElementsXsinil()
-                    .and()
-                .build();
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(for1);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "FOR XML AUTO, TYPE, XMLSCHEMA, ELEMENTS XSINIL";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
 }

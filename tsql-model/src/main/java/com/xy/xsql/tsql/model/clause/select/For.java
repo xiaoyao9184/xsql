@@ -97,7 +97,7 @@ public class For implements Clause {
         private boolean useXmlData;
         //[ , { XMLDATA | XMLSCHEMA [ ( 'TargetNameSpaceURI' ) ] } ]
         private boolean useXmlSchema;
-        private String targetNameSpaceURI;
+        private StringConstant targetNameSpaceURI;
 
         //[ , ELEMENTS [ XSINIL | ABSENT ] ]
         private boolean useElementsXsinil;
@@ -159,11 +159,11 @@ public class For implements Clause {
             this.useXmlSchema = useXmlSchema;
         }
 
-        public String getTargetNameSpaceURI() {
+        public StringConstant getTargetNameSpaceURI() {
             return targetNameSpaceURI;
         }
 
-        public void setTargetNameSpaceURI(String targetNameSpaceURI) {
+        public void setTargetNameSpaceURI(StringConstant targetNameSpaceURI) {
             this.targetNameSpaceURI = targetNameSpaceURI;
         }
 
@@ -245,7 +245,7 @@ public class For implements Clause {
 
         //[ , ROOT [ ( 'RootName' ) ] ]
         private boolean useRoot;
-        private String rootName;
+        private StringConstant rootName;
 
         //[ , INCLUDE_NULL_VALUES ]
         private boolean useIncludeNullValue;
@@ -270,11 +270,11 @@ public class For implements Clause {
             this.useRoot = useRoot;
         }
 
-        public String getRootName() {
+        public StringConstant getRootName() {
             return rootName;
         }
 
-        public void setRootName(String rootName) {
+        public void setRootName(StringConstant rootName) {
             this.rootName = rootName;
         }
 
