@@ -89,7 +89,7 @@ to be evaluated
 | HAVING | ALL |
 | INTO | YES, but model not use |
 | ORDER BY | NOT COLLATE collation_name |
-| OVER | NOT <ROW or RANGE clause> |
+| OVER | ALL |
 
 
 | Other | Support |
@@ -128,7 +128,7 @@ to be evaluated
 | scalar_function  |  |
 | [ table_name. ] column | NOT table_name alias |
 | variable | YES |
-| ( expression ) | |
+| ( expression ) | YES |
 | ( scalar_subquery ) | SELECT |
 | { unary_operator } expression |
 | expression { binary_operator } expression | YES |
