@@ -92,7 +92,6 @@ public class GroupByConverter
         }
     }
 
-
     public static class RollupItemConverter
             implements ReferenceBlockConverter<GroupBy.RollupItem> {
 
@@ -123,7 +122,6 @@ public class GroupByConverter
         }
     }
 
-
     public static class CubeItemConverter
             implements ReferenceBlockConverter<GroupBy.CubeItem> {
 
@@ -153,7 +151,6 @@ public class GroupByConverter
                     .build();
         }
     }
-
 
     public static class GroupingSetsItemConverter
             implements ReferenceBlockConverter<GroupBy.GroupingSetsItem> {
@@ -186,7 +183,6 @@ public class GroupByConverter
         }
     }
 
-
     public static class TotalItemConverter
             implements ReferenceBlockConverter<GroupBy.TotalItem> {
 
@@ -208,6 +204,37 @@ public class GroupByConverter
         }
     }
 
+    public static class ColumnNameItemConverter
+            implements ReferenceBlockConverter<GroupBy.ColumnNameItem> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,GroupBy.ColumnNameItem> builder =
+                new ReferenceBlockBuilder<Void,GroupBy.ColumnNameItem>()
+                        .sub("column-name")
+                            .data(GroupBy.ColumnNameItem::getColumnName)
+                            .and()
+                        .sub()
+                            .description("with DISTRIBUTED_AGG")
+                            .optional(d -> !d.isUseWithDISTRIBUTED_AGG())
+                            .sub_keyword(Keywords.WITH)
+                            .sub_keyword(Other.GROUP_START)
+                            .sub_keyword(Keywords.Key.DISTRIBUTED_AGG)
+                            .sub_keyword(Other.GROUP_END)
+                            .and();
+
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(GroupBy.ColumnNameItem item) {
+            return builder
+                    .data(item)
+                    .build();
+        }
+    }
 
     public static class GroupByExpressionConverter
             implements ReferenceBlockConverter<GroupBy.GroupByExpression> {

@@ -2,12 +2,14 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
+import com.xy.xsql.tsql.core.expression.BinaryExpressions;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -165,8 +167,17 @@ public class GroupByBuilderTest {
     }
 
 
+    /*
+    Examples
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-group-by-transact-sql#examples
+     */
+
+
     // @formatter:off
     //parent+quick
+    /**
+     * GROUP BY SalesOrderID
+     */
     public GroupBy exampleA = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
                 (GroupByBuilder.class,GroupBy.class)
                 .$child()
@@ -175,9 +186,6 @@ public class GroupByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * GROUP BY SalesOrderID
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -195,8 +203,12 @@ public class GroupByBuilderTest {
         Assert.assertEquals(item.getExpression().toString(),"SalesOrderID");
     }
 
+
     // @formatter:off
     //parent+quick
+    /**
+     * GROUP BY a.City
+     */
     public GroupBy exampleB = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
                 (GroupByBuilder.class,GroupBy.class)
                 .$child()
@@ -205,9 +217,6 @@ public class GroupByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * GROUP BY a.City
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -225,8 +234,12 @@ public class GroupByBuilderTest {
         Assert.assertEquals(item.getExpression().toString(),"a.City");
     }
 
+
     // @formatter:off
     //parent+quick
+    /**
+     * GROUP BY DATEPART(yyyy,OrderDate)
+     */
     public GroupBy exampleC = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
                 (GroupByBuilder.class,GroupBy.class)
                 .$child()
@@ -235,9 +248,6 @@ public class GroupByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * GROUP BY DATEPART(yyyy,OrderDate)
-     */
     @SuppressWarnings("Duplicates")
     @Test
     public void testExampleC(){
@@ -256,9 +266,20 @@ public class GroupByBuilderTest {
         Assert.assertEquals(item.getExpression().toString(),"DATEPART(yyyy,OrderDate)");
     }
 
+
+    // @formatter:off
+    //parent+quick
     /**
      * GROUP BY DATEPART(yyyy,OrderDate)
      */
+    public GroupBy exampleD = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(e("DATEPART(yyyy,OrderDate)"))
+                    .and()
+                .get();
+    // @formatter:on
+
     @SuppressWarnings("Duplicates")
     @Test
     public void testExampleD(){
@@ -268,13 +289,6 @@ public class GroupByBuilderTest {
                     .withColumnExpression(e("DATEPART(yyyy,OrderDate)"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<GroupBy> parent = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
-                (GroupByBuilder.class,GroupBy.class)
-                .$child()
-                    .$(e("DATEPART(yyyy,OrderDate)"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(groupBy.getItems().size(),1);
@@ -283,5 +297,40 @@ public class GroupByBuilderTest {
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
         Assert.assertEquals(item.getExpression().toString(),"DATEPART(yyyy,OrderDate)");
     }
+
+
+    /*
+    Examples: SQL Data Warehouse and Parallel Data Warehouse
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-group-by-transact-sql#examples-sql-data-warehouse-and-parallel-data-warehouse
+     */
+
+    // @formatter:off
+    /**
+     * GROUP BY CustomerKey WITH (DISTRIBUTED_AGG)
+     */
+    public GroupBy exampleF = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("CustomerKey"),true)
+                    .and()
+                .get();
+    // @formatter:on
+
+
+    /**
+     * GROUP BY SalesAmount, SalesAmount*1.10
+     */
+    // @formatter:off
+    public GroupBy exampleG5 = new MockParentBuilder<GroupByBuilder<MockParent<GroupBy>>,GroupBy>
+                (GroupByBuilder.class,GroupBy.class)
+                .$child()
+                    .$(c("SalesAmount"))
+                    .$(BinaryExpressions.e_multiplication(
+                            c("SalesAmount"),
+                            e_number(1.10)
+                    ))
+                    .and()
+                .get();
+    // @formatter:on
 
 }

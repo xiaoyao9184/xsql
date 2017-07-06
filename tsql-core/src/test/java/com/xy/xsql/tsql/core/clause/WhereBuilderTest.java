@@ -21,9 +21,16 @@ import static com.xy.xsql.tsql.core.predicate.Predicates.*;
  */
 public class WhereBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/where-transact-sql#examples
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE Name = 'Blade'
+     */
     public Where exampleA = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -37,9 +44,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE Name = 'Blade' ;
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -63,6 +67,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE Name LIKE ('%Frame%')
+     */
     public Where exampleB = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -76,9 +83,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE Name LIKE ('%Frame%');
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -101,6 +105,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE ProductID <= 12
+     */
     public Where exampleC = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -113,9 +120,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE ProductID <= 12 ;
-     */
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -139,6 +143,11 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE ProductID = 2
+     OR ProductID = 4
+     OR Name = 'Spokes'
+     */
     public Where exampleD = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -155,11 +164,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE ProductID = 2
-     OR ProductID = 4
-     OR Name = 'Spokes' ;
-     */
     @Test
     public void testExampleD(){
         // @formatter:off
@@ -217,6 +221,11 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE Name LIKE ('%Frame%')
+     AND Name LIKE ('HL%')
+     AND Color = 'Red'
+     */
     public Where exampleE = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -233,11 +242,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE Name LIKE ('%Frame%')
-     AND Name LIKE ('HL%')
-     AND Color = 'Red' ;
-     */
     @Test
     public void testExampleE(){
         // @formatter:off
@@ -291,6 +295,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE Name IN ('Blade', 'Crown Race', 'Spokes')
+     */
     public Where exampleF = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -305,9 +312,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE Name IN ('Blade', 'Crown Race', 'Spokes');
-     */
     @Test
     public void testExampleF(){
         // @formatter:off
@@ -341,6 +345,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE ProductID BETWEEN 725 AND 734
+     */
     public Where exampleG = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -354,9 +361,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE ProductID BETWEEN 725 AND 734;
-     */
     @Test
     public void testExampleG(){
         // @formatter:off
@@ -381,8 +385,16 @@ public class WhereBuilderTest {
     }
 
 
+    /*
+    Examples: Azure SQL Data Warehouse and Parallel Data Warehouse
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/where-transact-sql#examples-includesssdwfullincludessssdwfull-mdmd-and-includesspdwincludessspdw-mdmd
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE LastName = 'Smith'
+     */
     public Where exampleH = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -395,9 +407,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE LastName = 'Smith' ;
-     */
     @Test
     public void testExampleH(){
         // @formatter:off
@@ -424,6 +433,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE LastName LIKE ('%Smi%')
+     */
     public Where exampleI = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -436,9 +448,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE LastName LIKE ('%Smi%');
-     */
     @Test
     public void testExampleI(){
         // @formatter:off
@@ -463,6 +472,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE EmployeeKey  <= 500
+     */
     public Where exampleJ = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -475,9 +487,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE EmployeeKey  <= 500;
-     */
     @Test
     public void testExampleJ(){
         // @formatter:off
@@ -504,6 +513,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE EmployeeKey = 1 OR EmployeeKey = 8 OR EmployeeKey = 12
+     */
     public Where exampleK = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -526,9 +538,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * EmployeeKey = 1 OR EmployeeKey = 8 OR EmployeeKey = 12;
-     */
     @Test
     public void testExampleK(){
         // @formatter:off
@@ -588,6 +597,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE EmployeeKey <= 500 AND LastName LIKE '%Smi%' AND FirstName LIKE '%A%'
+     */
     public Where exampleL = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -610,9 +622,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE EmployeeKey <= 500 AND LastName LIKE '%Smi%' AND FirstName LIKE '%A%';
-     */
     @Test
     public void testExampleL(){
         // @formatter:off
@@ -668,6 +677,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE LastName IN ('Smith', 'Godfrey', 'Johnson')
+     */
     public Where exampleM = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -682,9 +694,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE LastName IN ('Smith', 'Godfrey', 'Johnson');
-     */
     @Test
     public void testExampleM(){
         // @formatter:off
@@ -713,6 +722,9 @@ public class WhereBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * WHERE EmployeeKey Between 100 AND 200
+     */
     public Where exampleN = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
@@ -726,9 +738,6 @@ public class WhereBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE EmployeeKey Between 100 AND 200;
-     */
     @Test
     public void testExampleN(){
         // @formatter:off

@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -28,43 +30,43 @@ public class IntoConverterTest {
                         "INTO new_table [ ON filegroup ]");
     }
 
-    private IntoBuilderTest builderTest;
+
+    private Map<Into,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new IntoBuilderTest();
+        IntoBuilderTest builderTest = new IntoBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "INTO dbo.EmployeeAddresses");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "INTO [dbo].[FactResellerSalesXL] ON FG2");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        Into into = builderTest.exampleA;
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(into);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "INTO dbo.EmployeeAddresses";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintF() throws Exception {
-        Into into = builderTest.exampleF;
-
-        StringWriter writer = ReferenceBlockPrinter.print(into);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "INTO [dbo].[FactResellerSalesXL] ON FG2";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
 }

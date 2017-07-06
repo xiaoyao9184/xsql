@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -50,204 +52,99 @@ public class OrderByConverterTest {
     }
 
 
-
-    private OrderByBuilderTest builderTest;
+    private Map<OrderBy,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new OrderByBuilderTest();
+        OrderByBuilderTest builderTest = new OrderByBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.example1A,
+                "ORDER BY ProductID");
+
+        model2StringMap.put(
+                builderTest.example1D,
+                "ORDER BY DATEPART(year, HireDate)");
+
+        model2StringMap.put(
+                builderTest.example2A,
+                "ORDER BY ProductID DESC");
+
+        model2StringMap.put(
+                builderTest.example2B,
+                "ORDER BY Name ASC");
+
+        model2StringMap.put(
+                builderTest.example2C,
+                "ORDER BY FirstName ASC, LastName DESC");
+
+        model2StringMap.put(
+                builderTest.example2_1,
+                "ORDER BY CASE SalariedFlag WHEN 1 THEN BusinessEntityID END DESC\n" +
+                        "        ,CASE WHEN SalariedFlag = 0 THEN BusinessEntityID END");
+
+        model2StringMap.put(
+                builderTest.example2_2,
+                "ORDER BY CASE CountryRegionName WHEN 'United States' THEN TerritoryName\n" +
+                        "         ELSE CountryRegionName END");
+
+        model2StringMap.put(
+                builderTest.example3A1,
+                "ORDER BY DepartmentID OFFSET 5 ROWS");
+
+        model2StringMap.put(
+                builderTest.example3A2,
+                "ORDER BY DepartmentID\n" +
+                        "     OFFSET 0 ROWS\n" +
+                        "     FETCH NEXT 10 ROWS ONLY");
+
+        model2StringMap.put(
+                builderTest.example3B,
+                "ORDER BY DepartmentID ASC\n" +
+                        "     OFFSET @StartingRowNumber ROWS\n" +
+                        "     FETCH NEXT @FetchRows ROWS ONLY");
+
+        model2StringMap.put(
+                builderTest.example3C,
+                "ORDER BY DepartmentID ASC\n" +
+                        "     OFFSET @StartingRowNumber - 1 ROWS\n" +
+                        "     FETCH NEXT @EndingRowNumber - @StartingRowNumber + 1 ROWS ONLY");
+
+        model2StringMap.put(
+                builderTest.example3D,
+                "ORDER BY DepartmentID ASC\n" +
+                        "     OFFSET @StartingRowNumber ROWS\n" +
+                        "     FETCH NEXT (SELECT PageSize FROM dbo.AppSettings WHERE AppSettingID = 1) ROWS ONLY");
+
+        model2StringMap.put(
+                builderTest.example3E,
+                "ORDER BY DepartmentID ASC\n" +
+                        "     OFFSET @StartingRowNumber - 1 ROWS\n" +
+                        "     FETCH NEXT @RowCountPerPage ROWS ONLY");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrint1A() throws Exception {
-        OrderBy orderBy = builderTest.example1A;
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY ProductID";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
-    @Test
-    public void testPrint1D() throws Exception {
-        OrderBy orderBy = builderTest.example1D;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY DATEPART(year, HireDate)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint2A() throws Exception {
-        OrderBy orderBy = builderTest.example2A;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY ProductID DESC";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint2B() throws Exception {
-        OrderBy orderBy = builderTest.example2B;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY Name ASC";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint2C() throws Exception {
-        OrderBy orderBy = builderTest.example2C;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY FirstName ASC, LastName DESC";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint2A1() throws Exception {
-        OrderBy orderBy = builderTest.example3A1;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY DepartmentID OFFSET 5 ROWS";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint2A2() throws Exception {
-        OrderBy orderBy = builderTest.example3A2;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY DepartmentID\n" +
-                "     OFFSET 0 ROWS\n" +
-                "     FETCH NEXT 10 ROWS ONLY";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint3B() throws Exception {
-        OrderBy orderBy = builderTest.example3B;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY DepartmentID ASC\n" +
-                "     OFFSET @StartingRowNumber ROWS\n" +
-                "     FETCH NEXT @FetchRows ROWS ONLY";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint3C() throws Exception {
-        OrderBy orderBy = builderTest.example3C;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY DepartmentID ASC\n" +
-                "     OFFSET @StartingRowNumber - 1 ROWS\n" +
-                "     FETCH NEXT @EndingRowNumber - @StartingRowNumber + 1 ROWS ONLY";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint3D() throws Exception {
-        //TODO same type GroupExpression
-        OrderBy orderBy = builderTest.example3D;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY DepartmentID ASC\n" +
-                "     OFFSET @StartingRowNumber ROWS\n" +
-                "     FETCH NEXT (SELECT PageSize FROM dbo.AppSettings WHERE AppSettingID = 1) ROWS ONLY";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrint3E() throws Exception {
-        OrderBy orderBy = builderTest.example3E;
-
-        StringWriter writer = ReferenceBlockPrinter.print(orderBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "ORDER BY DepartmentID ASC\n" +
-                "     OFFSET @StartingRowNumber - 1 ROWS\n" +
-                "     FETCH NEXT @RowCountPerPage ROWS ONLY";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
 
 }

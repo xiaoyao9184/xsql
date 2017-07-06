@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import com.xy.xsql.tsql.model.expression.Expression;
@@ -41,6 +42,14 @@ public class OverBuilder<ParentBuilder>
                 (initSet(Over.OrderBy::new,
                         target::getOrderBy,
                         target::setOrderBy))
+                .in(this);
+    }
+
+    public RowRangeBuilder<OverBuilder<ParentBuilder>> withRowRange(){
+        return new RowRangeBuilder<OverBuilder<ParentBuilder>>
+                (initSet(Over.RowRange::new,
+                        target::getRowRange,
+                        target::setRowRange))
                 .in(this);
     }
 
@@ -97,7 +106,13 @@ public class OverBuilder<ParentBuilder>
                 .and();
     }
 
+    public RowRangeBuilder<OverBuilder<ParentBuilder>> $Rows() {
+        return withRowRange().withRows();
+    }
 
+    public RowRangeBuilder<OverBuilder<ParentBuilder>> $Range() {
+        return withRowRange().withRange();
+    }
 
 
     /**
@@ -148,6 +163,274 @@ public class OverBuilder<ParentBuilder>
             initAdd(Arrays.asList(orderByItems),
                             target::getItems,
                             target::setItems);
+            return this;
+        }
+    }
+
+    /**
+     * RowRangeBuilder
+     * @param <ParentBuilder>
+     */
+    public static class RowRangeBuilder<ParentBuilder>
+            extends CodeTreeBuilder<RowRangeBuilder<ParentBuilder>,ParentBuilder,Over.RowRange> {
+
+        public RowRangeBuilder(Over.RowRange rowRange) {
+            super(rowRange);
+        }
+
+        public RowRangeBuilder<ParentBuilder> withRows(){
+            target.setUseRows(true);
+            return this;
+        }
+
+        public RowRangeBuilder<ParentBuilder> withRange(){
+            target.setUseRows(false);
+            return this;
+        }
+
+        public WindowFrameExtentBuilder<RowRangeBuilder<ParentBuilder>> withWindowFrameExtent(){
+            return new WindowFrameExtentBuilder<RowRangeBuilder<ParentBuilder>>
+                    (target::setWindowFrameExtent)
+                    .in(this);
+        }
+
+        /**
+         * Quick set Preceding WindowFrameExtent
+         * @return
+         */
+        public ParentBuilder $UnboundedPreceding() {
+            return withWindowFrameExtent()
+                    ._Preceding()
+                    .withUnbounded()
+                    .and()
+                    .and();
+        }
+
+        /**
+         * Quick set Preceding WindowFrameExtent
+         * @return
+         */
+        public ParentBuilder $Preceding(Integer unsignedValueSpecification) {
+            return withWindowFrameExtent()
+                    ._Preceding()
+                    .withUnsignedValueSpecification(unsignedValueSpecification)
+                    .and()
+                    .and();
+        }
+
+        /**
+         * Quick set Preceding WindowFrameExtent
+         * @return
+         */
+        public ParentBuilder $CurrentRow() {
+            return withWindowFrameExtent()
+                    ._Preceding()
+                    .withCurrent()
+                    .and()
+                    .and();
+        }
+
+
+        /**
+         * Quick set Between WindowFrameExtent
+         * @return
+         */
+        public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<RowRangeBuilder<ParentBuilder>>> $Between() {
+            return withWindowFrameExtent()
+                    ._Between()
+                    .withBetweenBound();
+        }
+    }
+
+    /**
+     * WindowFrameExtentBuilder
+     * @param <ParentBuilder>
+     */
+    public static class WindowFrameExtentBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WindowFrameExtentBuilder<ParentBuilder>, ParentBuilder, Setter<Over.WindowFrameExtent>> {
+
+        public WindowFrameExtentBuilder(Setter<Over.WindowFrameExtent> setter) {
+            super(setter);
+        }
+
+        /**
+         * Confirm type of WindowFrameExtent
+         * @return
+         */
+        public WindowFramePrecedingBuilder<ParentBuilder> _Preceding() {
+            Over.WindowFramePreceding preceding = new Over.WindowFramePreceding();
+            target.set(preceding);
+            return new WindowFramePrecedingBuilder<ParentBuilder>
+                    (preceding)
+                    .in(out());
+        }
+
+        /**
+         * Confirm type of WindowFrameExtent
+         * @return
+         */
+        public WindowFrameBetweenBuilder<ParentBuilder> _Between() {
+            Over.WindowFrameBetween between = new Over.WindowFrameBetween();
+            target.set(between);
+            return new WindowFrameBetweenBuilder<ParentBuilder>
+                    (between)
+                    .in(out());
+        }
+    }
+
+    /**
+     * WindowFrameBetweenBuilder
+     * @param <ParentBuilder>
+     */
+    public static class WindowFrameBetweenBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WindowFrameBetweenBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameBetween> {
+
+        public WindowFrameBetweenBuilder(Over.WindowFrameBetween windowFrameBetween) {
+            super(windowFrameBetween);
+        }
+
+        public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>> withBetweenBound(){
+            return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>
+                    (target::setBetweenBound)
+                    .in(this);
+        }
+
+        public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>> withAndBound(){
+            return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>
+                    (target::setAndBound)
+                    .in(this);
+        }
+
+
+        /**
+         * Quick set
+         * @return
+         */
+        public WindowFrameBoundBuilder<ParentBuilder> $And(){
+            return new WindowFrameBoundBuilder<ParentBuilder>
+                    (target::setAndBound)
+                    .in(this.and());
+        }
+
+    }
+
+    /**
+     * WindowFrameBoundBuilder
+     * @param <ParentBuilder>
+     */
+    public static class WindowFrameBoundBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WindowFrameBoundBuilder<ParentBuilder>, ParentBuilder, Setter<Over.WindowFrameBound>> {
+
+        public WindowFrameBoundBuilder(Setter<Over.WindowFrameBound> setter) {
+            super(setter);
+        }
+
+        /**
+         * Confirm type of WindowFrameBound
+         * @return
+         */
+        public WindowFramePrecedingBuilder<ParentBuilder> _Preceding() {
+            Over.WindowFramePreceding preceding = new Over.WindowFramePreceding();
+            target.set(preceding);
+            return new WindowFramePrecedingBuilder<ParentBuilder>
+                    (preceding)
+                    .in(out());
+        }
+
+        /**
+         * Confirm type of WindowFrameBound
+         * @return
+         */
+        public WindowFrameFollowingBuilder<ParentBuilder> _Following() {
+            Over.WindowFrameFollowing following = new Over.WindowFrameFollowing();
+            target.set(following);
+            return new WindowFrameFollowingBuilder<ParentBuilder>
+                    (following)
+                    .in(out());
+        }
+
+        public ParentBuilder $CurrentRow() {
+            return _Preceding()
+                    .withCurrent()
+                    .and();
+        }
+        
+        public ParentBuilder $UnboundedPreceding() {
+            return _Preceding()
+                    .withUnbounded()
+                    .and();
+        }
+
+        public ParentBuilder $Preceding(Integer unsignedValueSpecification) {
+            return _Preceding()
+                    .withUnsignedValueSpecification(unsignedValueSpecification)
+                    .and();
+        }
+        
+        public ParentBuilder $UnboundedFollowing() {
+            return _Following()
+                    .withUnbounded()
+                    .and();
+        }
+
+        public ParentBuilder $Following(Integer unsignedValueSpecification) {
+            return _Following()
+                    .withUnsignedvaluespecification(unsignedValueSpecification)
+                    .and();
+        }
+    }
+
+
+    /**
+     * WindowFramePrecedingBuilder
+     * @param <ParentBuilder>
+     */
+    public static class WindowFramePrecedingBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WindowFramePrecedingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFramePreceding> {
+
+        public WindowFramePrecedingBuilder(Over.WindowFramePreceding windowFramePreceding) {
+            super(windowFramePreceding);
+        }
+
+        public WindowFramePrecedingBuilder<ParentBuilder> withUnbounded(){
+            target.setUseUnbounded(true);
+            return this;
+        }
+
+        public WindowFramePrecedingBuilder<ParentBuilder> withUnsignedValueSpecification(Integer unsignedValueSpecification){
+            target.setUnsignedvaluespecification(new Over.UnsignedValueSpecification(unsignedValueSpecification));
+            return this;
+        }
+
+        public WindowFramePrecedingBuilder<ParentBuilder> withCurrent(){
+            target.setUseCurrent(true);
+            return this;
+        }
+    }
+
+    /**
+     * WindowFrameFollowingBuilder
+     * @param <ParentBuilder>
+     */
+    public static class WindowFrameFollowingBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WindowFrameFollowingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameFollowing> {
+
+        public WindowFrameFollowingBuilder(Over.WindowFrameFollowing windowFrameFollowing) {
+            super(windowFrameFollowing);
+        }
+
+        public WindowFrameFollowingBuilder<ParentBuilder> withUnbounded(){
+            target.setUseUnbounded(true);
+            return this;
+        }
+
+        public WindowFrameFollowingBuilder<ParentBuilder> withUnsignedvaluespecification(Integer unsignedValueSpecification){
+            target.setUnsignedvaluespecification(new Over.UnsignedValueSpecification(unsignedValueSpecification));
+            return this;
+        }
+
+        public WindowFrameFollowingBuilder<ParentBuilder> withCurrent(){
+            target.setUseCurrent(false);
             return this;
         }
     }

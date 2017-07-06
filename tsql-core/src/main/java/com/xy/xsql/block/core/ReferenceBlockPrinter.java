@@ -156,9 +156,19 @@ public class ReferenceBlockPrinter {
     }
 
 
-    @Deprecated
-    public StringWriter printBlock(ReferenceBlock referenceBlock){
-        return printBlock(referenceBlock, referenceBlock.getData(), writer);
+    @SuppressWarnings("unchecked")
+    public StringWriter printBlock(Object data){
+        if(BlockManager.INSTANCE.checkTypeBlockConverter(data.getClass())){
+            ReferenceBlock hiddenBlock = BlockManager
+                    .INSTANCE
+                    .getTypeBlockConverter(data.getClass())
+                    .convert(data);
+
+            return printBlock(hiddenBlock,data);
+        }else{
+            throw new RuntimeException(new BlockStructureCorrectException(null,
+                    BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
+        }
     }
 
     public StringWriter printBlock(ReferenceBlock referenceBlock, Object context){
@@ -221,22 +231,6 @@ public class ReferenceBlockPrinter {
             }else{
                 printBlock(referenceBlock, referenceContext, writer);
             }
-//        }else if(block.isReferenceMeta()) {
-//            //Reference
-//            ReferenceBlock referenceBlock = block.getRefMeta();
-//            Object referenceContext = block.getDataOrGetterData(context);
-//
-//            if (block.isList() &&
-//                    referenceContext instanceof List) {
-//                //List
-//                printBlock(referenceBlock, (List) referenceContext, "\n, ", writer);
-//            } else if (block.isRepeat() &&
-//                    referenceContext instanceof List) {
-//                //Repeat
-//                printBlock(referenceBlock, (List) referenceContext, " ", writer);
-//            } else {
-//                printBlock(referenceBlock, referenceContext, writer);
-//            }
         }else if(block.isExclusive()){
             //Exclusive
             int index = 0;
@@ -250,8 +244,17 @@ public class ReferenceBlockPrinter {
                 index++;
             }
             if(index != -1){
-                throw new RuntimeException(new BlockStructureCorrectException(block,
-                        BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
+                if(BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
+                    ReferenceBlock hiddenBlock = BlockManager
+                            .INSTANCE
+                            .getTypeBlockConverter(context.getClass())
+                            .convert(context);
+
+                    printBlock(hiddenBlock,context);
+                }else{
+                    throw new RuntimeException(new BlockStructureCorrectException(block,
+                            BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
+                }
             }
         }else if(block.getSub() != null){
             //Virtual

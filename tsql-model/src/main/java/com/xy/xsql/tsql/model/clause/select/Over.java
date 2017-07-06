@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
 import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.expression.Expression;
 
 import java.util.List;
@@ -67,7 +68,8 @@ public class Over implements Clause {
     private PartitionBy partitionBy;
     //[ <ORDER BY clause> ]
     private OrderBy orderBy;
-    //TODO [ <ROW or RANGE clause> ]
+    //[ <ROW or RANGE clause> ]
+    private RowRange rowRange;
 
 
     public PartitionBy getPartitionBy() {
@@ -84,6 +86,14 @@ public class Over implements Clause {
 
     public void setOrderBy(OrderBy orderBy) {
         this.orderBy = orderBy;
+    }
+
+    public RowRange getRowRange() {
+        return rowRange;
+    }
+
+    public void setRowRange(RowRange rowRange) {
+        this.rowRange = rowRange;
     }
 
 
@@ -127,4 +137,126 @@ public class Over implements Clause {
 
     }
 
+    public static class RowRange {
+        private boolean useRows;
+        private WindowFrameExtent windowFrameExtent;
+
+        public boolean isUseRows() {
+            return useRows;
+        }
+
+        public void setUseRows(boolean useRows) {
+            this.useRows = useRows;
+        }
+
+        public WindowFrameExtent getWindowFrameExtent() {
+            return windowFrameExtent;
+        }
+
+        public void setWindowFrameExtent(WindowFrameExtent windowFrameExtent) {
+            this.windowFrameExtent = windowFrameExtent;
+        }
+    }
+
+    public interface WindowFrameExtent {
+
+    }
+
+    public static class WindowFrameBetween implements WindowFrameExtent {
+        private WindowFrameBound betweenBound;
+        private WindowFrameBound andBound;
+
+        public WindowFrameBound getBetweenBound() {
+            return betweenBound;
+        }
+
+        public void setBetweenBound(WindowFrameBound betweenBound) {
+            this.betweenBound = betweenBound;
+        }
+
+        public WindowFrameBound getAndBound() {
+            return andBound;
+        }
+
+        public void setAndBound(WindowFrameBound andBound) {
+            this.andBound = andBound;
+        }
+    }
+
+    public interface WindowFrameBound {
+
+    }
+
+    public static class WindowFramePreceding implements WindowFrameExtent, WindowFrameBound {
+        private boolean useUnbounded;
+        private UnsignedValueSpecification unsignedvaluespecification;
+        private boolean useCurrent;
+
+        public boolean isUseUnbounded() {
+            return useUnbounded;
+        }
+
+        public void setUseUnbounded(boolean useUnbounded) {
+            this.useUnbounded = useUnbounded;
+        }
+
+        public UnsignedValueSpecification getUnsignedvaluespecification() {
+            return unsignedvaluespecification;
+        }
+
+        public void setUnsignedvaluespecification(UnsignedValueSpecification unsignedvaluespecification) {
+            this.unsignedvaluespecification = unsignedvaluespecification;
+        }
+
+        public boolean isUseCurrent() {
+            return useCurrent;
+        }
+
+        public void setUseCurrent(boolean useCurrent) {
+            this.useCurrent = useCurrent;
+        }
+    }
+
+    public static class WindowFrameFollowing implements WindowFrameBound {
+        private boolean useUnbounded;
+        private UnsignedValueSpecification unsignedvaluespecification;
+        private boolean useCurrent;
+
+        public boolean isUseUnbounded() {
+            return useUnbounded;
+        }
+
+        public void setUseUnbounded(boolean useUnbounded) {
+            this.useUnbounded = useUnbounded;
+        }
+
+        public UnsignedValueSpecification getUnsignedvaluespecification() {
+            return unsignedvaluespecification;
+        }
+
+        public void setUnsignedvaluespecification(UnsignedValueSpecification unsignedvaluespecification) {
+            this.unsignedvaluespecification = unsignedvaluespecification;
+        }
+
+        public boolean isUseCurrent() {
+            return useCurrent;
+        }
+
+        public void setUseCurrent(boolean useCurrent) {
+            this.useCurrent = useCurrent;
+        }
+    }
+
+    public static class UnsignedValueSpecification extends NumberConstant {
+
+        public UnsignedValueSpecification(Number number) {
+            super(number);
+            withUnsigned().withInteger();
+        }
+
+        public NumberConstant toNumberConstant(){
+            return this;
+        }
+
+    }
 }

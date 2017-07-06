@@ -13,6 +13,8 @@ import com.xy.xsql.tsql.model.expression.Expression;
 public class NumberConstant implements Constant, Expression {
 
     private boolean flagMoney;
+    private boolean unsigned;
+    private boolean integer;
     private Number number;
 
 
@@ -37,9 +39,35 @@ public class NumberConstant implements Constant, Expression {
         this.number = number;
     }
 
+    public boolean isUnsigned() {
+        return unsigned;
+    }
+
+    public void setUnsigned(boolean unsigned) {
+        this.unsigned = unsigned;
+    }
+
+    public boolean isInteger() {
+        return integer;
+    }
+
+    public void setInteger(boolean integer) {
+        this.integer = integer;
+    }
+
 
     public NumberConstant withMoney(){
         this.flagMoney = true;
+        return this;
+    }
+
+    public NumberConstant withUnsigned(){
+        this.unsigned = true;
+        return this;
+    }
+
+    public NumberConstant withInteger(){
+        this.integer = true;
         return this;
     }
 
@@ -47,7 +75,15 @@ public class NumberConstant implements Constant, Expression {
     public String toString(){
         if(flagMoney){
             return "$" + number.toString();
+        }else{
+            if(unsigned && number.intValue() < 0){
+                return String.valueOf(-number.intValue());
+            }
+            if(integer){
+                return String.valueOf(number.intValue());
+            }
         }
         return number.toString();
     }
+
 }

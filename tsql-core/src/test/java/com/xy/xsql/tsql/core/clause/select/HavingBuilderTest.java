@@ -17,8 +17,16 @@ import static com.xy.xsql.tsql.model.operator.Operators.GREATER;
  */
 public class HavingBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-having-transact-sql#examples
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * HAVING SUM(LineTotal) > 100000.00
+     */
     public Having example = new MockParentBuilder<HavingBuilder<MockParent<Having>>,Having>
                 (HavingBuilder.class,Having.class)
                 .$child()
@@ -46,17 +54,6 @@ public class HavingBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<Having> parent = new MockParentBuilder<HavingBuilder<MockParent<Having>>,Having>
-                (HavingBuilder.class,Having.class)
-                .$child()
-                    .$Predicate(
-                        p_greater(
-                                e("SUM(LineTotal)"),
-                                e_number(100000.00))
-                    )
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(having.getSearchCondition().getPredicate().getClass() ,Comparison.class);

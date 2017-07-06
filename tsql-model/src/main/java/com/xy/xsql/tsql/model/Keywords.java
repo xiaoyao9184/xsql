@@ -295,7 +295,13 @@ public enum Keywords {
         PROPERTY,
 
         //QueryHint
-        HASH, CONCAT, MERGE, LOOP, FORCE, DISABLE, PARAMETERIZATION, SIMPLE;
+        HASH, CONCAT, MERGE, LOOP, FORCE, DISABLE, PARAMETERIZATION, SIMPLE,
+
+        //
+        DISTRIBUTED_AGG,
+
+        //ORDER
+        RANGE, UNBOUNDED, PRECEDING, FOLLOWING;
 
         @Override
         public String toString(){

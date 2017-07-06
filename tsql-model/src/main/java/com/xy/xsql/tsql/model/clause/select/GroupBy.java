@@ -1,6 +1,8 @@
 package com.xy.xsql.tsql.model.clause.select;
 
 import com.xy.xsql.tsql.model.clause.Clause;
+import com.xy.xsql.tsql.model.clause.Output;
+import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Expression;
 
 import java.util.List;
@@ -197,6 +199,30 @@ public class GroupBy implements Clause {
      */
     public static class TotalItem implements Item {
 
+    }
+
+    /**
+     * ONLY for Azure SQL Data Warehouse and Parallel Data Warehouse
+     */
+    public static class ColumnNameItem implements Item {
+        private ColumnName columnName;
+        private boolean useWithDISTRIBUTED_AGG;
+
+        public ColumnName getColumnName() {
+            return columnName;
+        }
+
+        public void setColumnName(ColumnName columnName) {
+            this.columnName = columnName;
+        }
+
+        public boolean isUseWithDISTRIBUTED_AGG() {
+            return useWithDISTRIBUTED_AGG;
+        }
+
+        public void setUseWithDISTRIBUTED_AGG(boolean useWithDISTRIBUTED_AGG) {
+            this.useWithDISTRIBUTED_AGG = useWithDISTRIBUTED_AGG;
+        }
     }
 
 

@@ -5,6 +5,7 @@ import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Over;
+import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.element.Other;
 
 /**
@@ -20,6 +21,7 @@ public class OverConverter
                     .sub_keyword(Keywords.OVER)
                     .sub_keyword(Other.GROUP_START)
                     .sub()
+                        .description("over param")
                         .sub("PARTITION BY clause")
                             .optional(d -> d.getPartitionBy() == null)
                             .ref(PartitionByConverter.class)
@@ -30,9 +32,11 @@ public class OverConverter
                             .ref(OrderByConverter.class)
                             .data(Over::getOrderBy)
                             .and()
-    //                    .sub_meta("<ROW or RANGE clause>")
-    //                        .data(d -> d.getPartitionBy())
-    //                        .and()
+                        .sub("ROW or RANGE clause")
+                            .optional(d -> d.getRowRange() == null)
+                            .ref(RowRangeConverter.class)
+                            .data(Over::getRowRange)
+                            .and()
                         .subTakeLine()
                         .headFootTakeLine()
                         .and()
@@ -90,6 +94,7 @@ public class OverConverter
                         .sub_keyword(Keywords.ORDER)
                         .sub_keyword(Keywords.BY)
                         .sub()
+                            .description("order by list")
                             .list()
                             .ref(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
 //                            .sub_meta(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
@@ -105,6 +110,237 @@ public class OverConverter
         public ReferenceBlock convert(Over.OrderBy orderBy) {
             return builder
                     .data(orderBy)
+                    .build();
+        }
+    }
+
+
+
+    public static class RowRangeConverter
+            implements ReferenceBlockConverter<Over.RowRange> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Over.RowRange> builder =
+                new ReferenceBlockBuilder<Void,Over.RowRange>()
+                        .overall("ROW or RANGE clause")
+                        .sub()
+                            .description("row/range")
+                            .required()
+                            .czse_keyword(Over.RowRange::isUseRows, Keywords.Key.ROWS)
+                            .czse_keyword(d -> !d.isUseRows(), Keywords.Key.RANGE)
+                            .and()
+                        .sub("window frame extent")
+                            .ref(WindowFrameExtentConverter.class)
+                            .data(Over.RowRange::getWindowFrameExtent)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(Over.RowRange rowRange) {
+            return builder
+                    .data(rowRange)
+                    .build();
+        }
+    }
+
+    public static class WindowFrameExtentConverter
+            implements ReferenceBlockConverter<Over.WindowFrameExtent> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Over.WindowFrameExtent> builder =
+                new ReferenceBlockBuilder<Void,Over.WindowFrameExtent>()
+                        .overall("window frame extent")
+                        .required()
+                        .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
+                            .ref(WindowFramePrecedingConverter.class)
+                            .data(d -> d)
+                            .and()
+                        .czse(d -> d instanceof Over.WindowFrameBetween,"window frame between")
+                            .ref(WindowFrameBetweenConverter.class)
+                            .data(d -> d)
+                            .and()
+                        .subTakeLine()
+                        .headFootTakeLine();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(Over.WindowFrameExtent windowFrameExtent) {
+            return builder
+                    .data(windowFrameExtent)
+                    .build();
+        }
+    }
+
+    public static class WindowFrameBetweenConverter
+            implements ReferenceBlockConverter<Over.WindowFrameBetween> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Over.WindowFrameBetween> builder =
+                new ReferenceBlockBuilder<Void,Over.WindowFrameBetween>()
+                        .overall("window frame between")
+                        .sub_keyword(Keywords.BETWEEN)
+                        .sub("window frame bound")
+                            .ref(WindowFrameBoundConverter.class)
+                            .data(Over.WindowFrameBetween::getBetweenBound)
+                            .and()
+                        .sub_keyword(Keywords.AND)
+                        .sub("window frame bound")
+                            .ref(WindowFrameBoundConverter.class)
+                            .data(Over.WindowFrameBetween::getAndBound)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(Over.WindowFrameBetween windowFrameBetween) {
+            return builder
+                    .data(windowFrameBetween)
+                    .build();
+        }
+    }
+
+    public static class WindowFrameBoundConverter
+            implements ReferenceBlockConverter<Over.WindowFrameBound> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Over.WindowFrameBound> builder =
+                new ReferenceBlockBuilder<Void,Over.WindowFrameBound>()
+                        .overall("window frame bound")
+                        .required()
+                        .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
+                            .ref(WindowFramePrecedingConverter.class)
+                            .data(d -> d)
+                            .and()
+                        .czse(d -> d instanceof Over.WindowFrameFollowing,"window frame following")
+                            .ref(WindowFrameFollowingConverter.class)
+                            .data(d -> d)
+                            .and()
+                        .subTakeLine()
+                        .headFootTakeLine();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(Over.WindowFrameBound windowFrameBound) {
+            return builder
+                    .data(windowFrameBound)
+                    .build();
+        }
+    }
+
+    public static class WindowFramePrecedingConverter
+            implements ReferenceBlockConverter<Over.WindowFramePreceding> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Over.WindowFramePreceding> builder =
+                new ReferenceBlockBuilder<Void,Over.WindowFramePreceding>()
+                        .overall("window frame preceding")
+                        .czse(Over.WindowFramePreceding::isUseUnbounded)
+                            .description("unbounded")
+                            .sub_keyword(Keywords.Key.UNBOUNDED)
+                            .sub_keyword(Keywords.Key.PRECEDING)
+                            .and()
+                        .czse(d -> d.getUnsignedvaluespecification() != null)
+                            .description("unsigned_value_specification PRECEDING")
+                            .sub("unsigned_value_specification")
+                                .ref(UnsignedValueSpecificationConverter.class)
+                                .data(Over.WindowFramePreceding::getUnsignedvaluespecification)
+                                .and()
+                            .sub_keyword(Keywords.Key.PRECEDING)
+                            .and()
+                        .czse(Over.WindowFramePreceding::isUseCurrent)
+                            .description("current row")
+                            .sub_keyword(Keywords.CURRENT)
+                            .sub_keyword(Keywords.Key.ROW)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(Over.WindowFramePreceding windowFramePreceding) {
+            return builder
+                    .data(windowFramePreceding)
+                    .build();
+        }
+    }
+
+    public static class WindowFrameFollowingConverter
+            implements ReferenceBlockConverter<Over.WindowFrameFollowing> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Over.WindowFrameFollowing> builder =
+                new ReferenceBlockBuilder<Void,Over.WindowFrameFollowing>()
+                        .overall("window frame following")
+                        .czse(Over.WindowFrameFollowing::isUseUnbounded)
+                            .description("unbounded")
+                            .sub_keyword(Keywords.Key.UNBOUNDED)
+                            .sub_keyword(Keywords.Key.FOLLOWING)
+                            .and()
+                        .czse(d -> d.getUnsignedvaluespecification() != null)
+                            .description("unsigned_value_specification FOLLOWING")
+                            .sub("unsigned_value_specification")
+                                .ref(UnsignedValueSpecificationConverter.class)
+                                .data(Over.WindowFrameFollowing::getUnsignedvaluespecification)
+                                .and()
+                            .sub_keyword(Keywords.Key.FOLLOWING)
+                            .and()
+                        .czse(Over.WindowFrameFollowing::isUseCurrent)
+                            .description("current row")
+                            .sub_keyword(Keywords.CURRENT)
+                            .sub_keyword(Keywords.Key.ROW)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(Over.WindowFrameFollowing windowFrameFollowing) {
+            return builder
+                    .data(windowFrameFollowing)
+                    .build();
+        }
+    }
+
+    public static class UnsignedValueSpecificationConverter
+            implements ReferenceBlockConverter<Over.UnsignedValueSpecification> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Over.UnsignedValueSpecification> builder =
+                new ReferenceBlockBuilder<Void,Over.UnsignedValueSpecification>()
+                        .overall("unsigned value specification")
+                        .required()
+                        .sub("<unsigned integer literal>")
+                            .data(d -> d.toNumberConstant().toString())
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(Over.UnsignedValueSpecification unsignedValueSpecification) {
+            return builder
+                    .data(unsignedValueSpecification)
                     .build();
         }
     }

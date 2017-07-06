@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -29,27 +31,39 @@ public class HavingConverterTest {
     }
 
 
-    private HavingBuilderTest builderTest;
+    private Map<Having,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new HavingBuilderTest();
+        HavingBuilderTest builderTest = new HavingBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.example,
+                "HAVING SUM(LineTotal) > 100000.0");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
-        Having having = builderTest.example;
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(having);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "HAVING SUM(LineTotal) > 100000.0";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
+
 
 }

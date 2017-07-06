@@ -28,8 +28,16 @@ import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.MERGE_JOIN;
  */
 public class OptionBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/option-clause-transact-sql#examples
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION (HASH GROUP, FAST 10)
+     */
     public Option exampleA = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
             (OptionBuilder.class,Option.class)
             .$child()
@@ -39,9 +47,6 @@ public class OptionBuilderTest {
             .get();
     // @formatter:on
 
-    /**
-     * OPTION (HASH GROUP, FAST 10);
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -62,8 +67,16 @@ public class OptionBuilderTest {
     }
 
 
+    /*
+    Examples: Azure SQL Data Warehouse and Parallel Data Warehouse
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/option-clause-transact-sql#examples-includesssdwfullincludessssdwfull-mdmd-and-includesspdwincludessspdw-mdmd
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION ( LABEL = 'q17' )
+     */
     public Option exampleB = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
             (OptionBuilder.class,Option.class)
             .$child()
@@ -72,9 +85,6 @@ public class OptionBuilderTest {
             .get();
     // @formatter:on
 
-    /**
-     * OPTION ( LABEL = 'q17' );
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -88,12 +98,15 @@ public class OptionBuilderTest {
         Assert.assertEquals(option.getQueryOption().size(),1);
         Assert.assertEquals(option.getQueryOption().get(0).getClass(), Option.LabelQueryOption.class);
         Option.LabelQueryOption labelQueryOption = (Option.LabelQueryOption) option.getQueryOption().get(0);
-        Assert.assertEquals(labelQueryOption.getLabelName(),"q17");
+        Assert.assertEquals(labelQueryOption.getLabelName().toString(),"'q17'");
     }
 
 
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION (HASH JOIN);
+     */
     public Option exampleC = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
             (OptionBuilder.class,Option.class)
             .$child()
@@ -102,9 +115,7 @@ public class OptionBuilderTest {
             .get();
     // @formatter:on
 
-    /**
-     * OPTION (HASH JOIN);
-     */
+    @SuppressWarnings("Duplicates")
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -124,6 +135,9 @@ public class OptionBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION ( Label = 'CustJoin', HASH JOIN, MERGE JOIN);
+     */
     public Option exampleD = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
                 (OptionBuilder.class,Option.class)
                 .$child()
@@ -133,9 +147,6 @@ public class OptionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OPTION ( Label = 'CustJoin', HASH JOIN, MERGE JOIN);
-     */
     @Test
     public void testExampleD(){
         // @formatter:off
@@ -152,7 +163,7 @@ public class OptionBuilderTest {
         Assert.assertEquals(option.getQueryOption().size(),3);
         Assert.assertEquals(option.getQueryOption().get(0).getClass(), Option.LabelQueryOption.class);
         Option.LabelQueryOption labelQueryOption = (Option.LabelQueryOption) option.getQueryOption().get(0);
-        Assert.assertEquals(labelQueryOption.getLabelName(),"CustJoin");
+        Assert.assertEquals(labelQueryOption.getLabelName().toString(),"'CustJoin'");
 
         Assert.assertEquals(option.getQueryOption().get(1).getClass(), QueryHint.class);
         QueryHint queryHint = (QueryHint) option.getQueryOption().get(1);
@@ -166,6 +177,9 @@ public class OptionBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION (HASH JOIN);
+     */
     public Option exampleE = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
                 (OptionBuilder.class,Option.class)
                 .$child()
@@ -174,9 +188,7 @@ public class OptionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OPTION (HASH JOIN);
-     */
+    @SuppressWarnings("Duplicates")
     @Test
     public void testExampleE(){
         // @formatter:off
@@ -197,6 +209,9 @@ public class OptionBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION (HASH JOIN);
+     */
     public Option exampleF = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
                 (OptionBuilder.class,Option.class)
                 .$child()
@@ -205,9 +220,7 @@ public class OptionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OPTION (HASH JOIN);
-     */
+    @SuppressWarnings("Duplicates")
     @Test
     public void testExampleF(){
         // @formatter:off
@@ -228,6 +241,9 @@ public class OptionBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION ( FORCE ORDER )
+     */
     public Option exampleG = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
                 (OptionBuilder.class,Option.class)
                 .$child()
@@ -236,9 +252,6 @@ public class OptionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OPTION ( FORCE ORDER )
-     */
     @Test
     public void testExampleG(){
         // @formatter:off
@@ -259,12 +272,19 @@ public class OptionBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OPTION (FORCE EXTERNALPUSHDOWN)
+     */
     public Option exampleH1 = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
                 (OptionBuilder.class,Option.class)
                 .$child()
                     .$(FORCE_EXTERNALPUSHDOWN())
                     .and()
                 .get();
+
+    /**
+     * OPTION (DISABLE EXTERNALPUSHDOWN)
+     */
     public Option exampleH2 = new MockParentBuilder<OptionBuilder<MockParent<Option>>,Option>
                 (OptionBuilder.class,Option.class)
                 .$child()
@@ -273,10 +293,6 @@ public class OptionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OPTION (FORCE EXTERNALPUSHDOWN);
-     * OPTION (DISABLE EXTERNALPUSHDOWN);
-     */
     @Test
     public void testExampleH(){
         // @formatter:off

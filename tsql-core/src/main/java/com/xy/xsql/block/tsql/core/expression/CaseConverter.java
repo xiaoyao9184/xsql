@@ -16,25 +16,17 @@ public class CaseConverter
     private static ReferenceBlockBuilder<Void,Case> builder =
             new ReferenceBlockBuilder<Void,Case>()
                     .overall("CASE")
-                    .sub_keyword(Keywords.CASE)
-                    .sub("input_expression")
-                        .data(Case::getInputExpression)
+                    .czse(d -> d.getInputExpression() != null)
+                        .description("simple case")
+                        .ref(SimpleCaseConverter.meta())
+                        .data(d -> d)
                         .and()
-                    .sub()
-                        .description("WHEN when_expression THEN result_expression [ ...n ]")
-                        .repeat()
-                        .ref(CaseWhenThenExpressionRenderer.meta())
-                        .data(Case::getWhenThenExpressionList)
+                    .czse(d -> d.getInputExpression() == null)
+                        .description("searched case")
+                        .ref(SearchedCaseConverter.meta())
+                        .data(d -> d)
                         .and()
-                    .sub()
-                        .description("[ ELSE else_result_expression ]")
-                        .optional(c -> c.getElseResultExpression() != null)
-                        .sub_keyword(Keywords.ELSE)
-                        .sub("else_result_expression")
-                            .data(Case::getElseResultExpression)
-                            .and()
-                        .and()
-                    .sub_keyword(Keywords.END);
+                    .subTakeLine();
     // @formatter:on
 
     public static ReferenceBlock meta() {
@@ -48,8 +40,71 @@ public class CaseConverter
                 .build();
     }
 
+    public static class SimpleCaseConverter {
 
-    public static class CaseWhenThenExpressionRenderer
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Case> builder =
+                new ReferenceBlockBuilder<Void,Case>()
+                        .overall("Simple CASE expression")
+                        .sub_keyword(Keywords.CASE)
+                        .sub("input_expression")
+                            .data(Case::getInputExpression)
+                            .and()
+                        .sub()
+                            .description("WHEN when_expression THEN result_expression [ ...n ]")
+                            .repeat()
+                            .ref(CaseWhenThenExpressionConverter.meta())
+                            .data(Case::getWhenThenExpressionList)
+                            .and()
+                        .sub()
+                            .description("[ ELSE else_result_expression ]")
+                            .optional(c -> c.getElseResultExpression() == null)
+                            .sub_keyword(Keywords.ELSE)
+                            .sub("else_result_expression")
+                                .data(Case::getElseResultExpression)
+                                .and()
+                            .and()
+                        .sub_keyword(Keywords.END);
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+    }
+
+    public static class SearchedCaseConverter {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,Case> builder =
+                new ReferenceBlockBuilder<Void,Case>()
+                        .overall("Searched CASE expression")
+                        .sub_keyword(Keywords.CASE)
+                        .sub()
+                            .description("WHEN Boolean_expression THEN result_expression [ ...n ]")
+                            .repeat()
+                            .ref(CaseWhenThenExpressionConverter.meta())
+                            .data(Case::getWhenThenExpressionList)
+                            .and()
+                        .sub()
+                            .description("[ ELSE else_result_expression ]")
+                            .optional(c -> c.getElseResultExpression() == null)
+                            .sub_keyword(Keywords.ELSE)
+                            .sub("else_result_expression")
+                                .data(Case::getElseResultExpression)
+                                .and()
+                            .and()
+                        .sub_keyword(Keywords.END);
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+    }
+
+
+    public static class CaseWhenThenExpressionConverter
             implements ReferenceBlockConverter<Case.WhenThenExpression> {
 
         // @formatter:off

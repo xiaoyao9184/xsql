@@ -154,9 +154,17 @@ public class TableValueConstructorBuilderTest {
 
     }
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/table-value-constructor-transact-sql#examples
+     */
+
 
     // @formatter:off
     //parent+quick
+    /**
+     * VALUES (N'FT2', N'Square Feet ', '20080923'), (N'Y', N'Yards', '20080923'), (N'Y3', N'Cubic Yards', '20080923');
+     */
     public TableValueConstructor exampleA = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
                 (TableValueConstructorBuilder.class,TableValueConstructor.class)
                 .$child()
@@ -173,9 +181,6 @@ public class TableValueConstructorBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * VALUES (N'FT2', N'Square Feet ', '20080923'), (N'Y', N'Yards', '20080923'), (N'Y3', N'Cubic Yards', '20080923');
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -216,6 +221,9 @@ public class TableValueConstructorBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * VALUES ('Recommendation','Other'), ('Advertisement', DEFAULT), (NULL, 'Promotion');
+     */
     public TableValueConstructor exampleB = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
                 (TableValueConstructorBuilder.class,TableValueConstructor.class)
                 .$child()
@@ -229,9 +237,6 @@ public class TableValueConstructorBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * VALUES ('Recommendation','Other'), ('Advertisement', DEFAULT), (NULL, 'Promotion');
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -265,6 +270,9 @@ public class TableValueConstructorBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * VALUES ('Blade'), ('Crown Race'), ('AWC Logo Cap')
+     */
     public TableValueConstructor exampleC = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
                 (TableValueConstructorBuilder.class,TableValueConstructor.class)
                 .$child()
@@ -275,9 +283,6 @@ public class TableValueConstructorBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * VALUES ('Blade'), ('Crown Race'), ('AWC Logo Cap')
-     */
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -305,6 +310,9 @@ public class TableValueConstructorBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * VALUES ('Recommendation','Other'), ('Review', 'Marketing'), ('Internet', 'Promotion')
+     */
     public TableValueConstructor exampleD = new MockParentBuilder<TableValueConstructorBuilder<MockParent<TableValueConstructor>>,TableValueConstructor>
                 (TableValueConstructorBuilder.class,TableValueConstructor.class)
                 .$child()
@@ -315,10 +323,6 @@ public class TableValueConstructorBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * VALUES ('Recommendation','Other'), ('Review', 'Marketing'), ('Internet', 'Promotion')
-     * VALUES (NewName, NewReasonType)
-     */
     @Test
     public void testExampleD(){
         // @formatter:off

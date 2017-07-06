@@ -3,8 +3,10 @@ package com.xy.xsql.tsql.core.clause.select;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.builder.CodeTreeLazyConfigBuilder;
 import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.clause.select.GroupBy.GroupByExpression;
+import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.util.CheckUtil;
 
@@ -52,6 +54,10 @@ public class GroupByBuilder<ParentBuilder>
         return withItem()._Base()
                 .withColumnExpression(columnExpressions)
                 .and();
+    }
+
+    public GroupByBuilder<ParentBuilder> $(ColumnName columnName, boolean useWith) {
+        return withItem()._ColumnName(columnName,useWith);
     }
 
     /**
@@ -128,6 +134,14 @@ public class GroupByBuilder<ParentBuilder>
 
         public ParentBuilder _Total() {
             target.set(new GroupBy.TotalItem());
+            return this.out();
+        }
+
+        public ParentBuilder _ColumnName(ColumnName columnName, boolean useWith) {
+            GroupBy.ColumnNameItem item = new GroupBy.ColumnNameItem();
+            item.setColumnName(columnName);
+            item.setUseWithDISTRIBUTED_AGG(useWith);
+            target.set(item);
             return this.out();
         }
     }

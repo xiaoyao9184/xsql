@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.expression.Case;
 import com.xy.xsql.tsql.model.expression.Expression;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.
@@ -39,4 +40,45 @@ public class CaseBuilder<ParentBuilder>
         target.withElseResultExpression(elseResultExpression);
         return this;
     }
+
+
+    public WhenThenExpressionBuilder<CaseBuilder<ParentBuilder>> $When(Expression expression){
+        return new WhenThenExpressionBuilder<CaseBuilder<ParentBuilder>>
+                (initNew(Case.WhenThenExpression::new,
+                        target::getWhenThenExpressionList,
+                        target::setWhenThenExpressionList))
+                .in(this)
+                .withWhen(expression);
+    }
+
+    public CaseBuilder<ParentBuilder> $Else(Expression elseResultExpression) {
+        return withElse(elseResultExpression);
+    }
+
+
+
+    public class WhenThenExpressionBuilder<ParentBuilder>
+            extends CodeTreeBuilder<WhenThenExpressionBuilder<ParentBuilder>,ParentBuilder,Case.WhenThenExpression> {
+
+
+        public WhenThenExpressionBuilder(Case.WhenThenExpression whenThenExpression) {
+            super(whenThenExpression);
+        }
+
+        public WhenThenExpressionBuilder<ParentBuilder> withWhen(Expression expression){
+            target.setWhenExpression(expression);
+            return this;
+        }
+
+        public WhenThenExpressionBuilder<ParentBuilder> withThen(Expression expression){
+            target.setResultExpression(expression);
+            return this;
+        }
+
+        public ParentBuilder $Then(Expression expression){
+            return withThen(expression).and();
+        }
+
+    }
+
 }

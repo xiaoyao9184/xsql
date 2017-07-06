@@ -13,8 +13,16 @@ import static com.xy.xsql.tsql.core.expression.Expressions.e;
  */
 public class OverBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/select-over-clause-transact-sql#examples
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * OVER(PARTITION BY PostalCode ORDER BY SalesYTD DESC)
+     */
     public Over exampleA = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
                 (OverBuilder.class,Over.class)
                 .$child()
@@ -24,9 +32,6 @@ public class OverBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OVER(PARTITION BY PostalCode ORDER BY SalesYTD DESC)
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -55,6 +60,9 @@ public class OverBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OVER(PARTITION BY SalesOrderID)
+     */
     public Over exampleB = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
                 (OverBuilder.class,Over.class)
                 .$child()
@@ -63,9 +71,6 @@ public class OverBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OVER(PARTITION BY SalesOrderID)
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -82,20 +87,31 @@ public class OverBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Over exampleC = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+    /**
+     * OVER (PARTITION BY TerritoryID
+     ORDER BY DATEPART(yy,ModifiedDate)
+     )
+     */
+    public Over exampleC1 = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
                 (OverBuilder.class,Over.class)
                 .$child()
                     .$PartitionBy(e("TerritoryID"))
                     .$OrderBy(e("DATEPART(yy,ModifiedDate) "))
                     .and()
                 .get();
-    // @formatter:on
 
     /**
-     * OVER (PARTITION BY TerritoryID
-     ORDER BY DATEPART(yy,ModifiedDate)
-     )
+     * OVER (ORDER BY DATEPART(yy,ModifiedDate)
+    )
      */
+    public Over exampleC2 = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$OrderBy(e("DATEPART(yy,ModifiedDate) "))
+                    .and()
+                .get();
+    // @formatter:on
+
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -117,22 +133,41 @@ public class OverBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Over exampleD = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
-                (OverBuilder.class,Over.class)
-                .$child()
-                    .$PartitionBy(e("TerritoryID"))
-                    .$OrderBy(e("DATEPART(yy,ModifiedDate)"))
-                //TODO
-                    .and()
-                .get();
-    // @formatter:on
-
     /**
      * OVER (PARTITION BY TerritoryID
      ORDER BY DATEPART(yy,ModifiedDate)
      ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING )
-     )
      */
+    public Over exampleD1 = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$PartitionBy(e("TerritoryID"))
+                    .$OrderBy(e("DATEPART(yy,ModifiedDate)"))
+                    .$Rows()
+                        .$Between()
+                        .$CurrentRow()
+                        .$And()
+                        .$Following(1)
+                        .and()
+                    .and()
+                .get();
+
+    /**
+     * OVER (PARTITION BY TerritoryID
+    ORDER BY DATEPART(yy,ModifiedDate)
+    ROWS UNBOUNDED PRECEDING)
+     */
+    public Over exampleD2 = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
+                (OverBuilder.class,Over.class)
+                .$child()
+                    .$PartitionBy(e("TerritoryID"))
+                    .$OrderBy(e("DATEPART(yy,ModifiedDate)"))
+                    .$Rows()
+                        .$UnboundedPreceding()
+                    .and()
+                .get();
+    // @formatter:on
+
     @Test
     public void testExampleD(){
         // @formatter:off
@@ -145,16 +180,48 @@ public class OverBuilderTest {
                         .withExpression(e("DATEPART(yy,ModifiedDate) "))
                         .out()
                     .and()
-                //TODO
+                .withRowRange()
+                    .withRows()
+                    .withWindowFrameExtent()._Between()
+                        .withBetweenBound()._Preceding()
+                            .withCurrent()
+                            .and()
+                        .withAndBound()._Following()
+                            .withUnsignedvaluespecification(1)
+                            .and()
+                        .and()
+                    .and()
                 .build();
         // @formatter:on
 
         Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
         Assert.assertEquals(over.getOrderBy().getItems().size(),1);
+
+        Assert.assertTrue(over.getRowRange().isUseRows());
+        Assert.assertEquals(over.getRowRange().getWindowFrameExtent().getClass(), Over.WindowFrameBetween.class);
+        Over.WindowFrameBetween windowFrameBetween = (Over.WindowFrameBetween) over.getRowRange().getWindowFrameExtent();
+
+        Assert.assertEquals(windowFrameBetween.getBetweenBound().getClass(), Over.WindowFramePreceding.class);
+        Assert.assertEquals(windowFrameBetween.getAndBound().getClass(), Over.WindowFrameFollowing.class);
+
+        Over.WindowFramePreceding windowFramePreceding = (Over.WindowFramePreceding) windowFrameBetween.getBetweenBound();
+        Assert.assertTrue(windowFramePreceding.isUseCurrent());
+
+        Over.WindowFrameFollowing windowFrameFollowing = (Over.WindowFrameFollowing) windowFrameBetween.getBetweenBound();
+        Assert.assertEquals(windowFrameFollowing.getUnsignedvaluespecification().toNumberConstant().getNumber(),1);
     }
+
+
+    /*
+    Examples: Parallel Data Warehouse
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/select-over-clause-transact-sql#examples-includesspdwincludessspdw-mdmd
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * OVER(ORDER BY SUM(SalesAmountQuota) DESC)
+     */
     public Over exampleE = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
                 (OverBuilder.class,Over.class)
                 .$child()
@@ -163,9 +230,6 @@ public class OverBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OVER(ORDER BY SUM(SalesAmountQuota) DESC)
-     */
     @Test
     public void testExampleE(){
         // @formatter:off
@@ -184,8 +248,12 @@ public class OverBuilderTest {
         Assert.assertEquals(over.getOrderBy().getItems().get(0).getOrderByExpression().toString(),"SUM(SalesAmountQuota)");
     }
 
+
     // @formatter:off
     //parent+quick
+    /**
+     * OVER(PARTITION BY SalesOrderNumber)
+     */
     public Over exampleF = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
                 (OverBuilder.class,Over.class)
                 .$child()
@@ -194,9 +262,6 @@ public class OverBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OVER(PARTITION BY SalesOrderNumber)
-     */
     @Test
     public void testExampleF(){
         // @formatter:off

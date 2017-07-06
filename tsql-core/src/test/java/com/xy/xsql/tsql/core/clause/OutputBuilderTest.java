@@ -17,7 +17,6 @@ import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_subtraction;
  */
 public class OutputBuilderTest {
 
-
     /**
      * OUTPUT INSERTED.ScrapReasonID, INSERTED.Name, INSERTED.ModifiedDate
      INTO MyTable ( NewScrapReasonID,
@@ -78,9 +77,17 @@ public class OutputBuilderTest {
     }
 
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/output-clause-transact-sql#examples
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT INSERTED.ScrapReasonID, INSERTED.Name, INSERTED.ModifiedDate
+     INTO @MyTableVar
+     */
     public Output exampleA = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                     .$child()
@@ -92,10 +99,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT INSERTED.ScrapReasonID, INSERTED.Name, INSERTED.ModifiedDate
-     INTO @MyTableVar
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -123,6 +126,9 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT DELETED.*
+     */
     public Output exampleB = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -131,9 +137,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT DELETED.*
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -163,6 +166,12 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT inserted.BusinessEntityID,
+     deleted.VacationHours,
+     inserted.VacationHours,
+     inserted.ModifiedDate
+     */
     public Output exampleC = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -174,12 +183,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT inserted.BusinessEntityID,
-     deleted.VacationHours,
-     inserted.VacationHours,
-     inserted.ModifiedDate
-     */
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -210,6 +213,13 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT inserted.BusinessEntityID,
+     deleted.VacationHours,
+     inserted.VacationHours,
+     inserted.VacationHours - deleted.VacationHours,
+     inserted.ModifiedDate
+     */
     public Output exampleD = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -224,13 +234,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT inserted.BusinessEntityID,
-     deleted.VacationHours,
-     inserted.VacationHours,
-     inserted.VacationHours - deleted.VacationHours,
-     inserted.ModifiedDate
-     */
     @Test
     public void testExampleD(){
         // @formatter:off
@@ -323,6 +326,14 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT deleted.ScrapReasonID,
+     inserted.ScrapReasonID,
+     inserted.WorkOrderID,
+     inserted.ProductID,
+     p.Name
+     INTO @MyTestVar
+     */
     public Output exampleE = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -336,14 +347,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT deleted.ScrapReasonID,
-     inserted.ScrapReasonID,
-     inserted.WorkOrderID,
-     inserted.ProductID,
-     p.Name
-     INTO @MyTestVar
-     */
     @Test
     public void testExampleE(){
         // @formatter:off
@@ -434,6 +437,13 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT DELETED.ProductID,
+     p.Name,
+     p.ProductModelID,
+     DELETED.ProductPhotoID
+     INTO @MyTableVar
+     */
     public Output exampleF = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -446,13 +456,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT DELETED.ProductID,
-     p.Name,
-     p.ProductModelID,
-     DELETED.ProductPhotoID
-     INTO @MyTableVar
-     */
     @Test
     public void testExampleF(){
         // @formatter:off
@@ -497,6 +500,11 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT deleted.DocumentSummary,
+     inserted.DocumentSummary
+     INTO @MyTableVar
+     */
     public Output exampleG = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -507,11 +515,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT deleted.DocumentSummary,
-     inserted.DocumentSummary
-     INTO @MyTableVar
-     */
     @Test
     public void testExampleG(){
         // @formatter:off
@@ -537,6 +540,10 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT INSERTED.ScrapReasonID, INSERTED.Name,
+     INSERTED.ModifiedDate
+     */
     public Output exampleH = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -547,10 +554,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT INSERTED.ScrapReasonID, INSERTED.Name,
-     INSERTED.ModifiedDate
-     */
     @Test
     public void testExampleH(){
         // @formatter:off
@@ -579,6 +582,11 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT INSERTED.LastName,
+     INSERTED.FirstName,
+     INSERTED.CurrentSales
+     */
     public Output exampleI = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -589,11 +597,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT INSERTED.LastName,
-     INSERTED.FirstName,
-     INSERTED.CurrentSales
-     */
     @Test
     public void testExampleI(){
         // @formatter:off
@@ -622,6 +625,14 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT DELETED.ProductID,
+     p.Name,
+     p.ProductModelID,
+     DELETED.ProductPhotoID
+     INTO @MyTableVar
+     OUTPUT DELETED.ProductID, DELETED.ProductPhotoID, GETDATE() AS DeletedDate
+     */
     public Output exampleJ = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -643,14 +654,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT DELETED.ProductID,
-     p.Name,
-     p.ProductModelID,
-     DELETED.ProductPhotoID
-     INTO @MyTableVar
-     OUTPUT DELETED.ProductID, DELETED.ProductPhotoID, GETDATE() AS DeletedDate
-     */
     @Test
     public void testExampleJ(){
         // @formatter:off
@@ -708,6 +711,9 @@ public class OutputBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * OUTPUT $action, deleted.ProductID
+     */
     public Output exampleK = new MockParentBuilder<OutputBuilder<MockParent<Output>>,Output>
                 (OutputBuilder.class,Output.class)
                 .$child()
@@ -717,9 +723,6 @@ public class OutputBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * OUTPUT $action, deleted.ProductID
-     */
     @Test
     public void testExampleK(){
         // @formatter:off

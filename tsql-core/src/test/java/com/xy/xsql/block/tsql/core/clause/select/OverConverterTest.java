@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static org.junit.Assert.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -30,6 +30,7 @@ public class OverConverterTest {
                         "OVER ( \n" +
                         "[ <PARTITION BY clause> ]\n" +
                         "[ <ORDER BY clause> ]\n" +
+                        "[ <ROW or RANGE clause> ]\n" +
                         " )");
     }
 
@@ -59,122 +60,172 @@ public class OverConverterTest {
                         "ORDER BY order_by_expression [ ASC | DESC ] [,...n]");
     }
 
+    @Test
+    public void testRowRange() throws Exception {
+        ReferenceBlock b = OverConverter.RowRangeConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<ROW or RANGE clause> ::=\n" +
+                        "{ ROWS | RANGE } <window frame extent>");
+    }
+
+    @Test
+    public void testWindowFrameExtent() throws Exception {
+        ReferenceBlock b = OverConverter.WindowFrameExtentConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<window frame extent> ::=\n" +
+                        "{\n" +
+                        "<window frame preceding>\n" +
+                        "| <window frame between>\n" +
+                        "}");
+    }
+
+    @Test
+    public void testWindowFrameBetween() throws Exception {
+        ReferenceBlock b = OverConverter.WindowFrameBetweenConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<window frame between> ::=\n" +
+                        "BETWEEN <window frame bound> AND <window frame bound>");
+    }
+
+    @Test
+    public void testWindowFrameBound() throws Exception {
+        ReferenceBlock b = OverConverter.WindowFrameBoundConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<window frame bound> ::=\n" +
+                        "{\n" +
+                        "<window frame preceding>\n" +
+                        "| <window frame following>\n" +
+                        "}");
+    }
+
+    @Test
+    public void testWindowFramePreceding() throws Exception {
+        ReferenceBlock b = OverConverter.WindowFramePrecedingConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<window frame preceding> ::=\n" +
+                        "UNBOUNDED PRECEDING | <unsigned_value_specification> PRECEDING | CURRENT ROW");
+    }
+
+    @Test
+    public void testWindowFrameFollowing() throws Exception {
+        ReferenceBlock b = OverConverter.WindowFrameFollowingConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<window frame following> ::=\n" +
+                        "UNBOUNDED FOLLOWING | <unsigned_value_specification> FOLLOWING | CURRENT ROW");
+    }
+
+    @Test
+    public void testUnsignedValueSpecification() throws Exception {
+        ReferenceBlock b = OverConverter.UnsignedValueSpecificationConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<unsigned value specification> ::=\n" +
+                        "{ <unsigned integer literal> }");
+    }
 
 
-    private OverBuilderTest builderTest;
+
+    private Map<Over,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new OverBuilderTest();
+        OverBuilderTest builderTest = new OverBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "OVER(PARTITION BY PostalCode ORDER BY SalesYTD DESC)");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "OVER(PARTITION BY SalesOrderID)");
+
+        model2StringMap.put(
+                builderTest.exampleC1,
+                "OVER (PARTITION BY TerritoryID\n" +
+                        "     ORDER BY DATEPART(yy,ModifiedDate)\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleC2,
+                "OVER (ORDER BY DATEPART(yy,ModifiedDate)   \n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleD1,
+                "OVER (PARTITION BY TerritoryID\n" +
+                        "     ORDER BY DATEPART(yy,ModifiedDate)\n" +
+                        "     ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING )");
+
+        model2StringMap.put(
+                builderTest.exampleD2,
+                "OVER (PARTITION BY TerritoryID   \n" +
+                        "    ORDER BY DATEPART(yy,ModifiedDate)   \n" +
+                        "    ROWS UNBOUNDED PRECEDING)");
+
+        model2StringMap.put(
+                builderTest.exampleE,
+                "OVER(ORDER BY SUM(SalesAmountQuota) DESC)");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "OVER(PARTITION BY SalesOrderNumber)");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        Over over = builderTest.exampleA;
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(over);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OVER(PARTITION BY PostalCode ORDER BY SalesYTD DESC)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintB() throws Exception {
-        Over over = builderTest.exampleB;
-
-        StringWriter writer = ReferenceBlockPrinter.print(over);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OVER(PARTITION BY SalesOrderID)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintC() throws Exception {
-        Over over = builderTest.exampleC;
-
-        StringWriter writer = ReferenceBlockPrinter.print(over);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OVER (PARTITION BY TerritoryID\n" +
-                "     ORDER BY DATEPART(yy,ModifiedDate)\n" +
-                "     )";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintD() throws Exception {
-        Over over = builderTest.exampleD;
-
-        StringWriter writer = ReferenceBlockPrinter.print(over);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        //TODO
-        String ok = "OVER (PARTITION BY TerritoryID\n" +
-                "     ORDER BY DATEPART(yy,ModifiedDate)\n"
-                +
-//                "     ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING )\n" +
-                "     )";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintE() throws Exception {
-        Over over = builderTest.exampleE;
-
-        StringWriter writer = ReferenceBlockPrinter.print(over);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OVER(ORDER BY SUM(SalesAmountQuota) DESC)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintF() throws Exception {
-        Over over = builderTest.exampleF;
-
-        StringWriter writer = ReferenceBlockPrinter.print(over);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OVER(PARTITION BY SalesOrderNumber)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
 }

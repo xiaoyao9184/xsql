@@ -184,6 +184,11 @@ public class Expressions {
         return new CaseBuilder<>();
     }
 
+    public static CaseBuilder<Void> e_case(Expression expression){
+        return new CaseBuilder<Void>()
+                .withInput(expression);
+    }
+
     /**
      * Coalesce
      * @param expressions

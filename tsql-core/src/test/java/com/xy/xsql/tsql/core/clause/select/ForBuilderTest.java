@@ -11,7 +11,15 @@ import static com.xy.xsql.tsql.core.clause.select.ForBuilder.XmlConfigurator.*;
  */
 public class ForBuilderTest {
 
+    /*
+    FOR XML
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-for-clause-transact-sql#for-xml
+     */
+
     // @formatter:off
+    /**
+     * FOR XML AUTO, TYPE, XMLSCHEMA, ELEMENTS XSINIL;
+     */
     public For exampleXML = new ForBuilder<Void>()
             .$XML(
                     AUTO(),
@@ -22,9 +30,6 @@ public class ForBuilderTest {
             .build();
     // @formatter:on
 
-    /**
-     * FOR XML AUTO, TYPE, XMLSCHEMA, ELEMENTS XSINIL;
-     */
     @Test
     public void testForXMLExample(){
         For for1 = new ForBuilder<Void>()
@@ -41,6 +46,5 @@ public class ForBuilderTest {
         Assert.assertTrue(for1.getXml().isUseXmlSchema());
         Assert.assertTrue(for1.getXml().isUseElementsXsinil());
     }
-
 
 }

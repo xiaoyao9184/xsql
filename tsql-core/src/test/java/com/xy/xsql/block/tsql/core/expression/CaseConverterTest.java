@@ -24,4 +24,26 @@ public class CaseConverterTest {
         assert true;
     }
 
+    @Test
+    public void testSimpleCase() throws Exception {
+        ReferenceBlock b = CaseConverter.SimpleCaseConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        assert true;
+    }
+
+    @Test
+    public void testSearchedCase() throws Exception {
+        ReferenceBlock b = CaseConverter.SearchedCaseConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        assert true;
+    }
+
 }

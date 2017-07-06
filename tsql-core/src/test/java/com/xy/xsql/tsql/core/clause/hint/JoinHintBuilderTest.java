@@ -12,7 +12,7 @@ import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.*;
 public class JoinHintBuilderTest {
 
     /**
-     * LEFT OUTER HASH JOIN Production.ProductReview AS pr
+     * HASH
      */
     @Test
     public void testExampleA() {
@@ -23,7 +23,7 @@ public class JoinHintBuilderTest {
 
 
     /**
-     * INNER LOOP JOIN Sales.SalesPerson AS sp
+     * LOOP
      */
     @Test
     public void testExampleB() {
@@ -33,7 +33,7 @@ public class JoinHintBuilderTest {
     }
 
     /**
-     * INNER MERGE JOIN Purchasing.PurchaseOrderDetail AS pod
+     * MERGE
      */
     @Test
     public void testExampleC() {

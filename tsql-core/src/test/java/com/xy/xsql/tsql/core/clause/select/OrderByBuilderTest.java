@@ -21,8 +21,17 @@ import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_subtraction;
  */
 public class OrderByBuilderTest {
 
+    /*
+    Basic syntax
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql#a-namebasicsyntaxa-basic-syntax
+     */
+
+
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY ProductID
+     */
     public OrderBy example1A = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -31,9 +40,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY ProductID;
-     */
     @Test
     public void testExample1A(){
         // @formatter:off
@@ -51,8 +57,12 @@ public class OrderByBuilderTest {
         Assert.assertEquals(item.getOrderByExpression().toString(),"ProductID");
     }
 
+
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY DATEPART(year, HireDate)
+     */
     public OrderBy example1D = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -61,9 +71,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY DATEPART(year, HireDate);
-     */
     @Test
     public void testExample1D(){
         // @formatter:off
@@ -81,8 +88,16 @@ public class OrderByBuilderTest {
         Assert.assertEquals(item.getOrderByExpression().toString(),"DATEPART(year, HireDate)");
     }
 
+    /*
+    Specifying ascending and descending sort order
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql#a-namesortordera-specifying-ascending-and-descending-sort-order
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY ProductID DESC
+     */
     public OrderBy example2A = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -92,9 +107,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY ProductID DESC;
-     */
     @Test
     public void testExample2A(){
         // @formatter:off
@@ -114,8 +126,12 @@ public class OrderByBuilderTest {
         Assert.assertTrue(item.isUseDesc());
     }
 
+
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY Name ASC
+     */
     public OrderBy example2B = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -125,9 +141,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY Name ASC ;
-     */
     @Test
     public void testExample2B(){
         // @formatter:off
@@ -150,6 +163,9 @@ public class OrderByBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY FirstName ASC, LastName DESC
+     */
     public OrderBy example2C = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -161,9 +177,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY FirstName ASC, LastName DESC ;
-     */
     @Test
     public void testExample2C(){
         // @formatter:off
@@ -192,9 +205,69 @@ public class OrderByBuilderTest {
         Assert.assertTrue(item1.isUseDesc());
     }
 
+    /*
+    Specifying a collation
+    TODO
+     */
+
+    /*
+    Specifying a conditional order
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql#a-namecasea-specifying-a-conditional-order
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY CASE SalariedFlag WHEN 1 THEN BusinessEntityID END DESC
+        ,CASE WHEN SalariedFlag = 0 THEN BusinessEntityID END
+     */
+    public OrderBy example2_1 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(e_case(c("SalariedFlag"))
+                            .$When(e_number(1)).$Then(c("BusinessEntityID"))
+                            .build()
+                    ).$Desc()
+                    .$(e_case()
+                            .$When(p_equal(
+                                    c("SalariedFlag"),
+                                    e_number(0)
+                            )).$Then(c("BusinessEntityID"))
+                            .build()
+                    )
+                    .and()
+                .get();
+    /**
+     * ORDER BY CASE CountryRegionName WHEN 'United States' THEN TerritoryName
+         ELSE CountryRegionName END
+     */
+    public OrderBy example2_2 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(e_case(c("CountryRegionName"))
+                            .$When(e_string("United States")).$Then(c("TerritoryName"))
+                            .$Else(c("CountryRegionName"))
+                            .build()
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
+    /*
+    Using ORDER BY in a ranking function
+    Omitted
+     */
+
+    /*
+    Limiting the number of rows returned
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql#a-nameoffseta-limiting-the-number-of-rows-returned
+     */
+
+    // @formatter:off
+    //parent+quick
+    /**
+     * ORDER BY DepartmentID OFFSET 5 ROWS
+     */
     public OrderBy example3A1 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -203,6 +276,12 @@ public class OrderByBuilderTest {
                     .$Rows()
                     .and()
                 .get();
+
+    /**
+     * ORDER BY DepartmentID
+     OFFSET 0 ROWS
+     FETCH NEXT 10 ROWS ONLY
+     */
     public OrderBy example3A2 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -213,12 +292,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY DepartmentID OFFSET 5 ROWS;
-     * ORDER BY DepartmentID
-     OFFSET 0 ROWS
-     FETCH NEXT 10 ROWS ONLY;
-     */
     @Test
     public void testExample3A(){
         // @formatter:off
@@ -232,7 +305,6 @@ public class OrderByBuilderTest {
                     .withUseRows()
                     .and()
                 .build();
-
 
         OrderBy orderBy1 = new OrderByBuilder<Void>()
                 .withItem()
@@ -266,6 +338,11 @@ public class OrderByBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY DepartmentID ASC
+     OFFSET @StartingRowNumber ROWS
+     FETCH NEXT @FetchRows ROWS ONLY
+     */
     public OrderBy example3B = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -276,11 +353,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY DepartmentID ASC
-     OFFSET @StartingRowNumber ROWS
-     FETCH NEXT @FetchRows ROWS ONLY;
-     */
     @Test
     public void testExample3B(){
         // @formatter:off
@@ -314,6 +386,11 @@ public class OrderByBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY DepartmentID ASC
+     OFFSET @StartingRowNumber - 1 ROWS
+     FETCH NEXT @EndingRowNumber - @StartingRowNumber + 1 ROWS ONLY
+     */
     public OrderBy example3C = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -332,11 +409,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY DepartmentID ASC
-     OFFSET @StartingRowNumber - 1 ROWS
-     FETCH NEXT @EndingRowNumber - @StartingRowNumber + 1 ROWS ONLY
-     */
     @Test
     public void testExample3C(){
         // @formatter:off
@@ -378,7 +450,6 @@ public class OrderByBuilderTest {
 
     // @formatter:off
     //parent+quick
-
     private Select.QuerySpecification querySpecification = QUERY()
             .$(c("PageSize"))
             .$From()
@@ -389,7 +460,11 @@ public class OrderByBuilderTest {
                 .and()
             .build();
 
-
+    /**
+     * ORDER BY DepartmentID ASC
+     OFFSET @StartingRowNumber ROWS
+     FETCH NEXT (SELECT PageSize FROM dbo.AppSettings WHERE AppSettingID = 1) ROWS ONLY;
+     */
     public OrderBy example3D = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -401,11 +476,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY DepartmentID ASC
-     OFFSET @StartingRowNumber ROWS
-     FETCH NEXT (SELECT PageSize FROM dbo.AppSettings WHERE AppSettingID = 1) ROWS ONLY;
-     */
     @Test
     public void testExample3D(){
         // @formatter:off
@@ -441,6 +511,11 @@ public class OrderByBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * ORDER BY DepartmentID ASC
+     OFFSET @StartingRowNumber - 1 ROWS
+     FETCH NEXT @RowCountPerPage ROWS ONLY
+     */
     public OrderBy example3E = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
@@ -455,11 +530,6 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * ORDER BY DepartmentID ASC
-     OFFSET @StartingRowNumber - 1 ROWS
-     FETCH NEXT @RowCountPerPage ROWS ONLY;
-     */
     @Test
     public void testExample3E(){
         // @formatter:off
@@ -492,4 +562,10 @@ public class OrderByBuilderTest {
         Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
+
+    /*
+    Examples: Azure SQL Data Warehouse and Parallel Data Warehouse
+    Using ORDER BY with UNION, EXCEPT, and INTERSECT
+    Omitted
+     */
 }

@@ -20,8 +20,15 @@ import static com.xy.xsql.tsql.core.predicate.Predicates.*;
  */
 public class FromBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/from-transact-sql#examples
+     */
 
     // @formatter:off
+    /**
+     * FROM Sales.SalesTerritory
+     */
     public From exampleA = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
             (FromBuilder.class,From.class)
             .$child()
@@ -30,9 +37,6 @@ public class FromBuilderTest {
             .get();
     // @formatter:on
 
-    /**
-     * FROM Sales.SalesTerritory
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -58,6 +62,9 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM HumanResources.Employee
+     */
     public From exampleB = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
             (FromBuilder.class,From.class)
             .$child()
@@ -66,9 +73,6 @@ public class FromBuilderTest {
             .get();
     // @formatter:on
 
-    /**
-     * FROM HumanResources.Employee
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -94,6 +98,10 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM HumanResources.Employee AS e
+     CROSS JOIN HumanResources.Department AS d
+     */
     public From exampleC = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
             (FromBuilder.class,From.class)
             .$child()
@@ -106,10 +114,6 @@ public class FromBuilderTest {
             .get();
     // @formatter:on
 
-    /**
-     * FROM HumanResources.Employee AS e
-     CROSS JOIN HumanResources.Department AS d
-     */
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -126,17 +130,6 @@ public class FromBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-                (FromBuilder.class,From.class)
-                .$child()
-                    .$()
-                        .$(t("HumanResources","Employee"),"e")
-                        .$Cross_Join()
-                        .$(t("HumanResources","Department"),"d")
-                        .and()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(from.getTableSourceList().size(),1);
@@ -159,6 +152,11 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM Production.Product AS p
+     FULL OUTER JOIN Sales.SalesOrderDetail AS sod
+     ON p.ProductID = sod.ProductID
+     */
     public From exampleD = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -179,11 +177,6 @@ public class FromBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * FROM Production.Product AS p
-     FULL OUTER JOIN Sales.SalesOrderDetail AS sod
-     ON p.ProductID = sod.ProductID
-     */
     @Test
     public void testExampleD(){
         // @formatter:off
@@ -254,6 +247,11 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM Production.Product AS p
+     LEFT OUTER JOIN Sales.SalesOrderDetail AS sod
+     ON p.ProductID = sod.ProductID
+     */
     public From exampleE = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -274,11 +272,6 @@ public class FromBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * FROM Production.Product AS p
-     LEFT OUTER JOIN Sales.SalesOrderDetail AS sod
-     ON p.ProductID = sod.ProductID
-     */
     @Test
     public void testExampleE(){
         // @formatter:off
@@ -328,6 +321,11 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM Production.Product AS p
+     INNER JOIN Sales.SalesOrderDetail AS sod
+     ON p.ProductID = sod.ProductID
+     */
     public From exampleF = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -348,11 +346,6 @@ public class FromBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * FROM Production.Product AS p
-     INNER JOIN Sales.SalesOrderDetail AS sod
-     ON p.ProductID = sod.ProductID
-     */
     @Test
     public void testExampleF(){
         // @formatter:off
@@ -402,6 +395,11 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM Sales.SalesTerritory AS st
+     RIGHT OUTER JOIN Sales.SalesPerson AS sp
+     ON st.TerritoryID = sp.TerritoryID ;
+     */
     public From exampleG = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -422,11 +420,6 @@ public class FromBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * FROM Sales.SalesTerritory AS st
-     RIGHT OUTER JOIN Sales.SalesPerson AS sp
-     ON st.TerritoryID = sp.TerritoryID ;
-     */
     @Test
     public void testExampleG(){
         // @formatter:off
@@ -476,7 +469,13 @@ public class FromBuilderTest {
 
 
     // @formatter:off
-
+    /**
+     * FROM Production.Product AS p
+     INNER MERGE JOIN Purchasing.ProductVendor AS pv
+     ON p.ProductID = pv.ProductID
+     INNER HASH JOIN Purchasing.Vendor AS v
+     ON pv.BusinessEntityID = v.BusinessEntityID
+     */
     public From exampleH = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -504,16 +503,8 @@ public class FromBuilderTest {
                         .and()
                     .and()
                 .get();
-
     // @formatter:on
 
-    /**
-     * FROM Production.Product AS p
-     INNER MERGE JOIN Purchasing.ProductVendor AS pv
-     ON p.ProductID = pv.ProductID
-     INNER HASH JOIN Purchasing.Vendor AS v
-     ON pv.BusinessEntityID = v.BusinessEntityID
-     */
     @Test
     public void testExampleH(){
         // @formatter:off
@@ -589,8 +580,6 @@ public class FromBuilderTest {
     }
 
 
-
-
     // @formatter:off
     private Select.QuerySpecification querySpecification = new SelectBuilder.QuerySpecificationBuilder<Void>()
             .$(c("bea", "BusinessEntityID"))
@@ -612,6 +601,16 @@ public class FromBuilderTest {
                 .and()
                 .build();
 
+    /**
+     * FROM Person.Person AS p
+     INNER JOIN HumanResources.Employee e ON p.BusinessEntityID = e.BusinessEntityID
+     INNER JOIN
+     (SELECT bea.BusinessEntityID, a.City
+     FROM Person.Address AS a
+     INNER JOIN Person.BusinessEntityAddress AS bea
+     ON a.AddressID = bea.AddressID) AS d
+     ON p.BusinessEntityID = d.BusinessEntityID
+     */
     public From exampleI = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -641,16 +640,6 @@ public class FromBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * FROM Person.Person AS p
-     INNER JOIN HumanResources.Employee e ON p.BusinessEntityID = e.BusinessEntityID
-     INNER JOIN
-     (SELECT bea.BusinessEntityID, a.City
-     FROM Person.Address AS a
-     INNER JOIN Person.BusinessEntityAddress AS bea
-     ON a.AddressID = bea.AddressID) AS d
-     ON p.BusinessEntityID = d.BusinessEntityID
-     */
     @Test
     public void testExampleI(){
         // @formatter:off
@@ -688,35 +677,6 @@ public class FromBuilderTest {
                         .and()
                     .and()
                 .build();
-
-
-        //parent+quick
-        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-                (FromBuilder.class,From.class)
-                .$child()
-                    .$()
-                        .$(t("Person","Person"))
-                        .$As("p")
-                        .$Inner_Join()
-                        .$(t("HumanResources","Employee"))
-                        .$As("e")
-                        .$On()
-                            .$(p_equal(
-                                    c("p","BusinessEntityID"),
-                                    c("e","BusinessEntityID")
-                            ))
-                            .and()
-                        .$Inner_Join()
-                        .$(new Select.QuerySpecification())
-                        .$As("d")
-                        .$On()
-                            .$(p_equal(
-                                    c("p","BusinessEntityID"),
-                                    c("d","BusinessEntityID")
-                            ))
-                            .and()
-                        .and()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(from.getTableSourceList().size(),1);
@@ -752,6 +712,9 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM Sales.Customer TABLESAMPLE SYSTEM (10 PERCENT) ;
+     */
     public From exampleJ = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -770,9 +733,6 @@ public class FromBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * FROM Sales.Customer TABLESAMPLE SYSTEM (10 PERCENT) ;
-     */
     @Test
     public void testExampleJ(){
         // @formatter:off
@@ -793,6 +753,9 @@ public class FromBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FROM Departments d CROSS APPLY dbo.GetReports(d.DeptMgrID) ;
+     */
     public From exampleK = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
@@ -808,9 +771,6 @@ public class FromBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * FROM Departments d CROSS APPLY dbo.GetReports(d.DeptMgrID) ;
-     */
     @Test
     public void testExampleK(){
         // @formatter:off
@@ -847,4 +807,8 @@ public class FromBuilderTest {
 //        Assert.assertEquals(tableSource2.getArgs().toString(),"d.DeptMgrID");
 
     }
+
+    //TODO LM
+
+    //TODO NOPQRSTUV
 }

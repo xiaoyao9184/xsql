@@ -17,14 +17,25 @@ import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
  */
 public class SelectBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/select-examples-transact-sql
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT *
+     */
     public Select exampleA1 = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
                     .$()
                     .and()
                 .get();
+    /**
+     * SELECT p.*
+     */
     public Select exampleA2 = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -33,10 +44,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT *
-     SELECT p.*
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -63,6 +70,9 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT Name, ProductNumber, ListPrice AS Price
+     */
     public Select exampleA3 = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -73,9 +83,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT Name, ProductNumber, ListPrice AS Price
-     */
     @Test
     public void testExampleA3(){
         // @formatter:off
@@ -103,6 +110,11 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT p.Name AS ProductName,
+     NonDiscountSales = (OrderQty * UnitPrice),
+     Discounts = ((OrderQty * UnitPrice) * UnitPriceDiscount)
+     */
     public Select exampleB = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -113,11 +125,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT p.Name AS ProductName,
-     NonDiscountSales = (OrderQty * UnitPrice),
-     Discounts = ((OrderQty * UnitPrice) * UnitPriceDiscount)
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -146,6 +153,10 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT 'Total income is', ((OrderQty * UnitPrice) * (1.0 - UnitPriceDiscount)), ' for ',
+     p.Name AS ProductName
+     */
     public Select exampleB2 = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -157,10 +168,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT 'Total income is', ((OrderQty * UnitPrice) * (1.0 - UnitPriceDiscount)), ' for ',
-     p.Name AS ProductName
-     */
     @Test
     public void testExampleB2(){
         // @formatter:off
@@ -191,6 +198,9 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT DISTINCT JobTitle
+     */
     public Select exampleC = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -200,9 +210,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT DISTINCT JobTitle
-     */
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -222,6 +229,9 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT DISTINCT p.LastName, p.FirstName
+     */
     public Select exampleE2 = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -232,9 +242,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT DISTINCT p.LastName, p.FirstName
-     */
     @Test
     public void testExampleE2(){
         // @formatter:off
@@ -258,6 +265,9 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT SalesOrderID, SUM(LineTotal) AS SubTotal
+     */
     public Select exampleF = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -267,9 +277,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT SalesOrderID, SUM(LineTotal) AS SubTotal
-     */
     @Test
     public void testExampleF(){
         // @formatter:off
@@ -293,6 +300,10 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT ProductID, SpecialOfferID, AVG(UnitPrice) AS [Average Price],
+     SUM(LineTotal) AS SubTotal
+     */
     public Select exampleG = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -304,10 +315,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT ProductID, SpecialOfferID, AVG(UnitPrice) AS [Average Price],
-     SUM(LineTotal) AS SubTotal
-     */
     @Test
     public void testExampleG(){
         // @formatter:off
@@ -341,6 +348,9 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT ProductModelID, AVG(ListPrice) AS [Average List Price]
+     */
     public Select exampleH = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -350,9 +360,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT ProductModelID, AVG(ListPrice) AS [Average List Price]
-     */
     @Test
     public void testExampleH(){
         // @formatter:off
@@ -376,6 +383,10 @@ public class SelectBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * SELECT AVG(OrderQty) AS [Average Quantity],
+     NonDiscountSales = (OrderQty * UnitPrice)
+     */
     public Select exampleI = new MockParentBuilder<SelectBuilder<MockParent<Select>>,Select>
                 (SelectBuilder.class,Select.class)
                 .$child()
@@ -385,10 +396,6 @@ public class SelectBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * SELECT AVG(OrderQty) AS [Average Quantity],
-     NonDiscountSales = (OrderQty * UnitPrice)
-     */
     @Test
     public void testExampleI(){
         // @formatter:off

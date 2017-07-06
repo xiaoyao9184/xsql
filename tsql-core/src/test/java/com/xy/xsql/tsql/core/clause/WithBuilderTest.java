@@ -11,17 +11,21 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_addition;
+import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_assignment;
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.StatementBuilderFactory.SELECT;
 
 /**
- * TODO not done
  * Created by xiaoyao9184 on 2017/3/11.
  */
 public class WithBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/with-common-table-expression-transact-sql#examples
+     */
 
     // @formatter:off
     private Select selectA = SELECT()
@@ -39,6 +43,17 @@ public class WithBuilderTest {
                 .build();
 
     //parent+quick
+
+    /**
+     * WITH Sales_CTE (SalesPersonID, SalesOrderID, SalesYear)
+     AS
+     -- Define the CTE query.
+     (
+     SELECT SalesPersonID, SalesOrderID, YEAR(OrderDate) AS SalesYear
+     FROM Sales.SalesOrderHeader
+     WHERE SalesPersonID IS NOT NULL
+     )
+     */
     public With exampleA = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
                 (WithBuilder.class,With.class)
                 .$child()
@@ -53,20 +68,6 @@ public class WithBuilderTest {
                 .get();
     // @formatter:on
 
-
-
-    /**
-     * -- Define the CTE expression name and column list.
-     WITH Sales_CTE (SalesPersonID, SalesOrderID, SalesYear)
-     AS
-     -- Define the CTE query.
-     (
-     SELECT SalesPersonID, SalesOrderID, YEAR(OrderDate) AS SalesYear
-     FROM Sales.SalesOrderHeader
-     WHERE SalesPersonID IS NOT NULL
-     )
-     -- Define the outer query referencing the CTE name.
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -109,6 +110,16 @@ public class WithBuilderTest {
             .build();
 
     //parent+quick
+    /**
+     * WITH Sales_CTE (SalesPersonID, NumberOfOrders)
+     AS
+     (
+     SELECT SalesPersonID, COUNT(*)
+     FROM Sales.SalesOrderHeader
+     WHERE SalesPersonID IS NOT NULL
+     GROUP BY SalesPersonID
+     )
+     */
     public With exampleB = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
                 (WithBuilder.class,With.class)
                 .$child()
@@ -122,16 +133,6 @@ public class WithBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WITH Sales_CTE (SalesPersonID, NumberOfOrders)
-     AS
-     (
-     SELECT SalesPersonID, COUNT(*)
-     FROM Sales.SalesOrderHeader
-     WHERE SalesPersonID IS NOT NULL
-     GROUP BY SalesPersonID
-     )
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -189,27 +190,6 @@ public class WithBuilderTest {
             .build();
 
     //parent+quick
-    public With exampleC = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
-                (WithBuilder.class,With.class)
-                .$child()
-                    .$(
-                            "Sales_CTE",
-                            selectC1,
-                            c("SalesPersonID"),
-                            c("TotalSales"),
-                            c("SalesYear")
-                    )
-                    .$(
-                            "Sales_Quota_CTE",
-                            selectC2,
-                            c("BusinessEntityID"),
-                            c("SalesQuota"),
-                            c("SalesQuotaYear")
-                    )
-                    .and()
-                .get();
-    // @formatter:on
-
     /**
      * WITH Sales_CTE (SalesPersonID, TotalSales, SalesYear)
      AS
@@ -232,6 +212,27 @@ public class WithBuilderTest {
      GROUP BY BusinessEntityID, YEAR(QuotaDate)
      )
      */
+    public With exampleC = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "Sales_CTE",
+                            selectC1,
+                            c("SalesPersonID"),
+                            c("TotalSales"),
+                            c("SalesYear")
+                    )
+                    .$(
+                            "Sales_Quota_CTE",
+                            selectC2,
+                            c("BusinessEntityID"),
+                            c("SalesQuota"),
+                            c("SalesQuotaYear")
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -306,6 +307,19 @@ public class WithBuilderTest {
             .build();
 
     //parent+quick
+    /**
+     * WITH DirectReports(ManagerID, EmployeeID, Title, EmployeeLevel) AS
+     (
+     SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
+     FROM dbo.MyEmployees
+     WHERE ManagerID IS NULL
+     UNION ALL
+     SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
+     FROM dbo.MyEmployees AS e
+     INNER JOIN DirectReports AS d
+     ON e.ManagerID = d.EmployeeID
+     )
+     */
     public With exampleD = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
                 (WithBuilder.class,With.class)
                 .$child()
@@ -321,19 +335,7 @@ public class WithBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WITH DirectReports(ManagerID, EmployeeID, Title, EmployeeLevel) AS
-     (
-     SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
-     FROM dbo.MyEmployees
-     WHERE ManagerID IS NULL
-     UNION ALL
-     SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
-     FROM dbo.MyEmployees AS e
-     INNER JOIN DirectReports AS d
-     ON e.ManagerID = d.EmployeeID
-     )
-     */
+    @SuppressWarnings("Duplicates")
     @Test
     public void testExampleD(){
         // @formatter:off
@@ -376,8 +378,7 @@ public class WithBuilderTest {
                         .$Predicate(p_is_null(e("ManagerID")))
                         .and()
                     .and()
-                .$Union_All_()
-                .$Select()
+                .$Union_All_Select()
                     .$(c("e","ManagerID"))
                     .$(c("e","EmployeeID"))
                     .$(c("e","Title"))
@@ -394,10 +395,22 @@ public class WithBuilderTest {
                         .and()
                     .and()
                 .and()
-            .and()
             .build();
 
     //parent+quick
+    /**
+     * WITH DirectReports(ManagerID, EmployeeID, Title, EmployeeLevel) AS
+     (
+     SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
+     FROM dbo.MyEmployees
+     WHERE ManagerID IS NULL
+     UNION ALL
+     SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
+     FROM dbo.MyEmployees AS e
+     INNER JOIN DirectReports AS d
+     ON e.ManagerID = d.EmployeeID
+     )
+     */
     public With exampleE = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
                 (WithBuilder.class,With.class)
                 .$child()
@@ -413,19 +426,7 @@ public class WithBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WITH DirectReports(ManagerID, EmployeeID, Title, EmployeeLevel) AS
-     (
-     SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
-     FROM dbo.MyEmployees
-     WHERE ManagerID IS NULL
-     UNION ALL
-     SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
-     FROM dbo.MyEmployees AS e
-     INNER JOIN DirectReports AS d
-     ON e.ManagerID = d.EmployeeID
-     )
-     */
+    @SuppressWarnings("Duplicates")
     @Test
     public void testExampleE(){
         // @formatter:off
@@ -495,22 +496,6 @@ public class WithBuilderTest {
             .build();
 
     //parent+quick
-    public With exampleF = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
-                (WithBuilder.class,With.class)
-                .$child()
-                    .$(
-                            "DirectReports",
-                            selectF,
-                            c("Name"),
-                            c("Title"),
-                            c("EmployeeID"),
-                            c("EmployeeLevel"),
-                            c("Sort")
-                    )
-                    .and()
-                .get();
-    // @formatter:on
-
     /**
      * WITH DirectReports(Name, Title, EmployeeID, EmployeeLevel, Sort)
      AS (SELECT CONVERT(varchar(255), e.FirstName + ' ' + e.LastName),
@@ -532,6 +517,22 @@ public class WithBuilderTest {
      JOIN DirectReports AS d ON e.ManagerID = d.EmployeeID
      )
      */
+    public With exampleF = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "DirectReports",
+                            selectF,
+                            c("Name"),
+                            c("Title"),
+                            c("EmployeeID"),
+                            c("EmployeeLevel"),
+                            c("Sort")
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     @Test
     public void testExampleF(){
         // @formatter:off
@@ -598,20 +599,6 @@ public class WithBuilderTest {
             .build();
 
     //parent+quick
-    public With exampleG = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
-                (WithBuilder.class,With.class)
-                .$child()
-                    .$(
-                            "cte",
-                            selectG,
-                            c("EmployeeID"),
-                            c("ManagerID"),
-                            c("Title")
-                    )
-                    .and()
-                .get();
-    // @formatter:on
-
     /**
      * WITH cte (EmployeeID, ManagerID, Title) as
      (
@@ -626,6 +613,20 @@ public class WithBuilderTest {
      )
      --Uses MAXRECURSION to limit the recursive levels to 2
      */
+    public With exampleG = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "cte",
+                            selectG,
+                            c("EmployeeID"),
+                            c("ManagerID"),
+                            c("Title")
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
     @Test
     public void testExampleG(){
         // @formatter:off
@@ -649,4 +650,120 @@ public class WithBuilderTest {
         Assert.assertEquals(cte.getColumnName().get(1).toString(),"ManagerID");
         Assert.assertEquals(cte.getColumnName().get(2).toString(),"Title");
     }
+
+
+    // @formatter:off
+    private Select selectH = SELECT()
+            .withQuery()
+                .$Select()
+                    .$(c("b","ProductAssemblyID"))
+                    .$(c("b","ComponentID"))
+                    .$(c("b","PerAssemblyQty"))
+                    .$(c("b","EndDate"))
+                    .$(e_number(0),"ComponentLevel")
+                    .$From()
+                        .$(t("Production","BillOfMaterials"),"b")
+                            .and()
+                        .and()
+                    .$Where()
+                        .$Predicate(p_equal(c("b","ProductAssemblyID"),e_number(800)))
+                        .$_AndPredicate(p_is_null(c("b","EndDate")))
+                        .and()
+                    .and()
+                .$Union_All_Select()
+                    .$(c("bom","ProductAssemblyID"))
+                    .$(c("bom","ComponentID"))
+                    .$(c("p","PerAssemblyQty"))
+                    .$(c("bom","EndDate"))
+                    .$(e_assignment(c("ComponentLevel"),e_number(1)))
+                    .$From()
+                        .$()
+                            .$(t("Production","BillOfMaterials"),"bom")
+                            .$Inner_Join()
+                            .$(t("Parts"),"p")
+                            .$On()
+                                .$Predicate(p_equal(
+                                        c("bom","ProductAssemblyID"),
+                                        c("p","ComponentID")))
+                                .and()
+                            .and()
+                        .and()
+                    .$Where()
+                        .$Predicate(p_is_null(c("bom","EndDate")))
+                        .and()
+                    .and()
+                .and()
+            .build();
+
+    //parent+quick
+    /**
+     * WITH Parts(AssemblyID, ComponentID, PerAssemblyQty, EndDate, ComponentLevel) AS
+     (
+     SELECT b.ProductAssemblyID, b.ComponentID, b.PerAssemblyQty,
+     b.EndDate, 0 AS ComponentLevel
+     FROM Production.BillOfMaterials AS b
+     WHERE b.ProductAssemblyID = 800
+     AND b.EndDate IS NULL
+     UNION ALL
+     SELECT bom.ProductAssemblyID, bom.ComponentID, p.PerAssemblyQty,
+     bom.EndDate, ComponentLevel + 1
+     FROM Production.BillOfMaterials AS bom
+     INNER JOIN Parts AS p
+     ON bom.ProductAssemblyID = p.ComponentID
+     AND bom.EndDate IS NULL
+     )
+     */
+    public With exampleH = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
+                (WithBuilder.class,With.class)
+                .$child()
+                    .$(
+                            "Parts",
+                            selectH,
+                            c("AssemblyID"),
+                            c("ComponentID"),
+                            c("PerAssemblyQty"),
+                            c("EndDate"),
+                            c("ComponentLevel")
+                    )
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleH(){
+        // @formatter:off
+        With with = new WithBuilder<Void>()
+                .withItem()
+                    .withExpressionName("Parts")
+                    .withColumnName(c("AssemblyID"))
+                    .withColumnName(c("ComponentID"))
+                    .withColumnName(c("PerAssemblyQty"))
+                    .withColumnName(c("EndDate"))
+                    .withColumnName(c("ComponentLevel"))
+                    .withCteQueryDefinition(selectG)
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+
+        With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
+        Assert.assertEquals(cte.getExpressionName(), "Parts");
+        Assert.assertEquals(cte.getColumnName().size(),5);
+        Assert.assertEquals(cte.getColumnName().get(0).toString(),"AssemblyID");
+        Assert.assertEquals(cte.getColumnName().get(1).toString(),"ComponentID");
+        Assert.assertEquals(cte.getColumnName().get(2).toString(),"PerAssemblyQty");
+        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EndDate");
+        Assert.assertEquals(cte.getColumnName().get(4).toString(),"ComponentLevel");
+    }
+
+    //TODO IJK
+
+
+    /*
+    Examples: SQL Data Warehouse and Parallel Data Warehouse
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/with-common-table-expression-transact-sql#examples-includesssdwincludessssdw-mdmd-and-includesspdwincludessspdw-mdmd
+     */
+
+    //TODO LMNOP
 }

@@ -13,8 +13,17 @@ import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
  */
 public class IntoBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-into-clause-transact-sql#examples
+     */
+
     // @formatter:off
     //parent+quick
+
+    /**
+     * INTO dbo.EmployeeAddresses
+     */
     public Into exampleA = new MockParentBuilder<IntoBuilder<MockParent<Into>>,Into>
                 (IntoBuilder.class,Into.class)
                 .$child()
@@ -23,9 +32,6 @@ public class IntoBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * INTO dbo.EmployeeAddresses
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -37,8 +43,12 @@ public class IntoBuilderTest {
         Assert.assertEquals(into.getNewTable().toString(), "dbo.EmployeeAddresses");
     }
 
+
     // @formatter:off
     //parent+quick
+    /**
+     * INTO [dbo].[FactResellerSalesXL] ON FG2
+     */
     public Into exampleF = new MockParentBuilder<IntoBuilder<MockParent<Into>>,Into>
                 (IntoBuilder.class,Into.class)
                 .$child()
@@ -48,9 +58,6 @@ public class IntoBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * INTO [dbo].[FactResellerSalesXL] ON FG2
-     */
     @Test
     public void testExampleF(){
         // @formatter:off

@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -77,58 +79,60 @@ public class GroupByConverterTest {
                         "| CUBE ( { <group_by_expression> } [,...n] )");
     }
 
-    private GroupByBuilderTest builderTest;
+
+    private Map<GroupBy,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new GroupByBuilderTest();
+        GroupByBuilderTest builderTest = new GroupByBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "GROUP BY SalesOrderID");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "GROUP BY a.City");
+
+        model2StringMap.put(
+                builderTest.exampleC,
+                "GROUP BY DATEPART(yyyy,OrderDate)");
+
+        model2StringMap.put(
+                builderTest.exampleD,
+                "GROUP BY DATEPART(yyyy,OrderDate)");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "GROUP BY CustomerKey WITH (DISTRIBUTED_AGG)");
+
+        model2StringMap.put(
+                builderTest.exampleG5,
+                "GROUP BY SalesAmount, SalesAmount*1.1");
+//                "GROUP BY SalesAmount, SalesAmount*1.10");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        GroupBy groupBy = builderTest.exampleA;
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = ReferenceBlockPrinter.print(groupBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "GROUP BY SalesOrderID";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
-    @Test
-    public void testPrintB() throws Exception {
-        GroupBy groupBy = builderTest.exampleB;
-
-        StringWriter writer = ReferenceBlockPrinter.print(groupBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "GROUP BY a.City";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintC() throws Exception {
-        GroupBy groupBy = builderTest.exampleC;
-
-        StringWriter writer = ReferenceBlockPrinter.print(groupBy);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "GROUP BY DATEPART(yyyy,OrderDate)";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
 }

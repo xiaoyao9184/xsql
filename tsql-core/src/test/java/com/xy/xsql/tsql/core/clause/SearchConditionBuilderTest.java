@@ -138,11 +138,16 @@ public class SearchConditionBuilderTest {
     }
 
 
-
-
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/search-condition-transact-sql#examples
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * LargePhotoFileName LIKE '%greena_%' ESCAPE 'a' ;
+     */
     public SearchCondition exampleA = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
@@ -156,9 +161,6 @@ public class SearchConditionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE LargePhotoFileName LIKE '%greena_%' ESCAPE 'a' ;
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -187,6 +189,10 @@ public class SearchConditionBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * CountryRegionCode NOT IN ('US')
+     AND City LIKE N'Pa%' ;
+     */
     public SearchCondition exampleB = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
@@ -202,10 +208,6 @@ public class SearchConditionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE CountryRegionCode NOT IN ('US')
-     AND City LIKE N'Pa%' ;
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -245,8 +247,16 @@ public class SearchConditionBuilderTest {
     }
 
 
+    /*
+    Examples: Azure SQL Data Warehouse and Parallel Data Warehouse
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/search-condition-transact-sql#examples-includesssdwfullincludessssdwfull-mdmd-and-includesspdwincludessspdw-mdmd
+     */
+
     // @formatter:off
     //parent+quick
+    /**
+     * LastName LIKE '%and%';
+     */
     public SearchCondition exampleC = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
@@ -258,9 +268,6 @@ public class SearchConditionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE LastName LIKE '%and%';
-     */
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -281,6 +288,9 @@ public class SearchConditionBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * LastName LIKE N'%and%';
+     */
     public SearchCondition exampleD = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
@@ -292,9 +302,6 @@ public class SearchConditionBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * WHERE LastName LIKE N'%and%';
-     */
     @Test
     public void testExampleD(){
         // @formatter:off

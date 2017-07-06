@@ -14,11 +14,17 @@ import static com.xy.xsql.tsql.core.expression.Expressions.e_variable;
  */
 public class TopBuilderTest {
 
-     //Basic syntax
 
+    /*
+    Basic syntax
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/top-transact-sql#BasicSyntax
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * TOP(10)
+     */
     public Top example1A = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
                 (TopBuilder.class,Top.class)
                 .$child()
@@ -26,9 +32,6 @@ public class TopBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * TOP(10)
-     */
     @Test
     public void testExample1A(){
         // @formatter:off
@@ -44,6 +47,9 @@ public class TopBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * TOP(@p)
+     */
     public Top example1B = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
                 (TopBuilder.class,Top.class)
                 .$child()
@@ -51,9 +57,6 @@ public class TopBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * TOP(@p)
-     */
     @Test
     public void testExample1B(){
         // @formatter:off
@@ -69,6 +72,9 @@ public class TopBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * TOP(5)PERCENT
+     */
     public Top example1C = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
                 (TopBuilder.class,Top.class)
                 .$child()
@@ -76,9 +82,6 @@ public class TopBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * TOP(5)PERCENT
-     */
     @Test
     public void testExample1C(){
         // @formatter:off
@@ -94,11 +97,16 @@ public class TopBuilderTest {
         Assert.assertEquals(example1C.isUsePercent(),true);
     }
 
-    //Including tie values
-
+    /*
+    Including tie values
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/top-transact-sql#tie
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * TOP(10)WITH TIES
+     */
     public Top example2A = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
                 (TopBuilder.class,Top.class)
                 .$child()
@@ -106,9 +114,6 @@ public class TopBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * TOP(10)WITH TIES
-     */
     @Test
     public void testExample2A(){
         // @formatter:off
@@ -124,11 +129,17 @@ public class TopBuilderTest {
         Assert.assertEquals(example2A.isUseTies(),true);
     }
 
-    //Limiting the rows affected by DELETE, INSERT, or UPDATE
+    /*
+    Limiting the rows affected by DELETE, INSERT, or UPDATE
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/top-transact-sql#DML
+     */
 
 
     // @formatter:off
     //parent+quick
+    /**
+     * TOP (20)
+     */
     public Top example3A = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
                 (TopBuilder.class,Top.class)
                 .$child()
@@ -136,9 +147,6 @@ public class TopBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * TOP (20)
-     */
     @Test
     public void testExample3A(){
         // @formatter:off
@@ -154,6 +162,9 @@ public class TopBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * TOP (5)
+     */
     public Top example3B = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
                 (TopBuilder.class,Top.class)
                 .$child()
@@ -161,9 +172,6 @@ public class TopBuilderTest {
                 .get();
     // @formatter:on
 
-    /**
-     * TOP (5)
-     */
     @Test
     public void testExample3B(){
         // @formatter:off
@@ -179,6 +187,10 @@ public class TopBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * TOP (10)
+     * TOP 10
+     */
     public Top example3C = new MockParentBuilder<TopBuilder<MockParent<Top>>,Top>
                 (TopBuilder.class,Top.class)
                 .$child()
@@ -186,11 +198,6 @@ public class TopBuilderTest {
                 .get();
     // @formatter:on
 
-
-    /**
-     * TOP (10)
-     * TOP 10
-     */
     @Test
     public void testExample3C(){
         // @formatter:off
@@ -202,6 +209,5 @@ public class TopBuilderTest {
         Assert.assertEquals(top.getExpression().toString(),"10");
         Assert.assertEquals(example3C.getExpression().toString(),"10");
     }
-
 
 }

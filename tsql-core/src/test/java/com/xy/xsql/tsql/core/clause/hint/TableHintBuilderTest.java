@@ -13,12 +13,12 @@ import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.*;
 public class TableHintBuilderTest {
 
     // @formatter:off
+    /**
+     * TABLOCK
+     */
     public TableHint exampleA = TABLOCK();
     // @formatter:on
 
-    /**
-     * WITH (TABLOCK)
-     */
     @Test
     public void testExampleA() {
         TableHint queryHint = new TableHintBuilder<Void>()
@@ -30,14 +30,17 @@ public class TableHintBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FORCESEEK
+     */
     public TableHint exampleB1 = FORCESEEK();
+
+    /**
+     * FORCESEEK (PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID (SalesOrderID))
+     */
     public TableHint exampleB2 = FORCESEEK("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID","SalesOrderID");
     // @formatter:on
 
-    /**
-     * WITH (FORCESEEK)
-     * WITH (FORCESEEK (PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID (SalesOrderID)))
-     */
     @Test
     public void testExampleB() {
         Assert.assertEquals(exampleB1.getType(),TableHint.Type.FORCESEEK);
@@ -48,12 +51,12 @@ public class TableHintBuilderTest {
 
 
     // @formatter:off
+    /**
+     * FORCESCAN
+     */
     public TableHint exampleC = FORCESCAN();
     // @formatter:on
 
-    /**
-     * WITH (FORCESCAN)
-     */
     @Test
     public void testExampleC() {
         Assert.assertEquals(exampleC.getType(),TableHint.Type.FORCESCAN);
