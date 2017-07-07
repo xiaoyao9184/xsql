@@ -360,24 +360,23 @@ public class SelectConverterTest {
                         "GROUP BY ProductID\n" +
                         "HAVING COUNT(*) > 1500");
 
-        //TODO
-//        model2StringMap.put(
-//                builderTest.exampleN1,
-//                "SELECT pp.FirstName, pp.LastName, e.NationalIDNumber\n" +
-//                        "FROM HumanResources.Employee e WITH (INDEX(AK_Employee_NationalIDNumber))\n" +
-//                        "JOIN Person.Person pp on e.BusinessEntityID = pp.BusinessEntityID\n" +
-//                        "WHERE LastName = 'Johnson'");
+        model2StringMap.put(
+                builderTest.exampleN1,
+                "SELECT pp.FirstName, pp.LastName, e.NationalIDNumber\n" +
+                        "FROM HumanResources.Employee e WITH (INDEX(AK_Employee_NationalIDNumber))\n" +
+                        "JOIN Person.Person pp ON e.BusinessEntityID = pp.BusinessEntityID\n" +
+                        "WHERE LastName = 'Johnson'");
 //                "SELECT pp.FirstName, pp.LastName, e.NationalIDNumber\n" +
 //                        "FROM HumanResources.Employee AS e WITH (INDEX(AK_Employee_NationalIDNumber))\n" +
 //                        "JOIN Person.Person AS pp on e.BusinessEntityID = pp.BusinessEntityID\n" +
 //                        "WHERE LastName = 'Johnson'");
 
-//        model2StringMap.put(
-//                builderTest.exampleN2,
-//                "SELECT pp.LastName, pp.FirstName, e.JobTitle\n" +
-//                        "FROM HumanResources.Employee AS e WITH (INDEX = 0) JOIN Person.Person AS pp\n" +
-//                        "ON e.BusinessEntityID = pp.BusinessEntityID\n" +
-//                        "WHERE LastName = 'Johnson'");
+        model2StringMap.put(
+                builderTest.exampleN2,
+                "SELECT pp.LastName, pp.FirstName, e.JobTitle\n" +
+                        "FROM HumanResources.Employee AS e WITH (INDEX = 0) JOIN Person.Person AS pp\n" +
+                        "ON e.BusinessEntityID = pp.BusinessEntityID\n" +
+                        "WHERE LastName = 'Johnson'");
 
         model2StringMap.put(
                 builderTest.exampleM,

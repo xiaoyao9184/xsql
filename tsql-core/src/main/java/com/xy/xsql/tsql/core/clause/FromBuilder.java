@@ -7,6 +7,7 @@ import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
+import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -883,6 +884,13 @@ public class FromBuilder<ParentBuilder>
             return this;
         }
 
+        public BaseTableBuilder<ParentBuilder> withTableHint(TableHint... tableHints){
+            initAdd(Arrays.asList(tableHints),
+                    target::getTableHintList,
+                    target::setTableHintList);
+            return this;
+        }
+
 
         /**
          * Quick set tableAlias
@@ -893,6 +901,15 @@ public class FromBuilder<ParentBuilder>
             return withAs()
                     .withTableAlias(aliasName)
                     .and();
+        }
+
+        /**
+         * Quick set tableHints
+         * @param tableHints
+         * @return
+         */
+        public BaseTableBuilder<ParentBuilder> $With(TableHint... tableHints){
+            return withTableHint(tableHints);
         }
 
     }

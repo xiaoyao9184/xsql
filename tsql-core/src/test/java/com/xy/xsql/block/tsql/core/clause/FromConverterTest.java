@@ -38,7 +38,8 @@ public class FromConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<table_source> ::=\n" +
-                        "table_or_view_name [ [ AS ] table_alias ]\n" +
+                        "table_or_view_name [ [ AS ] table_alias ] \n" +
+                        "[ WITH ( <table_hint> [ [, ]...n ] ) ]\n" +
                         "| derived_table [ [ AS ] table_alias ] [ ( column_alias [,...n] ) ]\n" +
                         "| <joined_table>\n" +
                         "| @variable [ [ AS ] table_alias ]");
@@ -53,7 +54,8 @@ public class FromConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "table_or_view_name [ [ AS ] table_alias ]");
+                "table_or_view_name [ [ AS ] table_alias ] \n" +
+                        "[ WITH ( <table_hint> [ [, ]...n ] ) ]");
     }
 
     @Test

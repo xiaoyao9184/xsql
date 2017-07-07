@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.*;
+import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.INDEX;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.BinaryExpressions.*;
@@ -1083,10 +1084,8 @@ public class SelectBuilderTest {
                     .$From()
                         .$()
                             .$(t("HumanResources","Employee"))
+                                .$With(INDEX("AK_Employee_NationalIDNumber"))
                                 .$As("e")
-                                //TODO
-//                                .$With()
-
                             .$Join()
                             .$(t("Person","Person"),"pp")
                             .$On()
@@ -1124,10 +1123,8 @@ public class SelectBuilderTest {
                     .$From()
                         .$()
                             .$(t("HumanResources","Employee"))
+                                .$With(INDEX().$EQUAL("0").build())
                                 .$As("e")
-                                //TODO
-//                                .$With()
-
                             .$Join()
                             .$(t("Person","Person"),"pp")
                             .$On()

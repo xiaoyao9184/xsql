@@ -22,11 +22,11 @@ public class Contains implements Predicate {
     private ColumnName columnName;
     private List<ColumnName> columnList;
     private boolean useAllColumn;
-    //TODO
+    //TODO PROPERTY
     private ColumnName propertyColumnName;
     private StringConstant propertyName;
 
-    //TODO
+    //TODO contains_search_condition
     private StringConstant containsSearchCondition;
 
     public ColumnName getColumnName() {

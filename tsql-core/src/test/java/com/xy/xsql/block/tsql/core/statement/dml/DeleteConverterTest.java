@@ -63,7 +63,7 @@ public class DeleteConverterTest {
                         "     WHERE StandardCost BETWEEN 12.0 AND 14.0\n" +
                         "     AND EndDate IS NULL");
 
-        //TODO
+        //TODO support CURRENT OF
 //        model2StringMap.put(
 //                builderTest.example2B,
 //                "DELETE FROM HumanResources.EmployeePayHistory\n" +

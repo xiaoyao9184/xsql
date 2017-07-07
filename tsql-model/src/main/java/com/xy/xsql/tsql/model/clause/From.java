@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.model.clause;
 
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
+import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -106,7 +107,8 @@ public class From implements Clause {
         private boolean useAs;
         private Alias<Void> tableAlias;
         //TODO [ <tablesample_clause> ]
-        //TODO [ WITH ( < table_hint > [ [ , ]...n ] ) ]
+        //[ WITH ( < table_hint > [ [ , ]...n ] ) ]
+        private List<TableHint> tableHintList;
 
 
         public TableName getTableName() {
@@ -133,6 +135,13 @@ public class From implements Clause {
             this.tableAlias = tableAlias;
         }
 
+        public List<TableHint> getTableHintList() {
+            return tableHintList;
+        }
+
+        public void setTableHintList(List<TableHint> tableHintList) {
+            this.tableHintList = tableHintList;
+        }
     }
 
     /**

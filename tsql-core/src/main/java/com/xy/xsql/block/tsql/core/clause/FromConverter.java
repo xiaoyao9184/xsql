@@ -4,11 +4,10 @@ import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.clause.hints.JoinHintConverter;
-import com.xy.xsql.block.tsql.core.clause.select.SelectConverter;
+import com.xy.xsql.block.tsql.core.clause.hints.TableHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -117,6 +116,20 @@ public class FromConverter
                             .sub("table_alias")
                                 .data(From.BaseTable::getTableAlias)
                                 .and()
+                            .and()
+                        .sub()
+                            .description("with")
+                            .optional(d -> d.getTableHintList() == null)
+                            .sub_keyword(Keywords.WITH)
+                            .sub_keyword(Other.GROUP_START)
+                            .sub("table_hint")
+                                .list()
+                                .repeat()
+                                .ref(TableHintConverter.class)
+                                .data(From.BaseTable::getTableHintList)
+                                .and()
+                            .sub_keyword(Other.GROUP_END)
+                            .startNewline()
                             .and();
         // @formatter:on
 
