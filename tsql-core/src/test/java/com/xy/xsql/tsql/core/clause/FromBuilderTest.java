@@ -5,14 +5,19 @@ import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
+import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.HOLDLOCK;
+import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.TABLOCK;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
+import static com.xy.xsql.tsql.core.expression.Expressions.e_variable;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 
 /**
@@ -45,13 +50,6 @@ public class FromBuilderTest {
                     .withTableName(t("Sales","SalesTerritory"))
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-                (FromBuilder.class,From.class)
-                .$child()
-                    .$(t("Sales","SalesTerritory"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getTableSourceList().size(),1);
@@ -63,12 +61,14 @@ public class FromBuilderTest {
 
     // @formatter:off
     /**
-     * FROM HumanResources.Employee
+     * FROM HumanResources.Employee WITH (TABLOCK, HOLDLOCK)
      */
     public From exampleB = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
             (FromBuilder.class,From.class)
             .$child()
-                .$(t("HumanResources","Employee"))
+                .$(t("HumanResources","Employee"),null)
+                    .$With(TABLOCK(),HOLDLOCK())
+                    .and()
                 .and()
             .get();
     // @formatter:on
@@ -79,21 +79,20 @@ public class FromBuilderTest {
         From option = new FromBuilder<From>()
                 .withItem()._Base()
                     .withTableName(t("HumanResources","Employee"))
+                    .withTableHint(TABLOCK(),HOLDLOCK())
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-                (FromBuilder.class,From.class)
-                .$child()
-                    .$(t("HumanResources","Employee"))
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(option.getTableSourceList().size(),1);
         Assert.assertEquals(option.getTableSourceList().get(0).getClass(), From.BaseTable.class);
         From.BaseTable tableSource = (From.BaseTable) option.getTableSourceList().get(0);
         Assert.assertEquals(tableSource.getTableName().toString(),"HumanResources.Employee");
+
+        Assert.assertEquals(tableSource.getTableHintList().size(),2);
+        Assert.assertEquals(tableSource.getTableHintList().get(0).getType(), TableHint.Type.TABLOCK);
+        Assert.assertEquals(tableSource.getTableHintList().get(1).getType(), TableHint.Type.HOLDLOCK);
+
     }
 
 
@@ -106,9 +105,11 @@ public class FromBuilderTest {
             (FromBuilder.class,From.class)
             .$child()
                 .$()
-                    .$(t("HumanResources","Employee"),"e")
+                    .$(t("HumanResources","Employee"))
+                        .$As("e")
                     .$Cross_Join()
-                    .$(t("HumanResources","Department"),"d")
+                    .$(t("HumanResources","Department"))
+                        .$As("d")
                     .and()
                 .and()
             .get();
@@ -122,10 +123,12 @@ public class FromBuilderTest {
                     .withCrossJoin()
                     .withTableSource()._Base()
                         .withTableName(t("HumanResources","Employee"))
+                        .withAs()
                         .withTableAlias("e")
                         .and()
                     .withTableSource2()._Base()
                         .withTableName(t("HumanResources","Department"))
+                        .withAs()
                         .withTableAlias("d")
                         .and()
                     .and()
@@ -140,6 +143,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
         Assert.assertEquals(tableSource1.getTableName().toString(),"HumanResources.Employee");
+        Assert.assertTrue(tableSource1.isUseAs());
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"e");
 
         Assert.assertEquals(tableSource.isUseCrossJoin(),true);
@@ -147,6 +151,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
         Assert.assertEquals(tableSource2.getTableName().toString(),"HumanResources.Department");
+        Assert.assertTrue(tableSource2.isUseAs());
         Assert.assertEquals(tableSource2.getTableAlias().toString(),"d");
     }
 
@@ -162,10 +167,10 @@ public class FromBuilderTest {
                 .$child()
                     .$()
                         .$(t("Production","Product"))
-                        .$As("p")
+                            .$As("p")
                         .$Full_Outer_Join()
-                        .$(t("HumanResources","Department"))
-                        .$As("p")
+                        .$(t("Sales","SalesOrderDetail"))
+                            .$As("sod")
                         .$On()
                             .$(p_equal(
                                     c("p","ProductID"),
@@ -184,11 +189,13 @@ public class FromBuilderTest {
                 .withItem()._Joined()
                     .withTableSource()._Base()
                         .withTableName(t("Production","Product"))
+                        .withAs()
                         .withTableAlias("p")
                         .and()
                     .withJoinType(From.JoinTypeKeywords.FULL_OUTER_JOIN)
                     .withTableSource2()._Base()
                         .withTableName(t("Sales","SalesOrderDetail"))
+                        .withAs()
                         .withTableAlias("sod")
                         .and()
                     .withSearchCondition()
@@ -200,28 +207,6 @@ public class FromBuilderTest {
                         .and()
                     .and()
                 .build();
-
-        //parent+quick
-        MockParent<From> parent = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
-                (FromBuilder.class,From.class)
-                .$child()
-                    .$()
-                        .$(t("Production","Product"))
-                        .$As("p")
-                        .$Full_Outer_Join()
-                        .$(t("HumanResources","Department"))
-                        .$As("p")
-                //TODO i dont know wtf about this tag
-//                        .and()
-//                        .$(t("HumanResources","Department"),"p")
-                        .$On()
-                            .$(p_equal(
-                                    c("p","ProductID"),
-                                    c("sod","ProductID")
-                            ))
-                            .and()
-                        .and()
-                    .and();
         // @formatter:on
 
         Assert.assertEquals(from.getTableSourceList().size(),1);
@@ -232,6 +217,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
         Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
+        Assert.assertTrue(tableSource1.isUseAs());
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 
         Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.FULL_OUTER_JOIN);
@@ -239,6 +225,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
         Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
+        Assert.assertTrue(tableSource2.isUseAs());
         Assert.assertEquals(tableSource2.getTableAlias().toString(),"sod");
 
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
@@ -353,11 +340,13 @@ public class FromBuilderTest {
                 .withItem()._Joined()
                     .withTableSource()._Base()
                         .withTableName(t("Production","Product"))
+                        .withAs()
                         .withTableAlias("p")
                         .and()
                     .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
                     .withTableSource2()._Base()
                         .withTableName(t("Sales","SalesOrderDetail"))
+                        .withAs()
                         .withTableAlias("sod")
                         .and()
                     .withSearchCondition()
@@ -380,6 +369,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
         Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
+        Assert.assertTrue(tableSource1.isUseAs());
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 
         Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
@@ -387,6 +377,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
         Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
+        Assert.assertTrue(tableSource2.isUseAs());
         Assert.assertEquals(tableSource2.getTableAlias().toString(),"sod");
 
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
@@ -398,7 +389,7 @@ public class FromBuilderTest {
     /**
      * FROM Sales.SalesTerritory AS st
      RIGHT OUTER JOIN Sales.SalesPerson AS sp
-     ON st.TerritoryID = sp.TerritoryID ;
+     ON st.TerritoryID = sp.TerritoryID
      */
     public From exampleG = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
@@ -427,11 +418,13 @@ public class FromBuilderTest {
                 .withItem()._Joined()
                     .withTableSource()._Base()
                         .withTableName(t("Sales","SalesTerritory"))
+                        .withAs()
                         .withTableAlias("st")
                         .and()
                     .withJoinType(From.JoinTypeKeywords.RIGHT_OUTER_JOIN)
                     .withTableSource2()._Base()
                         .withTableName(t("Sales","SalesPerson"))
+                        .withAs()
                         .withTableAlias("sp")
                         .and()
                     .withSearchCondition()
@@ -454,6 +447,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
         Assert.assertEquals(tableSource1.getTableName().toString(),"Sales.SalesTerritory");
+        Assert.assertTrue(tableSource1.isUseAs());
         Assert.assertEquals(tableSource1.getTableAlias().toString(),"st");
 
         Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.RIGHT_OUTER_JOIN);
@@ -461,6 +455,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
         Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesPerson");
+        Assert.assertTrue(tableSource2.isUseAs());
         Assert.assertEquals(tableSource2.getTableAlias().toString(),"sp");
 
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
@@ -513,11 +508,13 @@ public class FromBuilderTest {
                     .withTableSource()._Joined()
                         .withTableSource()._Base()
                             .withTableName(t("Production","Product"))
+                            .withAs()
                             .withTableAlias("p")
                             .and()
                         .withJoinType(From.JoinTypeKeywords.INNER_JOIN, JoinHint.MERGE)
                         .withTableSource2()._Base()
                             .withTableName(t("Purchasing","ProductVendor"))
+                            .withAs()
                             .withTableAlias("pv")
                             .and()
                         .withSearchCondition()
@@ -531,6 +528,7 @@ public class FromBuilderTest {
                     .withJoinType(From.JoinTypeKeywords.INNER_JOIN, JoinHint.HASH)
                     .withTableSource2()._Base()
                         .withTableName(t("Purchasing","Vendor"))
+                        .withAs()
                         .withTableAlias("v")
                         .and()
                     .withSearchCondition()
@@ -556,6 +554,7 @@ public class FromBuilderTest {
             Assert.assertEquals(tableSource01.getTableSource().getClass(),From.BaseTable.class);
             From.BaseTable tableSource11 = (From.BaseTable) tableSource01.getTableSource();
             Assert.assertEquals(tableSource11.getTableName().toString(),"Production.Product");
+            Assert.assertTrue(tableSource11.isUseAs());
             Assert.assertEquals(tableSource11.getTableAlias().toString(),"p");
 
             Assert.assertEquals(tableSource01.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
@@ -564,6 +563,7 @@ public class FromBuilderTest {
             Assert.assertEquals(tableSource01.getTableSource2().getClass(),From.BaseTable.class);
             From.BaseTable tableSource12 = (From.BaseTable) tableSource01.getTableSource2();
             Assert.assertEquals(tableSource12.getTableName().toString(),"Purchasing.ProductVendor");
+            Assert.assertTrue(tableSource12.isUseAs());
             Assert.assertEquals(tableSource12.getTableAlias().toString(),"pv");
 
 
@@ -573,6 +573,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource02 = (From.BaseTable) tableSource.getTableSource2();
         Assert.assertEquals(tableSource02.getTableName().toString(),"Purchasing.Vendor");
+        Assert.assertTrue(tableSource02.isUseAs());
         Assert.assertEquals(tableSource02.getTableAlias().toString(),"v");
 
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
@@ -648,6 +649,7 @@ public class FromBuilderTest {
                     .withTableSource()._Joined()
                         .withTableSource()._Base()
                             .withTableName(t("Person","Person"))
+                            .withAs()
                             .withTableAlias("p")
                             .and()
                         .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
@@ -665,7 +667,8 @@ public class FromBuilderTest {
                         .and()
                     .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
                     .withTableSource2()._Derived()
-                        .withSubQuery(new Select.QuerySpecification())
+                        .withSubQuery(querySpecification)
+                        .withAs()
                         .withTableAlias("d")
                         .and()
                     .withSearchCondition()
@@ -690,6 +693,7 @@ public class FromBuilderTest {
             Assert.assertEquals(tableSource0.getTableSource().getClass(),From.BaseTable.class);
             From.BaseTable tableSource1 = (From.BaseTable) tableSource0.getTableSource();
             Assert.assertNotNull(tableSource1.getTableName().toString(),"Person.Person");
+            Assert.assertTrue(tableSource1.isUseAs());
             Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
 
             Assert.assertEquals(tableSource0.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
@@ -704,6 +708,7 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableSource2().getClass(),From.DerivedTable.class);
         From.DerivedTable tableSource3 = (From.DerivedTable) tableSource.getTableSource2();
         Assert.assertNotNull(tableSource3.getSubQuery());
+        Assert.assertTrue(tableSource3.isUseAs());
         Assert.assertEquals(tableSource3.getTableAlias().toString(),"d");
 
         Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
@@ -713,7 +718,7 @@ public class FromBuilderTest {
 
     // @formatter:off
     /**
-     * FROM Sales.Customer TABLESAMPLE SYSTEM (10 PERCENT) ;
+     * FROM Sales.Customer TABLESAMPLE SYSTEM (10 PERCENT)
      */
     public From exampleJ = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
@@ -759,7 +764,7 @@ public class FromBuilderTest {
 
     // @formatter:off
     /**
-     * FROM Departments d CROSS APPLY dbo.GetReports(d.DeptMgrID) ;
+     * FROM Departments d CROSS APPLY dbo.GetReports(d.DeptMgrID)
      */
     public From exampleK = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
@@ -768,7 +773,7 @@ public class FromBuilderTest {
                         .$(t("Departments"))
                         .$As("d")
                         .$Cross_Apply()
-            //TODO
+            //TODO rowset_function
 //                        .$(f("dbo.GetReports"),
 //                                c("d","DeptMgrID"))
                         .and()
@@ -786,6 +791,7 @@ public class FromBuilderTest {
                         .withTableAlias("d")
                         .and()
                     .withCrossApply()
+            //TODO rowset_function
 //                    .withTableSource2()._Function()
 //                        .withName("dbo.GetReports")
 //                        .withArgs(c("d","DeptMgrID"))
@@ -813,7 +819,459 @@ public class FromBuilderTest {
 
     }
 
-    //TODO LM
+
+    // @formatter:off
+    /**
+     * FROM sys.dm_exec_cached_plans AS cp
+     CROSS APPLY sys.dm_exec_query_plan(cp.plan_handle)
+     */
+    public From exampleL = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("sys","dm_exec_cached_plans"))
+                        .$As("cp")
+                        .$Cross_Apply()
+            //TODO rowset_function
+//                        .$(f("sys.dm_exec_query_plan"),
+//                                c("cp","plan_handle"))
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleL(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Joined()
+                    .withTableSource()._Base()
+                        .withTableName(t("sys","dm_exec_cached_plans"))
+                        .withTableAlias("cp")
+                        .and()
+                    .withCrossApply()
+            //TODO rowset_function
+//                    .withTableSource2()._Function()
+//                        .withName("sys.dm_exec_query_plan")
+//                        .withArgs(c("cp","plan_handle"))
+//                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
+
+        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
+        Assert.assertEquals(tableSource1.getTableName().toString(),"sys.dm_exec_cached_plans");
+        Assert.assertEquals(tableSource1.getTableAlias().toString(),"cp");
+
+        Assert.assertTrue(tableSource.isUseCrossApply());
+
+//        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.Function.class);
+//        From.Function tableSource2 = (From.Function) tableSource.getTableSource2();
+//        Assert.assertEquals(tableSource2.getName().toString(),"dbo.GetReports");
+//        Assert.assertEquals(tableSource2.getArgs().toString(),"d.DeptMgrID");
+
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM DEPARTMENT
+     FOR SYSTEM_TIME AS OF '2014-01-01'
+     */
+    public From exampleM1 = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("DEPARTMENT"),null)
+                    .$ForSystemTime()
+                    .$AsOf("2014-01-01")
+//                    .$(t("DEPARTMENT"),null).$ForSystemTime()
+//                        .$AsOf("2014-01-01")
+//                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleM1(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._BaseTime()
+                    .withTableName(t("DEPARTMENT"))
+                    .withSystemTime()._AsOf(e_string("2014-01-01"))
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
+        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+
+        Assert.assertEquals(tableSource.getSystemTime().getDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM DEPARTMENT
+     FOR SYSTEM_TIME FROM '2013-01-01' TO '2014-01-01'
+     */
+    public From exampleM2 = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("DEPARTMENT"),null)
+                        .$ForSystemTime().$FromTo("2013-01-01","2014-01-01")
+//                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleM2(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._BaseTime()
+                    .withTableName(t("DEPARTMENT"))
+                    .withSystemTime()._From()
+                        .withFrom(e_string("2013-01-01"))
+                        .withTo(e_string("2014-01-01"))
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
+        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+
+        Assert.assertTrue(tableSource.getSystemTime().isUseFrom());
+        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().toString(),"'2013-01-01'");
+        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM DEPARTMENT
+     FOR SYSTEM_TIME BETWEEN '2013-01-01' AND '2014-01-01'
+     */
+    public From exampleM3 = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("DEPARTMENT"),null)
+                        .$ForSystemTime().$BetweenAnd("2013-01-01","2014-01-01")
+//                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleM3(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._BaseTime()
+                    .withTableName(t("DEPARTMENT"))
+                    .withSystemTime()._Between()
+                        .withBetween(e_string("2013-01-01"))
+                        .withAnd(e_string("2014-01-01"))
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
+        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+
+        Assert.assertTrue(tableSource.getSystemTime().isUseBetween());
+        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().toString(),"'2013-01-01'");
+        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM DEPARTMENT
+     FOR SYSTEM_TIME CONTAINED IN ( '2013-01-01', '2014-01-01' )
+     */
+    public From exampleM4 = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("DEPARTMENT"),null)
+                        .$ForSystemTime().$ContainedIn("2013-01-01","2014-01-01")
+//                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleM4(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._BaseTime()
+                    .withTableName(t("DEPARTMENT"))
+                    .withSystemTime()._ContainedIn()
+                        .withStart(e_string("2013-01-01"))
+                        .withEnd(e_string("2014-01-01"))
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
+        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+
+        Assert.assertTrue(tableSource.getSystemTime().isUseContained());
+        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().toString(),"'2013-01-01'");
+        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM DEPARTMENT
+     FOR SYSTEM_TIME FROM @AsOfFrom TO @AsOfTo
+     */
+    public From exampleM5 = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("DEPARTMENT"),null)
+                        .$ForSystemTime()
+                            .$From(e_variable("AsOfFrom"))
+                            .$To(e_variable("AsOfTo"))
+//                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleM5(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._BaseTime()
+                    .withTableName(t("DEPARTMENT"))
+                    .withSystemTime()._From()
+                        .withFrom(e_variable("AsOfFrom"))
+                        .withTo(e_variable("AsOfTo"))
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
+        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+
+        Assert.assertTrue(tableSource.getSystemTime().isUseFrom());
+        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeVariable().toString(),"@AsOfFrom");
+        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeVariable().toString(),"@AsOfTo");
+
+    }
+
+
+    /*
+    Examples: Azure SQL Data Warehouse and Parallel Data Warehouse
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/from-transact-sql#examples-includesssdwfullincludessssdwfull-mdmd-and-includesspdwincludessspdw-mdmd
+     */
+
+    // @formatter:off
+    /**
+     * FROM DimSalesTerritory
+     */
+    public From exampleN = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("DimSalesTerritory"))
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleN(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._BaseTime()
+                    .withTableName(t("DimSalesTerritory"))
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
+        Assert.assertEquals(tableSource.getTableName().toString(),"DimSalesTerritory");
+
+    }
+
+    // @formatter:off
+    /**
+     * FROM FactInternetSales AS fis
+     INNER JOIN DimProduct AS dp
+     ON dp.ProductKey = fis.ProductKey
+     */
+    public From exampleO = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("FactInternetSales")).$As("fis")
+                        .$Inner_Join()
+                        .$(t("DimProduct")).$As("dp")
+                        .$On()
+                            .$Predicate(p_equal(
+                                    c("dp","ProductKey"),
+                                    c("fis","ProductKey")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleO(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Joined()
+                    .withTableSource()._Base()
+                        .withTableName(t("FactInternetSales"))
+                        .withAs()
+                        .withTableAlias("fis")
+                        .and()
+                    .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
+                    .withTableSource2()._Base()
+                        .withTableName(t("DimProduct"))
+                        .withAs()
+                        .withTableAlias("dp")
+                        .and()
+                    .withSearchCondition()
+                        .withPredicate()._Comparison()
+                            .withExpression(c("dp","ProductKey"))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(c("fis","ProductKey"))
+                            .and()
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
+        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
+
+        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
+
+        Assert.assertEquals(tableSource1.getTableName().toString(),"FactInternetSales");
+        Assert.assertEquals(tableSource1.getTableAlias().toString(),"fis");
+
+        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
+
+        Assert.assertEquals(tableSource2.getTableName().toString(),"DimProduct");
+        Assert.assertEquals(tableSource2.getTableAlias().toString(),"dp");
+
+        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM FactInternetSales AS fis
+     LEFT OUTER JOIN DimProduct AS dp
+     ON dp.ProductKey = fis.ProductKey
+     */
+    public From exampleP = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("FactInternetSales")).$As("fis")
+                        .$Left_Outer_Join()
+                        .$(t("DimProduct")).$As("dp")
+                        .$On()
+                            .$Predicate(p_equal(
+                                    c("dp","ProductKey"),
+                                    c("fis","ProductKey")
+                            ))
+                            .and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleP(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Joined()
+                    .withTableSource()._Base()
+                        .withTableName(t("FactInternetSales"))
+                        .withAs()
+                        .withTableAlias("fis")
+                        .and()
+                    .withJoinType(From.JoinTypeKeywords.LEFT_OUTER_JOIN)
+                    .withTableSource2()._Base()
+                        .withTableName(t("DimProduct"))
+                        .withAs()
+                        .withTableAlias("dp")
+                        .and()
+                    .withSearchCondition()
+                        .withPredicate()._Comparison()
+                            .withExpression(c("dp","ProductKey"))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(c("fis","ProductKey"))
+                            .and()
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertEquals(from.getTableSourceList().size(),1);
+
+        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
+        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
+
+        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
+
+        Assert.assertEquals(tableSource1.getTableName().toString(),"FactInternetSales");
+        Assert.assertEquals(tableSource1.getTableAlias().toString(),"fis");
+
+        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
+
+        Assert.assertEquals(tableSource2.getTableName().toString(),"DimProduct");
+        Assert.assertEquals(tableSource2.getTableAlias().toString(),"dp");
+
+        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+
+    }
+
 
     //TODO NOPQRSTUV
+
+
+
 }

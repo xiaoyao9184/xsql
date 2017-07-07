@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -42,7 +44,8 @@ public class FromConverterTest {
                         "[ WITH ( <table_hint> [ [, ]...n ] ) ]\n" +
                         "| derived_table [ [ AS ] table_alias ] [ ( column_alias [,...n] ) ]\n" +
                         "| <joined_table>\n" +
-                        "| @variable [ [ AS ] table_alias ]");
+                        "| @variable [ [ AS ] table_alias ]\n" +
+                        "| table_or_view_name FOR SYSTEM_TIME <system_time>");
     }
 
     @Test
@@ -114,100 +117,164 @@ public class FromConverterTest {
     }
 
 
+    @Test
+    public void testSystemTime() throws Exception {
+        ReferenceBlock b = FromConverter.SystemTimeConverter.meta();
 
-    private FromBuilderTest fromBuilderTest;
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<system_time> ::=\n" +
+                        "{\n" +
+                        "AS OF <date_time>\n" +
+                        "| FROM <start_date_time> TO <end_date_time>\n" +
+                        "| BETWEEN <start_date_time> AND <end_date_time>\n" +
+                        "| CONTAINED IN ( <start_date_time> , <end_date_time> )\n" +
+                        "| ALL\n" +
+                        "}");
+    }
+
+
+    @Test
+    public void testDateTime() throws Exception {
+        ReferenceBlock b = FromConverter.DateTimeConverter.meta();
+
+        StringWriter writer = new ReferenceBlockPrinter()
+                .print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<date_time> ::=\n" +
+                        "<date_time_literal> | @date_time_variable");
+    }
+
+
+    private Map<From,String> model2StringMap;
 
     @Before
     public void init(){
-        fromBuilderTest = new FromBuilderTest();
-    }
+        FromBuilderTest builderTest = new FromBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
 
-    @Test
-    public void testPrintA() throws Exception {
-        From from = fromBuilderTest.exampleA;
+        model2StringMap.put(
+                builderTest.exampleA,
+                "FROM Sales.SalesTerritory");
 
-        StringWriter writer = ReferenceBlockPrinter.print(from);
+        model2StringMap.put(
+                builderTest.exampleB,
+                "FROM HumanResources.Employee WITH (TABLOCK, HOLDLOCK)");
 
-        String ok = "FROM Sales.SalesTerritory";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
-    }
+        model2StringMap.put(
+                builderTest.exampleC,
+                "FROM HumanResources.Employee AS e\n" +
+                        "     CROSS JOIN HumanResources.Department AS d");
 
-    @Test
-    public void testPrintC() throws Exception {
-        From from = fromBuilderTest.exampleC;
+        model2StringMap.put(
+                builderTest.exampleD,
+                "FROM Production.Product AS p\n" +
+                        "     FULL OUTER JOIN Sales.SalesOrderDetail AS sod\n" +
+                        "     ON p.ProductID = sod.ProductID");
 
-        StringWriter writer = ReferenceBlockPrinter.print(from);
+        model2StringMap.put(
+                builderTest.exampleE,
+                "FROM Production.Product AS p\n" +
+                        "     LEFT OUTER JOIN Sales.SalesOrderDetail AS sod\n" +
+                        "     ON p.ProductID = sod.ProductID");
 
-        String ok = "FROM HumanResources.Employee e" +
-                " CROSS JOIN HumanResources.Department d";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
-    }
+        model2StringMap.put(
+                builderTest.exampleF,
+                "FROM Production.Product AS p  \n" +
+                        "     INNER JOIN Sales.SalesOrderDetail AS sod  \n" +
+                        "     ON p.ProductID = sod.ProductID");
 
-    @Test
-    public void testPrintD() throws Exception {
-        From from = fromBuilderTest.exampleD;
+        model2StringMap.put(
+                builderTest.exampleG,
+                "FROM Sales.SalesTerritory AS st\n" +
+                        "     RIGHT OUTER JOIN Sales.SalesPerson AS sp\n" +
+                        "     ON st.TerritoryID = sp.TerritoryID");
 
-        StringWriter writer = ReferenceBlockPrinter.print(from);
-
-        System.out.println(writer);
-
-        String ok = "FROM Production.Product p" +
-                " FULL OUTER JOIN HumanResources.Department p" +
-                " ON p.ProductID = sod.ProductID";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
-    }
-
-    @Test
-    public void testPrintH() throws Exception {
-        From from = fromBuilderTest.exampleH;
-
-        StringWriter writer = ReferenceBlockPrinter.print(from);
-
-        System.out.println(writer);
-
-        String ok = "FROM Production.Product p" +
-                " INNER MERGE JOIN Purchasing.ProductVendor pv" +
-                " ON p.ProductID = pv.ProductID" +
-                " INNER HASH JOIN Purchasing.Vendor v" +
-                " ON pv.BusinessEntityID = v.BusinessEntityID";
-        ok = ok.replaceAll(" ","");
-        Assert.assertEquals(writer.toString().replace(" ",""),
-                ok);
-    }
-
-    @Test
-    public void testPrintI() throws Exception {
-        From from = fromBuilderTest.exampleI;
-
-        StringWriter writer = ReferenceBlockPrinter.print(from);
-
-        System.out.println(writer);
+        model2StringMap.put(
+                builderTest.exampleH,
+                "FROM Production.Product AS p\n" +
+                        "     INNER MERGE JOIN Purchasing.ProductVendor AS pv\n" +
+                        "     ON p.ProductID = pv.ProductID\n" +
+                        "     INNER HASH JOIN Purchasing.Vendor AS v\n" +
+                        "     ON pv.BusinessEntityID = v.BusinessEntityID");
 
         //TODO derived table ()
-        String ok = "FROM Person.Person p\n" +
-                "     INNER JOIN HumanResources.Employee e ON p.BusinessEntityID = e.BusinessEntityID\n" +
-                "     INNER JOIN\n" +
-                "     (SELECT bea.BusinessEntityID, a.City\n" +
-                "     FROM Person.Address a\n" +
-                "     INNER JOIN Person.BusinessEntityAddress bea\n" +
-                "     ON a.AddressID = bea.AddressID) d\n" +
-                "     ON p.BusinessEntityID = d.BusinessEntityID";
+//        model2StringMap.put(
+//                builderTest.exampleI,
+//                "FROM Person.Person AS p\n" +
+//                        "     INNER JOIN HumanResources.Employee e ON p.BusinessEntityID = e.BusinessEntityID\n" +
+//                        "     INNER JOIN\n" +
+//                        "     (SELECT bea.BusinessEntityID, a.City\n" +
+//                        "     FROM Person.Address AS a\n" +
+//                        "     INNER JOIN Person.BusinessEntityAddress AS bea\n" +
+//                        "     ON a.AddressID = bea.AddressID) AS d\n" +
+//                        "     ON p.BusinessEntityID = d.BusinessEntityID");
 
-        String check = writer.toString()
-                .replaceAll(" ", "")
-                .replaceAll("\n", "");
+        model2StringMap.put(
+                builderTest.exampleJ,
+                "FROM Sales.Customer TABLESAMPLE SYSTEM (10 PERCENT)");
 
-        ok = ok
-                .replaceAll(" ", "")
-                .replaceAll("\n", "");
-        Assert.assertEquals(check,
-                ok);
+        //TODO rowset_function
+//        model2StringMap.put(
+//                builderTest.exampleK,
+//                "FROM Departments d CROSS APPLY dbo.GetReports(d.DeptMgrID)");
+
+//        model2StringMap.put(
+//                builderTest.exampleL,
+//                "FROM sys.dm_exec_cached_plans AS cp   \n" +
+//                        "CROSS APPLY sys.dm_exec_query_plan(cp.plan_handle)");
+
+        model2StringMap.put(
+                builderTest.exampleM1,
+                "FROM DEPARTMENT\n" +
+                        "     FOR SYSTEM_TIME AS OF '2014-01-01'");
+
+        model2StringMap.put(
+                builderTest.exampleM2,
+                "FROM DEPARTMENT\n" +
+                        "     FOR SYSTEM_TIME FROM '2013-01-01' TO '2014-01-01'");
+
+        model2StringMap.put(
+                builderTest.exampleM3,
+                "FROM DEPARTMENT\n" +
+                        "     FOR SYSTEM_TIME BETWEEN '2013-01-01' AND '2014-01-01'");
+
+        model2StringMap.put(
+                builderTest.exampleM4,
+                "FROM DEPARTMENT\n" +
+                        "     FOR SYSTEM_TIME CONTAINED IN ( '2013-01-01', '2014-01-01' )");
+
+        model2StringMap.put(
+                builderTest.exampleM5,
+                "FROM DEPARTMENT\n" +
+                        "     FOR SYSTEM_TIME FROM @AsOfFrom TO @AsOfTo");
+
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Test
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = ReferenceBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
 }

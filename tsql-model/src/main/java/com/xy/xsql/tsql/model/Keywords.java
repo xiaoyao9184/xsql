@@ -304,7 +304,7 @@ public enum Keywords {
         RANGE, UNBOUNDED, PRECEDING, FOLLOWING,
 
         //FROM
-        TABLESAMPLE, SYSTEM, REPEATABLE;
+        TABLESAMPLE, SYSTEM, REPEATABLE, CONTAINED, SYSTEM_TIME;
 
         @Override
         public String toString(){

@@ -9,6 +9,7 @@ import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -246,6 +247,16 @@ public class FromBuilder<ParentBuilder>
                     .in(out());
         }
 
+        /**
+         * Confirm type of TableSource
+         * @return
+         */
+        public BaseWithTimeTableBuilder<ParentBuilder> _BaseTime() {
+            return new BaseWithTimeTableBuilder<ParentBuilder>
+                    (target)
+                    .in(out());
+        }
+
         //
         //
         /*
@@ -356,7 +367,6 @@ public class FromBuilder<ParentBuilder>
                     .withAs()
                     .withTableAlias(tableAlias);
         }
-
 
     }
 
@@ -959,83 +969,31 @@ public class FromBuilder<ParentBuilder>
             return b.and();
         }
 
-    }
-
-    /**
-     * TableSampleBuilder
-     * @param <ParentBuilder>
-     */
-    public static class TableSampleBuilder<ParentBuilder>
-            extends CodeTreeBuilder<TableSampleBuilder<ParentBuilder>, ParentBuilder, From.TableSample> {
-
-        public TableSampleBuilder(From.TableSample tableSample) {
-            super(tableSample);
-        }
-
-        public TableSampleBuilder<ParentBuilder> withSystem(){
-            target.setUseSystem(true);
-            return this;
-        }
-
-        public TableSampleBuilder<ParentBuilder> withSampleNumber(Integer sampleNumber){
-            target.setSampleNumber(new NumberConstant(sampleNumber).withUnsigned().withInteger());
-            return this;
-        }
-
-        public TableSampleBuilder<ParentBuilder> withPercent(){
-            target.setUsePercent(true);
-            return this;
-        }
-
-        public TableSampleBuilder<ParentBuilder> withRows(){
-            target.setUseRows(true);
-            return this;
-        }
-
-        public TableSampleBuilder<ParentBuilder> withRepeatSeed(Integer repeatSeed){
-            target.setRepeatSeed(new NumberConstant(repeatSeed).withUnsigned().withInteger());
-            return this;
-        }
-
         /**
-         * Quick set
+         * Quick transform to BaseWithTimeTableBuilder
          * @return
          */
-        public TableSampleBuilder<ParentBuilder> $System(){
-            return withSystem();
-        }
+        public SystemTimeBuilder<ParentBuilder> $ForSystemTime() {
+            From.BaseWithTimeTable timeTable = new From.BaseWithTimeTable();
+            timeTable.setTableName(target.getTableName());
 
-        /**
-         * Quick set
-         * @return
-         */
-        public TableSampleBuilder<ParentBuilder> $(Integer sampleNumber){
-            return withSampleNumber(sampleNumber);
+            return new SystemTimeBuilder<ParentBuilder>
+                    (initSet(From.SystemTime::new,
+                            timeTable::getSystemTime,
+                            timeTable::setSystemTime))
+                    .in(new BaseWithTimeTableBuilder<ParentBuilder>
+                            (timeTable,setter)
+                            .in(out())
+                            .and());
         }
-
-        /**
-         * Quick set
-         * @return
-         */
-        public TableSampleBuilder<ParentBuilder> $Percent(Integer sampleNumber){
-            return withSampleNumber(sampleNumber).withPercent();
-        }
-
-        /**
-         * Quick set
-         * @return
-         */
-        public TableSampleBuilder<ParentBuilder> $Rows(Integer sampleNumber){
-            return withSampleNumber(sampleNumber).withRows();
-        }
-
-        /**
-         * Quick set
-         * @return
-         */
-        public TableSampleBuilder<ParentBuilder> $RereaTable(Integer repeatSeed){
-            return withRepeatSeed(repeatSeed);
-        }
+//        public SystemTimeBuilder<BaseWithTimeTableBuilder<ParentBuilder>> $ForSystemTime() {
+//            From.BaseWithTimeTable timeTable = new From.BaseWithTimeTable();
+//            timeTable.setTableName(target.getTableName());
+//            return new BaseWithTimeTableBuilder<ParentBuilder>
+//                    (timeTable,setter)
+//                    .in(and())
+//                    .$ForSystemTime();
+//        }
     }
 
     /**
@@ -1428,4 +1386,521 @@ public class FromBuilder<ParentBuilder>
         }
 
     }
+
+    /**
+     * BaseWithTimeTableBuilder
+     * @param <ParentBuilder>
+     */
+    public static class BaseWithTimeTableBuilder<ParentBuilder>
+            extends CodeTreeLazyConfigBuilder<BaseWithTimeTableBuilder<ParentBuilder>, ParentBuilder, From.BaseWithTimeTable, From.TableSource> {
+
+        public BaseWithTimeTableBuilder(From.BaseWithTimeTable target) {
+            super(target);
+        }
+
+        public BaseWithTimeTableBuilder(From.BaseWithTimeTable target, Setter<From.TableSource> setter) {
+            super(target,setter);
+        }
+
+        public BaseWithTimeTableBuilder(Setter<From.TableSource> setter) {
+            super(new From.BaseWithTimeTable(),setter);
+        }
+
+        public BaseWithTimeTableBuilder<ParentBuilder> withTableName(TableName tableName){
+            target.setTableName(tableName);
+            return this;
+        }
+
+        public SystemTimeBuilder<BaseWithTimeTableBuilder<ParentBuilder>> withSystemTime(){
+            return new SystemTimeBuilder<BaseWithTimeTableBuilder<ParentBuilder>>
+                    (initSet(From.SystemTime::new,
+                            target::getSystemTime,
+                            target::setSystemTime))
+                    .in(this);
+        }
+
+        public SystemTimeBuilder<BaseWithTimeTableBuilder<ParentBuilder>> $ForSystemTime() {
+            return withSystemTime();
+        }
+    }
+
+    /**
+     * TableSampleBuilder
+     * @param <ParentBuilder>
+     */
+    public static class TableSampleBuilder<ParentBuilder>
+            extends CodeTreeBuilder<TableSampleBuilder<ParentBuilder>, ParentBuilder, From.TableSample> {
+
+        public TableSampleBuilder(From.TableSample tableSample) {
+            super(tableSample);
+        }
+
+        public TableSampleBuilder<ParentBuilder> withSystem(){
+            target.setUseSystem(true);
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withSampleNumber(Integer sampleNumber){
+            target.setSampleNumber(new NumberConstant(sampleNumber).withUnsigned().withInteger());
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withPercent(){
+            target.setUsePercent(true);
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withRows(){
+            target.setUseRows(true);
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withRepeatSeed(Integer repeatSeed){
+            target.setRepeatSeed(new NumberConstant(repeatSeed).withUnsigned().withInteger());
+            return this;
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $System(){
+            return withSystem();
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $(Integer sampleNumber){
+            return withSampleNumber(sampleNumber);
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $Percent(Integer sampleNumber){
+            return withSampleNumber(sampleNumber).withPercent();
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $Rows(Integer sampleNumber){
+            return withSampleNumber(sampleNumber).withRows();
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $RereaTable(Integer repeatSeed){
+            return withRepeatSeed(repeatSeed);
+        }
+    }
+
+    /**
+     * SystemTimeBuilder
+     * @param <ParentBuilder>
+     */
+    public static class SystemTimeBuilder<ParentBuilder>
+            extends CodeTreeBuilder<SystemTimeBuilder<ParentBuilder>, ParentBuilder, From.SystemTime> {
+
+        public SystemTimeBuilder(From.SystemTime systemTime) {
+            super(systemTime);
+        }
+
+
+        public ParentBuilder _AsOf(StringConstant dateTime) {
+            target.setDateTime(new From.DateTime(dateTime));
+            return and();
+        }
+
+        public ParentBuilder _AsOf(LocalVariable dateTime) {
+            target.setDateTime(new From.DateTime(dateTime));
+            return and();
+        }
+
+        public FromToBuilder<ParentBuilder> _From() {
+            return new FromToBuilder<ParentBuilder>
+                    (target)
+                    .in(and());
+        }
+
+        public BetweenAndBuilder<ParentBuilder> _Between() {
+            return new BetweenAndBuilder<ParentBuilder>
+                    (target)
+                    .in(and());
+        }
+
+        public ContainedInBuilder<ParentBuilder> _ContainedIn() {
+            return new ContainedInBuilder<ParentBuilder>
+                    (target)
+                    .in(and());
+        }
+
+        public ParentBuilder _All() {
+            target.setUseAll(true);
+            return and();
+        }
+
+
+        /**
+         * Quick set
+         * @param dateTime
+         * @return
+         */
+        public ParentBuilder $AsOf(String dateTime) {
+            return _AsOf(new StringConstant(dateTime).withQuote());
+        }
+
+        /**
+         * Quick set
+         * @param dateTime
+         * @return
+         */
+        public ParentBuilder $AsOf(StringConstant dateTime) {
+            return _AsOf(dateTime);
+        }
+
+        /**
+         * Quick set
+         * @param dateTime
+         * @return
+         */
+        public ParentBuilder $AsOf(LocalVariable dateTime) {
+            return _AsOf(dateTime);
+        }
+
+        /**
+         * Quick set
+         * @param startDateTime
+         * @param endDateTime
+         * @return
+         */
+        public ParentBuilder $FromTo(String startDateTime, String endDateTime) {
+            return _From()
+                    .withFrom(new StringConstant(startDateTime).withQuote())
+                    .withTo(new StringConstant(endDateTime).withQuote())
+                    .and();
+        }
+        /**
+         * Quick set
+         * @param startDateTime
+         * @param endDateTime
+         * @return
+         */
+        public ParentBuilder $BetweenAnd(String startDateTime, String endDateTime) {
+            return _Between()
+                    .withBetween(new StringConstant(startDateTime).withQuote())
+                    .withAnd(new StringConstant(endDateTime).withQuote())
+                    .and();
+        }
+        /**
+         * Quick set
+         * @param startDateTime
+         * @param endDateTime
+         * @return
+         */
+        public ParentBuilder $ContainedIn(String startDateTime, String endDateTime) {
+            return _ContainedIn()
+                    .withStart(new StringConstant(startDateTime).withQuote())
+                    .withEnd(new StringConstant(endDateTime).withQuote())
+                    .and();
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public ParentBuilder $All() {
+            return _All();
+        }
+
+
+        /**
+         * Quick in
+         * @param startDateTime
+         * @return
+         */
+        public FromToBuilder<ParentBuilder> $From(StringConstant startDateTime) {
+            return new FromToBuilder<ParentBuilder>
+                    (target)
+                    .in(and())
+                    .$From(startDateTime);
+        }
+
+        /**
+         * Quick in
+         * @param startDateTime
+         * @return
+         */
+        public FromToBuilder<ParentBuilder> $From(LocalVariable startDateTime) {
+            return new FromToBuilder<ParentBuilder>
+                    (target)
+                    .in(and())
+                    .$From(startDateTime);
+        }
+
+        /**
+         * Quick in
+         * @param startDateTime
+         * @return
+         */
+        public BetweenAndBuilder<ParentBuilder> $Between(StringConstant startDateTime) {
+            return new BetweenAndBuilder<ParentBuilder>
+                    (target)
+                    .in(and())
+                    .$Between(startDateTime);
+        }
+
+        /**
+         * Quick in
+         * @param startDateTime
+         * @return
+         */
+        public BetweenAndBuilder<ParentBuilder> $Between(LocalVariable startDateTime) {
+            return new BetweenAndBuilder<ParentBuilder>
+                    (target)
+                    .in(and())
+                    .$Between(startDateTime);
+        }
+
+        /**
+         * Quick in
+         * @param startDateTime
+         * @return
+         */
+        public ContainedInBuilder<ParentBuilder> $ContainedIn(StringConstant startDateTime) {
+            return new ContainedInBuilder<ParentBuilder>
+                    (target)
+                    .in(and())
+                    .$In(startDateTime);
+        }
+
+        /**
+         * Quick in
+         * @param startDateTime
+         * @return
+         */
+        public ContainedInBuilder<ParentBuilder> $ContainedIn(LocalVariable startDateTime) {
+            target.setUseBetween(true);
+            return new ContainedInBuilder<ParentBuilder>
+                    (target)
+                    .in(and())
+                    .$In(startDateTime);
+        }
+
+
+
+        public static class FromToBuilder<ParentBuilder>
+                extends CodeTreeBuilder<FromToBuilder<ParentBuilder>, ParentBuilder, From.SystemTime> {
+
+            public FromToBuilder(From.SystemTime systemTime) {
+                super(systemTime);
+                target.setUseFrom(true);
+            }
+
+            public FromToBuilder<ParentBuilder> withFrom(StringConstant startDateTime) {
+                target.setStartDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public FromToBuilder<ParentBuilder> withFrom(LocalVariable startDateTime) {
+                target.setStartDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public FromToBuilder<ParentBuilder> withTo(StringConstant startDateTime) {
+                target.setEndDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public FromToBuilder<ParentBuilder> withTo(LocalVariable startDateTime) {
+                target.setEndDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+
+            /**
+             * Quick set
+             * @param startDateTime
+             * @return
+             */
+            public FromToBuilder<ParentBuilder> $From(StringConstant startDateTime){
+                return withFrom(startDateTime);
+            }
+
+            /**
+             * Quick set
+             * @param startDateTime
+             * @return
+             */
+            public FromToBuilder<ParentBuilder> $From(LocalVariable startDateTime){
+                return withFrom(startDateTime);
+            }
+
+            /**
+             * Quick set
+             * @param endDateTime
+             * @return
+             */
+            public ParentBuilder $To(LocalVariable endDateTime){
+                return withTo(endDateTime)
+                        .and();
+            }
+
+            /**
+             * Quick set
+             * @param endDateTime
+             * @return
+             */
+            public ParentBuilder $To(StringConstant endDateTime){
+                return withTo(endDateTime)
+                        .and();
+            }
+        }
+
+        public static class BetweenAndBuilder<ParentBuilder>
+                extends CodeTreeBuilder<BetweenAndBuilder<ParentBuilder>, ParentBuilder, From.SystemTime> {
+
+            public BetweenAndBuilder(From.SystemTime systemTime) {
+                super(systemTime);
+                target.setUseBetween(true);
+            }
+
+            public BetweenAndBuilder<ParentBuilder> withBetween(StringConstant startDateTime) {
+                target.setStartDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public BetweenAndBuilder<ParentBuilder> withBetween(LocalVariable startDateTime) {
+                target.setStartDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public BetweenAndBuilder<ParentBuilder> withAnd(StringConstant startDateTime) {
+                target.setEndDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public BetweenAndBuilder<ParentBuilder> withAnd(LocalVariable startDateTime) {
+                target.setEndDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+
+            /**
+             * Quick set
+             * @param startDateTime
+             * @return
+             */
+            public BetweenAndBuilder<ParentBuilder> $Between(LocalVariable startDateTime){
+                return withBetween(startDateTime);
+            }
+
+            /**
+             * Quick set
+             * @param startDateTime
+             * @return
+             */
+            public BetweenAndBuilder<ParentBuilder> $Between(StringConstant startDateTime){
+                return withBetween(startDateTime);
+            }
+
+            /**
+             *
+             * @param endDateTime
+             * @return
+             */
+            public ParentBuilder $And(LocalVariable endDateTime){
+                return withAnd(endDateTime)
+                        .and();
+            }
+
+            /**
+             *
+             * @param endDateTime
+             * @return
+             */
+            public ParentBuilder $And(StringConstant endDateTime){
+                return withAnd(endDateTime)
+                        .and();
+            }
+
+        }
+
+        public static class ContainedInBuilder<ParentBuilder>
+                extends CodeTreeBuilder<ContainedInBuilder<ParentBuilder>, ParentBuilder, From.SystemTime> {
+
+            public ContainedInBuilder(From.SystemTime systemTime) {
+                super(systemTime);
+                target.setUseContained(true);
+            }
+
+            public ContainedInBuilder<ParentBuilder> withStart(StringConstant startDateTime) {
+                target.setStartDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public ContainedInBuilder<ParentBuilder> withStart(LocalVariable startDateTime) {
+                target.setStartDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public ContainedInBuilder<ParentBuilder> withEnd(StringConstant startDateTime) {
+                target.setEndDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+            public ContainedInBuilder<ParentBuilder> withEnd(LocalVariable startDateTime) {
+                target.setEndDateTime(new From.DateTime(startDateTime));
+                return this;
+            }
+
+
+            /**
+             * Quick set
+             * @param startDateTime
+             * @return
+             */
+            public ContainedInBuilder<ParentBuilder> $In(LocalVariable startDateTime){
+                return withStart(startDateTime);
+            }
+
+            /**
+             * Quick set
+             * @param startDateTime
+             * @return
+             */
+            public ContainedInBuilder<ParentBuilder> $In(StringConstant startDateTime){
+                return withStart(startDateTime);
+            }
+
+            /**
+             *
+             * @param endDateTime
+             * @return
+             */
+            public ParentBuilder $(LocalVariable endDateTime){
+                return withEnd(endDateTime)
+                        .and();
+            }
+
+            /**
+             *
+             * @param endDateTime
+             * @return
+             */
+            public ParentBuilder $(StringConstant endDateTime){
+                return withEnd(endDateTime)
+                        .and();
+            }
+
+        }
+
+    }
+
 }

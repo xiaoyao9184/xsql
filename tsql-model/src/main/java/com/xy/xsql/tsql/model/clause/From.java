@@ -4,6 +4,7 @@ import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -152,65 +153,6 @@ public class From implements Clause {
         public void setTableHintList(List<TableHint> tableHintList) {
             this.tableHintList = tableHintList;
         }
-
-    }
-
-    /**
-     * TABLESAMPLE [SYSTEM] ( sample_number [ PERCENT | ROWS ] )
-     [ REPEATABLE ( repeat_seed ) ]
-     */
-    public static class TableSample {
-
-        //[SYSTEM]
-        private boolean useSystem;
-        //table_or_view_name [ [ AS ] table_alias ]
-        private NumberConstant sampleNumber;
-        //[ PERCENT | ROWS ]
-        private boolean usePercent;
-        private boolean useRows;
-        //[ REPEATABLE ( repeat_seed ) ]
-        private NumberConstant repeatSeed;
-
-        public boolean isUseSystem() {
-            return useSystem;
-        }
-
-        public void setUseSystem(boolean useSystem) {
-            this.useSystem = useSystem;
-        }
-
-        public NumberConstant getSampleNumber() {
-            return sampleNumber;
-        }
-
-        public void setSampleNumber(NumberConstant sampleNumber) {
-            this.sampleNumber = sampleNumber;
-        }
-
-        public boolean isUsePercent() {
-            return usePercent;
-        }
-
-        public void setUsePercent(boolean usePercent) {
-            this.usePercent = usePercent;
-        }
-
-        public boolean isUseRows() {
-            return useRows;
-        }
-
-        public void setUseRows(boolean useRows) {
-            this.useRows = useRows;
-        }
-
-        public NumberConstant getRepeatSeed() {
-            return repeatSeed;
-        }
-
-        public void setRepeatSeed(NumberConstant repeatSeed) {
-            this.repeatSeed = repeatSeed;
-        }
-
     }
 
     /**
@@ -454,4 +396,208 @@ public class From implements Clause {
         }
 
     }
+
+    /**
+     * table_or_view_name FOR SYSTEM_TIME <system_time>
+     */
+    public static class BaseWithTimeTable implements TableSource {
+
+        //table_or_view_name
+        private TableName tableName;
+        //[ FOR SYSTEM_TIME <system_time> ]
+        private SystemTime systemTime;
+
+
+        public TableName getTableName() {
+            return tableName;
+        }
+
+        public void setTableName(TableName table) {
+            this.tableName = table;
+        }
+
+        public SystemTime getSystemTime() {
+            return systemTime;
+        }
+
+        public void setSystemTime(SystemTime systemTime) {
+            this.systemTime = systemTime;
+        }
+    }
+
+    /**
+     * TABLESAMPLE [SYSTEM] ( sample_number [ PERCENT | ROWS ] )
+     [ REPEATABLE ( repeat_seed ) ]
+     */
+    public static class TableSample {
+
+        //[SYSTEM]
+        private boolean useSystem;
+        //table_or_view_name [ [ AS ] table_alias ]
+        private NumberConstant sampleNumber;
+        //[ PERCENT | ROWS ]
+        private boolean usePercent;
+        private boolean useRows;
+        //[ REPEATABLE ( repeat_seed ) ]
+        private NumberConstant repeatSeed;
+
+        public boolean isUseSystem() {
+            return useSystem;
+        }
+
+        public void setUseSystem(boolean useSystem) {
+            this.useSystem = useSystem;
+        }
+
+        public NumberConstant getSampleNumber() {
+            return sampleNumber;
+        }
+
+        public void setSampleNumber(NumberConstant sampleNumber) {
+            this.sampleNumber = sampleNumber;
+        }
+
+        public boolean isUsePercent() {
+            return usePercent;
+        }
+
+        public void setUsePercent(boolean usePercent) {
+            this.usePercent = usePercent;
+        }
+
+        public boolean isUseRows() {
+            return useRows;
+        }
+
+        public void setUseRows(boolean useRows) {
+            this.useRows = useRows;
+        }
+
+        public NumberConstant getRepeatSeed() {
+            return repeatSeed;
+        }
+
+        public void setRepeatSeed(NumberConstant repeatSeed) {
+            this.repeatSeed = repeatSeed;
+        }
+
+    }
+
+    /**
+     *{
+     AS OF <date_time>
+     |  FROM <start_date_time> TO <end_date_time>
+     |  BETWEEN <start_date_time> AND <end_date_time>
+     |  CONTAINED IN (<start_date_time> , <end_date_time>)
+     |  ALL
+     }
+     */
+    public static class SystemTime {
+
+        //AS OF <date_time>
+        private DateTime dateTime;
+        //FROM <start_date_time> TO <end_date_time>
+        //BETWEEN <start_date_time> AND <end_date_time>
+        //CONTAINED IN (<start_date_time> , <end_date_time>)
+        private boolean useFrom;
+        private boolean useBetween;
+        private boolean useContained;
+        private DateTime startDateTime;
+        private DateTime endDateTime;
+
+        //ALL
+        private boolean useAll;
+
+        public DateTime getDateTime() {
+            return dateTime;
+        }
+
+        public void setDateTime(DateTime dateTime) {
+            this.dateTime = dateTime;
+        }
+
+        public boolean isUseFrom() {
+            return useFrom;
+        }
+
+        public void setUseFrom(boolean useFrom) {
+            this.useFrom = useFrom;
+        }
+
+        public boolean isUseBetween() {
+            return useBetween;
+        }
+
+        public void setUseBetween(boolean useBetween) {
+            this.useBetween = useBetween;
+        }
+
+        public boolean isUseContained() {
+            return useContained;
+        }
+
+        public void setUseContained(boolean useContained) {
+            this.useContained = useContained;
+        }
+
+        public DateTime getStartDateTime() {
+            return startDateTime;
+        }
+
+        public void setStartDateTime(DateTime startDateTime) {
+            this.startDateTime = startDateTime;
+        }
+
+        public DateTime getEndDateTime() {
+            return endDateTime;
+        }
+
+        public void setEndDateTime(DateTime endDateTime) {
+            this.endDateTime = endDateTime;
+        }
+
+        public boolean isUseAll() {
+            return useAll;
+        }
+
+        public void setUseAll(boolean useAll) {
+            this.useAll = useAll;
+        }
+    }
+
+    /**
+     * <date_time_literal> | @date_time_variable
+     */
+    public static class DateTime {
+
+        //date_time_literal
+        private StringConstant dateTimeLiteral;
+        //@date_time_variable
+        private LocalVariable dateTimeVariable;
+
+        public DateTime(StringConstant dateTime) {
+            this.dateTimeLiteral = dateTime;
+        }
+
+        public DateTime(LocalVariable dateTime) {
+            this.dateTimeVariable = dateTime;
+        }
+
+        public StringConstant getDateTimeLiteral() {
+            return dateTimeLiteral;
+        }
+
+        public void setDateTimeLiteral(StringConstant dateTimeLiteral) {
+            this.dateTimeLiteral = dateTimeLiteral;
+        }
+
+        public LocalVariable getDateTimeVariable() {
+            return dateTimeVariable;
+        }
+
+        public void setDateTimeVariable(LocalVariable dateTimeVariable) {
+            this.dateTimeVariable = dateTimeVariable;
+        }
+    }
+
 }

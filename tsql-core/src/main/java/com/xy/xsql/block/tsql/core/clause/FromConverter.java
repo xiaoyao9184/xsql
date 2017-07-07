@@ -67,6 +67,7 @@ public class FromConverter
                             .data(d -> d)
                             .and()
                         .czse_meta(d -> d instanceof From.VariableTable,VariableTableConverter.meta())
+                        .czse_meta(d -> d instanceof From.BaseWithTimeTable,BaseWithTimeTableConverter.meta())
 //                        .czse_meta(BaseTableConverter.meta())
 //                            .filter(d -> d instanceof From.BaseTable)
 //                            .and()
@@ -109,9 +110,9 @@ public class FromConverter
                         .sub()
                             .description("[ [ AS ] table_alias ]")
                             .optional(bt -> bt.getTableAlias() == null)
-                            .sub("AS")
+                            .sub()
+                                .optional(d -> !d.isUseAs())
                                 .keyword(Keywords.AS)
-                                .optional(t -> true)
                                 .and()
                             .sub("table_alias")
                                 .data(From.BaseTable::getTableAlias)
@@ -146,54 +147,6 @@ public class FromConverter
         public ReferenceBlock convert(From.BaseTable baseTable) {
             return builder
                     .data(baseTable)
-                    .build();
-        }
-    }
-
-    public static class TableSampleConverter
-            implements ReferenceBlockConverter<From.TableSample> {
-
-        // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.TableSample> builder =
-                new ReferenceBlockBuilder<Void,From.TableSample>()
-                        .overall("tablesample_clause")
-                        .sub_keyword(Keywords.Key.TABLESAMPLE)
-                        .sub()
-                            .optional(From.TableSample::isUseSystem)
-                            .keyword(Keywords.Key.SYSTEM)
-                            .and()
-                        .sub_keyword(Other.GROUP_START)
-                        .sub("sample_number")
-                            .data(From.TableSample::getSampleNumber)
-                            .and()
-                        .sub()
-                            .description("percent/rows")
-                            .optional(d -> d.isUseRows() || d.isUsePercent())
-                            .czse_keyword(From.TableSample::isUsePercent,Keywords.PERCENT)
-                            .czse_keyword(From.TableSample::isUseRows,Keywords.Key.ROWS)
-                            .and()
-                        .sub_keyword(Other.GROUP_END)
-                        .sub()
-                            .description("repeatable")
-                            .optional(d -> d.getRepeatSeed() == null)
-                            .sub_keyword(Keywords.Key.REPEATABLE)
-                            .sub_keyword(Other.GROUP_START)
-                            .sub("repeat_seed")
-                                .data(From.TableSample::getRepeatSeed)
-                                .and()
-                            .sub_keyword(Other.GROUP_END)
-                            .startNewline()
-                            .and();
-        // @formatter:on
-
-        public static ReferenceBlock meta() {
-            return builder.build();
-        }
-
-        @Override
-        public ReferenceBlock convert(From.TableSample tableSample) {
-            return builder
-                    .data(tableSample)
                     .build();
         }
     }
@@ -244,6 +197,125 @@ public class FromConverter
         }
     }
 
+    public static class VariableTableConverter
+            implements ReferenceBlockConverter<From.VariableTable> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,From.VariableTable> builder =
+                new ReferenceBlockBuilder<Void,From.VariableTable>()
+                        .description("variable table")
+                        .sub("@variable")
+                            .data(From.VariableTable::getVariable)
+                            .and()
+                        .sub()
+                            .description("[ [ AS ] table_alias ]")
+                            .optional(bt -> bt.getTableAlias() == null)
+                            .sub("AS")
+                                .optional(t -> true)
+                                .keyword(Keywords.AS)
+                                .and()
+                            .sub("table_alias")
+                                .data(From.VariableTable::getTableAlias)
+                                .and()
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(From.VariableTable variableTable) {
+            return builder
+                    .data(variableTable)
+                    .build();
+        }
+    }
+
+    public static class BaseWithTimeTableConverter
+            implements ReferenceBlockConverter<From.BaseWithTimeTable> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,From.BaseWithTimeTable> builder =
+                new ReferenceBlockBuilder<Void,From.BaseWithTimeTable>()
+                        .description("base time table")
+                        .sub("table_or_view_name")
+                            .data(From.BaseWithTimeTable::getTableName)
+                            .and()
+                        .sub_keyword(Keywords.FOR)
+                        .sub_keyword(Keywords.Key.SYSTEM_TIME)
+                        .sub("system_time")
+                            .ref(SystemTimeConverter.class)
+                            .data(From.BaseWithTimeTable::getSystemTime)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(From.BaseWithTimeTable baseTable) {
+            return builder
+                    .data(baseTable)
+                    .build();
+        }
+    }
+
+    /**
+     *
+     */
+    public static class TableSampleConverter
+            implements ReferenceBlockConverter<From.TableSample> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,From.TableSample> builder =
+                new ReferenceBlockBuilder<Void,From.TableSample>()
+                        .overall("tablesample_clause")
+                        .sub_keyword(Keywords.Key.TABLESAMPLE)
+                        .sub()
+                            .optional(d -> !d.isUseSystem())
+                            .keyword(Keywords.Key.SYSTEM)
+                            .and()
+                        .sub_keyword(Other.GROUP_START)
+                        .sub("sample_number")
+                            .data(From.TableSample::getSampleNumber)
+                            .and()
+                        .sub()
+                            .description("percent/rows")
+                            .optional(d -> !d.isUseRows() && !d.isUsePercent())
+                            .czse_keyword(From.TableSample::isUsePercent,Keywords.PERCENT)
+                            .czse_keyword(From.TableSample::isUseRows,Keywords.Key.ROWS)
+                            .and()
+                        .sub_keyword(Other.GROUP_END)
+                        .sub()
+                            .description("repeatable")
+                            .optional(d -> d.getRepeatSeed() == null)
+                            .sub_keyword(Keywords.Key.REPEATABLE)
+                            .sub_keyword(Other.GROUP_START)
+                            .sub("repeat_seed")
+                                .data(From.TableSample::getRepeatSeed)
+                                .and()
+                            .sub_keyword(Other.GROUP_END)
+                            .startNewline()
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(From.TableSample tableSample) {
+            return builder
+                    .data(tableSample)
+                    .build();
+        }
+    }
+
+    /**
+     *
+     */
     public static class JoinedTableConverter
             implements ReferenceBlockConverter<From.JoinedTable> {
 
@@ -334,42 +406,9 @@ public class FromConverter
         }
     }
 
-    public static class VariableTableConverter
-            implements ReferenceBlockConverter<From.VariableTable> {
-
-        // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.VariableTable> builder =
-                new ReferenceBlockBuilder<Void,From.VariableTable>()
-                        .description("variable table")
-                        .sub("@variable")
-                            .data(From.VariableTable::getVariable)
-                            .and()
-                        .sub()
-                            .description("[ [ AS ] table_alias ]")
-                            .optional(bt -> bt.getTableAlias() == null)
-                            .sub("AS")
-                                .optional(t -> true)
-                                .keyword(Keywords.AS)
-                                .and()
-                            .sub("table_alias")
-                                .data(From.VariableTable::getTableAlias)
-                                .and()
-                            .and();
-        // @formatter:on
-
-        public static ReferenceBlock meta() {
-            return builder.build();
-        }
-
-        @Override
-        public ReferenceBlock convert(From.VariableTable variableTable) {
-            return builder
-                    .data(variableTable)
-                    .build();
-        }
-    }
-
-
+    /**
+     *
+     */
     public static class JoinTypeConverter
             implements ReferenceBlockConverter<From.JoinType> {
 
@@ -429,6 +468,118 @@ public class FromConverter
         public ReferenceBlock convert(From.JoinType joinType) {
             return builder
                     .data(joinType)
+                    .build();
+        }
+    }
+
+    /**
+     *
+     */
+    public static class SystemTimeConverter
+            implements ReferenceBlockConverter<From.SystemTime> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,From.SystemTime> builder =
+                new ReferenceBlockBuilder<Void,From.SystemTime>()
+                        .overall("system_time")
+                        .required()
+                        .czse(d -> d.getDateTime() != null)
+                            .description("as of")
+                            .sub_keyword(Keywords.AS)
+                            .sub_keyword(Keywords.OF)
+                            .sub("date_time")
+                                .ref(DateTimeConverter.class)
+                                .data(From.SystemTime::getDateTime)
+                                .and()
+                            .and()
+                        .czse(From.SystemTime::isUseFrom)
+                            .description("from to")
+                            .sub_keyword(Keywords.FROM)
+                            .sub("start_date_time")
+                                .ref(DateTimeConverter.class)
+                                .data(From.SystemTime::getStartDateTime)
+                                .and()
+                            .sub_keyword(Keywords.TO)
+                            .sub("end_date_time")
+                                .ref(DateTimeConverter.class)
+                                .data(From.SystemTime::getEndDateTime)
+                                .and()
+                            .and()
+                        .czse(From.SystemTime::isUseBetween)
+                            .description("between and")
+                            .sub_keyword(Keywords.BETWEEN)
+                            .sub("start_date_time")
+                                .ref(DateTimeConverter.class)
+                                .data(From.SystemTime::getStartDateTime)
+                                .and()
+                            .sub_keyword(Keywords.AND)
+                            .sub("end_date_time")
+                                .ref(DateTimeConverter.class)
+                                .data(From.SystemTime::getEndDateTime)
+                                .and()
+                            .and()
+                        .czse(From.SystemTime::isUseContained)
+                            .description("contained in")
+                            .sub_keyword(Keywords.Key.CONTAINED)
+                            .sub_keyword(Keywords.IN)
+                            .sub_keyword(Other.GROUP_START)
+                            .sub("start_date_time")
+                                .ref(DateTimeConverter.class)
+                                .data(From.SystemTime::getStartDateTime)
+                                .and()
+                            .sub_keyword(Other.DELIMITER)
+                            .sub("end_date_time")
+                                .ref(DateTimeConverter.class)
+                                .data(From.SystemTime::getEndDateTime)
+                                .and()
+                            .sub_keyword(Other.GROUP_END)
+                            .and()
+                        .czse(From.SystemTime::isUseAll)
+                            .description("all")
+                            .sub_keyword(Keywords.ALL)
+                            .and()
+                        .subTakeLine()
+                        .headFootTakeLine();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(From.SystemTime systemTime) {
+            return builder
+                    .data(systemTime)
+                    .build();
+        }
+    }
+
+    /**
+     *
+     */
+    public static class DateTimeConverter
+            implements ReferenceBlockConverter<From.DateTime> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,From.DateTime> builder =
+                new ReferenceBlockBuilder<Void,From.DateTime>()
+                        .overall("date_time")
+                        .czse(d -> d.getDateTimeLiteral() != null,"<date_time_literal>")
+                            .data(From.DateTime::getDateTimeLiteral)
+                            .and()
+                        .czse(d -> d.getDateTimeVariable() != null,"@date_time_variable")
+                            .data(From.DateTime::getDateTimeVariable)
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(From.DateTime dateTime) {
+            return builder
+                    .data(dateTime)
                     .build();
         }
     }
