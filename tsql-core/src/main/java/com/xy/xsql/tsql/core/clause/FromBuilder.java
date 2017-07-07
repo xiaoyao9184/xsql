@@ -8,6 +8,7 @@ import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
+import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
@@ -884,6 +886,14 @@ public class FromBuilder<ParentBuilder>
             return this;
         }
 
+        public TableSampleBuilder<BaseTableBuilder<ParentBuilder>> withTableSample(){
+            return new TableSampleBuilder<BaseTableBuilder<ParentBuilder>>
+                    (initSet(From.TableSample::new,
+                            target::getTableSample,
+                            target::setTableSample))
+                    .in(this);
+        }
+
         public BaseTableBuilder<ParentBuilder> withTableHint(TableHint... tableHints){
             initAdd(Arrays.asList(tableHints),
                     target::getTableHintList,
@@ -912,6 +922,120 @@ public class FromBuilder<ParentBuilder>
             return withTableHint(tableHints);
         }
 
+        /**
+         * Quick in TableSample
+         * @return
+         */
+        public TableSampleBuilder<BaseTableBuilder<ParentBuilder>> $TableSample(){
+            return withTableSample();
+        }
+
+        /**
+         * Quick set tableSample
+         * @param system
+         * @param sampleNumber
+         * @param rows
+         * @param repeatSeed
+         * @return
+         */
+        public BaseTableBuilder<ParentBuilder> $TableSample(boolean system, Integer sampleNumber, boolean percent, boolean rows, Integer repeatSeed){
+            TableSampleBuilder<BaseTableBuilder<ParentBuilder>> b = withTableSample();
+            if(system){
+                b.withSystem();
+            }
+            if(sampleNumber != null){
+                b.withSampleNumber(sampleNumber);
+            }
+            if(percent){
+                b.withPercent();
+            }
+            if(rows){
+                b.withRows();
+            }
+            if(repeatSeed != null){
+                b.withRepeatSeed(repeatSeed);
+            }
+
+            return b.and();
+        }
+
+    }
+
+    /**
+     * TableSampleBuilder
+     * @param <ParentBuilder>
+     */
+    public static class TableSampleBuilder<ParentBuilder>
+            extends CodeTreeBuilder<TableSampleBuilder<ParentBuilder>, ParentBuilder, From.TableSample> {
+
+        public TableSampleBuilder(From.TableSample tableSample) {
+            super(tableSample);
+        }
+
+        public TableSampleBuilder<ParentBuilder> withSystem(){
+            target.setUseSystem(true);
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withSampleNumber(Integer sampleNumber){
+            target.setSampleNumber(new NumberConstant(sampleNumber).withUnsigned().withInteger());
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withPercent(){
+            target.setUsePercent(true);
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withRows(){
+            target.setUseRows(true);
+            return this;
+        }
+
+        public TableSampleBuilder<ParentBuilder> withRepeatSeed(Integer repeatSeed){
+            target.setRepeatSeed(new NumberConstant(repeatSeed).withUnsigned().withInteger());
+            return this;
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $System(){
+            return withSystem();
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $(Integer sampleNumber){
+            return withSampleNumber(sampleNumber);
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $Percent(Integer sampleNumber){
+            return withSampleNumber(sampleNumber).withPercent();
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $Rows(Integer sampleNumber){
+            return withSampleNumber(sampleNumber).withRows();
+        }
+
+        /**
+         * Quick set
+         * @return
+         */
+        public TableSampleBuilder<ParentBuilder> $RereaTable(Integer repeatSeed){
+            return withRepeatSeed(repeatSeed);
+        }
     }
 
     /**

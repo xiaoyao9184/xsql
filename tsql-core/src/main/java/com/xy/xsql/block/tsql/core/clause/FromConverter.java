@@ -117,6 +117,11 @@ public class FromConverter
                                 .data(From.BaseTable::getTableAlias)
                                 .and()
                             .and()
+                        .sub("tablesample_clause")
+                            .optional(d -> d.getTableSample() == null)
+                            .ref(TableSampleConverter.class)
+                            .data(From.BaseTable::getTableSample)
+                            .and()
                         .sub()
                             .description("with")
                             .optional(d -> d.getTableHintList() == null)
@@ -141,6 +146,54 @@ public class FromConverter
         public ReferenceBlock convert(From.BaseTable baseTable) {
             return builder
                     .data(baseTable)
+                    .build();
+        }
+    }
+
+    public static class TableSampleConverter
+            implements ReferenceBlockConverter<From.TableSample> {
+
+        // @formatter:off
+        private static ReferenceBlockBuilder<Void,From.TableSample> builder =
+                new ReferenceBlockBuilder<Void,From.TableSample>()
+                        .overall("tablesample_clause")
+                        .sub_keyword(Keywords.Key.TABLESAMPLE)
+                        .sub()
+                            .optional(From.TableSample::isUseSystem)
+                            .keyword(Keywords.Key.SYSTEM)
+                            .and()
+                        .sub_keyword(Other.GROUP_START)
+                        .sub("sample_number")
+                            .data(From.TableSample::getSampleNumber)
+                            .and()
+                        .sub()
+                            .description("percent/rows")
+                            .optional(d -> d.isUseRows() || d.isUsePercent())
+                            .czse_keyword(From.TableSample::isUsePercent,Keywords.PERCENT)
+                            .czse_keyword(From.TableSample::isUseRows,Keywords.Key.ROWS)
+                            .and()
+                        .sub_keyword(Other.GROUP_END)
+                        .sub()
+                            .description("repeatable")
+                            .optional(d -> d.getRepeatSeed() == null)
+                            .sub_keyword(Keywords.Key.REPEATABLE)
+                            .sub_keyword(Other.GROUP_START)
+                            .sub("repeat_seed")
+                                .data(From.TableSample::getRepeatSeed)
+                                .and()
+                            .sub_keyword(Other.GROUP_END)
+                            .startNewline()
+                            .and();
+        // @formatter:on
+
+        public static ReferenceBlock meta() {
+            return builder.build();
+        }
+
+        @Override
+        public ReferenceBlock convert(From.TableSample tableSample) {
+            return builder
+                    .data(tableSample)
                     .build();
         }
     }

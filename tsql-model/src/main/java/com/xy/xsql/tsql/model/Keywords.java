@@ -301,7 +301,10 @@ public enum Keywords {
         DISTRIBUTED_AGG,
 
         //ORDER
-        RANGE, UNBOUNDED, PRECEDING, FOLLOWING;
+        RANGE, UNBOUNDED, PRECEDING, FOLLOWING,
+
+        //FROM
+        TABLESAMPLE, SYSTEM, REPEATABLE;
 
         @Override
         public String toString(){

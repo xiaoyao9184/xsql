@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.model.clause;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
+import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -106,7 +107,8 @@ public class From implements Clause {
         private TableName tableName;
         private boolean useAs;
         private Alias<Void> tableAlias;
-        //TODO [ <tablesample_clause> ]
+        //[ <tablesample_clause> ]
+        private TableSample tableSample;
         //[ WITH ( < table_hint > [ [ , ]...n ] ) ]
         private List<TableHint> tableHintList;
 
@@ -135,6 +137,14 @@ public class From implements Clause {
             this.tableAlias = tableAlias;
         }
 
+        public TableSample getTableSample() {
+            return tableSample;
+        }
+
+        public void setTableSample(TableSample tableSample) {
+            this.tableSample = tableSample;
+        }
+
         public List<TableHint> getTableHintList() {
             return tableHintList;
         }
@@ -142,6 +152,65 @@ public class From implements Clause {
         public void setTableHintList(List<TableHint> tableHintList) {
             this.tableHintList = tableHintList;
         }
+
+    }
+
+    /**
+     * TABLESAMPLE [SYSTEM] ( sample_number [ PERCENT | ROWS ] )
+     [ REPEATABLE ( repeat_seed ) ]
+     */
+    public static class TableSample {
+
+        //[SYSTEM]
+        private boolean useSystem;
+        //table_or_view_name [ [ AS ] table_alias ]
+        private NumberConstant sampleNumber;
+        //[ PERCENT | ROWS ]
+        private boolean usePercent;
+        private boolean useRows;
+        //[ REPEATABLE ( repeat_seed ) ]
+        private NumberConstant repeatSeed;
+
+        public boolean isUseSystem() {
+            return useSystem;
+        }
+
+        public void setUseSystem(boolean useSystem) {
+            this.useSystem = useSystem;
+        }
+
+        public NumberConstant getSampleNumber() {
+            return sampleNumber;
+        }
+
+        public void setSampleNumber(NumberConstant sampleNumber) {
+            this.sampleNumber = sampleNumber;
+        }
+
+        public boolean isUsePercent() {
+            return usePercent;
+        }
+
+        public void setUsePercent(boolean usePercent) {
+            this.usePercent = usePercent;
+        }
+
+        public boolean isUseRows() {
+            return useRows;
+        }
+
+        public void setUseRows(boolean useRows) {
+            this.useRows = useRows;
+        }
+
+        public NumberConstant getRepeatSeed() {
+            return repeatSeed;
+        }
+
+        public void setRepeatSeed(NumberConstant repeatSeed) {
+            this.repeatSeed = repeatSeed;
+        }
+
     }
 
     /**

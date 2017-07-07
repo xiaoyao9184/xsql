@@ -720,13 +720,10 @@ public class FromBuilderTest {
                 .$child()
                     .$()
                         .$(t("Sales","Customer"))
-            //TODO
-                //                        .$TableSample()
-                //                            .$System()
-                //                            .$Percent(10)
-                //                            .$Row(10)
-                //                            .$RereaTable()
-                //                            .and()
+                            .$TableSample()
+                                .$System()
+                                .$Percent(10)
+                                .and()
                             .and()
                         .and()
                     .and()
@@ -739,7 +736,11 @@ public class FromBuilderTest {
         From from = new FromBuilder<From>()
                 .withItem()._Base()
                     .withTableName(t("Sales","Customer"))
-//                    .withTABLESAMPLE
+                    .withTableSample()
+                        .withSystem()
+                        .withSampleNumber(10)
+                        .withPercent()
+                        .and()
                     .and()
                 .build();
         // @formatter:on
@@ -749,6 +750,10 @@ public class FromBuilderTest {
         Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.BaseTable.class);
         From.BaseTable tableSource = (From.BaseTable) from.getTableSourceList().get(0);
         Assert.assertEquals(tableSource.getTableName().toString(),"Sales.Customer");
+
+        Assert.assertTrue(tableSource.getTableSample().isUseSystem());
+        Assert.assertEquals(tableSource.getTableSample().getSampleNumber().getNumber(),10);
+        Assert.assertTrue(tableSource.getTableSample().isUsePercent());
     }
 
 
