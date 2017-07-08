@@ -36,6 +36,10 @@ public class WithBuilder<ParentBuilder>
 
 
 
+    public static WithBuilder<Void> WITH(){
+        return new WithBuilder<>();
+    }
+
 
     /*
     Quick set

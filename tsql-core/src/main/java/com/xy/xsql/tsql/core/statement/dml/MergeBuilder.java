@@ -5,10 +5,10 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.*;
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 import com.xy.xsql.util.CheckUtil;
@@ -218,7 +218,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      * Quick set
      * @return
      */
-    public WithBuilder<MergeBuilder> With(){
+    public WithBuilder<MergeBuilder> $With(){
         return withWith();
     }
 
@@ -254,7 +254,6 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      * @param mergeHints
      * @return
      */
-    @Deprecated
     public MergeBuilder $With(TableHintLimited... mergeHints){
         return withMergeHint()
                 .withTableHintLimited(mergeHints)
@@ -262,11 +261,14 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set
+     * Quick set merge_hint
+     * @param indexValues
      * @return
      */
-    public MergeHintBuilder<MergeBuilder> $With(){
-        return withMergeHint();
+    public MergeBuilder $With(String... indexValues){
+        return withMergeHint()
+                .withIndexValues(indexValues)
+                .and();
     }
 
     /**
@@ -359,20 +361,15 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             return this;
         }
 
-        public MergeHintBuilder<ParentBuilder> withNull(Boolean useDelimiter){
-            target.setUseDelimiter(useDelimiter);
-            return this;
-        }
-
-        public MergeHintBuilder<ParentBuilder> withTableHintLimited(String... valueVals){
-            if(CheckUtil.isNullOrEmpty(valueVals)){
+        public MergeHintBuilder<ParentBuilder> withIndexValues(String... indexValues){
+            if(CheckUtil.isNullOrEmpty(indexValues)){
                 return this;
             }
-            initAdd(Arrays.stream(valueVals)
-                            .map(Unknown::new)
+            initAdd(Arrays.stream(indexValues)
+                            .map(StringConstant::new)
                             .collect(Collectors.toList()),
-                    target::getIndexValList,
-                    target::setIndexValList);
+                    target::getIndexValues,
+                    target::setIndexValues);
             return this;
         }
 
@@ -419,7 +416,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
          * Quick into
          * @return
          */
-        public SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>> $() {
+        public SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>> $And() {
             return withClauseSearchCondition();
         }
 
@@ -477,7 +474,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
          * Quick into
          * @return
          */
-        public SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> $() {
+        public SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> $And() {
             return withClauseSearchCondition();
         }
 
@@ -530,7 +527,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
          * Quick into
          * @return
          */
-        public SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> $() {
+        public SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> $And() {
             return withClauseSearchCondition();
         }
 

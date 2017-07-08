@@ -1,6 +1,5 @@
-package com.xy.xsql.tsql.core.statement;
+package com.xy.xsql.tsql.core.statement.dml;
 
-import com.xy.xsql.tsql.core.statement.dml.MergeBuilder;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -14,10 +13,8 @@ import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_negative;
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_plus;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_variable;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
-import static com.xy.xsql.tsql.core.statement.StatementBuilderFactory.SELECT;
 import static com.xy.xsql.tsql.core.statement.dml.MergeBuilder.MERGE;
 import static com.xy.xsql.tsql.core.statement.dml.UpdateBuilder.SetItemBuilder.s;
 
@@ -226,7 +223,7 @@ public class MergeBuilderTest {
                     ))
                     .and()
                 .$When_Matched()
-                    .$()
+                    .$And()
                         .$Predicate(p_less_equal(
                                 e_negative(c("target","Quantity"),
                                         c("source","OrderQty")),

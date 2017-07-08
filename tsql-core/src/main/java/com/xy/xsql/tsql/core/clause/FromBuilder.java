@@ -945,6 +945,11 @@ public class FromBuilder<ParentBuilder>
                     .and();
         }
 
+        public ParentBuilder $(String aliasName) {
+            return withTableAlias(aliasName)
+                    .and();
+        }
+
         /**
          * Quick set tableHints
          * @param tableHints

@@ -7,7 +7,6 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.statement.ddl.TruncateTableBuilder.TRUNCATE_TABLE;
 
-
 /**
  * Created by xiaoyao9184 on 2017/3/11.
  */
@@ -23,7 +22,11 @@ public class TruncateTableBuilderTest {
      */
     @Test
     public void testExampleA(){
-        Assert.assertEquals(exampleA.getTableName().toString(),"HumanResources.JobCandidate");
+        TruncateTable truncateTable = new TruncateTableBuilder()
+                .withTableName(t("HumanResources","JobCandidate"))
+                .build();
+
+        Assert.assertEquals(truncateTable.getTableName().toString(),"HumanResources.JobCandidate");
     }
 
 

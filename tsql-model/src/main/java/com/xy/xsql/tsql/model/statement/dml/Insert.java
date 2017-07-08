@@ -4,6 +4,7 @@ import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.With;
+import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;
@@ -115,7 +116,9 @@ public class Insert implements Statement {
      */
     //<object>
     private TableName tableName;
-    //TODO rowset_function_limited [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+    //TODO rowset_function_limited
+    //[ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+    private List<TableHintLimited> tableHintLimitedList;
 
     //( column_list )
     private List<ColumnName> columns;
@@ -171,6 +174,14 @@ public class Insert implements Statement {
 
     public void setTableName(TableName tableName) {
         this.tableName = tableName;
+    }
+
+    public List<TableHintLimited> getTableHintLimitedList() {
+        return tableHintLimitedList;
+    }
+
+    public void setTableHintLimitedList(List<TableHintLimited> tableHintLimitedList) {
+        this.tableHintLimitedList = tableHintLimitedList;
     }
 
     public List<ColumnName> getColumns() {

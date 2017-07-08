@@ -1,7 +1,5 @@
-package com.xy.xsql.tsql.core.statement;
+package com.xy.xsql.tsql.core.statement.dml;
 
-import com.xy.xsql.tsql.core.statement.dml.DeleteBuilder;
-import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.Between;
@@ -25,6 +23,10 @@ import static com.xy.xsql.tsql.core.statement.dml.DeleteBuilder.DELETE;
  */
 public class DeleteBuilderTest {
 
+    /*
+    Basic Syntax
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/delete-transact-sql#BasicSyntax
+     */
 
     // @formatter:off
     //parent+quick
@@ -37,7 +39,7 @@ public class DeleteBuilderTest {
      * DELETE FROM Sales.SalesPersonQuotaHistory;
      */
     @Test
-    public void testExample1A(){
+    public void testExampleA(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withFrom(true)
@@ -49,10 +51,20 @@ public class DeleteBuilderTest {
         Assert.assertEquals(delete.getTableName().toString(),"Sales.SalesPersonQuotaHistory");
     }
 
+    /*
+    Limiting the Rows Deleted
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/delete-transact-sql#LimitRows
+     */
+
 
     // @formatter:off
     //parent+quick
-    public Delete exampleB = DELETE()
+    /**
+     * DELETE FROM Production.ProductCostHistory
+        WHERE StandardCost > 1000.00;
+        GO
+     */
+    public Delete exampleB1 = DELETE()
             .$From(t("Production","ProductCostHistory"))
             .$Where()
                 .$Predicate(p_greater(
@@ -63,12 +75,8 @@ public class DeleteBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * DELETE FROM Production.ProductCostHistory
-     WHERE StandardCost > 1000.00;
-     */
     @Test
-    public void testExample2A(){
+    public void testExampleB1(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withFrom(true)
@@ -93,7 +101,12 @@ public class DeleteBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Delete example2A1 = DELETE()
+    /**
+     * DELETE Production.ProductCostHistory
+        WHERE StandardCost BETWEEN 12.00 AND 14.00
+              AND EndDate IS NULL
+     */
+    public Delete exampleB2 = DELETE()
             .$From(t("Production","ProductCostHistory"))
             .$Where()
                 .$Predicate(p_between(
@@ -108,13 +121,8 @@ public class DeleteBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * DELETE Production.ProductCostHistory
-     WHERE StandardCost BETWEEN 12.00 AND 14.00
-     AND EndDate IS NULL;
-     */
     @Test
-    public void testExample2A1(){
+    public void testExampleB2(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withFrom(true)
@@ -146,7 +154,11 @@ public class DeleteBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Delete example2B = DELETE()
+    /**
+     * DELETE FROM HumanResources.EmployeePayHistory
+        WHERE CURRENT OF complex_cursor
+     */
+    public Delete exampleC = DELETE()
             .$From(t("HumanResources","EmployeePayHistory"))
             .$Where()
                 //TODO support CURRENT OF
@@ -159,7 +171,7 @@ public class DeleteBuilderTest {
      WHERE CURRENT OF complex_cursor;
      */
     @Test
-    public void testExample2B(){
+    public void testExampleC(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withFrom()
@@ -173,27 +185,38 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(delete.getTableName().toString(),"HumanResources.EmployeePayHistory");
+        Assert.assertEquals(delete.getFrom().getTableSourceList().size(),1);
+        From.BaseTable baseTable = (From.BaseTable) delete.getFrom().getTableSourceList().get(0);
+        Assert.assertEquals(baseTable.getTableName().toString(),"HumanResources.EmployeePayHistory");
     }
 
 
     // @formatter:off
     Select subQuery = SELECT()
             .$Select()
-            .$(c("BusinessEntityID"))
-            .$From()
-                .$(t("Sales","SalesPerson"))
+                .$(c("BusinessEntityID"))
+                .$From()
+                    .$(t("Sales","SalesPerson"))
+                    .and()
+                .$Where()
+                    .$Predicate(p_greater(
+                            c("SalesYTD"),
+                            e_number(2500000.00)
+                    ))
+                    .and()
                 .and()
-            .$Where()
-                .$Predicate(p_greater(
-                        c("SalesYTD"),
-                        e_number(2500000.00)
-                ))
-                .and()
-            .and()
             .build();
     //parent+quick
-    public Delete example2C = DELETE()
+    /**
+     * -- SQL-2003 Standard subquery
+
+         DELETE FROM Sales.SalesPersonQuotaHistory
+         WHERE BusinessEntityID IN
+         (SELECT BusinessEntityID
+         FROM Sales.SalesPerson
+         WHERE SalesYTD > 2500000.00)
+     */
+    public Delete exampleD1 = DELETE()
             .$From(t("Sales","SalesPersonQuotaHistory"))
             .$Where()
                 .$Predicate(p_in(
@@ -204,15 +227,8 @@ public class DeleteBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * DELETE FROM Sales.SalesPersonQuotaHistory
-     WHERE BusinessEntityID IN
-     (SELECT BusinessEntityID
-     FROM Sales.SalesPerson
-     WHERE SalesYTD > 2500000.00);
-     */
     @Test
-    public void testExample2C(){
+    public void testExampleD1(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withFrom(true)
@@ -236,7 +252,16 @@ public class DeleteBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Delete example2C1 = DELETE()
+    /**
+     * -- Transact-SQL extension
+
+        DELETE FROM Sales.SalesPersonQuotaHistory
+        FROM Sales.SalesPersonQuotaHistory AS spqh
+        INNER JOIN Sales.SalesPerson AS sp
+        ON spqh.BusinessEntityID = sp.BusinessEntityID
+        WHERE sp.SalesYTD > 2500000.00
+     */
+    public Delete exampleD2 = DELETE()
             .$From(t("Sales","SalesPersonQuotaHistory"))
             .$From()
                 .$()
@@ -261,15 +286,8 @@ public class DeleteBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * DELETE FROM Sales.SalesPersonQuotaHistory
-     FROM Sales.SalesPersonQuotaHistory AS spqh
-     INNER JOIN Sales.SalesPerson AS sp
-     ON spqh.BusinessEntityID = sp.BusinessEntityID
-     WHERE sp.SalesYTD > 2500000.00;
-     */
     @Test
-    public void testExample2C1(){
+    public void testExampleD2(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withFrom(true)
@@ -308,7 +326,17 @@ public class DeleteBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Delete example2C2 = DELETE()
+    /**
+     * -- No need to mention target table more than once.
+
+    DELETE spqh
+      FROM
+            Sales.SalesPersonQuotaHistory AS spqh
+        INNER JOIN Sales.SalesPerson AS sp
+            ON spqh.BusinessEntityID = sp.BusinessEntityID
+      WHERE  sp.SalesYTD > 2500000.00
+     */
+    public Delete exampleD3 = DELETE()
                 .$From("spqh")
                 .$From()
                     .$()
@@ -333,16 +361,8 @@ public class DeleteBuilderTest {
                 .done();
     // @formatter:on
 
-    /**
-     * DELETE spqh
-     FROM
-     Sales.SalesPersonQuotaHistory AS spqh
-     INNER JOIN Sales.SalesPerson             AS sp  ON spqh.BusinessEntityID = sp.BusinessEntityID
-     WHERE
-     sp.SalesYTD > 2500000.00;
-     */
     @Test
-    public void testExample2C2(){
+    public void testExampleD3(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withTableAlias("spqh")
@@ -386,7 +406,13 @@ public class DeleteBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Delete example2D = DELETE()
+    /**
+     * DELETE TOP (20)
+        FROM Purchasing.PurchaseOrderDetail
+        WHERE DueDate < '20020701';
+        GO
+     */
+    public Delete exampleE1 = DELETE()
                 .$Top()
                     .$_(e_number(20))
                 .$From(t("Purchasing","PurchaseOrderDetail"))
@@ -399,13 +425,8 @@ public class DeleteBuilderTest {
                 .done();
     // @formatter:on
 
-    /**
-     * DELETE TOP (20)
-     FROM Purchasing.PurchaseOrderDetail
-     WHERE DueDate < '20020701';
-     */
     @Test
-    public void testExample2D(){
+    public void testExampleE1(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withTop()
@@ -433,7 +454,7 @@ public class DeleteBuilderTest {
 
 
     // @formatter:off
-    Select subQuery2D1 = SELECT()
+    Select subQueryE2 = SELECT()
             .$Select()
                 .$Top()
                     .$_(e_number(10))
@@ -447,26 +468,26 @@ public class DeleteBuilderTest {
                 .and()
             .done();
     //parent+quick
-    public Delete example2D1 = DELETE()
+    /**
+     * DELETE FROM Purchasing.PurchaseOrderDetail
+         WHERE PurchaseOrderDetailID IN
+         (SELECT TOP 10 PurchaseOrderDetailID
+         FROM Purchasing.PurchaseOrderDetail
+         ORDER BY DueDate ASC)
+     */
+    public Delete exampleE2 = DELETE()
                 .$From(t("Purchasing","PurchaseOrderDetail"))
                 .$Where()
                     .$Predicate(p_in(
                             c("PurchaseOrderDetailID"),
-                            subQuery2D1
+                            subQueryE2
                     ))
                     .and()
                 .done();
     // @formatter:on
 
-    /**
-     * DELETE FROM Purchasing.PurchaseOrderDetail
-     WHERE PurchaseOrderDetailID IN
-     (SELECT TOP 10 PurchaseOrderDetailID
-     FROM Purchasing.PurchaseOrderDetail
-     ORDER BY DueDate ASC);
-     */
     @Test
-    public void testExample2D1(){
+    public void testExampleE2(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withFrom(true)
@@ -475,7 +496,7 @@ public class DeleteBuilderTest {
                     .withSearchCondition()
                         .withPredicate()._In()
                             .withExpression(c("PurchaseOrderDetailID"))
-                            .withSubQuery(subQuery2D1)
+                            .withSubQuery(subQueryE2)
                             .and()
                         .and()
                     .and()
@@ -488,12 +509,132 @@ public class DeleteBuilderTest {
     }
 
 
+    /*
+    Deleting Rows From a Remote Table
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/delete-transact-sql#RemoteTables
+     */
+
+
     // @formatter:off
     //parent+quick
-    public Delete example4A = DELETE()
+    /**
+     * -- Specify the remote data source using a four-part name
+     -- in the form linked_server.catalog.schema.object.
+
+     DELETE MyLinkServer.AdventureWorks2012.HumanResources.Department
+     WHERE DepartmentID > 16;
+     GO
+     */
+    public Delete exampleF = DELETE()
+                .$From(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
+                .$Where()
+                    .$Predicate(p_greater(
+                            c("DepartmentID"),
+                            e_number(16)
+                    ))
+                    .and()
+                .done();
+    // @formatter:on
+
+    @Test
+    public void testExampleF(){
+        // @formatter:off
+        Delete delete = new DeleteBuilder()
+                .withFrom(true)
+                .withTableName(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
+                .withWhere()
+                    .withSearchCondition()
+                        .withPredicate()._Comparison()
+                            .withExpression(c("DepartmentID"))
+                            .withOperator(Operators.GREATER)
+                            .withExpression(e_number(16))
+                            .and()
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        Assert.assertTrue(delete.isUseForm());
+        Assert.assertEquals(delete.getTableName().toString(),"MyLinkServer.AdventureWorks2012.HumanResources.Department");
+        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+    }
+
+    /*
+    Capturing the results of the DELETE statement
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/delete-transact-sql#CaptureResults
+     */
+
+
+    // @formatter:off
+    //parent+quick
+    /**
+     * DELETE OPENQUERY (MyLinkServer, 'SELECT Name, GroupName
+    FROM AdventureWorks2012.HumanResources.Department
+    WHERE DepartmentID = 18')
+     */
+    public Delete exampleG = DELETE()
+                //TODO function
+
+                .done();
+    // @formatter:on
+
+    @Test
+    public void testExampleG(){
+        // @formatter:off
+        Delete delete = new DeleteBuilder()
+//                .withFunction()
+                .build();
+        // @formatter:on
+
+//        Assert.assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
+//        Assert.assertEquals(delete.getOutput().getDmlSelectList().size(),1);
+//        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+    }
+
+
+    // @formatter:off
+    //parent+quick
+    /**
+     * DELETE FROM OPENDATASOURCE('SQLNCLI',
+        'Data Source= <server_name>; Integrated Security=SSPI')
+        .AdventureWorks2012.HumanResources.Department
+    WHERE DepartmentID = 17;'
+     */
+    public Delete exampleH = DELETE()
+                //TODO function
+
+                .done();
+    // @formatter:on
+
+    @Test
+    public void testExampleH(){
+        // @formatter:off
+        Delete delete = new DeleteBuilder()
+//                .withFunction()
+                .build();
+        // @formatter:on
+
+//        Assert.assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
+//        Assert.assertEquals(delete.getOutput().getDmlSelectList().size(),1);
+//        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+    }
+
+    /*
+    Capturing the results of the DELETE statement
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/delete-transact-sql#CaptureResults
+     */
+
+    // @formatter:off
+    //parent+quick
+    /**
+     * DELETE Sales.ShoppingCartItem
+    OUTPUT DELETED.*
+    WHERE ShoppingCartID = 20621
+     */
+    public Delete exampleI = DELETE()
                 .$(t("Sales","ShoppingCartItem"))
                 .$Output()
-                    .$Output(c_deleted())
+                    .$(c_deleted())
                     .and()
                 .$Where()
                     .$Predicate(p_equal(
@@ -504,13 +645,8 @@ public class DeleteBuilderTest {
                 .done();
     // @formatter:on
 
-    /**
-     * DELETE Sales.ShoppingCartItem
-     OUTPUT DELETED.*
-     WHERE ShoppingCartID = 20621;
-     */
     @Test
-    public void testExample4A(){
+    public void testExampleI(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withTableName(t("Sales","ShoppingCartItem"))
@@ -525,7 +661,7 @@ public class DeleteBuilderTest {
                     .withSearchCondition()
                         .withPredicate()._Comparison()
                             .withExpression(c("ShoppingCartID"))
-                            .withOperator(Operators.EQUAL)
+                            .withOperator(Operators.ASSIGNMENT)
                             .withExpression(e_number(20621))
                             .and()
                         .and()
@@ -541,7 +677,19 @@ public class DeleteBuilderTest {
 
     // @formatter:off
     //parent+quick
-    public Delete example4B = DELETE()
+    /**
+     * DELETE Production.ProductProductPhoto
+        OUTPUT DELETED.ProductID,
+               p.Name,
+               p.ProductModelID,
+               DELETED.ProductPhotoID
+            INTO @MyTableVar
+        FROM Production.ProductProductPhoto AS ph
+        JOIN Production.Product as p
+            ON ph.ProductID = p.ProductID
+            WHERE p.ProductModelID BETWEEN 120 and 130
+     */
+    public Delete exampleJ = DELETE()
                 .$(t("Production","ProductProductPhoto"))
                 .$Output()
                     .$(c_deleted("ProductID"))
@@ -575,20 +723,8 @@ public class DeleteBuilderTest {
                 .done();
     // @formatter:on
 
-    /**
-     * DELETE Production.ProductProductPhoto
-     OUTPUT DELETED.ProductID,
-     p.Name,
-     p.ProductModelID,
-     DELETED.ProductPhotoID
-     INTO @MyTableVar
-     FROM Production.ProductProductPhoto AS ph
-     JOIN Production.Product as p
-     ON ph.ProductID = p.ProductID
-     WHERE p.ProductModelID BETWEEN 120 and 130;
-     */
     @Test
-    public void testExample4B(){
+    public void testExampleJ(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
                 .withTableName(t("Production","ProductProductPhoto"))
@@ -657,5 +793,11 @@ public class DeleteBuilderTest {
         Assert.assertEquals(delete.getFrom().getTableSourceList().size(),1);
         Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Between.class);
     }
+
+
+    /*
+    Examples: Azure SQL Data Warehouse and Parallel Data Warehouse
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/delete-transact-sql#examples-includesssdwfullincludessssdwfull-mdmd-and-includesspdwincludessspdw-mdmd
+     */
 
 }

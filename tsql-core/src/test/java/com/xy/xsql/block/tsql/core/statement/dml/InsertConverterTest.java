@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.statement.InsertBuilderTest;
+import com.xy.xsql.tsql.core.statement.dml.InsertBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,38 +48,38 @@ public class InsertConverterTest {
         model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
-                builderTest.example1A,
+                builderTest.exampleA,
                 "INSERT INTO Production.UnitMeasure\n" +
                         "     VALUES (N'FT', N'Feet', '20080414')");
 
         model2StringMap.put(
-                builderTest.example1B,
+                builderTest.exampleB,
                 "INSERT INTO Production.UnitMeasure\n" +
                         "     VALUES (N'FT2', N'Square Feet ', '20080923'), (N'Y', N'Yards', '20080923'), (N'Y3', N'Cubic Yards', '20080923')");
 
         model2StringMap.put(
-                builderTest.example1C,
+                builderTest.exampleC,
                 "INSERT INTO Production.UnitMeasure (Name, UnitMeasureCode,\n" +
                         "     ModifiedDate)\n" +
                         "     VALUES (N'Square Yards', N'Y2', GETDATE())");
 
         model2StringMap.put(
-                builderTest.example2A,
+                builderTest.exampleD1,
                 "INSERT INTO dbo.T1 (column_4)\n" +
                         "     VALUES ('Explicit value')");
 
         model2StringMap.put(
-                builderTest.example2A1,
+                builderTest.exampleD2,
                 "INSERT INTO dbo.T1 (column_2, column_4)\n" +
                         "     VALUES ('Explicit value', 'Explicit value')");
 
         model2StringMap.put(
-                builderTest.example2A2,
+                builderTest.exampleD3,
                 "INSERT INTO dbo.T1 (column_2)\n" +
                         "     VALUES ('Explicit value')");
 
         model2StringMap.put(
-                builderTest.example2A3,
+                builderTest.exampleD4,
                 "INSERT INTO T1 DEFAULT VALUES");
 
     }

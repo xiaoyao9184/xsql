@@ -4,10 +4,10 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
 
 import java.util.Arrays;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
@@ -59,6 +59,12 @@ public class OptionBuilder<ParentBuilder>
                 .and();
     }
 
+    public OptionBuilder $(StringConstant labelName) {
+        return withItem()
+                ._LabelName(labelName)
+                .and();
+    }
+
 
     /**
      * Abstract QueryOption Builder
@@ -78,6 +84,11 @@ public class OptionBuilder<ParentBuilder>
          * @return
          */
         public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
+            target.set(new Option.LabelQueryOption(labelName));
+            return this;
+        }
+
+        public QueryOptionBuilder<ParentBuilder> _LabelName(StringConstant labelName) {
             target.set(new Option.LabelQueryOption(labelName));
             return this;
         }

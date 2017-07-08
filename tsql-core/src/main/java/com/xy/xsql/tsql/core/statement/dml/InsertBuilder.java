@@ -9,6 +9,7 @@ import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.clause.With;
+import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
@@ -64,6 +65,13 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return this;
     }
 
+    private InsertBuilder withWith(TableHintLimited... tableHintLimiteds) {
+        initAdd(Arrays.asList(tableHintLimiteds),
+                target::getTableHintLimitedList,
+                target::setTableHintLimitedList);
+        return this;
+    }
+
     public InsertBuilder withColumn(ColumnName... columnNames){
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
@@ -105,6 +113,15 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return new InsertBuilder();
     }
 
+    public InsertBuilder $With(With with){
+        target.setWith(with);
+        return this;
+    }
+
+    public WithBuilder<InsertBuilder> $With() {
+        return withWith();
+    }
+
     public TopBuilder<InsertBuilder> $Top() {
         return withTop();
     }
@@ -119,6 +136,10 @@ public class InsertBuilder extends CodeBuilder<Insert> {
 
     public InsertBuilder $(ColumnName... columnNames) {
         return withColumn(columnNames);
+    }
+
+    public InsertBuilder $With(TableHintLimited... tableHintLimiteds) {
+        return withWith(tableHintLimiteds);
     }
 
     public OutputBuilder<InsertBuilder> $Output() {

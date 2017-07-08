@@ -8,7 +8,6 @@ import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.statement.ddl.ReNameBuilder.RENAME_DATABASE;
 import static com.xy.xsql.tsql.core.statement.ddl.ReNameBuilder.RENAME_TABLE;
 
-
 /**
  * Created by xiaoyao9184 on 2017/3/11.
  */
@@ -23,8 +22,13 @@ public class RenameBuilderTest {
      */
     @Test
     public void testExampleA(){
-        Assert.assertEquals(exampleA.getDbName(),"AdWorks");
-        Assert.assertEquals(exampleA.getNewName(),"AdWorks2");
+        ReName reName = new ReNameBuilder()
+                .withDBName("AdWorks")
+                .withNewName("AdWorks2")
+                .build();
+
+        Assert.assertEquals(reName.getDbName(),"AdWorks");
+        Assert.assertEquals(reName.getNewName(),"AdWorks2");
     }
 
 
@@ -41,15 +45,21 @@ public class RenameBuilderTest {
     @Test
     public void testExampleB(){
         // @formatter:off
-        ReName reName2 = RENAME_TABLE(t("mydb", "dbo","Customer"),"Customer1");
+        ReName reName1 = new ReNameBuilder()
+                .withTableName(t("Customer"))
+                .withNewName("Customer1")
+                .build();
+
+        ReName reName2 = new ReNameBuilder()
+                .withTableName(t("mydb", "dbo","Customer"))
+                .withNewName("Customer1")
+                .build();
         // @formatter:on
 
-        Assert.assertEquals(exampleB1.getTableName().toString(),"Customer");
-        Assert.assertEquals(exampleB1.getNewName(),"Customer1");
+        Assert.assertEquals(reName1.getTableName().toString(),"Customer");
+        Assert.assertEquals(reName1.getNewName(),"Customer1");
         Assert.assertEquals(reName2.getTableName().toString(),"mydb.dbo.Customer");
         Assert.assertEquals(reName2.getNewName(),"Customer1");
-        Assert.assertEquals(exampleB2.getTableName().toString(),"mydb.dbo.Customer");
-        Assert.assertEquals(exampleB2.getNewName(),"Customer1");
     }
 
 }

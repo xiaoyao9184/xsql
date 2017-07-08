@@ -1,6 +1,5 @@
-package com.xy.xsql.tsql.core.statement;
+package com.xy.xsql.tsql.core.statement.dml;
 
-import com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilder;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,9 +12,22 @@ import static com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilder.*;
  */
 public class BulkInsertBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/bulk-insert-transact-sql#examples
+     */
 
     // @formatter:off
     //parent+quick
+    /**
+     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
+       FROM 'f:\orders\lineitem.tbl'
+       WITH
+          (
+             FIELDTERMINATOR =' |',
+             ROWTERMINATOR =' |\n'
+          );
+     */
     public BulkInsert exampleA = BULK_INSERT()
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
             .$From("f:\\orders\\lineitem.tbl")
@@ -26,15 +38,6 @@ public class BulkInsertBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
-     FROM 'f:\orders\lineitem.tbl'
-     WITH
-     (
-     FIELDTERMINATOR =' |',
-     ROWTERMINATOR =' |\n'
-     );
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -55,6 +58,16 @@ public class BulkInsertBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
+       FROM 'f:\orders\lineitem.tbl'
+       WITH
+         (
+            FIELDTERMINATOR =' |',
+            ROWTERMINATOR = ':\n',
+            FIRE_TRIGGERS
+          );
+     */
     public BulkInsert exampleB = BULK_INSERT()
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
             .$From("f:\\orders\\lineitem.tbl")
@@ -66,16 +79,6 @@ public class BulkInsertBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
-     FROM 'f:\orders\lineitem.tbl'
-     WITH
-     (
-     FIELDTERMINATOR =' |',
-     ROWTERMINATOR = ':\n',
-     FIRE_TRIGGERS
-     );
-     */
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -83,7 +86,7 @@ public class BulkInsertBuilderTest {
                 .withTableViewName(t("AdventureWorks2012","Sales","SalesOrderDetail"))
                 .withFrom("f:\\orders\\lineitem.tbl")
                 .withFieldTerminator(" |")
-                .withRowTerminator(" :\\n")
+                .withRowTerminator(" |\\n")
                 .withFireTriggers()
                 .build();
         // @formatter:on
@@ -98,6 +101,11 @@ public class BulkInsertBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
+        FROM ''<drive>:\<path>\<filename>''
+        WITH (ROWTERMINATOR = '''+CHAR(10)+''')
+     */
     public BulkInsert exampleC = BULK_INSERT()
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
             .$From("'<drive>:\\<path>\\<filename>'")
@@ -107,11 +115,6 @@ public class BulkInsertBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
-     FROM ''<drive>:\<path>\<filename>''
-     WITH (ROWTERMINATOR = '''+CHAR(10)+''')
-     */
     @Test
     public void testExampleC(){
         // @formatter:off
@@ -130,6 +133,15 @@ public class BulkInsertBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * BULK INSERT MyTable
+        FROM 'D:\data.csv'
+        WITH
+        ( CODEPAGE = '65001',
+            DATAFILETYPE = 'char',
+            FIELDTERMINATOR = ','
+        )
+     */
     public BulkInsert exampleD = BULK_INSERT()
             .$(t("MyTable"))
             .$From("D:\\data.csv")
@@ -141,15 +153,6 @@ public class BulkInsertBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * BULK INSERT MyTable
-     FROM 'D:\data.csv'
-     WITH
-     ( CODEPAGE = '65001',
-     DATAFILETYPE = 'char',
-     FIELDTERMINATOR = ','
-     );
-     */
     @Test
     public void testExampleD(){
         // @formatter:off
@@ -170,6 +173,11 @@ public class BulkInsertBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * BULK INSERT Sales.Invoices
+        FROM '\\share\invoices\inv-2016-07-25.csv'
+        WITH (FORMAT = 'CSV');
+     */
     public BulkInsert exampleE = BULK_INSERT()
             .$(t("Sales","Invoices"))
             .$From("\\\\share\\invoices\\inv-2016-07-25.csv")
@@ -179,12 +187,6 @@ public class BulkInsertBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * BULK INSERT Sales.Invoices
-     FROM '\\share\invoices\inv-2016-07-25.csv'
-     WITH (FORMAT = 'CSV');
-     );
-     */
     @Test
     public void testExampleE(){
         // @formatter:off
@@ -203,6 +205,12 @@ public class BulkInsertBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * BULK INSERT Sales.Invoices
+        FROM 'inv-2017-01-19.csv'
+        WITH (DATA_SOURCE = 'MyAzureInvoices',
+             FORMAT = 'CSV');
+     */
     public BulkInsert exampleF = BULK_INSERT()
             .$(t("Sales","Invoices"))
             .$From("inv-2017-01-19.csv")
@@ -213,12 +221,6 @@ public class BulkInsertBuilderTest {
             .done();
     // @formatter:on
 
-    /**
-     * BULK INSERT Sales.Invoices
-     FROM 'inv-2017-01-19.csv'
-     WITH (DATA_SOURCE = 'MyAzureInvoices',
-     FORMAT = 'CSV');
-     */
     @Test
     public void testExampleF(){
         // @formatter:off

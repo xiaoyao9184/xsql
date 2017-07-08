@@ -99,7 +99,7 @@ public class TableTypeDefinitionBuilderTest {
      * DONT Support table-valued function
      */
 //    @Test
-//    public void testExampleB(){
+//    public void testExampleB1(){
 //        //TODO
 //    }
 

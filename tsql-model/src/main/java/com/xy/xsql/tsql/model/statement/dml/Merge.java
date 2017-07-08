@@ -2,10 +2,10 @@ package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
+import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.Statement;
 
 import java.util.List;
@@ -285,8 +285,7 @@ public class Merge implements Statement {
         [ [ , ] INDEX ( index_val [ ,...n ] ) ] }
         */
         private List<TableHintLimited> tableHintLimitedList;
-        private boolean useDelimiter;
-        private List<Unknown> indexValList;
+        private List<StringConstant> indexValues;
 
         public List<TableHintLimited> getTableHintLimitedList() {
             return tableHintLimitedList;
@@ -296,22 +295,13 @@ public class Merge implements Statement {
             this.tableHintLimitedList = tableHintLimitedList;
         }
 
-        public boolean isUseDelimiter() {
-            return useDelimiter;
+        public List<StringConstant> getIndexValues() {
+            return indexValues;
         }
 
-        public void setUseDelimiter(boolean useDelimiter) {
-            this.useDelimiter = useDelimiter;
+        public void setIndexValues(List<StringConstant> indexValues) {
+            this.indexValues = indexValues;
         }
-
-        public List<Unknown> getIndexValList() {
-            return indexValList;
-        }
-
-        public void setIndexValList(List<Unknown> indexValList) {
-            this.indexValList = indexValList;
-        }
-
     }
 
     /**

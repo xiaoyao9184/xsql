@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockPrinter;
 import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.statement.UpdateBuilderTest;
+import com.xy.xsql.tsql.core.statement.dml.UpdateBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 import org.junit.Assert;
 import org.junit.Before;

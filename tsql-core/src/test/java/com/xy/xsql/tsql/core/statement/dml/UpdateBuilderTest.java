@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.core.statement;
+package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.tsql.core.statement.dml.UpdateBuilder;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;

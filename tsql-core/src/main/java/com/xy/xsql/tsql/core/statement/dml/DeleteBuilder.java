@@ -146,6 +146,15 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
         return new DeleteBuilder();
     }
 
+    public DeleteBuilder $With(With with){
+        target.setWith(with);
+        return this;
+    }
+
+    public WithBuilder<DeleteBuilder> $With(){
+        return withWith();
+    }
+
     public TopBuilder<DeleteBuilder> $Top(){
         return withTop();
     }
