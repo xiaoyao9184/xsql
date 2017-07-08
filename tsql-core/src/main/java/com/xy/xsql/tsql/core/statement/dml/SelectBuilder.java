@@ -43,6 +43,22 @@ public class SelectBuilder extends CodeBuilder<Select> {
 //                .in(this);
 //    }
 
+
+    public SelectBuilder withQuery(Select.QueryExpression queryExpression) {
+        target.setQueryExpression(queryExpression);
+        return this;
+    }
+
+    public SelectBuilder withQuery(Select.QuerySpecification querySpecification){
+        return new QueryExpressionBuilder<SelectBuilder>
+                (initSet(Select.QueryExpression::new,
+                        target::getQueryExpression,
+                        target::setQueryExpression))
+                .in(this)
+                .withQuerySpecification(querySpecification)
+                .and();
+    }
+
     public QueryExpressionBuilder<SelectBuilder> withQuery(){
         return new QueryExpressionBuilder<SelectBuilder>
                 (initSet(Select.QueryExpression::new,
@@ -154,6 +170,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
     }
 
 
+
     /**
      * QueryExpressionBuilder
      * TODO maybe All Quick method move to SelectBuilder
@@ -162,10 +179,19 @@ public class SelectBuilder extends CodeBuilder<Select> {
     public static class QueryExpressionBuilder<ParentBuilder>
             extends CodeTreeBuilder<QueryExpressionBuilder<ParentBuilder>,ParentBuilder, Select.QueryExpression> {
 
+        public QueryExpressionBuilder() {
+            super(new com.xy.xsql.tsql.model.statement.dml.Select.QueryExpression());
+        }
+
         public QueryExpressionBuilder(Select.QueryExpression queryExpression) {
             super(queryExpression);
         }
 
+
+        public QueryExpressionBuilder<ParentBuilder> withQuerySpecification(Select.QuerySpecification querySpecification) {
+            target.setQuerySpecification(querySpecification);
+            return this;
+        }
 
         public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> withQuerySpecification(){
             return new QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>>

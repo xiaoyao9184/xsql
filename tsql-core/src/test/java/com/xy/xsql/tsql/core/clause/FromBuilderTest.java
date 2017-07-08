@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.HOLDLOCK;
 import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.TABLOCK;
+import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.SUB_QUERY;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
@@ -667,7 +668,7 @@ public class FromBuilderTest {
                         .and()
                     .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
                     .withTableSource2()._Derived()
-                        .withSubQuery(querySpecification)
+                        .withSubQuery(SUB_QUERY(querySpecification))
                         .withAs()
                         .withTableAlias("d")
                         .and()

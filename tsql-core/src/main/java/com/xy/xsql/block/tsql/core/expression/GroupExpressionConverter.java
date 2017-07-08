@@ -14,7 +14,6 @@ import com.xy.xsql.tsql.model.expression.NullIf;
 public class GroupExpressionConverter
         implements ReferenceBlockConverter<GroupExpression> {
 
-    //TODO same type
     // @formatter:off
     private static ReferenceBlockBuilder<Void,GroupExpression> builder =
             new ReferenceBlockBuilder<Void,GroupExpression>()

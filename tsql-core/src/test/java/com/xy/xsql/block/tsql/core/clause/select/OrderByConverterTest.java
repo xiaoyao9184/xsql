@@ -80,45 +80,54 @@ public class OrderByConverterTest {
                 "ORDER BY FirstName ASC, LastName DESC");
 
         model2StringMap.put(
-                builderTest.example2_1,
+                builderTest.example31,
+                "ORDER BY name");
+
+        //TODO support COLLATE
+//        model2StringMap.put(
+//                builderTest.example32,
+//                "ORDER BY name COLLATE Latin1_General_CS_AS");
+
+        model2StringMap.put(
+                builderTest.example41,
                 "ORDER BY CASE SalariedFlag WHEN 1 THEN BusinessEntityID END DESC\n" +
                         "        ,CASE WHEN SalariedFlag = 0 THEN BusinessEntityID END");
 
         model2StringMap.put(
-                builderTest.example2_2,
+                builderTest.example42,
                 "ORDER BY CASE CountryRegionName WHEN 'United States' THEN TerritoryName\n" +
                         "         ELSE CountryRegionName END");
 
         model2StringMap.put(
-                builderTest.example3A1,
+                builderTest.example6A1,
                 "ORDER BY DepartmentID OFFSET 5 ROWS");
 
         model2StringMap.put(
-                builderTest.example3A2,
+                builderTest.example6A2,
                 "ORDER BY DepartmentID\n" +
                         "     OFFSET 0 ROWS\n" +
                         "     FETCH NEXT 10 ROWS ONLY");
 
         model2StringMap.put(
-                builderTest.example3B,
+                builderTest.example6B,
                 "ORDER BY DepartmentID ASC\n" +
                         "     OFFSET @StartingRowNumber ROWS\n" +
                         "     FETCH NEXT @FetchRows ROWS ONLY");
 
         model2StringMap.put(
-                builderTest.example3C,
+                builderTest.example6C,
                 "ORDER BY DepartmentID ASC\n" +
                         "     OFFSET @StartingRowNumber - 1 ROWS\n" +
                         "     FETCH NEXT @EndingRowNumber - @StartingRowNumber + 1 ROWS ONLY");
 
         model2StringMap.put(
-                builderTest.example3D,
+                builderTest.example6D,
                 "ORDER BY DepartmentID ASC\n" +
                         "     OFFSET @StartingRowNumber ROWS\n" +
                         "     FETCH NEXT (SELECT PageSize FROM dbo.AppSettings WHERE AppSettingID = 1) ROWS ONLY");
 
         model2StringMap.put(
-                builderTest.example3E,
+                builderTest.example6E,
                 "ORDER BY DepartmentID ASC\n" +
                         "     OFFSET @StartingRowNumber - 1 ROWS\n" +
                         "     FETCH NEXT @RowCountPerPage ROWS ONLY");

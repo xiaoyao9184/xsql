@@ -160,17 +160,17 @@ public class From implements Clause {
      */
     public static class DerivedTable implements TableSource {
 
-        private Select.QuerySpecification subQuery;
+        private Select subQuery;
         private TableValueConstructor values;
         private boolean useAs;
         private Alias<Void> tableAlias;
         private List<Alias<Void>> columnAliass;
 
-        public Select.QuerySpecification getSubQuery() {
+        public Select getSubQuery() {
             return subQuery;
         }
 
-        public void setSubQuery(Select.QuerySpecification subQuery) {
+        public void setSubQuery(Select subQuery) {
             this.subQuery = subQuery;
         }
 

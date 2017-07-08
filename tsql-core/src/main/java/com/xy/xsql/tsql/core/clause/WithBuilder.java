@@ -57,6 +57,12 @@ public class WithBuilder<ParentBuilder>
                 .and();
     }
 
+    public CommonTableExpressionBuilder<WithBuilder<ParentBuilder>> $(String expressionName, ColumnName... columnNames){
+        return withItem()
+                .withExpressionName(expressionName)
+                .withColumnName(columnNames);
+    }
+
 
     /**
      * CommonTableExpressionBuilder
@@ -94,6 +100,31 @@ public class WithBuilder<ParentBuilder>
             return this;
         }
 
+
+        /**
+         * Quick set
+         * @param columnNames
+         * @return
+         */
+        public CommonTableExpressionBuilder<ParentBuilder> $(ColumnName... columnNames){
+            if(CheckUtil.isNullOrEmpty(columnNames)){
+                return this;
+            }
+            initAdd(Arrays.asList(columnNames),
+                    this.target::getColumnName,
+                    this.target::setColumnName);
+            return this;
+        }
+
+        /**
+         * Quick back
+         * @param cteQueryDefinition
+         * @return
+         */
+        public ParentBuilder $As(Select cteQueryDefinition){
+            this.target.setCteQueryDefinition(cteQueryDefinition);
+            return and();
+        }
     }
 
 }

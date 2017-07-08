@@ -157,6 +157,130 @@ public class WithConverterTest {
 //                        "     ON cte.ManagerID = e.EmployeeID\n" +
 //                        "     )");
 
+
+        model2StringMap.put(
+                builderTest.exampleH,
+                "WITH Parts(AssemblyID, ComponentID, PerAssemblyQty, EndDate, ComponentLevel) AS\n" +
+                        "     (\n" +
+                        "     SELECT b.ProductAssemblyID, b.ComponentID, b.PerAssemblyQty,\n" +
+                        "     b.EndDate, 0 AS ComponentLevel\n" +
+                        "     FROM Production.BillOfMaterials AS b\n" +
+                        "     WHERE b.ProductAssemblyID = 800\n" +
+                        "     AND b.EndDate IS NULL\n" +
+                        "     UNION ALL\n" +
+                        "     SELECT bom.ProductAssemblyID, bom.ComponentID, p.PerAssemblyQty,\n" +
+                        "     bom.EndDate, ComponentLevel + 1\n" +
+                        "     FROM Production.BillOfMaterials AS bom\n" +
+                        "     INNER JOIN Parts AS p\n" +
+                        "     ON bom.ProductAssemblyID = p.ComponentID\n" +
+                        "     AND bom.EndDate IS NULL\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleJ,
+                "WITH Generation (ID) AS\n" +
+                        "     (\n" +
+                        "     SELECT Mother\n" +
+                        "     FROM dbo.Person\n" +
+                        "     WHERE Name = 'Bonnie'\n" +
+                        "     UNION\n" +
+                        "     SELECT Father\n" +
+                        "     FROM dbo.Person\n" +
+                        "     WHERE Name = 'Bonnie'\n" +
+                        "     UNION ALL\n" +
+                        "     SELECT Person.Father\n" +
+                        "     FROM Generation, Person\n" +
+                        "     WHERE Generation.ID=Person.ID\n" +
+                        "     UNION ALL\n" +
+                        "     SELECT Person.Mother\n" +
+                        "     FROM Generation, dbo.Person\n" +
+                        "     WHERE Generation.ID=Person.ID\n" +
+                        "     )");
+
+        //TODO derived table ()
+//        model2StringMap.put(
+//                builderTest.exampleK,
+//                "WITH vw AS\n" +
+//                        "     (\n" +
+//                        "     SELECT itmIDComp, itmID\n" +
+//                        "     FROM @t1\n" +
+//                        "\n" +
+//                        "     UNION ALL\n" +
+//                        "\n" +
+//                        "     SELECT itmIDComp, itmID\n" +
+//                        "     FROM @t2\n" +
+//                        "     )\n" +
+//                        "     ,r AS\n" +
+//                        "     (\n" +
+//                        "     SELECT t.itmID AS itmIDComp\n" +
+//                        "     , NULL AS itmID\n" +
+//                        "     ,CAST(0 AS bigint) AS N\n" +
+//                        "     ,1 AS Lvl\n" +
+//                        "     FROM (SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) AS t (itmID)\n" +
+//                        "\n" +
+//                        "     UNION ALL\n" +
+//                        "\n" +
+//                        "     SELECT t.itmIDComp\n" +
+//                        "     , t.itmID\n" +
+//                        "     , ROW_NUMBER() OVER(PARTITION BY t.itmIDComp ORDER BY t.itmIDComp, t.itmID) AS N\n" +
+//                        "     , Lvl + 1\n" +
+//                        "     FROM r\n" +
+//                        "     JOIN vw AS t ON t.itmID = r.itmIDComp");
+
+
+        model2StringMap.put(
+                builderTest.exampleL,
+                "WITH Sales_CTE (SalesPersonID, SalesOrderID, SalesYear)\n" +
+                        "     AS\n" +
+                        "     (\n" +
+                        "     SELECT SalesPersonID, SalesOrderID, YEAR(OrderDate) AS SalesYear\n" +
+                        "     FROM Sales.SalesOrderHeader\n" +
+                        "     WHERE SalesPersonID IS NOT NULL\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleM,
+                "WITH Sales_CTE (SalesPersonID, NumberOfOrders)\n" +
+                        "     AS\n" +
+                        "     (\n" +
+                        "     SELECT SalesPersonID, COUNT(*)\n" +
+                        "     FROM Sales.SalesOrderHeader\n" +
+                        "     WHERE SalesPersonID IS NOT NULL\n" +
+                        "     GROUP BY SalesPersonID\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleN,
+                "WITH Sales_CTE (SalesPersonID, SalesOrderID, SalesYear)\n" +
+                        "     AS\n" +
+                        "     (\n" +
+                        "     SELECT SalesPersonID, SalesOrderID, YEAR(OrderDate) AS SalesYear\n" +
+                        "     FROM Sales.SalesOrderHeader\n" +
+                        "     WHERE SalesPersonID IS NOT NULL\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleO,
+                "WITH Sales_CTE (SalesPersonID, SalesOrderID, SalesYear)\n" +
+                        "     AS\n" +
+                        "     (\n" +
+                        "     SELECT SalesPersonID, SalesOrderID, YEAR(OrderDate) AS SalesYear\n" +
+                        "     FROM Sales.SalesOrderHeader\n" +
+                        "     WHERE SalesPersonID IS NOT NULL\n" +
+                        "     )");
+
+        model2StringMap.put(
+                builderTest.exampleP,
+                "WITH\n" +
+                        "     CountDate (TotalCount, TableName) AS\n" +
+                        "     (\n" +
+                        "     SELECT COUNT(datekey), 'DimDate' FROM DimDate\n" +
+                        "     ) ,\n" +
+                        "     CountCustomer (TotalAvg, TableName) AS\n" +
+                        "     (\n" +
+                        "     SELECT COUNT(CustomerKey), 'DimCustomer' FROM DimCustomer\n" +
+                        "     )");
+
     }
 
     @SuppressWarnings("Duplicates")

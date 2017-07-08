@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.core.clause.select;
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
@@ -205,10 +206,36 @@ public class OrderByBuilderTest {
         Assert.assertTrue(item1.isUseDesc());
     }
 
+
     /*
     Specifying a collation
-    TODO
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql#a-namecollationa-specifying-a-collation
      */
+
+    // @formatter:off
+    //parent+quick
+    /**
+     * ORDER BY name
+     */
+    public OrderBy example31 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("name"))
+                    .and()
+                .get();
+    /**
+     * ORDER BY name COLLATE Latin1_General_CS_AS
+     */
+    public OrderBy example32 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+                (OrderByBuilder.class,OrderBy.class)
+                .$child()
+                    .$(c("name"))
+                    //TODO support COLLATE
+//                    .$Collate("Latin1_General_CS_AS")
+                    .and()
+                .get();
+    // @formatter:on
+
 
     /*
     Specifying a conditional order
@@ -221,7 +248,7 @@ public class OrderByBuilderTest {
      * ORDER BY CASE SalariedFlag WHEN 1 THEN BusinessEntityID END DESC
         ,CASE WHEN SalariedFlag = 0 THEN BusinessEntityID END
      */
-    public OrderBy example2_1 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example41 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(e_case(c("SalariedFlag"))
@@ -241,7 +268,7 @@ public class OrderByBuilderTest {
      * ORDER BY CASE CountryRegionName WHEN 'United States' THEN TerritoryName
          ELSE CountryRegionName END
      */
-    public OrderBy example2_2 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example42 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(e_case(c("CountryRegionName"))
@@ -253,10 +280,13 @@ public class OrderByBuilderTest {
                 .get();
     // @formatter:on
 
+
     /*
     Using ORDER BY in a ranking function
+    See https://docs.microsoft.com/en-us/sql/t-sql/queries/select-order-by-clause-transact-sql#a-nameranka-using-order-by-in-a-ranking-function
     Omitted
      */
+
 
     /*
     Limiting the number of rows returned
@@ -268,7 +298,7 @@ public class OrderByBuilderTest {
     /**
      * ORDER BY DepartmentID OFFSET 5 ROWS
      */
-    public OrderBy example3A1 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example6A1 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(c("DepartmentID"))
@@ -282,7 +312,7 @@ public class OrderByBuilderTest {
      OFFSET 0 ROWS
      FETCH NEXT 10 ROWS ONLY
      */
-    public OrderBy example3A2 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example6A2 = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(c("DepartmentID"))
@@ -293,7 +323,7 @@ public class OrderByBuilderTest {
     // @formatter:on
 
     @Test
-    public void testExample3A(){
+    public void testExample6A(){
         // @formatter:off
         OrderBy orderBy = new OrderByBuilder<Void>()
                 .withItem()
@@ -343,7 +373,7 @@ public class OrderByBuilderTest {
      OFFSET @StartingRowNumber ROWS
      FETCH NEXT @FetchRows ROWS ONLY
      */
-    public OrderBy example3B = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example6B = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(c("DepartmentID")).$Asc()
@@ -354,7 +384,7 @@ public class OrderByBuilderTest {
     // @formatter:on
 
     @Test
-    public void testExample3B(){
+    public void testExample6B(){
         // @formatter:off
         OrderBy orderBy = new OrderByBuilder<Void>()
                 .withItem()
@@ -391,7 +421,7 @@ public class OrderByBuilderTest {
      OFFSET @StartingRowNumber - 1 ROWS
      FETCH NEXT @EndingRowNumber - @StartingRowNumber + 1 ROWS ONLY
      */
-    public OrderBy example3C = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example6C = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(c("DepartmentID"))
@@ -410,7 +440,7 @@ public class OrderByBuilderTest {
     // @formatter:on
 
     @Test
-    public void testExample3C(){
+    public void testExample6C(){
         // @formatter:off
         OrderBy orderBy = new OrderByBuilder<Void>()
                 .withItem()
@@ -441,9 +471,9 @@ public class OrderByBuilderTest {
         Assert.assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
         Assert.assertTrue(orderBy.getItems().get(0).isUseAsc());
 
-        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), GroupExpression.class);
+        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
         Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
-        Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), GroupExpression.class);
+        Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), BinaryExpression.class);
         Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
@@ -465,7 +495,7 @@ public class OrderByBuilderTest {
      OFFSET @StartingRowNumber ROWS
      FETCH NEXT (SELECT PageSize FROM dbo.AppSettings WHERE AppSettingID = 1) ROWS ONLY;
      */
-    public OrderBy example3D = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example6D = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(c("DepartmentID"))
@@ -477,7 +507,7 @@ public class OrderByBuilderTest {
     // @formatter:on
 
     @Test
-    public void testExample3D(){
+    public void testExample6D(){
         // @formatter:off
         OrderBy orderBy = new OrderByBuilder<Void>()
                 .withItem()
@@ -516,7 +546,7 @@ public class OrderByBuilderTest {
      OFFSET @StartingRowNumber - 1 ROWS
      FETCH NEXT @RowCountPerPage ROWS ONLY
      */
-    public OrderBy example3E = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
+    public OrderBy example6E = new MockParentBuilder<OrderByBuilder<MockParent<OrderBy>>,OrderBy>
                 (OrderByBuilder.class,OrderBy.class)
                 .$child()
                     .$(c("DepartmentID"))
@@ -531,7 +561,7 @@ public class OrderByBuilderTest {
     // @formatter:on
 
     @Test
-    public void testExample3E(){
+    public void testExample6E(){
         // @formatter:off
         OrderBy orderBy = new OrderByBuilder<Void>()
                 .withItem()
@@ -556,7 +586,7 @@ public class OrderByBuilderTest {
         Assert.assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
         Assert.assertTrue(orderBy.getItems().get(0).isUseAsc());
 
-        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), GroupExpression.class);
+        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
         Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
         Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(), "@RowCountPerPage");
         Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());

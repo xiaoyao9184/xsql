@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.core.clause;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.builder.CodeTreeLazyConfigBuilder;
 import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.tsql.core.statement.dml.MergeBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
@@ -24,6 +25,8 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.SUB_QUERY;
+import static com.xy.xsql.tsql.core.statement.dml.SelectBuilder.SELECT;
 
 /**
  * FromBuilder
@@ -114,9 +117,23 @@ public class FromBuilder<ParentBuilder>
      * @param tableAlias
      * @return
      */
-    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(Select.QuerySpecification subQuery, String tableAlias) {
+    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(Select subQuery, String tableAlias) {
         return withItem()._Derived()
                 .withSubQuery(subQuery)
+                .withAs()
+                .withTableAlias(tableAlias);
+    }
+
+    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(Select.QueryExpression subQuery, String tableAlias) {
+        return withItem()._Derived()
+                .withSubQuery(SUB_QUERY(subQuery))
+                .withAs()
+                .withTableAlias(tableAlias);
+    }
+
+    public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(Select.QuerySpecification subQuery, String tableAlias) {
+        return withItem()._Derived()
+                .withSubQuery(SUB_QUERY(subQuery))
                 .withAs()
                 .withTableAlias(tableAlias);
     }
@@ -164,6 +181,12 @@ public class FromBuilder<ParentBuilder>
      * @return
      */
     public FromBuilder<ParentBuilder> $(Select.QuerySpecification subQuery) {
+        return withItem()._Derived()
+                .withSubQuery(SUB_QUERY(subQuery))
+                .and();
+    }
+
+    public FromBuilder<ParentBuilder> $(Select subQuery) {
         return withItem()._Derived()
                 .withSubQuery(subQuery)
                 .and();
@@ -257,15 +280,14 @@ public class FromBuilder<ParentBuilder>
                     .in(out());
         }
 
-        //
-        //
-        /*
-        Quick into sub builder
+        /**
+         * Quick into sub builder
 
-        TODO
-        we dont into abstract builder,
-        but MergeBuilder need in this,
-        move this method to MergeBuilder
+         Usually we don't into abstract builder,
+         but MergeBuilder need in this,
+         {@link MergeBuilder#$Using()}
+         May be move these methods to MergeBuilder
+         *
          */
 
         /**
@@ -287,7 +309,7 @@ public class FromBuilder<ParentBuilder>
          */
         public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery) {
             return _Derived()
-                    .withSubQuery(subQuery);
+                    .withSubQuery(SUB_QUERY(subQuery));
         }
 
         /**
@@ -349,7 +371,7 @@ public class FromBuilder<ParentBuilder>
          */
         public DerivedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery, String tableAlias) {
             return _Derived()
-                    .withSubQuery(subQuery)
+                    .withSubQuery(SUB_QUERY(subQuery))
                     .withAs()
                     .withTableAlias(tableAlias);
         }
@@ -435,7 +457,7 @@ public class FromBuilder<ParentBuilder>
                     (tableSourceSetter)
                     .in(this)
                     ._Derived()
-                    .withSubQuery(subQuery);
+                    .withSubQuery(SUB_QUERY(subQuery));
         }
 
         /**
@@ -519,7 +541,7 @@ public class FromBuilder<ParentBuilder>
                     (tableSourceSetter)
                     .in(this)
                     ._Derived()
-                    .withSubQuery(subQuery)
+                    .withSubQuery(SUB_QUERY(subQuery))
                     .withTableAlias(tableAlias)
                     .and();
         }
@@ -1065,7 +1087,7 @@ public class FromBuilder<ParentBuilder>
         }
 
 
-        public DerivedTableBuilder<ParentBuilder> withSubQuery(Select.QuerySpecification subQuery){
+        public DerivedTableBuilder<ParentBuilder> withSubQuery(Select subQuery){
             target.setSubQuery(subQuery);
             return this;
         }
@@ -1262,10 +1284,10 @@ public class FromBuilder<ParentBuilder>
         public DerivedTableBuilder<JoinedTableBuilder<ParentBuilder>> $(Select.QuerySpecification subQuery) {
             if(target.getTableSource() == null){
                 return withTableSource()._Derived()
-                        .withSubQuery(subQuery);
+                        .withSubQuery(SUB_QUERY(subQuery));
             }
             return withTableSource2()._Derived()
-                    .withSubQuery(subQuery);
+                    .withSubQuery(SUB_QUERY(subQuery));
         }
 
         /**
@@ -1351,13 +1373,13 @@ public class FromBuilder<ParentBuilder>
         public JoinedTableBuilder<ParentBuilder> $(Select.QuerySpecification subQuery, String tableAlias){
             if(target.getTableSource() == null){
                 return withTableSource()._Derived()
-                        .withSubQuery(subQuery)
+                        .withSubQuery(SUB_QUERY(subQuery))
                         .withAs()
                         .withTableAlias(tableAlias)
                         .and();
             }
             return withTableSource2()._Derived()
-                    .withSubQuery(subQuery)
+                    .withSubQuery(SUB_QUERY(subQuery))
                     .withAs()
                     .withTableAlias(tableAlias)
                     .and();
