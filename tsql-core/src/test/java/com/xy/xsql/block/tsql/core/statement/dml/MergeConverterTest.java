@@ -140,20 +140,52 @@ public class MergeConverterTest {
         MergeBuilderTest builderTest = new MergeBuilderTest();
         model2StringMap = new LinkedHashMap<>();
 
-//        model2StringMap.put(
-//                builderTest.exampleA,
+        /*
+          SearchCondition no ()
+          Case ignored
+         */
+        model2StringMap.put(
+                builderTest.exampleA,
+                "MERGE Production.UnitMeasure AS target\n" +
+                        "     USING (SELECT @UnitMeasureCode, @Name) AS source (UnitMeasureCode, Name)\n" +
+                        "     ON target.UnitMeasureCode = source.UnitMeasureCode\n" +
+                        "     WHEN MATCHED THEN\n" +
+                        "     UPDATE SET Name = source.Name\n" +
+                        "     WHEN NOT MATCHED THEN\n" +
+                        "     INSERT (UnitMeasureCode, Name)\n" +
+                        "     VALUES (source.UnitMeasureCode, source.Name)\n" +
+                        "     OUTPUT DELETED.*, $action, INSERTED.* INTO @MyTempTable");
 //                "MERGE Production.UnitMeasure AS target\n" +
-//                        "     USING (SELECT @UnitMeasureCode, @Name) source (UnitMeasureCode, Name)\n" +
+//                        "     USING (SELECT @UnitMeasureCode, @Name) AS source (UnitMeasureCode, Name)\n" +
 //                        "     ON (target.UnitMeasureCode = source.UnitMeasureCode)\n" +
 //                        "     WHEN MATCHED THEN\n" +
 //                        "     UPDATE SET Name = source.Name\n" +
 //                        "     WHEN NOT MATCHED THEN\n" +
 //                        "     INSERT (UnitMeasureCode, Name)\n" +
 //                        "     VALUES (source.UnitMeasureCode, source.Name)\n" +
-//                        "     OUTPUT DELETED.*, $action, INSERTED.* INTO @MyTempTable");
+//                        "     OUTPUT deleted.*, $action, inserted.* INTO #MyTempTable");
 
-//        model2StringMap.put(
-//                builderTest.exampleB,
+        /*
+          SearchCondition no ()
+          Case ignored
+         */
+        model2StringMap.put(
+                builderTest.exampleB,
+                "MERGE Production.ProductInventory AS target\n" +
+                        "     USING (SELECT ProductID, SUM(OrderQty) FROM Sales.SalesOrderDetail AS sod\n" +
+                        "     JOIN Sales.SalesOrderHeader AS soh\n" +
+                        "     ON sod.SalesOrderID = soh.SalesOrderID\n" +
+                        "     AND soh.OrderDate = @OrderDate\n" +
+                        "     GROUP BY ProductID) AS source (ProductID, OrderQty)\n" +
+                        "     ON target.ProductID = source.ProductID\n" +
+                        "     WHEN MATCHED AND target.Quantity - source.OrderQty <= 0\n" +
+                        "     THEN DELETE\n" +
+                        "     WHEN MATCHED\n" +
+                        "     THEN UPDATE SET target.Quantity = target.Quantity - source.OrderQty,\n" +
+                        "     target.ModifiedDate = GETDATE()\n" +
+                        "     OUTPUT $action, INSERTED.ProductID, INSERTED.Quantity,\n" +
+                        "     INSERTED.ModifiedDate, DELETED.ProductID,\n" +
+                        "     DELETED.Quantity, DELETED.ModifiedDate");
 //                "MERGE Production.ProductInventory AS target\n" +
 //                        "     USING (SELECT ProductID, SUM(OrderQty) FROM Sales.SalesOrderDetail AS sod\n" +
 //                        "     JOIN Sales.SalesOrderHeader AS soh\n" +
@@ -166,8 +198,69 @@ public class MergeConverterTest {
 //                        "     WHEN MATCHED\n" +
 //                        "     THEN UPDATE SET target.Quantity = target.Quantity - source.OrderQty,\n" +
 //                        "     target.ModifiedDate = GETDATE()\n" +
-//                        "     OUTPUT $action, INSERTED.ProductID, INSERTED.Quantity, INSERTED.ModifiedDate, DELETED.ProductID,\n" +
-//                        "     DELETED.Quantity, DELETED.ModifiedDate");
+//                        "     OUTPUT $action, Inserted.ProductID, Inserted.Quantity,\n" +
+//                        "     Inserted.ModifiedDate, Deleted.ProductID,\n" +
+//                        "     Deleted.Quantity, Deleted.ModifiedDate");
+
+        /*
+          SearchCondition no ()
+          Case ignored
+         */
+        model2StringMap.put(
+                builderTest.exampleC,
+                "MERGE INTO Sales.SalesReason AS Target\n" +
+                        "     USING (VALUES ('Recommendation','Other'), ('Review', 'Marketing'),\n" +
+                        "     ('Internet', 'Promotion'))\n" +
+                        "     AS Source (NewName, NewReasonType)\n" +
+                        "     ON Target.Name = Source.NewName\n" +
+                        "     WHEN MATCHED THEN\n" +
+                        "     UPDATE SET ReasonType = Source.NewReasonType\n" +
+                        "     WHEN NOT MATCHED BY TARGET THEN\n" +
+                        "     INSERT (Name, ReasonType) VALUES (NewName, NewReasonType)\n" +
+                        "     OUTPUT $action INTO @SummaryOfChanges");
+//                "MERGE INTO Sales.SalesReason AS Target\n" +
+//                        "     USING (VALUES ('Recommendation','Other'), ('Review', 'Marketing'),\n" +
+//                        "     ('Internet', 'Promotion'))\n" +
+//                        "     AS Source (NewName, NewReasonType)\n" +
+//                        "     ON Target.Name = Source.NewName\n" +
+//                        "     WHEN MATCHED THEN\n" +
+//                        "     UPDATE SET ReasonType = Source.NewReasonType\n" +
+//                        "     WHEN NOT MATCHED BY TARGET THEN\n" +
+//                        "     INSERT (Name, ReasonType) VALUES (NewName, NewReasonType)\n" +
+//                        "     OUTPUT $action INTO @SummaryOfChanges");
+        /*
+          Case ignored
+         */
+        model2StringMap.put(
+                builderTest.exampleD,
+                "MERGE Production.ProductInventory AS pi\n" +
+                        "     USING (SELECT ProductID, SUM(OrderQty)\n" +
+                        "     FROM Sales.SalesOrderDetail AS sod\n" +
+                        "     JOIN Sales.SalesOrderHeader AS soh\n" +
+                        "     ON sod.SalesOrderID = soh.SalesOrderID\n" +
+                        "     AND soh.OrderDate BETWEEN '20030701' AND '20030731'\n" +
+                        "     GROUP BY ProductID) AS src (ProductID, OrderQty)\n" +
+                        "     ON pi.ProductID = src.ProductID\n" +
+                        "     WHEN MATCHED AND pi.Quantity - src.OrderQty >= 0\n" +
+                        "     THEN UPDATE SET pi.Quantity = pi.Quantity - src.OrderQty\n" +
+                        "     WHEN MATCHED AND pi.Quantity - src.OrderQty <= 0\n" +
+                        "     THEN DELETE\n" +
+                        "     OUTPUT $action, INSERTED.ProductID, INSERTED.LocationID,\n" +
+                        "     INSERTED.Quantity AS NewQty, DELETED.Quantity AS PreviousQty");
+//                "MERGE Production.ProductInventory AS pi\n" +
+//                        "     USING (SELECT ProductID, SUM(OrderQty)\n" +
+//                        "     FROM Sales.SalesOrderDetail AS sod\n" +
+//                        "     JOIN Sales.SalesOrderHeader AS soh\n" +
+//                        "     ON sod.SalesOrderID = soh.SalesOrderID\n" +
+//                        "     AND soh.OrderDate BETWEEN '20030701' AND '20030731'\n" +
+//                        "     GROUP BY ProductID) AS src (ProductID, OrderQty)\n" +
+//                        "     ON pi.ProductID = src.ProductID\n" +
+//                        "     WHEN MATCHED AND pi.Quantity - src.OrderQty >= 0\n" +
+//                        "     THEN UPDATE SET pi.Quantity = pi.Quantity - src.OrderQty\n" +
+//                        "     WHEN MATCHED AND pi.Quantity - src.OrderQty <= 0\n" +
+//                        "     THEN DELETE\n" +
+//                        "     OUTPUT $action, Inserted.ProductID, Inserted.LocationID,\n" +
+//                        "     Inserted.Quantity AS NewQty, Deleted.Quantity AS PreviousQty");
 
     }
 

@@ -394,6 +394,26 @@ public class OutputBuilder<ParentBuilder>
             return this;
         }
 
+
+        public DmlSelectBuilder<ParentBuilder> $Inserted(String columnName) {
+            return withColumnName()
+                    .withInserted()
+                    .withColumnName(columnName)
+                    .and();
+        }
+
+        public DmlSelectBuilder<ParentBuilder> $Deleted(String columnName) {
+            return withColumnName()
+                    .withDeleted()
+                    .withColumnName(columnName)
+                    .and();
+        }
+
+
+        public ParentBuilder $As(String columnAliasIdentifier){
+            return withColumnAliasIdentifier(columnAliasIdentifier)
+                    .and();
+        }
     }
 
     /**

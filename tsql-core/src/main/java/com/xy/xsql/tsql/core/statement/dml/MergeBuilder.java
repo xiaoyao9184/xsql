@@ -312,11 +312,16 @@ public class MergeBuilder extends CodeBuilder<Merge> {
         return withWhenNotMatchedTargetThen();
     }
 
+    public WhenNotMatchedTargetThenBuilder<MergeBuilder> $When_Not_Matched_By_Target(){
+        return withWhenNotMatchedTargetThen()
+                .withByTarget(true);
+    }
+
     /**
      * Quick set
      * @return
      */
-    public WhenNotMatchedSourceThenBuilder<MergeBuilder> $When_Not_Matched_Source(){
+    public WhenNotMatchedSourceThenBuilder<MergeBuilder> $When_Not_Matched_By_Source(){
         return withWhenNotMatchedSourceThen();
     }
 

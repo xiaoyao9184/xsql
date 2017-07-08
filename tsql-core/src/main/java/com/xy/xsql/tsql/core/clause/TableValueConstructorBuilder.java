@@ -38,6 +38,9 @@ public class TableValueConstructorBuilder<ParentBuilder>
 
 
 
+    public static TableValueConstructorBuilder<Void> VALUES(){
+        return new TableValueConstructorBuilder<>();
+    }
 
     /*
     Quick set
