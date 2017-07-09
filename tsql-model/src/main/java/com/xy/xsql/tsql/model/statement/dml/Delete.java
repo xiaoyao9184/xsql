@@ -1,9 +1,12 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.clause.*;
+import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;
+
+import java.util.List;
 
 /**
  *
@@ -75,6 +78,7 @@ public class Delete implements Statement {
     private Alias<Void> tableAlias;
     private TableName tableName;
     //TODO rowset_function_limited
+    private List<TableHintLimited> tableHintLimitedList;
     //TODO @table_variable
 
     //<OUTPUT Clause>
@@ -119,6 +123,14 @@ public class Delete implements Statement {
         this.tableName = tableName;
     }
 
+    public List<TableHintLimited> getTableHintLimitedList() {
+        return tableHintLimitedList;
+    }
+
+    public void setTableHintLimitedList(List<TableHintLimited> tableHintLimitedList) {
+        this.tableHintLimitedList = tableHintLimitedList;
+    }
+
     public Output getOutput() {
         return output;
     }
@@ -158,5 +170,4 @@ public class Delete implements Statement {
     public void setOption(Option option) {
         this.option = option;
     }
-
 }

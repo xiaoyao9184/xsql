@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.model.clause.hints;
 
-import com.sun.org.apache.xpath.internal.operations.Variable;
 import com.xy.xsql.tsql.model.clause.Clause;
 import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.datatype.StringConstant;

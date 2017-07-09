@@ -3,9 +3,11 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.Default;
 import com.xy.xsql.tsql.model.datatype.Null;
+import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 
@@ -32,14 +34,38 @@ public class UpdateConverter
                     .sub()
                         .description("update target")
                         .required()
-                        .czse(d -> d.getTableAlias() != null, "table_alias")
-                            .data(Update::getTableAlias)
+                        .czse(d ->
+                                d.getTableAlias() != null ||
+                                d.getTableName() != null
+                            )
+                            .required()
+                            .sub()
+                                .description("table_alias/object/function")
+                                .czse(d -> d.getTableAlias() != null, "table_alias")
+                                    .data(Update::getTableAlias)
+                                    .and()
+                                .czse(d -> d.getTableName() != null, "<object>")
+                                    .data(Update::getTableName)
+                                    .and()
+            //                    .czse_meta("rowset_function_limited")
+                                .and()
+                            .sub()
+                                .description("with table hint")
+                                .optional(d -> d.getTableHintLimitedList() == null)
+                                .sub_keyword(Keywords.WITH)
+                                .sub_keyword(Other.GROUP_START)
+                                .sub("Table_Hint_Limited")
+                                    .repeat()
+                                    .ref(TableHintLimitedConverter.class)
+                                    .data(Update::getTableHintLimitedList)
+                                    .and()
+                                .sub_keyword(Other.GROUP_END)
+                                .and()
+                            .subTakeLine()
                             .and()
-                        .czse(d -> d.getTableName() != null, "<object>")
-                            .data(Update::getTableName)
-                            .and()
-    //                    .czse_meta("rowset_function_limited")
-    //                    .czse_meta("@table_variable")
+//                        .czse_meta(d -> d.getTableVariable() != null,"@table_variable")
+//                            .data(d -> d.getTableVariable())
+//                            .and()
                         .headFootTakeLine()
                         .subTakeLine()
                         .and()

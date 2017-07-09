@@ -146,44 +146,88 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
         return new DeleteBuilder();
     }
 
+    /**
+     * Quick set
+     * @param with With
+     * @return This
+     */
     public DeleteBuilder $With(With with){
         target.setWith(with);
         return this;
     }
 
+    /**
+     * Quick in
+     * @return WithBuilder
+     */
     public WithBuilder<DeleteBuilder> $With(){
         return withWith();
     }
 
+    /**
+     * Quick in
+     * @return TopBuilder
+     */
     public TopBuilder<DeleteBuilder> $Top(){
         return withTop();
     }
 
+    /**
+     * Quick set
+     * @param tableName TableName
+     * @return This
+     */
     public DeleteBuilder $(TableName tableName) {
         return withTableName(tableName);
     }
 
+    /**
+     * Quick set
+     * @param alias
+     * @return This
+     */
     public DeleteBuilder $From(String alias) {
         return withTableAlias(alias);
     }
 
+    /**
+     * Quick set
+     * @param tableName
+     * @return This
+     */
     public DeleteBuilder $From(TableName tableName) {
         return withFrom(true)
                 .withTableName(tableName);
     }
 
+    /**
+     * Quick in
+     * @return OutputBuilder
+     */
     public OutputBuilder<DeleteBuilder> $Output() {
         return withOutput();
     }
 
+    /**
+     * Quick in
+     * @return FromBuilder
+     */
     public FromBuilder<DeleteBuilder> $From() {
         return withFrom();
     }
 
+    /**
+     * Quick in
+     * @return WhereBuilder
+     */
     public WhereBuilder<DeleteBuilder> $Where() {
         return withWhere();
     }
 
+    /**
+     * Quick in
+     * @return OptionBuilder
+     */
     public OptionBuilder<DeleteBuilder> $Option() {
         return withOption();
     }

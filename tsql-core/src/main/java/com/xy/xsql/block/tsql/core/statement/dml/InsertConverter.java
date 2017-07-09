@@ -5,10 +5,12 @@ import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
+import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.dml.Insert;
+import com.xy.xsql.tsql.model.statement.dml.Merge;
 
 import java.util.List;
 
@@ -38,10 +40,27 @@ public class InsertConverter
                     .sub()
                         .description("into target")
                         .required()
-                        .czse(d -> d.getTableName() != null, "<object>")
-                            .data(Insert::getTableName)
+                        .sub()
+                            .description("object/function")
+                            .czse(d -> d.getTableName() != null, "<object>")
+                                .data(Insert::getTableName)
+                                .and()
+        //                    .czse_meta("rowset_function_limited")
                             .and()
-    //                    .czse_meta("rowset_function_limited")
+                        .sub()
+                            .description("with table hint")
+                            .optional(d -> d.getTableHintLimitedList() == null)
+                            .sub_keyword(Keywords.WITH)
+                            .sub_keyword(Other.GROUP_START)
+                            .sub("Table_Hint_Limited")
+                                .repeat()
+                                .ref(TableHintLimitedConverter.class)
+                                .data(Insert::getTableHintLimitedList)
+                                .and()
+                            .sub_keyword(Other.GROUP_END)
+                            .and()
+                        .subTakeLine()
+                        .headFootTakeLine()
                         .and()
                     .sub()
                         .description("(column_list)")

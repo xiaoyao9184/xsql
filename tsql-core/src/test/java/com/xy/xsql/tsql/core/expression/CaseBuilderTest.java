@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.core.expression;
 
 import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.Case;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
 import com.xy.xsql.tsql.model.operator.Operators;
@@ -93,10 +94,10 @@ public class CaseBuilderTest {
         Assert.assertEquals(aCase.getElseResultExpression().toString(),"'Over $1000'");
 
         Assert.assertEquals(aCase.getWhenThenExpressionList().size(),4);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), GroupExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getWhenExpression().getClass(),GroupExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getWhenExpression().getClass(),GroupExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(3).getWhenExpression().getClass(),GroupExpression.class);
+        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
+        Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getWhenExpression().getClass(),BinaryExpression.class);
+        Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getWhenExpression().getClass(),BinaryExpression.class);
+        Assert.assertEquals(aCase.getWhenThenExpressionList().get(3).getWhenExpression().getClass(),BinaryExpression.class);
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().toString(),"'Mfg item - not for resale'");
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getResultExpression().toString(),"'Under $50'");
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getResultExpression().toString(),"'Under $250'");
@@ -140,7 +141,7 @@ public class CaseBuilderTest {
         Assert.assertNull(aCase2.getElseResultExpression());
 
         Assert.assertEquals(aCase2.getWhenThenExpressionList().size(),1);
-        Assert.assertEquals(aCase2.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), GroupExpression.class);
+        Assert.assertEquals(aCase2.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
         Assert.assertEquals(aCase2.getWhenThenExpressionList().get(0).getResultExpression().toString(),"BusinessEntityID");
     }
 
@@ -179,11 +180,11 @@ public class CaseBuilderTest {
         // @formatter:on
 
         Assert.assertNull(aCase.getInputExpression());
-        Assert.assertEquals(aCase.getElseResultExpression().getClass(),GroupExpression.class);
+        Assert.assertEquals(aCase.getElseResultExpression().getClass(),BinaryExpression.class);
 
         Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), GroupExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(),GroupExpression.class);
+        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
+        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(),BinaryExpression.class);
 
     }
 
@@ -275,7 +276,7 @@ public class CaseBuilderTest {
         Assert.assertEquals(aCase.getElseResultExpression().toString(),"NULL");
 
         Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), GroupExpression.class);
+        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(), ColumnName.class);
 
     }

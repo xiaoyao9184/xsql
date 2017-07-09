@@ -7,6 +7,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
@@ -115,6 +116,19 @@ public class WithBuilder<ParentBuilder>
                 return this;
             }
             initAdd(Arrays.asList(columnNames),
+                    this.target::getColumnName,
+                    this.target::setColumnName);
+            return this;
+        }
+
+        public CommonTableExpressionBuilder<ParentBuilder> $(String... columnNames){
+            if(CheckUtil.isNullOrEmpty(columnNames)){
+                return this;
+            }
+            initAdd(Arrays
+                        .stream(columnNames)
+                        .map(ColumnName::new)
+                        .collect(Collectors.toList()),
                     this.target::getColumnName,
                     this.target::setColumnName);
             return this;

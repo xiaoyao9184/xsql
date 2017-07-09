@@ -135,6 +135,17 @@ public class Expressions {
     }
 
     /**
+     *
+     * @param expression
+     * @return
+     */
+    public static Expression e(Expression expression){
+        GroupExpression groupExpression = new GroupExpression();
+        groupExpression.setExpression(expression);
+        return groupExpression;
+    }
+
+    /**
      * TODO maybe not use GroupExpression
      * Is a subquery that returns one value
      * @param select

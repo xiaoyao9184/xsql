@@ -12,14 +12,18 @@ import static com.xy.xsql.tsql.core.statement.ddl.TruncateTableBuilder.TRUNCATE_
  */
 public class TruncateTableBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/truncate-table-transact-sql#examples
+     */
 
     // @formatter:off
+    /**
+     * TRUNCATE TABLE HumanResources.JobCandidate
+     */
     public TruncateTable exampleA = TRUNCATE_TABLE(t("HumanResources","JobCandidate"));
     // @formatter:on
 
-    /**
-     * TRUNCATE TABLE HumanResources.JobCandidate;
-     */
     @Test
     public void testExampleA(){
         TruncateTable truncateTable = new TruncateTableBuilder()
@@ -31,6 +35,10 @@ public class TruncateTableBuilderTest {
 
 
     // @formatter:off
+    /**
+     * TRUNCATE TABLE PartitionTable1
+    WITH (PARTITIONS (2, 4, 6 TO 8))
+     */
     public TruncateTable exampleB = new TruncateTableBuilder()
             .withTableName(t("PartitionTable1"))
             .withNumber(2)
@@ -39,10 +47,6 @@ public class TruncateTableBuilderTest {
             .build();
     // @formatter:on
 
-    /**
-     * RTRUNCATE TABLE PartitionTable1
-     WITH (PARTITIONS (2, 4, 6 TO 8));
-     */
     @Test
     public void testExampleB(){
         // @formatter:off

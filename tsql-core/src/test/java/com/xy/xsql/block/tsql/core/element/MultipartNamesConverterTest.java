@@ -24,7 +24,7 @@ public class MultipartNamesConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "[ database_name . [ schema_name ] . | schema_name . ] table_name");
+                "[ server_name . ] [ database_name . [ schema_name ] . | schema_name . ] table_name");
     }
 
     @Test
@@ -36,7 +36,7 @@ public class MultipartNamesConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "[ [ database_name . [ schema_name ] . | schema_name . ] table_name . ] column_name");
+                "[ [ server_name . ] [ database_name . [ schema_name ] . | schema_name . ] table_name . ] column_name");
     }
 
 

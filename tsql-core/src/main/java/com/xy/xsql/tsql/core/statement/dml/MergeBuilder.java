@@ -218,12 +218,21 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      * Quick set
      * @return
      */
+    public MergeBuilder $With(With with){
+        target.setWith(with);
+        return this;
+    }
+
+    /**
+     * Quick in
+     * @return
+     */
     public WithBuilder<MergeBuilder> $With(){
         return withWith();
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public TopBuilder<MergeBuilder> $Top(){
@@ -261,7 +270,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set merge_hint
+     * Quick set
+     * merge_hint
      * @param indexValues
      * @return
      */
@@ -281,7 +291,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public FromBuilder.TableSourceBuilder<MergeBuilder> $Using(){
@@ -289,7 +299,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public SearchConditionBuilder<MergeBuilder> $On(){
@@ -297,7 +307,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public WhenMatchedThenBuilder<MergeBuilder> $When_Matched(){
@@ -305,20 +315,24 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public WhenNotMatchedTargetThenBuilder<MergeBuilder> $When_Not_Matched(){
         return withWhenNotMatchedTargetThen();
     }
 
+    /**
+     * Quick in
+     * @return
+     */
     public WhenNotMatchedTargetThenBuilder<MergeBuilder> $When_Not_Matched_By_Target(){
         return withWhenNotMatchedTargetThen()
                 .withByTarget(true);
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public WhenNotMatchedSourceThenBuilder<MergeBuilder> $When_Not_Matched_By_Source(){
@@ -326,7 +340,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public OutputBuilder<MergeBuilder> $OutPut(){
@@ -334,7 +348,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     * Quick set
+     * Quick in
      * @return
      */
     public OptionBuilder<MergeBuilder> $Option(){

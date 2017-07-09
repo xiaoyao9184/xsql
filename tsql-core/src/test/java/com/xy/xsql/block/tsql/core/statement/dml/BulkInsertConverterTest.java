@@ -65,55 +65,83 @@ public class BulkInsertConverterTest {
         BulkInsertBuilderTest builderTest = new BulkInsertBuilderTest();
         model2StringMap = new LinkedHashMap<>();
 
+        /*
+        order
+         */
         model2StringMap.put(
                 builderTest.exampleA,
                 "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
-                        "     FROM 'f:\\orders\\lineitem.tbl'\n" +
-                        "     WITH\n" +
-                        "     (\n" +
-                        "     ROWTERMINATOR =' |\\n',\n" +
-                        "     FIELDTERMINATOR =' |'\n" +
-                        "     )");
+                        "       FROM 'f:\\orders\\lineitem.tbl'\n" +
+                        "       WITH\n" +
+                        "          (\n" +
+                        "             ROWTERMINATOR =' |\\n',\n" +
+                        "             FIELDTERMINATOR =' |'\n" +
+                        "          )");
+//                "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
+//                        "       FROM 'f:\\orders\\lineitem.tbl'\n" +
+//                        "       WITH\n" +
+//                        "          (\n" +
+//                        "             FIELDTERMINATOR =' |',\n" +
+//                        "             ROWTERMINATOR =' |\\n'\n" +
+//                        "          )");
 
+        /*
+        order
+         */
         model2StringMap.put(
                 builderTest.exampleB,
                 "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
-                        "     FROM 'f:\\orders\\lineitem.tbl'\n" +
-                        "     WITH\n" +
-                        "     (\n" +
-                        "     FIRE_TRIGGERS,\n" +
-                        "     ROWTERMINATOR = ':\\n',\n" +
-                        "     FIELDTERMINATOR =' |'\n" +
-                        "     )");
+                        "       FROM 'f:\\orders\\lineitem.tbl'\n" +
+                        "       WITH\n" +
+                        "         (\n" +
+                        "            FIRE_TRIGGERS\n," +
+                        "            ROWTERMINATOR = ':\\n',\n" +
+                        "            FIELDTERMINATOR =' |'\n" +
+                        "          )");
+//                "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
+//                        "       FROM 'f:\\orders\\lineitem.tbl'\n" +
+//                        "       WITH\n" +
+//                        "         (\n" +
+//                        "            FIELDTERMINATOR =' |',\n" +
+//                        "            ROWTERMINATOR = ':\\n',\n" +
+//                        "            FIRE_TRIGGERS\n" +
+//                        "          )");
 
         model2StringMap.put(
                 builderTest.exampleC,
                 "BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail\n" +
-                        "     FROM ''<drive>:\\<path>\\<filename>''\n" +
-                        "     WITH (ROWTERMINATOR = '''+CHAR(10)+''')");
+                        "    FROM ''<drive>:\\<path>\\<filename>''\n" +
+                        "    WITH (ROWTERMINATOR = '''+CHAR(10)+''')");
 
         model2StringMap.put(
                 builderTest.exampleD,
                 "BULK INSERT MyTable\n" +
-                        "     FROM 'D:\\data.csv'\n" +
-                        "     WITH\n" +
-                        "     ( CODEPAGE = '65001',\n" +
-                        "     DATAFILETYPE = 'char',\n" +
-                        "     FIELDTERMINATOR = ','\n" +
-                        "     )");
+                        "    FROM 'D:\\data.csv'\n" +
+                        "    WITH\n" +
+                        "    ( CODEPAGE = '65001',\n" +
+                        "        DATAFILETYPE = 'char',\n" +
+                        "        FIELDTERMINATOR = ','\n" +
+                        "    )");
 
         model2StringMap.put(
                 builderTest.exampleE,
                 "BULK INSERT Sales.Invoices\n" +
-                        "     FROM '\\\\share\\invoices\\inv-2016-07-25.csv'\n" +
-                        "     WITH (FORMAT = 'CSV')");
+                        "    FROM '\\\\share\\invoices\\inv-2016-07-25.csv'\n" +
+                        "    WITH (FORMAT = 'CSV')");
 
+        /*
+        DATA_SOURCE to DATASOURCE
+         */
         model2StringMap.put(
                 builderTest.exampleF,
                 "BULK INSERT Sales.Invoices\n" +
-                        "     FROM 'inv-2017-01-19.csv'\n" +
-                        "     WITH (DATASOURCE = 'MyAzureInvoices',\n" +
-                        "     FORMAT = 'CSV')");
+                        "    FROM 'inv-2017-01-19.csv'\n" +
+                        "    WITH (DATASOURCE = 'MyAzureInvoices',\n" +
+                        "         FORMAT = 'CSV')");
+//                "BULK INSERT Sales.Invoices\n" +
+//                        "    FROM 'inv-2017-01-19.csv'\n" +
+//                        "    WITH (DATA_SOURCE = 'MyAzureInvoices',\n" +
+//                        "         FORMAT = 'CSV')");
 
     }
 

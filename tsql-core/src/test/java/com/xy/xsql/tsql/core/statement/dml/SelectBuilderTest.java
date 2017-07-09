@@ -169,12 +169,16 @@ public class SelectBuilderTest {
     }
 
 
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT *
-//    FROM Production.Product
-//    ORDER BY Name ASC;
+    /*
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/select-examples-transact-sql
+     */
+
     // @formatter:off
+    /**
+     * SELECT *
+    FROM Production.Product
+    ORDER BY Name ASC
+     */
     public Select exampleA1 = SELECT()
                 .$Select()
                     .$()
@@ -190,14 +194,12 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//-- Alternate way.
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT p.*
-//    FROM Production.Product AS p
-//    ORDER BY Name ASC;
-//    GO
     // @formatter:off
+    /**
+     * SELECT p.*
+    FROM Production.Product AS p
+    ORDER BY Name ASC
+     */
     public Select exampleA2 = SELECT()
             .$Select()
                 .$(t("p"))
@@ -216,13 +218,12 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT Name, ProductNumber, ListPrice AS Price
-//    FROM Production.Product
-//    ORDER BY Name ASC;
-//    GO
     // @formatter:off
+    /**
+     * SELECT Name, ProductNumber, ListPrice AS Price
+    FROM Production.Product
+    ORDER BY Name ASC
+     */
     public Select exampleA3 = SELECT()
             .$Select()
                 .$(c("Name"))
@@ -247,6 +248,13 @@ public class SelectBuilderTest {
 //    ORDER BY Name ASC;
 //    GO
     // @formatter:off
+    /**
+     * SELECT Name, ProductNumber, ListPrice AS Price
+    FROM Production.Product
+    WHERE ProductLine = 'R'
+    AND DaysToManufacture < 4
+    ORDER BY Name ASC
+     */
     public Select exampleA4 = SELECT()
             .$Select()
                 .$(c("Name"))
@@ -272,15 +280,6 @@ public class SelectBuilderTest {
             .build();
     // @formatter:on
 
-    /**
-     * SELECT *
-     FROM Production.Product
-     ORDER BY Name ASC;
-
-     SELECT p.*
-     FROM Production.Product AS p
-     ORDER BY Name ASC;
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -333,39 +332,42 @@ public class SelectBuilderTest {
     }
 
 
-//    SELECT p.Name AS ProductName,
-//    NonDiscountSales = (OrderQty * UnitPrice),
-//    Discounts = ((OrderQty * UnitPrice) * UnitPriceDiscount)
-//    FROM Production.Product AS p
-//    INNER JOIN Sales.SalesOrderDetail AS sod
-//    ON p.ProductID = sod.ProductID
-//    ORDER BY ProductName DESC;
     // @formatter:off
+    /**
+     * SELECT p.Name AS ProductName,
+    NonDiscountSales = (OrderQty * UnitPrice),
+    Discounts = ((OrderQty * UnitPrice) * UnitPriceDiscount)
+    FROM Production.Product AS p
+    INNER JOIN Sales.SalesOrderDetail AS sod
+    ON p.ProductID = sod.ProductID
+    ORDER BY ProductName DESC
+     */
     public Select exampleB1 = SELECT()
                 .$Select()
                     .$(c("p","Name"),"ProductName")
                     .$(e_assignment(
                             c("NonDiscountSales"),
-                            e_multiplication(
+                            e(e_multiplication(
                                     c("OrderQty"),
                                     c("UnitPrice")
-                            )
+                            ))
                     ))
                     .$(e_assignment(
                             c("Discounts"),
-                            e_multiplication(
-                                    e_multiplication(
+                            e(e_multiplication(
+                                    e(e_multiplication(
                                             c("OrderQty"),
-                                            c("UnitPrice")),
+                                            c("UnitPrice"))),
                                     c("UnitPriceDiscount")
-                            )
+                            ))
                     ))
                     .$From()
                         .$()
                             .$(t("Production","Product"))
                             .$As("p")
                             .$Inner_Join()
-                            .$(t("Sales","SalesOrderDetail"),"sod")
+                            .$(t("Sales","SalesOrderDetail"))
+                            .$As("sod")
                             .$On()
                                 .$(p_equal(
                                         c("p","ProductID"),
@@ -381,32 +383,38 @@ public class SelectBuilderTest {
                 .done();
     // @formatter:on
 
-//    SELECT 'Total income is', ((OrderQty * UnitPrice) * (1.0 - UnitPriceDiscount)), ' for ',
-//    p.Name AS ProductName
-//    FROM Production.Product AS p
-//    INNER JOIN Sales.SalesOrderDetail AS sod
-//    ON p.ProductID = sod.ProductID
-//    ORDER BY ProductName ASC;
+
+    // @formatter:off
+    /**
+     * SELECT 'Total income is', ((OrderQty * UnitPrice) * (1.0 - UnitPriceDiscount)), ' for ',
+    p.Name AS ProductName
+    FROM Production.Product AS p
+    INNER JOIN Sales.SalesOrderDetail AS sod
+    ON p.ProductID = sod.ProductID
+    ORDER BY ProductName ASC
+     */
     public Select exampleB2 = SELECT()
             .$Select()
                 .$(e_string("Total income is"))
-                .$(e_multiplication(
-                        e_multiplication(
+                .$(e(e_multiplication(
+                        e(e_multiplication(
                                 c("OrderQty"),
                                 c("UnitPrice")
-                        ),
-                        e_negative(
-                                e_number(1),
+                        )),
+                        e(e_negative(
+                                e_number(1.0),
                                 c("UnitPriceDiscount")
-                        )
+                        )))
                 ))
                 .$(e_string(" for "))
                 .$(c("p","Name"),"ProductName")
                 .$From()
                     .$()
-                        .$(t("Production","Product"),"p")
+                        .$(t("Production","Product"))
+                        .$As("p")
                         .$Inner_Join()
-                        .$(t("Sales","SalesOrderDetail"),"sod")
+                        .$(t("Sales","SalesOrderDetail"))
+                        .$As("sod")
                         .$On()
                             .$(p_equal(
                                     c("p","ProductID"),
@@ -423,10 +431,14 @@ public class SelectBuilderTest {
             .build();
     // @formatter:on
 
-//    SELECT DISTINCT JobTitle
-//    FROM HumanResources.Employee
-//    ORDER BY JobTitle;
-    public Select exampleC1 = SELECT()
+
+    // @formatter:off
+    /**
+     * SELECT DISTINCT JobTitle
+     FROM HumanResources.Employee
+     ORDER BY JobTitle
+     */
+    public Select exampleC = SELECT()
             .$Select()
                 .$Distinct()
                 .$(c("JobTitle"))
@@ -440,10 +452,14 @@ public class SelectBuilderTest {
             .build();
     // @formatter:on
 
-//    SELECT *
-//    INTO #Bicycles
-//    FROM AdventureWorks2012.Production.Product
-//    WHERE ProductNumber LIKE 'BK%';
+
+    // @formatter:off
+    /**
+     * SELECT *
+     INTO #Bicycles
+     FROM AdventureWorks2012.Production.Product
+     WHERE ProductNumber LIKE 'BK%'
+     */
     public Select exampleD1 = SELECT()
             .$Select()
                 .$()
@@ -461,10 +477,14 @@ public class SelectBuilderTest {
             .build();
     // @formatter:on
 
-//    SELECT * INTO dbo.NewProducts
-//    FROM Production.Product
-//    WHERE ListPrice > $25
-//    AND ListPrice < $100;
+
+    // @formatter:off
+    /**
+     * SELECT * INTO dbo.NewProducts
+     FROM Production.Product
+     WHERE ListPrice > $25
+     AND ListPrice < $100
+     */
     public Select exampleD2 = SELECT()
             .$Select()
                 .$()
@@ -486,20 +506,24 @@ public class SelectBuilderTest {
             .build();
     // @formatter:on
 
-//    SELECT DISTINCT Name
-//    FROM Production.Product AS p
-//    WHERE EXISTS
-//            (SELECT *
-//                    FROM Production.ProductModel AS pm
-//                    WHERE p.ProductModelID = pm.ProductModelID
-//                    AND pm.Name LIKE 'Long-Sleeve Logo Jersey%');
+
+    // @formatter:off
+    /**
+     * SELECT DISTINCT Name
+     FROM Production.Product AS p
+     WHERE EXISTS
+         (SELECT *
+         FROM Production.ProductModel AS pm
+         WHERE p.ProductModelID = pm.ProductModelID
+            AND pm.Name LIKE 'Long-Sleeve Logo Jersey%')
+     */
     public Select exampleE1 = SELECT()
             .$Select()
                 .$Distinct()
                 .$(c("Name"))
                 .$From()
                     .$(t("Production","Product"),"p")
-                        .and()
+                        .$As("p")
                     .and()
                 .$Where()
                     .$Predicate(p_exists(
@@ -508,7 +532,7 @@ public class SelectBuilderTest {
                                     .$()
                                     .$From()
                                         .$(t("Production","ProductModel"),"pm")
-                                            .and()
+                                            .$As("pm")
                                         .and()
                                     .$Where()
                                         .$Predicate(p_equal(
@@ -526,12 +550,16 @@ public class SelectBuilderTest {
             .build();
     // @formatter:on
 
-//    SELECT DISTINCT Name
-//    FROM Production.Product
-//    WHERE ProductModelID IN
-//            (SELECT ProductModelID
-//     FROM Production.ProductModel
-//             WHERE Name LIKE 'Long-Sleeve Logo Jersey%');
+
+    // @formatter:off
+    /**
+     * SELECT DISTINCT Name
+     FROM Production.Product
+     WHERE ProductModelID IN
+         (SELECT ProductModelID
+         FROM Production.ProductModel
+         WHERE Name LIKE 'Long-Sleeve Logo Jersey%')
+     */
     public Select exampleE2 = SELECT()
             .$Select()
                 .$Distinct()
@@ -560,14 +588,16 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT DISTINCT p.LastName, p.FirstName
-//    FROM Person.Person AS p
-//    JOIN HumanResources.Employee AS e
-//    ON e.BusinessEntityID = p.BusinessEntityID WHERE 5000.00 IN
-//            (SELECT Bonus
-//     FROM Sales.SalesPerson AS sp
-//             WHERE e.BusinessEntityID = sp.BusinessEntityID);
+    // @formatter:off
+    /**
+     * SELECT DISTINCT p.LastName, p.FirstName
+     FROM Person.Person AS p
+     JOIN HumanResources.Employee AS e
+         ON e.BusinessEntityID = p.BusinessEntityID WHERE 5000.00 IN
+         (SELECT Bonus
+         FROM Sales.SalesPerson AS sp
+         WHERE e.BusinessEntityID = sp.BusinessEntityID)
+     */
     public Select exampleE3 = SELECT()
             .$Select()
                 .$Distinct()
@@ -575,9 +605,11 @@ public class SelectBuilderTest {
                 .$(c("p","FirstName"))
                 .$From()
                     .$()
-                        .$(t("Person","Person"),"p")
+                        .$(t("Person","Person"))
+                        .$As("p")
                         .$Join()
-                        .$(t("HumanResources","Employee"),"e")
+                        .$(t("HumanResources","Employee"))
+                        .$As("e")
                         .$On()
                             .$Predicate(p_equal(
                                     c("e","BusinessEntityID"),
@@ -593,7 +625,7 @@ public class SelectBuilderTest {
                                 .$(c("Bonus"))
                                 .$From()
                                     .$(t("Sales","SalesPerson"),"sp")
-                                        .and()
+                                        .$As("sp")
                                     .and()
                                 .$Where()
                                     .$Predicate(p_equal(
@@ -609,20 +641,22 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT p1.ProductModelID
-//    FROM Production.Product AS p1
-//    GROUP BY p1.ProductModelID
-//    HAVING MAX(p1.ListPrice) >= ALL
-//            (SELECT AVG(p2.ListPrice)
-//    FROM Production.Product AS p2
-//    WHERE p1.ProductModelID = p2.ProductModelID);
+    // @formatter:off
+    /**
+     * SELECT p1.ProductModelID
+     FROM Production.Product AS p1
+     GROUP BY p1.ProductModelID
+     HAVING MAX(p1.ListPrice) >= ALL
+         (SELECT AVG(p2.ListPrice)
+         FROM Production.Product AS p2
+         WHERE p1.ProductModelID = p2.ProductModelID)
+     */
     public Select exampleE4 = SELECT()
             .$Select()
                 .$(c("p1","ProductModelID"))
                 .$From()
                     .$(t("Production","Product"),"p1")
-                        .and()
+                        .$As("p1")
                     .and()
                 .$GroupBy()
                     .$(c("p1","ProductModelID"))
@@ -635,7 +669,7 @@ public class SelectBuilderTest {
                                 .$(e("AVG(p2.ListPrice)"))
                                 .$From()
                                     .$(t("Production","Product"),"p2")
-                                        .and()
+                                        .$As("p2")
                                     .and()
                                 .$Where()
                                     .$Predicate(p_equal(
@@ -652,18 +686,21 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    SELECT DISTINCT pp.LastName, pp.FirstName
-//    FROM Person.Person pp JOIN HumanResources.Employee e
-//    ON e.BusinessEntityID = pp.BusinessEntityID WHERE pp.BusinessEntityID IN
-//    (SELECT SalesPersonID
-//    FROM Sales.SalesOrderHeader
-//    WHERE SalesOrderID IN
-//    (SELECT SalesOrderID
-//    FROM Sales.SalesOrderDetail
-//    WHERE ProductID IN
-//    (SELECT ProductID
-//    FROM Production.Product p
-//    WHERE ProductNumber = 'BK-M68B-42')));
+    // @formatter:off
+    /**
+     * SELECT DISTINCT pp.LastName, pp.FirstName
+     FROM Person.Person pp JOIN HumanResources.Employee e
+     ON e.BusinessEntityID = pp.BusinessEntityID WHERE pp.BusinessEntityID IN
+     (SELECT SalesPersonID
+     FROM Sales.SalesOrderHeader
+     WHERE SalesOrderID IN
+     (SELECT SalesOrderID
+     FROM Sales.SalesOrderDetail
+     WHERE ProductID IN
+     (SELECT ProductID
+     FROM Production.Product p
+     WHERE ProductNumber = 'BK-M68B-42')))
+     */
     public Select exampleE5 = SELECT()
             .$Select()
                 .$Distinct()
@@ -731,12 +768,13 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT SalesOrderID, SUM(LineTotal) AS SubTotal
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY SalesOrderID
-//    ORDER BY SalesOrderID;
     // @formatter:off
+    /**
+     * SELECT SalesOrderID, SUM(LineTotal) AS SubTotal
+    FROM Sales.SalesOrderDetail
+    GROUP BY SalesOrderID
+    ORDER BY SalesOrderID
+     */
     public Select exampleF = SELECT()
                 .$Select()
                     .$(c("SalesOrderID"))
@@ -755,13 +793,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT ProductID, SpecialOfferID, AVG(UnitPrice) AS [Average Price],
-//    SUM(LineTotal) AS SubTotal
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY ProductID, SpecialOfferID
-//    ORDER BY ProductID;
     // @formatter:off
+    /**
+     * SELECT ProductID, SpecialOfferID, AVG(UnitPrice) AS [Average Price],
+        SUM(LineTotal) AS SubTotal
+    FROM Sales.SalesOrderDetail
+    GROUP BY ProductID, SpecialOfferID
+    ORDER BY ProductID
+     */
     public Select exampleG = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -783,13 +822,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT ProductModelID, AVG(ListPrice) AS [Average List Price]
-//    FROM Production.Product
-//    WHERE ListPrice > $1000
-//    GROUP BY ProductModelID
-//    ORDER BY ProductModelID;
     // @formatter:off
+    /**
+     * SELECT ProductModelID, AVG(ListPrice) AS [Average List Price]
+    FROM Production.Product
+    WHERE ListPrice > $1000
+    GROUP BY ProductModelID
+    ORDER BY ProductModelID
+     */
     public Select exampleH = SELECT()
                 .$Select()
                     .$(c("ProductModelID"))
@@ -814,49 +854,51 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT AVG(OrderQty) AS [Average Quantity],
-//    NonDiscountSales = (OrderQty * UnitPrice)
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY (OrderQty * UnitPrice)
-//    ORDER BY (OrderQty * UnitPrice) DESC;
     // @formatter:off
+    /**
+     * SELECT AVG(OrderQty) AS [Average Quantity],
+    NonDiscountSales = (OrderQty * UnitPrice)
+    FROM Sales.SalesOrderDetail
+    GROUP BY (OrderQty * UnitPrice)
+    ORDER BY (OrderQty * UnitPrice) DESC
+     */
     public Select exampleI = SELECT()
                 .$Select()
                     .$(e("AVG(OrderQty)"),"[Average Quantity]")
                     .$(e_assignment(
                             c("NonDiscountSales"),
-                            e_multiplication(
+                            e(e_multiplication(
                                     c("OrderQty"),c("UnitPrice")
-                            )
+                            ))
                     ))
                     .$From()
                         .$(t("Sales","SalesOrderDetail"))
                         .and()
                     .$GroupBy()
-                        .$(e_multiplication(
+                        .$(e(e_multiplication(
                                 c("OrderQty"),
                                 c("UnitPrice")
-                        ))
+                        )))
                         .and()
                     .and()
                 .$OrderBy()
-                    .$(e_multiplication(
+                    .$(e(e_multiplication(
                             c("OrderQty"),
                             c("UnitPrice")
-                    )).$Desc()
+                    ))).$Desc()
                     .and()
                 .done();
     // @formatter:on
 
 
-
-//    SELECT ProductID, AVG(UnitPrice) AS [Average Price]
-//    FROM Sales.SalesOrderDetail
-//    WHERE OrderQty > 10
-//    GROUP BY ProductID
-//    ORDER BY AVG(UnitPrice);
     // @formatter:off
+    /**
+     * SELECT ProductID, AVG(UnitPrice) AS [Average Price]
+    FROM Sales.SalesOrderDetail
+    WHERE OrderQty > 10
+    GROUP BY ProductID
+    ORDER BY AVG(UnitPrice)
+     */
     public Select exampleJ = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -880,13 +922,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT ProductID
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY ProductID
-//    HAVING AVG(OrderQty) > 5
-//    ORDER BY ProductID;
     // @formatter:off
+    /**
+     * SELECT ProductID
+    FROM Sales.SalesOrderDetail
+    GROUP BY ProductID
+    HAVING AVG(OrderQty) > 5
+    ORDER BY ProductID
+     */
     public Select exampleK1 = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -909,13 +952,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT SalesOrderID, CarrierTrackingNumber
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY SalesOrderID, CarrierTrackingNumber
-//    HAVING CarrierTrackingNumber LIKE '4BD%'
-//    ORDER BY SalesOrderID ;
     // @formatter:off
+    /**
+     * SELECT SalesOrderID, CarrierTrackingNumber
+    FROM Sales.SalesOrderDetail
+    GROUP BY SalesOrderID, CarrierTrackingNumber
+    HAVING CarrierTrackingNumber LIKE '4BD%'
+    ORDER BY SalesOrderID
+     */
     public Select exampleK2 = SELECT()
                 .$Select()
                     .$(c("SalesOrderID"))
@@ -940,14 +984,15 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    SELECT ProductID
-//    FROM Sales.SalesOrderDetail
-//    WHERE UnitPrice < 25.00
-//    GROUP BY ProductID
-//    HAVING AVG(OrderQty) > 5
-//    ORDER BY ProductID;
     // @formatter:off
+    /**
+     * SELECT ProductID
+    FROM Sales.SalesOrderDetail
+    WHERE UnitPrice < 25.00
+    GROUP BY ProductID
+    HAVING AVG(OrderQty) > 5
+    ORDER BY ProductID
+     */
     public Select exampleL = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -975,16 +1020,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT ProductID, AVG(OrderQty) AS AverageQuantity, SUM(LineTotal) AS Total
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY ProductID
-//    HAVING SUM(LineTotal) > $1000000.00
-//    AND AVG(OrderQty) < 3;
-//    GO
     // @formatter:off
+    /**
+     * SELECT ProductID, AVG(OrderQty) AS AverageQuantity, SUM(LineTotal) AS Total
+    FROM Sales.SalesOrderDetail
+    GROUP BY ProductID
+    HAVING SUM(LineTotal) > $1000000.00
+    AND AVG(OrderQty) < 3
+     */
     public Select exampleM1 = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -1009,15 +1052,13 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT ProductID, Total = SUM(LineTotal)
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY ProductID
-//    HAVING SUM(LineTotal) > $2000000.00;
-//    GO
     // @formatter:off
+    /**
+     * SELECT ProductID, Total = SUM(LineTotal)
+    FROM Sales.SalesOrderDetail
+    GROUP BY ProductID
+    HAVING SUM(LineTotal) > $2000000.00
+     */
     public Select exampleM2 = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -1038,15 +1079,13 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT ProductID, SUM(LineTotal) AS Total
-//    FROM Sales.SalesOrderDetail
-//    GROUP BY ProductID
-//    HAVING COUNT(*) > 1500;
-//    GO
     // @formatter:off
+    /**
+     * SELECT ProductID, SUM(LineTotal) AS Total
+    FROM Sales.SalesOrderDetail
+    GROUP BY ProductID
+    HAVING COUNT(*) > 1500
+     */
     public Select exampleM3 = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -1067,15 +1106,13 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT pp.FirstName, pp.LastName, e.NationalIDNumber
-//    FROM HumanResources.Employee AS e WITH (INDEX(AK_Employee_NationalIDNumber))
-//    JOIN Person.Person AS pp on e.BusinessEntityID = pp.BusinessEntityID
-//    WHERE LastName = 'Johnson';
-//    GO
     // @formatter:off
+    /**
+     * SELECT pp.FirstName, pp.LastName, e.NationalIDNumber
+    FROM HumanResources.Employee AS e WITH (INDEX(AK_Employee_NationalIDNumber))
+    JOIN Person.Person AS pp on e.BusinessEntityID = pp.BusinessEntityID
+    WHERE LastName = 'Johnson'
+     */
     public Select exampleN1 = SELECT()
                 .$Select()
                     .$(c("pp","FirstName"))
@@ -1087,7 +1124,8 @@ public class SelectBuilderTest {
                                 .$With(INDEX("AK_Employee_NationalIDNumber"))
                                 .$As("e")
                             .$Join()
-                            .$(t("Person","Person"),"pp")
+                            .$(t("Person","Person"))
+                                .$As("pp")
                             .$On()
                                 .$Predicate(p_equal(
                                         c("e","BusinessEntityID"),
@@ -1106,15 +1144,13 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//-- Force a table scan by using INDEX = 0.
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT pp.LastName, pp.FirstName, e.JobTitle
-//    FROM HumanResources.Employee AS e WITH (INDEX = 0) JOIN Person.Person AS pp
-//    ON e.BusinessEntityID = pp.BusinessEntityID
-//    WHERE LastName = 'Johnson';
-//    GO
     // @formatter:off
+    /**
+     * SELECT pp.LastName, pp.FirstName, e.JobTitle
+    FROM HumanResources.Employee AS e WITH (INDEX = 0) JOIN Person.Person AS pp
+    ON e.BusinessEntityID = pp.BusinessEntityID
+    WHERE LastName = 'Johnson'
+     */
     public Select exampleN2 = SELECT()
                 .$Select()
                     .$(c("pp","LastName"))
@@ -1126,7 +1162,8 @@ public class SelectBuilderTest {
                                 .$With(INDEX().$EQUAL("0").build())
                                 .$As("e")
                             .$Join()
-                            .$(t("Person","Person"),"pp")
+                            .$(t("Person","Person"))
+                            .$As("pp")
                             .$On()
                                 .$Predicate(p_equal(
                                         c("e","BusinessEntityID"),
@@ -1145,16 +1182,15 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT ProductID, OrderQty, SUM(LineTotal) AS Total
-//    FROM Sales.SalesOrderDetail
-//    WHERE UnitPrice < $5.00
-//    GROUP BY ProductID, OrderQty
-//    ORDER BY ProductID, OrderQty
-//    OPTION (HASH GROUP, FAST 10);
-//    GO
     // @formatter:off
+    /**
+     * SELECT ProductID, OrderQty, SUM(LineTotal) AS Total
+    FROM Sales.SalesOrderDetail
+    WHERE UnitPrice < $5.00
+    GROUP BY ProductID, OrderQty
+    ORDER BY ProductID, OrderQty
+    OPTION (HASH GROUP, FAST 10)
+     */
     public Select exampleM = SELECT()
                 .$Select()
                     .$(c("ProductID"))
@@ -1184,16 +1220,15 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT BusinessEntityID, JobTitle, HireDate, VacationHours, SickLeaveHours
-//    FROM HumanResources.Employee AS e1
-//            UNION
-//    SELECT BusinessEntityID, JobTitle, HireDate, VacationHours, SickLeaveHours
-//    FROM HumanResources.Employee AS e2
-//    OPTION (MERGE UNION);
-//    GO
     // @formatter:off
+    /**
+     * SELECT BusinessEntityID, JobTitle, HireDate, VacationHours, SickLeaveHours
+    FROM HumanResources.Employee AS e1
+    UNION
+    SELECT BusinessEntityID, JobTitle, HireDate, VacationHours, SickLeaveHours
+    FROM HumanResources.Employee AS e2
+    OPTION (MERGE UNION)
+     */
     public Select exampleO = SELECT()
                 .$()
                     .$Select()
@@ -1204,7 +1239,8 @@ public class SelectBuilderTest {
                         .$(c("SickLeaveHours"))
                         .$From()
                             .$(t("HumanResources","Employee"),"e1")
-                            .and().and()
+                                .$As("e1")
+                            .and()
                         .and()
                     .$Union_Select()
                         .$(c("BusinessEntityID"))
@@ -1214,7 +1250,7 @@ public class SelectBuilderTest {
                         .$(c("SickLeaveHours"))
                         .$From()
                             .$(t("HumanResources","Employee"),"e2")
-                                .and()
+                                .$As("e2")
                             .and()
                         .and()
                     .and()
@@ -1224,14 +1260,14 @@ public class SelectBuilderTest {
                 .done();
     // @formatter:on
 
-
-//-- Create Gloves table.
-//            SELECT ProductModelID, Name
-//    INTO dbo.Gloves
-//    FROM Production.ProductModel
-//    WHERE ProductModelID IN (3, 4);
-//    GO
     // @formatter:off
+    /**
+     * -- Create Gloves table.
+    SELECT ProductModelID, Name
+    INTO dbo.Gloves
+    FROM Production.ProductModel
+    WHERE ProductModelID IN (3, 4)
+     */
     public Select exampleP1 = SELECT()
                 .$Select()
                     .$(c("ProductModelID"))
@@ -1251,19 +1287,16 @@ public class SelectBuilderTest {
                 .done();
     // @formatter:on
 
-
-//-- Here is the simple union.
-//            USE AdventureWorks2012;
-//    GO
-//    SELECT ProductModelID, Name
-//    FROM Production.ProductModel
-//    WHERE ProductModelID NOT IN (3, 4)
-//    UNION
-//    SELECT ProductModelID, Name
-//    FROM dbo.Gloves
-//    ORDER BY Name;
-//    GO
     // @formatter:off
+    /**
+     * SELECT ProductModelID, Name
+    FROM Production.ProductModel
+    WHERE ProductModelID NOT IN (3, 4)
+    UNION
+    SELECT ProductModelID, Name
+    FROM dbo.Gloves
+    ORDER BY Name
+     */
     public Select exampleP2 = SELECT()
                 .$()
                     .$Select()
@@ -1295,14 +1328,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-
-//-- Create Gloves table.
-//            SELECT ProductModelID, Name
-//    INTO dbo.Gloves
-//    FROM Production.ProductModel
-//    WHERE ProductModelID IN (3, 4);
-//    GO
     // @formatter:off
+    /**
+     * -- Create Gloves table.
+    SELECT ProductModelID, Name
+    INTO dbo.Gloves
+    FROM Production.ProductModel
+    WHERE ProductModelID IN (3, 4)
+     */
     public Select exampleQ1 = SELECT()
                 .$Select()
                     .$(c("ProductModelID"))
@@ -1323,17 +1356,16 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT ProductModelID, Name
-//    INTO dbo.ProductResults
-//    FROM Production.ProductModel
-//    WHERE ProductModelID NOT IN (3, 4)
-//    UNION
-//    SELECT ProductModelID, Name
-//    FROM dbo.Gloves;
-//    GO
     // @formatter:off
+    /**
+     * SELECT ProductModelID, Name
+    INTO dbo.ProductResults
+    FROM Production.ProductModel
+    WHERE ProductModelID NOT IN (3, 4)
+    UNION
+    SELECT ProductModelID, Name
+    FROM dbo.Gloves
+     */
     public Select exampleQ2 = SELECT()
                 .$()
                     .$Select()
@@ -1363,9 +1395,11 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    SELECT ProductModelID, Name
-//    FROM dbo.ProductResults;
     // @formatter:off
+    /**
+     * SELECT ProductModelID, Name
+    FROM dbo.ProductResults
+     */
     public Select exampleQ3 = SELECT()
                 .$Select()
                     .$(c("ProductModelID"))
@@ -1378,13 +1412,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//-- Create Gloves table.
-//            SELECT ProductModelID, Name
-//    INTO dbo.Gloves
-//    FROM Production.ProductModel
-//    WHERE ProductModelID IN (3, 4);
-//    GO
     // @formatter:off
+    /**
+     * -- Create Gloves table.
+    SELECT ProductModelID, Name
+    INTO dbo.Gloves
+    FROM Production.ProductModel
+    WHERE ProductModelID IN (3, 4)
+     */
     public Select exampleR1 = SELECT()
                 .$Select()
                     .$(c("ProductModelID"))
@@ -1449,18 +1484,16 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    /* CORRECT */
-//    USE AdventureWorks2012;
-//    GO
-//    SELECT ProductModelID, Name
-//    FROM Production.ProductModel
-//    WHERE ProductModelID NOT IN (3, 4)
-//    UNION
-//    SELECT ProductModelID, Name
-//    FROM dbo.Gloves
-//    ORDER BY Name;
-//    GO
     // @formatter:off
+    /**
+     * SELECT ProductModelID, Name
+    FROM Production.ProductModel
+    WHERE ProductModelID NOT IN (3, 4)
+    UNION
+    SELECT ProductModelID, Name
+    FROM dbo.Gloves
+    ORDER BY Name
+     */
     public Select exampleR3 = SELECT()
             .$()
                 .$Select()
@@ -1492,13 +1525,14 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    SELECT pp.LastName, pp.FirstName, e.JobTitle
-//    INTO dbo.EmployeeOne
-//    FROM Person.Person AS pp JOIN HumanResources.Employee AS e
-//    ON e.BusinessEntityID = pp.BusinessEntityID
-//    WHERE LastName = 'Johnson';
-//    GO
     // @formatter:off
+    /**
+     * SELECT pp.LastName, pp.FirstName, e.JobTitle
+    INTO dbo.EmployeeOne
+    FROM Person.Person AS pp JOIN HumanResources.Employee AS e
+    ON e.BusinessEntityID = pp.BusinessEntityID
+    WHERE LastName = 'Johnson'
+     */
     public Select exampleS1 = SELECT()
                 .$Select()
                     .$(c("pp","LastName"))
@@ -1507,9 +1541,11 @@ public class SelectBuilderTest {
                     .$Into("dbo.EmployeeOne")
                     .$From()
                         .$()
-                            .$(t("Person","Person"),"pp")
+                            .$(t("Person","Person"))
+                            .$As("pp")
                             .$Join()
-                            .$(t("HumanResources","Employee"),"e")
+                            .$(t("HumanResources","Employee"))
+                            .$As("e")
                             .$On()
                                 .$Predicate(p_equal(
                                         c("e","BusinessEntityID"),
@@ -1529,17 +1565,17 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//-- Union ALL
-//    SELECT LastName, FirstName, JobTitle
-//    FROM dbo.EmployeeOne
-//    UNION ALL
-//    SELECT LastName, FirstName ,JobTitle
-//    FROM dbo.EmployeeTwo
-//    UNION ALL
-//    SELECT LastName, FirstName,JobTitle
-//    FROM dbo.EmployeeThree;
-//    GO
     // @formatter:off
+    /**
+     * SELECT LastName, FirstName, JobTitle
+    FROM dbo.EmployeeOne
+    UNION ALL
+    SELECT LastName, FirstName ,JobTitle
+    FROM dbo.EmployeeTwo
+    UNION ALL
+    SELECT LastName, FirstName,JobTitle
+    FROM dbo.EmployeeThree
+     */
     public Select exampleS4 = SELECT()
             .$()
                 .$Select()
@@ -1571,16 +1607,17 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    SELECT LastName, FirstName,JobTitle
-//    FROM dbo.EmployeeOne
-//            UNION
-//    SELECT LastName, FirstName, JobTitle
-//    FROM dbo.EmployeeTwo
-//            UNION
-//    SELECT LastName, FirstName, JobTitle
-//    FROM dbo.EmployeeThree;
-//    GO
     // @formatter:off
+    /**
+     * SELECT LastName, FirstName,JobTitle
+    FROM dbo.EmployeeOne
+    UNION
+    SELECT LastName, FirstName, JobTitle
+    FROM dbo.EmployeeTwo
+    UNION
+    SELECT LastName, FirstName, JobTitle
+    FROM dbo.EmployeeThree
+     */
     public Select exampleS5 = SELECT()
             .$()
                 .$Select()
@@ -1612,18 +1649,19 @@ public class SelectBuilderTest {
     // @formatter:on
 
 
-//    SELECT LastName, FirstName,JobTitle
-//    FROM dbo.EmployeeOne
-//    UNION ALL
-//            (
-//                    SELECT LastName, FirstName, JobTitle
-//                    FROM dbo.EmployeeTwo
-//                            UNION
-//                            SELECT LastName, FirstName, JobTitle
-//                            FROM dbo.EmployeeThree
-//            );
-//    GO
     // @formatter:off
+    /**
+     * SELECT LastName, FirstName,JobTitle
+    FROM dbo.EmployeeOne
+    UNION ALL
+    (
+    SELECT LastName, FirstName, JobTitle
+    FROM dbo.EmployeeTwo
+    UNION
+    SELECT LastName, FirstName, JobTitle
+    FROM dbo.EmployeeThree
+    )
+     */
     public Select exampleS6 = SELECT()
             .$()
                 .$Select()

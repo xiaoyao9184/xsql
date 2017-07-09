@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.core.variable;
 
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
 import com.xy.xsql.tsql.model.operator.Compound;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -82,7 +83,7 @@ public class SetVariableBuilderTest {
         Assert.assertEquals(setVariable.getExpression().toString(),"10");
 
         Assert.assertEquals(setVariable2.getLocalVariable().toString(),"@NewBalance");
-        Assert.assertEquals(setVariable2.getExpression().getClass(), GroupExpression.class);
+        Assert.assertEquals(setVariable2.getExpression().getClass(), BinaryExpression.class);
 
         Assert.assertEquals(setVariable3.getLocalVariable().toString(),"@NewBalance");
         Assert.assertEquals(setVariable3.getCompound(),Compound.MULTIPLY_EQUALS);
@@ -164,7 +165,7 @@ public class SetVariableBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(setVariable.getLocalVariable().toString(),"@p.X");
-        Assert.assertEquals(setVariable.getExpression().getClass(),GroupExpression.class);
+        Assert.assertEquals(setVariable.getExpression().getClass(),BinaryExpression.class);
     }
 
     /**

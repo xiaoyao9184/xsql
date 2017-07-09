@@ -26,7 +26,7 @@ public class BulkInsertBuilderTest {
           (
              FIELDTERMINATOR =' |',
              ROWTERMINATOR =' |\n'
-          );
+          )
      */
     public BulkInsert exampleA = BULK_INSERT()
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
@@ -66,7 +66,7 @@ public class BulkInsertBuilderTest {
             FIELDTERMINATOR =' |',
             ROWTERMINATOR = ':\n',
             FIRE_TRIGGERS
-          );
+          )
      */
     public BulkInsert exampleB = BULK_INSERT()
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
@@ -103,8 +103,8 @@ public class BulkInsertBuilderTest {
     //parent+quick
     /**
      * BULK INSERT AdventureWorks2012.Sales.SalesOrderDetail
-        FROM ''<drive>:\<path>\<filename>''
-        WITH (ROWTERMINATOR = '''+CHAR(10)+''')
+    FROM ''<drive>:\<path>\<filename>''
+    WITH (ROWTERMINATOR = '''+CHAR(10)+''')
      */
     public BulkInsert exampleC = BULK_INSERT()
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
@@ -135,12 +135,12 @@ public class BulkInsertBuilderTest {
     //parent+quick
     /**
      * BULK INSERT MyTable
-        FROM 'D:\data.csv'
-        WITH
-        ( CODEPAGE = '65001',
-            DATAFILETYPE = 'char',
-            FIELDTERMINATOR = ','
-        )
+    FROM 'D:\data.csv'
+    WITH
+    ( CODEPAGE = '65001',
+        DATAFILETYPE = 'char',
+        FIELDTERMINATOR = ','
+    )
      */
     public BulkInsert exampleD = BULK_INSERT()
             .$(t("MyTable"))
@@ -175,8 +175,8 @@ public class BulkInsertBuilderTest {
     //parent+quick
     /**
      * BULK INSERT Sales.Invoices
-        FROM '\\share\invoices\inv-2016-07-25.csv'
-        WITH (FORMAT = 'CSV');
+    FROM '\\share\invoices\inv-2016-07-25.csv'
+    WITH (FORMAT = 'CSV')
      */
     public BulkInsert exampleE = BULK_INSERT()
             .$(t("Sales","Invoices"))
@@ -207,9 +207,9 @@ public class BulkInsertBuilderTest {
     //parent+quick
     /**
      * BULK INSERT Sales.Invoices
-        FROM 'inv-2017-01-19.csv'
-        WITH (DATA_SOURCE = 'MyAzureInvoices',
-             FORMAT = 'CSV');
+    FROM 'inv-2017-01-19.csv'
+    WITH (DATA_SOURCE = 'MyAzureInvoices',
+         FORMAT = 'CSV')
      */
     public BulkInsert exampleF = BULK_INSERT()
             .$(t("Sales","Invoices"))

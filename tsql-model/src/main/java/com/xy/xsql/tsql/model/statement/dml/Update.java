@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.clause.*;
+import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -93,7 +94,9 @@ public class Update implements Statement {
     private Alias<Void> tableAlias;
     //<object>
     private TableName tableName;
-    //TODO rowset_function_limited [ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+    //TODO rowset_function_limited
+    //[ WITH ( <Table_Hint_Limited> [ ...n ] ) ]
+    private List<TableHintLimited> tableHintLimitedList;
     //TODO @table_variable
 
     //SET
@@ -139,6 +142,14 @@ public class Update implements Statement {
 
     public void setTableName(TableName tableName) {
         this.tableName = tableName;
+    }
+
+    public List<TableHintLimited> getTableHintLimitedList() {
+        return tableHintLimitedList;
+    }
+
+    public void setTableHintLimitedList(List<TableHintLimited> tableHintLimitedList) {
+        this.tableHintLimitedList = tableHintLimitedList;
     }
 
     public List<SetItem> getSets() {

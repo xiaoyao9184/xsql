@@ -46,8 +46,8 @@ public class TruncateTableConverterTest {
 
         model2StringMap.put(
                 builderTest.exampleB,
-                "TRUNCATE TABLE PartitionTable1\n" +
-                        "     WITH (PARTITIONS (2, 4, 6 TO 8))");
+                "TRUNCATE TABLE PartitionTable1   \n" +
+                        "    WITH (PARTITIONS (2, 4, 6 TO 8))");
     }
 
     @SuppressWarnings("Duplicates")

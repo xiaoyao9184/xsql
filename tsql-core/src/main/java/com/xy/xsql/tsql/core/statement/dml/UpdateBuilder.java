@@ -5,6 +5,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.core.clause.*;
 import com.xy.xsql.tsql.model.clause.*;
+import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -21,8 +22,10 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
+ * UpdateBuilder
  * Created by xiaoyao9184 on 2017/1/7.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class UpdateBuilder extends CodeBuilder<Update> {
 
     public UpdateBuilder(Update tar) {
@@ -35,8 +38,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
 
     /**
-     *
-     * @return
+     * in
+     * @return WithBuilder
      */
     public WithBuilder<UpdateBuilder> withWith(){
         return new WithBuilder<UpdateBuilder>
@@ -47,8 +50,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return TopBuilder
      */
     public TopBuilder<UpdateBuilder> withTop(){
         return new TopBuilder<UpdateBuilder>
@@ -59,9 +62,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @param tableAlias
-     * @return
+     * set
+     * @param tableAlias TableAlias
+     * @return THIS
      */
     public UpdateBuilder withTableAlias(String tableAlias){
         target.setTableAlias(new Alias<>(tableAlias));
@@ -69,8 +72,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @return
+     * set
+     * @param tableName TableName
+     * @return THIS
      */
     public UpdateBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
@@ -78,31 +82,30 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @param tableName
-     * @return
+     * set
+     * @param tableName TableName
+     * @return THIS
      */
     public UpdateBuilder withTableName(String tableName){
         target.setTableName(new TableName(tableName));
         return this;
     }
 
-//    /**
-//     *
-//     * @return
-//     */
-//    @Deprecated
-//    public SetListBuilder<UpdateBuilder> withSetList(){
-//        List<Update.SetItem> setList = new ArrayList<>();
-//        target.setSets(setList);
-//        return new SetListBuilder<UpdateBuilder>
-//                (setList)
-//                .in(this);
-//    }
+    /**
+     * set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
+    public UpdateBuilder withTableHint(TableHintLimited... tableHintLimiteds){
+        initAdd(Arrays.asList(tableHintLimiteds),
+                target::getTableHintLimitedList,
+                target::setTableHintLimitedList);
+        return this;
+    }
 
     /**
-     *
-     * @return
+     * in
+     * @return SetItemBuilder
      */
     public SetItemBuilder<UpdateBuilder> withSetItem(){
         initList(target::getSets,
@@ -113,8 +116,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return OutputBuilder
      */
     public OutputBuilder<UpdateBuilder> withOutput() {
         return new OutputBuilder<UpdateBuilder>
@@ -125,8 +128,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return FromBuilder
      */
     public FromBuilder<UpdateBuilder> withFrom() {
         return new FromBuilder<UpdateBuilder>
@@ -137,8 +140,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return WhereBuilder
      */
     public WhereBuilder<UpdateBuilder> withWhere() {
         return new WhereBuilder<UpdateBuilder>
@@ -149,8 +152,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return OptionBuilder
      */
     public OptionBuilder<UpdateBuilder> withOption() {
         return new OptionBuilder<UpdateBuilder>
@@ -162,10 +165,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
 
 
+    /*
+    Quick
+     */
 
     /**
-     *
-     * @return
+     * Quick
+     * @return UpdateBuilder
      */
     public static UpdateBuilder UPDATE(){
         return new UpdateBuilder();
@@ -173,15 +179,25 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
     /**
      * Quick set
-     * @return
+     * @param with With
+     * @return THIS
      */
-    public WithBuilder<UpdateBuilder> With(){
+    public UpdateBuilder $With(With with){
+        target.setWith(with);
+        return this;
+    }
+
+    /**
+     * Quick in
+     * @return WithBuilder
+     */
+    public WithBuilder<UpdateBuilder> $With() {
         return withWith();
     }
 
     /**
-     * Quick set
-     * @return
+     * Quick in
+     * @return TopBuilder
      */
     public TopBuilder<UpdateBuilder> $Top(){
         return withTop();
@@ -189,7 +205,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
     /**
      * Quick set
-     * @return
+     * @param tableAlias TableAlias
+     * @return THIS
      */
     public UpdateBuilder $(String tableAlias){
         return withTableAlias(tableAlias);
@@ -197,24 +214,34 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
     /**
      * Quick set
-     * @return
+     * @param tableName TableName
+     * @return THIS
      */
     public UpdateBuilder $(TableName tableName){
         return withTableName(tableName);
     }
 
-//    /**
-//     * Quick set
-//     * @return
-//     */
-//    @Deprecated
-//    public SetListBuilder<UpdateBuilder> $Set(){
-//        return withSetList();
-//    }
+    /**
+     * Quick set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
+    public UpdateBuilder $With(TableHintLimited... tableHintLimiteds){
+        return withTableHint(tableHintLimiteds);
+    }
+
+    /**
+     * Quick in
+     * @return SetItemBuilder
+     */
+    public SetItemBuilder<UpdateBuilder> $Set(){
+        return withSetItem();
+    }
 
     /**
      * Quick set
-     * @return
+     * @param items SetItem
+     * @return THIS
      */
     public UpdateBuilder $Set(Update.SetItem... items){
         if(CheckUtil.isNullOrEmpty(items)){
@@ -227,104 +254,38 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
     /**
-     * Quick set
-     * @return
+     * Quick in
+     * @return OutputBuilder
      */
     public OutputBuilder<UpdateBuilder> $Output(){
         return withOutput();
     }
 
     /**
-     * Quick set
-     * @return
+     * Quick in
+     * @return FromBuilder
      */
     public FromBuilder<UpdateBuilder> $From(){
         return withFrom();
     }
 
     /**
-     * Quick set
-     * @return
+     * Quick in
+     * @return WhereBuilder
      */
     public WhereBuilder<UpdateBuilder> $Where(){
         return withWhere();
     }
 
     /**
-     * Quick set
-     * @return
+     * Quick in
+     * @return OptionBuilder
      */
     public OptionBuilder<UpdateBuilder> $Option(){
         return withOption();
     }
 
 
-
-
-
-//    /**
-//     *
-//     * @param <ParentBuilder>
-//     */
-//    public static class SetListBuilder<ParentBuilder>
-//            extends CodeTreeBuilder<SetListBuilder<ParentBuilder>,ParentBuilder,List<Update.Set>> {
-//
-//        public SetListBuilder(List<Update.Set> setList) {
-//            super(setList);
-//        }
-//
-//        public SetBuilder<SetListBuilder<ParentBuilder>> withItem(){
-//            Update.Set set = new Update.Set();
-//            if(target == null){
-//                target = new ArrayList<>();
-//            }
-//            target.add(set);
-//            return new SetBuilder<SetListBuilder<ParentBuilder>>
-//                    (initSet(Update.Set::new,
-//                            target::add))
-//                    .in(this);
-//        }
-//
-//        public SetListBuilder<ParentBuilder> $(GroupExpression groupExpression) {
-//
-//        }
-//
-//        public SetBuilder<SetListBuilder<ParentBuilder>> $() {
-//            return withItem();
-//        }
-//    }
-//
-//    /**
-//     *
-//     * @param <ParentBuilder>
-//     */
-//    public static class SetBuilder<ParentBuilder>
-//            extends CodeTreeBuilder<SetBuilder<ParentBuilder>,ParentBuilder,Update.Set> {
-//
-//        public SetBuilder(Update.Set set) {
-//            super(set);
-//        }
-//
-//        public SetBuilder<ParentBuilder> withColumnName(ColumnName column){
-//            target.setColumnName(column);
-//            return this;
-//        }
-//
-//        public SetBuilder<ParentBuilder> withColumnName(String columnName) {
-//            target.setColumnName(new ColumnName(columnName));
-//            return this;
-//        }
-//
-//        public SetBuilder<ParentBuilder> withExpression(Expression expression){
-//            target.setExpression(expression);
-//            return this;
-//        }
-//
-//        public SetBuilder<ParentBuilder> withUseNull(boolean useNull){
-//            target.setUseNull(useNull);
-//            return this;
-//        }
-//    }
 
 
     /**
@@ -340,6 +301,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
 
+        /**
+         * select in
+         * @return ColumnAssignmentSetBuilder
+         */
         public ColumnAssignmentSetBuilder<ParentBuilder> _ColumnAssignment(){
             Update.ColumnAssignmentSet setItem = new Update.ColumnAssignmentSet();
             target.set(setItem);
@@ -348,6 +313,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                     .in(out());
         }
 
+        /**
+         * select in
+         * @return VariableAssignmentSetBuilder
+         */
         public VariableAssignmentSetBuilder<ParentBuilder> _VariableAssignment(){
             Update.VariableAssignmentSet setItem = new Update.VariableAssignmentSet();
             target.set(setItem);
@@ -356,6 +325,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                     .in(out());
         }
 
+        /**
+         * select in
+         * @return VariableColumnAssignmentSetBuilder
+         */
         public VariableColumnAssignmentSetBuilder<ParentBuilder> _VariableColumnAssignment(){
             Update.VariableColumnAssignmentSet setItem = new Update.VariableColumnAssignmentSet();
             target.set(setItem);
@@ -364,6 +337,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                     .in(out());
         }
 
+        /**
+         * select in
+         * @return ColumnCompoundSetBuilder
+         */
         public ColumnCompoundSetBuilder<ParentBuilder> _ColumnCompound(){
             Update.ColumnCompoundSet setItem = new Update.ColumnCompoundSet();
             target.set(setItem);
@@ -372,6 +349,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                     .in(out());
         }
 
+        /**
+         * select in
+         * @return VariableCompoundSetBuilder
+         */
         public VariableCompoundSetBuilder<ParentBuilder> _VariableCompound(){
             Update.VariableCompoundSet setItem = new Update.VariableCompoundSet();
             target.set(setItem);
@@ -380,6 +361,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                     .in(out());
         }
 
+        /**
+         * select in
+         * @return VariableColumnCompoundSetBuilder
+         */
         public VariableColumnCompoundSetBuilder<ParentBuilder> _VariableColumnCompound(){
             Update.VariableColumnCompoundSet setItem = new Update.VariableColumnCompoundSet();
             target.set(setItem);
@@ -390,9 +375,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
 
         /**
-         * ColumnAssignment SetItem
-         * @param columnName
-         * @return
+         * Quick build
+         * @param columnName ColumnName
+         * @return ColumnAssignment SetItem
          */
         public static Update.SetItem s_default(ColumnName columnName){
             return new ColumnAssignmentSetBuilder<Void>()
@@ -402,9 +387,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         /**
-         * ColumnAssignment SetItem
-         * @param columnName
-         * @return
+         * Quick build
+         * @param columnName ColumnName
+         * @return ColumnAssignment SetItem
          */
         public static Update.SetItem s_null(ColumnName columnName){
             return new ColumnAssignmentSetBuilder<Void>()
@@ -414,10 +399,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         /**
-         * ColumnAssignment SetItem
-         * @param columnName
-         * @param expression
-         * @return
+         * Quick build
+         * @param columnName ColumnName
+         * @param expression Expression
+         * @return ColumnAssignment SetItem
          */
         public static Update.SetItem s(ColumnName columnName, Expression expression){
             return new ColumnAssignmentSetBuilder<Void>()
@@ -427,10 +412,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         /**
-         * Variable Assignment SetItem
-         * @param variable
-         * @param expression
-         * @return
+         * Quick build
+         * @param variable LocalVariable
+         * @param expression Expression
+         * @return Variable Assignment SetItem
          */
         public static Update.SetItem s(LocalVariable variable, Expression expression){
             return new VariableAssignmentSetBuilder<Void>()
@@ -440,11 +425,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         /**
-         * VariableColumnAssignment SetItem
-         * @param variable
-         * @param columnName
-         * @param expression
-         * @return
+         * Quick build
+         * @param variable LocalVariable
+         * @param columnName ColumnName
+         * @param expression Expression
+         * @return VariableColumnAssignment SetItem
          */
         public static Update.SetItem s(LocalVariable variable, ColumnName columnName, Expression expression){
             return new VariableColumnAssignmentSetBuilder<Void>()
@@ -455,11 +440,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         /**
-         * ColumnCompound SetItem
-         * @param columnName
-         * @param compound
-         * @param expression
-         * @return
+         * Quick build
+         * @param columnName ColumnName
+         * @param compound Compound
+         * @param expression Expression
+         * @return ColumnCompound SetItem
          */
         public static Update.SetItem s(ColumnName columnName, Compound compound, Expression expression){
             return new ColumnCompoundSetBuilder<Void>()
@@ -470,11 +455,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         /**
-         * VariableCompound SetItem
-         * @param variable
-         * @param compound
-         * @param expression
-         * @return
+         * Quick build
+         * @param variable LocalVariable
+         * @param compound Compound
+         * @param expression Expression
+         * @return VariableCompound SetItem
          */
         public static Update.SetItem s(LocalVariable variable, Compound compound, Expression expression){
             return new VariableCompoundSetBuilder<Void>()
@@ -485,12 +470,12 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
         /**
-         * VariableColumnCompound SetItem
-         * @param variable
-         * @param columnName
-         * @param compound
-         * @param expression
-         * @return
+         * Quick build
+         * @param variable LocalVariable
+         * @param columnName ColumnName
+         * @param compound Compound
+         * @param expression Expression
+         * @return VariableColumnCompound SetItem
          */
         public static Update.SetItem s(LocalVariable variable, ColumnName columnName, Compound compound, Expression expression){
             return new VariableColumnCompoundSetBuilder<Void>()
@@ -504,6 +489,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
 
+    /**
+     * ColumnAssignmentSetBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class ColumnAssignmentSetBuilder<ParentBuilder>
             extends CodeTreeBuilder<ColumnAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.ColumnAssignmentSet> {
 
@@ -515,27 +505,57 @@ public class UpdateBuilder extends CodeBuilder<Update> {
             super(new Update.ColumnAssignmentSet());
         }
 
+        /**
+         * set
+         * @param column ColumnName
+         * @return THIS
+         */
         public ColumnAssignmentSetBuilder<ParentBuilder> withColumnName(ColumnName column){
             target.setColumnName(column);
             return this;
         }
 
+        /**
+         * set
+         * @param expression Expression
+         * @return THIS
+         */
         public ColumnAssignmentSetBuilder<ParentBuilder> withExpression(Expression expression){
             target.setExpression(expression);
             return this;
         }
 
+        /**
+         * set
+         * @param useNull UseNull
+         * @return THIS
+         */
         public ColumnAssignmentSetBuilder<ParentBuilder> withUseNull(boolean useNull){
             target.setUseNull(useNull);
             return this;
         }
 
+        /**
+         * set
+         * @param useDefault UseDefault
+         * @return THIS
+         */
         public ColumnAssignmentSetBuilder<ParentBuilder> withUseDefault(boolean useDefault){
             target.setUseDefault(useDefault);
             return this;
         }
+
+        /**
+         * Quick
+         * All in {@link SetItemBuilder}
+         */
     }
 
+    /**
+     * VariableAssignmentSetBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableAssignmentSetBuilder<ParentBuilder>
             extends CodeTreeBuilder<VariableAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableAssignmentSet> {
 
@@ -547,18 +567,38 @@ public class UpdateBuilder extends CodeBuilder<Update> {
             super(new Update.VariableAssignmentSet());
         }
 
+        /**
+         * set
+         * @param variable LocalVariable
+         * @return THIS
+         */
         public VariableAssignmentSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
             target.setVariable(variable);
             return this;
         }
 
+        /**
+         * set
+         * @param expression Expression
+         * @return THIS
+         */
         public VariableAssignmentSetBuilder<ParentBuilder> withExpression(Expression expression){
             target.setExpression(expression);
             return this;
         }
 
+        /**
+         * Quick
+         * All in {@link SetItemBuilder}
+         */
+
     }
 
+    /**
+     * VariableColumnAssignmentSetBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableColumnAssignmentSetBuilder<ParentBuilder>
             extends CodeTreeBuilder<VariableColumnAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableColumnAssignmentSet> {
 
@@ -570,23 +610,48 @@ public class UpdateBuilder extends CodeBuilder<Update> {
             super(new Update.VariableColumnAssignmentSet());
         }
 
+        /**
+         * set
+         * @param variable LocalVariable
+         * @return THIS
+         */
         public VariableColumnAssignmentSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
             target.setVariable(variable);
             return this;
         }
 
+        /**
+         * set
+         * @param column ColumnName
+         * @return THIS
+         */
         public VariableColumnAssignmentSetBuilder<ParentBuilder> withColumnName(ColumnName column){
             target.setColumnName(column);
             return this;
         }
 
+        /**
+         * set
+         * @param expression Expression
+         * @return THIS
+         */
         public VariableColumnAssignmentSetBuilder<ParentBuilder> withExpression(Expression expression){
             target.setExpression(expression);
             return this;
         }
 
+        /**
+         * Quick
+         * All in {@link SetItemBuilder}
+         */
+
     }
 
+    /**
+     * ColumnCompoundSetBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class ColumnCompoundSetBuilder<ParentBuilder>
             extends CodeTreeBuilder<ColumnCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.ColumnCompoundSet> {
 
@@ -598,23 +663,48 @@ public class UpdateBuilder extends CodeBuilder<Update> {
             super(new Update.ColumnCompoundSet());
         }
 
+        /**
+         * set
+         * @param column ColumnName
+         * @return THIS
+         */
         public ColumnCompoundSetBuilder<ParentBuilder> withColumnName(ColumnName column){
             target.setColumnName(column);
             return this;
         }
 
+        /**
+         * set
+         * @param compound Compound
+         * @return THIS
+         */
         public ColumnCompoundSetBuilder<ParentBuilder> withCompound(Compound compound){
             target.setCompound(compound);
             return this;
         }
 
+        /**
+         * set
+         * @param expression Expression
+         * @return THIS
+         */
         public ColumnCompoundSetBuilder<ParentBuilder> withExpression(Expression expression){
             target.setExpression(expression);
             return this;
         }
 
+        /**
+         * Quick
+         * All in {@link SetItemBuilder}
+         */
+
     }
 
+    /**
+     * VariableCompoundSetBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableCompoundSetBuilder<ParentBuilder>
             extends CodeTreeBuilder<VariableCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableCompoundSet> {
 
@@ -626,23 +716,48 @@ public class UpdateBuilder extends CodeBuilder<Update> {
             super(new Update.VariableColumnCompoundSet());
         }
 
+        /**
+         * set
+         * @param variable LocalVariable
+         * @return THIS
+         */
         public VariableCompoundSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
             target.setVariable(variable);
             return this;
         }
 
+        /**
+         * set
+         * @param compound Compound
+         * @return THIS
+         */
         public VariableCompoundSetBuilder<ParentBuilder> withCompound(Compound compound){
             target.setCompound(compound);
             return this;
         }
 
+        /**
+         * set
+         * @param expression Expression
+         * @return THIS
+         */
         public VariableCompoundSetBuilder<ParentBuilder> withExpression(Expression expression){
             target.setExpression(expression);
             return this;
         }
 
+        /**
+         * Quick
+         * All in {@link SetItemBuilder}
+         */
+
     }
 
+    /**
+     * VariableColumnCompoundSetBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableColumnCompoundSetBuilder<ParentBuilder>
             extends CodeTreeBuilder<VariableColumnCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableColumnCompoundSet> {
 
@@ -654,25 +769,50 @@ public class UpdateBuilder extends CodeBuilder<Update> {
             super(new Update.VariableColumnCompoundSet());
         }
 
+        /**
+         * set
+         * @param variable LocalVariable
+         * @return THIS
+         */
         public VariableColumnCompoundSetBuilder<ParentBuilder> withVariable(LocalVariable variable){
             target.setVariable(variable);
             return this;
         }
 
+        /**
+         * set
+         * @param columnName ColumnName
+         * @return THIS
+         */
         public VariableColumnCompoundSetBuilder<ParentBuilder> withColumnName(ColumnName columnName){
             target.setColumnName(columnName);
             return this;
         }
 
+        /**
+         * set
+         * @param compound Compound
+         * @return THIS
+         */
         public VariableColumnCompoundSetBuilder<ParentBuilder> withCompound(Compound compound){
             target.setCompound(compound);
             return this;
         }
 
+        /**
+         * set
+         * @param expression Expression
+         * @return THIS
+         */
         public VariableColumnCompoundSetBuilder<ParentBuilder> withExpression(Expression expression){
             target.setExpression(expression);
             return this;
         }
+
+        /**
+         * Quick
+         * All in {@link SetItemBuilder}
+         */
 
     }
 

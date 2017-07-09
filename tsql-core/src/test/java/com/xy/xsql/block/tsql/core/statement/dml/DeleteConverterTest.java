@@ -32,8 +32,9 @@ public class DeleteConverterTest {
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
                         "[ FROM ]\n" +
                         "{\n" +
-                        "table_alias\n" +
+                        "{ table_alias\n" +
                         "| <object>\n" +
+                        "[ WITH ( table_hint_limited [...n] ) ] }\n" +
                         "}\n" +
                         "[ <OUTPUT Clause> ]\n" +
                         "[ FROM table_source [ ,...n ] ]\n" +
@@ -55,93 +56,137 @@ public class DeleteConverterTest {
         model2StringMap.put(
                 builderTest.exampleB1,
                 "DELETE FROM Production.ProductCostHistory\n" +
-                        "     WHERE StandardCost > 1000.0");
+                        "    WHERE StandardCost > 1000.0");
+//                "DELETE FROM Production.ProductCostHistory\n" +
+//                        "    WHERE StandardCost > 1000.00");
 
         model2StringMap.put(
                 builderTest.exampleB2,
-                "DELETE FROM Production.ProductCostHistory\n" +
-                        "     WHERE StandardCost BETWEEN 12.0 AND 14.0\n" +
-                        "     AND EndDate IS NULL");
+                "DELETE Production.ProductCostHistory\n" +
+                        "    WHERE StandardCost BETWEEN 12.0 AND 14.0\n" +
+                        "          AND EndDate IS NULL");
+//                "DELETE Production.ProductCostHistory\n" +
+//                        "    WHERE StandardCost BETWEEN 12.00 AND 14.00\n" +
+//                        "          AND EndDate IS NULL");
 
         //TODO support CURRENT OF
 //        model2StringMap.put(
 //                builderTest.exampleC,
-//                "DELETE FROM HumanResources.EmployeePayHistory\n" +
-//                        "     WHERE CURRENT OF complex_cursor");
+//                "DELETE FROM HumanResources.EmployeePayHistory  \n" +
+//                        "    WHERE CURRENT OF complex_cursor");
 
         model2StringMap.put(
                 builderTest.exampleD1,
                 "DELETE FROM Sales.SalesPersonQuotaHistory\n" +
-                        "         WHERE BusinessEntityID IN\n" +
-                        "         (SELECT BusinessEntityID\n" +
-                        "         FROM Sales.SalesPerson\n" +
-                        "         WHERE SalesYTD > 2500000.0)");
+                        "     WHERE BusinessEntityID IN\n" +
+                        "     (SELECT BusinessEntityID\n" +
+                        "     FROM Sales.SalesPerson\n" +
+                        "     WHERE SalesYTD > 2500000.0)");
 //                "DELETE FROM Sales.SalesPersonQuotaHistory\n" +
-//                        "         WHERE BusinessEntityID IN\n" +
-//                        "         (SELECT BusinessEntityID\n" +
-//                        "         FROM Sales.SalesPerson\n" +
-//                        "         WHERE SalesYTD > 2500000.00)");
+//                        "     WHERE BusinessEntityID IN\n" +
+//                        "     (SELECT BusinessEntityID\n" +
+//                        "     FROM Sales.SalesPerson\n" +
+//                        "     WHERE SalesYTD > 2500000.00)");
 
         model2StringMap.put(
                 builderTest.exampleD2,
-                "DELETE FROM Sales.SalesPersonQuotaHistory\n" +
-                        "        FROM Sales.SalesPersonQuotaHistory AS spqh\n" +
-                        "        INNER JOIN Sales.SalesPerson AS sp\n" +
-                        "        ON spqh.BusinessEntityID = sp.BusinessEntityID\n" +
-                        "        WHERE sp.SalesYTD > 2500000.0");
-//                "DELETE FROM Sales.SalesPersonQuotaHistory\n" +
-//                        "        FROM Sales.SalesPersonQuotaHistory AS spqh\n" +
-//                        "        INNER JOIN Sales.SalesPerson AS sp\n" +
-//                        "        ON spqh.BusinessEntityID = sp.BusinessEntityID\n" +
-//                        "        WHERE sp.SalesYTD > 2500000.00");
+                "DELETE FROM Sales.SalesPersonQuotaHistory   \n" +
+                        "    FROM Sales.SalesPersonQuotaHistory AS spqh  \n" +
+                        "    INNER JOIN Sales.SalesPerson AS sp  \n" +
+                        "    ON spqh.BusinessEntityID = sp.BusinessEntityID  \n" +
+                        "    WHERE sp.SalesYTD > 2500000.0");
+//                "DELETE FROM Sales.SalesPersonQuotaHistory   \n" +
+//                        "    FROM Sales.SalesPersonQuotaHistory AS spqh  \n" +
+//                        "    INNER JOIN Sales.SalesPerson AS sp  \n" +
+//                        "    ON spqh.BusinessEntityID = sp.BusinessEntityID  \n" +
+//                        "    WHERE sp.SalesYTD > 2500000.00");
 
         model2StringMap.put(
                 builderTest.exampleD3,
-                "DELETE spqh\n" +
-                        "      FROM\n" +
-                        "            Sales.SalesPersonQuotaHistory AS spqh\n" +
-                        "        INNER JOIN Sales.SalesPerson AS sp\n" +
-                        "            ON spqh.BusinessEntityID = sp.BusinessEntityID\n" +
+                "DELETE spqh  \n" +
+                        "      FROM  \n" +
+                        "            Sales.SalesPersonQuotaHistory AS spqh  \n" +
+                        "        INNER JOIN Sales.SalesPerson AS sp  \n" +
+                        "            ON spqh.BusinessEntityID = sp.BusinessEntityID  \n" +
                         "      WHERE  sp.SalesYTD > 2500000.0");
-//                "DELETE spqh\n" +
-//                        "      FROM\n" +
-//                        "            Sales.SalesPersonQuotaHistory AS spqh\n" +
-//                        "        INNER JOIN Sales.SalesPerson AS sp\n" +
-//                        "            ON spqh.BusinessEntityID = sp.BusinessEntityID\n" +
+//                "DELETE spqh  \n" +
+//                        "      FROM  \n" +
+//                        "            Sales.SalesPersonQuotaHistory AS spqh  \n" +
+//                        "        INNER JOIN Sales.SalesPerson AS sp  \n" +
+//                        "            ON spqh.BusinessEntityID = sp.BusinessEntityID  \n" +
 //                        "      WHERE  sp.SalesYTD > 2500000.00");
 
         model2StringMap.put(
                 builderTest.exampleE1,
                 "DELETE TOP (20)\n" +
-                        "     FROM Purchasing.PurchaseOrderDetail\n" +
-                        "     WHERE DueDate < '20020701'");
+                        "    FROM Purchasing.PurchaseOrderDetail\n" +
+                        "    WHERE DueDate < '20020701'");
 
+        /*
+        Top ()
+         */
         model2StringMap.put(
                 builderTest.exampleE2,
                 "DELETE FROM Purchasing.PurchaseOrderDetail\n" +
                         "     WHERE PurchaseOrderDetailID IN\n" +
-                        "     (SELECT TOP (10) PurchaseOrderDetailID\n" +
-                        "     FROM Purchasing.PurchaseOrderDetail\n" +
-                        "     ORDER BY DueDate ASC)");
+                        "         (SELECT TOP (10) PurchaseOrderDetailID\n" +
+                        "         FROM Purchasing.PurchaseOrderDetail\n" +
+                        "         ORDER BY DueDate ASC)");
+//                "DELETE FROM Purchasing.PurchaseOrderDetail\n" +
+//                        "     WHERE PurchaseOrderDetailID IN\n" +
+//                        "         (SELECT TOP 10 PurchaseOrderDetailID\n" +
+//                        "         FROM Purchasing.PurchaseOrderDetail\n" +
+//                        "         ORDER BY DueDate ASC)");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "DELETE MyLinkServer.AdventureWorks2012.HumanResources.Department\n" +
+                        "        WHERE DepartmentID > 16");
+
+//        model2StringMap.put(
+//                builderTest.exampleG,
+//                "DELETE OPENQUERY (MyLinkServer, 'SELECT Name, GroupName \n" +
+//                        "    FROM AdventureWorks2012.HumanResources.Department  \n" +
+//                        "    WHERE DepartmentID = 18')");
+
+//        model2StringMap.put(
+//                builderTest.exampleH,
+//                "DELETE FROM OPENDATASOURCE('SQLNCLI',\n" +
+//                        "        'Data Source= <server_name>; Integrated Security=SSPI')\n" +
+//                        "        .AdventureWorks2012.HumanResources.Department\n" +
+//                        "    WHERE DepartmentID = 17;'");
 
         model2StringMap.put(
                 builderTest.exampleI,
                 "DELETE Sales.ShoppingCartItem\n" +
-                        "     OUTPUT DELETED.*\n" +
-                        "     WHERE ShoppingCartID = 20621");
+                        "    OUTPUT DELETED.*\n" +
+                        "    WHERE ShoppingCartID = 20621");
 
+        /*
+          Case ignored
+         */
         model2StringMap.put(
                 builderTest.exampleJ,
                 "DELETE Production.ProductProductPhoto\n" +
-                        "     OUTPUT DELETED.ProductID,\n" +
-                        "     p.Name,\n" +
-                        "     p.ProductModelID,\n" +
-                        "     DELETED.ProductPhotoID\n" +
-                        "     INTO @MyTableVar\n" +
-                        "     FROM Production.ProductProductPhoto ph\n" +
-                        "     JOIN Production.Product p\n" +
-                        "     ON ph.ProductID = p.ProductID\n" +
-                        "     WHERE p.ProductModelID BETWEEN 120 AND 130");
+                        "    OUTPUT DELETED.ProductID,\n" +
+                        "           p.Name,\n" +
+                        "           p.ProductModelID,\n" +
+                        "           DELETED.ProductPhotoID\n" +
+                        "        INTO @MyTableVar\n" +
+                        "    FROM Production.ProductProductPhoto AS ph\n" +
+                        "    JOIN Production.Product AS p\n" +
+                        "        ON ph.ProductID = p.ProductID\n" +
+                        "        WHERE p.ProductModelID BETWEEN 120 AND 130");
+//                "DELETE Production.ProductProductPhoto\n" +
+//                        "    OUTPUT DELETED.ProductID,\n" +
+//                        "           p.Name,\n" +
+//                        "           p.ProductModelID,\n" +
+//                        "           DELETED.ProductPhotoID\n" +
+//                        "        INTO @MyTableVar\n" +
+//                        "    FROM Production.ProductProductPhoto AS ph\n" +
+//                        "    JOIN Production.Product as p\n" +
+//                        "        ON ph.ProductID = p.ProductID\n" +
+//                        "        WHERE p.ProductModelID BETWEEN 120 and 130");
 
 
     }

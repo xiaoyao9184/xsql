@@ -32,7 +32,7 @@ public class MergeConverterTest {
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
                         "[ INTO ]\n" +
                         "<target_table>\n" +
-                        "[ with ]\n" +
+                        "[ WITH ( <merge_hint> ) ]\n" +
                         "[ as table_alias ]\n" +
                         "USING\n" +
                         "<table_source>\n" +

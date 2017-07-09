@@ -2,6 +2,8 @@ package com.xy.xsql.tsql.model.datatype;
 
 import com.xy.xsql.tsql.model.expression.Expression;
 
+import java.text.DecimalFormat;
+
 /**
  * bit constants
  * integer constants
@@ -73,17 +75,40 @@ public class NumberConstant implements Constant, Expression {
 
     @Override
     public String toString(){
+        StringBuilder sb = new StringBuilder();
+
         if(flagMoney){
-            return "$" + number.toString();
-        }else{
-            if(unsigned && number.intValue() < 0){
-                return String.valueOf(-number.intValue());
-            }
-            if(integer){
-                return String.valueOf(number.intValue());
+            sb.append("$");
+        }
+        if(integer){
+            number = number.intValue();
+        }
+
+        if(unsigned){
+            if(number instanceof Integer){
+                number = Math.abs(number.intValue());
+            }else if(number instanceof Short){
+                number = Math.abs(number.shortValue());
+            }else if(number instanceof Long){
+                number = Math.abs(number.longValue());
+            }else if(number instanceof Float){
+                number = Math.abs(number.floatValue());
+            }else if(number instanceof Double){
+                number = Math.abs(number.doubleValue());
             }
         }
-        return number.toString();
+
+
+//        if(number instanceof Float ||
+//                number instanceof Double){
+//            DecimalFormat df = new DecimalFormat("0.00");
+//            sb.append(df.format(number));
+//        }else{
+//            sb.append(number);
+//        }
+        sb.append(number);
+
+        return sb.toString();
     }
 
 }

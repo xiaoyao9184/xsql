@@ -40,7 +40,7 @@ public class InsertBuilderTest {
     //parent+quick
     /**
      * INSERT INTO Production.UnitMeasure
-    VALUES (N'FT', N'Feet', '20080414');
+    VALUES (N'FT', N'Feet', '20080414')
      */
     public Insert exampleA = INSERT()
                 .$Into()
@@ -79,7 +79,7 @@ public class InsertBuilderTest {
     /**
      * INSERT INTO Production.UnitMeasure
     VALUES (N'FT2', N'Square Feet ', '20080923'), (N'Y', N'Yards', '20080923')
-        , (N'Y3', N'Cubic Yards', '20080923');
+        , (N'Y3', N'Cubic Yards', '20080923')
      */
     public Insert exampleB = INSERT()
                 .$Into()
@@ -132,7 +132,7 @@ public class InsertBuilderTest {
     /**
      * INSERT INTO Production.UnitMeasure (Name, UnitMeasureCode,
         ModifiedDate)
-    VALUES (N'Square Yards', N'Y2', GETDATE());
+    VALUES (N'Square Yards', N'Y2', GETDATE())
      */
     public Insert exampleC = INSERT()
                 .$Into()
@@ -191,9 +191,13 @@ public class InsertBuilderTest {
             .$(t("dbo","T1"))
             .$(c("column_4"))
             .$Values()
-            .$(e_string("Explicit value"))
-            .and()
+                .$(e_string("Explicit value"))
+                .and()
             .done();
+    // @formatter:on
+
+
+    // @formatter:off
     /**
      * IINSERT INTO dbo.T1 (column_2, column_4)
         VALUES ('Explicit value', 'Explicit value')
@@ -203,10 +207,13 @@ public class InsertBuilderTest {
             .$(t("dbo","T1"))
             .$(c("column_2"),c("column_4"))
             .$Values()
-            .$(e_string("Explicit value"),e_string("Explicit value"))
-            .and()
+                .$(e_string("Explicit value"),e_string("Explicit value"))
+                .and()
             .done();
+    // @formatter:on
 
+
+    // @formatter:off
     /**
      * INSERT INTO dbo.T1 (column_2)
         VALUES ('Explicit value')
@@ -216,10 +223,13 @@ public class InsertBuilderTest {
             .$(t("dbo","T1"))
             .$(c("column_2"))
             .$Values()
-            .$(e_string("Explicit value"))
-            .and()
+                .$(e_string("Explicit value"))
+                .and()
             .done();
+    // @formatter:on
 
+
+    // @formatter:off
     /**
      * INSERT INTO T1 DEFAULT VALUES
      */
@@ -310,18 +320,24 @@ public class InsertBuilderTest {
                 .$(e_string("Row #1"))
                 .and()
             .done();
+    // @formatter:on
+
+
+    // @formatter:off
     /**
      * INSERT T1 (column_2) VALUES ('Row #2')
      */
     public Insert exampleE2 = INSERT()
-            .$Into()
             .$(t("T1"))
             .$(c("column_2"))
             .$Values()
                 .$(e_string("Row #2"))
                 .and()
             .done();
+    // @formatter:on
 
+
+    // @formatter:off
     /**
      * INSERT INTO T1 (column_1,column_2)
     VALUES (-99, 'Explicit identity value')
@@ -351,6 +367,10 @@ public class InsertBuilderTest {
                 .$(e("NEWID()"))
                 .and()
             .done();
+    // @formatter:on
+
+
+    // @formatter:off
     /**
      * INSERT INTO T1 DEFAULT VALUES
      */
@@ -384,7 +404,7 @@ public class InsertBuilderTest {
             .$(t("dbo","Points"))
             .$(c("PointValue"))
             .$Values()
-                .$(e("CONVERT(Point, '3,5')"))
+                .$(e("CONVERT(Point, '1,5')"))
                 .and()
             .done();
 
@@ -451,7 +471,7 @@ public class InsertBuilderTest {
     /**
      * --INSERT...EXECUTE procedure example
      INSERT INTO dbo.EmployeeSales
-     EXECUTE dbo.uspGetEmployeeSales;
+     EXECUTE dbo.uspGetEmployeeSales
      */
     public Insert exampleH2 = INSERT()
             .$Into()
@@ -732,8 +752,7 @@ public class InsertBuilderTest {
             .$Into()
             .$(t("V1"))
             .$Values()
-                .$(e_string("Row 1"))
-                .$(e_number(1))
+                .$(e_string("Row 1"),e_number(1))
                 .and()
             .done();
     // @formatter:on
@@ -759,7 +778,7 @@ public class InsertBuilderTest {
     INSERT INTO @MyTableVar (LocationID, CostRate, ModifiedDate)
     SELECT LocationID, CostRate, GETDATE()
     FROM Production.Location
-    WHERE CostRate > 0;
+    WHERE CostRate > 0
      */
     public Insert exampleL = INSERT()
             .$Into()
@@ -1011,8 +1030,8 @@ public class InsertBuilderTest {
             .$(t("Production","ScrapReason"))
             .$Output()
                 .$(c_inserted("ScrapReasonID"))
-                .$(c_inserted("ModifiedDate"))
                 .$(c_inserted("Name"))
+                .$(c_inserted("ModifiedDate"))
                 .$Into("MyTableVar")
                 .and()
             .$Values()
@@ -1066,7 +1085,7 @@ public class InsertBuilderTest {
         INNER JOIN Person.Person AS c
             ON sp.BusinessEntityID = c.BusinessEntityID
         WHERE sp.BusinessEntityID LIKE '2%'
-        ORDER BY c.LastName, c.FirstName;
+        ORDER BY c.LastName, c.FirstName
      */
     public Insert exampleU = INSERT()
             .$Into()
@@ -1205,7 +1224,7 @@ public class InsertBuilderTest {
      * INSERT INTO EmployeeTitles
     SELECT EmployeeKey, LastName, Title
     FROM ssawPDW.dbo.DimEmployee
-    WHERE EndDate IS NULL;
+    WHERE EndDate IS NULL
      */
     public Insert exampleW = INSERT()
             .$Into()
@@ -1284,7 +1303,7 @@ public class InsertBuilderTest {
         FirstName, MiddleName, LastName
     FROM ProspectiveBuyer p JOIN DimGeography g ON p.PostalCode = g.PostalCode
     WHERE g.CountryRegionCode = 'FR'
-    OPTION ( LABEL = 'Add French Prospects', HASH JOIN);
+    OPTION ( LABEL = 'Add French Prospects', HASH JOIN)
      */
     public Insert exampleY = INSERT()
             .$Into()

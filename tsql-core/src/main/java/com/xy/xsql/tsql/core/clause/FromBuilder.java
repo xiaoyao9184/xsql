@@ -92,7 +92,7 @@ public class FromBuilder<ParentBuilder>
     public BaseTableBuilder<FromBuilder<ParentBuilder>> $(TableName tableName, String tableAlias) {
         return withItem()._Base()
                 .withTableName(tableName)
-                .withAs()
+//                .withAs()
                 .withTableAlias(tableAlias);
     }
 

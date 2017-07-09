@@ -13,13 +13,19 @@ import static com.xy.xsql.tsql.core.statement.ddl.ReNameBuilder.RENAME_TABLE;
  */
 public class RenameBuilderTest {
 
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/statements/rename-transact-sql#examples
+     */
+
     // @formatter:off
+    /**
+     * -- Rename the user defined database AdWorks
+    RENAME DATABASE AdWorks to AdWorks2
+     */
     public ReName exampleA = RENAME_DATABASE("AdWorks","AdWorks2");
     // @formatter:on
 
-    /**
-     * RENAME DATABASE AdWorks to AdWorks2;
-     */
     @Test
     public void testExampleA(){
         ReName reName = new ReNameBuilder()
@@ -33,15 +39,18 @@ public class RenameBuilderTest {
 
 
     // @formatter:off
+    /**
+     * -- Rename the customer table
+    RENAME OBJECT Customer TO Customer1
+     */
     public ReName exampleB1 = RENAME_TABLE("Customer","Customer1");
+
+    /**
+     * RENAME OBJECT mydb.dbo.Customer TO Customer1
+     */
     public ReName exampleB2 = RENAME_TABLE("mydb", "dbo","Customer","Customer1");
     // @formatter:on
 
-    /**
-     * RENAME OBJECT Customer TO Customer1;
-
-     RENAME OBJECT mydb.dbo.Customer TO Customer1;
-     */
     @Test
     public void testExampleB(){
         // @formatter:off

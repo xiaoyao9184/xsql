@@ -30,14 +30,14 @@ public class DeleteBuilderTest {
 
     // @formatter:off
     //parent+quick
+    /**
+     * DELETE FROM Sales.SalesPersonQuotaHistory
+     */
     public Delete exampleA = DELETE()
             .$From(t("Sales","SalesPersonQuotaHistory"))
             .done();
     // @formatter:on
 
-    /**
-     * DELETE FROM Sales.SalesPersonQuotaHistory;
-     */
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -61,8 +61,7 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * DELETE FROM Production.ProductCostHistory
-        WHERE StandardCost > 1000.00;
-        GO
+    WHERE StandardCost > 1000.00
      */
     public Delete exampleB1 = DELETE()
             .$From(t("Production","ProductCostHistory"))
@@ -103,11 +102,11 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * DELETE Production.ProductCostHistory
-        WHERE StandardCost BETWEEN 12.00 AND 14.00
-              AND EndDate IS NULL
+    WHERE StandardCost BETWEEN 12.00 AND 14.00
+          AND EndDate IS NULL
      */
     public Delete exampleB2 = DELETE()
-            .$From(t("Production","ProductCostHistory"))
+            .$(t("Production","ProductCostHistory"))
             .$Where()
                 .$Predicate(p_between(
                         c("StandardCost"),
@@ -156,7 +155,7 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * DELETE FROM HumanResources.EmployeePayHistory
-        WHERE CURRENT OF complex_cursor
+    WHERE CURRENT OF complex_cursor
      */
     public Delete exampleC = DELETE()
             .$From(t("HumanResources","EmployeePayHistory"))
@@ -210,11 +209,11 @@ public class DeleteBuilderTest {
     /**
      * -- SQL-2003 Standard subquery
 
-         DELETE FROM Sales.SalesPersonQuotaHistory
-         WHERE BusinessEntityID IN
-         (SELECT BusinessEntityID
-         FROM Sales.SalesPerson
-         WHERE SalesYTD > 2500000.00)
+     DELETE FROM Sales.SalesPersonQuotaHistory
+     WHERE BusinessEntityID IN
+     (SELECT BusinessEntityID
+     FROM Sales.SalesPerson
+     WHERE SalesYTD > 2500000.00)
      */
     public Delete exampleD1 = DELETE()
             .$From(t("Sales","SalesPersonQuotaHistory"))
@@ -255,11 +254,11 @@ public class DeleteBuilderTest {
     /**
      * -- Transact-SQL extension
 
-        DELETE FROM Sales.SalesPersonQuotaHistory
-        FROM Sales.SalesPersonQuotaHistory AS spqh
-        INNER JOIN Sales.SalesPerson AS sp
-        ON spqh.BusinessEntityID = sp.BusinessEntityID
-        WHERE sp.SalesYTD > 2500000.00
+    DELETE FROM Sales.SalesPersonQuotaHistory
+    FROM Sales.SalesPersonQuotaHistory AS spqh
+    INNER JOIN Sales.SalesPerson AS sp
+    ON spqh.BusinessEntityID = sp.BusinessEntityID
+    WHERE sp.SalesYTD > 2500000.00
      */
     public Delete exampleD2 = DELETE()
             .$From(t("Sales","SalesPersonQuotaHistory"))
@@ -408,9 +407,8 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * DELETE TOP (20)
-        FROM Purchasing.PurchaseOrderDetail
-        WHERE DueDate < '20020701';
-        GO
+    FROM Purchasing.PurchaseOrderDetail
+    WHERE DueDate < '20020701'
      */
     public Delete exampleE1 = DELETE()
                 .$Top()
@@ -470,7 +468,7 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * DELETE FROM Purchasing.PurchaseOrderDetail
-         WHERE PurchaseOrderDetailID IN
+     WHERE PurchaseOrderDetailID IN
          (SELECT TOP 10 PurchaseOrderDetailID
          FROM Purchasing.PurchaseOrderDetail
          ORDER BY DueDate ASC)
@@ -519,14 +517,13 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * -- Specify the remote data source using a four-part name
-     -- in the form linked_server.catalog.schema.object.
+    -- in the form linked_server.catalog.schema.object.
 
-     DELETE MyLinkServer.AdventureWorks2012.HumanResources.Department
-     WHERE DepartmentID > 16;
-     GO
+    DELETE MyLinkServer.AdventureWorks2012.HumanResources.Department
+    WHERE DepartmentID > 16
      */
     public Delete exampleF = DELETE()
-                .$From(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
+                .$(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
                 .$Where()
                     .$Predicate(p_greater(
                             c("DepartmentID"),
@@ -634,7 +631,7 @@ public class DeleteBuilderTest {
     public Delete exampleI = DELETE()
                 .$(t("Sales","ShoppingCartItem"))
                 .$Output()
-                    .$(c_deleted())
+                    .$Output(c_deleted())
                     .and()
                 .$Where()
                     .$Predicate(p_equal(
@@ -679,15 +676,15 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * DELETE Production.ProductProductPhoto
-        OUTPUT DELETED.ProductID,
-               p.Name,
-               p.ProductModelID,
-               DELETED.ProductPhotoID
-            INTO @MyTableVar
-        FROM Production.ProductProductPhoto AS ph
-        JOIN Production.Product as p
-            ON ph.ProductID = p.ProductID
-            WHERE p.ProductModelID BETWEEN 120 and 130
+    OUTPUT DELETED.ProductID,
+           p.Name,
+           p.ProductModelID,
+           DELETED.ProductPhotoID
+        INTO @MyTableVar
+    FROM Production.ProductProductPhoto AS ph
+    JOIN Production.Product as p
+        ON ph.ProductID = p.ProductID
+        WHERE p.ProductModelID BETWEEN 120 and 130
      */
     public Delete exampleJ = DELETE()
                 .$(t("Production","ProductProductPhoto"))

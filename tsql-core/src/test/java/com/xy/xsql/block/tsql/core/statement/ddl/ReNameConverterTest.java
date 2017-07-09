@@ -68,6 +68,7 @@ public class ReNameConverterTest {
         model2StringMap.put(
                 builderTest.exampleA,
                 "RENAME DATABASE AdWorks TO AdWorks2");
+//                "RENAME DATABASE AdWorks to AdWorks2");
 
         model2StringMap.put(
                 builderTest.exampleB1,

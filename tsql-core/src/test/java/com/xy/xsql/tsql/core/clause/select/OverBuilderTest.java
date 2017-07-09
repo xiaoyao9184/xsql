@@ -207,7 +207,7 @@ public class OverBuilderTest {
         Over.WindowFramePreceding windowFramePreceding = (Over.WindowFramePreceding) windowFrameBetween.getBetweenBound();
         Assert.assertTrue(windowFramePreceding.isUseCurrent());
 
-        Over.WindowFrameFollowing windowFrameFollowing = (Over.WindowFrameFollowing) windowFrameBetween.getBetweenBound();
+        Over.WindowFrameFollowing windowFrameFollowing = (Over.WindowFrameFollowing) windowFrameBetween.getAndBound();
         Assert.assertEquals(windowFrameFollowing.getUnsignedvaluespecification().toNumberConstant().getNumber(),1);
     }
 
