@@ -196,5 +196,9 @@ public class DataTypes {
         return new DataType().withSynonym(DataType.Synonyms._xml);
     }
 
+    public static DataType _user_defined(String name){
+        return new DataType(name);
+    }
+
 
 }

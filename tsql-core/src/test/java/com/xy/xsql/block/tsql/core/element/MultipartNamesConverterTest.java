@@ -15,6 +15,11 @@ import static org.junit.Assert.*;
  */
 public class MultipartNamesConverterTest {
 
+    /*
+    Multipart Names
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/language-elements/transact-sql-syntax-conventions-transact-sql#multipart-names
+     */
+
     @Test
     public void testTableName() throws Exception {
         ReferenceBlock b = MultipartNamesConverter.TableNameConverter.meta();

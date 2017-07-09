@@ -4,6 +4,7 @@ import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.model.ReferenceBlock;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.variable.SetVariable;
 
 /**
@@ -21,8 +22,8 @@ public class SetVariableConverter
                         .data(SetVariable::getLocalVariable)
                         .and()
                     .sub("+= | -= | *= | /= | %= | &= | ^= | |= ")
-                        .data(SetVariable::getCompound)
                         .required()
+                        .data(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
                         .and()
                     .sub("expression")
                         .data(SetVariable::getExpression)

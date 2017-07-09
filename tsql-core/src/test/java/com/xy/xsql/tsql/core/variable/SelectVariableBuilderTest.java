@@ -6,17 +6,34 @@ import com.xy.xsql.tsql.model.variable.SelectVariable;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_subquery;
+import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
+import static com.xy.xsql.tsql.core.predicate.Predicates.p_equal;
+import static com.xy.xsql.tsql.core.variable.SelectVariableBuilder.SELECT_V;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
  */
 public class SelectVariableBuilderTest {
 
-    /**
-     * SELECT @var1 = 'Generic Name';
+
+    /*
+    Examples
+    See https://docs.microsoft.com/zh-cn/sql/t-sql/language-elements/select-local-variable-transact-sql#examples
      */
+
+    // @formatter:off
+    /**
+     * SELECT @var1 = 'Generic Name'
+     */
+    public SelectVariable exampleA = SELECT_V()
+            .$("var1")
+                .$Assign(e_string("Generic Name"))
+            .build();
+    // @formatter:on
+
     @Test
     public void testExampleA(){
         // @formatter:off
@@ -32,12 +49,43 @@ public class SelectVariableBuilderTest {
         Assert.assertEquals(selectVariable.getItems().get(0).getExpression().toString(),"'Generic Name'");
     }
 
+
+    // @formatter:off
     /**
      * SELECT @var1 = 'Generic Name'
-     SELECT @var1 = (SELECT Name
+     */
+    public SelectVariable exampleB1 = SELECT_V()
+            .$("var1")
+                .$Assign(e_string("Generic Name"))
+            .build();
+    // @formatter:on
+
+
+    // @formatter:off
+    private Select.QuerySpecification querySpecificationB2 = QUERY()
+                            .$(c("Name"))
+                            .$From()
+                                .$(t("Sales","Store"))
+                                .and()
+                            .$Where()
+                                .$Predicate(p_equal(
+                                        c("CustomerID"),
+                                        e_number(1000)
+                                ))
+                                .and()
+                        .build();
+
+    /**
+     * SELECT @var1 = (SELECT Name
      FROM Sales.Store
      WHERE CustomerID = 1000)
      */
+    public SelectVariable exampleB2 = SELECT_V()
+            .$("var1")
+                .$Assign(e_subquery(querySpecificationB2))
+            .build();
+    // @formatter:on
+
     @Test
     public void testExampleB(){
         // @formatter:off
@@ -51,7 +99,7 @@ public class SelectVariableBuilderTest {
         SelectVariable selectVariable2 = new SelectVariableBuilder<Void>()
                 .withItem()
                     .withLocalVariable("var1")
-                    .withExpression(e_subquery(new Select.QuerySpecification()))
+                    .withExpression(e_subquery(querySpecificationB2))
                     .and()
                 .build();
         // @formatter:on

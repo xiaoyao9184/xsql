@@ -12,10 +12,18 @@ import com.xy.xsql.tsql.model.element.Other;
  */
 public class DataType {
 
+    private String name;
     private Synonyms synonym;
     private Integer precision;
     private Integer scale;
     private Integer length;
+
+    public DataType() {
+    }
+
+    public DataType(String name) {
+        this.name = name;
+    }
 
     public Synonyms getSynonym() {
         return synonym;
@@ -76,8 +84,13 @@ public class DataType {
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder()
-                .append(this.synonym.toString());
+        StringBuilder b = new StringBuilder();
+        if(name != null){
+            b.append(name);
+            return b.toString();
+        }
+
+        b.append(this.synonym.toString());
         if(length != null){
             b.append(Other.GROUP_START.toString())
                 .append(this.length)

@@ -49,12 +49,17 @@ import java.util.List;
  */
 public class DeclareVariable {
 
+    /*
+    {
+        { @local_variable [AS] data_type  | [ = value ] }
+      | { @cursor_variable_name CURSOR }
+    } [,...n]
+     */
     private List<Item> items;
-
+    //{ @table_variable_name [AS] <table_type_definition> }
     private LocalVariable tableVariableName;
-
+    private boolean useAs;
     private TableTypeDefinition tableTypeDefinition;
-
 
     public List<Item> getItems() {
         return items;
@@ -72,6 +77,14 @@ public class DeclareVariable {
         this.tableVariableName = tableVariableName;
     }
 
+    public boolean isUseAs() {
+        return useAs;
+    }
+
+    public void setUseAs(boolean useAs) {
+        this.useAs = useAs;
+    }
+
     public TableTypeDefinition getTableTypeDefinition() {
         return tableTypeDefinition;
     }
@@ -81,14 +94,24 @@ public class DeclareVariable {
     }
 
 
+    /**
+     * {
+     { @local_variable [AS] data_type  | [ = value ] }
+     | { @cursor_variable_name CURSOR }
+     }
+     */
     public static class Item {
 
         //@local_variable
+        //@cursor_variable_name
         private LocalVariable localVariable;
+        private boolean useAs;
         //data_type
         private DataType dataType;
         //value
         private Expression value;
+        //CURSOR
+        private boolean useCursor;
 
         public LocalVariable getLocalVariable() {
             return localVariable;
@@ -96,6 +119,14 @@ public class DeclareVariable {
 
         public void setLocalVariable(LocalVariable localVariable) {
             this.localVariable = localVariable;
+        }
+
+        public boolean isUseAs() {
+            return useAs;
+        }
+
+        public void setUseAs(boolean useAs) {
+            this.useAs = useAs;
         }
 
         public DataType getDataType() {
@@ -114,5 +145,12 @@ public class DeclareVariable {
             this.value = value;
         }
 
+        public boolean isUseCursor() {
+            return useCursor;
+        }
+
+        public void setUseCursor(boolean useCursor) {
+            this.useCursor = useCursor;
+        }
     }
 }
