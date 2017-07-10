@@ -68,7 +68,7 @@ public class SelectVariableBuilderTest {
                                 .$(t("Sales","Store"))
                                 .and()
                             .$Where()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("CustomerID"),
                                         e_number(1000)
                                 ))

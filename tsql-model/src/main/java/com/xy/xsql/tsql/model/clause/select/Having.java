@@ -15,7 +15,7 @@ import com.xy.xsql.tsql.model.clause.SearchCondition;
  * Created by xiaoyao9184 on 2016/12/23.
  */
 public class Having implements Clause {
-    //
+
     private SearchCondition searchCondition;
 
     public SearchCondition getSearchCondition() {

@@ -35,7 +35,9 @@ public class WithBuilderTest {
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
                 .$Where()
-                    .$Predicate(p_is_not_null(c("SalesPersonID")))
+                    .$(p_is_not_null(
+                            c("SalesPersonID")
+                    ))
                     .and()
                 .and()
                 .build();
@@ -98,7 +100,9 @@ public class WithBuilderTest {
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
                 .$Where()
-                    .$Predicate(p_is_not_null(c("SalesPersonID")))
+                    .$(p_is_not_null(
+                            c("SalesPersonID")
+                    ))
                     .and()
                 .$GroupBy()
                     .$(c("SalesPersonID"))
@@ -161,7 +165,9 @@ public class WithBuilderTest {
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
                 .$Where()
-                    .$Predicate(p_is_not_null(c("SalesPersonID")))
+                    .$(p_is_not_null(
+                            c("SalesPersonID")
+                    ))
                     .and()
                 .$GroupBy()
                     .$(c("SalesPersonID"))
@@ -278,7 +284,9 @@ public class WithBuilderTest {
                         .$(t("dbo","MyEmployees"))
                         .and()
                     .$Where()
-                        .$Predicate(p_is_null(e("ManagerID")))
+                        .$(p_is_null(
+                                e("ManagerID")
+                        ))
                         .and()
                     .and()
                 .$Union_All_Select()
@@ -292,7 +300,10 @@ public class WithBuilderTest {
                             .$Inner_Join()
                             .$(t("DirectReports"),"d")
                             .$On()
-                                .$Predicate(p_equal(c("e","ManagerID"),c("d","EmployeeID")))
+                                .$(p_equal(
+                                        c("e","ManagerID"),
+                                        c("d","EmployeeID")
+                                ))
                                 .and()
                             .and()
                         .and()
@@ -368,7 +379,9 @@ public class WithBuilderTest {
                         .$(t("dbo","MyEmployees"))
                         .and()
                     .$Where()
-                        .$Predicate(p_is_null(e("ManagerID")))
+                        .$(p_is_null(
+                                e("ManagerID")
+                        ))
                         .and()
                     .and()
                 .$Union_All_Select()
@@ -382,7 +395,10 @@ public class WithBuilderTest {
                             .$Inner_Join()
                             .$(t("DirectReports"),"d")
                             .$On()
-                                .$Predicate(p_equal(c("e","ManagerID"),c("d","EmployeeID")))
+                                .$(p_equal(
+                                        c("e","ManagerID"),
+                                        c("d","EmployeeID")
+                                ))
                                 .and()
                             .and()
                         .and()
@@ -460,7 +476,9 @@ public class WithBuilderTest {
                             .and()
                         .and()
                     .$Where()
-                        .$Predicate(p_is_null(c("e","ManagerID")))
+                        .$(p_is_null(
+                                c("e","ManagerID")
+                        ))
                         .and()
                     .and()
                 .$Union_All_()
@@ -476,9 +494,10 @@ public class WithBuilderTest {
                             .$Join()
                             .$(t("DirectReports"),"d")
                             .$On()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("e","ManagerID"),
-                                        c("d","EmployeeID")))
+                                        c("d","EmployeeID")
+                                ))
                                 .and()
                             .and()
                         .and()
@@ -564,7 +583,9 @@ public class WithBuilderTest {
                         .$(t("dbo","MyEmployees"))
                         .and()
                     .$Where()
-                        .$Predicate(p_is_not_null(c("ManagerID")))
+                        .$(p_is_not_null(
+                                c("ManagerID")
+                        ))
                         .and()
                     .and()
                 .$Union_All_()
@@ -578,9 +599,10 @@ public class WithBuilderTest {
                             .$Join()
                             .$(t("dbo","MyEmployees"),"e")
                             .$On()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("cte","ManagerID"),
-                                        c("e","EmployeeID")))
+                                        c("e","EmployeeID")
+                                ))
                                 .and()
                             .and()
                         .and()
@@ -656,8 +678,13 @@ public class WithBuilderTest {
                             .$As("b")
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(c("b","ProductAssemblyID"),e_number(800)))
-                        .$_AndPredicate(p_is_null(c("b","EndDate")))
+                        .$(p_equal(
+                                c("b","ProductAssemblyID"),
+                                e_number(800)
+                        ))
+                        .$And(p_is_null(
+                                c("b","EndDate")
+                        ))
                         .and()
                     .and()
                 .$Union_All_Select()
@@ -672,10 +699,11 @@ public class WithBuilderTest {
                             .$Inner_Join()
                             .$(t("Parts")).$As("p")
                             .$On()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("bom","ProductAssemblyID"),
-                                        c("p","ComponentID")))
-                                .$_AndPredicate(p_is_null(
+                                        c("p","ComponentID")
+                                ))
+                                .$And(p_is_null(
                                         c("bom","EndDate")
                                 ))
                                 .and()
@@ -756,7 +784,10 @@ public class WithBuilderTest {
                         .$(t("dbo","Person"))
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(c("Name"),e_string("Bonnie")))
+                        .$(p_equal(
+                                c("Name"),
+                                e_string("Bonnie")
+                        ))
                         .and()
                     .and()
                 .$Union_Select()
@@ -765,7 +796,10 @@ public class WithBuilderTest {
                         .$(t("dbo","Person"))
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(c("Name"),e_string("Bonnie")))
+                        .$(p_equal(
+                                c("Name"),
+                                e_string("Bonnie")
+                        ))
                         .and()
                     .and()
                 .$Union_All_Select()
@@ -775,7 +809,7 @@ public class WithBuilderTest {
                         .$(t("Person"))
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(
+                        .$(p_equal(
                                 c("Generation","ID"),
                                 c("Person","ID")
                         ))
@@ -788,7 +822,7 @@ public class WithBuilderTest {
                         .$(t("dbo","Person"))
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(
+                        .$(p_equal(
                                 c("Generation","ID"),
                                 c("Person","ID")
                         ))
@@ -911,7 +945,7 @@ public class WithBuilderTest {
                             .$Join()
                             .$(t("vw")).$As("t")
                             .$On()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("t","itmID"),
                                         c("r","itmIDComp")
                                 ))
@@ -1003,7 +1037,9 @@ public class WithBuilderTest {
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
                 .$Where()
-                    .$Predicate(p_is_not_null(c("SalesPersonID")))
+                    .$(p_is_not_null(
+                            c("SalesPersonID")
+                    ))
                     .and()
                 .and()
             .build();
@@ -1063,7 +1099,9 @@ public class WithBuilderTest {
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
                 .$Where()
-                    .$Predicate(p_is_not_null(c("SalesPersonID")))
+                    .$(p_is_not_null(
+                            c("SalesPersonID")
+                    ))
                     .and()
                 .$GroupBy()
                     .$(c("SalesPersonID"))
@@ -1125,7 +1163,9 @@ public class WithBuilderTest {
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
                 .$Where()
-                    .$Predicate(p_is_not_null(c("SalesPersonID")))
+                    .$(p_is_not_null(
+                            c("SalesPersonID")
+                    ))
                     .and()
                 .and()
             .build();
@@ -1188,7 +1228,9 @@ public class WithBuilderTest {
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
                 .$Where()
-                    .$Predicate(p_is_not_null(c("SalesPersonID")))
+                    .$(p_is_not_null(
+                            c("SalesPersonID")
+                    ))
                     .and()
                 .and()
             .build();

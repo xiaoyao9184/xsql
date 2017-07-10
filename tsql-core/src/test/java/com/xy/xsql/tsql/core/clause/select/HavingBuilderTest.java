@@ -30,11 +30,10 @@ public class HavingBuilderTest {
     public Having example = new MockParentBuilder<HavingBuilder<MockParent<Having>>,Having>
                 (HavingBuilder.class,Having.class)
                 .$child()
-                    .$Predicate(
-                        p_greater(
-                                e("SUM(LineTotal)"),
-                                e_number(100000.00))
-                    )
+                    .$(p_greater(
+                            e("SUM(LineTotal)"),
+                            e_number(100000.00)
+                    ))
                     .and()
                 .get();
     // @formatter:on

@@ -13,7 +13,6 @@ import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_negative;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_some;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.dml.MergeBuilder.MERGE;
@@ -203,11 +202,13 @@ public class MergeBuilderTest {
                     .$Join()
                     .$(t("Sales","SalesOrderHeader")).$As("soh")
                     .$On()
-                        .$Predicate(p_equal(
+                        .$(p_equal(
                                 c("sod","SalesOrderID"),
-                                c("soh","SalesOrderID")))
-                        .$_AndPredicate(p_equal(c("soh","OrderDate"),
-                                e_variable("OrderDate")))
+                                c("soh","SalesOrderID")
+                        ))
+                        .$And(p_equal(c("soh","OrderDate"),
+                                e_variable("OrderDate")
+                        ))
                         .and()
                     .and()
                 .and()
@@ -248,7 +249,7 @@ public class MergeBuilderTest {
                 .and()
             .$When_Matched()
                 .$And()
-                    .$Predicate(p_less_equal(
+                    .$(p_less_equal(
                             e_negative(c("target","Quantity"),
                                     c("source","OrderQty")),
                             e_number(0)
@@ -362,12 +363,14 @@ public class MergeBuilderTest {
                     .$Join()
                     .$(t("Sales","SalesOrderHeader")).$As("soh")
                     .$On()
-                        .$Predicate(p_equal(
+                        .$(p_equal(
                                 c("sod","SalesOrderID"),
-                                c("soh","SalesOrderID")))
-                        .$_AndPredicate(p_between(c("soh","OrderDate"),
+                                c("soh","SalesOrderID")
+                        ))
+                        .$And(p_between(c("soh","OrderDate"),
                                 e_string("20030701"),
-                                e_string("20030731")))
+                                e_string("20030731")
+                        ))
                         .and()
                     .and()
                 .and()
@@ -407,7 +410,7 @@ public class MergeBuilderTest {
                 .and()
             .$When_Matched()
                 .$And()
-                    .$Predicate(p_greater_equal(
+                    .$(p_greater_equal(
                             e_negative(
                                 c("pi","Quantity"),
                                 c("src","OrderQty")),
@@ -424,7 +427,7 @@ public class MergeBuilderTest {
                 .and()
             .$When_Matched()
                 .$And()
-                    .$Predicate(p_less_equal(
+                    .$(p_less_equal(
                             e_negative(
                                     c("pi","Quantity"),
                                     c("src","OrderQty")),

@@ -1,11 +1,8 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.tsql.core.clause.TableValueConstructorBuilder;
-import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
@@ -264,11 +261,11 @@ public class SelectBuilderTest {
                     .$(t("Production","Product"))
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("ProductLine"),
                             e_string("R")
                     ))
-                    .$_AndPredicate(p_less(
+                    .$And(p_less(
                             c("DaysToManufacture"),
                             e_number(4)
                     ))
@@ -468,7 +465,7 @@ public class SelectBuilderTest {
                     .$(t("AdventureWorks2012","Production","Product"))
                     .and()
                 .$Where()
-                    .$Predicate(p_like(
+                    .$(p_like(
                             c("ProductNumber"),
                             e_string("BK%")
                     ))
@@ -493,11 +490,11 @@ public class SelectBuilderTest {
                 .$(t("Production","Product"))
                 .and()
             .$Where()
-                .$Predicate(p_greater(
+                .$(p_greater(
                         c("ListPrice"),
                         e_money(25)
                 ))
-                .$_AndPredicate(p_less(
+                .$And(p_less(
                         c("ListPrice"),
                         e_money(100)
                 ))
@@ -526,7 +523,7 @@ public class SelectBuilderTest {
                         .$As("p")
                     .and()
                 .$Where()
-                    .$Predicate(p_exists(
+                    .$(p_exists(
                             SELECT()
                                 .$Select()
                                     .$()
@@ -535,12 +532,14 @@ public class SelectBuilderTest {
                                             .$As("pm")
                                         .and()
                                     .$Where()
-                                        .$Predicate(p_equal(
+                                        .$(p_equal(
                                                 c("p","ProductModelID"),
                                                 c("pm","ProductModelID")
                                         ))
-                                        .$_AndPredicate(p_like(c("pm","Name"),
-                                                e_string("Long-Sleeve Logo Jersey%")))
+                                        .$And(p_like(
+                                                c("pm","Name"),
+                                                e_string("Long-Sleeve Logo Jersey%")
+                                        ))
                                         .and()
                                     .and()
                                 .done()
@@ -568,7 +567,7 @@ public class SelectBuilderTest {
                     .$(t("Production","Product"))
                     .and()
                 .$Where()
-                    .$Predicate(p_in(c("ProductModelID"),
+                    .$(p_in(c("ProductModelID"),
                             SELECT()
                             .$Select()
                                 .$(c("ProductModelID"))
@@ -576,8 +575,10 @@ public class SelectBuilderTest {
                                     .$(t("Production","ProductModel"))
                                     .and()
                                 .$Where()
-                                    .$Predicate(p_like(c("Name"),
-                                            e_string("Long-Sleeve Logo Jersey%")))
+                                    .$(p_like(
+                                            c("Name"),
+                                            e_string("Long-Sleeve Logo Jersey%")
+                                    ))
                                     .and()
                                 .and()
                             .done()
@@ -611,7 +612,7 @@ public class SelectBuilderTest {
                         .$(t("HumanResources","Employee"))
                         .$As("e")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("e","BusinessEntityID"),
                                     c("p","BusinessEntityID")
                             ))
@@ -619,21 +620,22 @@ public class SelectBuilderTest {
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_in(e_number(5000.00),
+                    .$(p_in(
+                            e_number(5000.00),
                             SELECT()
-                            .$Select()
-                                .$(c("Bonus"))
-                                .$From()
-                                    .$(t("Sales","SalesPerson"),"sp")
-                                        .$As("sp")
+                                .$Select()
+                                    .$(c("Bonus"))
+                                    .$From()
+                                        .$(t("Sales","SalesPerson"),"sp")
+                                            .$As("sp")
+                                        .and()
+                                    .$Where()
+                                        .$(p_equal(
+                                                c("e","BusinessEntityID"),
+                                                c("sp","BusinessEntityID")))
+                                        .and()
                                     .and()
-                                .$Where()
-                                    .$Predicate(p_equal(
-                                            c("e","BusinessEntityID"),
-                                            c("sp","BusinessEntityID")))
-                                    .and()
-                                .and()
-                            .done()
+                                .done()
                     ))
                     .and()
                 .and()
@@ -662,23 +664,24 @@ public class SelectBuilderTest {
                     .$(c("p1","ProductModelID"))
                     .and()
                 .$Having()
-                    .$Predicate(p_greater_equal(
+                    .$(p_greater_equal(
                             e("MAX(p1.ListPrice)"),
                             ComparisonSubQuery.ALL_SOME_ANY.ALL,
-                            SELECT().$Select()
-                                .$(e("AVG(p2.ListPrice)"))
-                                .$From()
-                                    .$(t("Production","Product"),"p2")
-                                        .$As("p2")
+                            SELECT()
+                                .$Select()
+                                    .$(e("AVG(p2.ListPrice)"))
+                                    .$From()
+                                        .$(t("Production","Product"),"p2")
+                                            .$As("p2")
+                                        .and()
+                                    .$Where()
+                                        .$(p_equal(
+                                                c("p1","ProductModelID"),
+                                                c("p2","ProductModelID")
+                                        ))
+                                        .and()
                                     .and()
-                                .$Where()
-                                    .$Predicate(p_equal(
-                                            c("p1","ProductModelID"),
-                                            c("p2","ProductModelID")
-                                    ))
-                                    .and()
-                                .and()
-                            .done()
+                                .done()
                     ))
                     .and()
                 .and()
@@ -712,7 +715,7 @@ public class SelectBuilderTest {
                         .$Join()
                         .$(t("HumanResources","Employee"),"e")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("e","BusinessEntityID"),
                                     c("pp","BusinessEntityID")
                             ))
@@ -720,7 +723,7 @@ public class SelectBuilderTest {
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_in(
+                    .$(p_in(
                             c("pp","BusinessEntityID"),
                             SELECT()
                                 .$Select()
@@ -729,7 +732,7 @@ public class SelectBuilderTest {
                                         .$(t("Sales","SalesOrderHeader"))
                                         .and()
                                     .$Where()
-                                        .$Predicate(p_in(
+                                        .$(p_in(
                                                 c("SalesOrderID"),
                                                 SELECT().$Select()
                                                     .$(c("SalesOrderID"))
@@ -737,7 +740,7 @@ public class SelectBuilderTest {
                                                         .$(t("Sales","SalesOrderDetail"))
                                                         .and()
                                                     .$Where()
-                                                        .$Predicate(p_in(
+                                                        .$(p_in(
                                                                 c("ProductID"),
                                                                 SELECT().$Select()
                                                                     .$(c("ProductID"))
@@ -746,7 +749,7 @@ public class SelectBuilderTest {
                                                                             .and()
                                                                         .and()
                                                                     .$Where()
-                                                                        .$Predicate(p_equal(
+                                                                        .$(p_equal(
                                                                                 c("ProductNumber"),
                                                                                 e_string("BK-M68B-42")
                                                                         ))
@@ -838,7 +841,7 @@ public class SelectBuilderTest {
                         .$(t("Production","Product"))
                         .and()
                     .$Where()
-                        .$Predicate(p_greater(
+                        .$(p_greater(
                                 c("ListPrice"),
                                 e_money(1000)
                         ))
@@ -907,8 +910,9 @@ public class SelectBuilderTest {
                         .$(t("Sales","SalesOrderDetail"))
                         .and()
                     .$Where()
-                        .$Predicate(p_greater(
-                                c("OrderQty"),e_number(10)
+                        .$(p_greater(
+                                c("OrderQty"),
+                                e_number(10)
                         ))
                         .and()
                     .$GroupBy()
@@ -940,8 +944,9 @@ public class SelectBuilderTest {
                         .$(c("ProductID"))
                         .and()
                     .$Having()
-                        .$Predicate(p_greater(
-                                e("AVG(OrderQty)"),e_number(5)
+                        .$(p_greater(
+                                e("AVG(OrderQty)"),
+                                e_number(5)
                         ))
                         .and()
                     .and()
@@ -972,8 +977,9 @@ public class SelectBuilderTest {
                         .$(c("CarrierTrackingNumber"))
                         .and()
                     .$Having()
-                        .$Predicate(p_like(
-                                e("CarrierTrackingNumber"),e_string("4BD%")
+                        .$(p_like(
+                                e("CarrierTrackingNumber"),
+                                e_string("4BD%")
                         ))
                         .and()
                     .and()
@@ -1000,16 +1006,18 @@ public class SelectBuilderTest {
                         .$(t("Sales","SalesOrderDetail"))
                         .and()
                     .$Where()
-                        .$Predicate(p_less(
-                                c("UnitPrice"),e_number(25.00)
+                        .$(p_less(
+                                c("UnitPrice"),
+                                e_number(25.00)
                         ))
                         .and()
                     .$GroupBy()
                         .$(c("ProductID"))
                         .and()
                     .$Having()
-                        .$Predicate(p_greater(
-                                e("AVG(OrderQty)"),e_number(5)
+                        .$(p_greater(
+                                e("AVG(OrderQty)"),
+                                e_number(5)
                         ))
                         .and()
                     .and()
@@ -1040,11 +1048,13 @@ public class SelectBuilderTest {
                         .$(c("ProductID"))
                         .and()
                     .$Having()
-                        .$Predicate(p_greater(
-                                e("SUM(LineTotal)"),e_money(1000000.00)
+                        .$(p_greater(
+                                e("SUM(LineTotal)"),
+                                e_money(1000000.00)
                         ))
-                        .$_AndPredicate(p_less(
-                                e("AVG(OrderQty)"),e_number(3)
+                        .$And(p_less(
+                                e("AVG(OrderQty)"),
+                                e_number(3)
                         ))
                         .and()
                     .and()
@@ -1070,8 +1080,9 @@ public class SelectBuilderTest {
                         .$(c("ProductID"))
                         .and()
                     .$Having()
-                        .$Predicate(p_greater(
-                                e("SUM(LineTotal)"),e_money(2000000.00)
+                        .$(p_greater(
+                                e("SUM(LineTotal)"),
+                                e_money(2000000.00)
                         ))
                         .and()
                     .and()
@@ -1097,8 +1108,9 @@ public class SelectBuilderTest {
                         .$(c("ProductID"))
                         .and()
                     .$Having()
-                        .$Predicate(p_greater(
-                                e("COUNT(*)"),e_number(1500)
+                        .$(p_greater(
+                                e("COUNT(*)"),
+                                e_number(1500)
                         ))
                         .and()
                     .and()
@@ -1127,7 +1139,7 @@ public class SelectBuilderTest {
                             .$(t("Person","Person"))
                                 .$As("pp")
                             .$On()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("e","BusinessEntityID"),
                                         c("pp","BusinessEntityID")
                                 ))
@@ -1135,8 +1147,9 @@ public class SelectBuilderTest {
                             .and()
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(
-                                c("LastName"),e_string("Johnson")
+                        .$(p_equal(
+                                c("LastName"),
+                                e_string("Johnson")
                         ))
                         .and()
                     .and()
@@ -1165,7 +1178,7 @@ public class SelectBuilderTest {
                             .$(t("Person","Person"))
                             .$As("pp")
                             .$On()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("e","BusinessEntityID"),
                                         c("pp","BusinessEntityID")
                                 ))
@@ -1173,8 +1186,9 @@ public class SelectBuilderTest {
                             .and()
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(
-                                c("LastName"),e_string("Johnson")
+                        .$(p_equal(
+                                c("LastName"),
+                                e_string("Johnson")
                         ))
                         .and()
                     .and()
@@ -1200,8 +1214,9 @@ public class SelectBuilderTest {
                         .$(t("Sales","SalesOrderDetail"))
                         .and()
                     .$Where()
-                        .$Predicate(p_less(
-                                c("UnitPrice"),e_money(5.00)
+                        .$(p_less(
+                                c("UnitPrice"),
+                                e_money(5.00)
                         ))
                         .and()
                     .$GroupBy()
@@ -1277,7 +1292,7 @@ public class SelectBuilderTest {
                         .$(t("Production","ProductModel"))
                         .and()
                     .$Where()
-                        .$Predicate(p_in(
+                        .$(p_in(
                                 c("ProductModelID"),
                                 e_number(3),
                                 e_number(4)
@@ -1306,7 +1321,7 @@ public class SelectBuilderTest {
                             .$(t("Production","ProductModel"))
                             .and()
                         .$Where()
-                            .$Predicate(p_not_in(
+                            .$(p_not_in(
                                     c("ProductModelID"),
                                     e_number(3),
                                     e_number(4)
@@ -1345,7 +1360,7 @@ public class SelectBuilderTest {
                         .$(t("Production","ProductModel"))
                         .and()
                     .$Where()
-                        .$Predicate(p_in(
+                        .$(p_in(
                                 c("ProductModelID"),
                                 e_number(3),
                                 e_number(4)
@@ -1376,7 +1391,7 @@ public class SelectBuilderTest {
                             .$(t("Production","ProductModel"))
                             .and()
                         .$Where()
-                            .$Predicate(p_not_in(
+                            .$(p_not_in(
                                     c("ProductModelID"),
                                     e_number(3),
                                     e_number(4)
@@ -1429,7 +1444,7 @@ public class SelectBuilderTest {
                         .$(t("Production","ProductModel"))
                         .and()
                     .$Where()
-                        .$Predicate(p_in(
+                        .$(p_in(
                                 c("ProductModelID"),
                                 e_number(3),
                                 e_number(4)
@@ -1461,7 +1476,7 @@ public class SelectBuilderTest {
                         .$(t("Production","ProductModel"))
                         .and()
                     .$Where()
-                        .$Predicate(p_not_in(
+                        .$(p_not_in(
                                 c("ProductModelID"),
                                 e_number(3),
                                 e_number(4)
@@ -1503,7 +1518,7 @@ public class SelectBuilderTest {
                         .$(t("Production","ProductModel"))
                         .and()
                     .$Where()
-                        .$Predicate(p_not_in(
+                        .$(p_not_in(
                                 c("ProductModelID"),
                                 e_number(3),
                                 e_number(4)
@@ -1547,7 +1562,7 @@ public class SelectBuilderTest {
                             .$(t("HumanResources","Employee"))
                             .$As("e")
                             .$On()
-                                .$Predicate(p_equal(
+                                .$(p_equal(
                                         c("e","BusinessEntityID"),
                                         c("pp","BusinessEntityID")
                                 ))
@@ -1555,7 +1570,7 @@ public class SelectBuilderTest {
                             .and()
                         .and()
                     .$Where()
-                        .$Predicate(p_equal(
+                        .$(p_equal(
                                 c("LastName"),
                                 e_string("Johnson")
                         ))

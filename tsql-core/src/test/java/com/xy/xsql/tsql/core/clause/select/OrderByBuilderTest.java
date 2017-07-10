@@ -486,7 +486,10 @@ public class OrderByBuilderTest {
                 .$(t("dbo","AppSettings"))
                 .and()
             .$Where()
-                .$Predicate(p_equal(c("AppSettingID"),e_number(1)))
+                .$(p_equal(
+                        c("AppSettingID"),
+                        e_number(1)
+                ))
                 .and()
             .build();
 

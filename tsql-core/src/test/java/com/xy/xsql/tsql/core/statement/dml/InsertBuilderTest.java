@@ -445,7 +445,7 @@ public class InsertBuilderTest {
                     .and()
                 .and()
             .$Where()
-                .$Predicate(p_equal(
+                .$(p_equal(
                         c("sp","BusinessEntityID"),
                         c("c","LastName")
                 ))
@@ -629,7 +629,7 @@ public class InsertBuilderTest {
                         .$Inner_Join()
                         .$(t("Person","Person")).$As("c")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("sp","BusinessEntityID"),
                                     c("c","BusinessEntityID")
                             ))
@@ -637,7 +637,7 @@ public class InsertBuilderTest {
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_greater(
+                    .$(p_greater(
                             c("sp","SalesYTD"),
                             e_number(250000.00)
                     ))
@@ -693,7 +693,7 @@ public class InsertBuilderTest {
                         .$Inner_Join()
                         .$(t("Person","Person")).$As("c")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("sp","BusinessEntityID"),
                                     c("c","BusinessEntityID")
                             ))
@@ -701,7 +701,7 @@ public class InsertBuilderTest {
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_greater(
+                    .$(p_greater(
                             c("sp","SalesYTD"),
                             e_number(250000.00)
                     ))
@@ -767,7 +767,7 @@ public class InsertBuilderTest {
                 .$(t("Production","Location"))
                 .and()
             .$Where()
-                .$Predicate(p_greater(
+                .$(p_greater(
                         c("CostRate"),
                         e_number(0)
                 ))
@@ -869,7 +869,7 @@ public class InsertBuilderTest {
                     .$Join()
                     .$(t("CarSensor_Data"),"T2")
                     .$On()
-                        .$Predicate(p_equal(
+                        .$(p_equal(
                                 c("T1","CustomerKey"),
                                 c("T2","CustomerKey")
                         ))
@@ -877,11 +877,11 @@ public class InsertBuilderTest {
                     .and()
                 .and()
             .$Where()
-                .$Predicate(p_equal(
+                .$(p_equal(
                         c("T2","YearMeasured"),
                         e_number(2009)
                 ))
-                .$_AndPredicate(p_greater(
+                .$And(p_greater(
                         c("T2","Speed"),
                         e_number(40)
                 ))
@@ -1055,14 +1055,14 @@ public class InsertBuilderTest {
                         .$Inner_Join()
                         .$(t("Person","Person")).$As("c")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("sp","BusinessEntityID"),
                                     c("c","BusinessEntityID")
                             )).and()
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_like(
+                    .$(p_like(
                             c("sp","BusinessEntityID"),
                             e_string("2%")
                     ))
@@ -1130,11 +1130,11 @@ public class InsertBuilderTest {
                                 .$Join()
                                 .$(t("Sales","SalesOrderHeader")).$As("soh")
                                 .$On()
-                                    .$Predicate(p_equal(
+                                    .$(p_equal(
                                             c("sod","SalesOrderID"),
                                             c("soh","SalesOrderID")
                                     ))
-                                    .$_AndPredicate(p_equal(
+                                    .$And(p_equal(
                                             c("soh","OrderDate"),
                                             e_string("20070401")
                                     ))
@@ -1149,7 +1149,7 @@ public class InsertBuilderTest {
                 .$As("src","ProductID","OrderQty")
             .$When_Matched()
                 .$And()
-                    .$Predicate(p_less_equal(e_subtraction(
+                    .$(p_less_equal(e_subtraction(
                             c("pi","Quantity"),
                             c("src","OrderQty")),
                             e_number(0)
@@ -1183,7 +1183,7 @@ public class InsertBuilderTest {
 //                .$(derivedTableV0).$As("sp","Action","ProductID")
                 .and()
             .$Where()
-                .$Predicate(p_equal(
+                .$(p_equal(
                         c("Action"),
                         e_string("DELETE")
                 ))
@@ -1275,7 +1275,7 @@ public class InsertBuilderTest {
                         .$(t("DimGeography"))
                             .$("g")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("p","PostalCode"),
                                     c("g","PostalCode")
                             ))
@@ -1283,7 +1283,7 @@ public class InsertBuilderTest {
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("g","CountryRegionCode"),
                             e_string("FR")
                     ))

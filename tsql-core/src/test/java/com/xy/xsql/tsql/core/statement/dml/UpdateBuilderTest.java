@@ -1,10 +1,8 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
-import com.xy.xsql.tsql.core.clause.OutputBuilder;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.operator.Compound;
-import com.xy.xsql.tsql.model.operator.Operator;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.statement.dml.Update;
@@ -13,7 +11,6 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.clause.WithBuilder.WITH;
 import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.OPTIMIZE_FOR;
-import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.OptimizeForBuilder.OPTIMIZE_FOR_Item;
 import static com.xy.xsql.tsql.core.clause.hints.TableHintLimiteds.TABLOCK;
 import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
 import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERYS;
@@ -157,11 +154,11 @@ public class UpdateBuilderTest {
                         )
                 )
                 .$Where()
-                    .$Predicate(p_like(
+                    .$(p_like(
                             c("Name"),
                             e_n_string("Road-250%")
                     ))
-                    .$_AndPredicate(p_equal(
+                    .$And(p_equal(
                             c("Color"),
                             e_n_string("Red")
                     ))
@@ -245,7 +242,7 @@ public class UpdateBuilderTest {
                     .$(select2B,"th").$As("th")
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("HumanResources","Employee","BusinessEntityID"),
                             c("th","BusinessEntityID")
                     ))
@@ -310,11 +307,11 @@ public class UpdateBuilderTest {
                     .$As("b")
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("b","ProductAssemblyID"),
                             e_number(800)
                     ))
-                    .$_AndPredicate(p_is_null(
+                    .$And(p_is_null(
                             c("b","EndDate")
                     ))
                     .and()
@@ -336,11 +333,11 @@ public class UpdateBuilderTest {
                         .$(t("Parts"))
                         .$As("p")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("bom","ProductAssemblyID"),
                                     c("p","ComponentID")
                             ))
-                            .$_AndPredicate(p_is_null(
+                            .$And(p_is_null(
                                     c("bom","EndDate")
                             ))
                             .and()
@@ -394,7 +391,7 @@ public class UpdateBuilderTest {
                         .$Join()
                         .$(t("Parts")).$As("d")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("c","ProductAssemblyID"),
                                     c("d","AssemblyID")
                             ))
@@ -402,7 +399,7 @@ public class UpdateBuilderTest {
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("d","ComponentLevel"),
                             e_number(0)
                     ))
@@ -577,7 +574,7 @@ public class UpdateBuilderTest {
                         )
                 )
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Color"),
                             e_n_string("Red")
                     ))
@@ -629,7 +626,7 @@ public class UpdateBuilderTest {
                         .$As("so2")
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("so2","SalesPersonID"),
                             c("so","SalesPersonID")
                     ))
@@ -645,11 +642,11 @@ public class UpdateBuilderTest {
                         .$As("so")
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("so","OrderDate"),
                             e_subquery(subQuery3C0)
                     ))
-                    .$_AndPredicate(p_equal(
+                    .$And(p_equal(
                             c("Sales","SalesPerson","BusinessEntityID"),
                             c("so","SalesPersonID")
                     ))
@@ -723,7 +720,7 @@ public class UpdateBuilderTest {
                         s_default(c("CostRate"))
                 )
                 .$Where()
-                    .$Predicate(p_greater(
+                    .$(p_greater(
                             c("CostRate"),
                             e_number(20.00)
                     ))
@@ -781,7 +778,7 @@ public class UpdateBuilderTest {
                         s(c("CountryRegionName"),e_string("United States of America"))
                 )
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("CountryRegionName"),
                             e_string("United States")
                     ))
@@ -847,11 +844,11 @@ public class UpdateBuilderTest {
                         .$(t("Production","WorkOrder"))
                         .$As("wo")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("sr","ScrapReasonID"),
                                     c("wo","ScrapReasonID")
                             ))
-                            .$_AndPredicate(p_greater(
+                            .$And(p_greater(
                                     c("wo","ScrappedQty"),
                                     e_number(300)
                             ))
@@ -1003,7 +1000,7 @@ public class UpdateBuilderTest {
                 .$(t("Sales","SalesOrderHeader"))
                 .and()
             .$Where()
-                .$Predicate(p_equal(
+                .$(p_equal(
                         c("SalesPersonID"),
                         c("sp","BusinessEntityID")
                 ))
@@ -1035,11 +1032,11 @@ public class UpdateBuilderTest {
                         .$(t("Sales","SalesOrderHeader"))
                         .$As("so")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("sp","BusinessEntityID"),
                                     c("so","SalesPersonID")
                             ))
-                            .$_AndPredicate(p_equal(
+                            .$And(p_equal(
                                     c("so","OrderDate"),
                                     e_subquery(query5A1)
                             ))
@@ -1058,7 +1055,7 @@ public class UpdateBuilderTest {
                     .$As("so2")
                 .and()
             .$Where()
-                .$Predicate(p_equal(
+                .$(p_equal(
                         c("so2","SalesPersonID"),
                         c("so","SalesPersonID")
                 ))
@@ -1071,11 +1068,11 @@ public class UpdateBuilderTest {
                     .$As("so")
                 .and()
             .$Where()
-                .$Predicate(p_equal(
+                .$(p_equal(
                         c("so","OrderDate"),
                         e_subquery(query5A2_0)
                 ))
-                .$_AndPredicate(p_equal(
+                .$And(p_equal(
                         c("Sales","SalesPerson","BusinessEntityID"),
                         c("so","SalesPersonID")
                 ))
@@ -1129,7 +1126,7 @@ public class UpdateBuilderTest {
                         e_n_string("Public Relations")
                 ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("DepartmentID"),
                             e_number(4)
                     ))
@@ -1197,7 +1194,7 @@ public class UpdateBuilderTest {
                     .$Into("MyTableVar")
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Title"),
                             e_n_string("Front Reflector Bracket Installation")
                     ))
@@ -1219,7 +1216,7 @@ public class UpdateBuilderTest {
                         e_n_string("Replacing NULL value")
                 ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Title"),
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
@@ -1241,7 +1238,7 @@ public class UpdateBuilderTest {
 //                        e_n_string("Replacing NULL value")
 //                ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Title"),
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
@@ -1263,7 +1260,7 @@ public class UpdateBuilderTest {
 //                        e_n_string("Replacing NULL value")
 //                ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Title"),
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
@@ -1285,7 +1282,7 @@ public class UpdateBuilderTest {
 //                        e_n_string("Replacing NULL value")
 //                ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Title"),
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
@@ -1307,7 +1304,7 @@ public class UpdateBuilderTest {
 //                        e_n_string("Replacing NULL value")
 //                ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Title"),
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
@@ -1332,7 +1329,7 @@ public class UpdateBuilderTest {
 //                        e_subquery()
 //                ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("ProductPhotoID"),
                             e_number(1)
                     ))
@@ -1354,7 +1351,7 @@ public class UpdateBuilderTest {
                         e("CAST('Xray 1' as varbinary(max)) ")
                 ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("[SerialNumber]"),
                             e_number(2)
                     ))
@@ -1381,7 +1378,7 @@ public class UpdateBuilderTest {
                         e("CONVERT(Point, '12.3:46.2')")
                 ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Name"),
                             e_string("Anchorage")
                     ))
@@ -1404,7 +1401,7 @@ public class UpdateBuilderTest {
 //                        e("CONVERT(Point, '12.3:46.2')")
 //                ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Name"),
                             e_string("Anchorage")
                     ))
@@ -1426,7 +1423,7 @@ public class UpdateBuilderTest {
                         e_number(23.5)
                 ))
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("Name"),
                             e_string("Anchorage")
                     ))
@@ -1458,7 +1455,7 @@ public class UpdateBuilderTest {
                         )
                 ))
                 .$Where()
-                    .$Predicate(p_like(
+                    .$(p_like(
                             c("ProductNumber"),
                             e_string("BK-%")
                     ))
@@ -1484,7 +1481,7 @@ public class UpdateBuilderTest {
                         )
                 ))
                 .$Where()
-                    .$Predicate(p_like(
+                    .$(p_like(
                             c("ProductNumber"),
                             e_variable("Product")
                     ))
@@ -1570,9 +1567,9 @@ public class UpdateBuilderTest {
                         )
                 )
                 .$Where()
-                    .$Predicate(p_equal(
-                        c("CurrentFlag"),
-                        e_number(1)
+                    .$(p_equal(
+                            c("CurrentFlag"),
+                            e_number(1)
                     ))
                     .and()
                 .done();
@@ -1592,10 +1589,10 @@ public class UpdateBuilderTest {
                         e_n_string("MyNewName")
                 ))
                 .$Where()
-                    .$Predicate(p_between(
-                        c("DepartmentID"),
-                        e_number(1),
-                        e_number(2)
+                    .$(p_between(
+                            c("DepartmentID"),
+                            e_number(1),
+                            e_number(2)
                     ))
                     .and()
                 .done();

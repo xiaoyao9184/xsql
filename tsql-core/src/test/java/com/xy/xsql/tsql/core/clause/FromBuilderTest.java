@@ -1139,7 +1139,7 @@ public class FromBuilderTest {
                         .$Inner_Join()
                         .$(t("DimProduct")).$As("dp")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("dp","ProductKey"),
                                     c("fis","ProductKey")
                             ))
@@ -1212,7 +1212,7 @@ public class FromBuilderTest {
                         .$Left_Outer_Join()
                         .$(t("DimProduct")).$As("dp")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("dp","ProductKey"),
                                     c("fis","ProductKey")
                             ))

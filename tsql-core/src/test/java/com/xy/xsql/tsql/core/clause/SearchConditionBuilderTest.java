@@ -28,11 +28,11 @@ public class SearchConditionBuilderTest {
         Select select = null;
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .$Predicate(
-                        p_equal(e("CountryRegionCode"),
-                                all(),
-                                select)
-                )
+                .$(p_equal(
+                        e("CountryRegionCode"),
+                        all(),
+                        select
+                ))
                 .build();
         // @formatter:on
         Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
@@ -49,14 +49,15 @@ public class SearchConditionBuilderTest {
         Select select = null;
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .$Predicate(
-                        p_equal(e("CountryRegionCode"),
-                                all(),
-                                select)
-                )
-                .$_AndPredicate(
-                        p_equal(e("CountryRegionCode"),
-                                e_number(20)))
+                .$(p_equal(
+                        e("CountryRegionCode"),
+                        all(),
+                        select
+                ))
+                .$And(p_equal(
+                        e("CountryRegionCode"),
+                        e_number(20)
+                ))
                 .build();
         // @formatter:on
         Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
@@ -151,12 +152,11 @@ public class SearchConditionBuilderTest {
     public SearchCondition exampleA = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
-                    .$Predicate(
-                            p_like(
-                                e("LargePhotoFileName"),
-                                e_string("%greena_%"),
-                                e_string("a"))
-                    )
+                    .$(p_like(
+                            e("LargePhotoFileName"),
+                            e_string("%greena_%"),
+                            e_string("a")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -196,14 +196,14 @@ public class SearchConditionBuilderTest {
     public SearchCondition exampleB = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
-                    .$Predicate(
-                            p_not_in(e("CountryRegionCode"),
-                                e_string("US"))
-                    )
-                    .$_AndPredicate(
-                            p_like(e("City"),
-                                e_n_string("Pa%"))
-                    )
+                    .$(p_not_in(
+                            e("CountryRegionCode"),
+                            e_string("US")
+                    ))
+                    .$And(p_like(
+                            e("City"),
+                            e_n_string("Pa%")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -260,10 +260,10 @@ public class SearchConditionBuilderTest {
     public SearchCondition exampleC = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
-                    .$Predicate(
-                            p_like(e("LastName"),
-                                    e_string("%and%"))
-                    )
+                    .$(p_like(
+                            e("LastName"),
+                            e_string("%and%")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -272,10 +272,10 @@ public class SearchConditionBuilderTest {
     public void testExampleC(){
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .$Predicate(
-                        p_like(e("LastName"),
-                                e_string("%and%"))
-                )
+                .$(p_like(
+                        e("LastName"),
+                        e_string("%and%")
+                ))
                 .build();
         // @formatter:on
 
@@ -294,10 +294,10 @@ public class SearchConditionBuilderTest {
     public SearchCondition exampleD = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
-                    .$Predicate(
-                            p_like(e("LastName"),
-                                    e_n_string("%and%"))
-                    )
+                    .$(p_like(
+                            e("LastName"),
+                            e_n_string("%and%")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -306,10 +306,10 @@ public class SearchConditionBuilderTest {
     public void testExampleD(){
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .$Predicate(
-                        p_like(e("LastName"),
-                                e_n_string("%and%"))
-                )
+                .$(p_like(
+                        e("LastName"),
+                        e_n_string("%and%")
+                ))
                 .build();
         // @formatter:on
 

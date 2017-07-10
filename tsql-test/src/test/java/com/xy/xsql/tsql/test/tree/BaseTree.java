@@ -43,7 +43,7 @@ public class BaseTree {
                     .$(t("test_use_tree_base"))
                     .and()
                 .$Where()
-                    .$Predicate(p_like(
+                    .$(p_like(
                             c("path"),
                             c("p")
                     ))
@@ -59,7 +59,7 @@ public class BaseTree {
                             .and()
                         .and()
                     .$Where()
-                        .$Predicate(p_like(
+                        .$(p_like(
                                 c("path"),
                                 c("p")
                         ))

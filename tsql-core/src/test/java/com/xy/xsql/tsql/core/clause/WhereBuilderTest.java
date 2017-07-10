@@ -21,6 +21,38 @@ import static com.xy.xsql.tsql.core.predicate.Predicates.*;
  */
 public class WhereBuilderTest {
 
+
+    // @formatter:off
+    /**
+     * WHERE ( Name = '1' AND Name = '2') AND ( Name = '3' AND Name = '4' )
+     */
+    public Where useGroup = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
+                (WhereBuilder.class,Where.class)
+                .$child()
+                    .$()
+                        .$(p_equal(
+                            e("Name"),
+                            e_string("1")
+                        ))
+                        .$And(p_equal(
+                                e("Name"),
+                                e_string("2")
+                        ))
+                        .and()
+                    .$And()
+                        .$(p_equal(
+                                e("Name"),
+                                e_string("3")
+                        ))
+                        .$And(p_equal(
+                                e("Name"),
+                                e_string("4")
+                        ))
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
     /*
     Examples
     See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/where-transact-sql#examples
@@ -34,12 +66,10 @@ public class WhereBuilderTest {
     public Where exampleA = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                            p_equal(
-                                    e("Name"),
-                                    e_string("Blade")
-                            )
-                    )
+                    .$(p_equal(
+                            e("Name"),
+                            e_string("Blade")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -73,12 +103,10 @@ public class WhereBuilderTest {
     public Where exampleB = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                            p_like(
-                                    e("Name"),
-                                    e_string("%Frame%")
-                            )
-                    )
+                    .$(p_like(
+                            e("Name"),
+                            e_string("%Frame%")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -111,11 +139,10 @@ public class WhereBuilderTest {
     public Where exampleC = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                            p_less_equal(
-                                    e("ProductID"),
-                                    e_number(12))
-                    )
+                    .$(p_less_equal(
+                            e("ProductID"),
+                            e_number(12)
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -151,15 +178,18 @@ public class WhereBuilderTest {
     public Where exampleD = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                            p_equal(e("ProductID"),e_number(2))
-                    )
-                    .$_OrPredicate(
-                            p_equal(e("ProductID"),e_number(4))
-                    )
-                    .$_OrPredicate(
-                            p_equal(e("Name"),e_string("Spokes"))
-                    )
+                    .$(p_equal(
+                            e("ProductID"),
+                            e_number(2)
+                    ))
+                    .$Or(p_equal(
+                            e("ProductID"),
+                            e_number(4)
+                    ))
+                    .$Or(p_equal(
+                            e("Name"),
+                            e_string("Spokes")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -229,15 +259,18 @@ public class WhereBuilderTest {
     public Where exampleE = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                            p_like(e("Name"),e_string("%Frame%"))
-                    )
-                    .$_AndPredicate(
-                            p_like(e("Name"),e_string("HL%"))
-                    )
-                    .$_AndPredicate(
-                            p_equal(e("Color"),e_string("Red"))
-                    )
+                    .$(p_like(
+                            e("Name"),
+                            e_string("%Frame%")
+                    ))
+                    .$And(p_like(
+                            e("Name"),
+                            e_string("HL%")
+                    ))
+                    .$And(p_equal(
+                            e("Color"),
+                            e_string("Red")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -301,13 +334,12 @@ public class WhereBuilderTest {
     public Where exampleF = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_in(
-                                e("Name"),
-                                e_string("Blade"),
-                                e_string("Crown Race"),
-                                e_string("Spokes"))
-                    )
+                    .$(p_in(
+                            e("Name"),
+                            e_string("Blade"),
+                            e_string("Crown Race"),
+                            e_string("Spokes")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -351,12 +383,11 @@ public class WhereBuilderTest {
     public Where exampleG = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_between(
-                                e("ProductID"),
-                                e_number(725),
-                                e_number(734))
-                    )
+                    .$(p_between(
+                            e("ProductID"),
+                            e_number(725),
+                            e_number(734)
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -398,11 +429,10 @@ public class WhereBuilderTest {
     public Where exampleH = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_equal(
-                                e("LastName"),
-                                e_string("Smith"))
-                    )
+                    .$(p_equal(
+                            e("LastName"),
+                            e_string("Smith")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -439,11 +469,10 @@ public class WhereBuilderTest {
     public Where exampleI = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_like(
-                                e("LastName"),
-                                e_string("%Smi%"))
-                    )
+                    .$(p_like(
+                            e("LastName"),
+                            e_string("%Smi%")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -478,11 +507,10 @@ public class WhereBuilderTest {
     public Where exampleJ = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_less_equal(
-                                e("EmployeeKey"),
-                                e_number(500))
-                    )
+                    .$(p_less_equal(
+                            e("EmployeeKey"),
+                            e_number(500)
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -519,21 +547,18 @@ public class WhereBuilderTest {
     public Where exampleK = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_equal(
+                    .$(p_equal(
                             e("EmployeeKey"),
-                            e_number(1))
-                    )
-                    .$_OrPredicate(
-                        p_equal(
+                            e_number(1)
+                    ))
+                    .$Or(p_equal(
                             e("EmployeeKey"),
-                            e_number(8))
-                    )
-                    .$_OrPredicate(
-                        p_equal(
+                            e_number(8)
+                    ))
+                    .$Or(p_equal(
                             e("EmployeeKey"),
-                            e_number(12))
-                    )
+                            e_number(12)
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -603,21 +628,18 @@ public class WhereBuilderTest {
     public Where exampleL = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_less_equal(
-                                e("EmployeeKey"),
-                                e_number(500))
-                    )
-                    .$_AndPredicate(
-                        p_like(
-                                e("LastName"),
-                                e_string("%Smi%"))
-                    )
-                    .$_AndPredicate(
-                        p_like(
-                                e("FirstName"),
-                                e_string("%A%"))
-                    )
+                    .$(p_less_equal(
+                            e("EmployeeKey"),
+                            e_number(500)
+                    ))
+                    .$And(p_like(
+                            e("LastName"),
+                            e_string("%Smi%")
+                    ))
+                    .$And(p_like(
+                            e("FirstName"),
+                            e_string("%A%")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -683,13 +705,12 @@ public class WhereBuilderTest {
     public Where exampleM = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_in(
+                    .$(p_in(
                             e("LastName"),
                             e_string("Smith"),
                             e_string("Godfrey"),
-                            e_string("Johnson"))
-                    )
+                            e_string("Johnson")
+                    ))
                     .and()
                 .get();
     // @formatter:on
@@ -728,12 +749,11 @@ public class WhereBuilderTest {
     public Where exampleN = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
                 (WhereBuilder.class,Where.class)
                 .$child()
-                    .$Predicate(
-                        p_between(
+                    .$(p_between(
                             e("EmployeeKey"),
                             e_number(100),
-                            e_number(200))
-                    )
+                            e_number(200)
+                    ))
                     .and()
                 .get();
     // @formatter:on

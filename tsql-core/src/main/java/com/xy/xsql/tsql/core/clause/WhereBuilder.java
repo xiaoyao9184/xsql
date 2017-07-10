@@ -6,13 +6,12 @@ import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.FiledBuilder.set;
-import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
  * WhereBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class WhereBuilder<ParentBuilder>
         extends CodeTreeBuilder<WhereBuilder<ParentBuilder>,ParentBuilder,Where> {
 
@@ -24,6 +23,10 @@ public class WhereBuilder<ParentBuilder>
         super(where);
     }
 
+    /**
+     * in
+     * @return SearchConditionBuilder
+     */
     public SearchConditionBuilder<WhereBuilder<ParentBuilder>> withSearchCondition(){
         return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
                 (initSet(SearchCondition::new,
@@ -34,158 +37,189 @@ public class WhereBuilder<ParentBuilder>
 
 
     /*
-    Quick set
+    Quick
+    Same as HavingBuilder
      */
 
     /**
-     * Quick set searchCondition.predicate
-     * @param predicate
-     * @return
+     * Quick set
+     * @param predicate searchCondition.predicate
+     * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Predicate(Predicate predicate){
+    public WhereBuilder<ParentBuilder> $(Predicate predicate){
         return withSearchCondition()
-                .$Predicate(predicate)
+                .$(predicate)
                 .and();
     }
 
     /**
-     * Quick set searchCondition.predicate
-     * @param predicate
-     * @return
+     * Quick set
+     * @param predicate searchCondition.predicate
+     * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $NotPredicate(Predicate predicate){
+    public WhereBuilder<ParentBuilder> $Not(Predicate predicate){
         return withSearchCondition()
-                .$NotPredicate(predicate)
+                .$Not(predicate)
                 .and();
     }
 
-
-
-
-    /*
-    Quick into
-     */
-
     /**
-     * Quick into SearchConditionBuilder
+     * Quick in
      * for set searchCondition.searchCondition
-     * @return
+     * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $SearchCondition(){
-        return withSearchCondition()
-                .$SearchCondition();
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $(){
+        SearchCondition searchCondition = new SearchCondition();
+        withSearchCondition()
+                .withSearchCondition(searchCondition)
+                .and();
+
+        return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
+                (searchCondition)
+                .in(this);
     }
 
     /**
-     * Quick into SearchConditionBuilder
+     * Quick in
      * for set searchCondition.searchCondition
-     * @return
+     * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $NotSearchCondition(){
-        return withSearchCondition()
-                .$NotSearchCondition();
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $Not(){
+        SearchCondition searchCondition = new SearchCondition();
+        withSearchCondition()
+                .withNot()
+                .withSearchCondition(searchCondition)
+                .and();
+
+        return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
+                (searchCondition)
+                .in(this);
     }
 
-
-
-
-    /*
-    Quick set
-     */
-
     /**
-     * Quick set searchCondition.andOrNotItem.predicate
+     * Quick set
      * into SearchConditionBuilder.AndOrNotItemBuilder get-out
-     * @param predicate
-     * @return
+     * @param predicate searchCondition.andOrNotItem.predicate
+     * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $_AndPredicate(Predicate predicate) {
+    public WhereBuilder<ParentBuilder> $And(Predicate predicate) {
         return withSearchCondition()
-                .$_AndPredicate(predicate)
+                .$And(predicate)
                 .and();
     }
 
     /**
-     * Quick set searchCondition.andOrNotItem.predicate
+     * Quick set
      * into SearchConditionBuilder.AndOrNotItemBuilder get-out
-     * @param predicate
-     * @return
+     * @param predicate searchCondition.andOrNotItem.predicate
+     * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $_OrPredicate(Predicate predicate) {
+    public WhereBuilder<ParentBuilder> $Or(Predicate predicate) {
         return withSearchCondition()
-                .$_OrPredicate(predicate)
+                .$Or(predicate)
                 .and();
     }
 
     /**
-     * Quick set searchCondition.andOrNotItem.predicate
+     * Quick set
      * into SearchConditionBuilder.AndOrNotItemBuilder get-out
-     * @param predicate
-     * @return
+     * @param predicate searchCondition.andOrNotItem.predicate
+     * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $_AndNotPredicate(Predicate predicate) {
+    public WhereBuilder<ParentBuilder> $And_Not(Predicate predicate) {
         return withSearchCondition()
-                .$_AndNotPredicate(predicate)
+                .$And_Not(predicate)
                 .and();
     }
 
     /**
-     * Quick set searchCondition.andOrNotItem.predicate
+     * Quick set
      * into SearchConditionBuilder.AndOrNotItemBuilder get-out
-     * @param predicate
-     * @return
+     * @param predicate searchCondition.andOrNotItem.predicate
+     * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $_OrNotPredicate(Predicate predicate) {
+    public WhereBuilder<ParentBuilder> $Or_Not(Predicate predicate) {
         return withSearchCondition()
-                .$_OrNotPredicate(predicate)
+                .$Or_Not(predicate)
                 .and();
     }
 
-
-
-
-    /*
-    Quick into
-     */
-
     /**
-     * Quick into SearchConditionBuilder
+     * Quick in
      * for set searchCondition.andOrNotItem.searchCondition
-     * @return
+     * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__AndSearchCondition() {
-        return withSearchCondition()
-                .$_AndSearchCondition();
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $And() {
+        SearchCondition searchCondition = new SearchCondition();
+        withSearchCondition()
+                .withAndOrNotItem()
+                    .withAnd()
+                    .withSearchCondition(searchCondition)
+                    .and()
+                .and();
+
+        return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
+                (searchCondition)
+                .in(this);
     }
 
     /**
-     * Quick into SearchConditionBuilder
+     * Quick in
      * for set searchCondition.andOrNotItem.searchCondition
-     * @return
+     * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__OrSearchCondition() {
-        return withSearchCondition()
-                .$_OrSearchCondition();
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $Or() {
+        SearchCondition searchCondition = new SearchCondition();
+        withSearchCondition()
+                .withAndOrNotItem()
+                    .withOr()
+                    .withSearchCondition(searchCondition)
+                    .and()
+                .and();
+
+        return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
+                (searchCondition)
+                .in(this);
     }
 
     /**
-     * Quick into SearchConditionBuilder
+     * Quick in
      * for set searchCondition.andOrNotItem.searchCondition
-     * @return
+     * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__AndNotSearchCondition() {
-        return withSearchCondition()
-                .$_AndNotSearchCondition();
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $And_Not() {
+        SearchCondition searchCondition = new SearchCondition();
+        withSearchCondition()
+                .withAndOrNotItem()
+                    .withNot(true)
+                    .withAnd()
+                    .withSearchCondition(searchCondition)
+                    .and()
+                .and();
+
+        return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
+                (searchCondition)
+                .in(this);
     }
 
     /**
-     * Quick into SearchConditionBuilder
+     * Quick in
      * for set searchCondition.andOrNotItem.searchCondition
-     * @return
+     * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<WhereBuilder<ParentBuilder>>> $__OrNotSearchCondition() {
-        return withSearchCondition()
-                .$_OrNotSearchCondition();
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $Or_Not() {
+        SearchCondition searchCondition = new SearchCondition();
+        withSearchCondition()
+                .withAndOrNotItem()
+                    .withNot(true)
+                    .withOr()
+                    .withSearchCondition(searchCondition)
+                    .and()
+                .and();
+
+        return new SearchConditionBuilder<WhereBuilder<ParentBuilder>>
+                (searchCondition)
+                .in(this);
     }
 
 }

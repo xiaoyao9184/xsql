@@ -66,7 +66,7 @@ public class DeleteBuilderTest {
     public Delete exampleB1 = DELETE()
             .$From(t("Production","ProductCostHistory"))
             .$Where()
-                .$Predicate(p_greater(
+                .$(p_greater(
                         c("StandardCost"),
                         e_number(1000.00)
                 ))
@@ -108,12 +108,12 @@ public class DeleteBuilderTest {
     public Delete exampleB2 = DELETE()
             .$(t("Production","ProductCostHistory"))
             .$Where()
-                .$Predicate(p_between(
+                .$(p_between(
                         c("StandardCost"),
                         e_number(12.00),
                         e_number(14.00)
                 ))
-                .$_AndPredicate(p_is_null(
+                .$And(p_is_null(
                         c("EndDate")
                 ))
                 .and()
@@ -198,7 +198,7 @@ public class DeleteBuilderTest {
                     .$(t("Sales","SalesPerson"))
                     .and()
                 .$Where()
-                    .$Predicate(p_greater(
+                    .$(p_greater(
                             c("SalesYTD"),
                             e_number(2500000.00)
                     ))
@@ -218,7 +218,7 @@ public class DeleteBuilderTest {
     public Delete exampleD1 = DELETE()
             .$From(t("Sales","SalesPersonQuotaHistory"))
             .$Where()
-                .$Predicate(p_in(
+                .$(p_in(
                         c("BusinessEntityID"),
                         subQuery
                 ))
@@ -270,14 +270,14 @@ public class DeleteBuilderTest {
                     .$(t("Sales","SalesPerson"))
                     .$As("sp")
                     .$On()
-                        .$Predicate(p_equal(
+                        .$(p_equal(
                             c("spqh","BusinessEntityID"),
                             c("sp","BusinessEntityID")))
                         .and()
                     .and()
                 .and()
             .$Where()
-                .$Predicate(p_greater(
+                .$(p_greater(
                         c("sp","SalesYTD"),
                         e_number(2500000.00)
                 ))
@@ -345,14 +345,14 @@ public class DeleteBuilderTest {
                         .$(t("Sales","SalesPerson"))
                         .$As("sp")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("spqh","BusinessEntityID"),
                                     c("sp","BusinessEntityID")))
                             .and()
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_greater(
+                    .$(p_greater(
                             c("sp","SalesYTD"),
                             e_number(2500000.00)
                     ))
@@ -415,7 +415,7 @@ public class DeleteBuilderTest {
                     .$_(e_number(20))
                 .$From(t("Purchasing","PurchaseOrderDetail"))
                 .$Where()
-                    .$Predicate(p_less(
+                    .$(p_less(
                             c("DueDate"),
                             e_string("20020701")
                     ))
@@ -476,7 +476,7 @@ public class DeleteBuilderTest {
     public Delete exampleE2 = DELETE()
                 .$From(t("Purchasing","PurchaseOrderDetail"))
                 .$Where()
-                    .$Predicate(p_in(
+                    .$(p_in(
                             c("PurchaseOrderDetailID"),
                             subQueryE2
                     ))
@@ -525,7 +525,7 @@ public class DeleteBuilderTest {
     public Delete exampleF = DELETE()
                 .$(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
                 .$Where()
-                    .$Predicate(p_greater(
+                    .$(p_greater(
                             c("DepartmentID"),
                             e_number(16)
                     ))
@@ -634,7 +634,7 @@ public class DeleteBuilderTest {
                     .$Output(c_deleted())
                     .and()
                 .$Where()
-                    .$Predicate(p_equal(
+                    .$(p_equal(
                             c("ShoppingCartID"),
                             e_number(20621)
                     ))
@@ -703,7 +703,7 @@ public class DeleteBuilderTest {
                         .$(t("Production","Product"))
                         .$As("p")
                         .$On()
-                            .$Predicate(p_equal(
+                            .$(p_equal(
                                     c("ph","ProductID"),
                                     c("p","ProductID")
                             ))
@@ -711,7 +711,7 @@ public class DeleteBuilderTest {
                         .and()
                     .and()
                 .$Where()
-                    .$Predicate(p_between(
+                    .$(p_between(
                             c("p","ProductModelID"),
                             e_number(120),
                             e_number(130)
