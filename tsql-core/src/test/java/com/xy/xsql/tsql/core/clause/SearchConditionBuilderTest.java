@@ -11,6 +11,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 
@@ -19,6 +20,57 @@ import static com.xy.xsql.tsql.core.predicate.Predicates.*;
  */
 public class SearchConditionBuilderTest {
 
+    // @formatter:off
+    /**
+     * WHERE
+        ( Name > '1' AND Name > '2')
+        AND ( Name = '3' AND Name = '4' )
+     */
+    public SearchCondition useGroupTransform = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$()
+                        .$(e("Name")).$Greater(e_string("3"))
+                        .$(p_equal(
+                                e("Name"),
+                                e_string("1")
+                        ))
+                        .$And(p_equal(
+                                e("Name"),
+                                e_string("2")
+                        ))
+                        .and()
+                    .$And()
+                        .$(e("Name")).$Equal(e_string("3"))
+                        .$(p_equal(
+                                e("Name"),
+                                e_string("3")
+                        ))
+                        .$And(p_equal(
+                                e("Name"),
+                                e_string("4")
+                        ))
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    // @formatter:off
+    /**
+     * WHERE
+        CONTAINS ( A , 'aaa' )
+        AND FREETEXT ( A , 'aaa' )
+     */
+    public SearchCondition useTransform = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
+                (SearchConditionBuilder.class,SearchCondition.class)
+                .$child()
+                    .$Contains(c("A"))
+                        .$("aaa")
+                    .$And_FreeText(c("A"))
+                        .$("aaa")
+                    .and()
+                .get();
+    // @formatter:on
 
     /**
      * WHERE CountryRegionCode == ALL ( subquery ) ;
@@ -79,7 +131,7 @@ public class SearchConditionBuilderTest {
         Select select = null;
         // @formatter:off
         SearchCondition searchCondition = new SearchConditionBuilder<Void>()
-                .withPredicate()._All_Some_Any()
+                .withPredicate()._ComparisonSubQuery()
                     .withExpression(e("CountryRegionCode"))
                     .withOperator(com.xy.xsql.tsql.model.operator.Operators.EQUAL)
                     .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)

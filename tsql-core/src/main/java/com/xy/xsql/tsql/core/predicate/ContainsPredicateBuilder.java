@@ -29,6 +29,12 @@ public class ContainsPredicateBuilder<ParentBuilder>
         super(predicate);
     }
 
+
+    public ContainsPredicateBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
+        target.setColumnName(columnName);
+        return this;
+    }
+
     public ContainsPredicateBuilder<ParentBuilder> withColumnName(String columnName) {
         target.setColumnName(c(columnName));
         return this;

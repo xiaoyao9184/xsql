@@ -45,12 +45,10 @@ public class HavingBuilderTest {
     public void testExample(){
         // @formatter:off
         Having having = new HavingBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Comparison()
-                        .withExpression(e("SUM(LineTotal)"))
-                        .withOperator(GREATER)
-                        .withExpression(e_number(100000.00))
-                        .and()
+                .withPredicate()._Comparison()
+                    .withExpression(e("SUM(LineTotal)"))
+                    .withOperator(GREATER)
+                    .withExpression(e_number(100000.00))
                     .and()
                 .build();
         // @formatter:on

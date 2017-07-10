@@ -34,6 +34,11 @@ public class FreeTextPredicateBuilder<ParentBuilder>
         return this;
     }
 
+    public FreeTextPredicateBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
+        target.setColumnName(columnName);
+        return this;
+    }
+
     public FreeTextPredicateBuilder<ParentBuilder> withColumn(String... columnNames) {
         target.setColumnList(
                 Arrays.stream(columnNames)

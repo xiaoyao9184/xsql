@@ -21,38 +21,6 @@ import static com.xy.xsql.tsql.core.predicate.Predicates.*;
  */
 public class WhereBuilderTest {
 
-
-    // @formatter:off
-    /**
-     * WHERE ( Name = '1' AND Name = '2') AND ( Name = '3' AND Name = '4' )
-     */
-    public Where useGroup = new MockParentBuilder<WhereBuilder<MockParent<Where>>,Where>
-                (WhereBuilder.class,Where.class)
-                .$child()
-                    .$()
-                        .$(p_equal(
-                            e("Name"),
-                            e_string("1")
-                        ))
-                        .$And(p_equal(
-                                e("Name"),
-                                e_string("2")
-                        ))
-                        .and()
-                    .$And()
-                        .$(p_equal(
-                                e("Name"),
-                                e_string("3")
-                        ))
-                        .$And(p_equal(
-                                e("Name"),
-                                e_string("4")
-                        ))
-                        .and()
-                    .and()
-                .get();
-    // @formatter:on
-
     /*
     Examples
     See https://docs.microsoft.com/zh-cn/sql/t-sql/queries/where-transact-sql#examples
@@ -78,12 +46,10 @@ public class WhereBuilderTest {
     public void testExampleA(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Comparison()
-                        .withExpression(e("Name"))
-                        .withOperator(Operators.EQUAL)
-                        .withExpression(e_string("Blade"))
-                        .and()
+                .withPredicate()._Comparison()
+                    .withExpression(e("Name"))
+                    .withOperator(Operators.EQUAL)
+                    .withExpression(e_string("Blade"))
                     .and()
                 .build();
         // @formatter:on
@@ -115,11 +81,9 @@ public class WhereBuilderTest {
     public void testExampleB(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Like()
-                        .withStringExpression(e("Name"))
-                        .withStringExpression(e_string("%Frame%"))
-                        .and()
+                .withPredicate()._Like()
+                    .withStringExpression(e("Name"))
+                    .withStringExpression(e_string("%Frame%"))
                     .and()
                 .build();
         // @formatter:on
@@ -151,12 +115,10 @@ public class WhereBuilderTest {
     public void testExampleC(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Comparison()
-                        .withExpression(e("ProductID"))
-                        .withOperator(Operators.LESS_EQUAL)
-                        .withExpression(e_number(12))
-                        .and()
+                .withPredicate()._Comparison()
+                    .withExpression(e("ProductID"))
+                    .withOperator(Operators.LESS_EQUAL)
+                    .withExpression(e_number(12))
                     .and()
                 .build();
         // @formatter:on
@@ -198,28 +160,26 @@ public class WhereBuilderTest {
     public void testExampleD(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
+                .withPredicate()._Comparison()
+                        .withExpression(e("ProductID"))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e_number(2))
+                        .and()
+                .withAndOrNotItem()
+                    .withOr()
                     .withPredicate()._Comparison()
                             .withExpression(e("ProductID"))
                             .withOperator(Operators.EQUAL)
-                            .withExpression(e_number(2))
+                            .withExpression(e_number(4))
                             .and()
-                    .withAndOrNotItem()
-                        .withOr()
-                        .withPredicate()._Comparison()
-                                .withExpression(e("ProductID"))
-                                .withOperator(Operators.EQUAL)
-                                .withExpression(e_number(4))
-                                .and()
-                        .and()
-                    .withAndOrNotItem()
-                        .withOr()
-                        .withPredicate()._Comparison()
-                                .withExpression(e("Name"))
-                                .withOperator(Operators.EQUAL)
-                                .withExpression(e_string("Spokes"))
-                                .and()
-                        .and()
+                    .and()
+                .withAndOrNotItem()
+                    .withOr()
+                    .withPredicate()._Comparison()
+                            .withExpression(e("Name"))
+                            .withOperator(Operators.EQUAL)
+                            .withExpression(e_string("Spokes"))
+                            .and()
                     .and()
                 .build();
         // @formatter:on
@@ -279,25 +239,23 @@ public class WhereBuilderTest {
     public void testExampleE(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
+                .withPredicate()._Like()
+                    .withStringExpression(e("Name"))
+                    .withStringExpression(e_string("%Frame%"))
+                    .and()
+                .withAndOrNotItem()
+                    .withAnd()
                     .withPredicate()._Like()
                         .withStringExpression(e("Name"))
-                        .withStringExpression(e_string("%Frame%"))
+                        .withStringExpression(e_string("HL%"))
                         .and()
-                    .withAndOrNotItem()
-                        .withAnd()
-                        .withPredicate()._Like()
-                            .withStringExpression(e("Name"))
-                            .withStringExpression(e_string("HL%"))
-                            .and()
-                        .and()
-                    .withAndOrNotItem()
-                        .withAnd()
-                        .withPredicate()._Comparison()
-                            .withExpression(e("Color"))
-                            .withOperator(Operators.EQUAL)
-                            .withExpression(e_string("Red"))
-                            .and()
+                    .and()
+                .withAndOrNotItem()
+                    .withAnd()
+                    .withPredicate()._Comparison()
+                        .withExpression(e("Color"))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e_string("Red"))
                         .and()
                     .and()
                 .build();
@@ -348,13 +306,11 @@ public class WhereBuilderTest {
     public void testExampleF(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._In()
-                        .withExpression(e("Name"))
-                        .withValueExpression(e_string("Blade"),
-                                e_string("Crown Race"),
-                                e_string("Spokes"))
-                        .and()
+                .withPredicate()._In()
+                    .withExpression(e("Name"))
+                    .withValueExpression(e_string("Blade"),
+                            e_string("Crown Race"),
+                            e_string("Spokes"))
                     .and()
                 .build();
         // @formatter:on
@@ -396,12 +352,10 @@ public class WhereBuilderTest {
     public void testExampleG(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Between()
-                        .withExpression(e("ProductID"))
-                        .withExpression(e_number(725))
-                        .withExpression(e_number(734))
-                        .and()
+                .withPredicate()._Between()
+                    .withExpression(e("ProductID"))
+                    .withExpression(e_number(725))
+                    .withExpression(e_number(734))
                     .and()
                 .build();
         // @formatter:on
@@ -441,12 +395,10 @@ public class WhereBuilderTest {
     public void testExampleH(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Comparison()
-                        .withExpression(e("LastName"))
-                        .withOperator(Operators.EQUAL)
-                        .withExpression(e_string("Smith"))
-                        .and()
+                .withPredicate()._Comparison()
+                    .withExpression(e("LastName"))
+                    .withOperator(Operators.EQUAL)
+                    .withExpression(e_string("Smith"))
                     .and()
                 .build();
         // @formatter:on
@@ -481,11 +433,9 @@ public class WhereBuilderTest {
     public void testExampleI(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Like()
-                        .withStringExpression(e("LastName"))
-                        .withStringExpression(e_string("%Smi%"))
-                        .and()
+                .withPredicate()._Like()
+                    .withStringExpression(e("LastName"))
+                    .withStringExpression(e_string("%Smi%"))
                     .and()
                 .build();
         // @formatter:on
@@ -519,12 +469,10 @@ public class WhereBuilderTest {
     public void testExampleJ(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Comparison()
-                        .withExpression(e("EmployeeKey"))
-                        .withOperator(Operators.LESS_EQUAL)
-                        .withExpression(e_number(500))
-                        .and()
+                .withPredicate()._Comparison()
+                    .withExpression(e("EmployeeKey"))
+                    .withOperator(Operators.LESS_EQUAL)
+                    .withExpression(e_number(500))
                     .and()
                 .build();
         // @formatter:on
@@ -567,27 +515,25 @@ public class WhereBuilderTest {
     public void testExampleK(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
+                .withPredicate()._Comparison()
+                    .withExpression(e("EmployeeKey"))
+                    .withOperator(Operators.EQUAL)
+                    .withExpression(e_number(1))
+                    .and()
+                .withAndOrNotItem()
+                    .withOr()
                     .withPredicate()._Comparison()
                         .withExpression(e("EmployeeKey"))
                         .withOperator(Operators.EQUAL)
-                        .withExpression(e_number(1))
+                        .withExpression(e_number(8))
                         .and()
-                    .withAndOrNotItem()
-                        .withOr()
-                        .withPredicate()._Comparison()
-                            .withExpression(e("EmployeeKey"))
-                            .withOperator(Operators.EQUAL)
-                            .withExpression(e_number(8))
-                            .and()
-                        .and()
-                    .withAndOrNotItem()
-                        .withOr()
-                        .withPredicate()._Comparison()
-                            .withExpression(e("EmployeeKey"))
-                            .withOperator(Operators.EQUAL)
-                            .withExpression(e_number(12))
-                            .and()
+                    .and()
+                .withAndOrNotItem()
+                    .withOr()
+                    .withPredicate()._Comparison()
+                        .withExpression(e("EmployeeKey"))
+                        .withOperator(Operators.EQUAL)
+                        .withExpression(e_number(12))
                         .and()
                     .and()
                 .build();
@@ -648,25 +594,23 @@ public class WhereBuilderTest {
     public void testExampleL(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Comparison()
-                        .withExpression(e("EmployeeKey"))
-                        .withOperator(Operators.LESS_EQUAL)
-                        .withExpression(e_number(500))
+                .withPredicate()._Comparison()
+                    .withExpression(e("EmployeeKey"))
+                    .withOperator(Operators.LESS_EQUAL)
+                    .withExpression(e_number(500))
+                    .and()
+                .withAndOrNotItem()
+                    .withAnd()
+                    .withPredicate()._Like()
+                        .withStringExpression(e("LastName"))
+                        .withStringExpression(e_string("%Smi%"))
                         .and()
-                    .withAndOrNotItem()
-                        .withAnd()
-                        .withPredicate()._Like()
-                            .withStringExpression(e("LastName"))
-                            .withStringExpression(e_string("%Smi%"))
-                            .and()
-                        .and()
-                    .withAndOrNotItem()
-                        .withAnd()
-                        .withPredicate()._Like()
-                            .withStringExpression(e("FirstName"))
-                            .withStringExpression(e_string("%A%"))
-                            .and()
+                    .and()
+                .withAndOrNotItem()
+                    .withAnd()
+                    .withPredicate()._Like()
+                        .withStringExpression(e("FirstName"))
+                        .withStringExpression(e_string("%A%"))
                         .and()
                     .and()
                 .build();
@@ -719,13 +663,11 @@ public class WhereBuilderTest {
     public void testExampleM(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._In()
-                        .withExpression(e("LastName"))
-                        .withValueExpression(e_string("Smith"))
-                        .withValueExpression(e_string("Godfrey"))
-                        .withValueExpression(e_string("Johnson"))
-                        .and()
+                .withPredicate()._In()
+                    .withExpression(e("LastName"))
+                    .withValueExpression(e_string("Smith"))
+                    .withValueExpression(e_string("Godfrey"))
+                    .withValueExpression(e_string("Johnson"))
                     .and()
                 .build();
         // @formatter:on
@@ -762,12 +704,10 @@ public class WhereBuilderTest {
     public void testExampleN(){
         // @formatter:off
         Where where = new WhereBuilder<Void>()
-                .withSearchCondition()
-                    .withPredicate()._Between()
-                        .withExpression(e("EmployeeKey"))
-                        .withExpression(e_number(100))
-                        .withExpression(e_number(200))
-                        .and()
+                .withPredicate()._Between()
+                    .withExpression(e("EmployeeKey"))
+                    .withExpression(e_number(100))
+                    .withExpression(e_number(200))
                     .and()
                 .build();
         // @formatter:on
