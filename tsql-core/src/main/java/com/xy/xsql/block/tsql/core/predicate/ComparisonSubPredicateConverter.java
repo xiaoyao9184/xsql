@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
 
@@ -10,7 +12,7 @@ import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class ComparisonSubPredicateConverter
-        implements ReferenceBlockConverter<ComparisonSubQuery> {
+        implements MetaContextBlockConverter<ComparisonSubQuery> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,ComparisonSubQuery> builder =
@@ -39,9 +41,10 @@ public class ComparisonSubPredicateConverter
     }
 
     @Override
-    public BlockMeta convert(ComparisonSubQuery comparisonSubQuery) {
-        return builder
-                .data(comparisonSubQuery)
-                .build();
+    public MetaContextBlock convert(ComparisonSubQuery context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
+
 }

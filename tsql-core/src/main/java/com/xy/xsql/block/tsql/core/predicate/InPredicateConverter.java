@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.In;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.predicate.In;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class InPredicateConverter
-        implements ReferenceBlockConverter<In> {
+        implements MetaContextBlockConverter<In> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,In> builder =
@@ -44,9 +46,10 @@ public class InPredicateConverter
     }
 
     @Override
-    public BlockMeta convert(In in) {
-        return builder
-                .data(in)
-                .build();
+    public MetaContextBlock convert(In context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
+
 }

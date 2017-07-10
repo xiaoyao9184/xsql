@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,9 +20,9 @@ public class JoinHintConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = JoinHintConverter.meta();
+        BlockMeta b = JoinHintConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -56,7 +56,7 @@ public class JoinHintConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

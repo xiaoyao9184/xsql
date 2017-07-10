@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.select.IntoBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.Into;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class IntoConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = IntoConverter.meta();
+        BlockMeta b = IntoConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -53,7 +53,7 @@ public class IntoConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

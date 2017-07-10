@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.datatype.Default;
@@ -16,7 +18,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class TableValueConstructorConverter
-        implements ReferenceBlockConverter<TableValueConstructor> {
+        implements MetaContextBlockConverter<TableValueConstructor> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,TableValueConstructor> builder =
@@ -43,15 +45,15 @@ public class TableValueConstructorConverter
     }
 
     @Override
-    public BlockMeta convert(TableValueConstructor tableValueConstructor) {
-        return builder
-                .data(tableValueConstructor)
-                .build();
+    public MetaContextBlock convert(TableValueConstructor context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class RowValueExpressionListConverter
-            implements ReferenceBlockConverter<List<Expression>> {
+            implements MetaContextBlockConverter<List<Expression>> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,List<Expression>> builder =
@@ -70,16 +72,16 @@ public class TableValueConstructorConverter
         }
 
         @Override
-        public BlockMeta convert(List<Expression> expressionList) {
-            return builder
-                    .data(expressionList)
-                    .build();
+        public MetaContextBlock convert(List<Expression> context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
     public static class RowValueExpressionConverter
-            implements ReferenceBlockConverter<Expression> {
+            implements MetaContextBlockConverter<Expression> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Expression> builder =
@@ -102,10 +104,10 @@ public class TableValueConstructorConverter
         }
 
         @Override
-        public BlockMeta convert(Expression expression) {
-            return builder
-                    .data(expression)
-                    .build();
+        public MetaContextBlock convert(Expression context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

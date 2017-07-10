@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.SearchConditionBuilderTest;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
@@ -20,9 +20,9 @@ public class SearchConditionConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = SearchConditionConverter.meta();
+        BlockMeta b = SearchConditionConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -34,9 +34,9 @@ public class SearchConditionConverterTest {
 
     @Test
     public void testAndOrNotItem() throws Exception {
-        ReferenceBlock b = SearchConditionConverter.AndOrNotItemConverter.meta();
+        BlockMeta b = SearchConditionConverter.AndOrNotItemConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -46,9 +46,9 @@ public class SearchConditionConverterTest {
 
     @Test
     public void testPredicate() throws Exception {
-        ReferenceBlock b = SearchConditionConverter.PredicateConverter.meta();
+        BlockMeta b = SearchConditionConverter.PredicateConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -78,7 +78,7 @@ public class SearchConditionConverterTest {
     public void testPrintA() throws Exception {
         SearchCondition searchCondition = builderTest.exampleA;
 
-        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -95,7 +95,7 @@ public class SearchConditionConverterTest {
     public void testPrintB() throws Exception {
         SearchCondition searchCondition = builderTest.exampleB;
 
-        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -113,7 +113,7 @@ public class SearchConditionConverterTest {
     public void testPrintC() throws Exception {
         SearchCondition searchCondition = builderTest.exampleC;
 
-        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -130,7 +130,7 @@ public class SearchConditionConverterTest {
     public void testPrintD() throws Exception {
         SearchCondition searchCondition = builderTest.exampleD;
 
-        StringWriter writer = ReferenceBlockPrinter.print(searchCondition);
+        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");

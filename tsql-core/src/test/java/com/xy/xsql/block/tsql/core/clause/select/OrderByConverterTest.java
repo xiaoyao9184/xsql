@@ -1,8 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.clause.select.IntoBuilderTest;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.select.OrderByBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
 import org.junit.Assert;
@@ -13,8 +12,6 @@ import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by xiaoyao9184 on 2017/6/21.
  */
@@ -22,9 +19,9 @@ public class OrderByConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = OrderByConverter.meta();
+        BlockMeta b = OrderByConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -37,9 +34,9 @@ public class OrderByConverterTest {
 
     @Test
     public void testOffsetFetch() throws Exception {
-        ReferenceBlock b = OrderByConverter.OffsetFetchConverter.meta();
+        BlockMeta b = OrderByConverter.OffsetFetchConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -139,7 +136,7 @@ public class OrderByConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.BlockMetaBuilder;
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.FromConverter;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
@@ -15,7 +17,7 @@ import com.xy.xsql.tsql.model.statement.dml.Merge;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class MergeConverter
-        implements ReferenceBlockConverter<Merge> {
+        implements MetaContextBlockConverter<Merge> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Merge> builder =
@@ -104,14 +106,15 @@ public class MergeConverter
     }
 
     @Override
-    public BlockMeta convert(Merge merge) {
-        return builder
-                .data(merge)
-                .build();
+    public MetaContextBlock convert(Merge context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
+
     public static class MergeHintConverter
-            implements ReferenceBlockConverter<Merge.MergeHint> {
+            implements MetaContextBlockConverter<Merge.MergeHint> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Merge.MergeHint> builder =
@@ -148,15 +151,16 @@ public class MergeConverter
         }
 
         @Override
-        public BlockMeta convert(Merge.MergeHint mergeHint) {
-            return builder
-                    .data(mergeHint)
-                    .build();
+        public MetaContextBlock convert(Merge.MergeHint context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
     public static class MatchedWhenThenConverter
-            implements ReferenceBlockConverter<Merge.MatchedWhenThen> {
+            implements MetaContextBlockConverter<Merge.MatchedWhenThen> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Merge.MatchedWhenThen> builder =
@@ -187,15 +191,16 @@ public class MergeConverter
         }
 
         @Override
-        public BlockMeta convert(Merge.MatchedWhenThen matchedWhenThen) {
-            return builder
-                    .data(matchedWhenThen)
-                    .build();
+        public MetaContextBlock convert(Merge.MatchedWhenThen context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
     public static class NotMatchedTargetWhenThenConverter
-            implements ReferenceBlockConverter<Merge.NotMatchedWhenThen> {
+            implements MetaContextBlockConverter<Merge.NotMatchedWhenThen> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Merge.NotMatchedWhenThen> builder =
@@ -233,15 +238,16 @@ public class MergeConverter
         }
 
         @Override
-        public BlockMeta convert(Merge.NotMatchedWhenThen notMatchedWhenThen) {
-            return builder
-                    .data(notMatchedWhenThen)
-                    .build();
+        public MetaContextBlock convert(Merge.NotMatchedWhenThen context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
     public static class NotMatchedSourceWhenThenConverter
-            implements ReferenceBlockConverter<Merge.NotMatchedWhenThen> {
+            implements MetaContextBlockConverter<Merge.NotMatchedWhenThen> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Merge.NotMatchedWhenThen> builder =
@@ -275,15 +281,16 @@ public class MergeConverter
         }
 
         @Override
-        public BlockMeta convert(Merge.NotMatchedWhenThen notMatchedWhenThen) {
-            return builder
-                    .data(notMatchedWhenThen)
-                    .build();
+        public MetaContextBlock convert(Merge.NotMatchedWhenThen context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
     public static class MergeMatchedConverter
-            implements ReferenceBlockConverter<Merge.MergeMatched> {
+            implements MetaContextBlockConverter<Merge.MergeMatched> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Merge.MergeMatched> builder =
@@ -318,15 +325,16 @@ public class MergeConverter
         }
 
         @Override
-        public BlockMeta convert(Merge.MergeMatched mergeMatched) {
-            return builder
-                    .data(mergeMatched)
-                    .build();
+        public MetaContextBlock convert(Merge.MergeMatched context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
     public static class MergeNotMatchedConverter
-            implements ReferenceBlockConverter<Merge.MergeNotMatched> {
+            implements MetaContextBlockConverter<Merge.MergeNotMatched> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Merge.MergeNotMatched> builder =
@@ -368,11 +376,12 @@ public class MergeConverter
         }
 
         @Override
-        public BlockMeta convert(Merge.MergeNotMatched mergeNotMatched) {
-            return builder
-                    .data(mergeNotMatched)
-                    .build();
+        public MetaContextBlock convert(Merge.MergeNotMatched context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
 }

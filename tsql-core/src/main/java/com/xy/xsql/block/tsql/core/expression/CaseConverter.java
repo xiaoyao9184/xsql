@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Case;
 
@@ -10,7 +12,7 @@ import com.xy.xsql.tsql.model.expression.Case;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class CaseConverter
-        implements ReferenceBlockConverter<Case> {
+        implements MetaContextBlockConverter<Case> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Case> builder =
@@ -34,10 +36,10 @@ public class CaseConverter
     }
 
     @Override
-    public BlockMeta convert(Case aCase) {
-        return builder
-                .data(aCase)
-                .build();
+    public MetaContextBlock convert(Case context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
     public static class SimpleCaseConverter {
@@ -105,7 +107,7 @@ public class CaseConverter
 
 
     public static class CaseWhenThenExpressionConverter
-            implements ReferenceBlockConverter<Case.WhenThenExpression> {
+            implements MetaContextBlockConverter<Case.WhenThenExpression> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Case.WhenThenExpression> builder =
@@ -125,11 +127,12 @@ public class CaseConverter
         }
 
         @Override
-        public BlockMeta convert(Case.WhenThenExpression whenThenExpression) {
-            return builder
-                    .data(whenThenExpression)
-                    .build();
+        public MetaContextBlock convert(Case.WhenThenExpression context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
 }

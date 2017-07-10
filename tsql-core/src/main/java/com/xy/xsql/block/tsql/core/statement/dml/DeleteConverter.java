@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.statement.dml.Delete;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class DeleteConverter
-        implements ReferenceBlockConverter<Delete> {
+        implements MetaContextBlockConverter<Delete> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Delete> builder =
@@ -93,9 +95,10 @@ public class DeleteConverter
     }
 
     @Override
-    public BlockMeta convert(Delete delete) {
-        return builder
-                .data(delete)
-                .build();
+    public MetaContextBlock convert(Delete context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
+
 }

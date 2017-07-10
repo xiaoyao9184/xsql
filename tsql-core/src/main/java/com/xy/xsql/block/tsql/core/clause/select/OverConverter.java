@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import com.xy.xsql.tsql.model.element.Other;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class OverConverter
-        implements ReferenceBlockConverter<Over> {
+        implements MetaContextBlockConverter<Over> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Over> builder =
@@ -47,16 +49,16 @@ public class OverConverter
     }
 
     @Override
-    public BlockMeta convert(Over over) {
-        return builder
-                .data(over)
-                .build();
+    public MetaContextBlock convert(Over context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
 
     public static class PartitionByConverter
-            implements ReferenceBlockConverter<Over.PartitionBy> {
+            implements MetaContextBlockConverter<Over.PartitionBy> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.PartitionBy> builder =
@@ -76,15 +78,15 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.PartitionBy partitionBy) {
-            return builder
-                    .data(partitionBy)
-                    .build();
+        public MetaContextBlock convert(Over.PartitionBy context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class OrderByConverter
-            implements ReferenceBlockConverter<Over.OrderBy> {
+            implements MetaContextBlockConverter<Over.OrderBy> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.OrderBy> builder =
@@ -106,17 +108,17 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.OrderBy orderBy) {
-            return builder
-                    .data(orderBy)
-                    .build();
+        public MetaContextBlock convert(Over.OrderBy context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
 
     public static class RowRangeConverter
-            implements ReferenceBlockConverter<Over.RowRange> {
+            implements MetaContextBlockConverter<Over.RowRange> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.RowRange> builder =
@@ -139,15 +141,15 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.RowRange rowRange) {
-            return builder
-                    .data(rowRange)
-                    .build();
+        public MetaContextBlock convert(Over.RowRange context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class WindowFrameExtentConverter
-            implements ReferenceBlockConverter<Over.WindowFrameExtent> {
+            implements MetaContextBlockConverter<Over.WindowFrameExtent> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.WindowFrameExtent> builder =
@@ -171,15 +173,15 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.WindowFrameExtent windowFrameExtent) {
-            return builder
-                    .data(windowFrameExtent)
-                    .build();
+        public MetaContextBlock convert(Over.WindowFrameExtent context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class WindowFrameBetweenConverter
-            implements ReferenceBlockConverter<Over.WindowFrameBetween> {
+            implements MetaContextBlockConverter<Over.WindowFrameBetween> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.WindowFrameBetween> builder =
@@ -202,15 +204,15 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.WindowFrameBetween windowFrameBetween) {
-            return builder
-                    .data(windowFrameBetween)
-                    .build();
+        public MetaContextBlock convert(Over.WindowFrameBetween context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class WindowFrameBoundConverter
-            implements ReferenceBlockConverter<Over.WindowFrameBound> {
+            implements MetaContextBlockConverter<Over.WindowFrameBound> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.WindowFrameBound> builder =
@@ -234,15 +236,15 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.WindowFrameBound windowFrameBound) {
-            return builder
-                    .data(windowFrameBound)
-                    .build();
+        public MetaContextBlock convert(Over.WindowFrameBound context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class WindowFramePrecedingConverter
-            implements ReferenceBlockConverter<Over.WindowFramePreceding> {
+            implements MetaContextBlockConverter<Over.WindowFramePreceding> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.WindowFramePreceding> builder =
@@ -273,15 +275,15 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.WindowFramePreceding windowFramePreceding) {
-            return builder
-                    .data(windowFramePreceding)
-                    .build();
+        public MetaContextBlock convert(Over.WindowFramePreceding context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class WindowFrameFollowingConverter
-            implements ReferenceBlockConverter<Over.WindowFrameFollowing> {
+            implements MetaContextBlockConverter<Over.WindowFrameFollowing> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.WindowFrameFollowing> builder =
@@ -312,15 +314,15 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.WindowFrameFollowing windowFrameFollowing) {
-            return builder
-                    .data(windowFrameFollowing)
-                    .build();
+        public MetaContextBlock convert(Over.WindowFrameFollowing context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class UnsignedValueSpecificationConverter
-            implements ReferenceBlockConverter<Over.UnsignedValueSpecification> {
+            implements MetaContextBlockConverter<Over.UnsignedValueSpecification> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Over.UnsignedValueSpecification> builder =
@@ -337,10 +339,10 @@ public class OverConverter
         }
 
         @Override
-        public BlockMeta convert(Over.UnsignedValueSpecification unsignedValueSpecification) {
-            return builder
-                    .data(unsignedValueSpecification)
-                    .build();
+        public MetaContextBlock convert(Over.UnsignedValueSpecification context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

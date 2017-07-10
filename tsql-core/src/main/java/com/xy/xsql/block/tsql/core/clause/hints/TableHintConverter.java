@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.element.Other;
@@ -12,7 +14,7 @@ import com.xy.xsql.tsql.model.operator.Assignment;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class TableHintConverter
-        implements ReferenceBlockConverter<TableHint> {
+        implements MetaContextBlockConverter<TableHint> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,TableHint> builder =
@@ -149,10 +151,10 @@ public class TableHintConverter
     }
 
     @Override
-    public BlockMeta convert(TableHint tableHint) {
-        return builder
-                .data(tableHint)
-                .build();
+    public MetaContextBlock convert(TableHint context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 }

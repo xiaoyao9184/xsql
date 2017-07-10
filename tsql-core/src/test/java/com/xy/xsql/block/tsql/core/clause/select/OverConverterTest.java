@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.select.OverBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class OverConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = OverConverter.meta();
+        BlockMeta b = OverConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -36,9 +36,9 @@ public class OverConverterTest {
 
     @Test
     public void testPartitionBy() throws Exception {
-        ReferenceBlock b = OverConverter.PartitionByConverter.meta();
+        BlockMeta b = OverConverter.PartitionByConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -49,9 +49,9 @@ public class OverConverterTest {
 
     @Test
     public void testOrderBy() throws Exception {
-        ReferenceBlock b = OverConverter.OrderByConverter.meta();
+        BlockMeta b = OverConverter.OrderByConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -62,9 +62,9 @@ public class OverConverterTest {
 
     @Test
     public void testRowRange() throws Exception {
-        ReferenceBlock b = OverConverter.RowRangeConverter.meta();
+        BlockMeta b = OverConverter.RowRangeConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -75,9 +75,9 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameExtent() throws Exception {
-        ReferenceBlock b = OverConverter.WindowFrameExtentConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameExtentConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -91,9 +91,9 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameBetween() throws Exception {
-        ReferenceBlock b = OverConverter.WindowFrameBetweenConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameBetweenConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -104,9 +104,9 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameBound() throws Exception {
-        ReferenceBlock b = OverConverter.WindowFrameBoundConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameBoundConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -120,9 +120,9 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFramePreceding() throws Exception {
-        ReferenceBlock b = OverConverter.WindowFramePrecedingConverter.meta();
+        BlockMeta b = OverConverter.WindowFramePrecedingConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -133,9 +133,9 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameFollowing() throws Exception {
-        ReferenceBlock b = OverConverter.WindowFrameFollowingConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameFollowingConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -146,9 +146,9 @@ public class OverConverterTest {
 
     @Test
     public void testUnsignedValueSpecification() throws Exception {
-        ReferenceBlock b = OverConverter.UnsignedValueSpecificationConverter.meta();
+        BlockMeta b = OverConverter.UnsignedValueSpecificationConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -212,7 +212,7 @@ public class OverConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

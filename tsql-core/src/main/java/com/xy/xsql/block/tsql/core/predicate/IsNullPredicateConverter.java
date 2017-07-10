@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.predicate.IsNull;
 
@@ -10,7 +12,7 @@ import com.xy.xsql.tsql.model.predicate.IsNull;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class IsNullPredicateConverter
-        implements ReferenceBlockConverter<IsNull> {
+        implements MetaContextBlockConverter<IsNull> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,IsNull> builder =
@@ -32,9 +34,10 @@ public class IsNullPredicateConverter
     }
 
     @Override
-    public BlockMeta convert(IsNull isNull) {
-        return builder
-                .data(isNull)
-                .build();
+    public MetaContextBlock convert(IsNull context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
+
 }

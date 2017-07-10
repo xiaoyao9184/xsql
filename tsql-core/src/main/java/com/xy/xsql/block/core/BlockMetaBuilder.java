@@ -134,7 +134,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
         return this;
     }
 
-    public <C extends ReferenceBlockConverter> BlockMetaBuilder<ParentBuilder, Reference> ref(Class<C> refClass) {
+    public <C extends MetaContextBlockConverter> BlockMetaBuilder<ParentBuilder, Reference> ref(Class<C> refClass) {
         target.setRefClass(refClass);
         return this;
     }

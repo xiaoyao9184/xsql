@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 public enum BlockManager {
     INSTANCE;
 
-    private static Map<Type,ReferenceBlockConverter> typeBlockBuilderMap;
-    private static Map<Type,ReferenceBlockConverter> converterTypeBlockConverterMap;
+    private static Map<Type,MetaContextBlockConverter> typeBlockBuilderMap;
+    private static Map<Type,MetaContextBlockConverter> converterTypeBlockConverterMap;
 
     static {
         typeBlockBuilderMap = new HashMap<>();
@@ -25,16 +25,16 @@ public enum BlockManager {
     }
 
 
-    public void register(Type clazz, ReferenceBlockConverter referenceBlockConverter){
+    public void register(Type clazz, MetaContextBlockConverter metaContextBlockConverter){
         //TODO same type
-        typeBlockBuilderMap.put(clazz, referenceBlockConverter);
-        converterTypeBlockConverterMap.put(referenceBlockConverter.getClass(), referenceBlockConverter);
+        typeBlockBuilderMap.put(clazz, metaContextBlockConverter);
+        converterTypeBlockConverterMap.put(metaContextBlockConverter.getClass(), metaContextBlockConverter);
     }
 
     public void scan(String basePackage){
         Reflections reflections = new Reflections(basePackage);
 
-        Set<Class<? extends ReferenceBlockConverter>> subTypes = reflections.getSubTypesOf(ReferenceBlockConverter.class);
+        Set<Class<? extends MetaContextBlockConverter>> subTypes = reflections.getSubTypesOf(MetaContextBlockConverter.class);
 
         subTypes
                 .forEach(b -> {
@@ -45,7 +45,7 @@ public enum BlockManager {
                             })
                             .map(t -> (ParameterizedType)t)
                             .filter(pt -> {
-                                return ReferenceBlockConverter.class.equals(pt.getRawType());
+                                return MetaContextBlockConverter.class.equals(pt.getRawType());
                             })
                             .filter(pt -> {
                                 return pt.getActualTypeArguments() != null &&
@@ -55,7 +55,7 @@ public enum BlockManager {
                             .ifPresent(pt -> {
                                 try {
                                     Type type = pt.getActualTypeArguments()[0];
-                                    ReferenceBlockConverter obj = b.newInstance();
+                                    MetaContextBlockConverter obj = b.newInstance();
                                     register(type,obj);
                                 } catch (InstantiationException | IllegalAccessException e) {
                                     e.printStackTrace();
@@ -68,15 +68,15 @@ public enum BlockManager {
 
 
 
-    public Map<Type,ReferenceBlockConverter> getTypeBlockConverterMap(){
+    public Map<Type,MetaContextBlockConverter> getTypeBlockConverterMap(){
         return typeBlockBuilderMap;
     }
 
-    public ReferenceBlockConverter getTypeBlockConverter(Type type) {
+    public MetaContextBlockConverter getTypeBlockConverter(Type type) {
         return typeBlockBuilderMap.get(type);
     }
 
-    public ReferenceBlockConverter getTypeBlockConverterByConverterType(Class refClass) {
+    public MetaContextBlockConverter getTypeBlockConverterByConverterType(Class refClass) {
         return converterTypeBlockConverterMap.get(refClass);
     }
 

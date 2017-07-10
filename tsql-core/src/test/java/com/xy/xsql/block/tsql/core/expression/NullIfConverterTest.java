@@ -1,12 +1,10 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.
@@ -15,9 +13,9 @@ public class NullIfConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = NullIfConverter.meta();
+        BlockMeta b = NullIfConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);

@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.select.GroupByBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class GroupByConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = GroupByConverter.meta();
+        BlockMeta b = GroupByConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -37,9 +37,9 @@ public class GroupByConverterTest {
 
     @Test
     public void testGroupByExpression() throws Exception {
-        ReferenceBlock b = GroupByConverter.GroupByExpressionConverter.meta();
+        BlockMeta b = GroupByConverter.GroupByExpressionConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -51,9 +51,9 @@ public class GroupByConverterTest {
 
     @Test
     public void testGroupingSet() throws Exception {
-        ReferenceBlock b = GroupByConverter.GroupingSetConverter.meta();
+        BlockMeta b = GroupByConverter.GroupingSetConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -66,9 +66,9 @@ public class GroupByConverterTest {
 
     @Test
     public void testGroupingSetItem() throws Exception {
-        ReferenceBlock b = GroupByConverter.GroupingSetItemConverter.meta();
+        BlockMeta b = GroupByConverter.GroupingSetItemConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -119,7 +119,7 @@ public class GroupByConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

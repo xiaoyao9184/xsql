@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 
@@ -10,7 +12,7 @@ import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class ReNameConverter
-        implements ReferenceBlockConverter<ReName> {
+        implements MetaContextBlockConverter<ReName> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,ReName> builder =
@@ -34,11 +36,12 @@ public class ReNameConverter
     }
 
     @Override
-    public BlockMeta convert(ReName reName) {
-        return builder
-                .data(reName)
-                .build();
+    public MetaContextBlock convert(ReName context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
+
 
     public static class ReNameDataBaseConverter {
 

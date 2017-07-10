@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.MergeBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class MergeConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = MergeConverter.meta();
+        BlockMeta b = MergeConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -50,9 +50,9 @@ public class MergeConverterTest {
 
     @Test
     public void testMergeHint() throws Exception {
-        ReferenceBlock b = MergeConverter.MergeHintConverter.meta();
+        BlockMeta b = MergeConverter.MergeHintConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -66,9 +66,9 @@ public class MergeConverterTest {
 
     @Test
     public void testMatchedWhenThen() throws Exception {
-        ReferenceBlock b = MergeConverter.MatchedWhenThenConverter.meta();
+        BlockMeta b = MergeConverter.MatchedWhenThenConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -79,9 +79,9 @@ public class MergeConverterTest {
 
     @Test
     public void testNotMatchedTargetWhenThen() throws Exception {
-        ReferenceBlock b = MergeConverter.NotMatchedTargetWhenThenConverter.meta();
+        BlockMeta b = MergeConverter.NotMatchedTargetWhenThenConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -92,9 +92,9 @@ public class MergeConverterTest {
 
     @Test
     public void testNotMatchedSourceWhenThen() throws Exception {
-        ReferenceBlock b = MergeConverter.NotMatchedSourceWhenThenConverter.meta();
+        BlockMeta b = MergeConverter.NotMatchedSourceWhenThenConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -105,9 +105,9 @@ public class MergeConverterTest {
 
     @Test
     public void testMergeMatched() throws Exception {
-        ReferenceBlock b = MergeConverter.MergeMatchedConverter.meta();
+        BlockMeta b = MergeConverter.MergeMatchedConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -118,9 +118,9 @@ public class MergeConverterTest {
 
     @Test
     public void testMergeNotMatched() throws Exception {
-        ReferenceBlock b = MergeConverter.MergeNotMatchedConverter.meta();
+        BlockMeta b = MergeConverter.MergeNotMatchedConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -269,7 +269,7 @@ public class MergeConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

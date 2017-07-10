@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.element;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -13,7 +15,7 @@ import com.xy.xsql.tsql.model.element.TableName;
 public class MultipartNamesConverter {
 
     public static class TableNameConverter
-            implements ReferenceBlockConverter<TableName> {
+            implements MetaContextBlockConverter<TableName> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,TableName> builder =
@@ -66,16 +68,16 @@ public class MultipartNamesConverter {
         }
 
         @Override
-        public BlockMeta convert(TableName tableName) {
-            return builder
-                    .data(tableName)
-                    .build();
+        public MetaContextBlock convert(TableName context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
 
     }
 
     public static class ColumnNameConverter
-            implements ReferenceBlockConverter<ColumnName> {
+            implements MetaContextBlockConverter<ColumnName> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,ColumnName> builder =
@@ -101,10 +103,10 @@ public class MultipartNamesConverter {
         }
 
         @Override
-        public BlockMeta convert(ColumnName columnName) {
-            return builder
-                    .data(columnName)
-                    .build();
+        public MetaContextBlock convert(ColumnName context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
 
     }

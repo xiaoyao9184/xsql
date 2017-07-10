@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.Contains;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.predicate.Contains;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class ContainsPredicateConverter
-        implements ReferenceBlockConverter<Contains> {
+        implements MetaContextBlockConverter<Contains> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Contains> builder =
@@ -72,9 +74,10 @@ public class ContainsPredicateConverter
     }
 
     @Override
-    public BlockMeta convert(Contains contains) {
-        return builder
-                .data(contains)
-                .build();
+    public MetaContextBlock convert(Contains context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
+
 }

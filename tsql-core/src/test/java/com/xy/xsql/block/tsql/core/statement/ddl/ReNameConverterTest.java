@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.ddl.RenameBuilderTest;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class ReNameConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = ReNameConverter.meta();
+        BlockMeta b = ReNameConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -33,9 +33,9 @@ public class ReNameConverterTest {
 
     @Test
     public void testReNameDataBase() throws Exception {
-        ReferenceBlock b = ReNameConverter.ReNameDataBaseConverter.meta();
+        BlockMeta b = ReNameConverter.ReNameDataBaseConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -46,9 +46,9 @@ public class ReNameConverterTest {
 
     @Test
     public void testReNameTable() throws Exception {
-        ReferenceBlock b = ReNameConverter.ReNameTableConverter.meta();
+        BlockMeta b = ReNameConverter.ReNameTableConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -85,7 +85,7 @@ public class ReNameConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

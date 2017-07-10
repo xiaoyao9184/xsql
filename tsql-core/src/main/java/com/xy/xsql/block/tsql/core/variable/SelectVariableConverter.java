@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.variable.SelectVariable;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.variable.SelectVariable;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class SelectVariableConverter
-        implements ReferenceBlockConverter<SelectVariable> {
+        implements MetaContextBlockConverter<SelectVariable> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,SelectVariable> builder =
@@ -31,15 +33,15 @@ public class SelectVariableConverter
     }
 
     @Override
-    public BlockMeta convert(SelectVariable selectVariable) {
-        return builder
-                .data(selectVariable)
-                .build();
+    public MetaContextBlock convert(SelectVariable context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class SelectVariableItemConverter
-            implements ReferenceBlockConverter<SelectVariable.Item> {
+            implements MetaContextBlockConverter<SelectVariable.Item> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,SelectVariable.Item> builder =
@@ -61,10 +63,11 @@ public class SelectVariableConverter
         }
 
         @Override
-        public BlockMeta convert(SelectVariable.Item item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(SelectVariable.Item context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 }

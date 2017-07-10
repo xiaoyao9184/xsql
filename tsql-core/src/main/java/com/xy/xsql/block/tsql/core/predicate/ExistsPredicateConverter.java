@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.Exists;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.predicate.Exists;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class ExistsPredicateConverter
-        implements ReferenceBlockConverter<Exists> {
+        implements MetaContextBlockConverter<Exists> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Exists> builder =
@@ -30,9 +32,10 @@ public class ExistsPredicateConverter
     }
 
     @Override
-    public BlockMeta convert(Exists exists) {
-        return builder
-                .data(exists)
-                .build();
+    public MetaContextBlock convert(Exists context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
+
 }

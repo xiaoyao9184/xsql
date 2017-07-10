@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.select.ForConverter;
 import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
 import com.xy.xsql.block.tsql.core.clause.select.IntoConverter;
@@ -15,7 +17,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class SelectConverter
-        implements ReferenceBlockConverter<Select> {
+        implements MetaContextBlockConverter<Select> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Select> builder =
@@ -50,15 +52,15 @@ public class SelectConverter
     }
 
     @Override
-    public BlockMeta convert(Select select) {
-        return builder
-                .data(select)
-                .build();
+    public MetaContextBlock convert(Select context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class QueryExpressionConverter
-            implements ReferenceBlockConverter<Select.QueryExpression> {
+            implements MetaContextBlockConverter<Select.QueryExpression> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Select.QueryExpression> builder =
@@ -96,17 +98,17 @@ public class SelectConverter
         }
 
         @Override
-        public BlockMeta convert(Select.QueryExpression queryExpression) {
-            return builder
-                    .data(queryExpression)
-                    .build();
+        public MetaContextBlock convert(Select.QueryExpression context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
 
     }
 
 
     public static class UnionItemConverter
-            implements ReferenceBlockConverter<Select.UnionItem> {
+            implements MetaContextBlockConverter<Select.UnionItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Select.UnionItem> builder =
@@ -157,17 +159,17 @@ public class SelectConverter
         }
 
         @Override
-        public BlockMeta convert(Select.UnionItem unionItem) {
-            return builder
-                    .data(unionItem)
-                    .build();
+        public MetaContextBlock convert(Select.UnionItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
 
     }
 
 
     public static class QuerySpecificationConverter
-            implements ReferenceBlockConverter<Select.QuerySpecification> {
+            implements MetaContextBlockConverter<Select.QuerySpecification> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Select.QuerySpecification> builder =
@@ -218,10 +220,10 @@ public class SelectConverter
         }
 
         @Override
-        public BlockMeta convert(Select.QuerySpecification querySpecification) {
-            return builder
-                    .data(querySpecification)
-                    .build();
+        public MetaContextBlock convert(Select.QuerySpecification context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
 
     }

@@ -1,13 +1,11 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -16,9 +14,9 @@ public class TableTypeDefinitionConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = TableTypeDefinitionConverter.meta();
+        BlockMeta b = TableTypeDefinitionConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -29,9 +27,9 @@ public class TableTypeDefinitionConverterTest {
 
     @Test
     public void testTableConstraint() throws Exception {
-        ReferenceBlock b = TableTypeDefinitionConverter.TableConstraintConverter.meta();
+        BlockMeta b = TableTypeDefinitionConverter.TableConstraintConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);

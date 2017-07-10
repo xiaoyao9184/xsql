@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.datatype.TableTypeDefinitionConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Comparison;
@@ -12,7 +14,7 @@ import com.xy.xsql.tsql.model.variable.DeclareVariable;
  * Created by xiaoyao9184 on 2017/5/13.
  */
 public class DeclareVariableConverter
-        implements ReferenceBlockConverter<DeclareVariable> {
+        implements MetaContextBlockConverter<DeclareVariable> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,DeclareVariable> builder =
@@ -53,15 +55,15 @@ public class DeclareVariableConverter
     }
 
     @Override
-    public BlockMeta convert(DeclareVariable declareVariable) {
-        return builder
-                .data(declareVariable)
-                .build();
+    public MetaContextBlock convert(DeclareVariable context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class DeclareVariableItemPredicateRenderer
-            implements ReferenceBlockConverter<DeclareVariable.Item> {
+            implements MetaContextBlockConverter<DeclareVariable.Item> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,DeclareVariable.Item> builder =
@@ -104,16 +106,16 @@ public class DeclareVariableConverter
                             .and();
         // @formatter:on
 
-
         public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public BlockMeta convert(DeclareVariable.Item item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(DeclareVariable.Item context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 }

@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class TruncateTableConverter
-        implements ReferenceBlockConverter<TruncateTable> {
+        implements MetaContextBlockConverter<TruncateTable> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,TruncateTable> builder =
@@ -48,15 +50,15 @@ public class TruncateTableConverter
     }
 
     @Override
-    public BlockMeta convert(TruncateTable truncateTable) {
-        return builder
-                .data(truncateTable)
-                .build();
+    public MetaContextBlock convert(TruncateTable context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class PartitionsConverter
-            implements ReferenceBlockConverter<TruncateTable.Partitions> {
+            implements MetaContextBlockConverter<TruncateTable.Partitions> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,TruncateTable.Partitions> builder =
@@ -77,16 +79,17 @@ public class TruncateTableConverter
         }
 
         @Override
-        public BlockMeta convert(TruncateTable.Partitions partitions) {
-            return builder
-                    .data(partitions)
-                    .build();
+        public MetaContextBlock convert(TruncateTable.Partitions context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
 
     public static class RangeConverter
-            implements ReferenceBlockConverter<TruncateTable.Range> {
+            implements MetaContextBlockConverter<TruncateTable.Range> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,TruncateTable.Range> builder =
@@ -108,16 +111,17 @@ public class TruncateTableConverter
         }
 
         @Override
-        public BlockMeta convert(TruncateTable.Range range) {
-            return builder
-                    .data(range)
-                    .build();
+        public MetaContextBlock convert(TruncateTable.Range context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 
 
     public static class PartitionNumberExpressionConverter
-            implements ReferenceBlockConverter<TruncateTable.PartitionNumberExpression> {
+            implements MetaContextBlockConverter<TruncateTable.PartitionNumberExpression> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,TruncateTable.PartitionNumberExpression> builder =
@@ -131,10 +135,11 @@ public class TruncateTableConverter
         }
 
         @Override
-        public BlockMeta convert(TruncateTable.PartitionNumberExpression partitionNumberExpression) {
-            return builder
-                    .data(partitionNumberExpression)
-                    .build();
+        public MetaContextBlock convert(TruncateTable.PartitionNumberExpression context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
+
     }
 }

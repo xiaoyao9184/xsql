@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.Other;
@@ -13,7 +15,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class OutputConverter
-        implements ReferenceBlockConverter<Output> {
+        implements MetaContextBlockConverter<Output> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Output> builder =
@@ -65,14 +67,14 @@ public class OutputConverter
     }
 
     @Override
-    public BlockMeta convert(Output output) {
-        return builder
-                .data(output)
-                .build();
+    public MetaContextBlock convert(Output context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
     public static class DmlSelectListConverter
-            implements ReferenceBlockConverter<List<Output.DmlSelect>> {
+            implements MetaContextBlockConverter<List<Output.DmlSelect>> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,List<Output.DmlSelect>> builder =
@@ -88,16 +90,16 @@ public class OutputConverter
         }
 
         @Override
-        public BlockMeta convert(List<Output.DmlSelect> dmlSelectList) {
-            return builder
-                    .data(dmlSelectList)
-                    .build();
+        public MetaContextBlock convert(List<Output.DmlSelect> context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
     public static class DmlSelectConverter
-            implements ReferenceBlockConverter<Output.DmlSelect> {
+            implements MetaContextBlockConverter<Output.DmlSelect> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Output.DmlSelect> builder =
@@ -133,15 +135,15 @@ public class OutputConverter
         }
 
         @Override
-        public BlockMeta convert(Output.DmlSelect dmlSelect) {
-            return builder
-                    .data(dmlSelect)
-                    .build();
+        public MetaContextBlock convert(Output.DmlSelect context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class ColumnNameConverter
-            implements ReferenceBlockConverter<Output.ColumnName> {
+            implements MetaContextBlockConverter<Output.ColumnName> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Output.ColumnName> builder =
@@ -192,10 +194,10 @@ public class OutputConverter
         }
 
         @Override
-        public BlockMeta convert(Output.ColumnName columnName) {
-            return builder
-                    .data(columnName)
-                    .build();
+        public MetaContextBlock convert(Output.ColumnName context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

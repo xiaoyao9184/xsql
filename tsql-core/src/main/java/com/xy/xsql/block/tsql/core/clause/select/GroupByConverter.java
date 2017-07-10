@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.element.Other;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class GroupByConverter
-        implements ReferenceBlockConverter<GroupBy> {
+        implements MetaContextBlockConverter<GroupBy> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,GroupBy> builder =
@@ -31,15 +33,15 @@ public class GroupByConverter
     }
 
     @Override
-    public BlockMeta convert(GroupBy groupBy) {
-        return builder
-                .data(groupBy)
-                .build();
+    public MetaContextBlock convert(GroupBy context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class ItemConverter
-            implements ReferenceBlockConverter<GroupBy.Item> {
+            implements MetaContextBlockConverter<GroupBy.Item> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.Item> builder =
@@ -61,15 +63,15 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.Item item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.Item context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class BaseItemConverter
-            implements ReferenceBlockConverter<GroupBy.BaseItem> {
+            implements MetaContextBlockConverter<GroupBy.BaseItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.BaseItem> builder =
@@ -85,15 +87,15 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.BaseItem item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.BaseItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class RollupItemConverter
-            implements ReferenceBlockConverter<GroupBy.RollupItem> {
+            implements MetaContextBlockConverter<GroupBy.RollupItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.RollupItem> builder =
@@ -115,15 +117,15 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.RollupItem item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.RollupItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class CubeItemConverter
-            implements ReferenceBlockConverter<GroupBy.CubeItem> {
+            implements MetaContextBlockConverter<GroupBy.CubeItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.CubeItem> builder =
@@ -145,15 +147,15 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.CubeItem item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.CubeItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class GroupingSetsItemConverter
-            implements ReferenceBlockConverter<GroupBy.GroupingSetsItem> {
+            implements MetaContextBlockConverter<GroupBy.GroupingSetsItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.GroupingSetsItem> builder =
@@ -176,15 +178,15 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.GroupingSetsItem item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.GroupingSetsItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class TotalItemConverter
-            implements ReferenceBlockConverter<GroupBy.TotalItem> {
+            implements MetaContextBlockConverter<GroupBy.TotalItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.TotalItem> builder =
@@ -197,15 +199,15 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.TotalItem item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.TotalItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class ColumnNameItemConverter
-            implements ReferenceBlockConverter<GroupBy.ColumnNameItem> {
+            implements MetaContextBlockConverter<GroupBy.ColumnNameItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.ColumnNameItem> builder =
@@ -229,15 +231,15 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.ColumnNameItem item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.ColumnNameItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class GroupByExpressionConverter
-            implements ReferenceBlockConverter<GroupBy.GroupByExpression> {
+            implements MetaContextBlockConverter<GroupBy.GroupByExpression> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.GroupByExpression> builder =
@@ -263,22 +265,22 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.GroupByExpression item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.GroupByExpression context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
     public static class GroupingSetConverter
-            implements ReferenceBlockConverter<GroupBy.GroupingSet> {
+            implements MetaContextBlockConverter<GroupBy.GroupingSet> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.GroupingSet> builder =
                 new BlockMetaBuilder<Void,GroupBy.GroupingSet>()
                         .overall("grouping_set")
-                        .czse(d -> d.isUseTotal(), "()")
+                        .czse(GroupBy.GroupingSet::isUseTotal, "()")
                             .description("() --calculates the grand total")
                             .data("()")
                             .and()
@@ -305,16 +307,16 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.GroupingSet item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.GroupingSet context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
     public static class GroupingSetItemConverter
-            implements ReferenceBlockConverter<GroupBy.GroupingSet.Item> {
+            implements MetaContextBlockConverter<GroupBy.GroupingSet.Item> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,GroupBy.GroupingSet.Item> builder =
@@ -332,10 +334,10 @@ public class GroupByConverter
         }
 
         @Override
-        public BlockMeta convert(GroupBy.GroupingSet.Item item) {
-            return builder
-                    .data(item)
-                    .build();
+        public MetaContextBlock convert(GroupBy.GroupingSet.Item context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

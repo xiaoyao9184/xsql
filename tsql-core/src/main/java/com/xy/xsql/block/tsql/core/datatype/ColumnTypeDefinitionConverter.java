@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.Other;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class ColumnTypeDefinitionConverter
-        implements ReferenceBlockConverter<ColumnDefinition> {
+        implements MetaContextBlockConverter<ColumnDefinition> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,ColumnDefinition> builder =
@@ -78,15 +80,15 @@ public class ColumnTypeDefinitionConverter
     }
 
     @Override
-    public BlockMeta convert(ColumnDefinition columnDefinition) {
-        return builder
-                .data(columnDefinition)
-                .build();
+    public MetaContextBlock convert(ColumnDefinition context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class ColumnConstraintConverter
-            implements ReferenceBlockConverter<ColumnDefinition.ColumnConstraint> {
+            implements MetaContextBlockConverter<ColumnDefinition.ColumnConstraint> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,ColumnDefinition.ColumnConstraint> builder =
@@ -128,10 +130,10 @@ public class ColumnTypeDefinitionConverter
         }
 
         @Override
-        public BlockMeta convert(ColumnDefinition.ColumnConstraint columnConstraint) {
-            return builder
-                    .data(columnConstraint)
-                    .build();
+        public MetaContextBlock convert(ColumnDefinition.ColumnConstraint context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
 
     }

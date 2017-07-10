@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Assignment;
@@ -16,7 +18,7 @@ import java.util.function.Predicate;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class BulkInsertConverter
-        implements ReferenceBlockConverter<BulkInsert> {
+        implements MetaContextBlockConverter<BulkInsert> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,BulkInsert> builder =
@@ -377,15 +379,15 @@ public class BulkInsertConverter
     }
 
     @Override
-    public BlockMeta convert(BulkInsert bulkInsert) {
-        return builder
-                .data(bulkInsert)
-                .build();
+    public MetaContextBlock convert(BulkInsert context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class OrderColumnConverter
-            implements ReferenceBlockConverter<BulkInsert.OrderColumn> {
+            implements MetaContextBlockConverter<BulkInsert.OrderColumn> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,BulkInsert.OrderColumn> builder =
@@ -406,10 +408,10 @@ public class BulkInsertConverter
         }
 
         @Override
-        public BlockMeta convert(BulkInsert.OrderColumn column) {
-            return builder
-                    .data(column)
-                    .build();
+        public MetaContextBlock convert(BulkInsert.OrderColumn context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
 
     }

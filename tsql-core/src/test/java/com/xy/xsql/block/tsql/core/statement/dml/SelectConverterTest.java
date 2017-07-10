@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class SelectConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = SelectConverter.meta();
+        BlockMeta b = SelectConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -36,9 +36,9 @@ public class SelectConverterTest {
 
     @Test
     public void testQueryExpression() throws Exception {
-        ReferenceBlock b = SelectConverter.QueryExpressionConverter.meta();
+        BlockMeta b = SelectConverter.QueryExpressionConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -51,9 +51,9 @@ public class SelectConverterTest {
 
     @Test
     public void testQuerySpecification() throws Exception {
-        ReferenceBlock b = SelectConverter.QuerySpecificationConverter.meta();
+        BlockMeta b = SelectConverter.QuerySpecificationConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -72,9 +72,9 @@ public class SelectConverterTest {
 
     @Test
     public void testUnionItem() throws Exception {
-        ReferenceBlock b = SelectConverter.UnionItemConverter.meta();
+        BlockMeta b = SelectConverter.UnionItemConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -476,7 +476,7 @@ public class SelectConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

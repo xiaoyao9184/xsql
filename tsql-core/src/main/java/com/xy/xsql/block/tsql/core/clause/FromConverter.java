@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.hints.JoinHintConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
@@ -13,7 +15,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class FromConverter
-        implements ReferenceBlockConverter<From> {
+        implements MetaContextBlockConverter<From> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,From> builder =
@@ -34,15 +36,15 @@ public class FromConverter
     }
 
     @Override
-    public BlockMeta convert(From from) {
-        return builder
-                .data(from)
-                .build();
+    public MetaContextBlock convert(From context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class TableSourceConverter
-            implements ReferenceBlockConverter<From.TableSource> {
+            implements MetaContextBlockConverter<From.TableSource> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.TableSource> builder =
@@ -90,15 +92,15 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.TableSource tableSource) {
-            return builder
-                    .data(tableSource)
-                    .build();
+        public MetaContextBlock convert(From.TableSource context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class BaseTableConverter
-            implements ReferenceBlockConverter<From.BaseTable> {
+            implements MetaContextBlockConverter<From.BaseTable> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.BaseTable> builder =
@@ -144,15 +146,15 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.BaseTable baseTable) {
-            return builder
-                    .data(baseTable)
-                    .build();
+        public MetaContextBlock convert(From.BaseTable context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class DerivedTableConverter
-            implements ReferenceBlockConverter<From.DerivedTable> {
+            implements MetaContextBlockConverter<From.DerivedTable> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.DerivedTable> builder =
@@ -200,15 +202,15 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.DerivedTable derivedTable) {
-            return builder
-                    .data(derivedTable)
-                    .build();
+        public MetaContextBlock convert(From.DerivedTable context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class VariableTableConverter
-            implements ReferenceBlockConverter<From.VariableTable> {
+            implements MetaContextBlockConverter<From.VariableTable> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.VariableTable> builder =
@@ -235,15 +237,15 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.VariableTable variableTable) {
-            return builder
-                    .data(variableTable)
-                    .build();
+        public MetaContextBlock convert(From.VariableTable context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
     public static class BaseWithTimeTableConverter
-            implements ReferenceBlockConverter<From.BaseWithTimeTable> {
+            implements MetaContextBlockConverter<From.BaseWithTimeTable> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.BaseWithTimeTable> builder =
@@ -265,10 +267,10 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.BaseWithTimeTable baseTable) {
-            return builder
-                    .data(baseTable)
-                    .build();
+        public MetaContextBlock convert(From.BaseWithTimeTable context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
@@ -276,7 +278,7 @@ public class FromConverter
      *
      */
     public static class TableSampleConverter
-            implements ReferenceBlockConverter<From.TableSample> {
+            implements MetaContextBlockConverter<From.TableSample> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.TableSample> builder =
@@ -316,10 +318,10 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.TableSample tableSample) {
-            return builder
-                    .data(tableSample)
-                    .build();
+        public MetaContextBlock convert(From.TableSample context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
@@ -327,7 +329,7 @@ public class FromConverter
      *
      */
     public static class JoinedTableConverter
-            implements ReferenceBlockConverter<From.JoinedTable> {
+            implements MetaContextBlockConverter<From.JoinedTable> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.JoinedTable> builder =
@@ -409,10 +411,10 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.JoinedTable joinedTable) {
-            return builder
-                    .data(joinedTable)
-                    .build();
+        public MetaContextBlock convert(From.JoinedTable context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
@@ -420,7 +422,7 @@ public class FromConverter
      *
      */
     public static class JoinTypeConverter
-            implements ReferenceBlockConverter<From.JoinType> {
+            implements MetaContextBlockConverter<From.JoinType> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.JoinType> builder =
@@ -475,10 +477,10 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.JoinType joinType) {
-            return builder
-                    .data(joinType)
-                    .build();
+        public MetaContextBlock convert(From.JoinType context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
@@ -486,7 +488,7 @@ public class FromConverter
      *
      */
     public static class SystemTimeConverter
-            implements ReferenceBlockConverter<From.SystemTime> {
+            implements MetaContextBlockConverter<From.SystemTime> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.SystemTime> builder =
@@ -557,10 +559,10 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.SystemTime systemTime) {
-            return builder
-                    .data(systemTime)
-                    .build();
+        public MetaContextBlock convert(From.SystemTime context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
@@ -568,7 +570,7 @@ public class FromConverter
      *
      */
     public static class DateTimeConverter
-            implements ReferenceBlockConverter<From.DateTime> {
+            implements MetaContextBlockConverter<From.DateTime> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,From.DateTime> builder =
@@ -587,10 +589,10 @@ public class FromConverter
         }
 
         @Override
-        public BlockMeta convert(From.DateTime dateTime) {
-            return builder
-                    .data(dateTime)
-                    .build();
+        public MetaContextBlock convert(From.DateTime context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

@@ -1,8 +1,7 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.tsql.core.element.MultipartNamesConverter;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.datatype.ColumnDefinitionBuilderTest;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import org.junit.Assert;
@@ -10,11 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -23,9 +19,9 @@ public class ColumnTypeDefinitionConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = ColumnTypeDefinitionConverter.meta();
+        BlockMeta b = ColumnTypeDefinitionConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -39,9 +35,9 @@ public class ColumnTypeDefinitionConverterTest {
 
     @Test
     public void testColumnConstraint() throws Exception {
-        ReferenceBlock b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta();
+        BlockMeta b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -69,7 +65,7 @@ public class ColumnTypeDefinitionConverterTest {
     @Test
     public void testPrint() throws Exception {
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

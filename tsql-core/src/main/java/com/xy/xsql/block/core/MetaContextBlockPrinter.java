@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 /**
  * Created by xiaoyao9184 on 2017/6/9.
  */
-public class ReferenceBlockPrinter {
+public class MetaContextBlockPrinter {
 
     private StringWriter writer;
 
-    public ReferenceBlockPrinter(){
+    public MetaContextBlockPrinter(){
         writer = new StringWriter();
     }
 
@@ -161,7 +161,8 @@ public class ReferenceBlockPrinter {
             BlockMeta hiddenBlock = BlockManager
                     .INSTANCE
                     .getTypeBlockConverter(data.getClass())
-                    .convert(data);
+                    .convert(data)
+                    .getMeta();
 
             return printBlock(hiddenBlock,data);
         }else{
@@ -210,10 +211,11 @@ public class ReferenceBlockPrinter {
             //Reference
             BlockMeta blockMeta;
             if(block.isReferenceClass()){
-                ReferenceBlockConverter converter = BlockManager
+                blockMeta = BlockManager
                         .INSTANCE
-                        .getTypeBlockConverterByConverterType(block.getRefClass());
-                blockMeta = converter.build(null);
+                        .getTypeBlockConverterByConverterType(block.getRefClass())
+                        .convert(null)
+                        .getMeta();
             }else{
                 blockMeta = block.getRefMeta();
             }
@@ -247,7 +249,8 @@ public class ReferenceBlockPrinter {
                     BlockMeta hiddenBlock = BlockManager
                             .INSTANCE
                             .getTypeBlockConverter(context.getClass())
-                            .convert(context);
+                            .convert(context)
+                            .getMeta();
 
                     printBlock(hiddenBlock,context);
                 }else{
@@ -299,9 +302,10 @@ public class ReferenceBlockPrinter {
                     BlockMeta hiddenBlock = BlockManager
                             .INSTANCE
                             .getTypeBlockConverter(data.getClass())
-                            .convert(data);
+                            .convert(data)
+                            .getMeta();
 
-                    blockString = new ReferenceBlockPrinter()
+                    blockString = new MetaContextBlockPrinter()
                             .printBlock(hiddenBlock,data)
                             .toString();
                 }else if(data instanceof List){
@@ -326,7 +330,8 @@ public class ReferenceBlockPrinter {
                         BlockMeta hiddenBlock = BlockManager
                                 .INSTANCE
                                 .getTypeBlockConverter(itemData.getClass())
-                                .convert(itemData);
+                                .convert(itemData)
+                                .getMeta();
 
                         StringWriter writer1 = new StringWriter();
                         printBlock(hiddenBlock, listData, delimiter, writer1);
@@ -386,20 +391,6 @@ public class ReferenceBlockPrinter {
         );
     }
 
-    @Deprecated
-    public void printBlock(ReferenceBlockConverter converter, List<Object> dataList, String delimiter, StringWriter writer) {
-        writer.append(
-                dataList
-                        .stream()
-                        .map(data -> {
-                            StringWriter stringWriter = new StringWriter();
-                            BlockMeta itemBlock = converter.build(data);
-                            printBlock(itemBlock, data, stringWriter);
-                            return stringWriter.toString();
-                        })
-                        .collect(Collectors.joining(delimiter))
-        );
-    }
 
     /**
      *
@@ -408,24 +399,24 @@ public class ReferenceBlockPrinter {
      */
     @SuppressWarnings("unchecked")
     public static StringWriter print(Object object){
-        ReferenceBlockConverter converter = BlockManager
+        MetaContextBlockConverter converter = BlockManager
                 .INSTANCE
                 .getTypeBlockConverter(object.getClass());
 
-        BlockMeta b = converter.convert(object);
+        BlockMeta b = converter.convert(object).getMeta();
 
-        return new ReferenceBlockPrinter().printBlock(b,object);
+        return new MetaContextBlockPrinter().printBlock(b,object);
     }
 
     @SuppressWarnings("unchecked")
     public static StringWriter print(Class clazz){
-        ReferenceBlockConverter converter = BlockManager
+        MetaContextBlockConverter converter = BlockManager
                 .INSTANCE
                 .getTypeBlockConverter(clazz);
 
-        BlockMeta b = converter.convert(null);
+        BlockMeta b = converter.convert(null).getMeta();
 
-        return new ReferenceBlockPrinter().print(b);
+        return new MetaContextBlockPrinter().print(b);
     }
 
 }

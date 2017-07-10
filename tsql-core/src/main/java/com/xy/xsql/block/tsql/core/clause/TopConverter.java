@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Top;
 import com.xy.xsql.tsql.model.element.Other;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class TopConverter
-        implements ReferenceBlockConverter<Top> {
+        implements MetaContextBlockConverter<Top> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Top> builder =
@@ -39,10 +41,10 @@ public class TopConverter
     }
 
     @Override
-    public BlockMeta convert(Top top) {
-        return builder
-                .data(top)
-                .build();
+    public MetaContextBlock convert(Top context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 }

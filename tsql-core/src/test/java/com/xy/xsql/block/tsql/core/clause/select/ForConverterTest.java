@@ -1,8 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.clause.select.ForBuilder;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.select.ForBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.For;
 import org.junit.Assert;
@@ -13,8 +12,6 @@ import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.FORCESCAN;
-
 /**
  * Created by xiaoyao9184 on 2017/6/20.
  */
@@ -22,9 +19,9 @@ public class ForConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = ForConverter.meta();
+        BlockMeta b = ForConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -35,9 +32,9 @@ public class ForConverterTest {
 
     @Test
     public void testXml() throws Exception {
-        ReferenceBlock b = ForConverter.XmlConverter.meta();
+        BlockMeta b = ForConverter.XmlConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -66,9 +63,9 @@ public class ForConverterTest {
 
     @Test
     public void testCommonDirectivesForXML() throws Exception {
-        ReferenceBlock b = ForConverter.CommonDirectivesForXMLConverter.meta();
+        BlockMeta b = ForConverter.CommonDirectivesForXMLConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -81,9 +78,9 @@ public class ForConverterTest {
 
     @Test
     public void testJson() throws Exception {
-        ReferenceBlock b = ForConverter.JsonConverter.meta();
+        BlockMeta b = ForConverter.JsonConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -118,7 +115,7 @@ public class ForConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

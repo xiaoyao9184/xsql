@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.predicate.*;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
@@ -13,7 +15,7 @@ import com.xy.xsql.tsql.model.predicate.*;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class SearchConditionConverter
-        implements ReferenceBlockConverter<SearchCondition> {
+        implements MetaContextBlockConverter<SearchCondition> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,SearchCondition> builder =
@@ -58,15 +60,15 @@ public class SearchConditionConverter
     }
 
     @Override
-    public BlockMeta convert(SearchCondition searchCondition) {
-        return builder
-                .data(searchCondition)
-                .build();
+    public MetaContextBlock convert(SearchCondition context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class AndOrNotItemConverter
-            implements ReferenceBlockConverter<SearchCondition.AndOrNotItem> {
+            implements MetaContextBlockConverter<SearchCondition.AndOrNotItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,SearchCondition.AndOrNotItem> builder =
@@ -110,16 +112,16 @@ public class SearchConditionConverter
         }
 
         @Override
-        public BlockMeta convert(SearchCondition.AndOrNotItem andOrNotItem) {
-            return builder
-                    .data(andOrNotItem)
-                    .build();
+        public MetaContextBlock convert(SearchCondition.AndOrNotItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
     public static class PredicateConverter
-            implements ReferenceBlockConverter<Predicate> {
+            implements MetaContextBlockConverter<Predicate> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Predicate> builder =
@@ -142,10 +144,10 @@ public class SearchConditionConverter
         }
 
         @Override
-        public BlockMeta convert(Predicate predicate) {
-            return builder
-                    .data(predicate)
-                    .build();
+        public MetaContextBlock convert(Predicate context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

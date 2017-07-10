@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Select;
 import com.xy.xsql.tsql.model.element.Other;
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class SelectConverter
-        implements ReferenceBlockConverter<Select> {
+        implements MetaContextBlockConverter<Select> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Select> builder =
@@ -48,15 +50,15 @@ public class SelectConverter
     }
 
     @Override
-    public BlockMeta convert(Select select) {
-        return builder
-                .data(select)
-                .build();
+    public MetaContextBlock convert(Select context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class SelectListConverter
-            implements ReferenceBlockConverter<List<Select.SelectItem>> {
+            implements MetaContextBlockConverter<List<Select.SelectItem>> {
 
 
         // @formatter:off
@@ -72,16 +74,16 @@ public class SelectConverter
         }
 
         @Override
-        public BlockMeta convert(List<Select.SelectItem> selectList) {
-            return builder
-                    .data(selectList)
-                    .build();
+        public MetaContextBlock convert(List<Select.SelectItem> context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
     public static class SelectItemConverter
-            implements ReferenceBlockConverter<Select.SelectItem> {
+            implements MetaContextBlockConverter<Select.SelectItem> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Select.SelectItem> builder =
@@ -204,10 +206,10 @@ public class SelectConverter
         }
 
         @Override
-        public BlockMeta convert(Select.SelectItem selectItem) {
-            return builder
-                    .data(selectItem)
-                    .build();
+        public MetaContextBlock convert(Select.SelectItem context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

@@ -1,14 +1,11 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.tsql.core.expression.AtTimeConverter;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.
@@ -17,9 +14,9 @@ public class BetweenPredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = BetweenPredicateConverter.meta();
+        BlockMeta b = BetweenPredicateConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);

@@ -1,15 +1,17 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class TableHintLimitedConverter
-        implements ReferenceBlockConverter<TableHintLimited> {
+        implements MetaContextBlockConverter<TableHintLimited> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,TableHintLimited> builder =
@@ -83,10 +85,10 @@ public class TableHintLimitedConverter
     }
 
     @Override
-    public BlockMeta convert(TableHintLimited tableHintLimited) {
-        return builder
-                .data(tableHintLimited)
-                .build();
+    public MetaContextBlock convert(TableHintLimited context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 }

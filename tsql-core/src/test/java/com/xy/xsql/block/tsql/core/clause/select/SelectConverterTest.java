@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.select.SelectBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.Select;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class SelectConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = SelectConverter.meta();
+        BlockMeta b = SelectConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -34,9 +34,9 @@ public class SelectConverterTest {
 
     @Test
     public void testSelectList() throws Exception {
-        ReferenceBlock b = SelectConverter.SelectListConverter.meta();
+        BlockMeta b = SelectConverter.SelectListConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);

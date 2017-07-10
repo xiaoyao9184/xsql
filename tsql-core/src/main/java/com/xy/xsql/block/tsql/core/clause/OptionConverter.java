@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.hints.QueryHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Option;
@@ -14,7 +16,7 @@ import com.xy.xsql.tsql.model.operator.Assignment;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class OptionConverter
-        implements ReferenceBlockConverter<Option> {
+        implements MetaContextBlockConverter<Option> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Option> builder =
@@ -35,15 +37,15 @@ public class OptionConverter
     }
 
     @Override
-    public BlockMeta convert(Option option) {
-        return builder
-                .data(option)
-                .build();
+    public MetaContextBlock convert(Option context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 
     public static class QueryOptionConverter
-            implements ReferenceBlockConverter<Option.QueryOption> {
+            implements MetaContextBlockConverter<Option.QueryOption> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Option.QueryOption> builder =
@@ -62,16 +64,16 @@ public class OptionConverter
         }
 
         @Override
-        public BlockMeta convert(Option.QueryOption queryOption) {
-            return builder
-                    .data(queryOption)
-                    .build();
+        public MetaContextBlock convert(Option.QueryOption context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 
 
     public static class LabelQueryOptionConverter
-            implements ReferenceBlockConverter<Option.LabelQueryOption> {
+            implements MetaContextBlockConverter<Option.LabelQueryOption> {
 
         // @formatter:off
         private static BlockMetaBuilder<Void,Option.LabelQueryOption> builder =
@@ -88,10 +90,10 @@ public class OptionConverter
         }
 
         @Override
-        public BlockMeta convert(Option.LabelQueryOption labelQueryOption) {
-            return builder
-                    .data(labelQueryOption)
-                    .build();
+        public MetaContextBlock convert(Option.LabelQueryOption context) {
+            return MetaContextBlockBuilder
+                    .meta(meta())
+                    .build(context);
         }
     }
 

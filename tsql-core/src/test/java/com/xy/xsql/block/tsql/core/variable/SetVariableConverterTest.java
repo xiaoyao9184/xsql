@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.variable.SetVariableBuilderTest;
 import com.xy.xsql.tsql.model.variable.SetVariable;
 import org.junit.Assert;
@@ -12,17 +12,15 @@ import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class SetVariableConverterTest {
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = SetVariableConverter.meta();
+        BlockMeta b = SetVariableConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -88,7 +86,7 @@ public class SetVariableConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

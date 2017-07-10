@@ -1,14 +1,11 @@
 package com.xy.xsql.block.tsql.core.element;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.block.tsql.core.clause.FromConverter;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringWriter;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
@@ -22,9 +19,9 @@ public class MultipartNamesConverterTest {
 
     @Test
     public void testTableName() throws Exception {
-        ReferenceBlock b = MultipartNamesConverter.TableNameConverter.meta();
+        BlockMeta b = MultipartNamesConverter.TableNameConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -34,9 +31,9 @@ public class MultipartNamesConverterTest {
 
     @Test
     public void testColumnName() throws Exception {
-        ReferenceBlock b = MultipartNamesConverter.ColumnNameConverter.meta();
+        BlockMeta b = MultipartNamesConverter.ColumnNameConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);

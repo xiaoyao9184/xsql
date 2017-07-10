@@ -1,17 +1,14 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
-import com.xy.xsql.tsql.core.clause.OptionBuilderTest;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.OutputBuilderTest;
-import com.xy.xsql.tsql.model.clause.Option;
 import com.xy.xsql.tsql.model.clause.Output;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
-import java.lang.management.GarbageCollectorMXBean;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -20,9 +17,9 @@ public class OutputConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = OutputConverter.meta();
+        BlockMeta b = OutputConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -34,9 +31,9 @@ public class OutputConverterTest {
 
     @Test
     public void testDmlSelectList() throws Exception {
-        ReferenceBlock b = OutputConverter.DmlSelectListConverter.meta();
+        BlockMeta b = OutputConverter.DmlSelectListConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -47,9 +44,9 @@ public class OutputConverterTest {
 
     @Test
     public void testDmlSelect() throws Exception {
-        ReferenceBlock b = OutputConverter.DmlSelectConverter.meta();
+        BlockMeta b = OutputConverter.DmlSelectConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -59,9 +56,9 @@ public class OutputConverterTest {
 
     @Test
     public void testColumnName() throws Exception {
-        ReferenceBlock b = OutputConverter.ColumnNameConverter.meta();
+        BlockMeta b = OutputConverter.ColumnNameConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -84,7 +81,7 @@ public class OutputConverterTest {
     public void testPrintA() throws Exception {
         Output output = builderTest.exampleA;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -102,7 +99,7 @@ public class OutputConverterTest {
     public void testPrintB() throws Exception {
         Output output = builderTest.exampleB;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -119,7 +116,7 @@ public class OutputConverterTest {
     public void testPrintC() throws Exception {
         Output output = builderTest.exampleC;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -139,7 +136,7 @@ public class OutputConverterTest {
     public void testPrintD() throws Exception {
         Output output = builderTest.exampleD;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -160,7 +157,7 @@ public class OutputConverterTest {
     public void testPrintE() throws Exception {
         Output output = builderTest.exampleE;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -182,7 +179,7 @@ public class OutputConverterTest {
     public void testPrintF() throws Exception {
         Output output = builderTest.exampleF;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -203,7 +200,7 @@ public class OutputConverterTest {
     public void testPrintG() throws Exception {
         Output output = builderTest.exampleG;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -222,7 +219,7 @@ public class OutputConverterTest {
     public void testPrintH() throws Exception {
         Output output = builderTest.exampleH;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -240,7 +237,7 @@ public class OutputConverterTest {
     public void testPrintI() throws Exception {
         Output output = builderTest.exampleI;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -259,7 +256,7 @@ public class OutputConverterTest {
     public void testPrintJ() throws Exception {
         Output output = builderTest.exampleJ;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -281,7 +278,7 @@ public class OutputConverterTest {
     public void testPrintK() throws Exception {
         Output output = builderTest.exampleK;
 
-        StringWriter writer = ReferenceBlockPrinter.print(output);
+        StringWriter writer = MetaContextBlockPrinter.print(output);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");

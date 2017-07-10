@@ -1,8 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.ReferenceBlockConverter;
+import com.xy.xsql.block.core.MetaContextBlockBuilder;
+import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.SearchConditionConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Having;
@@ -11,7 +13,7 @@ import com.xy.xsql.tsql.model.clause.select.Having;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class HavingConverter
-        implements ReferenceBlockConverter<Having> {
+        implements MetaContextBlockConverter<Having> {
 
     // @formatter:off
     private static BlockMetaBuilder<Void,Having> builder =
@@ -29,10 +31,10 @@ public class HavingConverter
     }
 
     @Override
-    public BlockMeta convert(Having having) {
-        return builder
-                .data(having)
-                .build();
+    public MetaContextBlock convert(Having context) {
+        return MetaContextBlockBuilder
+                .meta(meta())
+                .build(context);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.ReferenceBlockPrinter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.FromBuilderTest;
 import com.xy.xsql.tsql.model.clause.From;
 import org.junit.Assert;
@@ -19,9 +19,9 @@ public class FromConverterTest {
 
     @Test
     public void test() throws Exception {
-        ReferenceBlock b = FromConverter.meta();
+        BlockMeta b = FromConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -32,9 +32,9 @@ public class FromConverterTest {
 
     @Test
     public void testTableSource() throws Exception {
-        ReferenceBlock b = FromConverter.TableSourceConverter.meta();
+        BlockMeta b = FromConverter.TableSourceConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -50,9 +50,9 @@ public class FromConverterTest {
 
     @Test
     public void testBaseTable() throws Exception {
-        ReferenceBlock b = FromConverter.BaseTableConverter.meta();
+        BlockMeta b = FromConverter.BaseTableConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -63,9 +63,9 @@ public class FromConverterTest {
 
     @Test
     public void testDerivedTable() throws Exception {
-        ReferenceBlock b = FromConverter.DerivedTableConverter.meta();
+        BlockMeta b = FromConverter.DerivedTableConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -75,9 +75,9 @@ public class FromConverterTest {
 
     @Test
     public void testJoinedTable() throws Exception {
-        ReferenceBlock b = FromConverter.JoinedTableConverter.meta();
+        BlockMeta b = FromConverter.JoinedTableConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -91,9 +91,9 @@ public class FromConverterTest {
 
     @Test
     public void testVariableTable() throws Exception {
-        ReferenceBlock b = FromConverter.VariableTableConverter.meta();
+        BlockMeta b = FromConverter.VariableTableConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -104,9 +104,9 @@ public class FromConverterTest {
 
     @Test
     public void testJoinType() throws Exception {
-        ReferenceBlock b = FromConverter.JoinTypeConverter.meta();
+        BlockMeta b = FromConverter.JoinTypeConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -119,9 +119,9 @@ public class FromConverterTest {
 
     @Test
     public void testSystemTime() throws Exception {
-        ReferenceBlock b = FromConverter.SystemTimeConverter.meta();
+        BlockMeta b = FromConverter.SystemTimeConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -139,9 +139,9 @@ public class FromConverterTest {
 
     @Test
     public void testDateTime() throws Exception {
-        ReferenceBlock b = FromConverter.DateTimeConverter.meta();
+        BlockMeta b = FromConverter.DateTimeConverter.meta();
 
-        StringWriter writer = new ReferenceBlockPrinter()
+        StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
 
         System.out.println(writer);
@@ -261,7 +261,7 @@ public class FromConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = ReferenceBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
