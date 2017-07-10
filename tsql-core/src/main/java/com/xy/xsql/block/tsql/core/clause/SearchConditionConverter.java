@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.predicate.*;
 import com.xy.xsql.tsql.model.Keywords;
@@ -16,8 +16,8 @@ public class SearchConditionConverter
         implements ReferenceBlockConverter<SearchCondition> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,SearchCondition> builder =
-            new ReferenceBlockBuilder<Void,SearchCondition>()
+    private static BlockMetaBuilder<Void,SearchCondition> builder =
+            new BlockMetaBuilder<Void,SearchCondition>()
                     .overall("search_condition")
                     .sub()
                         .description("[ NOT ] <predicate> | ( <search_condition> )")
@@ -69,8 +69,8 @@ public class SearchConditionConverter
             implements ReferenceBlockConverter<SearchCondition.AndOrNotItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,SearchCondition.AndOrNotItem> builder =
-                new ReferenceBlockBuilder<Void,SearchCondition.AndOrNotItem>()
+        private static BlockMetaBuilder<Void,SearchCondition.AndOrNotItem> builder =
+                new BlockMetaBuilder<Void,SearchCondition.AndOrNotItem>()
                         .description("search_condition's and/or item")
                         .sub()
                             .description("AND | OR")
@@ -122,8 +122,8 @@ public class SearchConditionConverter
             implements ReferenceBlockConverter<Predicate> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Predicate> builder =
-                new ReferenceBlockBuilder<Void,Predicate>()
+        private static BlockMetaBuilder<Void,Predicate> builder =
+                new BlockMetaBuilder<Void,Predicate>()
                         .overall("predicate")
                         .czse_meta(d -> d instanceof Comparison, ComparisonPredicateConverter.meta())
                         .czse_meta(d -> d instanceof Like, LikePredicateConverter.meta())

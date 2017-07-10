@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Top;
@@ -14,8 +14,8 @@ public class TopConverter
         implements ReferenceBlockConverter<Top> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Top> builder =
-            new ReferenceBlockBuilder<Void,Top>()
+    private static BlockMetaBuilder<Void,Top> builder =
+            new BlockMetaBuilder<Void,Top>()
                     .overall("TOP")
                     .sub_keyword(Keywords.TOP)
                     .sub_keyword(Other.GROUP_START)

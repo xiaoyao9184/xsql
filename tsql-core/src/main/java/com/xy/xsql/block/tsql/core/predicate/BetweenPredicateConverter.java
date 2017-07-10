@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Logical;
@@ -14,8 +14,8 @@ public class BetweenPredicateConverter
         implements ReferenceBlockConverter<Between> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Between> builder =
-            new ReferenceBlockBuilder<Void,Between>()
+    private static BlockMetaBuilder<Void,Between> builder =
+            new BlockMetaBuilder<Void,Between>()
                     .overall("BETWEEN")
                     .sub("expression")
                         .data(Between::getExpression)

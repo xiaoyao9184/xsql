@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.FromConverter;
@@ -8,13 +8,8 @@ import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
-import com.xy.xsql.tsql.model.statement.dml.Merge;
-
-import java.util.List;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -23,8 +18,8 @@ public class MergeConverter
         implements ReferenceBlockConverter<Merge> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Merge> builder =
-            new ReferenceBlockBuilder<Void,Merge>()
+    private static BlockMetaBuilder<Void,Merge> builder =
+            new BlockMetaBuilder<Void,Merge>()
                     .overall("MERGE")
                     .sub("WITH <common_table_expression> [ ,...n ]")
                         .optional(d -> d.getWith() == null)
@@ -119,8 +114,8 @@ public class MergeConverter
             implements ReferenceBlockConverter<Merge.MergeHint> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Merge.MergeHint> builder =
-                new ReferenceBlockBuilder<Void,Merge.MergeHint>()
+        private static BlockMetaBuilder<Void,Merge.MergeHint> builder =
+                new BlockMetaBuilder<Void,Merge.MergeHint>()
                         .overall("merge_hint")
                         .required()
                         .sub("table_hint_limited")
@@ -164,8 +159,8 @@ public class MergeConverter
             implements ReferenceBlockConverter<Merge.MatchedWhenThen> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Merge.MatchedWhenThen> builder =
-                new ReferenceBlockBuilder<Void,Merge.MatchedWhenThen>()
+        private static BlockMetaBuilder<Void,Merge.MatchedWhenThen> builder =
+                new BlockMetaBuilder<Void,Merge.MatchedWhenThen>()
                         .description("when matched then")
                         .sub_keyword(Keywords.WHEN)
                         .sub_keyword(Keywords.Key.MATCHED)
@@ -203,8 +198,8 @@ public class MergeConverter
             implements ReferenceBlockConverter<Merge.NotMatchedWhenThen> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Merge.NotMatchedWhenThen> builder =
-                new ReferenceBlockBuilder<Void,Merge.NotMatchedWhenThen>()
+        private static BlockMetaBuilder<Void,Merge.NotMatchedWhenThen> builder =
+                new BlockMetaBuilder<Void,Merge.NotMatchedWhenThen>()
                         .description("when not matched then")
                         .sub_keyword(Keywords.WHEN)
                         .sub_keyword(Keywords.NOT)
@@ -249,8 +244,8 @@ public class MergeConverter
             implements ReferenceBlockConverter<Merge.NotMatchedWhenThen> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Merge.NotMatchedWhenThen> builder =
-                new ReferenceBlockBuilder<Void,Merge.NotMatchedWhenThen>()
+        private static BlockMetaBuilder<Void,Merge.NotMatchedWhenThen> builder =
+                new BlockMetaBuilder<Void,Merge.NotMatchedWhenThen>()
                         .description("when not matched by source then")
                         .sub_keyword(Keywords.WHEN)
                         .sub_keyword(Keywords.NOT)
@@ -291,8 +286,8 @@ public class MergeConverter
             implements ReferenceBlockConverter<Merge.MergeMatched> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Merge.MergeMatched> builder =
-                new ReferenceBlockBuilder<Void,Merge.MergeMatched>()
+        private static BlockMetaBuilder<Void,Merge.MergeMatched> builder =
+                new BlockMetaBuilder<Void,Merge.MergeMatched>()
                         .overall("merge_matched")
                         .required()
                         .czse(Merge.MergeMatched::isUseSet)
@@ -334,8 +329,8 @@ public class MergeConverter
             implements ReferenceBlockConverter<Merge.MergeNotMatched> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Merge.MergeNotMatched> builder =
-                new ReferenceBlockBuilder<Void,Merge.MergeNotMatched>()
+        private static BlockMetaBuilder<Void,Merge.MergeNotMatched> builder =
+                new BlockMetaBuilder<Void,Merge.MergeNotMatched>()
                         .overall("merge_not_matched")
                         .required()
                         .sub_keyword(Keywords.INSERT)

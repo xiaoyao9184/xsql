@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
@@ -15,8 +15,8 @@ public class QueryHintConverter
         implements ReferenceBlockConverter<QueryHint> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,QueryHint> builder =
-            new ReferenceBlockBuilder<Void,QueryHint>()
+    private static BlockMetaBuilder<Void,QueryHint> builder =
+            new BlockMetaBuilder<Void,QueryHint>()
                     .overall("query_hint")
                     .czse(d ->
                             QueryHint.Type.HASH_GROUP.equals(d.getType()) ||
@@ -242,8 +242,8 @@ public class QueryHintConverter
             implements ReferenceBlockConverter<QueryHint.OptimizeFor> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,QueryHint.OptimizeFor> builder =
-                new ReferenceBlockBuilder<Void,QueryHint.OptimizeFor>()
+        private static BlockMetaBuilder<Void,QueryHint.OptimizeFor> builder =
+                new BlockMetaBuilder<Void,QueryHint.OptimizeFor>()
                         .description("optimize for's attribute item")
                         .sub("@variable_name")
                             .data(QueryHint.OptimizeFor::getVariableName)

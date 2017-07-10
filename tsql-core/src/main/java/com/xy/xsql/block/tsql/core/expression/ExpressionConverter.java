@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.datatype.Constant;
@@ -17,8 +17,8 @@ public class ExpressionConverter
         implements ReferenceBlockConverter<Expression> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Expression> builder =
-            new ReferenceBlockBuilder<Void,Expression>()
+    private static BlockMetaBuilder<Void,Expression> builder =
+            new BlockMetaBuilder<Void,Expression>()
                     .description("expression")
                     .czse(d -> d instanceof Constant,"constant")
                         .data(Object::toString)

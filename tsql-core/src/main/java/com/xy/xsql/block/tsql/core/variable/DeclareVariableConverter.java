@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.variable;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.datatype.TableTypeDefinitionConverter;
 import com.xy.xsql.tsql.model.Keywords;
@@ -15,8 +15,8 @@ public class DeclareVariableConverter
         implements ReferenceBlockConverter<DeclareVariable> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,DeclareVariable> builder =
-            new ReferenceBlockBuilder<Void,DeclareVariable>()
+    private static BlockMetaBuilder<Void,DeclareVariable> builder =
+            new BlockMetaBuilder<Void,DeclareVariable>()
                 .overall("DECLARE @local_variable")
                 .subTakeLine()
                 .sub_keyword(Keywords.DECLARE)
@@ -64,8 +64,8 @@ public class DeclareVariableConverter
             implements ReferenceBlockConverter<DeclareVariable.Item> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,DeclareVariable.Item> builder =
-                new ReferenceBlockBuilder<Void,DeclareVariable.Item>()
+        private static BlockMetaBuilder<Void,DeclareVariable.Item> builder =
+                new BlockMetaBuilder<Void,DeclareVariable.Item>()
                         .description("local/cursor")
                         .subTakeLine()
                         .czse(d -> d.getDataType() != null)

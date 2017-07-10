@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Into;
@@ -13,8 +13,8 @@ public class IntoConverter
         implements ReferenceBlockConverter<Into> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Into> builder =
-            new ReferenceBlockBuilder<Void,Into>()
+    private static BlockMetaBuilder<Void,Into> builder =
+            new BlockMetaBuilder<Void,Into>()
                     .overall("INTO Clause")
                     .sub_keyword(Keywords.INTO)
                     .sub("new_table")

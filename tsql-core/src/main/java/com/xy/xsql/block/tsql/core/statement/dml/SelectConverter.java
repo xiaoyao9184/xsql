@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.select.ForConverter;
 import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
@@ -18,8 +18,8 @@ public class SelectConverter
         implements ReferenceBlockConverter<Select> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Select> builder =
-            new ReferenceBlockBuilder<Void,Select>()
+    private static BlockMetaBuilder<Void,Select> builder =
+            new BlockMetaBuilder<Void,Select>()
                     .overall("SELECT statement")
                     .sub("[ WITH { [ XMLNAMESPACES ,] [ <common_table_expression> [,...n] ] } ]")
                         .optional(d -> d.getWith() == null)
@@ -61,8 +61,8 @@ public class SelectConverter
             implements ReferenceBlockConverter<Select.QueryExpression> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Select.QueryExpression> builder =
-                new ReferenceBlockBuilder<Void,Select.QueryExpression>()
+        private static BlockMetaBuilder<Void,Select.QueryExpression> builder =
+                new BlockMetaBuilder<Void,Select.QueryExpression>()
                         .overall("query_expression")
                         .sub()
                             .description("first query")
@@ -109,8 +109,8 @@ public class SelectConverter
             implements ReferenceBlockConverter<Select.UnionItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Select.UnionItem> builder =
-                new ReferenceBlockBuilder<Void,Select.UnionItem>()
+        private static BlockMetaBuilder<Void,Select.UnionItem> builder =
+                new BlockMetaBuilder<Void,Select.UnionItem>()
                         .description("union item")
                         .sub()
                             .description("union item's keyword")
@@ -170,8 +170,8 @@ public class SelectConverter
             implements ReferenceBlockConverter<Select.QuerySpecification> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Select.QuerySpecification> builder =
-                new ReferenceBlockBuilder<Void,Select.QuerySpecification>()
+        private static BlockMetaBuilder<Void,Select.QuerySpecification> builder =
+                new BlockMetaBuilder<Void,Select.QuerySpecification>()
                         .overall("query_specification")
                         .sub_keyword(Keywords.SELECT)
                         .sub()

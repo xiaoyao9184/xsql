@@ -1,13 +1,11 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -16,8 +14,8 @@ public class DeleteConverter
         implements ReferenceBlockConverter<Delete> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Delete> builder =
-            new ReferenceBlockBuilder<Void,Delete>()
+    private static BlockMetaBuilder<Void,Delete> builder =
+            new BlockMetaBuilder<Void,Delete>()
                     .overall("DELETE")
                     .sub("WITH <common_table_expression> [ ,...n ]")
                         .optional(d -> d.getWith() == null)

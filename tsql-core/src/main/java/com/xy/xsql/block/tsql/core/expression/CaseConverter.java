@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Case;
@@ -13,8 +13,8 @@ public class CaseConverter
         implements ReferenceBlockConverter<Case> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Case> builder =
-            new ReferenceBlockBuilder<Void,Case>()
+    private static BlockMetaBuilder<Void,Case> builder =
+            new BlockMetaBuilder<Void,Case>()
                     .overall("CASE")
                     .czse(d -> d.getInputExpression() != null)
                         .description("simple case")
@@ -43,8 +43,8 @@ public class CaseConverter
     public static class SimpleCaseConverter {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Case> builder =
-                new ReferenceBlockBuilder<Void,Case>()
+        private static BlockMetaBuilder<Void,Case> builder =
+                new BlockMetaBuilder<Void,Case>()
                         .overall("Simple CASE expression")
                         .sub_keyword(Keywords.CASE)
                         .sub("input_expression")
@@ -76,8 +76,8 @@ public class CaseConverter
     public static class SearchedCaseConverter {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Case> builder =
-                new ReferenceBlockBuilder<Void,Case>()
+        private static BlockMetaBuilder<Void,Case> builder =
+                new BlockMetaBuilder<Void,Case>()
                         .overall("Searched CASE expression")
                         .sub_keyword(Keywords.CASE)
                         .sub()
@@ -108,8 +108,8 @@ public class CaseConverter
             implements ReferenceBlockConverter<Case.WhenThenExpression> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Case.WhenThenExpression> builder =
-                new ReferenceBlockBuilder<Void,Case.WhenThenExpression>()
+        private static BlockMetaBuilder<Void,Case.WhenThenExpression> builder =
+                new BlockMetaBuilder<Void,Case.WhenThenExpression>()
                         .sub_keyword(Keywords.WHEN)
                         .sub("when_expression")
                             .data(Case.WhenThenExpression::getWhenExpression)

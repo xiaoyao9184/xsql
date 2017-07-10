@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
@@ -14,8 +14,8 @@ public class TruncateTableConverter
         implements ReferenceBlockConverter<TruncateTable> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,TruncateTable> builder =
-            new ReferenceBlockBuilder<Void,TruncateTable>()
+    private static BlockMetaBuilder<Void,TruncateTable> builder =
+            new BlockMetaBuilder<Void,TruncateTable>()
                     .overall("TRUNCATE TABLE")
                     .sub_keyword(Keywords.TRUNCATE)
                     .sub_keyword(Keywords.TABLE)
@@ -59,8 +59,8 @@ public class TruncateTableConverter
             implements ReferenceBlockConverter<TruncateTable.Partitions> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,TruncateTable.Partitions> builder =
-                new ReferenceBlockBuilder<Void,TruncateTable.Partitions>()
+        private static BlockMetaBuilder<Void,TruncateTable.Partitions> builder =
+                new BlockMetaBuilder<Void,TruncateTable.Partitions>()
                         .required()
                         .czse(d -> d instanceof TruncateTable.PartitionNumberExpression)
                             .name("partition_number_expression")
@@ -89,8 +89,8 @@ public class TruncateTableConverter
             implements ReferenceBlockConverter<TruncateTable.Range> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,TruncateTable.Range> builder =
-                new ReferenceBlockBuilder<Void,TruncateTable.Range>()
+        private static BlockMetaBuilder<Void,TruncateTable.Range> builder =
+                new BlockMetaBuilder<Void,TruncateTable.Range>()
                         .overall("range")
                         .sub()
                             .ref(PartitionNumberExpressionConverter.class)
@@ -120,8 +120,8 @@ public class TruncateTableConverter
             implements ReferenceBlockConverter<TruncateTable.PartitionNumberExpression> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,TruncateTable.PartitionNumberExpression> builder =
-                new ReferenceBlockBuilder<Void,TruncateTable.PartitionNumberExpression>()
+        private static BlockMetaBuilder<Void,TruncateTable.PartitionNumberExpression> builder =
+                new BlockMetaBuilder<Void,TruncateTable.PartitionNumberExpression>()
                         .overall("partition_number_expression")
                         .data(TruncateTable.PartitionNumberExpression::getNumber);
         // @formatter:on

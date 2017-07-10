@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
@@ -19,8 +19,8 @@ public class TableValueConstructorConverter
         implements ReferenceBlockConverter<TableValueConstructor> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,TableValueConstructor> builder =
-            new ReferenceBlockBuilder<Void,TableValueConstructor>()
+    private static BlockMetaBuilder<Void,TableValueConstructor> builder =
+            new BlockMetaBuilder<Void,TableValueConstructor>()
                     .overall("Table Value Constructor")
                     .sub_keyword(Keywords.VALUES)
                     .sub()
@@ -54,8 +54,8 @@ public class TableValueConstructorConverter
             implements ReferenceBlockConverter<List<Expression>> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,List<Expression>> builder =
-                new ReferenceBlockBuilder<Void,List<Expression>>()
+        private static BlockMetaBuilder<Void,List<Expression>> builder =
+                new BlockMetaBuilder<Void,List<Expression>>()
                         .overall("row value expression list")
                         .sub("row value expression")
                             .list()
@@ -82,8 +82,8 @@ public class TableValueConstructorConverter
             implements ReferenceBlockConverter<Expression> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Expression> builder =
-                new ReferenceBlockBuilder<Void,Expression>()
+        private static BlockMetaBuilder<Void,Expression> builder =
+                new BlockMetaBuilder<Void,Expression>()
                         .overall("row value expression")
                         .required()
                         .czse(d -> d instanceof Default,"DEFAULT")

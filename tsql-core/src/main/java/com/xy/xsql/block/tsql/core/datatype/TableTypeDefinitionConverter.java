@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
@@ -15,8 +15,8 @@ public class TableTypeDefinitionConverter
         implements ReferenceBlockConverter<TableTypeDefinition> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,TableTypeDefinition> builder =
-            new ReferenceBlockBuilder<Void,TableTypeDefinition>()
+    private static BlockMetaBuilder<Void,TableTypeDefinition> builder =
+            new BlockMetaBuilder<Void,TableTypeDefinition>()
                     .overall("table_type_definition")
                     .sub_keyword(Keywords.TABLE)
                     .sub_keyword(Other.GROUP_START)
@@ -44,8 +44,8 @@ public class TableTypeDefinitionConverter
             implements ReferenceBlockConverter<TableTypeDefinition.Item> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,TableTypeDefinition.Item> builder =
-                new ReferenceBlockBuilder<Void,TableTypeDefinition.Item>()
+        private static BlockMetaBuilder<Void,TableTypeDefinition.Item> builder =
+                new BlockMetaBuilder<Void,TableTypeDefinition.Item>()
                         .required()
                         .czse(d -> d instanceof ColumnDefinition)
                             .name("column_definition")
@@ -74,8 +74,8 @@ public class TableTypeDefinitionConverter
             implements ReferenceBlockConverter<TableTypeDefinition.TableConstraint> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,TableTypeDefinition.TableConstraint> builder =
-                new ReferenceBlockBuilder<Void,TableTypeDefinition.TableConstraint>()
+        private static BlockMetaBuilder<Void,TableTypeDefinition.TableConstraint> builder =
+                new BlockMetaBuilder<Void,TableTypeDefinition.TableConstraint>()
                         .overall("table_constraint")
                         .czse(d -> d.getColumnName() != null)
                             .sub()

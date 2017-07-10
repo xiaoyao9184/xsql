@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Output;
@@ -16,8 +16,8 @@ public class OutputConverter
         implements ReferenceBlockConverter<Output> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Output> builder =
-            new ReferenceBlockBuilder<Void,Output>()
+    private static BlockMetaBuilder<Void,Output> builder =
+            new BlockMetaBuilder<Void,Output>()
                     .overall("OUTPUT Clause")
                     .sub()
                         .description("output with into")
@@ -75,8 +75,8 @@ public class OutputConverter
             implements ReferenceBlockConverter<List<Output.DmlSelect>> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,List<Output.DmlSelect>> builder =
-                new ReferenceBlockBuilder<Void,List<Output.DmlSelect>>()
+        private static BlockMetaBuilder<Void,List<Output.DmlSelect>> builder =
+                new BlockMetaBuilder<Void,List<Output.DmlSelect>>()
                         .overall("dml_select_list")
                         .list()
                         .ref(DmlSelectConverter.meta());
@@ -100,8 +100,8 @@ public class OutputConverter
             implements ReferenceBlockConverter<Output.DmlSelect> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Output.DmlSelect> builder =
-                new ReferenceBlockBuilder<Void,Output.DmlSelect>()
+        private static BlockMetaBuilder<Void,Output.DmlSelect> builder =
+                new BlockMetaBuilder<Void,Output.DmlSelect>()
                         .description("dml_select_list's item")
                         .sub()
                             .description("column_name/scalar_expression")
@@ -144,8 +144,8 @@ public class OutputConverter
             implements ReferenceBlockConverter<Output.ColumnName> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Output.ColumnName> builder =
-                new ReferenceBlockBuilder<Void,Output.ColumnName>()
+        private static BlockMetaBuilder<Void,Output.ColumnName> builder =
+                new BlockMetaBuilder<Void,Output.ColumnName>()
                         .overall("column_name")
                         .czse(d ->
                             d.isUseDeleted() ||

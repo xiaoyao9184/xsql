@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
@@ -14,8 +14,8 @@ public class NullIfConverter
         implements ReferenceBlockConverter<NullIf> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,NullIf> builder =
-            new ReferenceBlockBuilder<Void,NullIf>()
+    private static BlockMetaBuilder<Void,NullIf> builder =
+            new BlockMetaBuilder<Void,NullIf>()
                     .overall("NULLIF")
                     .sub_keyword(Keywords.NULLIF)
                     .sub_keyword(Other.GROUP_START)

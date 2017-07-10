@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
@@ -19,8 +19,8 @@ public class BulkInsertConverter
         implements ReferenceBlockConverter<BulkInsert> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,BulkInsert> builder =
-            new ReferenceBlockBuilder<Void,BulkInsert>()
+    private static BlockMetaBuilder<Void,BulkInsert> builder =
+            new BlockMetaBuilder<Void,BulkInsert>()
                     .overall("BULK INSERT")
                     .sub_keyword(Keywords.BULK)
                     .sub_keyword(Keywords.INSERT)
@@ -388,8 +388,8 @@ public class BulkInsertConverter
             implements ReferenceBlockConverter<BulkInsert.OrderColumn> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,BulkInsert.OrderColumn> builder =
-                new ReferenceBlockBuilder<Void,BulkInsert.OrderColumn>()
+        private static BlockMetaBuilder<Void,BulkInsert.OrderColumn> builder =
+                new BlockMetaBuilder<Void,BulkInsert.OrderColumn>()
                         .required()
                         .sub("column")
                             .data(BulkInsert.OrderColumn::getColumn)

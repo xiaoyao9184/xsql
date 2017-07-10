@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.hints.JoinHintConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintConverter;
@@ -16,8 +16,8 @@ public class FromConverter
         implements ReferenceBlockConverter<From> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,From> builder =
-            new ReferenceBlockBuilder<Void,From>()
+    private static BlockMetaBuilder<Void,From> builder =
+            new BlockMetaBuilder<Void,From>()
                     .overall("FROM")
                     .sub_keyword(Keywords.FROM)
                     .sub("table_source")
@@ -45,8 +45,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.TableSource> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.TableSource> builder =
-                new ReferenceBlockBuilder<Void,From.TableSource>()
+        private static BlockMetaBuilder<Void,From.TableSource> builder =
+                new BlockMetaBuilder<Void,From.TableSource>()
                         .overall("table_source")
 //                        .when(d -> d instanceof From.BaseTable)
 //                            .then(BaseTableConverter.meta())
@@ -101,8 +101,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.BaseTable> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.BaseTable> builder =
-                new ReferenceBlockBuilder<Void,From.BaseTable>()
+        private static BlockMetaBuilder<Void,From.BaseTable> builder =
+                new BlockMetaBuilder<Void,From.BaseTable>()
                         .description("base table")
                         .sub("table_or_view_name")
                             .data(From.BaseTable::getTableName)
@@ -155,8 +155,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.DerivedTable> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.DerivedTable> builder =
-                new ReferenceBlockBuilder<Void,From.DerivedTable>()
+        private static BlockMetaBuilder<Void,From.DerivedTable> builder =
+                new BlockMetaBuilder<Void,From.DerivedTable>()
                         .description("derived table")
                         .sub("derived_table")
                             .sub_keyword(Other.GROUP_START)
@@ -211,8 +211,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.VariableTable> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.VariableTable> builder =
-                new ReferenceBlockBuilder<Void,From.VariableTable>()
+        private static BlockMetaBuilder<Void,From.VariableTable> builder =
+                new BlockMetaBuilder<Void,From.VariableTable>()
                         .description("variable table")
                         .sub("@variable")
                             .data(From.VariableTable::getVariable)
@@ -246,8 +246,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.BaseWithTimeTable> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.BaseWithTimeTable> builder =
-                new ReferenceBlockBuilder<Void,From.BaseWithTimeTable>()
+        private static BlockMetaBuilder<Void,From.BaseWithTimeTable> builder =
+                new BlockMetaBuilder<Void,From.BaseWithTimeTable>()
                         .description("base time table")
                         .sub("table_or_view_name")
                             .data(From.BaseWithTimeTable::getTableName)
@@ -279,8 +279,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.TableSample> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.TableSample> builder =
-                new ReferenceBlockBuilder<Void,From.TableSample>()
+        private static BlockMetaBuilder<Void,From.TableSample> builder =
+                new BlockMetaBuilder<Void,From.TableSample>()
                         .overall("tablesample_clause")
                         .sub_keyword(Keywords.Key.TABLESAMPLE)
                         .sub()
@@ -330,8 +330,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.JoinedTable> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.JoinedTable> builder =
-                new ReferenceBlockBuilder<Void,From.JoinedTable>()
+        private static BlockMetaBuilder<Void,From.JoinedTable> builder =
+                new BlockMetaBuilder<Void,From.JoinedTable>()
                         .overall("joined_table")
                         .czse(From.JoinedTable::isUseJoinOn)
                             .description("base join")
@@ -423,8 +423,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.JoinType> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.JoinType> builder =
-                new ReferenceBlockBuilder<Void,From.JoinType>()
+        private static BlockMetaBuilder<Void,From.JoinType> builder =
+                new BlockMetaBuilder<Void,From.JoinType>()
                         .overall("join_type")
                         .sub()
                             .description("inner/outer with join_hint")
@@ -489,8 +489,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.SystemTime> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.SystemTime> builder =
-                new ReferenceBlockBuilder<Void,From.SystemTime>()
+        private static BlockMetaBuilder<Void,From.SystemTime> builder =
+                new BlockMetaBuilder<Void,From.SystemTime>()
                         .overall("system_time")
                         .required()
                         .czse(d -> d.getDateTime() != null)
@@ -571,8 +571,8 @@ public class FromConverter
             implements ReferenceBlockConverter<From.DateTime> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,From.DateTime> builder =
-                new ReferenceBlockBuilder<Void,From.DateTime>()
+        private static BlockMetaBuilder<Void,From.DateTime> builder =
+                new BlockMetaBuilder<Void,From.DateTime>()
                         .overall("date_time")
                         .czse(d -> d.getDateTimeLiteral() != null,"<date_time_literal>")
                             .data(From.DateTime::getDateTimeLiteral)

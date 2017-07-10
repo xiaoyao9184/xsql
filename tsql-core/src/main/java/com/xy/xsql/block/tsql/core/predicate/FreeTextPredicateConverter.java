@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
@@ -14,8 +14,8 @@ public class FreeTextPredicateConverter
         implements ReferenceBlockConverter<FreeText> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,FreeText> builder =
-            new ReferenceBlockBuilder<Void,FreeText>()
+    private static BlockMetaBuilder<Void,FreeText> builder =
+            new BlockMetaBuilder<Void,FreeText>()
                     .overall("FREETEXT")
                     .sub_keyword(Keywords.FREETEXT)
                     .sub_keyword(Other.GROUP_START)

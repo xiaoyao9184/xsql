@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.With;
@@ -14,8 +14,8 @@ public class WithConverter
         implements ReferenceBlockConverter<With> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,With> builder =
-            new ReferenceBlockBuilder<Void,With>()
+    private static BlockMetaBuilder<Void,With> builder =
+            new BlockMetaBuilder<Void,With>()
                     .overall("WITH common_table_expression")
                     .sub_keyword(Keywords.WITH)
                     .sub_list("common_table_expression")
@@ -41,8 +41,8 @@ public class WithConverter
             implements ReferenceBlockConverter<With.CommonTableExpression> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,With.CommonTableExpression> builder =
-                new ReferenceBlockBuilder<Void,With.CommonTableExpression>()
+        private static BlockMetaBuilder<Void,With.CommonTableExpression> builder =
+                new BlockMetaBuilder<Void,With.CommonTableExpression>()
                         .overall("common_table_expression")
                         .sub("expression_name")
                             .data(With.CommonTableExpression::getExpressionName)

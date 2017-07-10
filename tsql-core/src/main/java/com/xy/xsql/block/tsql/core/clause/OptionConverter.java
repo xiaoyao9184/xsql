@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.hints.QueryHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
@@ -17,8 +17,8 @@ public class OptionConverter
         implements ReferenceBlockConverter<Option> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Option> builder =
-            new ReferenceBlockBuilder<Void,Option>()
+    private static BlockMetaBuilder<Void,Option> builder =
+            new BlockMetaBuilder<Void,Option>()
                     .overall("OPTION Clause")
                     .sub_keyword(Keywords.OPTION)
                     .sub_keyword(Other.GROUP_START)
@@ -46,8 +46,8 @@ public class OptionConverter
             implements ReferenceBlockConverter<Option.QueryOption> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Option.QueryOption> builder =
-                new ReferenceBlockBuilder<Void,Option.QueryOption>()
+        private static BlockMetaBuilder<Void,Option.QueryOption> builder =
+                new BlockMetaBuilder<Void,Option.QueryOption>()
                         .overall("query_option")
                         .czse_meta(d -> d instanceof Option.LabelQueryOption, LabelQueryOptionConverter.meta())
                         .czse(d -> d instanceof QueryHint, "query_hint")
@@ -74,8 +74,8 @@ public class OptionConverter
             implements ReferenceBlockConverter<Option.LabelQueryOption> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Option.LabelQueryOption> builder =
-                new ReferenceBlockBuilder<Void,Option.LabelQueryOption>()
+        private static BlockMetaBuilder<Void,Option.LabelQueryOption> builder =
+                new BlockMetaBuilder<Void,Option.LabelQueryOption>()
                         .sub_keyword(Keywords.Key.LABEL)
                         .sub_keyword(Assignment.ASSIGNMENT)
                         .sub("label_name")

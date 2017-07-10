@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 
@@ -12,8 +12,8 @@ public class TableHintLimitedConverter
         implements ReferenceBlockConverter<TableHintLimited> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,TableHintLimited> builder =
-            new ReferenceBlockBuilder<Void,TableHintLimited>()
+    private static BlockMetaBuilder<Void,TableHintLimited> builder =
+            new BlockMetaBuilder<Void,TableHintLimited>()
                     .overall("table_hint_limited")
                     .czse(d -> d.equals(TableHintLimited.KEEPIDENTITY))
                         .keyword(TableHintLimited.KEEPIDENTITY)

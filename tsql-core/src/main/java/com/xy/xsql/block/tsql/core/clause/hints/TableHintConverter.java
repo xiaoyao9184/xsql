@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
@@ -15,8 +15,8 @@ public class TableHintConverter
         implements ReferenceBlockConverter<TableHint> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,TableHint> builder =
-            new ReferenceBlockBuilder<Void,TableHint>()
+    private static BlockMetaBuilder<Void,TableHint> builder =
+            new BlockMetaBuilder<Void,TableHint>()
                     .overall("table_hint")
                     .sub()
                         .optional(d -> !d.isUseNOEXPAND())

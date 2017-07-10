@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
@@ -14,8 +14,8 @@ public class GroupByConverter
         implements ReferenceBlockConverter<GroupBy> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,GroupBy> builder =
-            new ReferenceBlockBuilder<Void,GroupBy>()
+    private static BlockMetaBuilder<Void,GroupBy> builder =
+            new BlockMetaBuilder<Void,GroupBy>()
                     .sub_keyword(Keywords.GROUP)
                     .sub_keyword(Keywords.BY)
                     .sub_list(ItemConverter.meta())
@@ -42,8 +42,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.Item> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.Item> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.Item>()
+        private static BlockMetaBuilder<Void,GroupBy.Item> builder =
+                new BlockMetaBuilder<Void,GroupBy.Item>()
                         .czse_meta(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta())
                         .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta())
                         .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta())
@@ -72,8 +72,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.BaseItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.BaseItem> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.BaseItem>()
+        private static BlockMetaBuilder<Void,GroupBy.BaseItem> builder =
+                new BlockMetaBuilder<Void,GroupBy.BaseItem>()
                         .sub("column-expression")
                             .data(GroupBy.BaseItem::getExpression)
                             .and();
@@ -96,8 +96,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.RollupItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.RollupItem> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.RollupItem>()
+        private static BlockMetaBuilder<Void,GroupBy.RollupItem> builder =
+                new BlockMetaBuilder<Void,GroupBy.RollupItem>()
                         .sub_keyword(Keywords.Key.ROLLUP)
                         .sub_keyword(Other.GROUP_START)
                         .sub("group_by_expression")
@@ -126,8 +126,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.CubeItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.CubeItem> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.CubeItem>()
+        private static BlockMetaBuilder<Void,GroupBy.CubeItem> builder =
+                new BlockMetaBuilder<Void,GroupBy.CubeItem>()
                         .sub_keyword(Keywords.Key.CUBE)
                         .sub_keyword(Other.GROUP_START)
                         .sub("group_by_expression")
@@ -156,8 +156,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.GroupingSetsItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.GroupingSetsItem> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.GroupingSetsItem>()
+        private static BlockMetaBuilder<Void,GroupBy.GroupingSetsItem> builder =
+                new BlockMetaBuilder<Void,GroupBy.GroupingSetsItem>()
                         .sub_keyword(Keywords.Key.GROUPING)
                         .sub_keyword(Keywords.Key.SETS)
                         .sub_keyword(Other.GROUP_START)
@@ -187,8 +187,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.TotalItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.TotalItem> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.TotalItem>()
+        private static BlockMetaBuilder<Void,GroupBy.TotalItem> builder =
+                new BlockMetaBuilder<Void,GroupBy.TotalItem>()
                         .data("()");
         // @formatter:on
 
@@ -208,8 +208,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.ColumnNameItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.ColumnNameItem> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.ColumnNameItem>()
+        private static BlockMetaBuilder<Void,GroupBy.ColumnNameItem> builder =
+                new BlockMetaBuilder<Void,GroupBy.ColumnNameItem>()
                         .sub("column-name")
                             .data(GroupBy.ColumnNameItem::getColumnName)
                             .and()
@@ -240,8 +240,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.GroupByExpression> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.GroupByExpression> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.GroupByExpression>()
+        private static BlockMetaBuilder<Void,GroupBy.GroupByExpression> builder =
+                new BlockMetaBuilder<Void,GroupBy.GroupByExpression>()
                         .overall("group_by_expression")
                         .czse(d -> d.getColumnExpressionList().size() == 1,"column-expression")
                             .data(d -> d.getColumnExpressionList().get(0))
@@ -275,8 +275,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.GroupingSet> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.GroupingSet> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.GroupingSet>()
+        private static BlockMetaBuilder<Void,GroupBy.GroupingSet> builder =
+                new BlockMetaBuilder<Void,GroupBy.GroupingSet>()
                         .overall("grouping_set")
                         .czse(d -> d.isUseTotal(), "()")
                             .description("() --calculates the grand total")
@@ -317,8 +317,8 @@ public class GroupByConverter
             implements ReferenceBlockConverter<GroupBy.GroupingSet.Item> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,GroupBy.GroupingSet.Item> builder =
-                new ReferenceBlockBuilder<Void,GroupBy.GroupingSet.Item>()
+        private static BlockMetaBuilder<Void,GroupBy.GroupingSet.Item> builder =
+                new BlockMetaBuilder<Void,GroupBy.GroupingSet.Item>()
                         .overall("grouping_set_item")
                         .czse(d -> d instanceof GroupBy.GroupByExpression,"group_by_expression")
                             .and()

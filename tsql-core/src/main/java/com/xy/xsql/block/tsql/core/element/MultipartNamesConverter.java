@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.element;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
@@ -16,8 +16,8 @@ public class MultipartNamesConverter {
             implements ReferenceBlockConverter<TableName> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,TableName> builder =
-                new ReferenceBlockBuilder<Void,TableName>()
+        private static BlockMetaBuilder<Void,TableName> builder =
+                new BlockMetaBuilder<Void,TableName>()
                         .description("database_name.schema_name.table_name")
                         .sub()
                             .description("server_name.database_name.schema_name.")
@@ -78,8 +78,8 @@ public class MultipartNamesConverter {
             implements ReferenceBlockConverter<ColumnName> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,ColumnName> builder =
-                new ReferenceBlockBuilder<Void,ColumnName>()
+        private static BlockMetaBuilder<Void,ColumnName> builder =
+                new BlockMetaBuilder<Void,ColumnName>()
                         .description("database_name.schema_name.table_name.column_name")
                         .sub()
                             .description("table_name.")

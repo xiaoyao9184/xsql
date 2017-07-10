@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
@@ -13,8 +13,8 @@ public class ReNameConverter
         implements ReferenceBlockConverter<ReName> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,ReName> builder =
-            new ReferenceBlockBuilder<Void,ReName>()
+    private static BlockMetaBuilder<Void,ReName> builder =
+            new BlockMetaBuilder<Void,ReName>()
                     .overall("RENAME")
                     .czse(d -> d.getDbName() != null)
                         .description("rename database")
@@ -43,8 +43,8 @@ public class ReNameConverter
     public static class ReNameDataBaseConverter {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,ReName> builder =
-                new ReferenceBlockBuilder<Void,ReName>()
+        private static BlockMetaBuilder<Void,ReName> builder =
+                new BlockMetaBuilder<Void,ReName>()
                         .overall("RENAME")
                         .sub_keyword(Keywords.Key.RENAME)
                         .sub_keyword(Keywords.DATABASE)
@@ -70,8 +70,8 @@ public class ReNameConverter
     public static class ReNameTableConverter {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,ReName> builder =
-                new ReferenceBlockBuilder<Void,ReName>()
+        private static BlockMetaBuilder<Void,ReName> builder =
+                new BlockMetaBuilder<Void,ReName>()
                         .overall("RENAME")
                         .sub_keyword(Keywords.Key.RENAME)
                         .sub_keyword(Keywords.Key.OBJECT)

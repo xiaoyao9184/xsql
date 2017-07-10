@@ -1,10 +1,9 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
-import com.xy.xsql.tsql.model.expression.GroupExpression;
 
 /**
  * Created by xiaoyao9184 on 2017/6/29.
@@ -13,8 +12,8 @@ public class BinaryExpressionConverter
         implements ReferenceBlockConverter<BinaryExpression> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,BinaryExpression> builder =
-            new ReferenceBlockBuilder<Void,BinaryExpression>()
+    private static BlockMetaBuilder<Void,BinaryExpression> builder =
+            new BlockMetaBuilder<Void,BinaryExpression>()
                     .description("binary expression")
                     .sub("expression")
                         .data(BinaryExpression::getExpressionLeft)

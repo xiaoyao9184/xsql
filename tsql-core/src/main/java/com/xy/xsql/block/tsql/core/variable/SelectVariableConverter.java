@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.variable;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Assignment;
@@ -14,8 +14,8 @@ public class SelectVariableConverter
         implements ReferenceBlockConverter<SelectVariable> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,SelectVariable> builder =
-            new ReferenceBlockBuilder<Void,SelectVariable>()
+    private static BlockMetaBuilder<Void,SelectVariable> builder =
+            new BlockMetaBuilder<Void,SelectVariable>()
                     .overall("SELECT @local_variable")
                     .sub_keyword(Keywords.SELECT)
                     .sub()
@@ -42,8 +42,8 @@ public class SelectVariableConverter
             implements ReferenceBlockConverter<SelectVariable.Item> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,SelectVariable.Item> builder =
-                new ReferenceBlockBuilder<Void,SelectVariable.Item>()
+        private static BlockMetaBuilder<Void,SelectVariable.Item> builder =
+                new BlockMetaBuilder<Void,SelectVariable.Item>()
                     .sub("@local_variable")
                         .data(SelectVariable.Item::getLocalVariable)
                         .and()

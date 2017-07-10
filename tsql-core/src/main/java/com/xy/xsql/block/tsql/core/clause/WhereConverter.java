@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Where;
@@ -13,8 +13,8 @@ public class WhereConverter
         implements ReferenceBlockConverter<Where> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Where> builder =
-            new ReferenceBlockBuilder<Void,Where>()
+    private static BlockMetaBuilder<Void,Where> builder =
+            new BlockMetaBuilder<Void,Where>()
                     .overall("WHERE")
                     .sub_keyword(Keywords.WHERE)
                     .sub("search_condition")

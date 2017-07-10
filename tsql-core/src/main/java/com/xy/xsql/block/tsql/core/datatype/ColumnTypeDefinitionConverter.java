@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
@@ -14,8 +14,8 @@ public class ColumnTypeDefinitionConverter
         implements ReferenceBlockConverter<ColumnDefinition> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,ColumnDefinition> builder =
-            new ReferenceBlockBuilder<Void,ColumnDefinition>()
+    private static BlockMetaBuilder<Void,ColumnDefinition> builder =
+            new BlockMetaBuilder<Void,ColumnDefinition>()
                     .overall("column_definition")
                     .sub("column_name")
                         .data(d -> d.getName())
@@ -89,8 +89,8 @@ public class ColumnTypeDefinitionConverter
             implements ReferenceBlockConverter<ColumnDefinition.ColumnConstraint> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,ColumnDefinition.ColumnConstraint> builder =
-                new ReferenceBlockBuilder<Void,ColumnDefinition.ColumnConstraint>()
+        private static BlockMetaBuilder<Void,ColumnDefinition.ColumnConstraint> builder =
+                new BlockMetaBuilder<Void,ColumnDefinition.ColumnConstraint>()
                         .overall("column_constraint")
                         .czse(d -> d.isUseNull() || d.isUseNotNull())
                             .optional()

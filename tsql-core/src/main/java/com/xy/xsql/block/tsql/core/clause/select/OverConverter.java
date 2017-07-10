@@ -1,11 +1,10 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Over;
-import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.element.Other;
 
 /**
@@ -15,8 +14,8 @@ public class OverConverter
         implements ReferenceBlockConverter<Over> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Over> builder =
-            new ReferenceBlockBuilder<Void,Over>()
+    private static BlockMetaBuilder<Void,Over> builder =
+            new BlockMetaBuilder<Void,Over>()
                     .overall("OVER")
                     .sub_keyword(Keywords.OVER)
                     .sub_keyword(Other.GROUP_START)
@@ -60,8 +59,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.PartitionBy> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.PartitionBy> builder =
-                new ReferenceBlockBuilder<Void,Over.PartitionBy>()
+        private static BlockMetaBuilder<Void,Over.PartitionBy> builder =
+                new BlockMetaBuilder<Void,Over.PartitionBy>()
                         .overall("PARTITION BY clause")
                         .sub_keyword(Keywords.Key.PARTITION)
                         .sub_keyword(Keywords.BY)
@@ -88,8 +87,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.OrderBy> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.OrderBy> builder =
-                new ReferenceBlockBuilder<Void,Over.OrderBy>()
+        private static BlockMetaBuilder<Void,Over.OrderBy> builder =
+                new BlockMetaBuilder<Void,Over.OrderBy>()
                         .overall("ORDER BY clause")
                         .sub_keyword(Keywords.ORDER)
                         .sub_keyword(Keywords.BY)
@@ -120,8 +119,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.RowRange> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.RowRange> builder =
-                new ReferenceBlockBuilder<Void,Over.RowRange>()
+        private static BlockMetaBuilder<Void,Over.RowRange> builder =
+                new BlockMetaBuilder<Void,Over.RowRange>()
                         .overall("ROW or RANGE clause")
                         .sub()
                             .description("row/range")
@@ -151,8 +150,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.WindowFrameExtent> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.WindowFrameExtent> builder =
-                new ReferenceBlockBuilder<Void,Over.WindowFrameExtent>()
+        private static BlockMetaBuilder<Void,Over.WindowFrameExtent> builder =
+                new BlockMetaBuilder<Void,Over.WindowFrameExtent>()
                         .overall("window frame extent")
                         .required()
                         .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
@@ -183,8 +182,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.WindowFrameBetween> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.WindowFrameBetween> builder =
-                new ReferenceBlockBuilder<Void,Over.WindowFrameBetween>()
+        private static BlockMetaBuilder<Void,Over.WindowFrameBetween> builder =
+                new BlockMetaBuilder<Void,Over.WindowFrameBetween>()
                         .overall("window frame between")
                         .sub_keyword(Keywords.BETWEEN)
                         .sub("window frame bound")
@@ -214,8 +213,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.WindowFrameBound> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.WindowFrameBound> builder =
-                new ReferenceBlockBuilder<Void,Over.WindowFrameBound>()
+        private static BlockMetaBuilder<Void,Over.WindowFrameBound> builder =
+                new BlockMetaBuilder<Void,Over.WindowFrameBound>()
                         .overall("window frame bound")
                         .required()
                         .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
@@ -246,8 +245,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.WindowFramePreceding> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.WindowFramePreceding> builder =
-                new ReferenceBlockBuilder<Void,Over.WindowFramePreceding>()
+        private static BlockMetaBuilder<Void,Over.WindowFramePreceding> builder =
+                new BlockMetaBuilder<Void,Over.WindowFramePreceding>()
                         .overall("window frame preceding")
                         .czse(Over.WindowFramePreceding::isUseUnbounded)
                             .description("unbounded")
@@ -285,8 +284,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.WindowFrameFollowing> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.WindowFrameFollowing> builder =
-                new ReferenceBlockBuilder<Void,Over.WindowFrameFollowing>()
+        private static BlockMetaBuilder<Void,Over.WindowFrameFollowing> builder =
+                new BlockMetaBuilder<Void,Over.WindowFrameFollowing>()
                         .overall("window frame following")
                         .czse(Over.WindowFrameFollowing::isUseUnbounded)
                             .description("unbounded")
@@ -324,8 +323,8 @@ public class OverConverter
             implements ReferenceBlockConverter<Over.UnsignedValueSpecification> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Over.UnsignedValueSpecification> builder =
-                new ReferenceBlockBuilder<Void,Over.UnsignedValueSpecification>()
+        private static BlockMetaBuilder<Void,Over.UnsignedValueSpecification> builder =
+                new BlockMetaBuilder<Void,Over.UnsignedValueSpecification>()
                         .overall("unsigned value specification")
                         .required()
                         .sub("<unsigned integer literal>")

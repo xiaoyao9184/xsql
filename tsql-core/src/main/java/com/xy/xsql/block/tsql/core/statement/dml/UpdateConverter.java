@@ -1,12 +1,10 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.datatype.Default;
-import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.statement.dml.Update;
@@ -18,8 +16,8 @@ public class UpdateConverter
         implements ReferenceBlockConverter<Update> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Update> builder =
-            new ReferenceBlockBuilder<Void,Update>()
+    private static BlockMetaBuilder<Void,Update> builder =
+            new BlockMetaBuilder<Void,Update>()
                     .overall("UPDATE")
                     .subTakeLine()
                     .sub("WITH <common_table_expression> [ ,...n ]")
@@ -110,8 +108,8 @@ public class UpdateConverter
             implements ReferenceBlockConverter<Update.SetItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Update.SetItem> builder =
-                new ReferenceBlockBuilder<Void,Update.SetItem>()
+        private static BlockMetaBuilder<Void,Update.SetItem> builder =
+                new BlockMetaBuilder<Void,Update.SetItem>()
                         .subTakeLine()
                         .required()
                         .czse_meta(d -> d instanceof Update.ColumnAssignmentSet, ColumnAssignmentSetConverter.meta())
@@ -140,8 +138,8 @@ public class UpdateConverter
             implements ReferenceBlockConverter<Update.ColumnAssignmentSet> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Update.ColumnAssignmentSet> builder =
-                new ReferenceBlockBuilder<Void,Update.ColumnAssignmentSet>()
+        private static BlockMetaBuilder<Void,Update.ColumnAssignmentSet> builder =
+                new BlockMetaBuilder<Void,Update.ColumnAssignmentSet>()
                     .sub("column_name")
                         .data(Update.ColumnAssignmentSet::getColumnName)
                         .and()
@@ -176,8 +174,8 @@ public class UpdateConverter
             implements ReferenceBlockConverter<Update.VariableAssignmentSet> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Update.VariableAssignmentSet> builder =
-                new ReferenceBlockBuilder<Void,Update.VariableAssignmentSet>()
+        private static BlockMetaBuilder<Void,Update.VariableAssignmentSet> builder =
+                new BlockMetaBuilder<Void,Update.VariableAssignmentSet>()
                     .sub("@variable")
                         .data(Update.VariableAssignmentSet::getVariable)
                         .and()
@@ -204,8 +202,8 @@ public class UpdateConverter
             implements ReferenceBlockConverter<Update.VariableColumnAssignmentSet> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Update.VariableColumnAssignmentSet> builder =
-                new ReferenceBlockBuilder<Void,Update.VariableColumnAssignmentSet>()
+        private static BlockMetaBuilder<Void,Update.VariableColumnAssignmentSet> builder =
+                new BlockMetaBuilder<Void,Update.VariableColumnAssignmentSet>()
                     .sub("@variable")
                         .data(Update.VariableColumnAssignmentSet::getVariable)
                         .and()
@@ -236,8 +234,8 @@ public class UpdateConverter
             implements ReferenceBlockConverter<Update.ColumnCompoundSet> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Update.ColumnCompoundSet> builder =
-                new ReferenceBlockBuilder<Void,Update.ColumnCompoundSet>()
+        private static BlockMetaBuilder<Void,Update.ColumnCompoundSet> builder =
+                new BlockMetaBuilder<Void,Update.ColumnCompoundSet>()
                     .sub("column_name")
                         .data(Update.ColumnCompoundSet::getColumnName)
                         .and()
@@ -266,8 +264,8 @@ public class UpdateConverter
             implements ReferenceBlockConverter<Update.VariableCompoundSet> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Update.VariableCompoundSet> builder =
-                new ReferenceBlockBuilder<Void,Update.VariableCompoundSet>()
+        private static BlockMetaBuilder<Void,Update.VariableCompoundSet> builder =
+                new BlockMetaBuilder<Void,Update.VariableCompoundSet>()
                     .sub("@variable")
                         .data(Update.VariableCompoundSet::getVariable)
                         .and()
@@ -297,8 +295,8 @@ public class UpdateConverter
             implements ReferenceBlockConverter<Update.VariableColumnCompoundSet> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Update.VariableColumnCompoundSet> builder =
-                new ReferenceBlockBuilder<Void,Update.VariableColumnCompoundSet>()
+        private static BlockMetaBuilder<Void,Update.VariableColumnCompoundSet> builder =
+                new BlockMetaBuilder<Void,Update.VariableColumnCompoundSet>()
                         .sub("@variable")
                             .data(Update.VariableCompoundSet::getVariable)
                             .and()

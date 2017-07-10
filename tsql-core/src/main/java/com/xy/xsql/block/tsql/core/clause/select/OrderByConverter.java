@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
@@ -13,8 +13,8 @@ public class OrderByConverter
         implements ReferenceBlockConverter<OrderBy> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,OrderBy> builder =
-            new ReferenceBlockBuilder<Void,OrderBy>()
+    private static BlockMetaBuilder<Void,OrderBy> builder =
+            new BlockMetaBuilder<Void,OrderBy>()
                     .overall("ORDER BY Clause")
                     .sub_keyword(Keywords.ORDER)
                     .sub_keyword(Keywords.BY)
@@ -47,8 +47,8 @@ public class OrderByConverter
             implements ReferenceBlockConverter<OrderBy.Item> {
 
         // @formatter:off
-    private static ReferenceBlockBuilder<Void,OrderBy.Item> builder =
-                new ReferenceBlockBuilder<Void,OrderBy.Item>()
+    private static BlockMetaBuilder<Void,OrderBy.Item> builder =
+                new BlockMetaBuilder<Void,OrderBy.Item>()
                         .description("order by's item")
                         .sub("order_by_expression")
                             .data(OrderBy.Item::getOrderByExpression)
@@ -87,8 +87,8 @@ public class OrderByConverter
             implements ReferenceBlockConverter<OrderBy.OffsetFetch> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,OrderBy.OffsetFetch> builder =
-                new ReferenceBlockBuilder<Void,OrderBy.OffsetFetch>()
+        private static BlockMetaBuilder<Void,OrderBy.OffsetFetch> builder =
+                new BlockMetaBuilder<Void,OrderBy.OffsetFetch>()
                         .overall("offset_fetch")
                         .sub_keyword(Keywords.Key.OFFSET)
                         .sub()

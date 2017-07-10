@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
@@ -14,8 +14,8 @@ public class InPredicateConverter
         implements ReferenceBlockConverter<In> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,In> builder =
-            new ReferenceBlockBuilder<Void,In>()
+    private static BlockMetaBuilder<Void,In> builder =
+            new BlockMetaBuilder<Void,In>()
                     .overall("IN")
                     .sub("expression")
                         .data(In::getExpression)

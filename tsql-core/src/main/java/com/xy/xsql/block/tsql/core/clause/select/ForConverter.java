@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.For;
@@ -14,8 +14,8 @@ public class ForConverter
         implements ReferenceBlockConverter<For> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,For> builder =
-            new ReferenceBlockBuilder<Void,For>()
+    private static BlockMetaBuilder<Void,For> builder =
+            new BlockMetaBuilder<Void,For>()
                 .overall("FOR")
                 .sub_keyword(Keywords.FOR)
                 .sub()
@@ -51,8 +51,8 @@ public class ForConverter
             implements ReferenceBlockConverter<For.Xml> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,For.Xml> builder =
-                new ReferenceBlockBuilder<Void,For.Xml>()
+        private static BlockMetaBuilder<Void,For.Xml> builder =
+                new BlockMetaBuilder<Void,For.Xml>()
                         .overall("XML")
                         .sub_keyword(Keywords.Key.XML)
                         .sub()
@@ -250,8 +250,8 @@ public class ForConverter
             implements ReferenceBlockConverter<For.Xml> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,For.Xml> builder =
-                new ReferenceBlockBuilder<Void,For.Xml>()
+        private static BlockMetaBuilder<Void,For.Xml> builder =
+                new BlockMetaBuilder<Void,For.Xml>()
                         .overall("CommonDirectivesForXML")
                         .sub()
                             .optional(d -> !d.isUseBinaryBase64())
@@ -297,8 +297,8 @@ public class ForConverter
             implements ReferenceBlockConverter<For.Json> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,For.Json> builder =
-                new ReferenceBlockBuilder<Void,For.Json>()
+        private static BlockMetaBuilder<Void,For.Json> builder =
+                new BlockMetaBuilder<Void,For.Json>()
                         .sub_keyword(Keywords.Key.JSON)
                         .sub()
                             .required()

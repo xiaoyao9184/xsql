@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
@@ -13,8 +13,8 @@ public class ComparisonSubPredicateConverter
         implements ReferenceBlockConverter<ComparisonSubQuery> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,ComparisonSubQuery> builder =
-            new ReferenceBlockBuilder<Void,ComparisonSubQuery>()
+    private static BlockMetaBuilder<Void,ComparisonSubQuery> builder =
+            new BlockMetaBuilder<Void,ComparisonSubQuery>()
                     .overall("Comparison Predicate with SubQuery")
                     .sub("expression")
                         .data(ComparisonSubQuery::getExpression)

@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.AtTimeZone;
@@ -13,8 +13,8 @@ public class AtTimeConverter
         implements ReferenceBlockConverter<AtTimeZone> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,AtTimeZone> builder =
-            new ReferenceBlockBuilder<Void,AtTimeZone>()
+    private static BlockMetaBuilder<Void,AtTimeZone> builder =
+            new BlockMetaBuilder<Void,AtTimeZone>()
                     .overall("AT TIME ZONE")
                     .sub("inputdate")
                         .data(AtTimeZone::getInputExpression)

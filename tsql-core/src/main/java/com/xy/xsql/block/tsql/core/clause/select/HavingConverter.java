@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.SearchConditionConverter;
 import com.xy.xsql.tsql.model.Keywords;
@@ -14,8 +14,8 @@ public class HavingConverter
         implements ReferenceBlockConverter<Having> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Having> builder =
-            new ReferenceBlockBuilder<Void,Having>()
+    private static BlockMetaBuilder<Void,Having> builder =
+            new BlockMetaBuilder<Void,Having>()
                     .overall("HAVING")
                     .sub_keyword(Keywords.HAVING)
                     .sub("search condition")

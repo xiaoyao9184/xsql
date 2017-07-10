@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.core.ReferenceBlockBuilder;
+import com.xy.xsql.block.core.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Select;
@@ -17,8 +17,8 @@ public class SelectConverter
         implements ReferenceBlockConverter<Select> {
 
     // @formatter:off
-    private static ReferenceBlockBuilder<Void,Select> builder =
-            new ReferenceBlockBuilder<Void,Select>()
+    private static BlockMetaBuilder<Void,Select> builder =
+            new BlockMetaBuilder<Void,Select>()
                     .overall("SELECT Clause")
                     .sub_keyword(Keywords.SELECT)
                     .sub()
@@ -60,8 +60,8 @@ public class SelectConverter
 
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,List<Select.SelectItem>> builder =
-                new ReferenceBlockBuilder<Void,List<Select.SelectItem>>()
+        private static BlockMetaBuilder<Void,List<Select.SelectItem>> builder =
+                new BlockMetaBuilder<Void,List<Select.SelectItem>>()
                         .overall("select_list")
                         .list()
                         .ref(SelectItemConverter.meta());
@@ -84,8 +84,8 @@ public class SelectConverter
             implements ReferenceBlockConverter<Select.SelectItem> {
 
         // @formatter:off
-        private static ReferenceBlockBuilder<Void,Select.SelectItem> builder =
-                new ReferenceBlockBuilder<Void,Select.SelectItem>()
+        private static BlockMetaBuilder<Void,Select.SelectItem> builder =
+                new BlockMetaBuilder<Void,Select.SelectItem>()
                         .description("select item")
                         .required()
                         .czse(Select.SelectItem::isUseAll, "*")
