@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.hints.QueryHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Option;
@@ -30,12 +30,12 @@ public class OptionConverter
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Option option) {
+    public BlockMeta convert(Option option) {
         return builder
                 .data(option)
                 .build();
@@ -57,12 +57,12 @@ public class OptionConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Option.QueryOption queryOption) {
+        public BlockMeta convert(Option.QueryOption queryOption) {
             return builder
                     .data(queryOption)
                     .build();
@@ -83,12 +83,12 @@ public class OptionConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Option.LabelQueryOption labelQueryOption) {
+        public BlockMeta convert(Option.LabelQueryOption labelQueryOption) {
             return builder
                     .data(labelQueryOption)
                     .build();

@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.element;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -61,12 +61,12 @@ public class MultipartNamesConverter {
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(TableName tableName) {
+        public BlockMeta convert(TableName tableName) {
             return builder
                     .data(tableName)
                     .build();
@@ -96,12 +96,12 @@ public class MultipartNamesConverter {
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(ColumnName columnName) {
+        public BlockMeta convert(ColumnName columnName) {
             return builder
                     .data(columnName)
                     .build();

@@ -1,6 +1,6 @@
 package com.xy.xsql.block.core;
 
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 
 import java.util.Collection;
@@ -18,13 +18,13 @@ import static com.xy.xsql.core.ListBuilder.initNew2;
  * @param <Reference> Refer to create blocks
  */
 public class ReferenceBlockBuilder<ParentBuilder,Reference>
-        extends CodeTreeBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>, ParentBuilder, ReferenceBlock> {
+        extends CodeTreeBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>, ParentBuilder, BlockMeta> {
 
     public ReferenceBlockBuilder() {
-        super(new ReferenceBlock());
+        super(new BlockMeta());
     }
 
-    public ReferenceBlockBuilder(ReferenceBlock block) {
+    public ReferenceBlockBuilder(BlockMeta block) {
         super(block);
     }
 
@@ -139,14 +139,14 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return this;
     }
 
-    public ReferenceBlockBuilder<ParentBuilder, Reference> ref(ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ParentBuilder, Reference> ref(BlockMeta meta) {
         target.setRefMeta(meta);
         return this;
     }
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder, Reference>,Reference> meta() {
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder, Reference>, Reference>
-                (initSet(ReferenceBlock::new,
+                (initSet(BlockMeta::new,
                         target::getRefMeta,
                         target::setRefMeta))
                 .in(this);
@@ -170,7 +170,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
      * @return
      */
     @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder, Reference> list(ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ParentBuilder, Reference> list(BlockMeta meta) {
         target.setList(true);
         initAdd(meta,
                 target::getSub,
@@ -196,7 +196,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
      * @return
      */
     @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder, Reference> repeat(ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ParentBuilder, Reference> repeat(BlockMeta meta) {
         target.setRepeat(true);
         initAdd(meta,
                 target::getSub,
@@ -216,7 +216,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub() {
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
-                (initNew2(ReferenceBlock::new,
+                (initNew2(BlockMeta::new,
                         target::getSub,
                         target::setSub))
                 .in(this)
@@ -225,7 +225,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 
     public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub(String name) {
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
-                (initNew2(ReferenceBlock::new,
+                (initNew2(BlockMeta::new,
                         target::getSub,
                         target::setSub))
                 .in(this)
@@ -238,7 +238,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
      * @return
      */
     @Deprecated
-    public ReferenceBlockBuilder<ParentBuilder, Reference> sub_meta(ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ParentBuilder, Reference> sub_meta(BlockMeta meta) {
         initAdd(meta,
                 target::getSub,
                 target::setSub);
@@ -247,7 +247,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 
     public ReferenceBlockBuilder<ParentBuilder,Reference> sub_keyword(Enum keywords) {
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
-                (initNew2(ReferenceBlock::new,
+                (initNew2(BlockMeta::new,
                         target::getSub,
                         target::setSub))
                 .in(this)
@@ -255,7 +255,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 .and();
     }
 
-    public ReferenceBlockBuilder<ParentBuilder, Reference> sub_ref(ReferenceBlock meta, Object context) {
+    public ReferenceBlockBuilder<ParentBuilder, Reference> sub_ref(BlockMeta meta, Object context) {
         return sub()
                 .name(meta.getName())
                 .description(meta.getDescription())
@@ -271,7 +271,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 //                .list(name);
     }
 
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_list(BlockMeta meta) {
         return sub()
                 .name(meta.getName())
                 .description(meta.getDescription())
@@ -288,7 +288,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 //                .repeat(name);
     }
 
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> sub_repeat(BlockMeta meta) {
         return sub()
                 .name(meta.getName())
                 .description(meta.getDescription())
@@ -327,7 +327,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 target::getCasePredicate,
                 target::setCasePredicate);
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
-                (initNew2(ReferenceBlock::new,
+                (initNew2(BlockMeta::new,
                         target::getSub,
                         target::setSub))
                 .in(this);
@@ -339,14 +339,14 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                 target::getCasePredicate,
                 target::setCasePredicate);
         return new ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference>
-                (initNew2(ReferenceBlock::new,
+                (initNew2(BlockMeta::new,
                         target::getSub,
                         target::setSub))
                 .in(this)
                 .name(name);
     }
 
-    public ReferenceBlockBuilder<ParentBuilder,Reference> czse_meta(Predicate<Reference> predicate, ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ParentBuilder,Reference> czse_meta(Predicate<Reference> predicate, BlockMeta meta) {
         exclusive();
         initAdd(predicate,
                 target::getCasePredicate,
@@ -373,7 +373,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return sub_list(name);
     }
 
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, BlockMeta meta) {
         exclusive();
         initAdd(predicate,
                 target::getCasePredicate,
@@ -389,7 +389,7 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
         return sub_repeat(name);
     }
 
-    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, ReferenceBlock meta) {
+    public ReferenceBlockBuilder<ReferenceBlockBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, BlockMeta meta) {
         exclusive();
         initAdd(predicate,
                 target::getCasePredicate,
@@ -425,14 +425,14 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
 
     @Deprecated
     public class WhenThenReferenceBlockBuilder<ParentBuilder,Reference>
-            extends CodeTreeBuilder<WhenThenReferenceBlockBuilder<ParentBuilder,Reference>, ParentBuilder, ReferenceBlock> {
+            extends CodeTreeBuilder<WhenThenReferenceBlockBuilder<ParentBuilder,Reference>, ParentBuilder, BlockMeta> {
 
         public WhenThenReferenceBlockBuilder() {
-            super(new ReferenceBlock());
+            super(new BlockMeta());
         }
 
-        public WhenThenReferenceBlockBuilder(ReferenceBlock referenceBlock) {
-            super(referenceBlock);
+        public WhenThenReferenceBlockBuilder(BlockMeta blockMeta) {
+            super(blockMeta);
         }
 
         public ReferenceBlockBuilder<ParentBuilder,Reference> then(){
@@ -448,8 +448,8 @@ public class ReferenceBlockBuilder<ParentBuilder,Reference>
                     .name(name);
         }
 
-        public ParentBuilder then(ReferenceBlock referenceBlock){
-            this.target = referenceBlock;
+        public ParentBuilder then(BlockMeta blockMeta){
+            this.target = blockMeta;
             return this.back();
         }
 

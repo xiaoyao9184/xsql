@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.ddl;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
 
@@ -29,12 +29,12 @@ public class ReNameConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(ReName reName) {
+    public BlockMeta convert(ReName reName) {
         return builder
                 .data(reName)
                 .build();
@@ -61,7 +61,7 @@ public class ReNameConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
@@ -88,7 +88,7 @@ public class ReNameConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 

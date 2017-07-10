@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.For;
 import com.xy.xsql.tsql.model.element.Other;
@@ -35,12 +35,12 @@ public class ForConverter
                     .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(For aFor) {
+    public BlockMeta convert(For aFor) {
         return builder
                 .data(aFor)
                 .build();
@@ -233,12 +233,12 @@ public class ForConverter
 
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(For.Xml xml) {
+        public BlockMeta convert(For.Xml xml) {
             return builder
                     .data(xml)
                     .build();
@@ -280,12 +280,12 @@ public class ForConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(For.Xml xml) {
+        public BlockMeta convert(For.Xml xml) {
             return builder
                     .data(xml)
                     .build();
@@ -350,12 +350,12 @@ public class ForConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(For.Json json) {
+        public BlockMeta convert(For.Json json) {
             return builder
                     .data(json)
                     .build();

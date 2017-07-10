@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
@@ -31,12 +31,12 @@ public class GroupExpressionConverter
     // @formatter:on
 
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(GroupExpression groupExpression) {
+    public BlockMeta convert(GroupExpression groupExpression) {
         return builder
                 .data(groupExpression)
                 .build();
@@ -57,7 +57,7 @@ public class GroupExpressionConverter
         // @formatter:on
 
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
@@ -77,7 +77,7 @@ public class GroupExpressionConverter
         // @formatter:on
 
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 

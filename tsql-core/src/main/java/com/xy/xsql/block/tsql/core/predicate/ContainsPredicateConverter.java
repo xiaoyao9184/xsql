@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.predicate;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.Contains;
@@ -67,12 +67,12 @@ public class ContainsPredicateConverter
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Contains contains) {
+    public BlockMeta convert(Contains contains) {
         return builder
                 .data(contains)
                 .build();

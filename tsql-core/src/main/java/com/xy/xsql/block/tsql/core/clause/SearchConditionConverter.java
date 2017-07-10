@@ -2,14 +2,12 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.predicate.*;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.predicate.*;
-
-import java.util.Objects;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -55,12 +53,12 @@ public class SearchConditionConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(SearchCondition searchCondition) {
+    public BlockMeta convert(SearchCondition searchCondition) {
         return builder
                 .data(searchCondition)
                 .build();
@@ -107,12 +105,12 @@ public class SearchConditionConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(SearchCondition.AndOrNotItem andOrNotItem) {
+        public BlockMeta convert(SearchCondition.AndOrNotItem andOrNotItem) {
             return builder
                     .data(andOrNotItem)
                     .build();
@@ -139,12 +137,12 @@ public class SearchConditionConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Predicate predicate) {
+        public BlockMeta convert(Predicate predicate) {
             return builder
                     .data(predicate)
                     .build();

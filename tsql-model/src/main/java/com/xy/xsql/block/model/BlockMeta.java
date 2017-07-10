@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public class ReferenceBlock implements Block {
+public class BlockMeta implements Block {
 
     private boolean overall;
 
@@ -25,7 +25,7 @@ public class ReferenceBlock implements Block {
 
     private String name;
     private String description;
-    private List<ReferenceBlock> sub;
+    private List<BlockMeta> sub;
     private List<Predicate<?>> casePredicate = new ArrayList<>();
 
     //style
@@ -35,7 +35,7 @@ public class ReferenceBlock implements Block {
     private boolean endNewLine;
 
     //reference
-    private ReferenceBlock refMeta;
+    private BlockMeta refMeta;
     private Class refClass;
     private Object data;
     private Function dataGetter;
@@ -46,7 +46,7 @@ public class ReferenceBlock implements Block {
 
 
 
-    public ReferenceBlock (){
+    public BlockMeta(){
         this.verifierList = new ArrayList<>();
     }
 
@@ -152,11 +152,11 @@ public class ReferenceBlock implements Block {
         this.description = description;
     }
 
-    public List<ReferenceBlock> getSub() {
+    public List<BlockMeta> getSub() {
         return sub;
     }
 
-    public void setSub(List<ReferenceBlock> sub) {
+    public void setSub(List<BlockMeta> sub) {
         this.sub = sub;
     }
 
@@ -200,11 +200,11 @@ public class ReferenceBlock implements Block {
         this.endNewLine = endNewLine;
     }
 
-    public ReferenceBlock getRefMeta() {
+    public BlockMeta getRefMeta() {
         return refMeta;
     }
 
-    public void setRefMeta(ReferenceBlock refMeta) {
+    public void setRefMeta(BlockMeta refMeta) {
         this.refMeta = refMeta;
     }
 

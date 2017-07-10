@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
@@ -43,12 +43,12 @@ public class OverConverter
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Over over) {
+    public BlockMeta convert(Over over) {
         return builder
                 .data(over)
                 .build();
@@ -72,12 +72,12 @@ public class OverConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.PartitionBy partitionBy) {
+        public BlockMeta convert(Over.PartitionBy partitionBy) {
             return builder
                     .data(partitionBy)
                     .build();
@@ -102,12 +102,12 @@ public class OverConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.OrderBy orderBy) {
+        public BlockMeta convert(Over.OrderBy orderBy) {
             return builder
                     .data(orderBy)
                     .build();
@@ -135,12 +135,12 @@ public class OverConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.RowRange rowRange) {
+        public BlockMeta convert(Over.RowRange rowRange) {
             return builder
                     .data(rowRange)
                     .build();
@@ -167,12 +167,12 @@ public class OverConverter
                         .headFootTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.WindowFrameExtent windowFrameExtent) {
+        public BlockMeta convert(Over.WindowFrameExtent windowFrameExtent) {
             return builder
                     .data(windowFrameExtent)
                     .build();
@@ -198,12 +198,12 @@ public class OverConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.WindowFrameBetween windowFrameBetween) {
+        public BlockMeta convert(Over.WindowFrameBetween windowFrameBetween) {
             return builder
                     .data(windowFrameBetween)
                     .build();
@@ -230,12 +230,12 @@ public class OverConverter
                         .headFootTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.WindowFrameBound windowFrameBound) {
+        public BlockMeta convert(Over.WindowFrameBound windowFrameBound) {
             return builder
                     .data(windowFrameBound)
                     .build();
@@ -269,12 +269,12 @@ public class OverConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.WindowFramePreceding windowFramePreceding) {
+        public BlockMeta convert(Over.WindowFramePreceding windowFramePreceding) {
             return builder
                     .data(windowFramePreceding)
                     .build();
@@ -308,12 +308,12 @@ public class OverConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.WindowFrameFollowing windowFrameFollowing) {
+        public BlockMeta convert(Over.WindowFrameFollowing windowFrameFollowing) {
             return builder
                     .data(windowFrameFollowing)
                     .build();
@@ -333,12 +333,12 @@ public class OverConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Over.UnsignedValueSpecification unsignedValueSpecification) {
+        public BlockMeta convert(Over.UnsignedValueSpecification unsignedValueSpecification) {
             return builder
                     .data(unsignedValueSpecification)
                     .build();

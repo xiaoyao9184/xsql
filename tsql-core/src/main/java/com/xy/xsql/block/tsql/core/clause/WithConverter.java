@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.Other;
@@ -25,12 +25,12 @@ public class WithConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(With with) {
+    public BlockMeta convert(With with) {
         return builder
                 .data(with)
                 .build();
@@ -71,12 +71,12 @@ public class WithConverter
                         .sub_keyword(Other.GROUP_END);
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(With.CommonTableExpression commonTableExpression) {
+        public BlockMeta convert(With.CommonTableExpression commonTableExpression) {
             return builder
                     .data(commonTableExpression)
                     .build();

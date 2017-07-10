@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 
 /**
@@ -78,12 +78,12 @@ public class TableHintLimitedConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(TableHintLimited tableHintLimited) {
+    public BlockMeta convert(TableHintLimited tableHintLimited) {
         return builder
                 .data(tableHintLimited)
                 .build();

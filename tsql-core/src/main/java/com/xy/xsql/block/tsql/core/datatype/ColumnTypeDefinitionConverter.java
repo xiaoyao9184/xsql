@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.datatype;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.Other;
@@ -73,12 +73,12 @@ public class ColumnTypeDefinitionConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(ColumnDefinition columnDefinition) {
+    public BlockMeta convert(ColumnDefinition columnDefinition) {
         return builder
                 .data(columnDefinition)
                 .build();
@@ -123,12 +123,12 @@ public class ColumnTypeDefinitionConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(ColumnDefinition.ColumnConstraint columnConstraint) {
+        public BlockMeta convert(ColumnDefinition.ColumnConstraint columnConstraint) {
             return builder
                     .data(columnConstraint)
                     .build();

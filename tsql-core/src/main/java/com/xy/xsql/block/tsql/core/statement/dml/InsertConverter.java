@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
@@ -99,12 +99,12 @@ public class InsertConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Insert insert) {
+    public BlockMeta convert(Insert insert) {
         return builder
                 .data(insert)
                 .build();
@@ -122,12 +122,12 @@ public class InsertConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(List<ColumnName> columnNames) {
+        public BlockMeta convert(List<ColumnName> columnNames) {
             return builder
                     .data(columnNames)
                     .build();

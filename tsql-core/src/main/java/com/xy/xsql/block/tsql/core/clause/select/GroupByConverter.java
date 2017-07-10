@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.element.Other;
@@ -26,12 +26,12 @@ public class GroupByConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(GroupBy groupBy) {
+    public BlockMeta convert(GroupBy groupBy) {
         return builder
                 .data(groupBy)
                 .build();
@@ -56,12 +56,12 @@ public class GroupByConverter
 
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.Item item) {
+        public BlockMeta convert(GroupBy.Item item) {
             return builder
                     .data(item)
                     .build();
@@ -80,12 +80,12 @@ public class GroupByConverter
 
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.BaseItem item) {
+        public BlockMeta convert(GroupBy.BaseItem item) {
             return builder
                     .data(item)
                     .build();
@@ -110,12 +110,12 @@ public class GroupByConverter
                         .sub_keyword(Other.GROUP_END);
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.RollupItem item) {
+        public BlockMeta convert(GroupBy.RollupItem item) {
             return builder
                     .data(item)
                     .build();
@@ -140,12 +140,12 @@ public class GroupByConverter
                         .sub_keyword(Other.GROUP_END);
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.CubeItem item) {
+        public BlockMeta convert(GroupBy.CubeItem item) {
             return builder
                     .data(item)
                     .build();
@@ -171,12 +171,12 @@ public class GroupByConverter
                         .sub_keyword(Other.GROUP_END);
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.GroupingSetsItem item) {
+        public BlockMeta convert(GroupBy.GroupingSetsItem item) {
             return builder
                     .data(item)
                     .build();
@@ -192,12 +192,12 @@ public class GroupByConverter
                         .data("()");
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.TotalItem item) {
+        public BlockMeta convert(GroupBy.TotalItem item) {
             return builder
                     .data(item)
                     .build();
@@ -224,12 +224,12 @@ public class GroupByConverter
 
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.ColumnNameItem item) {
+        public BlockMeta convert(GroupBy.ColumnNameItem item) {
             return builder
                     .data(item)
                     .build();
@@ -258,12 +258,12 @@ public class GroupByConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.GroupByExpression item) {
+        public BlockMeta convert(GroupBy.GroupByExpression item) {
             return builder
                     .data(item)
                     .build();
@@ -300,12 +300,12 @@ public class GroupByConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.GroupingSet item) {
+        public BlockMeta convert(GroupBy.GroupingSet item) {
             return builder
                     .data(item)
                     .build();
@@ -327,12 +327,12 @@ public class GroupByConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(GroupBy.GroupingSet.Item item) {
+        public BlockMeta convert(GroupBy.GroupingSet.Item item) {
             return builder
                     .data(item)
                     .build();

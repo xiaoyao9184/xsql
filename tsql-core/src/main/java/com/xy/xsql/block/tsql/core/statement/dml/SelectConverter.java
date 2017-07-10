@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.select.ForConverter;
 import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
 import com.xy.xsql.block.tsql.core.clause.select.IntoConverter;
@@ -45,12 +45,12 @@ public class SelectConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Select select) {
+    public BlockMeta convert(Select select) {
         return builder
                 .data(select)
                 .build();
@@ -91,12 +91,12 @@ public class SelectConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Select.QueryExpression queryExpression) {
+        public BlockMeta convert(Select.QueryExpression queryExpression) {
             return builder
                     .data(queryExpression)
                     .build();
@@ -152,12 +152,12 @@ public class SelectConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Select.UnionItem unionItem) {
+        public BlockMeta convert(Select.UnionItem unionItem) {
             return builder
                     .data(unionItem)
                     .build();
@@ -213,12 +213,12 @@ public class SelectConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Select.QuerySpecification querySpecification) {
+        public BlockMeta convert(Select.QuerySpecification querySpecification) {
             return builder
                     .data(querySpecification)
                     .build();

@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.hints.JoinHintConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintConverter;
 import com.xy.xsql.tsql.model.Keywords;
@@ -29,12 +29,12 @@ public class FromConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(From from) {
+    public BlockMeta convert(From from) {
         return builder
                 .data(from)
                 .build();
@@ -85,12 +85,12 @@ public class FromConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.TableSource tableSource) {
+        public BlockMeta convert(From.TableSource tableSource) {
             return builder
                     .data(tableSource)
                     .build();
@@ -139,12 +139,12 @@ public class FromConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.BaseTable baseTable) {
+        public BlockMeta convert(From.BaseTable baseTable) {
             return builder
                     .data(baseTable)
                     .build();
@@ -195,12 +195,12 @@ public class FromConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.DerivedTable derivedTable) {
+        public BlockMeta convert(From.DerivedTable derivedTable) {
             return builder
                     .data(derivedTable)
                     .build();
@@ -230,12 +230,12 @@ public class FromConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.VariableTable variableTable) {
+        public BlockMeta convert(From.VariableTable variableTable) {
             return builder
                     .data(variableTable)
                     .build();
@@ -260,12 +260,12 @@ public class FromConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.BaseWithTimeTable baseTable) {
+        public BlockMeta convert(From.BaseWithTimeTable baseTable) {
             return builder
                     .data(baseTable)
                     .build();
@@ -311,12 +311,12 @@ public class FromConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.TableSample tableSample) {
+        public BlockMeta convert(From.TableSample tableSample) {
             return builder
                     .data(tableSample)
                     .build();
@@ -404,12 +404,12 @@ public class FromConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.JoinedTable joinedTable) {
+        public BlockMeta convert(From.JoinedTable joinedTable) {
             return builder
                     .data(joinedTable)
                     .build();
@@ -470,12 +470,12 @@ public class FromConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.JoinType joinType) {
+        public BlockMeta convert(From.JoinType joinType) {
             return builder
                     .data(joinType)
                     .build();
@@ -552,12 +552,12 @@ public class FromConverter
                         .headFootTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.SystemTime systemTime) {
+        public BlockMeta convert(From.SystemTime systemTime) {
             return builder
                     .data(systemTime)
                     .build();
@@ -582,12 +582,12 @@ public class FromConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(From.DateTime dateTime) {
+        public BlockMeta convert(From.DateTime dateTime) {
             return builder
                     .data(dateTime)
                     .build();

@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.FromConverter;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
@@ -104,12 +104,12 @@ public class MergeConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Merge merge) {
+    public BlockMeta convert(Merge merge) {
         return builder
                 .data(merge)
                 .build();
@@ -148,12 +148,12 @@ public class MergeConverter
                         .headFootTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Merge.MergeHint mergeHint) {
+        public BlockMeta convert(Merge.MergeHint mergeHint) {
             return builder
                     .data(mergeHint)
                     .build();
@@ -187,12 +187,12 @@ public class MergeConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Merge.MatchedWhenThen matchedWhenThen) {
+        public BlockMeta convert(Merge.MatchedWhenThen matchedWhenThen) {
             return builder
                     .data(matchedWhenThen)
                     .build();
@@ -233,12 +233,12 @@ public class MergeConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Merge.NotMatchedWhenThen notMatchedWhenThen) {
+        public BlockMeta convert(Merge.NotMatchedWhenThen notMatchedWhenThen) {
             return builder
                     .data(notMatchedWhenThen)
                     .build();
@@ -275,12 +275,12 @@ public class MergeConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Merge.NotMatchedWhenThen notMatchedWhenThen) {
+        public BlockMeta convert(Merge.NotMatchedWhenThen notMatchedWhenThen) {
             return builder
                     .data(notMatchedWhenThen)
                     .build();
@@ -318,12 +318,12 @@ public class MergeConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Merge.MergeMatched mergeMatched) {
+        public BlockMeta convert(Merge.MergeMatched mergeMatched) {
             return builder
                     .data(mergeMatched)
                     .build();
@@ -368,12 +368,12 @@ public class MergeConverter
                         .headFootTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Merge.MergeNotMatched mergeNotMatched) {
+        public BlockMeta convert(Merge.MergeNotMatched mergeNotMatched) {
             return builder
                     .data(mergeNotMatched)
                     .build();

@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
 
@@ -31,12 +31,12 @@ public class OrderByConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(OrderBy orderBy) {
+    public BlockMeta convert(OrderBy orderBy) {
         return builder
                 .data(orderBy)
                 .build();
@@ -70,12 +70,12 @@ public class OrderByConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(OrderBy.Item item) {
+        public BlockMeta convert(OrderBy.Item item) {
             return builder
                     .data(item)
                     .build();
@@ -151,12 +151,12 @@ public class OrderByConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(OrderBy.OffsetFetch item) {
+        public BlockMeta convert(OrderBy.OffsetFetch item) {
             return builder
                     .data(item)
                     .build();

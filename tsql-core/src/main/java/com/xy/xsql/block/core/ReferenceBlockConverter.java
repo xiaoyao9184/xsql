@@ -1,19 +1,19 @@
 package com.xy.xsql.block.core;
 
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.core.builder.BaseBuilder;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
  */
 public interface ReferenceBlockConverter<T>
-        extends BaseBuilder<T, ReferenceBlock> {
+        extends BaseBuilder<T, BlockMeta> {
 
     @Override
-    default ReferenceBlock build(T t){
+    default BlockMeta build(T t){
         return convert(t);
     }
 
-    ReferenceBlock convert(T t);
+    BlockMeta convert(T t);
 
 }

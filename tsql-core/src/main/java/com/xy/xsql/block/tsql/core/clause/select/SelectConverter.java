@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause.select;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Select;
 import com.xy.xsql.tsql.model.element.Other;
@@ -43,12 +43,12 @@ public class SelectConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Select select) {
+    public BlockMeta convert(Select select) {
         return builder
                 .data(select)
                 .build();
@@ -67,12 +67,12 @@ public class SelectConverter
                         .ref(SelectItemConverter.meta());
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(List<Select.SelectItem> selectList) {
+        public BlockMeta convert(List<Select.SelectItem> selectList) {
             return builder
                     .data(selectList)
                     .build();
@@ -199,12 +199,12 @@ public class SelectConverter
                         .headFootTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Select.SelectItem selectItem) {
+        public BlockMeta convert(Select.SelectItem selectItem) {
             return builder
                     .data(selectItem)
                     .build();

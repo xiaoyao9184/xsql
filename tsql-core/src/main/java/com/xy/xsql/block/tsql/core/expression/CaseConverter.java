@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Case;
 
@@ -29,12 +29,12 @@ public class CaseConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Case aCase) {
+    public BlockMeta convert(Case aCase) {
         return builder
                 .data(aCase)
                 .build();
@@ -67,7 +67,7 @@ public class CaseConverter
                         .sub_keyword(Keywords.END);
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
@@ -97,7 +97,7 @@ public class CaseConverter
                         .sub_keyword(Keywords.END);
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
@@ -120,12 +120,12 @@ public class CaseConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Case.WhenThenExpression whenThenExpression) {
+        public BlockMeta convert(Case.WhenThenExpression whenThenExpression) {
             return builder
                     .data(whenThenExpression)
                     .build();

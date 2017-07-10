@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.AtTimeZone;
 
@@ -27,12 +27,12 @@ public class AtTimeConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(AtTimeZone atTimeZone) {
+    public BlockMeta convert(AtTimeZone atTimeZone) {
         return builder
                 .data(atTimeZone)
                 .build();

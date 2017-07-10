@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.variable;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.variable.SelectVariable;
@@ -26,12 +26,12 @@ public class SelectVariableConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(SelectVariable selectVariable) {
+    public BlockMeta convert(SelectVariable selectVariable) {
         return builder
                 .data(selectVariable)
                 .build();
@@ -56,12 +56,12 @@ public class SelectVariableConverter
                         .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(SelectVariable.Item item) {
+        public BlockMeta convert(SelectVariable.Item item) {
             return builder
                     .data(item)
                     .build();

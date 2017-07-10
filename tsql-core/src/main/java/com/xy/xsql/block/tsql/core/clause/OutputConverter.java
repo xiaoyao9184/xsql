@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.Other;
@@ -60,12 +60,12 @@ public class OutputConverter
                     .subTakeLine();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Output output) {
+    public BlockMeta convert(Output output) {
         return builder
                 .data(output)
                 .build();
@@ -83,12 +83,12 @@ public class OutputConverter
 //                        .sub_meta(DmlSelectConverter.meta());
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(List<Output.DmlSelect> dmlSelectList) {
+        public BlockMeta convert(List<Output.DmlSelect> dmlSelectList) {
             return builder
                     .data(dmlSelectList)
                     .build();
@@ -128,12 +128,12 @@ public class OutputConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Output.DmlSelect dmlSelect) {
+        public BlockMeta convert(Output.DmlSelect dmlSelect) {
             return builder
                     .data(dmlSelect)
                     .build();
@@ -187,12 +187,12 @@ public class OutputConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Output.ColumnName columnName) {
+        public BlockMeta convert(Output.ColumnName columnName) {
             return builder
                     .data(columnName)
                     .build();

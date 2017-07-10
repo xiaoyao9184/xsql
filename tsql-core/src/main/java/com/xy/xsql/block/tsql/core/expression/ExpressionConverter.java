@@ -2,9 +2,8 @@ package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.datatype.Constant;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.Expression;
@@ -39,12 +38,12 @@ public class ExpressionConverter
     // @formatter:on
 
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Expression expression) {
+    public BlockMeta convert(Expression expression) {
         return builder
                 .data(expression)
                 .build();

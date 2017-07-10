@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.Default;
@@ -95,12 +95,12 @@ public class UpdateConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Update update) {
+    public BlockMeta convert(Update update) {
         return builder
                 .data(update)
                 .build();
@@ -123,12 +123,12 @@ public class UpdateConverter
                         .headFootTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Update.SetItem setItem) {
+        public BlockMeta convert(Update.SetItem setItem) {
             return builder
                     .data(setItem)
                     .build();
@@ -160,12 +160,12 @@ public class UpdateConverter
                         .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Update.ColumnAssignmentSet columnAssignmentSet) {
+        public BlockMeta convert(Update.ColumnAssignmentSet columnAssignmentSet) {
             return builder
                     .data(columnAssignmentSet)
                     .build();
@@ -187,12 +187,12 @@ public class UpdateConverter
                         .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Update.VariableAssignmentSet variableAssignmentSet) {
+        public BlockMeta convert(Update.VariableAssignmentSet variableAssignmentSet) {
             return builder
                     .data(variableAssignmentSet)
                     .build();
@@ -219,12 +219,12 @@ public class UpdateConverter
                         .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Update.VariableColumnAssignmentSet variableColumnAssignmentSet) {
+        public BlockMeta convert(Update.VariableColumnAssignmentSet variableColumnAssignmentSet) {
             return builder
                     .data(variableColumnAssignmentSet)
                     .build();
@@ -249,12 +249,12 @@ public class UpdateConverter
                         .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Update.ColumnCompoundSet columnCompoundSet) {
+        public BlockMeta convert(Update.ColumnCompoundSet columnCompoundSet) {
             return builder
                     .data(columnCompoundSet)
                     .build();
@@ -280,12 +280,12 @@ public class UpdateConverter
                         .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Update.VariableCompoundSet variableCompoundSet) {
+        public BlockMeta convert(Update.VariableCompoundSet variableCompoundSet) {
             return builder
                     .data(variableCompoundSet)
                     .build();
@@ -315,12 +315,12 @@ public class UpdateConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Update.VariableColumnCompoundSet variableColumnCompoundSet) {
+        public BlockMeta convert(Update.VariableColumnCompoundSet variableColumnCompoundSet) {
             return builder
                     .data(variableColumnCompoundSet)
                     .build();

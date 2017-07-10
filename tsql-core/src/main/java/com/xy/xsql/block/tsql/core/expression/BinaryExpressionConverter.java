@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
 import com.xy.xsql.block.core.ReferenceBlockConverter;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
 
@@ -28,12 +28,12 @@ public class BinaryExpressionConverter
     // @formatter:on
 
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(BinaryExpression binaryExpression) {
+    public BlockMeta convert(BinaryExpression binaryExpression) {
         return builder
                 .data(binaryExpression)
                 .build();

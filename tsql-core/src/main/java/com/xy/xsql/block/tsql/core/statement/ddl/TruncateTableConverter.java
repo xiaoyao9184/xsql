@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.ddl;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
@@ -43,12 +43,12 @@ public class TruncateTableConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(TruncateTable truncateTable) {
+    public BlockMeta convert(TruncateTable truncateTable) {
         return builder
                 .data(truncateTable)
                 .build();
@@ -72,12 +72,12 @@ public class TruncateTableConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(TruncateTable.Partitions partitions) {
+        public BlockMeta convert(TruncateTable.Partitions partitions) {
             return builder
                     .data(partitions)
                     .build();
@@ -103,12 +103,12 @@ public class TruncateTableConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(TruncateTable.Range range) {
+        public BlockMeta convert(TruncateTable.Range range) {
             return builder
                     .data(range)
                     .build();
@@ -126,12 +126,12 @@ public class TruncateTableConverter
                         .data(TruncateTable.PartitionNumberExpression::getNumber);
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(TruncateTable.PartitionNumberExpression partitionNumberExpression) {
+        public BlockMeta convert(TruncateTable.PartitionNumberExpression partitionNumberExpression) {
             return builder
                     .data(partitionNumberExpression)
                     .build();

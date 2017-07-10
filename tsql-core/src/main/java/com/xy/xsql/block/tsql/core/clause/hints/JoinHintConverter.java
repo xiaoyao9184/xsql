@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause.hints;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 
 /**
@@ -30,12 +30,12 @@ public class JoinHintConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(JoinHint joinHint) {
+    public BlockMeta convert(JoinHint joinHint) {
         return builder
                 .data(joinHint)
                 .build();

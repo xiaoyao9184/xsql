@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.datatype;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
@@ -28,12 +28,12 @@ public class TableTypeDefinitionConverter
                     .sub_keyword(Other.GROUP_END);
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(TableTypeDefinition tableTypeDefinition) {
+    public BlockMeta convert(TableTypeDefinition tableTypeDefinition) {
         return builder
                 .data(tableTypeDefinition)
                 .build();
@@ -57,12 +57,12 @@ public class TableTypeDefinitionConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(TableTypeDefinition.Item item) {
+        public BlockMeta convert(TableTypeDefinition.Item item) {
             return builder
                     .data(item)
                     .build();
@@ -107,12 +107,12 @@ public class TableTypeDefinitionConverter
                         .subTakeLine();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(TableTypeDefinition.TableConstraint tableConstraint) {
+        public BlockMeta convert(TableTypeDefinition.TableConstraint tableConstraint) {
             return builder
                     .data(tableConstraint)
                     .build();

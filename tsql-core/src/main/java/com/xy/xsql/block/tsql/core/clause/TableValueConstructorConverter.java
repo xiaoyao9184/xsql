@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.datatype.Default;
@@ -38,12 +38,12 @@ public class TableValueConstructorConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(TableValueConstructor tableValueConstructor) {
+    public BlockMeta convert(TableValueConstructor tableValueConstructor) {
         return builder
                 .data(tableValueConstructor)
                 .build();
@@ -65,12 +65,12 @@ public class TableValueConstructorConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(List<Expression> expressionList) {
+        public BlockMeta convert(List<Expression> expressionList) {
             return builder
                     .data(expressionList)
                     .build();
@@ -97,12 +97,12 @@ public class TableValueConstructorConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(Expression expression) {
+        public BlockMeta convert(Expression expression) {
             return builder
                     .data(expression)
                     .build();

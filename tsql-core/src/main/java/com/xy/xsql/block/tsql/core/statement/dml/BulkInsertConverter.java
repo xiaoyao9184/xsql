@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Assignment;
@@ -372,12 +372,12 @@ public class BulkInsertConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(BulkInsert bulkInsert) {
+    public BlockMeta convert(BulkInsert bulkInsert) {
         return builder
                 .data(bulkInsert)
                 .build();
@@ -401,12 +401,12 @@ public class BulkInsertConverter
                             .and();
         // @formatter:on
 
-        public static ReferenceBlock meta() {
+        public static BlockMeta meta() {
             return builder.build();
         }
 
         @Override
-        public ReferenceBlock convert(BulkInsert.OrderColumn column) {
+        public BlockMeta convert(BulkInsert.OrderColumn column) {
             return builder
                     .data(column)
                     .build();

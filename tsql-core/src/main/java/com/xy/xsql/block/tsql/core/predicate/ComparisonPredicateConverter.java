@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.predicate;
 
 import com.xy.xsql.block.core.ReferenceBlockConverter;
 import com.xy.xsql.block.core.ReferenceBlockBuilder;
-import com.xy.xsql.block.model.ReferenceBlock;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 
 /**
@@ -27,12 +27,12 @@ public class ComparisonPredicateConverter
                         .and();
     // @formatter:on
 
-    public static ReferenceBlock meta() {
+    public static BlockMeta meta() {
         return builder.build();
     }
 
     @Override
-    public ReferenceBlock convert(Comparison comparison) {
+    public BlockMeta convert(Comparison comparison) {
         return builder
                 .data(comparison)
                 .build();
