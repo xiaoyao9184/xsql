@@ -22,7 +22,7 @@ public class SelectConverterTest {
         BlockMeta b = SelectConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -39,7 +39,7 @@ public class SelectConverterTest {
         BlockMeta b = SelectConverter.QueryExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -54,7 +54,7 @@ public class SelectConverterTest {
         BlockMeta b = SelectConverter.QuerySpecificationConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -75,7 +75,7 @@ public class SelectConverterTest {
         BlockMeta b = SelectConverter.UnionItemConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -476,7 +476,7 @@ public class SelectConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

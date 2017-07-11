@@ -22,7 +22,7 @@ public class DeclareVariableConverterTest {
         BlockMeta b = DeclareVariableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         assert true;
@@ -80,7 +80,7 @@ public class DeclareVariableConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

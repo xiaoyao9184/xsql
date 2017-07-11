@@ -17,7 +17,7 @@ public class TableTypeDefinitionConverterTest {
         BlockMeta b = TableTypeDefinitionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -30,7 +30,7 @@ public class TableTypeDefinitionConverterTest {
         BlockMeta b = TableTypeDefinitionConverter.TableConstraintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

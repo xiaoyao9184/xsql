@@ -22,7 +22,7 @@ public class ReNameConverterTest {
         BlockMeta b = ReNameConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -36,7 +36,7 @@ public class ReNameConverterTest {
         BlockMeta b = ReNameConverter.ReNameDataBaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -49,7 +49,7 @@ public class ReNameConverterTest {
         BlockMeta b = ReNameConverter.ReNameTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -85,7 +85,7 @@ public class ReNameConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

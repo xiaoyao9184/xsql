@@ -17,7 +17,7 @@ public class ComparisonSubPredicateConverterTest {
         BlockMeta b = ComparisonSubPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

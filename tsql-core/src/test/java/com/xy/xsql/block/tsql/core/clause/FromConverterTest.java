@@ -22,7 +22,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -35,7 +35,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.TableSourceConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -53,7 +53,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.BaseTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -66,7 +66,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.DerivedTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -78,7 +78,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.JoinedTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -94,7 +94,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.VariableTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -107,7 +107,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.JoinTypeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -122,7 +122,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.SystemTimeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -142,7 +142,7 @@ public class FromConverterTest {
         BlockMeta b = FromConverter.DateTimeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -261,7 +261,7 @@ public class FromConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

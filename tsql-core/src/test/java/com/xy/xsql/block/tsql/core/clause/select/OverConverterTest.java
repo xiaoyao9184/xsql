@@ -22,7 +22,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -39,7 +39,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.PartitionByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -52,7 +52,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.OrderByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -65,7 +65,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.RowRangeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -78,7 +78,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.WindowFrameExtentConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -94,7 +94,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.WindowFrameBetweenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -107,7 +107,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.WindowFrameBoundConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -123,7 +123,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.WindowFramePrecedingConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -136,7 +136,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.WindowFrameFollowingConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -149,7 +149,7 @@ public class OverConverterTest {
         BlockMeta b = OverConverter.UnsignedValueSpecificationConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -212,7 +212,7 @@ public class OverConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

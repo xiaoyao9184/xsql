@@ -16,7 +16,7 @@ public class CaseConverterTest {
         BlockMeta b = CaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         assert true;
@@ -27,7 +27,7 @@ public class CaseConverterTest {
         BlockMeta b = CaseConverter.SimpleCaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         assert true;
@@ -38,7 +38,7 @@ public class CaseConverterTest {
         BlockMeta b = CaseConverter.SearchedCaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         assert true;

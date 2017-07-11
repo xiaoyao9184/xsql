@@ -16,7 +16,7 @@ public class NullIfConverterTest {
         BlockMeta b = NullIfConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         assert true;

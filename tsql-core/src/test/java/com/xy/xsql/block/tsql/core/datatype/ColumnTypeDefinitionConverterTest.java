@@ -22,7 +22,7 @@ public class ColumnTypeDefinitionConverterTest {
         BlockMeta b = ColumnTypeDefinitionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -38,7 +38,7 @@ public class ColumnTypeDefinitionConverterTest {
         BlockMeta b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -65,7 +65,7 @@ public class ColumnTypeDefinitionConverterTest {
     @Test
     public void testPrint() throws Exception {
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

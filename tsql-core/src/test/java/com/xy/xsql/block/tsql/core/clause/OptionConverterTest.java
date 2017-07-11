@@ -20,7 +20,7 @@ public class OptionConverterTest {
         BlockMeta b = OptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -33,7 +33,7 @@ public class OptionConverterTest {
         BlockMeta b = OptionConverter.QueryOptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -47,7 +47,7 @@ public class OptionConverterTest {
         BlockMeta b = OptionConverter.LabelQueryOptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -67,7 +67,7 @@ public class OptionConverterTest {
     public void testPrintA() throws Exception {
         Option option = builderTest.exampleA;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -84,7 +84,7 @@ public class OptionConverterTest {
     public void testPrintB() throws Exception {
         Option option = builderTest.exampleB;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -101,7 +101,7 @@ public class OptionConverterTest {
     public void testPrintC() throws Exception {
         Option option = builderTest.exampleC;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -118,7 +118,7 @@ public class OptionConverterTest {
     public void testPrintD() throws Exception {
         Option option = builderTest.exampleD;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -135,7 +135,7 @@ public class OptionConverterTest {
     public void testPrintE() throws Exception {
         Option option = builderTest.exampleE;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -152,7 +152,7 @@ public class OptionConverterTest {
     public void testPrintF() throws Exception {
         Option option = builderTest.exampleF;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -169,7 +169,7 @@ public class OptionConverterTest {
     public void testPrintG() throws Exception {
         Option option = builderTest.exampleG;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -186,7 +186,7 @@ public class OptionConverterTest {
     public void testPrintH1() throws Exception {
         Option option = builderTest.exampleH1;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");
@@ -203,7 +203,7 @@ public class OptionConverterTest {
     public void testPrintH2() throws Exception {
         Option option = builderTest.exampleH2;
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
+        StringWriter writer = MetaContextBlockPrinter.printMeta(option);
         String check = writer.toString()
                 .replace(" ","")
                 .replace("\n","");

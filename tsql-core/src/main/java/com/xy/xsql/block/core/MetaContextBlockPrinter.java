@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Created by xiaoyao9184 on 2017/6/9.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class MetaContextBlockPrinter {
 
     private StringWriter writer;
@@ -20,11 +21,24 @@ public class MetaContextBlockPrinter {
         writer = new StringWriter();
     }
 
-    public StringWriter print(BlockMeta blockMeta) {
-        return print(blockMeta,true,writer);
+
+    /**
+     * print meta
+     * @param blockMeta meta
+     * @return writer
+     */
+    public StringWriter printMeta(BlockMeta blockMeta) {
+        return printMeta(blockMeta,true,writer);
     }
 
-    public StringWriter print(BlockMeta blockMeta, boolean printOverall, StringWriter writer) {
+    /**
+     * print meta
+     * @param blockMeta meta list
+     * @param printOverall printOverall
+     * @param writer writer
+     * @return writer
+     */
+    public StringWriter printMeta(BlockMeta blockMeta, boolean printOverall, StringWriter writer) {
         if(blockMeta.isOverall() &&
                 printOverall) {
             //Syntax
@@ -71,19 +85,19 @@ public class MetaContextBlockPrinter {
             writer.append(blockMeta.getName());
         }else if(blockMeta.isReferenceMeta()){
             //Reference Meta
-            print(blockMeta.getRefMeta(),false,writer);
+            printMeta(blockMeta.getRefMeta(),false,writer);
         }else{
             //Sub
             String line = blockMeta.isEachSubTakeLine() ? "\n" : " ";
 
             if(blockMeta.isExclusive()){
                 //Exclusive
-                print(blockMeta.getSub(),false,line + "| ",writer);
+                printMeta(blockMeta.getSub(),false,line + "| ",writer);
             }else if(blockMeta.isList()){
                 //List
                 if(blockMeta.isReference()){
                     writer.append('<');
-                    print(blockMeta.getSub(),false,line + ", ",writer);
+                    printMeta(blockMeta.getSub(),false,line + ", ",writer);
                     if(blockMeta.isReference()){
                         writer.append('>');
                     }
@@ -96,7 +110,7 @@ public class MetaContextBlockPrinter {
                     writer.append('<');
                 }
                 //Repeat
-                print(blockMeta.getSub(),false,line,writer);
+                printMeta(blockMeta.getSub(),false,line,writer);
                 if(blockMeta.isReference()){
                     writer.append('>');
                 }
@@ -141,13 +155,20 @@ public class MetaContextBlockPrinter {
         return writer;
     }
 
-    public void print(List<BlockMeta> blockMetaList, boolean printOverall, String delimiter, StringWriter writer) {
+    /**
+     * print meta list
+     * @param blockMetaList meta
+     * @param printOverall printOverall
+     * @param delimiter delimiter
+     * @param writer writer
+     */
+    public void printMeta(List<BlockMeta> blockMetaList, boolean printOverall, String delimiter, StringWriter writer) {
         writer.append(
                 blockMetaList
                 .stream()
                 .map(sub -> {
                     StringWriter stringWriter = new StringWriter();
-                    print(sub,printOverall,stringWriter);
+                    printMeta(sub,printOverall,stringWriter);
                     return stringWriter.toString();
                 })
                 .collect(Collectors.joining(delimiter))
@@ -155,46 +176,63 @@ public class MetaContextBlockPrinter {
     }
 
 
+    /**
+     * print context
+     * @param context context
+     * @return writer
+     */
     @SuppressWarnings("unchecked")
-    public StringWriter printBlock(Object data){
-        if(BlockManager.INSTANCE.checkTypeBlockConverter(data.getClass())){
-            BlockMeta hiddenBlock = BlockManager
-                    .INSTANCE
-                    .getTypeBlockConverter(data.getClass())
-                    .convert(data)
-                    .getMeta();
-
-            return printBlock(hiddenBlock,data);
-        }else{
+    public StringWriter printContext(Object context){
+        if(!BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
             throw new RuntimeException(new BlockStructureCorrectException(null,
                     BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
         }
+
+        BlockMeta hiddenMeta = BlockManager
+                .INSTANCE
+                .getTypeBlockConverter(context.getClass())
+                .meta();
+
+        return printContext(hiddenMeta,context);
     }
 
-    public StringWriter printBlock(BlockMeta blockMeta, Object context){
-        return printBlock(blockMeta, context, writer);
+    /**
+     * print context
+     * @param meta meta
+     * @param context context
+     * @return writer
+     */
+    public StringWriter printContext(BlockMeta meta, Object context){
+        return printContext(meta, context, writer);
     }
 
+    /**
+     * print context
+     * @param meta meta
+     * @param context context
+     * @param writer writer
+     * @return writer
+     */
     @SuppressWarnings({"Duplicates", "unchecked"})
-    public StringWriter printBlock(BlockMeta block, Object context, StringWriter writer){
+    public StringWriter printContext(BlockMeta meta, Object context, StringWriter writer){
 
         //Optional just return
-        if(block.isOptional()){
-            Predicate optionalPredicate = block.getOptionalFilter();
+        if(meta.isOptional()){
+            Predicate optionalPredicate = meta.getOptionalFilter();
             if(optionalPredicate == null){
-                throw new RuntimeException(new BlockStructureCorrectException(block,
+                throw new RuntimeException(new BlockStructureCorrectException(meta,
                         BlockStructureCorrectException.StructureCorrect.OPTION_FILTER_MISS));
             }
             if(optionalPredicate.test(context)){
                 return writer;
             }
         }else if(context == null){
-            throw new RuntimeException(new BlockStructureCorrectException(block,
+            throw new RuntimeException(new BlockStructureCorrectException(meta,
                     BlockStructureCorrectException.StructureCorrect.CONTEXT_MISS));
         }
 
         //start
-        if(block.isStartNewLine()){
+        if(meta.isStartNewLine()){
             writer.append("\n");
         }
 
@@ -207,134 +245,130 @@ public class MetaContextBlockPrinter {
 
 
         //data
-        if(block.isReference()){
+        if(meta.isReference()){
             //Reference
-            BlockMeta blockMeta;
-            if(block.isReferenceClass()){
-                blockMeta = BlockManager
+            BlockMeta refMeta;
+            if(meta.isReferenceClass()){
+                refMeta = BlockManager
                         .INSTANCE
-                        .getTypeBlockConverterByConverterType(block.getRefClass())
-                        .convert(null)
-                        .getMeta();
+                        .getTypeBlockConverterByConverterType(meta.getRefClass())
+                        .meta();
             }else{
-                blockMeta = block.getRefMeta();
+                refMeta = meta.getRefMeta();
             }
-            Object referenceContext = block.getContext(context);
+            Object referenceContext = meta.getContext(context);
 
-            if(block.isList() &&
+            if(meta.isList() &&
                     referenceContext instanceof List){
                 //List
-                printBlock(blockMeta, (List) referenceContext,"\n, ",writer);
-            }else if(block.isRepeat() &&
+                printContext(refMeta, (List) referenceContext,"\n, ",writer);
+            }else if(meta.isRepeat() &&
                     referenceContext instanceof List){
                 //Repeat
-                printBlock(blockMeta, (List) referenceContext," ",writer);
+                printContext(refMeta, (List) referenceContext," ",writer);
             }else{
-                printBlock(blockMeta, referenceContext, writer);
+                printContext(refMeta, referenceContext, writer);
             }
-        }else if(block.isExclusive()){
+        }else if(meta.isExclusive()){
             //Exclusive
             int index = 0;
-            for(Predicate p : block.getCasePredicate()){
+            for(Predicate p : meta.getCasePredicate()){
                 if(p.test(context)){
-                    BlockMeta subBlock = block.getSub().get(index);
-                    printBlock(subBlock, context, writer);
+                    BlockMeta exclusiveMeta = meta.getSub().get(index);
+                    printContext(exclusiveMeta, context, writer);
                     index = -1;
                     break;
                 }
                 index++;
             }
             if(index != -1){
-                if(BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
-                    BlockMeta hiddenBlock = BlockManager
-                            .INSTANCE
-                            .getTypeBlockConverter(context.getClass())
-                            .convert(context)
-                            .getMeta();
-
-                    printBlock(hiddenBlock,context);
-                }else{
-                    throw new RuntimeException(new BlockStructureCorrectException(block,
+                if(!BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
+                    throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
                 }
+                BlockMeta hiddenMeta = BlockManager
+                        .INSTANCE
+                        .getTypeBlockConverter(context.getClass())
+                        .meta();
+
+                printContext(hiddenMeta,context);
             }
-        }else if(block.getSub() != null){
+        }else if(meta.getSub() != null){
             //Virtual
-            if(block.isList() ||
-                    block.isRepeat()){
-                if(block.getSub().size() != 1){
-                    throw new RuntimeException(new BlockStructureCorrectException(block,
+            if(meta.isList() ||
+                    meta.isRepeat()){
+                if(meta.getSub().size() != 1){
+                    throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_META_AMOUNT_ERROR));
                 }
-                Object data = block.getContext(context);
+                BlockMeta itemMeta = meta.getSub().get(0);
+                Object data = meta.getContext(context);
                 if(!(data instanceof List)){
-                    throw new RuntimeException(new BlockStructureCorrectException(block,
+                    throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MUST_LIST));
                 }
-                List<Object> listData = (List)data;
+                List<Object> listContext = (List)data;
                 String delimiter = null;
-                if(block.isList()){
+                if(meta.isList()){
                     delimiter = "\n, ";
-                }else if(block.isRepeat()) {
+                }else if(meta.isRepeat()) {
                     delimiter = "\n ";
                 }
-                printBlock(block.getSub().get(0), listData, delimiter, writer);
+                printContext(itemMeta, listContext, delimiter, writer);
             }else{
-                for (BlockMeta subBlock : block.getSub()) {
-                    printBlock(subBlock, context, writer);
+                for (BlockMeta subMeta : meta.getSub()) {
+                    printContext(subMeta, context, writer);
                 }
             }
         }else{
             //Data
             String blockString;
-            if(block.isKeyword()){
+            if(meta.isKeyword()){
                 //Keyword
-                blockString = block.getData().toString();
+                blockString = meta.getData().toString();
             }else{
-                Object data = block.getDataOrGetterData(context);
+                Object data = meta.getDataOrGetterData(context);
                 if(data == null){
-                    throw new RuntimeException(new BlockStructureCorrectException(block,
+                    throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.NO_DATA));
                 }
                 if(BlockManager
                         .INSTANCE
                         .checkTypeBlockConverter(data.getClass())){
-                    BlockMeta hiddenBlock = BlockManager
+                    BlockMeta hiddenMeta = BlockManager
                             .INSTANCE
                             .getTypeBlockConverter(data.getClass())
-                            .convert(data)
-                            .getMeta();
+                            .meta();
 
                     blockString = new MetaContextBlockPrinter()
-                            .printBlock(hiddenBlock,data)
+                            .printContext(hiddenMeta,data)
                             .toString();
                 }else if(data instanceof List){
                     List<Object> listData = (List)data;
-                    String delimiter = null;
-                    if(block.isList()){
+                    String delimiter;
+                    if(meta.isList()){
                         delimiter = "\n, ";
-                    }else if(block.isRepeat()) {
+                    }else if(meta.isRepeat()) {
                         delimiter = "\n ";
                     }else{
-                        throw new RuntimeException(new BlockStructureCorrectException(block,
+                        throw new RuntimeException(new BlockStructureCorrectException(meta,
                                 BlockStructureCorrectException.StructureCorrect.COLLECTION_DATA_CANT_FIND_BLOCK_META));
                     }
                     if(listData.size() <= 0){
-                        throw new RuntimeException(new BlockStructureCorrectException(block,
+                        throw new RuntimeException(new BlockStructureCorrectException(meta,
                                 BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MISS));
                     }
                     Object itemData = listData.get(0);
                     if(BlockManager
                             .INSTANCE
                             .checkTypeBlockConverter(itemData.getClass())){
-                        BlockMeta hiddenBlock = BlockManager
+                        BlockMeta hiddenMeta = BlockManager
                                 .INSTANCE
                                 .getTypeBlockConverter(itemData.getClass())
-                                .convert(itemData)
-                                .getMeta();
+                                .meta();
 
                         StringWriter writer1 = new StringWriter();
-                        printBlock(hiddenBlock, listData, delimiter, writer1);
+                        printContext(hiddenMeta, listData, delimiter, writer1);
                         blockString = writer1.toString();
                     }else{
                         blockString = listData
@@ -347,7 +381,7 @@ public class MetaContextBlockPrinter {
                 }
             }
 
-            if(block.isHeadFootTakeLine()){
+            if(meta.isHeadFootTakeLine()){
                 writer.append("\n");
             }else{
                 writer.append(" ");
@@ -355,7 +389,7 @@ public class MetaContextBlockPrinter {
 
             writer.append(blockString);
 
-            if(block.isHeadFootTakeLine()){
+            if(meta.isHeadFootTakeLine()){
                 writer.append("\n");
             }else{
                 writer.append(" ");
@@ -371,20 +405,27 @@ public class MetaContextBlockPrinter {
 //        }
 
         //end
-        if(block.isEndNewLine()){
+        if(meta.isEndNewLine()){
             writer.append("\n");
         }
 
         return writer;
     }
 
-    public void printBlock(BlockMeta itemBlock, List<Object> listContext, String delimiter, StringWriter writer) {
+    /**
+     * print context list
+     * @param itemMeta meta
+     * @param listContext context list
+     * @param delimiter delimiter
+     * @param writer writer
+     */
+    public void printContext(BlockMeta itemMeta, List<Object> listContext, String delimiter, StringWriter writer) {
         writer.append(
                 listContext
                         .stream()
                         .map(context -> {
                             StringWriter stringWriter = new StringWriter();
-                            printBlock(itemBlock, context, stringWriter);
+                            printContext(itemMeta, context, stringWriter);
                             return stringWriter.toString();
                         })
                         .collect(Collectors.joining(delimiter))
@@ -392,31 +433,36 @@ public class MetaContextBlockPrinter {
     }
 
 
+
     /**
-     *
-     * @param object
-     * @return
+     * print meta of context
+     * @param context context
+     * @return writer
      */
     @SuppressWarnings("unchecked")
-    public static StringWriter print(Object object){
+    public static StringWriter printMeta(Object context){
         MetaContextBlockConverter converter = BlockManager
                 .INSTANCE
-                .getTypeBlockConverter(object.getClass());
+                .getTypeBlockConverter(context.getClass());
 
-        BlockMeta b = converter.convert(object).getMeta();
+        BlockMeta b = converter.meta();
 
-        return new MetaContextBlockPrinter().printBlock(b,object);
+        return new MetaContextBlockPrinter().printContext(b,context);
     }
 
+    /**
+     * print meta of context
+     * @param clazz context class
+     * @return writer
+     */
     @SuppressWarnings("unchecked")
-    public static StringWriter print(Class clazz){
+    public static StringWriter printMeta(Class clazz){
         MetaContextBlockConverter converter = BlockManager
                 .INSTANCE
                 .getTypeBlockConverter(clazz);
 
-        BlockMeta b = converter.convert(null).getMeta();
+        BlockMeta b = converter.meta();
 
-        return new MetaContextBlockPrinter().print(b);
+        return new MetaContextBlockPrinter().printMeta(b);
     }
-
 }

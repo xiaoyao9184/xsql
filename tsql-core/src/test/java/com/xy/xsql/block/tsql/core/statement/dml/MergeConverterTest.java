@@ -22,7 +22,7 @@ public class MergeConverterTest {
         BlockMeta b = MergeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -53,7 +53,7 @@ public class MergeConverterTest {
         BlockMeta b = MergeConverter.MergeHintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -69,7 +69,7 @@ public class MergeConverterTest {
         BlockMeta b = MergeConverter.MatchedWhenThenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -82,7 +82,7 @@ public class MergeConverterTest {
         BlockMeta b = MergeConverter.NotMatchedTargetWhenThenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -95,7 +95,7 @@ public class MergeConverterTest {
         BlockMeta b = MergeConverter.NotMatchedSourceWhenThenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -108,7 +108,7 @@ public class MergeConverterTest {
         BlockMeta b = MergeConverter.MergeMatchedConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -121,7 +121,7 @@ public class MergeConverterTest {
         BlockMeta b = MergeConverter.MergeNotMatchedConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -269,7 +269,7 @@ public class MergeConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

@@ -17,7 +17,7 @@ public class ExistsPredicateConverterTest {
         BlockMeta b = ExistsPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
-                .print(b);
+                .printMeta(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
