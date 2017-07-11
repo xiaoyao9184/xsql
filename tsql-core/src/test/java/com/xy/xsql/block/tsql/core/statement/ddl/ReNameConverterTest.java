@@ -19,7 +19,7 @@ public class ReNameConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = ReNameConverter.meta();
+        BlockMeta b = ReNameConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -33,7 +33,7 @@ public class ReNameConverterTest {
 
     @Test
     public void testReNameDataBase() throws Exception {
-        BlockMeta b = ReNameConverter.ReNameDataBaseConverter.meta();
+        BlockMeta b = ReNameConverter.ReNameDataBaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -46,7 +46,7 @@ public class ReNameConverterTest {
 
     @Test
     public void testReNameTable() throws Exception {
-        BlockMeta b = ReNameConverter.ReNameTableConverter.meta();
+        BlockMeta b = ReNameConverter.ReNameTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

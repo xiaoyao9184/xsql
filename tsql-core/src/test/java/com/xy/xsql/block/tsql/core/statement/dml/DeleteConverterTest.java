@@ -19,7 +19,7 @@ public class DeleteConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = DeleteConverter.meta();
+        BlockMeta b = DeleteConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

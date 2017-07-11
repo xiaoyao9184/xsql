@@ -19,7 +19,7 @@ public class SelectConverter
         implements MetaContextBlockConverter<Select> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Select> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Select>()
                     .overall("SELECT Clause")
                     .sub_keyword(Keywords.SELECT)
@@ -42,11 +42,12 @@ public class SelectConverter
                         .ref(SelectListConverter.class)
                         .data(Select::getSelectList)
                         .startNewline()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -62,15 +63,16 @@ public class SelectConverter
 
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,List<Select.SelectItem>> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,List<Select.SelectItem>>()
                         .overall("select_list")
                         .list()
-                        .ref(SelectItemConverter.meta());
+                        .ref(SelectItemConverter.meta)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -86,7 +88,7 @@ public class SelectConverter
             implements MetaContextBlockConverter<Select.SelectItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Select.SelectItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Select.SelectItem>()
                         .description("select item")
                         .required()
@@ -198,11 +200,12 @@ public class SelectConverter
                                 .and()
                             .and()
                         .subTakeLine()
-                        .headFootTakeLine();
+                        .headFootTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

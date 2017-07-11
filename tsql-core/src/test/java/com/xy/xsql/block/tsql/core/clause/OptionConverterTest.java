@@ -17,7 +17,7 @@ public class OptionConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = OptionConverter.meta();
+        BlockMeta b = OptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -30,7 +30,7 @@ public class OptionConverterTest {
 
     @Test
     public void testOptionQueryOption() throws Exception {
-        BlockMeta b = OptionConverter.QueryOptionConverter.meta();
+        BlockMeta b = OptionConverter.QueryOptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -44,7 +44,7 @@ public class OptionConverterTest {
 
     @Test
     public void testOptionLabelQueryOption() throws Exception {
-        BlockMeta b = OptionConverter.LabelQueryOptionConverter.meta();
+        BlockMeta b = OptionConverter.LabelQueryOptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

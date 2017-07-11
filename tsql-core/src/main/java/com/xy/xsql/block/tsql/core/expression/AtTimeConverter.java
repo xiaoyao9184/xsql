@@ -15,7 +15,7 @@ public class AtTimeConverter
         implements MetaContextBlockConverter<AtTimeZone> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,AtTimeZone> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,AtTimeZone>()
                     .overall("AT TIME ZONE")
                     .sub("inputdate")
@@ -26,11 +26,12 @@ public class AtTimeConverter
                     .sub_keyword(Keywords.Key.ZONE)
                     .sub("timezone")
                         .data(AtTimeZone::getTimezone)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

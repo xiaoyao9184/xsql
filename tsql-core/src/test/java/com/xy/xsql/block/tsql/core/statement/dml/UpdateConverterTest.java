@@ -19,7 +19,7 @@ public class UpdateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = UpdateConverter.meta();
+        BlockMeta b = UpdateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

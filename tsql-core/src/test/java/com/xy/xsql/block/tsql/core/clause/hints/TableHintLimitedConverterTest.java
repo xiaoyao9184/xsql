@@ -14,7 +14,7 @@ public class TableHintLimitedConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = TableHintLimitedConverter.meta();
+        BlockMeta b = TableHintLimitedConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

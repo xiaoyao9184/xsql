@@ -18,7 +18,7 @@ public class UpdateConverter
         implements MetaContextBlockConverter<Update> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Update> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Update>()
                     .overall("UPDATE")
                     .subTakeLine()
@@ -73,7 +73,7 @@ public class UpdateConverter
                     .sub()
                         .description("set clause")
                         .list()
-                        .ref(UpdateConverter.SetItemConverter.meta())
+                        .ref(UpdateConverter.SetItemConverter.meta)
                         .data(Update::getSets)
                         .and()
                     .sub("<OUTPUT Clause>")
@@ -92,11 +92,12 @@ public class UpdateConverter
                     .sub("OPTION ( <Query Hint> [ ,...n ] )")
                         .optional(d -> d.getOption() == null)
                         .data(Update::getOption)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -111,22 +112,23 @@ public class UpdateConverter
             implements MetaContextBlockConverter<Update.SetItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Update.SetItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.SetItem>()
                         .subTakeLine()
                         .required()
-                        .czse_meta(d -> d instanceof Update.ColumnAssignmentSet, ColumnAssignmentSetConverter.meta())
-                        .czse_meta(d -> d instanceof Update.VariableAssignmentSet, VariableAssignmentSetConverter.meta())
-                        .czse_meta(d -> d instanceof Update.VariableColumnAssignmentSet, VariableColumnAssignmentSetConverter.meta())
-                        .czse_meta(d -> d instanceof Update.ColumnCompoundSet, ColumnCompoundSetConverter.meta())
-                        .czse_meta(d -> d instanceof Update.VariableCompoundSet, VariableCompoundSetConverter.meta())
-                        .czse_meta(d -> d instanceof Update.VariableColumnCompoundSet, VariableColumnCompoundSetConverter.meta())
-                        .headFootTakeLine();
-        // @formatter:on
+                        .czse_meta(d -> d instanceof Update.ColumnAssignmentSet, ColumnAssignmentSetConverter.meta)
+                        .czse_meta(d -> d instanceof Update.VariableAssignmentSet, VariableAssignmentSetConverter.meta)
+                        .czse_meta(d -> d instanceof Update.VariableColumnAssignmentSet, VariableColumnAssignmentSetConverter.meta)
+                        .czse_meta(d -> d instanceof Update.ColumnCompoundSet, ColumnCompoundSetConverter.meta)
+                        .czse_meta(d -> d instanceof Update.VariableCompoundSet, VariableCompoundSetConverter.meta)
+                        .czse_meta(d -> d instanceof Update.VariableColumnCompoundSet, VariableColumnCompoundSetConverter.meta)
+                        .headFootTakeLine()
+                    .build();
+    // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(Update.SetItem context) {
@@ -142,7 +144,7 @@ public class UpdateConverter
             implements MetaContextBlockConverter<Update.ColumnAssignmentSet> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Update.ColumnAssignmentSet> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.ColumnAssignmentSet>()
                     .sub("column_name")
                         .data(Update.ColumnAssignmentSet::getColumnName)
@@ -159,11 +161,12 @@ public class UpdateConverter
                         .czse(Update.ColumnAssignmentSet::isUseNull,"NULL")
                             .keyword(Keywords.NULL)
                             .and()
-                        .and();
+                        .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -179,7 +182,7 @@ public class UpdateConverter
             implements MetaContextBlockConverter<Update.VariableAssignmentSet> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Update.VariableAssignmentSet> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.VariableAssignmentSet>()
                     .sub("@variable")
                         .data(Update.VariableAssignmentSet::getVariable)
@@ -187,11 +190,12 @@ public class UpdateConverter
                     .sub_keyword(Assignment.ASSIGNMENT)
                     .sub("expression")
                         .data(Update.VariableAssignmentSet::getExpression)
-                        .and();
+                        .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -208,7 +212,7 @@ public class UpdateConverter
             implements MetaContextBlockConverter<Update.VariableColumnAssignmentSet> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Update.VariableColumnAssignmentSet> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.VariableColumnAssignmentSet>()
                     .sub("@variable")
                         .data(Update.VariableColumnAssignmentSet::getVariable)
@@ -220,11 +224,12 @@ public class UpdateConverter
                     .sub_keyword(Assignment.ASSIGNMENT)
                     .sub("expression")
                         .data(Update.VariableColumnAssignmentSet::getExpression)
-                        .and();
+                        .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -241,7 +246,7 @@ public class UpdateConverter
             implements MetaContextBlockConverter<Update.ColumnCompoundSet> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Update.ColumnCompoundSet> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.ColumnCompoundSet>()
                     .sub("column_name")
                         .data(Update.ColumnCompoundSet::getColumnName)
@@ -251,11 +256,12 @@ public class UpdateConverter
                         .and()
                     .sub("expression")
                         .data(Update.ColumnCompoundSet::getExpression)
-                        .and();
+                        .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -272,7 +278,7 @@ public class UpdateConverter
             implements MetaContextBlockConverter<Update.VariableCompoundSet> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Update.VariableCompoundSet> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.VariableCompoundSet>()
                     .sub("@variable")
                         .data(Update.VariableCompoundSet::getVariable)
@@ -283,12 +289,13 @@ public class UpdateConverter
                         .and()
                     .sub("expression")
                         .data(Update.VariableCompoundSet::getExpression)
-                        .and();
-        // @formatter:on
+                        .and()
+                    .build();
+    // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(Update.VariableCompoundSet context) {
@@ -304,7 +311,7 @@ public class UpdateConverter
             implements MetaContextBlockConverter<Update.VariableColumnCompoundSet> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Update.VariableColumnCompoundSet> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.VariableColumnCompoundSet>()
                         .sub("@variable")
                             .data(Update.VariableCompoundSet::getVariable)
@@ -319,12 +326,13 @@ public class UpdateConverter
                             .and()
                         .sub("expression")
                             .data(Update.VariableCompoundSet::getExpression)
-                            .and();
-        // @formatter:on
+                            .and()
+                    .build();
+    // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(Update.VariableColumnCompoundSet context) {

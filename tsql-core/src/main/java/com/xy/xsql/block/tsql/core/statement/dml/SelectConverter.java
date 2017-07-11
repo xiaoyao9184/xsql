@@ -20,7 +20,7 @@ public class SelectConverter
         implements MetaContextBlockConverter<Select> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Select> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Select>()
                     .overall("SELECT statement")
                     .sub("[ WITH { [ XMLNAMESPACES ,] [ <common_table_expression> [,...n] ] } ]")
@@ -44,11 +44,12 @@ public class SelectConverter
                         .optional(d -> d.getOption() == null)
                         .data(Select::getOption)
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -63,7 +64,7 @@ public class SelectConverter
             implements MetaContextBlockConverter<Select.QueryExpression> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Select.QueryExpression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Select.QueryExpression>()
                         .overall("query_expression")
                         .sub()
@@ -87,14 +88,15 @@ public class SelectConverter
                             .description("union list")
                             .optional(d -> d.getUnionItems() == null)
                             .repeat()
-                            .ref(UnionItemConverter.meta())
+                            .ref(UnionItemConverter.meta)
                             .data(Select.QueryExpression::getUnionItems)
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -111,7 +113,7 @@ public class SelectConverter
             implements MetaContextBlockConverter<Select.UnionItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Select.UnionItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Select.UnionItem>()
                         .description("union item")
                         .sub()
@@ -151,11 +153,12 @@ public class SelectConverter
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -172,7 +175,7 @@ public class SelectConverter
             implements MetaContextBlockConverter<Select.QuerySpecification> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Select.QuerySpecification> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Select.QuerySpecification>()
                         .overall("query_specification")
                         .sub_keyword(Keywords.SELECT)
@@ -192,7 +195,7 @@ public class SelectConverter
                             .and()
                         .sub("INTO new_table")
                             .optional(d -> d.getInto() == null)
-                            .ref(IntoConverter.meta())
+                            .ref(IntoConverter.meta)
                             .data(Select.QuerySpecification::getInto)
                             .and()
                         .sub("FROM { <table_source> } [ ,...n ]")
@@ -212,11 +215,12 @@ public class SelectConverter
                             .optional(d -> d.getHaving() == null)
                             .data(Select.QuerySpecification::getHaving)
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

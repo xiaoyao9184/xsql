@@ -14,7 +14,7 @@ public class JoinHintConverter
         implements MetaContextBlockConverter<JoinHint> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,JoinHint> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,JoinHint>()
                     .overall("join_hint")
                     .required()
@@ -29,11 +29,12 @@ public class JoinHintConverter
                         .and()
                     .czse(d -> d.equals(JoinHint.REMOTE))
                         .keyword(JoinHint.REMOTE)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

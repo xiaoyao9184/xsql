@@ -14,7 +14,7 @@ public class BinaryExpressionConverter
         implements MetaContextBlockConverter<BinaryExpression> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,BinaryExpression> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,BinaryExpression>()
                     .description("binary expression")
                     .sub("expression")
@@ -25,11 +25,12 @@ public class BinaryExpressionConverter
                         .and()
                     .sub("expression")
                         .data(BinaryExpression::getExpressionRight)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

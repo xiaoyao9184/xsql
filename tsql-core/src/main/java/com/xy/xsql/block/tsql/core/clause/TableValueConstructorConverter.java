@@ -21,7 +21,7 @@ public class TableValueConstructorConverter
         implements MetaContextBlockConverter<TableValueConstructor> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,TableValueConstructor> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,TableValueConstructor>()
                     .overall("Table Value Constructor")
                     .sub_keyword(Keywords.VALUES)
@@ -37,11 +37,12 @@ public class TableValueConstructorConverter
                             .and()
                         .list()
                         .data(TableValueConstructor::getRowValueExpressionListGroup)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class TableValueConstructorConverter
             implements MetaContextBlockConverter<List<Expression>> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,List<Expression>> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,List<Expression>>()
                         .overall("row value expression list")
                         .sub("row value expression")
@@ -64,11 +65,12 @@ public class TableValueConstructorConverter
                             .required()
                             .ref(RowValueExpressionConverter.class)
                             .data(d -> d)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -84,7 +86,7 @@ public class TableValueConstructorConverter
             implements MetaContextBlockConverter<Expression> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Expression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Expression>()
                         .overall("row value expression")
                         .required()
@@ -96,11 +98,12 @@ public class TableValueConstructorConverter
                             .and()
                         .czse(d -> true,"expression")
                             .data(d -> d)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

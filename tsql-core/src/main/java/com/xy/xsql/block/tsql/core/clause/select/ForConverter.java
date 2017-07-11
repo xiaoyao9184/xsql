@@ -16,7 +16,7 @@ public class ForConverter
         implements MetaContextBlockConverter<For> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,For> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,For>()
                 .overall("FOR")
                 .sub_keyword(Keywords.FOR)
@@ -34,11 +34,12 @@ public class ForConverter
                         .ref(JsonConverter.class)
                         .data(For::getJson)
                         .and()
-                    .and();
+                    .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class ForConverter
             implements MetaContextBlockConverter<For.Xml> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,For.Xml> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,For.Xml>()
                         .overall("XML")
                         .sub_keyword(Keywords.Key.XML)
@@ -231,13 +232,13 @@ public class ForConverter
                             .headFootTakeLine()
                             .subTakeLine()
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                    .build();
+    // @formatter:on
 
-        // @formatter:on
-
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(For.Xml context) {
@@ -252,7 +253,7 @@ public class ForConverter
             implements MetaContextBlockConverter<For.Xml> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,For.Xml> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,For.Xml>()
                         .overall("CommonDirectivesForXML")
                         .sub()
@@ -279,12 +280,13 @@ public class ForConverter
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
                             .and()
-                        .subTakeLine();
-        // @formatter:on
+                        .subTakeLine()
+                    .build();
+    // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(For.Xml context) {
@@ -299,7 +301,7 @@ public class ForConverter
             implements MetaContextBlockConverter<For.Json> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,For.Json> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,For.Json>()
                         .sub_keyword(Keywords.Key.JSON)
                         .sub()
@@ -349,12 +351,13 @@ public class ForConverter
                             .subTakeLine()
                             .headFootTakeLine()
                             .and()
-                        .subTakeLine();
-        // @formatter:on
+                        .subTakeLine()
+                    .build();
+    // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(For.Json context) {

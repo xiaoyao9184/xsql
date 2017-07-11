@@ -14,7 +14,7 @@ public class ComparisonPredicateConverter
         implements MetaContextBlockConverter<Comparison> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Comparison> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Comparison>()
                     .overall("Comparison Predicate")
                     .sub("expression")
@@ -26,11 +26,12 @@ public class ComparisonPredicateConverter
                         .and()
                     .sub("expression")
                         .data(Comparison::getOperatorExpression)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

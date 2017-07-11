@@ -16,7 +16,7 @@ public class TruncateTableConverter
         implements MetaContextBlockConverter<TruncateTable> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,TruncateTable> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,TruncateTable>()
                     .overall("TRUNCATE TABLE")
                     .sub_keyword(Keywords.TRUNCATE)
@@ -35,18 +35,19 @@ public class TruncateTableConverter
                             .sub_keyword(Other.GROUP_START)
                             .sub()
                                 .list()
-                                .ref(PartitionsConverter.meta())
+                                .ref(PartitionsConverter.meta)
                                 .data(TruncateTable::getPartitionsList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .startNewline()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class TruncateTableConverter
             implements MetaContextBlockConverter<TruncateTable.Partitions> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,TruncateTable.Partitions> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TruncateTable.Partitions>()
                         .required()
                         .czse(d -> d instanceof TruncateTable.PartitionNumberExpression)
@@ -71,11 +72,12 @@ public class TruncateTableConverter
                         .czse(d -> d instanceof TruncateTable.Range)
                             .name("range")
                             .ref(RangeConverter.class)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -92,7 +94,7 @@ public class TruncateTableConverter
             implements MetaContextBlockConverter<TruncateTable.Range> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,TruncateTable.Range> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TruncateTable.Range>()
                         .overall("range")
                         .sub()
@@ -103,11 +105,12 @@ public class TruncateTableConverter
                         .sub()
                             .ref(PartitionNumberExpressionConverter.class)
                             .data(TruncateTable.Range::getPartitionNumberExpressionRight)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -124,14 +127,15 @@ public class TruncateTableConverter
             implements MetaContextBlockConverter<TruncateTable.PartitionNumberExpression> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,TruncateTable.PartitionNumberExpression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TruncateTable.PartitionNumberExpression>()
                         .overall("partition_number_expression")
-                        .data(TruncateTable.PartitionNumberExpression::getNumber);
+                        .data(TruncateTable.PartitionNumberExpression::getNumber)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

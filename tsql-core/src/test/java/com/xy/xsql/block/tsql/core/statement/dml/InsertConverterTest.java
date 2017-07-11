@@ -19,7 +19,7 @@ public class InsertConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = InsertConverter.meta();
+        BlockMeta b = InsertConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

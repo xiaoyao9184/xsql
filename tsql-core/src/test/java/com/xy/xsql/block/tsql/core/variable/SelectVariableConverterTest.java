@@ -19,7 +19,7 @@ public class SelectVariableConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = SelectVariableConverter.meta();
+        BlockMeta b = SelectVariableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

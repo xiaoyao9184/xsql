@@ -17,7 +17,7 @@ public class DeclareVariableConverter
         implements MetaContextBlockConverter<DeclareVariable> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,DeclareVariable> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,DeclareVariable>()
                 .overall("DECLARE @local_variable")
                 .subTakeLine()
@@ -28,7 +28,7 @@ public class DeclareVariableConverter
                     .czse(d -> d.getItems() != null)
                         .description("local/cursor list")
                         .list()
-                        .ref(DeclareVariableItemPredicateRenderer.meta())
+                        .ref(DeclareVariableItemPredicateRenderer.meta)
                         .data(DeclareVariable::getItems)
                         .headFootTakeLine()
                         .and()
@@ -47,11 +47,12 @@ public class DeclareVariableConverter
                             .data(DeclareVariable::getTableTypeDefinition)
                             .and()
                         .and()
-                    .and();
+                    .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class DeclareVariableConverter
             implements MetaContextBlockConverter<DeclareVariable.Item> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,DeclareVariable.Item> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DeclareVariable.Item>()
                         .description("local/cursor")
                         .subTakeLine()
@@ -103,12 +104,13 @@ public class DeclareVariableConverter
                             .sub()
                                 .keyword(Keywords.CURSOR)
                                 .and()
-                            .and();
-        // @formatter:on
+                            .and()
+                    .build();
+    // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(DeclareVariable.Item context) {

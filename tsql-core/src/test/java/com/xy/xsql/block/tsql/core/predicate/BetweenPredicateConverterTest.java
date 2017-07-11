@@ -14,7 +14,7 @@ public class BetweenPredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = BetweenPredicateConverter.meta();
+        BlockMeta b = BetweenPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

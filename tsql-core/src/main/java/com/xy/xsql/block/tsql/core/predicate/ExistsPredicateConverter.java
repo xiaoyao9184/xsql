@@ -16,7 +16,7 @@ public class ExistsPredicateConverter
         implements MetaContextBlockConverter<Exists> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Exists> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Exists>()
                     .overall("EXISTS")
                     .sub_keyword(Keywords.EXISTS)
@@ -24,11 +24,12 @@ public class ExistsPredicateConverter
                     .sub("subquery")
                         .data(Exists::getSubquery)
                         .and()
-                    .sub_keyword(Other.GROUP_END);
+                    .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

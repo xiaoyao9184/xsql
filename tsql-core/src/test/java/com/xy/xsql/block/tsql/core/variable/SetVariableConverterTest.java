@@ -18,7 +18,7 @@ import java.util.Map;
 public class SetVariableConverterTest {
     @Test
     public void test() throws Exception {
-        BlockMeta b = SetVariableConverter.meta();
+        BlockMeta b = SetVariableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

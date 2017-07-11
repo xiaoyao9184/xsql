@@ -21,7 +21,7 @@ public class BulkInsertConverter
         implements MetaContextBlockConverter<BulkInsert> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,BulkInsert> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,BulkInsert>()
                     .overall("BULK INSERT")
                     .sub_keyword(Keywords.BULK)
@@ -276,7 +276,7 @@ public class BulkInsertConverter
                             .sub_keyword(Other.GROUP_START)
                             .sub()
                                 .list()
-                                .ref(OrderColumnConverter.meta())
+                                .ref(OrderColumnConverter.meta)
                                 .data(BulkInsert::getOrderList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
@@ -371,11 +371,12 @@ public class BulkInsertConverter
                         .sub_keyword(Other.GROUP_END)
                         .startNewline()
                         .subTakeLine()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -390,7 +391,7 @@ public class BulkInsertConverter
             implements MetaContextBlockConverter<BulkInsert.OrderColumn> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,BulkInsert.OrderColumn> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,BulkInsert.OrderColumn>()
                         .required()
                         .sub("column")
@@ -400,11 +401,12 @@ public class BulkInsertConverter
                             .optional(d -> !d.isUseAsc() && !d.isUseDesc())
                             .czse_keyword(BulkInsert.OrderColumn::isUseAsc, Keywords.ASC)
                             .czse_keyword(BulkInsert.OrderColumn::isUseDesc, Keywords.DESC)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

@@ -19,7 +19,7 @@ public class WithConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = WithConverter.meta();
+        BlockMeta b = WithConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -32,7 +32,7 @@ public class WithConverterTest {
 
     @Test
     public void testCommonTableExpression() throws Exception {
-        BlockMeta b = WithConverter.CommonTableExpressionConverter.meta();
+        BlockMeta b = WithConverter.CommonTableExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

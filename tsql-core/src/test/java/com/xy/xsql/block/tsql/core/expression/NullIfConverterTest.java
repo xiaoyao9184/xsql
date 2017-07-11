@@ -13,7 +13,7 @@ public class NullIfConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = NullIfConverter.meta();
+        BlockMeta b = NullIfConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

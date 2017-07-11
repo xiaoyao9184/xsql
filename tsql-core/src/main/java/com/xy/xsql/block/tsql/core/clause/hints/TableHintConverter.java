@@ -17,7 +17,7 @@ public class TableHintConverter
         implements MetaContextBlockConverter<TableHint> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,TableHint> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,TableHint>()
                     .overall("table_hint")
                     .sub()
@@ -143,11 +143,12 @@ public class TableHintConverter
                         .subTakeLine()
                         .headFootTakeLine()
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

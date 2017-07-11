@@ -22,7 +22,7 @@ public class InsertConverter
         implements MetaContextBlockConverter<Insert> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Insert> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Insert>()
                     .overall("INSERT")
                     .sub("WITH <common_table_expression> [ ,...n ]")
@@ -68,7 +68,7 @@ public class InsertConverter
                         .optional(d -> d.getColumns() == null)
                         .sub_keyword(Other.GROUP_START)
                         .sub("column_list")
-                            .ref(ColumnListConverter.meta())
+                            .ref(ColumnListConverter.meta)
                             .data(Insert::getColumns)
                             .and()
                         .sub_keyword(Other.GROUP_END)
@@ -97,11 +97,12 @@ public class InsertConverter
                         .headFootTakeLine()
                         .subTakeLine()
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -116,16 +117,17 @@ public class InsertConverter
             implements MetaContextBlockConverter<List<ColumnName>> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,List<ColumnName>> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,List<ColumnName>>()
                         .description("column_list")
                         .list()
                         .data(d -> d)
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

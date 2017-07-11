@@ -15,7 +15,7 @@ public class IntoConverter
         implements MetaContextBlockConverter<Into> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Into> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Into>()
                     .overall("INTO Clause")
                     .sub_keyword(Keywords.INTO)
@@ -31,11 +31,12 @@ public class IntoConverter
                         .sub("filegroup")
                             .data(Into::getFileGroup)
                             .and()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ForConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = ForConverter.meta();
+        BlockMeta b = ForConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -32,7 +32,7 @@ public class ForConverterTest {
 
     @Test
     public void testXml() throws Exception {
-        BlockMeta b = ForConverter.XmlConverter.meta();
+        BlockMeta b = ForConverter.XmlConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -63,7 +63,7 @@ public class ForConverterTest {
 
     @Test
     public void testCommonDirectivesForXML() throws Exception {
-        BlockMeta b = ForConverter.CommonDirectivesForXMLConverter.meta();
+        BlockMeta b = ForConverter.CommonDirectivesForXMLConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -78,7 +78,7 @@ public class ForConverterTest {
 
     @Test
     public void testJson() throws Exception {
-        BlockMeta b = ForConverter.JsonConverter.meta();
+        BlockMeta b = ForConverter.JsonConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

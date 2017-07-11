@@ -19,7 +19,7 @@ public class WhereConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = WhereConverter.meta();
+        BlockMeta b = WhereConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

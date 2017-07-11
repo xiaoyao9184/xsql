@@ -14,7 +14,7 @@ public class TableTypeDefinitionConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = TableTypeDefinitionConverter.meta();
+        BlockMeta b = TableTypeDefinitionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -27,7 +27,7 @@ public class TableTypeDefinitionConverterTest {
 
     @Test
     public void testTableConstraint() throws Exception {
-        BlockMeta b = TableTypeDefinitionConverter.TableConstraintConverter.meta();
+        BlockMeta b = TableTypeDefinitionConverter.TableConstraintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

@@ -19,7 +19,7 @@ public class TableValueConstructorConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = TableValueConstructorConverter.meta();
+        BlockMeta b = TableValueConstructorConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -32,7 +32,7 @@ public class TableValueConstructorConverterTest {
 
     @Test
     public void testRowValueExpressionList() throws Exception {
-        BlockMeta b = TableValueConstructorConverter.RowValueExpressionListConverter.meta();
+        BlockMeta b = TableValueConstructorConverter.RowValueExpressionListConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -45,7 +45,7 @@ public class TableValueConstructorConverterTest {
 
     @Test
     public void testRowValueExpression() throws Exception {
-        BlockMeta b = TableValueConstructorConverter.RowValueExpressionConverter.meta();
+        BlockMeta b = TableValueConstructorConverter.RowValueExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

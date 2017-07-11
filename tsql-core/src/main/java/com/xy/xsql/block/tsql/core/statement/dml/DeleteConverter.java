@@ -16,7 +16,7 @@ public class DeleteConverter
         implements MetaContextBlockConverter<Delete> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Delete> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Delete>()
                     .overall("DELETE")
                     .sub("WITH <common_table_expression> [ ,...n ]")
@@ -87,11 +87,12 @@ public class DeleteConverter
                         .optional(d -> d.getOption() == null)
                         .data(Delete::getOption)
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

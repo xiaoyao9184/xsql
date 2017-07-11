@@ -16,7 +16,7 @@ public class SetVariableConverter
         implements MetaContextBlockConverter<SetVariable> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,SetVariable> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,SetVariable>()
                     .overall("SET @local_variable")
                     .sub_keyword(Keywords.SET)
@@ -29,11 +29,12 @@ public class SetVariableConverter
                         .and()
                     .sub("expression")
                         .data(SetVariable::getExpression)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

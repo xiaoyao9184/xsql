@@ -14,7 +14,7 @@ public class ExistsPredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = ExistsPredicateConverter.meta();
+        BlockMeta b = ExistsPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

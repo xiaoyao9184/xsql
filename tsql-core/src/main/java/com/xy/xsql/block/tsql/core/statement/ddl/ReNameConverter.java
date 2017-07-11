@@ -15,24 +15,25 @@ public class ReNameConverter
         implements MetaContextBlockConverter<ReName> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,ReName> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,ReName>()
                     .overall("RENAME")
                     .czse(d -> d.getDbName() != null)
                         .description("rename database")
-                        .ref(ReNameDataBaseConverter.meta())
+                        .ref(ReNameDataBaseConverter.meta)
                         .data(d -> d)
                         .and()
                     .czse(d -> d.getTableName() != null)
                         .description("rename object")
-                        .ref(ReNameTableConverter.meta())
+                        .ref(ReNameTableConverter.meta)
                         .data(d -> d)
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class ReNameConverter
     public static class ReNameDataBaseConverter {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,ReName> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,ReName>()
                         .overall("RENAME")
                         .sub_keyword(Keywords.Key.RENAME)
@@ -61,11 +62,12 @@ public class ReNameConverter
                         .sub_keyword(Keywords.TO)
                         .sub("new_database_name")
                             .data(ReName::getNewName)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
     }
@@ -73,7 +75,7 @@ public class ReNameConverter
     public static class ReNameTableConverter {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,ReName> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,ReName>()
                         .overall("RENAME")
                         .sub_keyword(Keywords.Key.RENAME)
@@ -88,11 +90,12 @@ public class ReNameConverter
                         .sub_keyword(Keywords.TO)
                         .sub("new_table_name")
                             .data(ReName::getNewName)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
     }

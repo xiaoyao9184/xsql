@@ -19,7 +19,7 @@ public class TruncateTableConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = TruncateTableConverter.meta();
+        BlockMeta b = TruncateTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

@@ -16,7 +16,7 @@ public class OverConverter
         implements MetaContextBlockConverter<Over> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Over> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Over>()
                     .overall("OVER")
                     .sub_keyword(Keywords.OVER)
@@ -41,11 +41,12 @@ public class OverConverter
                         .subTakeLine()
                         .headFootTakeLine()
                         .and()
-                    .sub_keyword(Other.GROUP_END);
+                    .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.PartitionBy> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.PartitionBy> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.PartitionBy>()
                         .overall("PARTITION BY clause")
                         .sub_keyword(Keywords.Key.PARTITION)
@@ -70,12 +71,13 @@ public class OverConverter
                             .description("value_expression , ... [ n ]")
                             .list()
                             .data(Over.PartitionBy::getValueExpressionList)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+        public BlockMeta meta() {
+            return meta;
+    }
 
         @Override
         public MetaContextBlock convert(Over.PartitionBy context) {
@@ -89,7 +91,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.OrderBy> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.OrderBy> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.OrderBy>()
                         .overall("ORDER BY clause")
                         .sub_keyword(Keywords.ORDER)
@@ -97,14 +99,15 @@ public class OverConverter
                         .sub()
                             .description("order by list")
                             .list()
-                            .ref(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
+                            .ref(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta)
 //                            .sub_meta(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta())
                             .data(Over.OrderBy::getItems)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -121,7 +124,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.RowRange> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.RowRange> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.RowRange>()
                         .overall("ROW or RANGE clause")
                         .sub()
@@ -133,11 +136,12 @@ public class OverConverter
                         .sub("window frame extent")
                             .ref(WindowFrameExtentConverter.class)
                             .data(Over.RowRange::getWindowFrameExtent)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -152,7 +156,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.WindowFrameExtent> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.WindowFrameExtent> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameExtent>()
                         .overall("window frame extent")
                         .required()
@@ -165,11 +169,12 @@ public class OverConverter
                             .data(d -> d)
                             .and()
                         .subTakeLine()
-                        .headFootTakeLine();
+                        .headFootTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -184,7 +189,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.WindowFrameBetween> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.WindowFrameBetween> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameBetween>()
                         .overall("window frame between")
                         .sub_keyword(Keywords.BETWEEN)
@@ -196,11 +201,12 @@ public class OverConverter
                         .sub("window frame bound")
                             .ref(WindowFrameBoundConverter.class)
                             .data(Over.WindowFrameBetween::getAndBound)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -215,7 +221,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.WindowFrameBound> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.WindowFrameBound> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameBound>()
                         .overall("window frame bound")
                         .required()
@@ -228,11 +234,12 @@ public class OverConverter
                             .data(d -> d)
                             .and()
                         .subTakeLine()
-                        .headFootTakeLine();
+                        .headFootTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -247,7 +254,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.WindowFramePreceding> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.WindowFramePreceding> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFramePreceding>()
                         .overall("window frame preceding")
                         .czse(Over.WindowFramePreceding::isUseUnbounded)
@@ -267,11 +274,12 @@ public class OverConverter
                             .description("current row")
                             .sub_keyword(Keywords.CURRENT)
                             .sub_keyword(Keywords.Key.ROW)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -286,7 +294,7 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.WindowFrameFollowing> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.WindowFrameFollowing> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameFollowing>()
                         .overall("window frame following")
                         .czse(Over.WindowFrameFollowing::isUseUnbounded)
@@ -306,11 +314,12 @@ public class OverConverter
                             .description("current row")
                             .sub_keyword(Keywords.CURRENT)
                             .sub_keyword(Keywords.Key.ROW)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -325,17 +334,18 @@ public class OverConverter
             implements MetaContextBlockConverter<Over.UnsignedValueSpecification> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Over.UnsignedValueSpecification> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.UnsignedValueSpecification>()
                         .overall("unsigned value specification")
                         .required()
                         .sub("<unsigned integer literal>")
                             .data(d -> d.toNumberConstant().toString())
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

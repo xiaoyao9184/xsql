@@ -19,7 +19,7 @@ public class HavingConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = HavingConverter.meta();
+        BlockMeta b = HavingConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

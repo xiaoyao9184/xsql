@@ -1,5 +1,6 @@
 package com.xy.xsql.block.core;
 
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.core.builder.BaseBuilder;
 
@@ -16,4 +17,5 @@ public interface MetaContextBlockConverter<CONTEXT>
 
     MetaContextBlock convert(CONTEXT context);
 
+    BlockMeta meta();
 }

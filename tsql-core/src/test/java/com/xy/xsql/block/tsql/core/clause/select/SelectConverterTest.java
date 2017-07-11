@@ -19,7 +19,7 @@ public class SelectConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = SelectConverter.meta();
+        BlockMeta b = SelectConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -34,7 +34,7 @@ public class SelectConverterTest {
 
     @Test
     public void testSelectList() throws Exception {
-        BlockMeta b = SelectConverter.SelectListConverter.meta();
+        BlockMeta b = SelectConverter.SelectListConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

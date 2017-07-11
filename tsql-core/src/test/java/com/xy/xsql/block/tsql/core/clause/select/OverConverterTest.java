@@ -19,7 +19,7 @@ public class OverConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = OverConverter.meta();
+        BlockMeta b = OverConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -36,7 +36,7 @@ public class OverConverterTest {
 
     @Test
     public void testPartitionBy() throws Exception {
-        BlockMeta b = OverConverter.PartitionByConverter.meta();
+        BlockMeta b = OverConverter.PartitionByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -49,7 +49,7 @@ public class OverConverterTest {
 
     @Test
     public void testOrderBy() throws Exception {
-        BlockMeta b = OverConverter.OrderByConverter.meta();
+        BlockMeta b = OverConverter.OrderByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -62,7 +62,7 @@ public class OverConverterTest {
 
     @Test
     public void testRowRange() throws Exception {
-        BlockMeta b = OverConverter.RowRangeConverter.meta();
+        BlockMeta b = OverConverter.RowRangeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -75,7 +75,7 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameExtent() throws Exception {
-        BlockMeta b = OverConverter.WindowFrameExtentConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameExtentConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -91,7 +91,7 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameBetween() throws Exception {
-        BlockMeta b = OverConverter.WindowFrameBetweenConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameBetweenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -104,7 +104,7 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameBound() throws Exception {
-        BlockMeta b = OverConverter.WindowFrameBoundConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameBoundConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -120,7 +120,7 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFramePreceding() throws Exception {
-        BlockMeta b = OverConverter.WindowFramePrecedingConverter.meta();
+        BlockMeta b = OverConverter.WindowFramePrecedingConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -133,7 +133,7 @@ public class OverConverterTest {
 
     @Test
     public void testWindowFrameFollowing() throws Exception {
-        BlockMeta b = OverConverter.WindowFrameFollowingConverter.meta();
+        BlockMeta b = OverConverter.WindowFrameFollowingConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -146,7 +146,7 @@ public class OverConverterTest {
 
     @Test
     public void testUnsignedValueSpecification() throws Exception {
-        BlockMeta b = OverConverter.UnsignedValueSpecificationConverter.meta();
+        BlockMeta b = OverConverter.UnsignedValueSpecificationConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

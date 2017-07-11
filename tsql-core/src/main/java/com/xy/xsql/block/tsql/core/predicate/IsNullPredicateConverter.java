@@ -15,7 +15,7 @@ public class IsNullPredicateConverter
         implements MetaContextBlockConverter<IsNull> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,IsNull> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,IsNull>()
                     .overall("IS NULL")
                     .sub("expression")
@@ -26,11 +26,12 @@ public class IsNullPredicateConverter
                         .optional(d -> !d.isUseNotOperator())
                         .keyword(Keywords.NOT)
                         .and()
-                    .sub_keyword(Keywords.NULL);
+                    .sub_keyword(Keywords.NULL)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

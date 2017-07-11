@@ -19,7 +19,7 @@ public class DeclareVariableConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = DeclareVariableConverter.meta();
+        BlockMeta b = DeclareVariableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

@@ -20,7 +20,7 @@ public class SearchConditionConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = SearchConditionConverter.meta();
+        BlockMeta b = SearchConditionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -34,7 +34,7 @@ public class SearchConditionConverterTest {
 
     @Test
     public void testAndOrNotItem() throws Exception {
-        BlockMeta b = SearchConditionConverter.AndOrNotItemConverter.meta();
+        BlockMeta b = SearchConditionConverter.AndOrNotItemConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -46,7 +46,7 @@ public class SearchConditionConverterTest {
 
     @Test
     public void testPredicate() throws Exception {
-        BlockMeta b = SearchConditionConverter.PredicateConverter.meta();
+        BlockMeta b = SearchConditionConverter.PredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

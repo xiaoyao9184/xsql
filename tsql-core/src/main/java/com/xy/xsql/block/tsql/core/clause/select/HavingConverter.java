@@ -16,18 +16,19 @@ public class HavingConverter
         implements MetaContextBlockConverter<Having> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Having> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Having>()
                     .overall("HAVING")
                     .sub_keyword(Keywords.HAVING)
                     .sub("search condition")
                         .ref(SearchConditionConverter.class)
                         .data(Having::getSearchCondition)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

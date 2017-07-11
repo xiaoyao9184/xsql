@@ -19,7 +19,7 @@ public class TableHintConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = TableHintConverter.meta();
+        BlockMeta b = TableHintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

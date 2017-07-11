@@ -15,7 +15,7 @@ public class LikePredicateConverter
         implements MetaContextBlockConverter<Like> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Like> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Like>()
                     .overall("LIKE")
                     .sub("string_expression")
@@ -36,11 +36,12 @@ public class LikePredicateConverter
                         .sub("'escape_character'")
                             .data(Like::getEscapeCharacter)
                             .and()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

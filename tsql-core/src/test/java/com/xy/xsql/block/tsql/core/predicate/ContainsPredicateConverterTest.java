@@ -14,7 +14,7 @@ public class ContainsPredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = ContainsPredicateConverter.meta();
+        BlockMeta b = ContainsPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

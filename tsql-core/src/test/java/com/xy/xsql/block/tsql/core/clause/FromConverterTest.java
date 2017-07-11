@@ -19,7 +19,7 @@ public class FromConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = FromConverter.meta();
+        BlockMeta b = FromConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -32,7 +32,7 @@ public class FromConverterTest {
 
     @Test
     public void testTableSource() throws Exception {
-        BlockMeta b = FromConverter.TableSourceConverter.meta();
+        BlockMeta b = FromConverter.TableSourceConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -50,7 +50,7 @@ public class FromConverterTest {
 
     @Test
     public void testBaseTable() throws Exception {
-        BlockMeta b = FromConverter.BaseTableConverter.meta();
+        BlockMeta b = FromConverter.BaseTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -63,7 +63,7 @@ public class FromConverterTest {
 
     @Test
     public void testDerivedTable() throws Exception {
-        BlockMeta b = FromConverter.DerivedTableConverter.meta();
+        BlockMeta b = FromConverter.DerivedTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -75,7 +75,7 @@ public class FromConverterTest {
 
     @Test
     public void testJoinedTable() throws Exception {
-        BlockMeta b = FromConverter.JoinedTableConverter.meta();
+        BlockMeta b = FromConverter.JoinedTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -91,7 +91,7 @@ public class FromConverterTest {
 
     @Test
     public void testVariableTable() throws Exception {
-        BlockMeta b = FromConverter.VariableTableConverter.meta();
+        BlockMeta b = FromConverter.VariableTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -104,7 +104,7 @@ public class FromConverterTest {
 
     @Test
     public void testJoinType() throws Exception {
-        BlockMeta b = FromConverter.JoinTypeConverter.meta();
+        BlockMeta b = FromConverter.JoinTypeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -119,7 +119,7 @@ public class FromConverterTest {
 
     @Test
     public void testSystemTime() throws Exception {
-        BlockMeta b = FromConverter.SystemTimeConverter.meta();
+        BlockMeta b = FromConverter.SystemTimeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -139,7 +139,7 @@ public class FromConverterTest {
 
     @Test
     public void testDateTime() throws Exception {
-        BlockMeta b = FromConverter.DateTimeConverter.meta();
+        BlockMeta b = FromConverter.DateTimeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

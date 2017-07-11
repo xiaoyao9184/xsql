@@ -17,21 +17,22 @@ public class TableTypeDefinitionConverter
         implements MetaContextBlockConverter<TableTypeDefinition> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,TableTypeDefinition> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,TableTypeDefinition>()
                     .overall("table_type_definition")
                     .sub_keyword(Keywords.TABLE)
                     .sub_keyword(Other.GROUP_START)
                     .sub()
                         .list()
-                        .ref(ItemConverter.meta())
+                        .ref(ItemConverter.meta)
                         .data(TableTypeDefinition::getList)
                         .and()
-                    .sub_keyword(Other.GROUP_END);
+                    .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class TableTypeDefinitionConverter
             implements MetaContextBlockConverter<TableTypeDefinition.Item> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,TableTypeDefinition.Item> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TableTypeDefinition.Item>()
                         .required()
                         .czse(d -> d instanceof ColumnDefinition)
@@ -56,11 +57,12 @@ public class TableTypeDefinitionConverter
                         .czse(d -> d instanceof TableTypeDefinition.TableConstraint)
                             .name("table_constraint")
                             .ref(TableConstraintConverter.class)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -76,7 +78,7 @@ public class TableTypeDefinitionConverter
             implements MetaContextBlockConverter<TableTypeDefinition.TableConstraint> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,TableTypeDefinition.TableConstraint> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TableTypeDefinition.TableConstraint>()
                         .overall("table_constraint")
                         .czse(d -> d.getColumnName() != null)
@@ -106,11 +108,12 @@ public class TableTypeDefinitionConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

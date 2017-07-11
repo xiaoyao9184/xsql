@@ -15,18 +15,19 @@ public class WhereConverter
         implements MetaContextBlockConverter<Where> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Where> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Where>()
                     .overall("WHERE")
                     .sub_keyword(Keywords.WHERE)
                     .sub("search_condition")
                         .ref(SearchConditionConverter.class)
                         .data(Where::getSearchCondition)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

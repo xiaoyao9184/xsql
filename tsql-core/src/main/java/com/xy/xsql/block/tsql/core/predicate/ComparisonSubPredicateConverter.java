@@ -15,7 +15,7 @@ public class ComparisonSubPredicateConverter
         implements MetaContextBlockConverter<ComparisonSubQuery> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,ComparisonSubQuery> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,ComparisonSubQuery>()
                     .overall("Comparison Predicate with SubQuery")
                     .sub("expression")
@@ -33,11 +33,12 @@ public class ComparisonSubPredicateConverter
                     .sub("subquery")
                         .data(ComparisonSubQuery::getSubquery)
                         .and()
-                    .sub_keyword(Other.GROUP_END);
+                    .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

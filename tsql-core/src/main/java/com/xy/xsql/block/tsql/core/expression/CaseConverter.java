@@ -15,24 +15,25 @@ public class CaseConverter
         implements MetaContextBlockConverter<Case> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Case> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Case>()
                     .overall("CASE")
                     .czse(d -> d.getInputExpression() != null)
                         .description("simple case")
-                        .ref(SimpleCaseConverter.meta())
+                        .ref(SimpleCaseConverter.meta)
                         .data(d -> d)
                         .and()
                     .czse(d -> d.getInputExpression() == null)
                         .description("searched case")
-                        .ref(SearchedCaseConverter.meta())
+                        .ref(SearchedCaseConverter.meta)
                         .data(d -> d)
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -42,10 +43,11 @@ public class CaseConverter
                 .build(context);
     }
 
+
     public static class SimpleCaseConverter {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Case> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Case>()
                         .overall("Simple CASE expression")
                         .sub_keyword(Keywords.CASE)
@@ -55,7 +57,7 @@ public class CaseConverter
                         .sub()
                             .description("WHEN when_expression THEN result_expression [ ...n ]")
                             .repeat()
-                            .ref(CaseWhenThenExpressionConverter.meta())
+                            .ref(CaseWhenThenExpressionConverter.meta)
                             .data(Case::getWhenThenExpressionList)
                             .and()
                         .sub()
@@ -66,11 +68,12 @@ public class CaseConverter
                                 .data(Case::getElseResultExpression)
                                 .and()
                             .and()
-                        .sub_keyword(Keywords.END);
+                        .sub_keyword(Keywords.END)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
     }
@@ -78,14 +81,14 @@ public class CaseConverter
     public static class SearchedCaseConverter {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Case> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Case>()
                         .overall("Searched CASE expression")
                         .sub_keyword(Keywords.CASE)
                         .sub()
                             .description("WHEN Boolean_expression THEN result_expression [ ...n ]")
                             .repeat()
-                            .ref(CaseWhenThenExpressionConverter.meta())
+                            .ref(CaseWhenThenExpressionConverter.meta)
                             .data(Case::getWhenThenExpressionList)
                             .and()
                         .sub()
@@ -96,11 +99,12 @@ public class CaseConverter
                                 .data(Case::getElseResultExpression)
                                 .and()
                             .and()
-                        .sub_keyword(Keywords.END);
+                        .sub_keyword(Keywords.END)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
     }
@@ -110,7 +114,7 @@ public class CaseConverter
             implements MetaContextBlockConverter<Case.WhenThenExpression> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Case.WhenThenExpression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Case.WhenThenExpression>()
                         .sub_keyword(Keywords.WHEN)
                         .sub("when_expression")
@@ -119,11 +123,12 @@ public class CaseConverter
                         .sub_keyword(Keywords.THEN)
                         .sub("result_expression")
                             .data(Case.WhenThenExpression::getResultExpression)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

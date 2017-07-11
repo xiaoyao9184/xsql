@@ -18,7 +18,7 @@ public class OutputConverter
         implements MetaContextBlockConverter<Output> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Output> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Output>()
                     .overall("OUTPUT Clause")
                     .sub()
@@ -59,11 +59,12 @@ public class OutputConverter
                             .data(Output::getOutputDmlSelectList)
                             .and()
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -77,17 +78,18 @@ public class OutputConverter
             implements MetaContextBlockConverter<List<Output.DmlSelect>> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,List<Output.DmlSelect>> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,List<Output.DmlSelect>>()
                         .overall("dml_select_list")
                         .list()
-                        .ref(DmlSelectConverter.meta());
-//                        .sub_meta(DmlSelectConverter.meta());
+                        .ref(DmlSelectConverter.meta)
+//                        .sub_meta(DmlSelectConverter.meta())
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+        public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(List<Output.DmlSelect> context) {
@@ -102,7 +104,7 @@ public class OutputConverter
             implements MetaContextBlockConverter<Output.DmlSelect> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Output.DmlSelect> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Output.DmlSelect>()
                         .description("dml_select_list's item")
                         .sub()
@@ -127,11 +129,12 @@ public class OutputConverter
                             .sub("column_alias_identifier")
                                 .data(Output.DmlSelect::getColumnAliasIdentifier)
                                 .and()
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -146,7 +149,7 @@ public class OutputConverter
             implements MetaContextBlockConverter<Output.ColumnName> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Output.ColumnName> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Output.ColumnName>()
                         .overall("column_name")
                         .czse(d ->
@@ -186,11 +189,12 @@ public class OutputConverter
                         .czse(Output.ColumnName::is$action, "$action")
                             .data(d -> "$action")
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

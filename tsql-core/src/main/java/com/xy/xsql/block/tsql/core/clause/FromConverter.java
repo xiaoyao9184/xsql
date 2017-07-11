@@ -18,7 +18,7 @@ public class FromConverter
         implements MetaContextBlockConverter<From> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,From> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,From>()
                     .overall("FROM")
                     .sub_keyword(Keywords.FROM)
@@ -28,11 +28,12 @@ public class FromConverter
                         .list()
                         .ref(TableSourceConverter.class)
                         .data(From::getTableSourceList)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.TableSource> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.TableSource> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.TableSource>()
                         .overall("table_source")
 //                        .when(d -> d instanceof From.BaseTable)
@@ -62,14 +63,14 @@ public class FromConverter
 //                        .when(d -> d instanceof From.VariableTable)
 //                            .then(VariableTableConverter.meta())
 
-                        .czse_meta(d -> d instanceof From.BaseTable,BaseTableConverter.meta())
-                        .czse_meta(d -> d instanceof From.DerivedTable,DerivedTableConverter.meta())
+                        .czse_meta(d -> d instanceof From.BaseTable,BaseTableConverter.meta)
+                        .czse_meta(d -> d instanceof From.DerivedTable,DerivedTableConverter.meta)
                         .czse(d -> d instanceof From.JoinedTable,"joined_table")
                             .ref(JoinedTableConverter.class)
                             .data(d -> d)
                             .and()
-                        .czse_meta(d -> d instanceof From.VariableTable,VariableTableConverter.meta())
-                        .czse_meta(d -> d instanceof From.BaseWithTimeTable,BaseWithTimeTableConverter.meta())
+                        .czse_meta(d -> d instanceof From.VariableTable,VariableTableConverter.meta)
+                        .czse_meta(d -> d instanceof From.BaseWithTimeTable,BaseWithTimeTableConverter.meta)
 //                        .czse_meta(BaseTableConverter.meta())
 //                            .filter(d -> d instanceof From.BaseTable)
 //                            .and()
@@ -84,11 +85,12 @@ public class FromConverter
 //                        .czse_meta(VariableTableConverter.meta())
 //                            .filter(d -> d instanceof From.VariableTable)
 //                            .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -103,7 +105,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.BaseTable> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.BaseTable> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.BaseTable>()
                         .description("base table")
                         .sub("table_or_view_name")
@@ -138,11 +140,12 @@ public class FromConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .startNewline()
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -157,7 +160,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.DerivedTable> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.DerivedTable> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.DerivedTable>()
                         .description("derived table")
                         .sub("derived_table")
@@ -194,11 +197,12 @@ public class FromConverter
                                 .data(From.DerivedTable::getColumnAliass)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -213,7 +217,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.VariableTable> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.VariableTable> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.VariableTable>()
                         .description("variable table")
                         .sub("@variable")
@@ -229,11 +233,12 @@ public class FromConverter
                             .sub("table_alias")
                                 .data(From.VariableTable::getTableAlias)
                                 .and()
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -248,7 +253,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.BaseWithTimeTable> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.BaseWithTimeTable> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.BaseWithTimeTable>()
                         .description("base time table")
                         .sub("table_or_view_name")
@@ -259,11 +264,12 @@ public class FromConverter
                         .sub("system_time")
                             .ref(SystemTimeConverter.class)
                             .data(From.BaseWithTimeTable::getSystemTime)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -281,7 +287,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.TableSample> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.TableSample> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.TableSample>()
                         .overall("tablesample_clause")
                         .sub_keyword(Keywords.Key.TABLESAMPLE)
@@ -310,11 +316,12 @@ public class FromConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .startNewline()
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -332,7 +339,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.JoinedTable> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.JoinedTable> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.JoinedTable>()
                         .overall("joined_table")
                         .czse(From.JoinedTable::isUseJoinOn)
@@ -403,11 +410,12 @@ public class FromConverter
                                 .keyword(Other.GROUP_END)
                                 .and()
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -425,7 +433,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.JoinType> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.JoinType> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.JoinType>()
                         .overall("join_type")
                         .sub()
@@ -469,11 +477,12 @@ public class FromConverter
                                 .and()
                             .and()
                         .sub_keyword(Keywords.JOIN)
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -491,7 +500,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.SystemTime> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.SystemTime> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.SystemTime>()
                         .overall("system_time")
                         .required()
@@ -551,11 +560,12 @@ public class FromConverter
                             .sub_keyword(Keywords.ALL)
                             .and()
                         .subTakeLine()
-                        .headFootTakeLine();
+                        .headFootTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -573,7 +583,7 @@ public class FromConverter
             implements MetaContextBlockConverter<From.DateTime> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,From.DateTime> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.DateTime>()
                         .overall("date_time")
                         .czse(d -> d.getDateTimeLiteral() != null,"<date_time_literal>")
@@ -581,11 +591,12 @@ public class FromConverter
                             .and()
                         .czse(d -> d.getDateTimeVariable() != null,"@date_time_variable")
                             .data(From.DateTime::getDateTimeVariable)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

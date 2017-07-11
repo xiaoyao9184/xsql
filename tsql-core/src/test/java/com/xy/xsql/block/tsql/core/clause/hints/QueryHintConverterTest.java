@@ -19,7 +19,7 @@ public class QueryHintConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = QueryHintConverter.meta();
+        BlockMeta b = QueryHintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

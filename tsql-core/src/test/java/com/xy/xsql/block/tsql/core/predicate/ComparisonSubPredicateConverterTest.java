@@ -14,7 +14,7 @@ public class ComparisonSubPredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = ComparisonSubPredicateConverter.meta();
+        BlockMeta b = ComparisonSubPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

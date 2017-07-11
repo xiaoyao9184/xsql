@@ -14,7 +14,7 @@ public class IsNullPredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = IsNullPredicateConverter.meta();
+        BlockMeta b = IsNullPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

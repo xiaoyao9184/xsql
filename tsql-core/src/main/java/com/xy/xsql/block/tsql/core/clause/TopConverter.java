@@ -16,7 +16,7 @@ public class TopConverter
         implements MetaContextBlockConverter<Top> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Top> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Top>()
                     .overall("TOP")
                     .sub_keyword(Keywords.TOP)
@@ -33,11 +33,12 @@ public class TopConverter
                         .optional(data -> !data.isUseTies())
                         .sub_keyword(Keywords.WITH)
                         .sub_keyword(Keywords.Key.TIES)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

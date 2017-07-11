@@ -19,7 +19,7 @@ public class BulkInsertConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = BulkInsertConverter.meta();
+        BlockMeta b = BulkInsertConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

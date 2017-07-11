@@ -16,7 +16,7 @@ public class WithConverter
         implements MetaContextBlockConverter<With> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,With> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,With>()
                     .overall("WITH common_table_expression")
                     .sub_keyword(Keywords.WITH)
@@ -24,11 +24,12 @@ public class WithConverter
                         .description("common_table_expression list")
                         .ref(CommonTableExpressionConverter.class)
                         .data(With::getCommonTableExpressionList)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class WithConverter
             implements MetaContextBlockConverter<With.CommonTableExpression> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,With.CommonTableExpression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,With.CommonTableExpression>()
                         .overall("common_table_expression")
                         .sub("expression_name")
@@ -70,11 +71,12 @@ public class WithConverter
                         .sub("CTE_query_definition")
                             .data(With.CommonTableExpression::getCteQueryDefinition)
                             .and()
-                        .sub_keyword(Other.GROUP_END);
+                        .sub_keyword(Other.GROUP_END)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

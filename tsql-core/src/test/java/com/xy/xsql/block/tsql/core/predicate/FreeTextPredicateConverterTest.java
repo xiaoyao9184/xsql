@@ -14,7 +14,7 @@ public class FreeTextPredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = FreeTextPredicateConverter.meta();
+        BlockMeta b = FreeTextPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

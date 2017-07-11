@@ -13,7 +13,7 @@ public class CoalesceConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = CoalesceConverter.meta();
+        BlockMeta b = CoalesceConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

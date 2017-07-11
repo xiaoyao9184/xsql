@@ -16,7 +16,7 @@ public class FreeTextPredicateConverter
         implements MetaContextBlockConverter<FreeText> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,FreeText> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,FreeText>()
                     .overall("FREETEXT")
                     .sub_keyword(Keywords.FREETEXT)
@@ -51,11 +51,12 @@ public class FreeTextPredicateConverter
                                 .and()
                             .and()
                         .and()
-                    .sub_keyword(Other.GROUP_END);
+                    .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

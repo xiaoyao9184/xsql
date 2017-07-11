@@ -18,7 +18,7 @@ public class MultipartNamesConverter {
             implements MetaContextBlockConverter<TableName> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,TableName> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TableName>()
                         .description("database_name.schema_name.table_name")
                         .sub()
@@ -60,11 +60,12 @@ public class MultipartNamesConverter {
                             .and()
                         .sub("table_name")
                             .data(TableName::getTableOrViewName)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -80,7 +81,7 @@ public class MultipartNamesConverter {
             implements MetaContextBlockConverter<ColumnName> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,ColumnName> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,ColumnName>()
                         .description("database_name.schema_name.table_name.column_name")
                         .sub()
@@ -88,18 +89,19 @@ public class MultipartNamesConverter {
                             .optional(d -> d.getTable() == null)
                             .sub()
                                 .description("table_name")
-                                .ref(TableNameConverter.meta())
+                                .ref(TableNameConverter.meta)
                                 .data(ColumnName::getTable)
                                 .and()
                             .sub_keyword(Other.POINT)
                             .and()
                         .sub("column_name")
                             .data(ColumnName::getName)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

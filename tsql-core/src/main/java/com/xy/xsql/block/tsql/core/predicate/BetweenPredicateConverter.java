@@ -16,7 +16,7 @@ public class BetweenPredicateConverter
         implements MetaContextBlockConverter<Between> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Between> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Between>()
                     .overall("BETWEEN")
                     .sub("expression")
@@ -34,11 +34,12 @@ public class BetweenPredicateConverter
                     .sub_keyword(Keywords.AND)
                     .sub("expression")
                         .data(Between::getEndExpression)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

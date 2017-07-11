@@ -16,7 +16,7 @@ public class CoalesceConverter
         implements MetaContextBlockConverter<Coalesce> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Coalesce> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Coalesce>()
                     .overall("COALESCE")
                     .sub_keyword(Keywords.COALESCE)
@@ -25,11 +25,12 @@ public class CoalesceConverter
                         .list()
                         .data(Coalesce::getExpressionList)
                         .and()
-                    .sub_keyword(Other.GROUP_END);
+                    .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class CaseConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = CaseConverter.meta();
+        BlockMeta b = CaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -24,7 +24,7 @@ public class CaseConverterTest {
 
     @Test
     public void testSimpleCase() throws Exception {
-        BlockMeta b = CaseConverter.SimpleCaseConverter.meta();
+        BlockMeta b = CaseConverter.SimpleCaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -35,7 +35,7 @@ public class CaseConverterTest {
 
     @Test
     public void testSearchedCase() throws Exception {
-        BlockMeta b = CaseConverter.SearchedCaseConverter.meta();
+        BlockMeta b = CaseConverter.SearchedCaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

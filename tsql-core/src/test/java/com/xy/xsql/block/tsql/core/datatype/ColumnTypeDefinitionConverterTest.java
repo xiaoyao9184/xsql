@@ -19,7 +19,7 @@ public class ColumnTypeDefinitionConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = ColumnTypeDefinitionConverter.meta();
+        BlockMeta b = ColumnTypeDefinitionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -35,7 +35,7 @@ public class ColumnTypeDefinitionConverterTest {
 
     @Test
     public void testColumnConstraint() throws Exception {
-        BlockMeta b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta();
+        BlockMeta b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

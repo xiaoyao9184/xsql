@@ -16,7 +16,7 @@ public class NullIfConverter
         implements MetaContextBlockConverter<NullIf> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,NullIf> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,NullIf>()
                     .overall("NULLIF")
                     .sub_keyword(Keywords.NULLIF)
@@ -30,11 +30,12 @@ public class NullIfConverter
                             .data(NullIf::getExpressionRight)
                             .and()
                         .and()
-                        .sub_keyword(Other.GROUP_END);
+                        .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

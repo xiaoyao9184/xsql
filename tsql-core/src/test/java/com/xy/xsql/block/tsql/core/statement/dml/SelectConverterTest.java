@@ -19,7 +19,7 @@ public class SelectConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = SelectConverter.meta();
+        BlockMeta b = SelectConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -36,7 +36,7 @@ public class SelectConverterTest {
 
     @Test
     public void testQueryExpression() throws Exception {
-        BlockMeta b = SelectConverter.QueryExpressionConverter.meta();
+        BlockMeta b = SelectConverter.QueryExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -51,7 +51,7 @@ public class SelectConverterTest {
 
     @Test
     public void testQuerySpecification() throws Exception {
-        BlockMeta b = SelectConverter.QuerySpecificationConverter.meta();
+        BlockMeta b = SelectConverter.QuerySpecificationConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -72,7 +72,7 @@ public class SelectConverterTest {
 
     @Test
     public void testUnionItem() throws Exception {
-        BlockMeta b = SelectConverter.UnionItemConverter.meta();
+        BlockMeta b = SelectConverter.UnionItemConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

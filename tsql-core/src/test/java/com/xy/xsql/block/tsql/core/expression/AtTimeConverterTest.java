@@ -14,7 +14,7 @@ public class AtTimeConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = AtTimeConverter.meta();
+        BlockMeta b = AtTimeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

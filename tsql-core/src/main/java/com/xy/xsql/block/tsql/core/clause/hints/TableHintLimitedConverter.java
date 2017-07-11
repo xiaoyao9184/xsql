@@ -14,7 +14,7 @@ public class TableHintLimitedConverter
         implements MetaContextBlockConverter<TableHintLimited> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,TableHintLimited> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,TableHintLimited>()
                     .overall("table_hint_limited")
                     .czse(d -> d.equals(TableHintLimited.KEEPIDENTITY))
@@ -77,11 +77,12 @@ public class TableHintLimitedConverter
                     .czse(d -> d.equals(TableHintLimited.XLOCK))
                         .keyword(TableHintLimited.XLOCK)
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

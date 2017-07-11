@@ -18,7 +18,7 @@ public class SearchConditionConverter
         implements MetaContextBlockConverter<SearchCondition> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,SearchCondition> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,SearchCondition>()
                     .overall("search_condition")
                     .sub()
@@ -49,14 +49,15 @@ public class SearchConditionConverter
                         .description("search_condition's and/or list")
                         .optional(d -> d.getAndOrList() == null)
                         .repeat()
-                        .ref(AndOrNotItemConverter.meta())
+                        .ref(AndOrNotItemConverter.meta)
                         .data(SearchCondition::getAndOrList)
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class SearchConditionConverter
             implements MetaContextBlockConverter<SearchCondition.AndOrNotItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,SearchCondition.AndOrNotItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,SearchCondition.AndOrNotItem>()
                         .description("search_condition's and/or item")
                         .sub()
@@ -104,11 +105,12 @@ public class SearchConditionConverter
                                     .and()
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -124,23 +126,24 @@ public class SearchConditionConverter
             implements MetaContextBlockConverter<Predicate> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Predicate> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Predicate>()
                         .overall("predicate")
-                        .czse_meta(d -> d instanceof Comparison, ComparisonPredicateConverter.meta())
-                        .czse_meta(d -> d instanceof Like, LikePredicateConverter.meta())
-                        .czse_meta(d -> d instanceof Between, BetweenPredicateConverter.meta())
-                        .czse_meta(d -> d instanceof IsNull, IsNullPredicateConverter.meta())
-                        .czse_meta(d -> d instanceof Contains, ContainsPredicateConverter.meta())
-                        .czse_meta(d -> d instanceof FreeText, FreeTextPredicateConverter.meta())
-                        .czse_meta(d -> d instanceof In, InPredicateConverter.meta())
-                        .czse_meta(d -> d instanceof ComparisonSubQuery, ComparisonSubPredicateConverter.meta())
-                        .czse_meta(d -> d instanceof Exists, ExistsPredicateConverter.meta())
-                        .subTakeLine();
+                        .czse_meta(d -> d instanceof Comparison, ComparisonPredicateConverter.meta)
+                        .czse_meta(d -> d instanceof Like, LikePredicateConverter.meta)
+                        .czse_meta(d -> d instanceof Between, BetweenPredicateConverter.meta)
+                        .czse_meta(d -> d instanceof IsNull, IsNullPredicateConverter.meta)
+                        .czse_meta(d -> d instanceof Contains, ContainsPredicateConverter.meta)
+                        .czse_meta(d -> d instanceof FreeText, FreeTextPredicateConverter.meta)
+                        .czse_meta(d -> d instanceof In, InPredicateConverter.meta)
+                        .czse_meta(d -> d instanceof ComparisonSubQuery, ComparisonSubPredicateConverter.meta)
+                        .czse_meta(d -> d instanceof Exists, ExistsPredicateConverter.meta)
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

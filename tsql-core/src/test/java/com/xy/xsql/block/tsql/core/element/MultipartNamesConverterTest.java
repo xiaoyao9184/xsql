@@ -19,7 +19,7 @@ public class MultipartNamesConverterTest {
 
     @Test
     public void testTableName() throws Exception {
-        BlockMeta b = MultipartNamesConverter.TableNameConverter.meta();
+        BlockMeta b = MultipartNamesConverter.TableNameConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -31,7 +31,7 @@ public class MultipartNamesConverterTest {
 
     @Test
     public void testColumnName() throws Exception {
-        BlockMeta b = MultipartNamesConverter.ColumnNameConverter.meta();
+        BlockMeta b = MultipartNamesConverter.ColumnNameConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

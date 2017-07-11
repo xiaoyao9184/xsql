@@ -20,7 +20,7 @@ public class JoinHintConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = JoinHintConverter.meta();
+        BlockMeta b = JoinHintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

@@ -17,7 +17,7 @@ public class QueryHintConverter
         implements MetaContextBlockConverter<QueryHint> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,QueryHint> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,QueryHint>()
                     .overall("query_hint")
                     .czse(d ->
@@ -154,7 +154,7 @@ public class QueryHintConverter
                         .sub()
                             .description("optimize for's attribute list")
                             .list()
-                            .ref(OptimizeForConverter.meta())
+                            .ref(OptimizeForConverter.meta)
                             .data(QueryHint::getOptimizeFor)
                             .and()
                         .sub_keyword(Other.GROUP_END)
@@ -225,11 +225,12 @@ public class QueryHintConverter
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -244,7 +245,7 @@ public class QueryHintConverter
             implements MetaContextBlockConverter<QueryHint.OptimizeFor> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,QueryHint.OptimizeFor> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,QueryHint.OptimizeFor>()
                         .description("optimize for's attribute item")
                         .sub("@variable_name")
@@ -261,11 +262,12 @@ public class QueryHintConverter
                                     .data(QueryHint.OptimizeFor::getLiteralConstant)
                                     .and()
                                 .and()
-                            .and();
+                            .and()
+                    .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

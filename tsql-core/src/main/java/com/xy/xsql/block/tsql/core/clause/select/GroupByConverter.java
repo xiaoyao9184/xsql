@@ -16,20 +16,21 @@ public class GroupByConverter
         implements MetaContextBlockConverter<GroupBy> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,GroupBy> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,GroupBy>()
                     .sub_keyword(Keywords.GROUP)
                     .sub_keyword(Keywords.BY)
-                    .sub_list(ItemConverter.meta())
+                    .sub_list(ItemConverter.meta)
                         .description("--GroupBy_Item_List")
                         .required()
                         .data(GroupBy::getItems)
                         .headFootTakeLine()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -44,22 +45,22 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.Item> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.Item> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.Item>()
-                        .czse_meta(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta())
-                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta())
-                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta())
-                        .czse_meta(d -> d instanceof GroupBy.GroupingSetsItem, GroupingSetsItemConverter.meta())
+                        .czse_meta(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta)
+                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
+                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
+                        .czse_meta(d -> d instanceof GroupBy.GroupingSetsItem, GroupingSetsItemConverter.meta)
                         .czse(d -> d instanceof GroupBy.TotalItem, "()")
                             .description("calculates the grand total")
                             .data("()")
                             .and()
-                        .subTakeLine();
-
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -74,16 +75,16 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.BaseItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.BaseItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.BaseItem>()
                         .sub("column-expression")
                             .data(GroupBy.BaseItem::getExpression)
-                            .and();
-
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -98,7 +99,7 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.RollupItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.RollupItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.RollupItem>()
                         .sub_keyword(Keywords.Key.ROLLUP)
                         .sub_keyword(Other.GROUP_START)
@@ -109,11 +110,12 @@ public class GroupByConverter
                             .ref(GroupByExpressionConverter.class)
                             .data(GroupBy.RollupItem::getGroupByExpressionList)
                             .and()
-                        .sub_keyword(Other.GROUP_END);
+                        .sub_keyword(Other.GROUP_END)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -128,7 +130,7 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.CubeItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.CubeItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.CubeItem>()
                         .sub_keyword(Keywords.Key.CUBE)
                         .sub_keyword(Other.GROUP_START)
@@ -139,11 +141,12 @@ public class GroupByConverter
                             .ref(GroupByExpressionConverter.class)
                             .data(GroupBy.CubeItem::getGroupByExpressionList)
                             .and()
-                        .sub_keyword(Other.GROUP_END);
+                        .sub_keyword(Other.GROUP_END)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -158,7 +161,7 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.GroupingSetsItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.GroupingSetsItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.GroupingSetsItem>()
                         .sub_keyword(Keywords.Key.GROUPING)
                         .sub_keyword(Keywords.Key.SETS)
@@ -170,11 +173,12 @@ public class GroupByConverter
                             .ref(GroupingSetConverter.class)
                             .data(GroupBy.GroupingSetsItem::getGroupingSetItemList)
                             .and()
-                        .sub_keyword(Other.GROUP_END);
+                        .sub_keyword(Other.GROUP_END)
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -189,13 +193,14 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.TotalItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.TotalItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.TotalItem>()
-                        .data("()");
+                        .data("()")
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -210,7 +215,7 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.ColumnNameItem> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.ColumnNameItem> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.ColumnNameItem>()
                         .sub("column-name")
                             .data(GroupBy.ColumnNameItem::getColumnName)
@@ -222,12 +227,12 @@ public class GroupByConverter
                             .sub_keyword(Other.GROUP_START)
                             .sub_keyword(Keywords.Key.DISTRIBUTED_AGG)
                             .sub_keyword(Other.GROUP_END)
-                            .and();
-
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -242,7 +247,7 @@ public class GroupByConverter
             implements MetaContextBlockConverter<GroupBy.GroupByExpression> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.GroupByExpression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.GroupByExpression>()
                         .overall("group_by_expression")
                         .czse(d -> d.getColumnExpressionList().size() == 1,"column-expression")
@@ -257,11 +262,12 @@ public class GroupByConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -272,12 +278,11 @@ public class GroupByConverter
         }
     }
 
-
     public static class GroupingSetConverter
             implements MetaContextBlockConverter<GroupBy.GroupingSet> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.GroupingSet> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.GroupingSet>()
                         .overall("grouping_set")
                         .czse(GroupBy.GroupingSet::isUseTotal, "()")
@@ -299,11 +304,12 @@ public class GroupByConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -314,23 +320,23 @@ public class GroupByConverter
         }
     }
 
-
     public static class GroupingSetItemConverter
             implements MetaContextBlockConverter<GroupBy.GroupingSet.Item> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupBy.GroupingSet.Item> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.GroupingSet.Item>()
                         .overall("grouping_set_item")
                         .czse(d -> d instanceof GroupBy.GroupByExpression,"group_by_expression")
                             .and()
-                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta())
-                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta())
-                        .subTakeLine();
+                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
+                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -340,6 +346,5 @@ public class GroupByConverter
                     .build(context);
         }
     }
-
 
 }

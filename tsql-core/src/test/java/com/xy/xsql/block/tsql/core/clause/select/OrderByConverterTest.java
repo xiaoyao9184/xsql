@@ -19,7 +19,7 @@ public class OrderByConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = OrderByConverter.meta();
+        BlockMeta b = OrderByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -34,7 +34,7 @@ public class OrderByConverterTest {
 
     @Test
     public void testOffsetFetch() throws Exception {
-        BlockMeta b = OrderByConverter.OffsetFetchConverter.meta();
+        BlockMeta b = OrderByConverter.OffsetFetchConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

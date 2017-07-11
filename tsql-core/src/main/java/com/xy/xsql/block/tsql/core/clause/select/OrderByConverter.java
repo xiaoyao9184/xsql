@@ -15,12 +15,12 @@ public class OrderByConverter
         implements MetaContextBlockConverter<OrderBy> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,OrderBy> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,OrderBy>()
                     .overall("ORDER BY Clause")
                     .sub_keyword(Keywords.ORDER)
                     .sub_keyword(Keywords.BY)
-                    .sub_list(ItemConverter.meta())
+                    .sub_list(ItemConverter.meta)
                         .description("order by's item list")
                         .data(OrderBy::getItems)
                         .startNewline()
@@ -30,11 +30,12 @@ public class OrderByConverter
                         .ref(OffsetFetchConverter.class)
                         .data(OrderBy::getOffsetFetch)
                         .startNewline()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class OrderByConverter
             implements MetaContextBlockConverter<OrderBy.Item> {
 
         // @formatter:off
-    private static BlockMetaBuilder<Void,OrderBy.Item> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,OrderBy.Item>()
                         .description("order by's item")
                         .sub("order_by_expression")
@@ -69,11 +70,12 @@ public class OrderByConverter
                             .czse(OrderBy.Item::isUseDesc)
                                 .keyword(Keywords.DESC)
                                 .and()
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -89,7 +91,7 @@ public class OrderByConverter
             implements MetaContextBlockConverter<OrderBy.OffsetFetch> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,OrderBy.OffsetFetch> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,OrderBy.OffsetFetch>()
                         .overall("offset_fetch")
                         .sub_keyword(Keywords.Key.OFFSET)
@@ -150,11 +152,12 @@ public class OrderByConverter
                             .sub_keyword(Keywords.Key.ONLY)
                             .startNewline()
                             .headFootTakeLine()
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

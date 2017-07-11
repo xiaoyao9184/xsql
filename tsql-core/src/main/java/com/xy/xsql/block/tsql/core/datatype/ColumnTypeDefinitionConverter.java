@@ -16,7 +16,7 @@ public class ColumnTypeDefinitionConverter
         implements MetaContextBlockConverter<ColumnDefinition> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,ColumnDefinition> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,ColumnDefinition>()
                     .overall("column_definition")
                     .sub("column_name")
@@ -72,11 +72,12 @@ public class ColumnTypeDefinitionConverter
 //                            .and()
 //                        .data(d -> d.getCollationName())
 //                        .and()
-                    .subTakeLine();
+                    .subTakeLine()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -91,7 +92,7 @@ public class ColumnTypeDefinitionConverter
             implements MetaContextBlockConverter<ColumnDefinition.ColumnConstraint> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,ColumnDefinition.ColumnConstraint> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,ColumnDefinition.ColumnConstraint>()
                         .overall("column_constraint")
                         .czse(d -> d.isUseNull() || d.isUseNotNull())
@@ -122,11 +123,12 @@ public class ColumnTypeDefinitionConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

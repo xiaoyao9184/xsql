@@ -15,23 +15,24 @@ public class GroupExpressionConverter
         implements MetaContextBlockConverter<GroupExpression> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,GroupExpression> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,GroupExpression>()
                     .description("( expression ) | ( scalar_subquery )")
                     .sub()
                         .czse(d -> d.getExpression() != null,"expression")
-                            .ref(ExpressionConverter.meta())
+                            .ref(ExpressionConverter.meta)
                             .data(d -> d)
                             .and()
                         .czse(d -> d.getStatement() != null, "scalar_subquery")
-                            .ref(ScalarSubqueryConverter.meta())
+                            .ref(ScalarSubqueryConverter.meta)
                             .data(d -> d)
                             .and()
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -45,40 +46,32 @@ public class GroupExpressionConverter
     public static class ExpressionConverter {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupExpression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupExpression>()
                         .description("( expression )")
                         .sub_keyword(Other.GROUP_START)
                         .sub("expression")
                             .data(GroupExpression::getExpression)
                             .and()
-                        .sub_keyword(Other.GROUP_END);
+                        .sub_keyword(Other.GROUP_END)
+                        .build();
         // @formatter:on
-
-
-        public static BlockMeta meta() {
-            return builder.build();
-        }
 
     }
 
     public static class ScalarSubqueryConverter {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,GroupExpression> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupExpression>()
                         .description("( scalar_subquery )")
                         .sub_keyword(Other.GROUP_START)
                         .sub("scalar_subquery")
                             .data(GroupExpression::getStatement)
                             .and()
-                        .sub_keyword(Other.GROUP_END);
+                        .sub_keyword(Other.GROUP_END)
+                        .build();
         // @formatter:on
-
-
-        public static BlockMeta meta() {
-            return builder.build();
-        }
 
     }
 

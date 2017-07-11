@@ -19,7 +19,7 @@ public class OptionConverter
         implements MetaContextBlockConverter<Option> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Option> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Option>()
                     .overall("OPTION Clause")
                     .sub_keyword(Keywords.OPTION)
@@ -29,11 +29,12 @@ public class OptionConverter
                         .ref(QueryOptionConverter.class)
                         .data(Option::getQueryOption)
                         .and()
-                    .sub_keyword(Other.GROUP_END);
+                    .sub_keyword(Other.GROUP_END)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -48,19 +49,20 @@ public class OptionConverter
             implements MetaContextBlockConverter<Option.QueryOption> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Option.QueryOption> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Option.QueryOption>()
                         .overall("query_option")
-                        .czse_meta(d -> d instanceof Option.LabelQueryOption, LabelQueryOptionConverter.meta())
+                        .czse_meta(d -> d instanceof Option.LabelQueryOption, LabelQueryOptionConverter.meta)
                         .czse(d -> d instanceof QueryHint, "query_hint")
                             .ref(QueryHintConverter.class)
                             .data(d -> d)
                             .and()
-                        .subTakeLine();
+                        .subTakeLine()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override
@@ -76,17 +78,18 @@ public class OptionConverter
             implements MetaContextBlockConverter<Option.LabelQueryOption> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,Option.LabelQueryOption> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Option.LabelQueryOption>()
                         .sub_keyword(Keywords.Key.LABEL)
                         .sub_keyword(Assignment.ASSIGNMENT)
                         .sub("label_name")
                             .data(Option.LabelQueryOption::getLabelName)
-                            .and();
+                            .and()
+                        .build();
         // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
+        public BlockMeta meta() {
+            return meta;
         }
 
         @Override

@@ -19,7 +19,7 @@ public class ExpressionConverter
         implements MetaContextBlockConverter<Expression> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,Expression> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,Expression>()
                     .description("expression")
                     .czse(d -> d instanceof Constant,"constant")
@@ -33,14 +33,15 @@ public class ExpressionConverter
                     .czse(d -> d instanceof LocalVariable,"variable")
                         .data(Object::toString)
                         .and()
-                    .czse_meta(d -> d instanceof GroupExpression,GroupExpressionConverter.ExpressionConverter.meta())
+                    .czse_meta(d -> d instanceof GroupExpression,GroupExpressionConverter.ExpressionConverter.meta)
 //                    .czse(d -> d instanceof ,"{ unary_operator } expression")
 //                        .and()
-                    .czse_meta(d -> d instanceof BinaryExpression,BinaryExpressionConverter.meta());
+                    .czse_meta(d -> d instanceof BinaryExpression,BinaryExpressionConverter.meta)
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override

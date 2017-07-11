@@ -19,7 +19,7 @@ public class GroupByConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = GroupByConverter.meta();
+        BlockMeta b = GroupByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -37,7 +37,7 @@ public class GroupByConverterTest {
 
     @Test
     public void testGroupByExpression() throws Exception {
-        BlockMeta b = GroupByConverter.GroupByExpressionConverter.meta();
+        BlockMeta b = GroupByConverter.GroupByExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -51,7 +51,7 @@ public class GroupByConverterTest {
 
     @Test
     public void testGroupingSet() throws Exception {
-        BlockMeta b = GroupByConverter.GroupingSetConverter.meta();
+        BlockMeta b = GroupByConverter.GroupingSetConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);
@@ -66,7 +66,7 @@ public class GroupByConverterTest {
 
     @Test
     public void testGroupingSetItem() throws Exception {
-        BlockMeta b = GroupByConverter.GroupingSetItemConverter.meta();
+        BlockMeta b = GroupByConverter.GroupingSetItemConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

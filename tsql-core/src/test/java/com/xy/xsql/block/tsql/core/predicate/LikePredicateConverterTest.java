@@ -14,7 +14,7 @@ public class LikePredicateConverterTest {
 
     @Test
     public void test() throws Exception {
-        BlockMeta b = LikePredicateConverter.meta();
+        BlockMeta b = LikePredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .print(b);

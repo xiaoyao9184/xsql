@@ -16,20 +16,21 @@ public class SelectVariableConverter
         implements MetaContextBlockConverter<SelectVariable> {
 
     // @formatter:off
-    private static BlockMetaBuilder<Void,SelectVariable> builder =
+    public static BlockMeta meta =
             new BlockMetaBuilder<Void,SelectVariable>()
                     .overall("SELECT @local_variable")
                     .sub_keyword(Keywords.SELECT)
                     .sub()
                         .description("{ @local_variable { = | += | -= | *= | /= | %= | &= | ^= | |= } expression } [ ,...n ]")
                         .list()
-                        .ref(SelectVariableItemConverter.meta())
+                        .ref(SelectVariableItemConverter.meta)
                         .data(SelectVariable::getItems)
-                        .and();
+                        .and()
+                    .build();
     // @formatter:on
 
-    public static BlockMeta meta() {
-        return builder.build();
+    public BlockMeta meta() {
+        return meta;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SelectVariableConverter
             implements MetaContextBlockConverter<SelectVariable.Item> {
 
         // @formatter:off
-        private static BlockMetaBuilder<Void,SelectVariable.Item> builder =
+        public static BlockMeta meta =
                 new BlockMetaBuilder<Void,SelectVariable.Item>()
                     .sub("@local_variable")
                         .data(SelectVariable.Item::getLocalVariable)
@@ -55,12 +56,13 @@ public class SelectVariableConverter
                         .and()
                     .sub("expression")
                         .data(SelectVariable.Item::getExpression)
-                        .and();
-        // @formatter:on
+                        .and()
+                    .build();
+    // @formatter:on
 
-        public static BlockMeta meta() {
-            return builder.build();
-        }
+    public BlockMeta meta() {
+        return meta;
+    }
 
         @Override
         public MetaContextBlock convert(SelectVariable.Item context) {
