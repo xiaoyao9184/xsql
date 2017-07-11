@@ -18,6 +18,7 @@ public class GroupByConverter
     // @formatter:off
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,GroupBy>()
+                    .overall("GROUP BY")
                     .sub_keyword(Keywords.GROUP)
                     .sub_keyword(Keywords.BY)
                     .sub_list(ItemConverter.meta)

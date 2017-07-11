@@ -2,8 +2,7 @@ package com.xy.xsql.block.core;
 
 import com.xy.xsql.block.exception.BlockStructureCorrectException;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.KeywordBlock;
-import com.xy.xsql.block.model.MetaContextBlock;
+import com.xy.xsql.block.model.KeywordListBlock;
 import com.xy.xsql.core.builder.BaseBuilder;
 
 import java.io.StringWriter;
@@ -11,28 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
  */
 public class MetaContextKeywordBlockConverter<CONTEXT>
-        implements BaseBuilder<CONTEXT,List<KeywordBlock>> {
+        implements BaseBuilder<CONTEXT,KeywordListBlock> {
 
 
-    private List<KeywordBlock> list = new ArrayList<>();
+    private List<String> list = new ArrayList<>();
 
     @Override
-    public List<KeywordBlock> build(CONTEXT context){
+    public KeywordListBlock build(CONTEXT context){
         BlockMeta meta = getHideMeta(context);
 
         build(meta,context,list);
-        return list;
+        return new KeywordListBlock(list);
     }
 
-
-    public List<KeywordBlock> build(BlockMeta meta, Object context, List<KeywordBlock> list){
+    /**
+     *
+     * @param meta
+     * @param context
+     * @param list
+     * @return
+     */
+    public List<String> build(BlockMeta meta, Object context, List<String> list){
 
         //Optional just return
         if(meta.isOptional()){
@@ -121,16 +125,14 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                 }
                 build(itemMeta, listContext, delimiter);
             }else{
-                for (BlockMeta subMeta : meta.getSub()) {
-                    build(subMeta, context, list);
-                }
+                build(meta.getSub(),context," ");
             }
         }else{
             //Data
             if(meta.isKeyword()){
                 //Keyword
                 String blockString = meta.getData().toString();
-                list.add(new KeywordBlock(blockString));
+                list.add(blockString);
                 return list;
             }else{
                 Object data = meta.getDataOrGetterData(context);
@@ -176,16 +178,15 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                         listData
                                 .stream()
                                 .map(Objects::toString)
-                                .map(KeywordBlock::new)
                                 .flatMap(b -> Stream.concat(
-                                        Stream.of(new KeywordBlock(delimiter)),
+                                        Stream.of(delimiter),
                                         Stream.of(b)
                                 ))
                                 .skip(1)
                                 .forEach(list::add);
                     }
                 }else{
-                    list.add(new KeywordBlock(data.toString()));
+                    list.add(data.toString());
                 }
             }
         }
@@ -200,12 +201,28 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
      * @param delimiter delimiter
      */
     public void build(BlockMeta itemMeta, List<Object> listContext, String delimiter) {
-        KeywordBlock delimiterBlock = new KeywordBlock(delimiter);
         listContext
                 .stream()
                 .flatMap(context -> Stream.concat(
-                        Stream.of(delimiterBlock),
+                        Stream.of(delimiter),
                         build(itemMeta, context, new ArrayList<>())
+                                .stream()))
+                .skip(1)
+                .forEach(b -> list.add(b));
+    }
+
+    /**
+     *
+     * @param listMeta
+     * @param itemContext
+     * @param delimiter
+     */
+    public void build(List<BlockMeta> listMeta, Object itemContext, String delimiter) {
+        listMeta
+                .stream()
+                .flatMap(meta -> Stream.concat(
+                        Stream.of(delimiter),
+                        build(meta, itemContext, new ArrayList<>())
                                 .stream()))
                 .skip(1)
                 .forEach(b -> list.add(b));
@@ -226,5 +243,14 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                 .INSTANCE
                 .getTypeBlockConverter(context.getClass())
                 .meta();
+    }
+
+
+    public static PrintAdapter convert(Object context){
+        KeywordListBlock block = new MetaContextKeywordBlockConverter<>()
+                .build(context);
+
+        return new PrintAdapter<KeywordListBlock,StringWriter>()
+                .withBlock(block);
     }
 }

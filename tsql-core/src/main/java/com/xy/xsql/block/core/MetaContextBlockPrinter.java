@@ -205,7 +205,8 @@ public class MetaContextBlockPrinter
      * @return writer
      */
     public StringWriter printContext(BlockMeta meta, Object context){
-        return printContext(meta, context, writer);
+        printContext(meta, context, writer);
+        return writer;
     }
 
     /**
@@ -213,10 +214,10 @@ public class MetaContextBlockPrinter
      * @param meta meta
      * @param context context
      * @param writer writer
-     * @return writer
+     * @return print any thing
      */
     @SuppressWarnings({"Duplicates", "unchecked"})
-    public StringWriter printContext(BlockMeta meta, Object context, StringWriter writer){
+    public boolean printContext(BlockMeta meta, Object context, StringWriter writer){
 
         //Optional just return
         if(meta.isOptional()){
@@ -226,7 +227,7 @@ public class MetaContextBlockPrinter
                         BlockStructureCorrectException.StructureCorrect.OPTION_FILTER_MISS));
             }
             if(optionalPredicate.test(context)){
-                return writer;
+                return false;
             }
         }else if(context == null){
             throw new RuntimeException(new BlockStructureCorrectException(meta,
@@ -267,7 +268,7 @@ public class MetaContextBlockPrinter
             }else if(meta.isRepeat() &&
                     referenceContext instanceof List){
                 //Repeat
-                printContext(refMeta, (List) referenceContext," ",writer);
+                printContext(refMeta, (List) referenceContext,"\n ",writer);
             }else{
                 printContext(refMeta, referenceContext, writer);
             }
@@ -293,7 +294,7 @@ public class MetaContextBlockPrinter
                         .getTypeBlockConverter(context.getClass())
                         .meta();
 
-                printContext(hiddenMeta,context);
+                printContext(hiddenMeta,context,writer);
             }
         }else if(meta.getSub() != null){
             //Virtual
@@ -318,9 +319,7 @@ public class MetaContextBlockPrinter
                 }
                 printContext(itemMeta, listContext, delimiter, writer);
             }else{
-                for (BlockMeta subMeta : meta.getSub()) {
-                    printContext(subMeta, context, writer);
-                }
+                printContext(meta.getSub(),context," ",writer);
             }
         }else{
             //Data
@@ -386,7 +385,7 @@ public class MetaContextBlockPrinter
             if(meta.isHeadFootTakeLine()){
                 writer.append("\n");
             }else{
-                writer.append(" ");
+//                writer.append(" ");
             }
 
             writer.append(blockString);
@@ -394,7 +393,7 @@ public class MetaContextBlockPrinter
             if(meta.isHeadFootTakeLine()){
                 writer.append("\n");
             }else{
-                writer.append(" ");
+//                writer.append(" ");
             }
         }
 
@@ -411,7 +410,7 @@ public class MetaContextBlockPrinter
             writer.append("\n");
         }
 
-        return writer;
+        return true;
     }
 
     /**
@@ -430,6 +429,28 @@ public class MetaContextBlockPrinter
                             printContext(itemMeta, context, stringWriter);
                             return stringWriter.toString();
                         })
+                        .filter(s -> !s.isEmpty())
+                        .collect(Collectors.joining(delimiter))
+        );
+    }
+
+    /**
+     * print meta list
+     * @param listMeta meta list
+     * @param itemContext context
+     * @param delimiter delimiter
+     * @param writer writer
+     */
+    public void printContext(List<BlockMeta> listMeta, Object itemContext, String delimiter, StringWriter writer) {
+        writer.append(
+                listMeta
+                        .stream()
+                        .map(meta -> {
+                            StringWriter stringWriter = new StringWriter();
+                            printContext(meta, itemContext, stringWriter);
+                            return stringWriter.toString();
+                        })
+                        .filter(s -> !s.isEmpty())
                         .collect(Collectors.joining(delimiter))
         );
     }

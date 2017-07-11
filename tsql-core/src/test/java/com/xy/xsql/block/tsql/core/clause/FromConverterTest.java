@@ -1,6 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.FromBuilderTest;
 import com.xy.xsql.tsql.model.clause.From;
@@ -263,6 +264,29 @@ public class FromConverterTest {
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Test
+    public void testKeywordPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            String check = MetaContextKeywordBlockConverter
+                    .convert(key)
+                    .print();
+            check = check
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
 
