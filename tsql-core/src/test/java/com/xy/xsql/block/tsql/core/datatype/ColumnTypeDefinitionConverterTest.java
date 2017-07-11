@@ -65,7 +65,7 @@ public class ColumnTypeDefinitionConverterTest {
     @Test
     public void testPrint() throws Exception {
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.printMeta(key);
+            StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

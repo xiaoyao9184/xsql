@@ -435,26 +435,31 @@ public class MetaContextBlockPrinter
     }
 
 
-
+    /**
+     * print block
+     * @param block block
+     * @return writer
+     */
     @Override
-    public StringWriter print(MetaContextBlock t) {
-        if(t.getContext() == null){
-            printMeta(t.getMeta());
-        }else if(t.getMeta() == null){
-            printContext(t.getContext());
+    public StringWriter print(MetaContextBlock block) {
+        if(block.getContext() == null){
+            printMeta(block.getMeta());
+        }else if(block.getMeta() == null){
+            printContext(block.getContext());
         }else{
-            printContext(t.getMeta(),t.getContext());
+            printContext(block.getMeta(),block.getContext());
         }
         return this.writer;
     }
 
+
     /**
-     * print meta of context
+     * print context
      * @param context context
      * @return writer
      */
     @SuppressWarnings("unchecked")
-    public static StringWriter printMeta(Object context){
+    public static StringWriter print(Object context){
         MetaContextBlockConverter converter = BlockManager
                 .INSTANCE
                 .getTypeBlockConverter(context.getClass());
@@ -465,12 +470,12 @@ public class MetaContextBlockPrinter
     }
 
     /**
-     * print meta of context
+     * print meta of context class
      * @param clazz context class
      * @return writer
      */
     @SuppressWarnings("unchecked")
-    public static StringWriter printMeta(Class clazz){
+    public static StringWriter print(Class clazz){
         MetaContextBlockConverter converter = BlockManager
                 .INSTANCE
                 .getTypeBlockConverter(clazz);
@@ -478,6 +483,15 @@ public class MetaContextBlockPrinter
         BlockMeta b = converter.meta();
 
         return new MetaContextBlockPrinter().printMeta(b);
+    }
+
+    /**
+     * print meta
+     * @param blockMeta meta
+     * @return writer
+     */
+    public static StringWriter print(BlockMeta blockMeta) {
+        return new MetaContextBlockPrinter().printMeta(blockMeta);
     }
 
 }
