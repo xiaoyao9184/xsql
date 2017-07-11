@@ -2,6 +2,7 @@ package com.xy.xsql.block.core;
 
 import com.xy.xsql.block.exception.BlockStructureCorrectException;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.model.MetaContextBlock;
 
 import java.io.StringWriter;
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.stream.Collectors;
  * Created by xiaoyao9184 on 2017/6/9.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class MetaContextBlockPrinter {
+public class MetaContextBlockPrinter
+        implements BlockPrinter<MetaContextBlock,StringWriter> {
 
     private StringWriter writer;
 
@@ -434,6 +436,18 @@ public class MetaContextBlockPrinter {
 
 
 
+    @Override
+    public StringWriter print(MetaContextBlock t) {
+        if(t.getContext() == null){
+            printMeta(t.getMeta());
+        }else if(t.getMeta() == null){
+            printContext(t.getContext());
+        }else{
+            printContext(t.getMeta(),t.getContext());
+        }
+        return this.writer;
+    }
+
     /**
      * print meta of context
      * @param context context
@@ -465,4 +479,5 @@ public class MetaContextBlockPrinter {
 
         return new MetaContextBlockPrinter().printMeta(b);
     }
+
 }
