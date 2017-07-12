@@ -19,7 +19,7 @@ import java.util.Map;
 public class GroupByConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = GroupByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -38,7 +38,7 @@ public class GroupByConverterTest {
     }
 
     @Test
-    public void testGroupByExpression() throws Exception {
+    public void testMetaPrint_GroupByExpression() throws Exception {
         BlockMeta b = GroupByConverter.GroupByExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -52,7 +52,7 @@ public class GroupByConverterTest {
     }
 
     @Test
-    public void testGroupingSet() throws Exception {
+    public void testMetaPrint_GroupingSet() throws Exception {
         BlockMeta b = GroupByConverter.GroupingSetConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -67,7 +67,7 @@ public class GroupByConverterTest {
     }
 
     @Test
-    public void testGroupingSetItem() throws Exception {
+    public void testMetaPrint_GroupingSetItem() throws Exception {
         BlockMeta b = GroupByConverter.GroupingSetItemConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

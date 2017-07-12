@@ -13,7 +13,7 @@ import java.io.StringWriter;
 public class AtTimeConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = AtTimeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

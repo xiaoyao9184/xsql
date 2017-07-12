@@ -2,6 +2,7 @@ package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.MetaContextBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringWriter;
@@ -12,14 +13,16 @@ import java.io.StringWriter;
 public class NullIfConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = NullIfConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
-        assert true;
+        Assert.assertEquals(writer.toString(),
+                "<NULLIF> ::=\n" +
+                        "NULLIF (  [,...n] )");
     }
 
 }

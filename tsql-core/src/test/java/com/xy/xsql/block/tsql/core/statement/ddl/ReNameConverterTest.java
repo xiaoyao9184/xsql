@@ -19,7 +19,7 @@ import java.util.Map;
 public class ReNameConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = ReNameConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -33,7 +33,7 @@ public class ReNameConverterTest {
     }
 
     @Test
-    public void testReNameDataBase() throws Exception {
+    public void testMetaPrint_ReNameDataBase() throws Exception {
         BlockMeta b = ReNameConverter.ReNameDataBaseConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -46,7 +46,7 @@ public class ReNameConverterTest {
     }
 
     @Test
-    public void testReNameTable() throws Exception {
+    public void testMetaPrint_ReNameTable() throws Exception {
         BlockMeta b = ReNameConverter.ReNameTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

@@ -19,7 +19,7 @@ import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.*;
 public class JoinHintConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = JoinHintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

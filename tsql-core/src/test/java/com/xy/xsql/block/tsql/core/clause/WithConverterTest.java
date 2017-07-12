@@ -19,7 +19,7 @@ import java.util.Map;
 public class WithConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = WithConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -32,7 +32,7 @@ public class WithConverterTest {
     }
 
     @Test
-    public void testCommonTableExpression() throws Exception {
+    public void testMetaPrint_CommonTableExpression() throws Exception {
         BlockMeta b = WithConverter.CommonTableExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

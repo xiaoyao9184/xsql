@@ -19,7 +19,7 @@ import java.util.Map;
 public class ForConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = ForConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -32,7 +32,7 @@ public class ForConverterTest {
     }
 
     @Test
-    public void testXml() throws Exception {
+    public void testMetaPrint_Xml() throws Exception {
         BlockMeta b = ForConverter.XmlConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -63,7 +63,7 @@ public class ForConverterTest {
     }
 
     @Test
-    public void testCommonDirectivesForXML() throws Exception {
+    public void testMetaPrint_CommonDirectivesForXML() throws Exception {
         BlockMeta b = ForConverter.CommonDirectivesForXMLConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

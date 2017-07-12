@@ -19,7 +19,7 @@ import java.util.Map;
 public class SelectConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = SelectConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -34,7 +34,7 @@ public class SelectConverterTest {
     }
 
     @Test
-    public void testSelectList() throws Exception {
+    public void testMetaPrint_SelectList() throws Exception {
         BlockMeta b = SelectConverter.SelectListConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

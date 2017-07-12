@@ -19,7 +19,7 @@ import java.util.Map;
 public class SelectVariableConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = SelectVariableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

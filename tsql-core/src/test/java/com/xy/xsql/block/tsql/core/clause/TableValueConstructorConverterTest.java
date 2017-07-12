@@ -19,7 +19,7 @@ import java.util.Map;
 public class TableValueConstructorConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = TableValueConstructorConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -32,7 +32,7 @@ public class TableValueConstructorConverterTest {
     }
 
     @Test
-    public void testRowValueExpressionList() throws Exception {
+    public void testMetaPrint_RowValueExpressionList() throws Exception {
         BlockMeta b = TableValueConstructorConverter.RowValueExpressionListConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -45,7 +45,7 @@ public class TableValueConstructorConverterTest {
     }
 
     @Test
-    public void testRowValueExpression() throws Exception {
+    public void testMetaPrint_RowValueExpression() throws Exception {
         BlockMeta b = TableValueConstructorConverter.RowValueExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

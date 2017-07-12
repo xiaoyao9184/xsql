@@ -13,7 +13,7 @@ import java.io.StringWriter;
 public class FreeTextPredicateConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = FreeTextPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

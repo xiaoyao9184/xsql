@@ -19,7 +19,7 @@ import java.util.Map;
 public class DeleteConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = DeleteConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

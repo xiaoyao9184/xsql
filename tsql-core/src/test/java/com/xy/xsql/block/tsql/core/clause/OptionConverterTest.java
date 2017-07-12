@@ -19,7 +19,7 @@ import java.util.Map;
 public class OptionConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = OptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -32,7 +32,7 @@ public class OptionConverterTest {
     }
 
     @Test
-    public void testOptionQueryOption() throws Exception {
+    public void testMetaPrint_OptionQueryOption() throws Exception {
         BlockMeta b = OptionConverter.QueryOptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -46,7 +46,7 @@ public class OptionConverterTest {
     }
 
     @Test
-    public void testOptionLabelQueryOption() throws Exception {
+    public void testMetaPrint_OptionLabelQueryOption() throws Exception {
         BlockMeta b = OptionConverter.LabelQueryOptionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

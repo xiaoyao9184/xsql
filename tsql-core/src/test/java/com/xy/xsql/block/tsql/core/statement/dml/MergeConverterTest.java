@@ -19,7 +19,7 @@ import java.util.Map;
 public class MergeConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = MergeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -50,7 +50,7 @@ public class MergeConverterTest {
     }
 
     @Test
-    public void testMergeHint() throws Exception {
+    public void testMetaPrint_MergeHint() throws Exception {
         BlockMeta b = MergeConverter.MergeHintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -66,7 +66,7 @@ public class MergeConverterTest {
     }
 
     @Test
-    public void testMatchedWhenThen() throws Exception {
+    public void testMetaPrint_MatchedWhenThen() throws Exception {
         BlockMeta b = MergeConverter.MatchedWhenThenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -79,7 +79,7 @@ public class MergeConverterTest {
     }
 
     @Test
-    public void testNotMatchedTargetWhenThen() throws Exception {
+    public void testMetaPrint_NotMatchedTargetWhenThen() throws Exception {
         BlockMeta b = MergeConverter.NotMatchedTargetWhenThenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -92,7 +92,7 @@ public class MergeConverterTest {
     }
 
     @Test
-    public void testNotMatchedSourceWhenThen() throws Exception {
+    public void testMetaPrint_NotMatchedSourceWhenThen() throws Exception {
         BlockMeta b = MergeConverter.NotMatchedSourceWhenThenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -105,7 +105,7 @@ public class MergeConverterTest {
     }
 
     @Test
-    public void testMergeMatched() throws Exception {
+    public void testMetaPrint_MergeMatched() throws Exception {
         BlockMeta b = MergeConverter.MergeMatchedConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -118,7 +118,7 @@ public class MergeConverterTest {
     }
 
     @Test
-    public void testMergeNotMatched() throws Exception {
+    public void testMetaPrint_MergeNotMatched() throws Exception {
         BlockMeta b = MergeConverter.MergeNotMatchedConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

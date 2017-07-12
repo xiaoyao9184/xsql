@@ -19,7 +19,7 @@ import java.util.Map;
 public class OverConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = OverConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -36,7 +36,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testPartitionBy() throws Exception {
+    public void testMetaPrint_PartitionBy() throws Exception {
         BlockMeta b = OverConverter.PartitionByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -49,7 +49,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testOrderBy() throws Exception {
+    public void testMetaPrint_OrderBy() throws Exception {
         BlockMeta b = OverConverter.OrderByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -62,7 +62,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testRowRange() throws Exception {
+    public void testMetaPrint_RowRange() throws Exception {
         BlockMeta b = OverConverter.RowRangeConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -75,7 +75,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testWindowFrameExtent() throws Exception {
+    public void testMetaPrint_WindowFrameExtent() throws Exception {
         BlockMeta b = OverConverter.WindowFrameExtentConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -91,7 +91,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testWindowFrameBetween() throws Exception {
+    public void testMetaPrint_WindowFrameBetween() throws Exception {
         BlockMeta b = OverConverter.WindowFrameBetweenConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -104,7 +104,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testWindowFrameBound() throws Exception {
+    public void testMetaPrint_WindowFrameBound() throws Exception {
         BlockMeta b = OverConverter.WindowFrameBoundConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -120,7 +120,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testWindowFramePreceding() throws Exception {
+    public void testMetaPrint_WindowFramePreceding() throws Exception {
         BlockMeta b = OverConverter.WindowFramePrecedingConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -133,7 +133,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testWindowFrameFollowing() throws Exception {
+    public void testMetaPrint_WindowFrameFollowing() throws Exception {
         BlockMeta b = OverConverter.WindowFrameFollowingConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -146,7 +146,7 @@ public class OverConverterTest {
     }
 
     @Test
-    public void testUnsignedValueSpecification() throws Exception {
+    public void testMetaPrint_UnsignedValueSpecification() throws Exception {
         BlockMeta b = OverConverter.UnsignedValueSpecificationConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

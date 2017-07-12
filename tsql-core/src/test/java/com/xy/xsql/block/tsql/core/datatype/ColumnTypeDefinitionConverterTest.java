@@ -19,7 +19,7 @@ import java.util.Map;
 public class ColumnTypeDefinitionConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = ColumnTypeDefinitionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -35,7 +35,7 @@ public class ColumnTypeDefinitionConverterTest {
     }
 
     @Test
-    public void testColumnConstraint() throws Exception {
+    public void testMetaPrint_ColumnConstraint() throws Exception {
         BlockMeta b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -48,12 +48,13 @@ public class ColumnTypeDefinitionConverterTest {
                         "| [ PRIMARY KEY | UNIQUE ]\n" +
                         "| CHECK ( logical_expression )");
     }
-    private ColumnDefinitionBuilderTest builderTest;
+
+
     private Map<ColumnDefinition,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new ColumnDefinitionBuilderTest();
+        ColumnDefinitionBuilderTest builderTest = new ColumnDefinitionBuilderTest();
         model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
@@ -65,6 +66,7 @@ public class ColumnTypeDefinitionConverterTest {
     @SuppressWarnings("Duplicates")
     @Test
     public void testPrint() throws Exception {
+        final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
@@ -75,8 +77,10 @@ public class ColumnTypeDefinitionConverterTest {
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
             Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
                     check,
                     ok);
+            index[0]++;
         });
     }
 

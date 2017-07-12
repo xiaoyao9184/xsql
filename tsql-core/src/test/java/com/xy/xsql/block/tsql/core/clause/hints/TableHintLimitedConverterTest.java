@@ -13,7 +13,7 @@ import java.io.StringWriter;
 public class TableHintLimitedConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = TableHintLimitedConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

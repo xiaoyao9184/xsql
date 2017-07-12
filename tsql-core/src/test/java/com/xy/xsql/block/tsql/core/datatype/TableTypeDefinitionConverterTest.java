@@ -13,7 +13,7 @@ import java.io.StringWriter;
 public class TableTypeDefinitionConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = TableTypeDefinitionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -26,7 +26,7 @@ public class TableTypeDefinitionConverterTest {
     }
 
     @Test
-    public void testTableConstraint() throws Exception {
+    public void testMetaPrint_TableConstraint() throws Exception {
         BlockMeta b = TableTypeDefinitionConverter.TableConstraintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

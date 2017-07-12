@@ -19,7 +19,7 @@ import java.util.Map;
 public class SelectConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = SelectConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -36,7 +36,7 @@ public class SelectConverterTest {
     }
 
     @Test
-    public void testQueryExpression() throws Exception {
+    public void testMetaPrint_QueryExpression() throws Exception {
         BlockMeta b = SelectConverter.QueryExpressionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -51,7 +51,7 @@ public class SelectConverterTest {
     }
 
     @Test
-    public void testQuerySpecification() throws Exception {
+    public void testMetaPrint_QuerySpecification() throws Exception {
         BlockMeta b = SelectConverter.QuerySpecificationConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -72,7 +72,7 @@ public class SelectConverterTest {
     }
 
     @Test
-    public void testUnionItem() throws Exception {
+    public void testMetaPrint_UnionItem() throws Exception {
         BlockMeta b = SelectConverter.UnionItemConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

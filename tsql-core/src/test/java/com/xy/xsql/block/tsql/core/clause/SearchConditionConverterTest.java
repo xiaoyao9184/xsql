@@ -19,7 +19,7 @@ import java.util.Map;
 public class SearchConditionConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = SearchConditionConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -33,7 +33,7 @@ public class SearchConditionConverterTest {
     }
 
     @Test
-    public void testAndOrNotItem() throws Exception {
+    public void testMetaPrint_AndOrNotItem() throws Exception {
         BlockMeta b = SearchConditionConverter.AndOrNotItemConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -45,7 +45,7 @@ public class SearchConditionConverterTest {
     }
 
     @Test
-    public void testPredicate() throws Exception {
+    public void testMetaPrint_Predicate() throws Exception {
         BlockMeta b = SearchConditionConverter.PredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

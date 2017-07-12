@@ -17,8 +17,9 @@ import java.util.Map;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class SetVariableConverterTest {
+
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = SetVariableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

@@ -19,7 +19,7 @@ import java.util.Map;
 public class TableHintConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = TableHintConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

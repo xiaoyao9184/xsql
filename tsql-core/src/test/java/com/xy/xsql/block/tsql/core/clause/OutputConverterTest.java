@@ -19,7 +19,7 @@ import java.util.Map;
 public class OutputConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = OutputConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -33,7 +33,7 @@ public class OutputConverterTest {
     }
 
     @Test
-    public void testDmlSelectList() throws Exception {
+    public void testMetaPrint_DmlSelectList() throws Exception {
         BlockMeta b = OutputConverter.DmlSelectListConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -46,7 +46,7 @@ public class OutputConverterTest {
     }
 
     @Test
-    public void testDmlSelect() throws Exception {
+    public void testMetaPrint_DmlSelect() throws Exception {
         BlockMeta b = OutputConverter.DmlSelectConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -58,7 +58,7 @@ public class OutputConverterTest {
     }
 
     @Test
-    public void testColumnName() throws Exception {
+    public void testMetaPrint_ColumnName() throws Exception {
         BlockMeta b = OutputConverter.ColumnNameConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

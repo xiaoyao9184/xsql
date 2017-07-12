@@ -19,7 +19,7 @@ import java.util.Map;
 public class OrderByConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = OrderByConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
@@ -34,7 +34,7 @@ public class OrderByConverterTest {
     }
 
     @Test
-    public void testOffsetFetch() throws Exception {
+    public void testMetaPrint_OffsetFetch() throws Exception {
         BlockMeta b = OrderByConverter.OffsetFetchConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

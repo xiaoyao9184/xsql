@@ -13,7 +13,7 @@ import java.io.StringWriter;
 public class IsNullPredicateConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = IsNullPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

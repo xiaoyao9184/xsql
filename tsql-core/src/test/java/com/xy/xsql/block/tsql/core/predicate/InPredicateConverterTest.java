@@ -13,7 +13,7 @@ import java.io.StringWriter;
 public class InPredicateConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = InPredicateConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

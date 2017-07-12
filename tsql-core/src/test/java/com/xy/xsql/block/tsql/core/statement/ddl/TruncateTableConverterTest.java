@@ -19,7 +19,7 @@ import java.util.Map;
 public class TruncateTableConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = TruncateTableConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()

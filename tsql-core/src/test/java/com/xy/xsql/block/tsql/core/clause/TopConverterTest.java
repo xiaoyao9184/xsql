@@ -19,7 +19,7 @@ import java.util.Map;
 public class TopConverterTest {
 
     @Test
-    public void test() throws Exception {
+    public void testMetaPrint() throws Exception {
         BlockMeta b = TopConverter.meta;
 
         StringWriter writer = new MetaContextBlockPrinter()
