@@ -1,6 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.SearchConditionBuilderTest;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -63,80 +66,76 @@ public class SearchConditionConverterTest {
     }
 
 
-
-    private SearchConditionBuilderTest builderTest;
+    private Map<SearchCondition,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new SearchConditionBuilderTest();
+        SearchConditionBuilderTest builderTest = new SearchConditionBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "LargePhotoFileName LIKE '%greena_%' ESCAPE 'a'");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "CountryRegionCode NOT IN ('US')\n" +
+                        "     AND City LIKE N'Pa%'");
+
+        model2StringMap.put(
+                builderTest.exampleC,
+                "LastName LIKE '%and%'");
+
+        model2StringMap.put(
+                builderTest.exampleD,
+                "LastName LIKE N'%and%'");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        SearchCondition searchCondition = builderTest.exampleA;
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = MetaContextBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "LargePhotoFileName LIKE '%greena_%' ESCAPE 'a'";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintB() throws Exception {
-        SearchCondition searchCondition = builderTest.exampleB;
+    public void testKeywordPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            String check = MetaContextKeywordBlockConverter
+                    .convert(key)
+                    .print();
+            System.out.println(check);
 
-        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
+            check = check
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        String ok = "CountryRegionCode NOT IN ('US')\n" +
-                "     AND City LIKE N'Pa%'";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
-    @Test
-    public void testPrintC() throws Exception {
-        SearchCondition searchCondition = builderTest.exampleC;
-
-        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "LastName LIKE '%and%'";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintD() throws Exception {
-        SearchCondition searchCondition = builderTest.exampleD;
-
-        StringWriter writer = MetaContextBlockPrinter.print(searchCondition);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "LastName LIKE N'%and%'";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
 }

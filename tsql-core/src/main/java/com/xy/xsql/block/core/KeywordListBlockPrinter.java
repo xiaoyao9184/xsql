@@ -11,12 +11,21 @@ import java.util.stream.Collectors;
 public class KeywordListBlockPrinter
         implements BlockPrinter<KeywordListBlock,StringWriter> {
 
+    private String delimiter = "";
+
+
+    public KeywordListBlockPrinter withDelimiter(String delimiter){
+        this.delimiter = delimiter;
+        return this;
+    }
+
+
     @Override
     public StringWriter print(KeywordListBlock block) {
         StringWriter writer = new StringWriter();
         writer.append(block.getKeywordList()
                 .stream()
-                .collect(Collectors.joining(" ")));
+                .collect(Collectors.joining(delimiter)));
         return writer;
     }
 

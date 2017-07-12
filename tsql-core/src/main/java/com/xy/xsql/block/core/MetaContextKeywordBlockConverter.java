@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -70,11 +71,11 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
             if(meta.isList() &&
                     referenceContext instanceof List){
                 //List
-                build(refMeta, (List) referenceContext,"\n, ");
+                build(refMeta, (List) referenceContext,"\n, ",list);
             }else if(meta.isRepeat() &&
                     referenceContext instanceof List){
                 //Repeat
-                build(refMeta, (List) referenceContext," ");
+                build(refMeta, (List) referenceContext," ",list);
             }else{
                 build(refMeta, referenceContext, list);
             }
@@ -123,9 +124,9 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                 }else if(meta.isRepeat()) {
                     delimiter = "\n ";
                 }
-                build(itemMeta, listContext, delimiter);
+                build(itemMeta, listContext, delimiter,list);
             }else{
-                build(meta.getSub(),context," ");
+                build(meta.getSub(),context," ",list);
             }
         }else{
             //Data
@@ -173,7 +174,7 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                                 .getTypeBlockConverter(itemData.getClass())
                                 .meta();
 
-                        build(hiddenMeta,listData,delimiter);
+                        build(hiddenMeta,listData,delimiter,list);
                     }else{
                         listData
                                 .stream()
@@ -200,32 +201,38 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
      * @param listContext context list
      * @param delimiter delimiter
      */
-    public void build(BlockMeta itemMeta, List<Object> listContext, String delimiter) {
-        listContext
-                .stream()
-                .flatMap(context -> Stream.concat(
-                        Stream.of(delimiter),
-                        build(itemMeta, context, new ArrayList<>())
-                                .stream()))
-                .skip(1)
-                .forEach(b -> list.add(b));
+    public void build(BlockMeta itemMeta, List<Object> listContext, String delimiter, List<String> list) {
+        List<String> listTemp = listContext
+                        .stream()
+                        .map(context -> build(itemMeta, context, new ArrayList<>()))
+                        .filter(stringList -> !stringList.isEmpty())
+                        //joining
+                        .flatMap(stringList -> Stream.concat(
+                                Stream.of(delimiter),
+                                stringList.stream()))
+                        .skip(1)
+                        .collect(Collectors.toList());
+        list.addAll(listTemp);
     }
 
     /**
-     *
+     * build meta list
      * @param listMeta
      * @param itemContext
      * @param delimiter
      */
-    public void build(List<BlockMeta> listMeta, Object itemContext, String delimiter) {
-        listMeta
+    public void build(List<BlockMeta> listMeta, Object itemContext, String delimiter, List<String> list) {
+        List<String> listTemp = listMeta
                 .stream()
-                .flatMap(meta -> Stream.concat(
+                .map(meta -> build(meta, itemContext, new ArrayList<>()))
+                .filter(stringList -> !stringList.isEmpty())
+                //joining
+                .flatMap(stringList -> Stream.concat(
                         Stream.of(delimiter),
-                        build(meta, itemContext, new ArrayList<>())
-                                .stream()))
+                        stringList.stream()))
                 .skip(1)
-                .forEach(b -> list.add(b));
+                .collect(Collectors.toList());
+        list.addAll(listTemp);
     }
 
     /**

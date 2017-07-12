@@ -286,6 +286,8 @@ public class FromConverterTest {
             String check = MetaContextKeywordBlockConverter
                     .convert(key)
                     .print();
+            System.out.println(check);
+
             check = check
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

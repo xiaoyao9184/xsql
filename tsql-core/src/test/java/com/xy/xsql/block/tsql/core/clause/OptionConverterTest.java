@@ -1,6 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.OptionBuilderTest;
 import com.xy.xsql.tsql.model.clause.Option;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -55,165 +58,95 @@ public class OptionConverterTest {
     }
 
 
-
-    private OptionBuilderTest builderTest;
+    private Map<Option,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new OptionBuilderTest();
+        OptionBuilderTest builderTest = new OptionBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "OPTION (HASH GROUP, FAST 10)");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "OPTION ( LABEL = 'q17' )");
+
+        model2StringMap.put(
+                builderTest.exampleC,
+                "OPTION (HASH JOIN)");
+
+        model2StringMap.put(
+                builderTest.exampleD,
+                "OPTION ( LABEL = 'CustJoin', HASH JOIN, MERGE JOIN)");
+
+        model2StringMap.put(
+                builderTest.exampleE,
+                "OPTION (HASH JOIN)");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "OPTION (HASH JOIN)");
+
+        model2StringMap.put(
+                builderTest.exampleG,
+                "OPTION ( FORCE ORDER )");
+
+        model2StringMap.put(
+                builderTest.exampleH1,
+                "OPTION (FORCE EXTERNALPUSHDOWN)");
+
+        model2StringMap.put(
+                builderTest.exampleH2,
+                "OPTION (DISABLE EXTERNALPUSHDOWN)");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        Option option = builderTest.exampleA;
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = MetaContextBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION (HASH GROUP, FAST 10)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintB() throws Exception {
-        Option option = builderTest.exampleB;
+    public void testKeywordPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            String check = MetaContextKeywordBlockConverter
+                    .convert(key)
+                    .print();
+            System.out.println(check);
 
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
+            check = check
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        String ok = "OPTION ( LABEL = 'q17' )";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintC() throws Exception {
-        Option option = builderTest.exampleC;
-
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION (HASH JOIN)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintD() throws Exception {
-        Option option = builderTest.exampleD;
-
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION ( LABEL = 'CustJoin', HASH JOIN, MERGE JOIN)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintE() throws Exception {
-        Option option = builderTest.exampleE;
-
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION (HASH JOIN)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintF() throws Exception {
-        Option option = builderTest.exampleF;
-
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION (HASH JOIN)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintG() throws Exception {
-        Option option = builderTest.exampleG;
-
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION ( FORCE ORDER )";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintH1() throws Exception {
-        Option option = builderTest.exampleH1;
-
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION (FORCE EXTERNALPUSHDOWN)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintH2() throws Exception {
-        Option option = builderTest.exampleH2;
-
-        StringWriter writer = MetaContextBlockPrinter.print(option);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OPTION (DISABLE EXTERNALPUSHDOWN)";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
 }

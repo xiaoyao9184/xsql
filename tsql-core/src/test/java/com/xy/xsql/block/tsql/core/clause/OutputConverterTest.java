@@ -1,6 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
 import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.OutputBuilderTest;
 import com.xy.xsql.tsql.model.clause.Output;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -69,226 +72,130 @@ public class OutputConverterTest {
     }
 
 
-
-    private OutputBuilderTest builderTest;
+    private Map<Output,String> model2StringMap;
 
     @Before
     public void init(){
-        builderTest = new OutputBuilderTest();
+        OutputBuilderTest builderTest = new OutputBuilderTest();
+        model2StringMap = new LinkedHashMap<>();
+
+        model2StringMap.put(
+                builderTest.exampleA,
+                "OUTPUT INSERTED.ScrapReasonID, INSERTED.Name, INSERTED.ModifiedDate\n" +
+                        "     INTO @MyTableVar");
+
+        model2StringMap.put(
+                builderTest.exampleB,
+                "OUTPUT DELETED.*");
+
+        model2StringMap.put(
+                builderTest.exampleC,
+                "OUTPUT INSERTED.BusinessEntityID,\n" +
+                        "     DELETED.VacationHours,\n" +
+                        "     INSERTED.VacationHours,\n" +
+                        "     INSERTED.ModifiedDate");
+
+        model2StringMap.put(
+                builderTest.exampleD,
+                "OUTPUT INSERTED.BusinessEntityID,\n" +
+                        "     DELETED.VacationHours,\n" +
+                        "     INSERTED.VacationHours,\n" +
+                        "     INSERTED.VacationHours - DELETED.VacationHours,\n" +
+                        "     INSERTED.ModifiedDate");
+
+        model2StringMap.put(
+                builderTest.exampleE,
+                "OUTPUT DELETED.ScrapReasonID,\n" +
+                        "     INSERTED.ScrapReasonID,\n" +
+                        "     INSERTED.WorkOrderID,\n" +
+                        "     INSERTED.ProductID,\n" +
+                        "     p.Name\n" +
+                        "     INTO @MyTestVar");
+
+        model2StringMap.put(
+                builderTest.exampleF,
+                "OUTPUT DELETED.ProductID,\n" +
+                        "     p.Name,\n" +
+                        "     p.ProductModelID,\n" +
+                        "     DELETED.ProductPhotoID\n" +
+                        "     INTO @MyTableVar");
+
+        model2StringMap.put(
+                builderTest.exampleG,
+                "OUTPUT DELETED.DocumentSummary,\n" +
+                        "     INSERTED.DocumentSummary\n" +
+                        "     INTO @MyTableVar");
+
+        model2StringMap.put(
+                builderTest.exampleH,
+                "OUTPUT INSERTED.ScrapReasonID, INSERTED.Name,\n" +
+                        "     INSERTED.ModifiedDate");
+
+        model2StringMap.put(
+                builderTest.exampleI,
+                "OUTPUT INSERTED.LastName,\n" +
+                        "     INSERTED.FirstName,\n" +
+                        "     INSERTED.CurrentSales");
+
+        model2StringMap.put(
+                builderTest.exampleJ,
+                "OUTPUT DELETED.ProductID,\n" +
+                        "     p.Name,\n" +
+                        "     p.ProductModelID,\n" +
+                        "     DELETED.ProductPhotoID\n" +
+                        "     INTO @MyTableVar\n" +
+                        "     OUTPUT DELETED.ProductID, DELETED.ProductPhotoID, GETDATE() DeletedDate");
+
+        model2StringMap.put(
+                builderTest.exampleK,
+                "OUTPUT $action, DELETED.ProductID");
+
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintA() throws Exception {
-        Output output = builderTest.exampleA;
+    public void testPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            StringWriter writer = MetaContextBlockPrinter.print(key);
+            String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT INSERTED.ScrapReasonID, INSERTED.Name, INSERTED.ModifiedDate\n" +
-                "     INTO @MyTableVar";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
+    @SuppressWarnings("Duplicates")
     @Test
-    public void testPrintB() throws Exception {
-        Output output = builderTest.exampleB;
+    public void testKeywordPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            String check = MetaContextKeywordBlockConverter
+                    .convert(key)
+                    .print();
+            System.out.println(check);
 
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
+            check = check
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
 
-        String ok = "OUTPUT DELETED.*";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintC() throws Exception {
-        Output output = builderTest.exampleC;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT INSERTED.BusinessEntityID,\n" +
-                "     DELETED.VacationHours,\n" +
-                "     INSERTED.VacationHours,\n" +
-                "     INSERTED.ModifiedDate";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintD() throws Exception {
-        Output output = builderTest.exampleD;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT INSERTED.BusinessEntityID,\n" +
-                "     DELETED.VacationHours,\n" +
-                "     INSERTED.VacationHours,\n" +
-                "     INSERTED.VacationHours - DELETED.VacationHours,\n" +
-                "     INSERTED.ModifiedDate";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintE() throws Exception {
-        Output output = builderTest.exampleE;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT DELETED.ScrapReasonID,\n" +
-                "     INSERTED.ScrapReasonID,\n" +
-                "     INSERTED.WorkOrderID,\n" +
-                "     INSERTED.ProductID,\n" +
-                "     p.Name\n" +
-                "     INTO @MyTestVar";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintF() throws Exception {
-        Output output = builderTest.exampleF;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT DELETED.ProductID,\n" +
-                "     p.Name,\n" +
-                "     p.ProductModelID,\n" +
-                "     DELETED.ProductPhotoID\n" +
-                "     INTO @MyTableVar";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintG() throws Exception {
-        Output output = builderTest.exampleG;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT DELETED.DocumentSummary,\n" +
-                "     INSERTED.DocumentSummary\n" +
-                "     INTO @MyTableVar";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintH() throws Exception {
-        Output output = builderTest.exampleH;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT INSERTED.ScrapReasonID, INSERTED.Name,\n" +
-                "     INSERTED.ModifiedDate";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintI() throws Exception {
-        Output output = builderTest.exampleI;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT INSERTED.LastName,\n" +
-                "     INSERTED.FirstName,\n" +
-                "     INSERTED.CurrentSales";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintJ() throws Exception {
-        Output output = builderTest.exampleJ;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT DELETED.ProductID,\n" +
-                "     p.Name,\n" +
-                "     p.ProductModelID,\n" +
-                "     DELETED.ProductPhotoID\n" +
-                "     INTO @MyTableVar\n" +
-                "     OUTPUT DELETED.ProductID, DELETED.ProductPhotoID, GETDATE() DeletedDate";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
-    }
-
-    @Test
-    public void testPrintK() throws Exception {
-        Output output = builderTest.exampleK;
-
-        StringWriter writer = MetaContextBlockPrinter.print(output);
-        String check = writer.toString()
-                .replace(" ","")
-                .replace("\n","");
-
-        String ok = "OUTPUT $action, DELETED.ProductID";
-        ok = ok.replaceAll(" ","")
-                .replaceAll("\n","");
-        Assert.assertEquals(
-                check,
-                ok);
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
     }
 
 }

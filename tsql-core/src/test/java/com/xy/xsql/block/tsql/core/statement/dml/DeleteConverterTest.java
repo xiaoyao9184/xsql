@@ -1,6 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
 import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.DeleteBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
@@ -198,6 +199,31 @@ public class DeleteConverterTest {
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = MetaContextBlockPrinter.print(key);
             String check = writer.toString()
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+
+            String ok = value
+                    .replaceAll(" ", "")
+                    .replaceAll("\n", "");
+            Assert.assertEquals(
+                    "Not Equal Index:" + index[0],
+                    check,
+                    ok);
+            index[0]++;
+        });
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Test
+    public void testKeywordPrint() throws Exception {
+        final int[] index = {1};
+        model2StringMap.forEach((key, value) -> {
+            String check = MetaContextKeywordBlockConverter
+                    .convert(key)
+                    .print();
+            System.out.println(check);
+
+            check = check
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
 
