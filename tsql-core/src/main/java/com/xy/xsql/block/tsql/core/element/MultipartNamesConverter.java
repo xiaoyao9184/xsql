@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.element;
 
-import com.xy.xsql.block.core.BlockMetaBuilder;
-import com.xy.xsql.block.core.ModelMetaBlockConverter;
+import com.xy.xsql.block.core.meta.BlockMetaBuilder;
+import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.Other;

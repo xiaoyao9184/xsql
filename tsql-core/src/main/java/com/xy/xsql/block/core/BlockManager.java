@@ -1,5 +1,6 @@
 package com.xy.xsql.block.core;
 
+import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import org.reflections.Reflections;
 
 import java.lang.reflect.ParameterizedType;
@@ -17,6 +18,10 @@ public enum BlockManager {
 
     private static Map<Type,ModelMetaBlockConverter> typeBlockBuilderMap;
     private static Map<Type,ModelMetaBlockConverter> converterTypeBlockConverterMap;
+//    private static Map<Type,ModelMetaBlockConverter> converterTypeBlockConverterMap;
+
+    private static Map<Type,IndexClassMapper> map;
+
 
     static {
         typeBlockBuilderMap = new HashMap<>();
@@ -65,6 +70,12 @@ public enum BlockManager {
                 });
 
     }
+
+
+    public <T> IndexClassMapper<Object,T> target(Class<T> targetClass){
+        return map.get(targetClass);
+    }
+
 
 
 

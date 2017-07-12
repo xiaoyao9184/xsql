@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.ModelMetaBlockPrinter;
-import com.xy.xsql.block.core.ModelMetaKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
@@ -172,7 +172,7 @@ public class BulkInsertConverterTest {
     public void testKeywordPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            String check = ModelMetaKeywordBlockConverter
+            String check = ModelKeywordBlockConverter
                     .convert(key)
                     .print();
             System.out.println(check);

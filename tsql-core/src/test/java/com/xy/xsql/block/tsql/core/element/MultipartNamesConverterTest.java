@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.element;
 
-import com.xy.xsql.block.core.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;

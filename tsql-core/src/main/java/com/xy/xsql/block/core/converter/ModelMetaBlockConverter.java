@@ -1,4 +1,4 @@
-package com.xy.xsql.block.core;
+package com.xy.xsql.block.core.converter;
 
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.ModelMetaBlock;

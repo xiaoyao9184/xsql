@@ -1,6 +1,8 @@
-package com.xy.xsql.block.core;
+package com.xy.xsql.block.core.converter;
 
 import com.google.common.base.Strings;
+import com.xy.xsql.block.core.BlockManager;
+import com.xy.xsql.block.core.printer.PrintAdapter;
 import com.xy.xsql.block.exception.BlockStructureCorrectException;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.KeywordListBlock;
@@ -17,7 +19,7 @@ import java.util.stream.Stream;
 /**
  * Created by xiaoyao9184 on 2017/6/5.
  */
-public class ModelMetaKeywordBlockConverter<MODEL>
+public class ModelKeywordBlockConverter<MODEL>
         implements BaseBuilder<MODEL,KeywordListBlock> {
 
 
@@ -70,6 +72,9 @@ public class ModelMetaKeywordBlockConverter<MODEL>
             if(meta.isReferenceClass()){
                 refMeta = BlockManager
                         .INSTANCE
+//                        .target(ModelMetaBlockConverter.class)
+//                        .get(meta.getRefClass())
+//                        .meta();
                         .getTypeBlockConverterByConverterType(meta.getRefClass())
                         .meta();
             }else{
@@ -336,7 +341,7 @@ public class ModelMetaKeywordBlockConverter<MODEL>
 
 
     public static PrintAdapter convert(Object model){
-        KeywordListBlock block = new ModelMetaKeywordBlockConverter<>()
+        KeywordListBlock block = new ModelKeywordBlockConverter<>()
                 .build(model);
 
         return new PrintAdapter<KeywordListBlock,StringWriter>()

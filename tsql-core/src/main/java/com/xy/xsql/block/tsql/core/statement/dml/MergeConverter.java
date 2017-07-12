@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.BlockMetaBuilder;
-import com.xy.xsql.block.core.ModelMetaBlockConverter;
+import com.xy.xsql.block.core.meta.BlockMetaBuilder;
+import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.FromConverter;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;

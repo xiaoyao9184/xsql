@@ -1,4 +1,4 @@
-package com.xy.xsql.block.core;
+package com.xy.xsql.block.core.printer;
 
 import com.xy.xsql.block.model.KeywordListBlock;
 

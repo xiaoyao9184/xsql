@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import org.junit.Assert;
