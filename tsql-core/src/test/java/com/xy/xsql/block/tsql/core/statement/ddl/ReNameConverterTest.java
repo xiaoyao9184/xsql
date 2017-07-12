@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
-import com.xy.xsql.block.core.MetaContextBlockPrinter;
-import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
+import com.xy.xsql.block.core.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.ModelMetaKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.ddl.RenameBuilderTest;
 import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
@@ -22,7 +22,7 @@ public class ReNameConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = ReNameConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -36,7 +36,7 @@ public class ReNameConverterTest {
     public void testMetaPrint_ReNameDataBase() throws Exception {
         BlockMeta b = ReNameConverter.ReNameDataBaseConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -49,7 +49,7 @@ public class ReNameConverterTest {
     public void testMetaPrint_ReNameTable() throws Exception {
         BlockMeta b = ReNameConverter.ReNameTableConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -86,7 +86,7 @@ public class ReNameConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = ModelMetaBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
@@ -107,7 +107,7 @@ public class ReNameConverterTest {
     public void testKeywordPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            String check = MetaContextKeywordBlockConverter
+            String check = ModelMetaKeywordBlockConverter
                     .convert(key)
                     .print();
             System.out.println(check);

@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.MetaContextBlockPrinter;
-import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
+import com.xy.xsql.block.core.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.ModelMetaKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.datatype.ColumnDefinitionBuilderTest;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
@@ -22,7 +22,7 @@ public class ColumnTypeDefinitionConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = ColumnTypeDefinitionConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -38,7 +38,7 @@ public class ColumnTypeDefinitionConverterTest {
     public void testMetaPrint_ColumnConstraint() throws Exception {
         BlockMeta b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -68,7 +68,7 @@ public class ColumnTypeDefinitionConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = ModelMetaBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
@@ -89,7 +89,7 @@ public class ColumnTypeDefinitionConverterTest {
     public void testKeywordPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            String check = MetaContextKeywordBlockConverter
+            String check = ModelMetaKeywordBlockConverter
                     .convert(key)
                     .print();
             System.out.println(check);

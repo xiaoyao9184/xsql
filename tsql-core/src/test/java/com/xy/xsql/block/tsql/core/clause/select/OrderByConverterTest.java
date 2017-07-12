@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.MetaContextBlockPrinter;
-import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
+import com.xy.xsql.block.core.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.ModelMetaKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.select.OrderByBuilderTest;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
@@ -22,7 +22,7 @@ public class OrderByConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = OrderByConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -37,7 +37,7 @@ public class OrderByConverterTest {
     public void testMetaPrint_OffsetFetch() throws Exception {
         BlockMeta b = OrderByConverter.OffsetFetchConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -137,7 +137,7 @@ public class OrderByConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = ModelMetaBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
@@ -158,13 +158,14 @@ public class OrderByConverterTest {
     public void testKeywordPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            String check = MetaContextKeywordBlockConverter
+            String check = ModelMetaKeywordBlockConverter
                     .convert(key)
                     .print();
             System.out.println(check);
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value

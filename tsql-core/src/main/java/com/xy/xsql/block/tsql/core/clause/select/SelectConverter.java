@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Select;
 import com.xy.xsql.tsql.model.element.Other;
@@ -16,7 +14,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/12/28.
  */
 public class SelectConverter
-        implements MetaContextBlockConverter<Select> {
+        implements ModelMetaBlockConverter<Select> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -46,20 +44,14 @@ public class SelectConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(Select context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class SelectListConverter
-            implements MetaContextBlockConverter<List<Select.SelectItem>> {
+            implements ModelMetaBlockConverter<List<Select.SelectItem>> {
 
 
         // @formatter:off
@@ -71,21 +63,16 @@ public class SelectConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(List<Select.SelectItem> context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
 
     public static class SelectItemConverter
-            implements MetaContextBlockConverter<Select.SelectItem> {
+            implements ModelMetaBlockConverter<Select.SelectItem> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -204,16 +191,11 @@ public class SelectConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Select.SelectItem context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
 }

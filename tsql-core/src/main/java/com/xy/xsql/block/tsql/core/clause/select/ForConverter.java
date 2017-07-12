@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.For;
 import com.xy.xsql.tsql.model.element.Other;
@@ -13,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class ForConverter
-        implements MetaContextBlockConverter<For> {
+        implements ModelMetaBlockConverter<For> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -38,20 +36,14 @@ public class ForConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(For context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class XmlConverter
-            implements MetaContextBlockConverter<For.Xml> {
+            implements ModelMetaBlockConverter<For.Xml> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -233,24 +225,19 @@ public class ForConverter
                             .subTakeLine()
                             .and()
                         .subTakeLine()
-                    .build();
-    // @formatter:on
-
-    public BlockMeta meta() {
-        return meta;
-    }
+                        .build();
+        // @formatter:on
 
         @Override
-        public MetaContextBlock convert(For.Xml context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
+        public BlockMeta meta() {
+            return meta;
         }
+
     }
 
 
     public static class CommonDirectivesForXMLConverter
-            implements MetaContextBlockConverter<For.Xml> {
+            implements ModelMetaBlockConverter<For.Xml> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -281,24 +268,19 @@ public class ForConverter
                                 .and()
                             .and()
                         .subTakeLine()
-                    .build();
-    // @formatter:on
-
-    public BlockMeta meta() {
-        return meta;
-    }
+                        .build();
+        // @formatter:on
 
         @Override
-        public MetaContextBlock convert(For.Xml context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
+        public BlockMeta meta() {
+            return meta;
         }
+
     }
 
 
     public static class JsonConverter
-            implements MetaContextBlockConverter<For.Json> {
+            implements ModelMetaBlockConverter<For.Json> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -353,18 +335,13 @@ public class ForConverter
                             .and()
                         .subTakeLine()
                     .build();
-    // @formatter:on
-
-    public BlockMeta meta() {
-        return meta;
-    }
+        // @formatter:on
 
         @Override
-        public MetaContextBlock convert(For.Json context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
+        public BlockMeta meta() {
+            return meta;
+    }
+
     }
 
 }

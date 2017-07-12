@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
@@ -15,7 +13,7 @@ import com.xy.xsql.tsql.model.statement.dml.Update;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class UpdateConverter
-        implements MetaContextBlockConverter<Update> {
+        implements ModelMetaBlockConverter<Update> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -96,20 +94,14 @@ public class UpdateConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(Update context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class SetItemConverter
-            implements MetaContextBlockConverter<Update.SetItem> {
+            implements ModelMetaBlockConverter<Update.SetItem> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -123,25 +115,19 @@ public class UpdateConverter
                         .czse_meta(d -> d instanceof Update.VariableCompoundSet, VariableCompoundSetConverter.meta)
                         .czse_meta(d -> d instanceof Update.VariableColumnCompoundSet, VariableColumnCompoundSetConverter.meta)
                         .headFootTakeLine()
-                    .build();
-    // @formatter:on
-
-    public BlockMeta meta() {
-        return meta;
-    }
+                        .build();
+        // @formatter:on
 
         @Override
-        public MetaContextBlock convert(Update.SetItem context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
+        public BlockMeta meta() {
+        return meta;
+    }
 
     }
 
 
     public static class ColumnAssignmentSetConverter
-            implements MetaContextBlockConverter<Update.ColumnAssignmentSet> {
+            implements ModelMetaBlockConverter<Update.ColumnAssignmentSet> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -165,21 +151,15 @@ public class UpdateConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Update.ColumnAssignmentSet context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
     public static class VariableAssignmentSetConverter
-            implements MetaContextBlockConverter<Update.VariableAssignmentSet> {
+            implements ModelMetaBlockConverter<Update.VariableAssignmentSet> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -194,22 +174,16 @@ public class UpdateConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Update.VariableAssignmentSet context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
 
     public static class VariableColumnAssignmentSetConverter
-            implements MetaContextBlockConverter<Update.VariableColumnAssignmentSet> {
+            implements ModelMetaBlockConverter<Update.VariableColumnAssignmentSet> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -228,22 +202,16 @@ public class UpdateConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Update.VariableColumnAssignmentSet context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
 
     public static class ColumnCompoundSetConverter
-            implements MetaContextBlockConverter<Update.ColumnCompoundSet> {
+            implements ModelMetaBlockConverter<Update.ColumnCompoundSet> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -260,22 +228,16 @@ public class UpdateConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Update.ColumnCompoundSet context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
 
     public static class VariableCompoundSetConverter
-            implements MetaContextBlockConverter<Update.VariableCompoundSet> {
+            implements ModelMetaBlockConverter<Update.VariableCompoundSet> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -291,24 +253,18 @@ public class UpdateConverter
                         .data(Update.VariableCompoundSet::getExpression)
                         .and()
                     .build();
-    // @formatter:on
-
-    public BlockMeta meta() {
-        return meta;
-    }
+        // @formatter:on
 
         @Override
-        public MetaContextBlock convert(Update.VariableCompoundSet context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
+        public BlockMeta meta() {
+        return meta;
+    }
 
     }
 
 
     public static class VariableColumnCompoundSetConverter
-            implements MetaContextBlockConverter<Update.VariableColumnCompoundSet> {
+            implements ModelMetaBlockConverter<Update.VariableColumnCompoundSet> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -328,18 +284,12 @@ public class UpdateConverter
                             .data(Update.VariableCompoundSet::getExpression)
                             .and()
                     .build();
-    // @formatter:on
-
-    public BlockMeta meta() {
-        return meta;
-    }
+        // @formatter:on
 
         @Override
-        public MetaContextBlock convert(Update.VariableColumnCompoundSet context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
+        public BlockMeta meta() {
+        return meta;
+    }
 
     }
 

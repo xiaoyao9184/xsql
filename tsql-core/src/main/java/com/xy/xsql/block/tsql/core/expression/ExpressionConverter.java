@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.expression;
 
 import com.xy.xsql.block.core.BlockMetaBuilder;
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.datatype.Constant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
@@ -16,7 +14,7 @@ import com.xy.xsql.tsql.model.variable.LocalVariable;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class ExpressionConverter
-        implements MetaContextBlockConverter<Expression> {
+        implements ModelMetaBlockConverter<Expression> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -40,15 +38,9 @@ public class ExpressionConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
-    }
-
-    @Override
-    public MetaContextBlock convert(Expression context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
     }
 
 }

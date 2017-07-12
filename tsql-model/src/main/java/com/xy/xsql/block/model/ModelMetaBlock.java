@@ -3,10 +3,10 @@ package com.xy.xsql.block.model;
 /**
  * Created by xiaoyao9184 on 2017/7/10.
  */
-public class MetaContextBlock implements Block {
+public class ModelMetaBlock implements Block {
 
     private BlockMeta meta;
-    private Object context;
+    private Object model;
 
     public BlockMeta getMeta() {
         return meta;
@@ -16,12 +16,12 @@ public class MetaContextBlock implements Block {
         this.meta = meta;
     }
 
-    public Object getContext() {
-        return context;
+    public Object getModel() {
+        return model;
     }
 
-    public void setContext(Object context) {
-        this.context = context;
+    public void setModel(Object model) {
+        this.model = model;
     }
 
 }

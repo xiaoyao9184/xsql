@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.OrderBy;
 
@@ -12,7 +10,7 @@ import com.xy.xsql.tsql.model.clause.select.OrderBy;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class OrderByConverter
-        implements MetaContextBlockConverter<OrderBy> {
+        implements ModelMetaBlockConverter<OrderBy> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -34,20 +32,14 @@ public class OrderByConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(OrderBy context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class ItemConverter
-            implements MetaContextBlockConverter<OrderBy.Item> {
+            implements ModelMetaBlockConverter<OrderBy.Item> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -74,21 +66,16 @@ public class OrderByConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(OrderBy.Item context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
 
     public static class OffsetFetchConverter
-            implements MetaContextBlockConverter<OrderBy.OffsetFetch> {
+            implements ModelMetaBlockConverter<OrderBy.OffsetFetch> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -156,15 +143,9 @@ public class OrderByConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(OrderBy.OffsetFetch context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }

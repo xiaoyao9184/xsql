@@ -17,25 +17,25 @@ import java.util.stream.Stream;
 /**
  * Created by xiaoyao9184 on 2017/6/5.
  */
-public class MetaContextKeywordBlockConverter<CONTEXT>
-        implements BaseBuilder<CONTEXT,KeywordListBlock> {
+public class ModelMetaKeywordBlockConverter<MODEL>
+        implements BaseBuilder<MODEL,KeywordListBlock> {
 
 
     @Override
-    public KeywordListBlock build(CONTEXT context){
-        BlockMeta meta = getHideMeta(context);
+    public KeywordListBlock build(MODEL model){
+        BlockMeta meta = getHideMeta(model);
 
-        Context cache = new Context();
-        build(meta,context,cache);
-        return new KeywordListBlock(cache.list);
+        Context context = new Context();
+        build(meta,model,context);
+        return new KeywordListBlock(context.list);
     }
 
     /**
      * build
      * @param meta meta
-     * @param context context
+     * @param model context
      */
-    public void build(BlockMeta meta, Object context, Context cache){
+    public void build(BlockMeta meta, Object model, Context context){
 
         //Optional just return
         if(meta.isOptional()){
@@ -45,10 +45,10 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                         BlockStructureCorrectException.StructureCorrect.OPTION_FILTER_MISS));
             }
             //noinspection unchecked
-            if(optionalPredicate.test(context)){
+            if(optionalPredicate.test(model)){
                 return;
             }
-        }else if(context == null){
+        }else if(model == null){
             throw new RuntimeException(new BlockStructureCorrectException(meta,
                     BlockStructureCorrectException.StructureCorrect.CONTEXT_MISS));
         }
@@ -56,8 +56,8 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
 
         //format
         if(meta.getFormat() != null){
-            cache.setNewLine(meta.getFormat().isNewLine());
-            cache.addLevel(meta.getFormat().getIndentation());
+            context.setNewLine(meta.getFormat().isNewLine());
+            context.addLevel(meta.getFormat().getIndentation());
         }
 
 
@@ -75,45 +75,45 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
             }else{
                 refMeta = meta.getRefMeta();
             }
-            Object referenceContext = meta.getContext(context);
+            Object referenceContext = meta.getContext(model);
 
             if(meta.isList() &&
                     referenceContext instanceof List){
                 //List
                 //noinspection unchecked
-                build(refMeta, (List) referenceContext, ", ", cache);
+                build(refMeta, (List) referenceContext, ", ", context);
             }else if(meta.isRepeat() &&
                     referenceContext instanceof List){
                 //Repeat
                 //noinspection unchecked
-                build(refMeta, (List) referenceContext, " ", cache);
+                build(refMeta, (List) referenceContext, " ", context);
             }else{
-                build(refMeta, referenceContext, cache);
+                build(refMeta, referenceContext, context);
             }
         }else if(meta.isExclusive()){
             //Exclusive
             int index = 0;
             for(Predicate p : meta.getCasePredicate()){
                 //noinspection unchecked
-                if(p.test(context)){
+                if(p.test(model)){
                     BlockMeta exclusiveMeta = meta.getSub().get(index);
-                    build(exclusiveMeta, context, cache);
+                    build(exclusiveMeta, model, context);
                     index = -1;
                     break;
                 }
                 index++;
             }
             if(index != -1){
-                if(!BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
+                if(!BlockManager.INSTANCE.checkTypeBlockConverter(model.getClass())){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
                 }
                 BlockMeta hiddenMeta = BlockManager
                         .INSTANCE
-                        .getTypeBlockConverter(context.getClass())
+                        .getTypeBlockConverter(model.getClass())
                         .meta();
 
-                build(hiddenMeta,context,cache);
+                build(hiddenMeta,model,context);
             }
         }else if(meta.getSub() != null){
             //Virtual
@@ -124,7 +124,7 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_META_AMOUNT_ERROR));
                 }
                 BlockMeta itemMeta = meta.getSub().get(0);
-                Object data = meta.getContext(context);
+                Object data = meta.getContext(model);
                 if(!(data instanceof List)){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MUST_LIST));
@@ -137,9 +137,9 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                 }else if(meta.isRepeat()) {
                     delimiter = " ";
                 }
-                build(itemMeta, listContext, delimiter, cache);
+                build(itemMeta, listContext, delimiter, context);
             }else{
-                build(meta.getSub(), context, " ", cache);
+                build(meta.getSub(), model, " ", context);
             }
         }else{
             //Data
@@ -148,9 +148,9 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                 String blockString = meta.getData().toString();
 //                String start = Strings.repeat(" ",cache.getLevel());
 //                cache.add(start + blockString);
-                cache.add(blockString);
+                context.add(blockString);
             }else{
-                Object data = meta.getDataOrGetterData(context);
+                Object data = meta.getDataOrGetterData(model);
                 if(data == null){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.NO_DATA));
@@ -163,7 +163,7 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                             .getTypeBlockConverter(data.getClass())
                             .meta();
 
-                    build(hiddenMeta,data,cache);
+                    build(hiddenMeta,data,context);
                 }else if(data instanceof List){
                     //noinspection unchecked
                     List<Object> listData = (List)data;
@@ -189,7 +189,7 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                                 .getTypeBlockConverter(itemData.getClass())
                                 .meta();
 
-                        build(hiddenMeta, listData, delimiter, cache);
+                        build(hiddenMeta, listData, delimiter, context);
                     }else{
 //                        String start = Strings.repeat(" ",cache.getLevel());
                         List<String> listTemp = listData
@@ -204,12 +204,12 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                                 ))
                                 .skip(1)
                                 .collect(Collectors.toList());
-                        cache.addAll(listTemp);
+                        context.addAll(listTemp);
                     }
                 }else{
 //                    String start = Strings.repeat(" ",cache.getLevel());
 //                    cache.add(start + data.toString());
-                    cache.add(data.toString());
+                    context.add(data.toString());
                 }
             }
         }
@@ -221,11 +221,11 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
     /**
      * build context list
      * @param itemMeta meta
-     * @param listContext context list
+     * @param listModel context list
      * @param delimiter delimiter
-     * @param cache out
+     * @param context out
      */
-    public void build(BlockMeta itemMeta, List<Object> listContext, String delimiter, Context cache) {
+    public void build(BlockMeta itemMeta, List<Object> listModel, String delimiter, Context context) {
 //        List<String> listTemp = listContext
 //                        .stream()
 //                        .map(context -> {
@@ -242,11 +242,11 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
 //                        .collect(Collectors.toList());
 //        cache.addAll(listTemp);
 
-        List<String> listTemp = listContext
+        List<String> listTemp = listModel
                 .stream()
-                .map(context -> {
-                    Context cacheSub = new Context().withLevel(cache.level);
-                    build(itemMeta, context, cacheSub);
+                .map(model -> {
+                    Context cacheSub = new Context().withLevel(context.level);
+                    build(itemMeta, model, cacheSub);
                     return cacheSub;
                 })
                 .filter(cacheSub -> !cacheSub.isEmpty())
@@ -266,17 +266,17 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                 })
                 .skip(1)
                 .collect(Collectors.toList());
-        cache.addAll(listTemp);
+        context.addAll(listTemp);
     }
 
     /**
      * build meta list
      * @param listMeta meta list
-     * @param itemContext context
+     * @param itemModel context
      * @param delimiter delimiter
-     * @param cache out
+     * @param context out
      */
-    public void build(List<BlockMeta> listMeta, Object itemContext, String delimiter, Context cache) {
+    public void build(List<BlockMeta> listMeta, Object itemModel, String delimiter, Context context) {
 //        List<String> listTemp = listMeta
 //                .stream()
 //                .map(meta -> {
@@ -296,8 +296,8 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
         List<String> listTemp = listMeta
                 .stream()
                 .map(meta -> {
-                    Context cacheSub = new Context().withLevel(cache.level);
-                    build(meta, itemContext, cacheSub);
+                    Context cacheSub = new Context().withLevel(context.level);
+                    build(meta, itemModel, cacheSub);
                     return cacheSub;
                 })
                 .filter(cacheSub -> !cacheSub.isEmpty())
@@ -314,30 +314,30 @@ public class MetaContextKeywordBlockConverter<CONTEXT>
                 })
                 .skip(1)
                 .collect(Collectors.toList());
-        cache.addAll(listTemp);
+        context.addAll(listTemp);
     }
 
     /**
      * Get meta form BlockManager
-     * @param context context
+     * @param model context
      * @return meta
      */
-    private BlockMeta getHideMeta(Object context){
-        if(!BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
+    private BlockMeta getHideMeta(Object model){
+        if(!BlockManager.INSTANCE.checkTypeBlockConverter(model.getClass())){
             throw new RuntimeException(new BlockStructureCorrectException(null,
                     BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
         }
 
         return BlockManager
                 .INSTANCE
-                .getTypeBlockConverter(context.getClass())
+                .getTypeBlockConverter(model.getClass())
                 .meta();
     }
 
 
-    public static PrintAdapter convert(Object context){
-        KeywordListBlock block = new MetaContextKeywordBlockConverter<>()
-                .build(context);
+    public static PrintAdapter convert(Object model){
+        KeywordListBlock block = new ModelMetaKeywordBlockConverter<>()
+                .build(model);
 
         return new PrintAdapter<KeywordListBlock,StringWriter>()
                 .withBlock(block);

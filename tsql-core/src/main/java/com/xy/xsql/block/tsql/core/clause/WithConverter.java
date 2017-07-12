@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.With;
 import com.xy.xsql.tsql.model.element.Other;
@@ -13,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class WithConverter
-        implements MetaContextBlockConverter<With> {
+        implements ModelMetaBlockConverter<With> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -28,20 +26,14 @@ public class WithConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(With context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class CommonTableExpressionConverter
-            implements MetaContextBlockConverter<With.CommonTableExpression> {
+            implements ModelMetaBlockConverter<With.CommonTableExpression> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -77,16 +69,11 @@ public class WithConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(With.CommonTableExpression context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
 }

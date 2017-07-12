@@ -9,7 +9,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew2;
 
@@ -135,7 +134,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
         return this;
     }
 
-    public <C extends MetaContextBlockConverter> BlockMetaBuilder<ParentBuilder, Reference> ref(Class<C> refClass) {
+    public <C extends ModelMetaBlockConverter> BlockMetaBuilder<ParentBuilder, Reference> ref(Class<C> refClass) {
         target.setRefClass(refClass);
         return this;
     }

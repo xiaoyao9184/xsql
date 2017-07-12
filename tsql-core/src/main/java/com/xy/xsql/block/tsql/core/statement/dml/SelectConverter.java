@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.select.ForConverter;
 import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
 import com.xy.xsql.block.tsql.core.clause.select.IntoConverter;
@@ -17,7 +15,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class SelectConverter
-        implements MetaContextBlockConverter<Select> {
+        implements ModelMetaBlockConverter<Select> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -53,20 +51,14 @@ public class SelectConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(Select context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class QueryExpressionConverter
-            implements MetaContextBlockConverter<Select.QueryExpression> {
+            implements ModelMetaBlockConverter<Select.QueryExpression> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -101,22 +93,16 @@ public class SelectConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Select.QueryExpression context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
 
     public static class UnionItemConverter
-            implements MetaContextBlockConverter<Select.UnionItem> {
+            implements ModelMetaBlockConverter<Select.UnionItem> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -164,22 +150,16 @@ public class SelectConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Select.UnionItem context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
 
     public static class QuerySpecificationConverter
-            implements MetaContextBlockConverter<Select.QuerySpecification> {
+            implements ModelMetaBlockConverter<Select.QuerySpecification> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -233,15 +213,9 @@ public class SelectConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Select.QuerySpecification context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }

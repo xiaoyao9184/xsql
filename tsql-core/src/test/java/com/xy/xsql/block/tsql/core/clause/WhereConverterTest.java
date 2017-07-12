@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.MetaContextBlockPrinter;
-import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
+import com.xy.xsql.block.core.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.ModelMetaKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.WhereBuilderTest;
 import com.xy.xsql.tsql.model.clause.Where;
@@ -22,7 +22,7 @@ public class WhereConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = WhereConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -104,7 +104,7 @@ public class WhereConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = ModelMetaBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
@@ -125,7 +125,7 @@ public class WhereConverterTest {
     public void testKeywordPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            String check = MetaContextKeywordBlockConverter
+            String check = ModelMetaKeywordBlockConverter
                     .convert(key)
                     .print();
             System.out.println(check);

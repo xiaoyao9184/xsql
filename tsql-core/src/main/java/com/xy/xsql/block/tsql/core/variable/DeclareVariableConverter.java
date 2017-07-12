@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.datatype.TableTypeDefinitionConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Comparison;
@@ -14,7 +12,7 @@ import com.xy.xsql.tsql.model.variable.DeclareVariable;
  * Created by xiaoyao9184 on 2017/5/13.
  */
 public class DeclareVariableConverter
-        implements MetaContextBlockConverter<DeclareVariable> {
+        implements ModelMetaBlockConverter<DeclareVariable> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -51,20 +49,14 @@ public class DeclareVariableConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(DeclareVariable context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class DeclareVariableItemPredicateRenderer
-            implements MetaContextBlockConverter<DeclareVariable.Item> {
+            implements ModelMetaBlockConverter<DeclareVariable.Item> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -106,18 +98,12 @@ public class DeclareVariableConverter
                                 .and()
                             .and()
                     .build();
-    // @formatter:on
-
-    public BlockMeta meta() {
-        return meta;
-    }
+        // @formatter:on
 
         @Override
-        public MetaContextBlock convert(DeclareVariable.Item context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
+        public BlockMeta meta() {
+        return meta;
+    }
 
     }
 }

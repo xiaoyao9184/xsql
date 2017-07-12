@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
@@ -19,7 +17,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class InsertConverter
-        implements MetaContextBlockConverter<Insert> {
+        implements ModelMetaBlockConverter<Insert> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -101,20 +99,14 @@ public class InsertConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(Insert context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class ColumnListConverter
-            implements MetaContextBlockConverter<List<ColumnName>> {
+            implements ModelMetaBlockConverter<List<ColumnName>> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -126,15 +118,9 @@ public class InsertConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(List<ColumnName> context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }

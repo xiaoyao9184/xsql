@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
@@ -14,7 +12,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/20.
  */
 public class TableTypeDefinitionConverter
-        implements MetaContextBlockConverter<TableTypeDefinition> {
+        implements ModelMetaBlockConverter<TableTypeDefinition> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -31,20 +29,14 @@ public class TableTypeDefinitionConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(TableTypeDefinition context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class ItemConverter
-            implements MetaContextBlockConverter<TableTypeDefinition.Item> {
+            implements ModelMetaBlockConverter<TableTypeDefinition.Item> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -61,21 +53,15 @@ public class TableTypeDefinitionConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(TableTypeDefinition.Item context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
     public static class TableConstraintConverter
-            implements MetaContextBlockConverter<TableTypeDefinition.TableConstraint> {
+            implements ModelMetaBlockConverter<TableTypeDefinition.TableConstraint> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -112,15 +98,9 @@ public class TableTypeDefinitionConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(TableTypeDefinition.TableConstraint context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }

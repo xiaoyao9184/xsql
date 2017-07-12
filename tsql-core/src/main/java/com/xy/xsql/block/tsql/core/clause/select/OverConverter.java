@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Over;
 import com.xy.xsql.tsql.model.element.Other;
@@ -13,7 +11,7 @@ import com.xy.xsql.tsql.model.element.Other;
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class OverConverter
-        implements MetaContextBlockConverter<Over> {
+        implements ModelMetaBlockConverter<Over> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -45,21 +43,14 @@ public class OverConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(Over context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
-
 
     public static class PartitionByConverter
-            implements MetaContextBlockConverter<Over.PartitionBy> {
+            implements ModelMetaBlockConverter<Over.PartitionBy> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -75,20 +66,15 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
     }
 
-        @Override
-        public MetaContextBlock convert(Over.PartitionBy context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
     public static class OrderByConverter
-            implements MetaContextBlockConverter<Over.OrderBy> {
+            implements ModelMetaBlockConverter<Over.OrderBy> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -106,22 +92,17 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.OrderBy context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
 
 
     public static class RowRangeConverter
-            implements MetaContextBlockConverter<Over.RowRange> {
+            implements ModelMetaBlockConverter<Over.RowRange> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -140,20 +121,15 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.RowRange context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
     public static class WindowFrameExtentConverter
-            implements MetaContextBlockConverter<Over.WindowFrameExtent> {
+            implements ModelMetaBlockConverter<Over.WindowFrameExtent> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -173,20 +149,15 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.WindowFrameExtent context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
     public static class WindowFrameBetweenConverter
-            implements MetaContextBlockConverter<Over.WindowFrameBetween> {
+            implements ModelMetaBlockConverter<Over.WindowFrameBetween> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -205,20 +176,15 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.WindowFrameBetween context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
     public static class WindowFrameBoundConverter
-            implements MetaContextBlockConverter<Over.WindowFrameBound> {
+            implements ModelMetaBlockConverter<Over.WindowFrameBound> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -238,20 +204,15 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.WindowFrameBound context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
     public static class WindowFramePrecedingConverter
-            implements MetaContextBlockConverter<Over.WindowFramePreceding> {
+            implements ModelMetaBlockConverter<Over.WindowFramePreceding> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -278,20 +239,15 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.WindowFramePreceding context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
     public static class WindowFrameFollowingConverter
-            implements MetaContextBlockConverter<Over.WindowFrameFollowing> {
+            implements ModelMetaBlockConverter<Over.WindowFrameFollowing> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -318,20 +274,15 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.WindowFrameFollowing context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
     public static class UnsignedValueSpecificationConverter
-            implements MetaContextBlockConverter<Over.UnsignedValueSpecification> {
+            implements ModelMetaBlockConverter<Over.UnsignedValueSpecification> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -344,16 +295,11 @@ public class OverConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
         }
 
-        @Override
-        public MetaContextBlock convert(Over.UnsignedValueSpecification context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
-        }
     }
 
 }

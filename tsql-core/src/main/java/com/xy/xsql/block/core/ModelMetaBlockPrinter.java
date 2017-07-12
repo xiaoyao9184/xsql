@@ -2,7 +2,7 @@ package com.xy.xsql.block.core;
 
 import com.xy.xsql.block.exception.BlockStructureCorrectException;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
+import com.xy.xsql.block.model.ModelMetaBlock;
 
 import java.io.StringWriter;
 import java.util.List;
@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
  * Created by xiaoyao9184 on 2017/6/9.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
-public class MetaContextBlockPrinter
-        implements BlockPrinter<MetaContextBlock,StringWriter> {
+public class ModelMetaBlockPrinter
+        implements BlockPrinter<ModelMetaBlock,StringWriter> {
 
     private StringWriter writer;
 
-    public MetaContextBlockPrinter(){
+    public ModelMetaBlockPrinter(){
         writer = new StringWriter();
     }
 
@@ -180,44 +180,44 @@ public class MetaContextBlockPrinter
 
     /**
      * print context
-     * @param context context
+     * @param model model
      * @return writer
      */
     @SuppressWarnings("unchecked")
-    public StringWriter printContext(Object context){
-        if(!BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
+    public StringWriter printModel(Object model){
+        if(!BlockManager.INSTANCE.checkTypeBlockConverter(model.getClass())){
             throw new RuntimeException(new BlockStructureCorrectException(null,
                     BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
         }
 
         BlockMeta hiddenMeta = BlockManager
                 .INSTANCE
-                .getTypeBlockConverter(context.getClass())
+                .getTypeBlockConverter(model.getClass())
                 .meta();
 
-        return printContext(hiddenMeta,context);
+        return printModel(hiddenMeta,model);
     }
 
     /**
      * print context
      * @param meta meta
-     * @param context context
+     * @param model model
      * @return writer
      */
-    public StringWriter printContext(BlockMeta meta, Object context){
-        printContext(meta, context, writer);
+    public StringWriter printModel(BlockMeta meta, Object model){
+        printModel(meta, model, writer);
         return writer;
     }
 
     /**
      * print context
      * @param meta meta
-     * @param context context
+     * @param model model
      * @param writer writer
      * @return print any thing
      */
     @SuppressWarnings({"Duplicates", "unchecked"})
-    public boolean printContext(BlockMeta meta, Object context, StringWriter writer){
+    public boolean printModel(BlockMeta meta, Object model, StringWriter writer){
 
         //Optional just return
         if(meta.isOptional()){
@@ -226,10 +226,10 @@ public class MetaContextBlockPrinter
                 throw new RuntimeException(new BlockStructureCorrectException(meta,
                         BlockStructureCorrectException.StructureCorrect.OPTION_FILTER_MISS));
             }
-            if(optionalPredicate.test(context)){
+            if(optionalPredicate.test(model)){
                 return false;
             }
-        }else if(context == null){
+        }else if(model == null){
             throw new RuntimeException(new BlockStructureCorrectException(meta,
                     BlockStructureCorrectException.StructureCorrect.CONTEXT_MISS));
         }
@@ -259,42 +259,42 @@ public class MetaContextBlockPrinter
             }else{
                 refMeta = meta.getRefMeta();
             }
-            Object referenceContext = meta.getContext(context);
+            Object referenceContext = meta.getContext(model);
 
             if(meta.isList() &&
                     referenceContext instanceof List){
                 //List
-                printContext(refMeta, (List) referenceContext,"\n, ",writer);
+                printModel(refMeta, (List) referenceContext,"\n, ",writer);
             }else if(meta.isRepeat() &&
                     referenceContext instanceof List){
                 //Repeat
-                printContext(refMeta, (List) referenceContext,"\n ",writer);
+                printModel(refMeta, (List) referenceContext,"\n ",writer);
             }else{
-                printContext(refMeta, referenceContext, writer);
+                printModel(refMeta, referenceContext, writer);
             }
         }else if(meta.isExclusive()){
             //Exclusive
             int index = 0;
             for(Predicate p : meta.getCasePredicate()){
-                if(p.test(context)){
+                if(p.test(model)){
                     BlockMeta exclusiveMeta = meta.getSub().get(index);
-                    printContext(exclusiveMeta, context, writer);
+                    printModel(exclusiveMeta, model, writer);
                     index = -1;
                     break;
                 }
                 index++;
             }
             if(index != -1){
-                if(!BlockManager.INSTANCE.checkTypeBlockConverter(context.getClass())){
+                if(!BlockManager.INSTANCE.checkTypeBlockConverter(model.getClass())){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
                 }
                 BlockMeta hiddenMeta = BlockManager
                         .INSTANCE
-                        .getTypeBlockConverter(context.getClass())
+                        .getTypeBlockConverter(model.getClass())
                         .meta();
 
-                printContext(hiddenMeta,context,writer);
+                printModel(hiddenMeta,model,writer);
             }
         }else if(meta.getSub() != null){
             //Virtual
@@ -305,7 +305,7 @@ public class MetaContextBlockPrinter
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_META_AMOUNT_ERROR));
                 }
                 BlockMeta itemMeta = meta.getSub().get(0);
-                Object data = meta.getContext(context);
+                Object data = meta.getContext(model);
                 if(!(data instanceof List)){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MUST_LIST));
@@ -317,9 +317,9 @@ public class MetaContextBlockPrinter
                 }else if(meta.isRepeat()) {
                     delimiter = "\n ";
                 }
-                printContext(itemMeta, listContext, delimiter, writer);
+                printModel(itemMeta, listContext, delimiter, writer);
             }else{
-                printContext(meta.getSub(),context," ",writer);
+                printModel(meta.getSub(),model," ",writer);
             }
         }else{
             //Data
@@ -328,7 +328,7 @@ public class MetaContextBlockPrinter
                 //Keyword
                 blockString = meta.getData().toString();
             }else{
-                Object data = meta.getDataOrGetterData(context);
+                Object data = meta.getDataOrGetterData(model);
                 if(data == null){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.NO_DATA));
@@ -341,8 +341,8 @@ public class MetaContextBlockPrinter
                             .getTypeBlockConverter(data.getClass())
                             .meta();
 
-                    blockString = new MetaContextBlockPrinter()
-                            .printContext(hiddenMeta,data)
+                    blockString = new ModelMetaBlockPrinter()
+                            .printModel(hiddenMeta,data)
                             .toString();
                 }else if(data instanceof List){
                     List<Object> listData = (List)data;
@@ -369,7 +369,7 @@ public class MetaContextBlockPrinter
                                 .meta();
 
                         StringWriter writer1 = new StringWriter();
-                        printContext(hiddenMeta, listData, delimiter, writer1);
+                        printModel(hiddenMeta, listData, delimiter, writer1);
                         blockString = writer1.toString();
                     }else{
                         blockString = listData
@@ -416,17 +416,17 @@ public class MetaContextBlockPrinter
     /**
      * print context list
      * @param itemMeta meta
-     * @param listContext context list
+     * @param listModel context model
      * @param delimiter delimiter
      * @param writer writer
      */
-    public void printContext(BlockMeta itemMeta, List<Object> listContext, String delimiter, StringWriter writer) {
+    public void printModel(BlockMeta itemMeta, List<Object> listModel, String delimiter, StringWriter writer) {
         writer.append(
-                listContext
+                listModel
                         .stream()
                         .map(context -> {
                             StringWriter stringWriter = new StringWriter();
-                            printContext(itemMeta, context, stringWriter);
+                            printModel(itemMeta, context, stringWriter);
                             return stringWriter.toString();
                         })
                         .filter(s -> !s.isEmpty())
@@ -437,17 +437,17 @@ public class MetaContextBlockPrinter
     /**
      * print meta list
      * @param listMeta meta list
-     * @param itemContext context
+     * @param itemModel model
      * @param delimiter delimiter
      * @param writer writer
      */
-    public void printContext(List<BlockMeta> listMeta, Object itemContext, String delimiter, StringWriter writer) {
+    public void printModel(List<BlockMeta> listMeta, Object itemModel, String delimiter, StringWriter writer) {
         writer.append(
                 listMeta
                         .stream()
                         .map(meta -> {
                             StringWriter stringWriter = new StringWriter();
-                            printContext(meta, itemContext, stringWriter);
+                            printModel(meta, itemModel, stringWriter);
                             return stringWriter.toString();
                         })
                         .filter(s -> !s.isEmpty())
@@ -462,57 +462,57 @@ public class MetaContextBlockPrinter
      * @return writer
      */
     @Override
-    public StringWriter print(MetaContextBlock block) {
-        if(block.getContext() == null){
+    public StringWriter print(ModelMetaBlock block) {
+        if(block.getModel() == null){
             printMeta(block.getMeta());
         }else if(block.getMeta() == null){
-            printContext(block.getContext());
+            printModel(block.getModel());
         }else{
-            printContext(block.getMeta(),block.getContext());
+            printModel(block.getMeta(),block.getModel());
         }
         return this.writer;
     }
 
 
     /**
-     * print context
-     * @param context context
+     * print model
+     * @param model model
      * @return writer
      */
     @SuppressWarnings("unchecked")
-    public static StringWriter print(Object context){
-        MetaContextBlockConverter converter = BlockManager
+    public static StringWriter print(Object model){
+        ModelMetaBlockConverter converter = BlockManager
                 .INSTANCE
-                .getTypeBlockConverter(context.getClass());
+                .getTypeBlockConverter(model.getClass());
 
         BlockMeta b = converter.meta();
 
-        return new MetaContextBlockPrinter().printContext(b,context);
+        return new ModelMetaBlockPrinter().printModel(b,model);
     }
 
     /**
-     * print meta of context class
-     * @param clazz context class
+     * print meta of model class
+     * @param clazz model class
      * @return writer
      */
     @SuppressWarnings("unchecked")
     public static StringWriter print(Class clazz){
-        MetaContextBlockConverter converter = BlockManager
+        ModelMetaBlockConverter converter = BlockManager
                 .INSTANCE
                 .getTypeBlockConverter(clazz);
 
         BlockMeta b = converter.meta();
 
-        return new MetaContextBlockPrinter().printMeta(b);
+        return new ModelMetaBlockPrinter().printMeta(b);
     }
 
     /**
      * print meta
-     * @param blockMeta meta
+     * @param meta meta
      * @return writer
      */
-    public static StringWriter print(BlockMeta blockMeta) {
-        return new MetaContextBlockPrinter().printMeta(blockMeta);
+    public static StringWriter print(BlockMeta meta) {
+        return new ModelMetaBlockPrinter().printMeta(meta);
     }
 
 }

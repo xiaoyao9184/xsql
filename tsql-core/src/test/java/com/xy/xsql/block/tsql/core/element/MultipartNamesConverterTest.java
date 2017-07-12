@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.element;
 
-import com.xy.xsql.block.core.MetaContextBlockPrinter;
+import com.xy.xsql.block.core.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class MultipartNamesConverterTest {
     public void testMetaPrint_TableName() throws Exception {
         BlockMeta b = MultipartNamesConverter.TableNameConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -33,7 +33,7 @@ public class MultipartNamesConverterTest {
     public void testMetaPrint_ColumnName() throws Exception {
         BlockMeta b = MultipartNamesConverter.ColumnNameConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);

@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.expression.Case;
 
@@ -12,7 +10,7 @@ import com.xy.xsql.tsql.model.expression.Case;
  * Created by xiaoyao9184 on 2017/6/15.
  */
 public class CaseConverter
-        implements MetaContextBlockConverter<Case> {
+        implements ModelMetaBlockConverter<Case> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -32,15 +30,9 @@ public class CaseConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
-    }
-
-    @Override
-    public MetaContextBlock convert(Case context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
     }
 
 
@@ -111,7 +103,7 @@ public class CaseConverter
 
 
     public static class CaseWhenThenExpressionConverter
-            implements MetaContextBlockConverter<Case.WhenThenExpression> {
+            implements ModelMetaBlockConverter<Case.WhenThenExpression> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -127,15 +119,9 @@ public class CaseConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(Case.WhenThenExpression context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }

@@ -1,7 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.MetaContextBlockPrinter;
-import com.xy.xsql.block.core.MetaContextKeywordBlockConverter;
+import com.xy.xsql.block.core.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.ModelMetaKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.MergeBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
@@ -22,7 +22,7 @@ public class MergeConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = MergeConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -53,7 +53,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MergeHint() throws Exception {
         BlockMeta b = MergeConverter.MergeHintConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -69,7 +69,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MatchedWhenThen() throws Exception {
         BlockMeta b = MergeConverter.MatchedWhenThenConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -82,7 +82,7 @@ public class MergeConverterTest {
     public void testMetaPrint_NotMatchedTargetWhenThen() throws Exception {
         BlockMeta b = MergeConverter.NotMatchedTargetWhenThenConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -95,7 +95,7 @@ public class MergeConverterTest {
     public void testMetaPrint_NotMatchedSourceWhenThen() throws Exception {
         BlockMeta b = MergeConverter.NotMatchedSourceWhenThenConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -108,7 +108,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MergeMatched() throws Exception {
         BlockMeta b = MergeConverter.MergeMatchedConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -121,7 +121,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MergeNotMatched() throws Exception {
         BlockMeta b = MergeConverter.MergeNotMatchedConverter.meta;
 
-        StringWriter writer = new MetaContextBlockPrinter()
+        StringWriter writer = new ModelMetaBlockPrinter()
                 .printMeta(b);
 
         System.out.println(writer);
@@ -270,7 +270,7 @@ public class MergeConverterTest {
     public void testPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            StringWriter writer = MetaContextBlockPrinter.print(key);
+            StringWriter writer = ModelMetaBlockPrinter.print(key);
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");
@@ -291,13 +291,14 @@ public class MergeConverterTest {
     public void testKeywordPrint() throws Exception {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
-            String check = MetaContextKeywordBlockConverter
+            String check = ModelMetaKeywordBlockConverter
                     .convert(key)
                     .print();
             System.out.println(check);
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value

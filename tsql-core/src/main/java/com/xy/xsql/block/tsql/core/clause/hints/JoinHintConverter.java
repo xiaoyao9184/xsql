@@ -1,17 +1,15 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.
  */
 public class JoinHintConverter
-        implements MetaContextBlockConverter<JoinHint> {
+        implements ModelMetaBlockConverter<JoinHint> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -33,15 +31,9 @@ public class JoinHintConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
-    }
-
-    @Override
-    public MetaContextBlock convert(JoinHint context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
     }
 
 }

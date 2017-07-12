@@ -1,10 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
-import com.xy.xsql.block.core.MetaContextBlockBuilder;
-import com.xy.xsql.block.core.MetaContextBlockConverter;
 import com.xy.xsql.block.core.BlockMetaBuilder;
+import com.xy.xsql.block.core.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.model.MetaContextBlock;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
@@ -13,7 +11,7 @@ import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
  * Created by xiaoyao9184 on 2017/6/17.
  */
 public class TruncateTableConverter
-        implements MetaContextBlockConverter<TruncateTable> {
+        implements ModelMetaBlockConverter<TruncateTable> {
 
     // @formatter:off
     public static BlockMeta meta =
@@ -46,20 +44,14 @@ public class TruncateTableConverter
                     .build();
     // @formatter:on
 
+    @Override
     public BlockMeta meta() {
         return meta;
     }
 
-    @Override
-    public MetaContextBlock convert(TruncateTable context) {
-        return MetaContextBlockBuilder
-                .meta(meta())
-                .build(context);
-    }
-
 
     public static class PartitionsConverter
-            implements MetaContextBlockConverter<TruncateTable.Partitions> {
+            implements ModelMetaBlockConverter<TruncateTable.Partitions> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -76,22 +68,16 @@ public class TruncateTableConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(TruncateTable.Partitions context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
 
     public static class RangeConverter
-            implements MetaContextBlockConverter<TruncateTable.Range> {
+            implements ModelMetaBlockConverter<TruncateTable.Range> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -109,22 +95,16 @@ public class TruncateTableConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(TruncateTable.Range context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
 
 
     public static class PartitionNumberExpressionConverter
-            implements MetaContextBlockConverter<TruncateTable.PartitionNumberExpression> {
+            implements ModelMetaBlockConverter<TruncateTable.PartitionNumberExpression> {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -134,15 +114,9 @@ public class TruncateTableConverter
                         .build();
         // @formatter:on
 
+        @Override
         public BlockMeta meta() {
             return meta;
-        }
-
-        @Override
-        public MetaContextBlock convert(TruncateTable.PartitionNumberExpression context) {
-            return MetaContextBlockBuilder
-                    .meta(meta())
-                    .build(context);
         }
 
     }
