@@ -24,6 +24,15 @@ public class DataTypesTest {
                 .forEach((method -> {
                     String name = method.getName().replace("_","");
                     try{
+                        if(method.getParameterCount() == 1 &&
+                                method.getParameterTypes()[0].equals(String.class)){
+                            DataType dataType = (DataType) method.invoke(
+                                    null,
+                                    "TEST");
+                            Assert.assertTrue(dataType.toString().equals("TEST"));
+                            return;
+                        }
+
                         DataType dataType = (DataType) method.invoke(
                                 null,
                                 Arrays.copyOf(params,method.getParameterCount()));
