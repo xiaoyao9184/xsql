@@ -9,6 +9,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew2;
 
@@ -422,6 +423,60 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
         return this;
     }
 
+    public FormatBuilder<BlockMetaBuilder<ParentBuilder,Reference>> format() {
+        return new FormatBuilder<BlockMetaBuilder<ParentBuilder,Reference>>
+                (initSet(BlockMeta.Format::new,
+                        target::getFormat,
+                        target::setFormat))
+                .in(this);
+    }
+
+    public BlockMetaBuilder<ParentBuilder,Reference> format_line() {
+        return format().line();
+    }
+
+    public BlockMetaBuilder<ParentBuilder,Reference> format_indentation(int level) {
+        format().line();
+        return format().indentation(level);
+    }
+
+    public BlockMetaBuilder<ParentBuilder,Reference> format_indentation_right() {
+        format().line();
+        return format().indentation(1);
+    }
+
+    public BlockMetaBuilder<ParentBuilder,Reference> format_indentation_left() {
+        format().line();
+        return format().indentation(-1);
+    }
+
+
+    /**
+     *
+     * @param <ParentBuilder>
+     */
+    public class FormatBuilder<ParentBuilder>
+            extends CodeTreeBuilder<FormatBuilder<ParentBuilder>, ParentBuilder, BlockMeta.Format> {
+
+        public FormatBuilder() {
+            super(new BlockMeta.Format());
+        }
+
+        public FormatBuilder(BlockMeta.Format format) {
+            super(format);
+        }
+
+        public ParentBuilder line(){
+            target.setNewLine(true);
+            return and();
+        }
+
+        public ParentBuilder indentation(int level){
+            target.setIndentation(level);
+            return and();
+        }
+
+    }
 
     @Deprecated
     public class WhenThenReferenceBlockBuilder<ParentBuilder,Reference>

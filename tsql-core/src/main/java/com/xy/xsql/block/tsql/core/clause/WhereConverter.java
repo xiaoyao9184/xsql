@@ -22,6 +22,7 @@ public class WhereConverter
                     .sub("search_condition")
                         .ref(SearchConditionConverter.class)
                         .data(Where::getSearchCondition)
+                        .format_indentation_right()
                         .and()
                     .build();
     // @formatter:on

@@ -37,6 +37,7 @@ public class TableValueConstructorConverter
                             .and()
                         .list()
                         .data(TableValueConstructor::getRowValueExpressionListGroup)
+                        .format_indentation_right()
                         .and()
                     .build();
     // @formatter:on

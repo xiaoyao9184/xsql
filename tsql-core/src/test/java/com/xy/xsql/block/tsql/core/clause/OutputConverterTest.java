@@ -185,6 +185,7 @@ public class OutputConverterTest {
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value

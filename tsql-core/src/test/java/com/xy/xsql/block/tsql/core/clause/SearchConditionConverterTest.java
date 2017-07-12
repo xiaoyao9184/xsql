@@ -125,6 +125,7 @@ public class SearchConditionConverterTest {
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value

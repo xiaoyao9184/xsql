@@ -51,6 +51,7 @@ public class SearchConditionConverter
                         .repeat()
                         .ref(AndOrNotItemConverter.meta)
                         .data(SearchCondition::getAndOrList)
+                        .format_line()
                         .and()
                     .subTakeLine()
                     .build();

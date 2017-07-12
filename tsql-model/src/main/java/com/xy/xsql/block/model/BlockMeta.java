@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
+@SuppressWarnings({"unchecked", "unused", "SameParameterValue"})
 public class BlockMeta implements Block {
 
     private boolean overall;
@@ -33,6 +34,9 @@ public class BlockMeta implements Block {
     private boolean headFootTakeLine;
     private boolean startNewLine;
     private boolean endNewLine;
+
+    //format
+    private Format format;
 
     //reference
     private BlockMeta refMeta;
@@ -200,6 +204,14 @@ public class BlockMeta implements Block {
         this.endNewLine = endNewLine;
     }
 
+    public Format getFormat() {
+        return format;
+    }
+
+    public void setFormat(Format format) {
+        this.format = format;
+    }
+
     public BlockMeta getRefMeta() {
         return refMeta;
     }
@@ -249,6 +261,10 @@ public class BlockMeta implements Block {
     }
 
 
+    /*
+
+     */
+
     public Object getContext(Object context){
         if(dataGetter == null){
             return context;
@@ -285,4 +301,29 @@ public class BlockMeta implements Block {
         this.verifierList.add(verifier);
     }
 
+
+    /**
+     * Format for print context
+     */
+    @SuppressWarnings("SameParameterValue")
+    public static class Format {
+        private boolean newLine;
+        private int indentation;
+
+        public boolean isNewLine() {
+            return newLine;
+        }
+
+        public void setNewLine(boolean newLine) {
+            this.newLine = newLine;
+        }
+
+        public int getIndentation() {
+            return indentation;
+        }
+
+        public void setIndentation(int indentation) {
+            this.indentation = indentation;
+        }
+    }
 }

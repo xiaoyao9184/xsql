@@ -503,9 +503,11 @@ public class SelectConverterTest {
                     .convert(key)
                     .print();
             System.out.println(check);
+            System.out.println("==========");
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value
