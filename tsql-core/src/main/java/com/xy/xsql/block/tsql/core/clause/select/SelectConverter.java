@@ -104,9 +104,9 @@ public class SelectConverter
                                             .data(d -> d.getColumnName().toString())
                                             .and()
                                         //TODO support $IDENTITY $ROWGUID
-//                                        .czse_meta("$IDENTITY")
+//                                        .czse_ref("$IDENTITY")
 //                                            .and()
-//                                        .czse_meta("$ROWGUID")
+//                                        .czse_ref("$ROWGUID")
 //                                            .and()
                                         .and()
                                     .and()

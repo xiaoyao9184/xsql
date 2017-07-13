@@ -26,4 +26,10 @@ public class BlockStructureCorrectException
         OTHER, CONTEXT_MISS, COLLECTION_CONTEXT_MISS, COLLECTION_META_AMOUNT_ERROR, COLLECTION_CONTEXT_MUST_LIST, NOTHING_PASS_EXCLUSIVE, NO_DATA, COLLECTION_DATA_CANT_FIND_BLOCK_META;
 
     }
+
+
+
+    public static RuntimeException nothing_pass_exclusive(Block block){
+        return new RuntimeException(new BlockStructureCorrectException(block,StructureCorrect.NOTHING_PASS_EXCLUSIVE));
+    }
 }

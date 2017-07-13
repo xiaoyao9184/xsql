@@ -76,51 +76,65 @@ public class ModelMetaBlockPrinter
         //data
         if(blockMeta.isKeyword()) {
             //Keyword
-            writer.append(blockMeta.getData().toString());
-        }else if(blockMeta.getName() != null &&
-                blockMeta.isReferenceClass()){
+            writer.append(blockMeta.getName());
+        }else if(blockMeta.isNamedReference() &&
+                blockMeta.getName() != null){
             //Reference Name
             writer.append('<');
             writer.append(blockMeta.getName());
             writer.append('>');
-        }else if(blockMeta.getName() != null &&
-                !blockMeta.isOverall()){
-            //Name
-            writer.append(blockMeta.getName());
-        }else if(blockMeta.isReferenceMeta()){
+        }else if(blockMeta.isAnonymousReference()){
             //Reference Meta
-            printMeta(blockMeta.getRefMeta(),false,writer);
-        }else{
+            printMeta(blockMeta.getReferenceMeta(),false,writer);
+        }else if(blockMeta.isVirtual()) {
             //Sub
             String line = blockMeta.isEachSubTakeLine() ? "\n" : " ";
 
             if(blockMeta.isExclusive()){
-                //Exclusive
-                printMeta(blockMeta.getSub(),false,line + "| ",writer);
+                line = line + "| ";
             }else if(blockMeta.isList()){
-                //List
-                if(blockMeta.isReference()){
-                    writer.append('<');
-                    printMeta(blockMeta.getSub(),false,line + ", ",writer);
-                    if(blockMeta.isReference()){
-                        writer.append('>');
-                    }
-                }else{
-
-                }
-
-            }else if(blockMeta.getSub() != null){
-                if(blockMeta.isReference()){
-                    writer.append('<');
-                }
-                //Repeat
-                printMeta(blockMeta.getSub(),false,line,writer);
-                if(blockMeta.isReference()){
-                    writer.append('>');
-                }
-            }else{
-//                throw new Exception("error block");
+                line = line + ", ";
             }
+
+            if(blockMeta.isNamedReference()){
+                writer.append('<');
+            }
+            printMeta(blockMeta.getSub(),false,line,writer);
+            if(blockMeta.isNamedReference()){
+                writer.append('>');
+            }
+
+//            if(blockMeta.isExclusive()){
+//                //Exclusive
+//                printMeta(blockMeta.getSub(),false,line + "| ",writer);
+//            }else if(blockMeta.isList()){
+//                //List
+//                if(blockMeta.isReference()){
+//                    writer.append('<');
+//                    printMeta(blockMeta.getSub(),false,line + ", ",writer);
+//                    if(blockMeta.isReference()){
+//                        writer.append('>');
+//                    }
+//                }else{
+//
+//                }
+//
+//            }else if(blockMeta.getSub() != null){
+//                if(blockMeta.isReference()){
+//                    writer.append('<');
+//                }
+//                //Repeat
+//                printMeta(blockMeta.getSub(),false,line,writer);
+//                if(blockMeta.isReference()){
+//                    writer.append('>');
+//                }
+//            }else{
+////                throw new Exception("error block");
+//            }
+        }else if(blockMeta.getName() != null &&
+            !blockMeta.isOverall()){
+            //Data
+            writer.append(blockMeta.getName());
         }
 
 
@@ -223,7 +237,7 @@ public class ModelMetaBlockPrinter
 
         //Optional just return
         if(meta.isOptional()){
-            Predicate optionalPredicate = meta.getOptionalFilter();
+            Predicate optionalPredicate = meta.getOptionalPredicate();
             if(optionalPredicate == null){
                 throw new RuntimeException(new BlockStructureCorrectException(meta,
                         BlockStructureCorrectException.StructureCorrect.OPTION_FILTER_MISS));
@@ -253,15 +267,15 @@ public class ModelMetaBlockPrinter
         if(meta.isReference()){
             //Reference
             BlockMeta refMeta;
-            if(meta.isReferenceClass()){
+            if(meta.isNamedReference()){
                 refMeta = BlockManager
                         .INSTANCE
-                        .getTypeBlockConverterByConverterType(meta.getRefClass())
+                        .getTypeBlockConverterByConverterType(meta.getReferenceConverter())
                         .meta();
             }else{
-                refMeta = meta.getRefMeta();
+                refMeta = meta.getReferenceMeta();
             }
-            Object referenceContext = meta.getContext(model);
+            Object referenceContext = meta.getScope(model);
 
             if(meta.isList() &&
                     referenceContext instanceof List){
@@ -277,7 +291,7 @@ public class ModelMetaBlockPrinter
         }else if(meta.isExclusive()){
             //Exclusive
             int index = 0;
-            for(Predicate p : meta.getCasePredicate()){
+            for(Predicate p : meta.getExclusivePredicate()){
                 if(p.test(model)){
                     BlockMeta exclusiveMeta = meta.getSub().get(index);
                     printModel(exclusiveMeta, model, writer);
@@ -307,7 +321,7 @@ public class ModelMetaBlockPrinter
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_META_AMOUNT_ERROR));
                 }
                 BlockMeta itemMeta = meta.getSub().get(0);
-                Object data = meta.getContext(model);
+                Object data = meta.getScope(model);
                 if(!(data instanceof List)){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MUST_LIST));
@@ -328,9 +342,9 @@ public class ModelMetaBlockPrinter
             String blockString;
             if(meta.isKeyword()){
                 //Keyword
-                blockString = meta.getData().toString();
+                blockString = meta.getName();
             }else{
-                Object data = meta.getDataOrGetterData(model);
+                Object data = meta.getScope(model);
                 if(data == null){
                     throw new RuntimeException(new BlockStructureCorrectException(meta,
                             BlockStructureCorrectException.StructureCorrect.NO_DATA));

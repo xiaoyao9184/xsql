@@ -44,7 +44,7 @@ public class OptionConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Option.QueryOption>()
                         .overall("query_option")
-                        .czse_meta(d -> d instanceof Option.LabelQueryOption, LabelQueryOptionConverter.meta)
+                        .czse_ref(d -> d instanceof Option.LabelQueryOption, LabelQueryOptionConverter.meta)
                         .czse(d -> d instanceof QueryHint, "query_hint")
                             .ref(QueryHintConverter.class)
                             .data(d -> d)

@@ -25,7 +25,7 @@ public class TableValueConstructorConverter
                     .sub_keyword(Keywords.VALUES)
                     .sub()
                         .description("( <row value expression list> ) list")
-                        .meta()
+                        .ref()
                             .description("( <row value expression list> )")
                             .sub_keyword(Other.GROUP_START)
                             .sub("row value expression list")

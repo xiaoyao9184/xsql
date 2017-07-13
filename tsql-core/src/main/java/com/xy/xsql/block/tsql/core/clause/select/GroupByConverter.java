@@ -40,13 +40,13 @@ public class GroupByConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.Item>()
-                        .czse_meta(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta)
-                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
-                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
-                        .czse_meta(d -> d instanceof GroupBy.GroupingSetsItem, GroupingSetsItemConverter.meta)
+                        .czse_ref(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta)
+                        .czse_ref(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
+                        .czse_ref(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
+                        .czse_ref(d -> d instanceof GroupBy.GroupingSetsItem, GroupingSetsItemConverter.meta)
                         .czse(d -> d instanceof GroupBy.TotalItem, "()")
                             .description("calculates the grand total")
-                            .data("()")
+                            .keyword("()")
                             .and()
                         .subTakeLine()
                         .build();
@@ -163,7 +163,7 @@ public class GroupByConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.TotalItem>()
-                        .data("()")
+                        .keyword("()")
                         .build();
         // @formatter:on
 
@@ -240,7 +240,7 @@ public class GroupByConverter
                         .overall("grouping_set")
                         .czse(GroupBy.GroupingSet::isUseTotal, "()")
                             .description("() --calculates the grand total")
-                            .data("()")
+                            .keyword("()")
                             .and()
                         .czse(d -> d.getGroupByExpressionList().size() == 1, "grouping_set_item")
                             .description("grouping_set_item")
@@ -277,8 +277,8 @@ public class GroupByConverter
                         .overall("grouping_set_item")
                         .czse(d -> d instanceof GroupBy.GroupByExpression,"group_by_expression")
                             .and()
-                        .czse_meta(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
-                        .czse_meta(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
+                        .czse_ref(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
+                        .czse_ref(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
                         .subTakeLine()
                         .build();
         // @formatter:on

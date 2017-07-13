@@ -34,7 +34,7 @@ public class MergeConverterTest {
                         "[ INTO ]\n" +
                         "<target_table>\n" +
                         "[ WITH ( <merge_hint> ) ]\n" +
-                        "[ as table_alias ]\n" +
+                        "[ [AS] table_alias ]\n" +
                         "USING\n" +
                         "<table_source>\n" +
                         "ON\n" +
