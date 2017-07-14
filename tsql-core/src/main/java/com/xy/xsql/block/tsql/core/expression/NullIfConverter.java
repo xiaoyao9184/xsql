@@ -28,7 +28,7 @@ public class NullIfConverter
                             .data(NullIf::getExpressionRight)
                             .and()
                         .and()
-                        .sub_keyword(Other.GROUP_END)
+                    .sub_keyword(Other.GROUP_END)
                     .build();
     // @formatter:on
 

@@ -82,8 +82,11 @@ public class OutputConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,List<Output.DmlSelect>>()
                         .overall("dml_select_list")
-                        .list()
-                        .ref(DmlSelectConverter.meta)
+                        .sub_list(DmlSelectConverter.meta)
+                            .data(d -> d)
+                            .and()
+//                        .list()
+//                        .ref(DmlSelectConverter.meta)
 //                        .sub_meta(DmlSelectConverter.meta())
                         .build();
         // @formatter:on

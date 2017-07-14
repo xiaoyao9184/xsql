@@ -33,7 +33,7 @@ public enum MetaManager {
         converter2type = new IndexClassMapper<>();
         type2meta = new IndexClassMapper<>();
         converter2meta = new IndexClassMapper<>();
-        BlockManager.INSTANCE.scan("com.xy.xsql.block.tsql.core");
+        MetaManager.scan("com.xy.xsql.block.tsql.core");
     }
 
     public static void register(Type type, ModelMetaBlockConverter converter){

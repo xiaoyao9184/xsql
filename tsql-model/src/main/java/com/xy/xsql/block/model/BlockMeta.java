@@ -118,31 +118,31 @@ public class BlockMeta implements Block {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        if(list || repeat){
-            sb.append("▤");
-        }
-        if(exclusivePredicate == null ||
-                exclusivePredicate.isEmpty()){
-            sb.append("▥");
-        }
-        if(referenceConverter != null){
-            sb.append("⇲");
-        }
-        if(overall){
+
+        if(isOverall()){
             sb.append("⇱");
         }
-        if(keyword){
+        if(isKeyword()){
             sb.append("🔑");
+        }
+        if(isCollection()){
+            sb.append("▤");
+        }
+        if(isExclusive()){
+            sb.append("▥");
         }
 
         if(name != null){
             sb.append(name);
         }
-
+        if(isReference()){
+            sb.append("⇲");
+        }
         if(description != null){
             sb.append('⚑')
                     .append(description);
         }
+
         return sb.toString();
     }
 
@@ -311,11 +311,20 @@ public class BlockMeta implements Block {
 
     /**
      * Virtual
-     * As a container contains subordinate meta
      * @return t/f
      */
     public boolean isVirtual(){
-        return this.getSub() != null;
+        return this.getSub() != null &&
+                this.getName() == null;
+    }
+
+    /**
+     * Data
+     * @return t/f
+     */
+    public boolean isData(){
+        return !this.isOverall() &&
+                this.getName() != null;
     }
 
     /**
@@ -354,7 +363,8 @@ public class BlockMeta implements Block {
      * @return t/f
      */
     public boolean isNamedReference(){
-        return this.referenceConverter != null;
+        return this.isReference() &&
+                this.getName() != null;
     }
 
     /**
@@ -363,6 +373,23 @@ public class BlockMeta implements Block {
      * @return t/f
      */
     public boolean isAnonymousReference(){
+        return this.isReference() &&
+                this.getName() == null;
+    }
+
+    /**
+     * Reference By Converter
+     * @return t/f
+     */
+    public boolean isReferenceConverter (){
+        return this.referenceConverter != null;
+    }
+
+    /**
+     * Reference By meta
+     * @return t/f
+     */
+    public boolean isReferenceMeta(){
         return this.referenceMeta != null;
     }
 

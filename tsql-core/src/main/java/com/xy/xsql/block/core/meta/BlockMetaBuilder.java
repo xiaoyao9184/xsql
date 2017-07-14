@@ -184,7 +184,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<ParentBuilder, Reference> sub_ref(BlockMeta meta) {
         return sub()
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .ref(meta)
                 .data(d -> d)
@@ -193,7 +192,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<ParentBuilder, Reference> sub_ref(BlockMeta meta, Function<Reference,?> modelGetter) {
         return sub()
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .ref(meta)
                 .data(modelGetter)
@@ -214,7 +212,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub_list(BlockMeta meta) {
         return sub()
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .list()
                 .ref(meta);
@@ -228,7 +225,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub_repeat(BlockMeta meta) {
         return sub()
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .repeat()
                 .ref(meta);
@@ -257,7 +253,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<ParentBuilder,Reference> czse_ref(Predicate<Reference> predicate, BlockMeta meta) {
         return czse(predicate)
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .ref(meta)
                 .data(d -> d)
@@ -277,7 +272,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<ParentBuilder, Reference> czse_ref(Predicate<Reference> predicate, BlockMeta meta, Function<Reference,?> modelGetter) {
         return czse(predicate)
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .ref(meta)
                 .data(modelGetter)
@@ -313,7 +307,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, BlockMeta meta) {
         return czse(predicate)
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .list()
                 .ref(meta);
@@ -337,7 +330,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, BlockMeta meta) {
         return czse(predicate)
-                .name(meta.getName())
                 .description(meta.getDescription())
                 .repeat()
                 .ref(meta);

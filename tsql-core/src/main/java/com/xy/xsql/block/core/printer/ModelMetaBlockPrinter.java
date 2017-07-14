@@ -2,7 +2,9 @@ package com.xy.xsql.block.core.printer;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
+import com.xy.xsql.block.core.meta.MetaManager;
 import com.xy.xsql.block.exception.BlockStructureCorrectException;
+import com.xy.xsql.block.exception.MetaException;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.ModelMetaBlock;
 
@@ -74,19 +76,32 @@ public class ModelMetaBlockPrinter
         }
 
         //data
-        if(blockMeta.isKeyword()) {
-            //Keyword
-            writer.append(blockMeta.getName());
-        }else if(blockMeta.isNamedReference() &&
-                blockMeta.getName() != null){
+        if(!blockMeta.isOverall() &&
+                blockMeta.isNamedReference()) {
             //Reference Name
             writer.append('<');
             writer.append(blockMeta.getName());
             writer.append('>');
+        }else if(blockMeta.isData()){
+            //Data
+            writer.append(blockMeta.getName());
+        }else if(blockMeta.isKeyword()) {
+            //Keyword
+            writer.append(blockMeta.getName());
         }else if(blockMeta.isAnonymousReference()){
-            //Reference Meta
-            printMeta(blockMeta.getReferenceMeta(),false,writer);
-        }else if(blockMeta.isVirtual()) {
+            if(blockMeta.isReferenceMeta()){
+                //Reference Meta
+                printMeta(blockMeta.getReferenceMeta(),false,writer);
+            }else{
+                //Reference Converter
+                BlockMeta hideMeta = MetaManager
+                        .byConverter(blockMeta.getReferenceConverter())
+                        .get()
+                        .orElseThrow(MetaException::miss_meta);
+                printMeta(hideMeta,false,writer);
+            }
+        }else if(blockMeta.isOverall() ||
+                blockMeta.isVirtual()) {
             //Sub
             String line = blockMeta.isEachSubTakeLine() ? "\n" : " ";
 
@@ -131,10 +146,6 @@ public class ModelMetaBlockPrinter
 //            }else{
 ////                throw new Exception("error block");
 //            }
-        }else if(blockMeta.getName() != null &&
-            !blockMeta.isOverall()){
-            //Data
-            writer.append(blockMeta.getName());
         }
 
 
@@ -156,13 +167,15 @@ public class ModelMetaBlockPrinter
         }
 
         //list repeat
-        if(blockMeta.isList() &&
-                blockMeta.isRepeat()){
-            writer.append(" [ [, ]...n ]");
-        }else if(blockMeta.isList()){
-            writer.append(" [,...n]");
-        }else if(blockMeta.isRepeat()){
-            writer.append(" [...n]");
+        if(!blockMeta.isVirtual()){
+            if(blockMeta.isList() &&
+                    blockMeta.isRepeat()){
+                writer.append(" [ [, ]...n ]");
+            }else if(blockMeta.isList()){
+                writer.append(" [,...n]");
+            }else if(blockMeta.isRepeat()){
+                writer.append(" [...n]");
+            }
         }
 
         //end

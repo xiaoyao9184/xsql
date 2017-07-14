@@ -22,7 +22,7 @@ public class NullIfConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<NULLIF> ::=\n" +
-                        "NULLIF (  [,...n] )");
+                        "NULLIF ( expression , expression )");
     }
 
 }
