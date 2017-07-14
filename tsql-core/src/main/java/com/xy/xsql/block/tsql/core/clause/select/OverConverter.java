@@ -36,8 +36,10 @@ public class OverConverter
                             .ref(RowRangeConverter.class)
                             .data(Over::getRowRange)
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_sub_line_delimiter()
+                        .style_convention_line_delimiter()
+                        .style_start_new_line()
+                        .style_end_new_line()
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();
@@ -110,7 +112,7 @@ public class OverConverter
                         .overall("ROW or RANGE clause")
                         .sub()
                             .description("row/range")
-                            .required()
+                            .style_required()
                             .czse_keyword(Over.RowRange::isUseRows, Keywords.Key.ROWS)
                             .czse_keyword(d -> !d.isUseRows(), Keywords.Key.RANGE)
                             .and()
@@ -135,7 +137,7 @@ public class OverConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameExtent>()
                         .overall("window frame extent")
-                        .required()
+                        .style_required()
                         .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
                             .ref(WindowFramePrecedingConverter.class)
                             .data(d -> d)
@@ -144,8 +146,8 @@ public class OverConverter
                             .ref(WindowFrameBetweenConverter.class)
                             .data(d -> d)
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_sub_line_delimiter()
+                        .style_convention_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -190,7 +192,7 @@ public class OverConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameBound>()
                         .overall("window frame bound")
-                        .required()
+                        .style_required()
                         .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
                             .ref(WindowFramePrecedingConverter.class)
                             .data(d -> d)
@@ -199,8 +201,8 @@ public class OverConverter
                             .ref(WindowFrameFollowingConverter.class)
                             .data(d -> d)
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_sub_line_delimiter()
+                        .style_convention_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -288,7 +290,7 @@ public class OverConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.UnsignedValueSpecification>()
                         .overall("unsigned value specification")
-                        .required()
+                        .style_required()
                         .sub("<unsigned integer literal>")
                             .data(d -> d.toNumberConstant().toString())
                             .and()

@@ -35,7 +35,7 @@ public class OutputConverter
 //                        .sub_keyword(Keywords.INTO)
                         .sub()
                             .description("@table_variable/output_table")
-                            .required()
+                            .style_required()
                             .czse(d -> d.getTableVariable() != null, "@table_variable")
                                 .data(Output::getTableVariable)
                                 .and()
@@ -65,7 +65,7 @@ public class OutputConverter
                             .and()
                         .format_line()
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 
@@ -108,7 +108,7 @@ public class OutputConverter
                         .description("dml_select_list's item")
                         .sub()
                             .description("column_name/scalar_expression")
-                            .required()
+                            .style_required()
                             .czse(d -> d.getColumnName() != null, "column_name")
                                 .ref(ColumnNameConverter.class)
                                 .data(Output.DmlSelect::getColumnName)
@@ -116,7 +116,7 @@ public class OutputConverter
                             .czse(d -> d.getScalarExpression() != null, "scalar_expression")
                                 .data(Output.DmlSelect::getScalarExpression)
                                 .and()
-                            .required()
+                            .style_required()
                             .and()
                         .sub()
                             .description("as column_alias_identifier")
@@ -155,7 +155,7 @@ public class OutputConverter
                             .description("deleted/inserted/from_table_name column_name")
                             .sub()
                                 .description("deleted/inserted/from_table_name")
-                                .required()
+                                .style_required()
                                 .czse(Output.ColumnName::isUseDeleted)
                                     .keyword(Keywords.Key.DELETED)
                                     .and()
@@ -171,7 +171,7 @@ public class OutputConverter
                                 .and()
                             .sub()
                                 .description("*/column_name")
-                                .required()
+                                .style_required()
                                 .czse(Output.ColumnName::isUseAll, "*")
                                     .keyword(Other.ASTERISK)
                                     .and()
@@ -183,7 +183,7 @@ public class OutputConverter
                         .czse(Output.ColumnName::is$action, "$action")
                             .data(d -> "$action")
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 

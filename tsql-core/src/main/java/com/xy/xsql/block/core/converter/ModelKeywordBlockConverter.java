@@ -17,6 +17,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.xy.xsql.block.core.printer.ModelMetaBlockPrinter.BlockConvention.EMPTY;
+import static com.xy.xsql.block.core.printer.ModelMetaBlockPrinter.BlockConvention.LINE;
 import static com.xy.xsql.block.exception.MetaException.*;
 
 /**
@@ -60,43 +62,16 @@ public class ModelKeywordBlockConverter<MODEL>
             throw miss_model(meta);
         }
 
-        //format
-        if(meta.getFormat() != null){
-            context.setNewLine(meta.getFormat().isNewLine());
-            context.addLevel(meta.getFormat().getIndentation());
-        }
+
+        //format style
+        meta.format()
+                .ifPresent(format -> {
+                    context.setNewLine(format.isNewLine());
+                    context.addLevel(format.getIndentation());
+                });
 
         //data
-        if(meta.isReference()){
-            //Reference
-            BlockMeta refMeta;
-            if(meta.isNamedReference()){
-                Optional<BlockMeta> optional = MetaManager
-                        .byConverter(meta.getReferenceConverter())
-                        .get();
-                if(!optional.isPresent()){
-                    throw miss_reference_meta(meta);
-                }else{
-                    refMeta = optional.get();
-                }
-            }else{
-                refMeta = meta.getReferenceMeta();
-            }
-
-            Object refModel = meta.getScope(model);
-
-            if(meta.isList() &&
-                    refModel instanceof List){
-                //List
-                build(refMeta, (List) refModel, ", ", context);
-            }else if(meta.isRepeat() &&
-                    refModel instanceof List){
-                //Repeat
-                build(refMeta, (List) refModel, " ", context);
-            }else{
-                build(refMeta, refModel, context);
-            }
-        }else if(meta.isExclusive()){
+        if(meta.isExclusive()){
             if(meta.getExclusivePredicate().size() != meta.getSub().size()){
                 throw MetaException.not_same_exclusive_meta_and_predicate(meta);
             }
@@ -114,9 +89,51 @@ public class ModelKeywordBlockConverter<MODEL>
                 index++;
             }
             if(index != -1){
-                throw MetaException.nothing_pass_exclusive(meta);
+                //TODO
+                //hide exclusive
+                /**
+                 * {@link com.xy.xsql.block.tsql.core.clause.select.GroupByConverter.ColumnNameItemConverter}
+                 */
+                Optional<BlockMeta> optional = MetaManager
+                        .byModel(model.getClass())
+                        .get();
+                if(!optional.isPresent()){
+                    throw MetaException.nothing_pass_exclusive(meta);
+                }else{
+                    build(optional.get(), model, context);
+                }
             }
-        }else if(meta.isVirtual()){
+        }else if(meta.isReference()){
+            //Reference
+            BlockMeta refMeta;
+            if(meta.isReferenceConverter()){
+                Optional<BlockMeta> optional = MetaManager
+                        .byConverter(meta.getReferenceConverter())
+                        .get();
+                if(!optional.isPresent()){
+                    throw miss_reference_meta(meta);
+                }else{
+                    refMeta = optional.get();
+                }
+            }else{
+                refMeta = meta.getReferenceMeta();
+            }
+            Object refModel = meta.getScope(model);
+
+            if(meta.isList() &&
+                    refModel instanceof List){
+                //List
+                build(refMeta, (List) refModel, ", ", context);
+            }else if(meta.isRepeat() &&
+                    refModel instanceof List){
+                //Repeat
+                build(refMeta, (List) refModel, " ", context);
+            }else{
+                build(refMeta, refModel, context);
+            }
+        }else if(meta.isOverall() ||
+                meta.isVirtual() ||
+                meta.getSub() != null){
             //Virtual
             if(meta.isList() ||
                     meta.isRepeat()){
@@ -147,14 +164,22 @@ public class ModelKeywordBlockConverter<MODEL>
             context.add(blockString);
         }else{
             //Data
-            Object dataModel = meta.getScope(model);
-            if(dataModel == null){
+            Object data = meta.getScope(model);
+            if(data == null){
                 throw miss_model(meta);
             }
-            if(dataModel instanceof List &&
+
+            Optional<BlockMeta> optional = MetaManager
+                    .byModel(data.getClass())
+                    .get();
+
+            if(optional.isPresent()){
+                BlockMeta hiddenMeta = optional.get();
+                build(hiddenMeta,data,context);
+            }else if(data instanceof List &&
                     meta.isCollection()){
                 //collection model
-                List<Object> collectionModel = (List)dataModel;
+                List<Object> collectionModel = (List)data;
                 if(collectionModel.size() <= 0){
                     throw data_collection_empty(meta);
                 }
@@ -185,7 +210,8 @@ public class ModelKeywordBlockConverter<MODEL>
                         .collect(Collectors.toList());
 
                 String finalDelimiter = delimiter;
-                List<String> listTemp = collectionContext.stream()
+                List<String> listTemp = collectionContext
+                        .stream()
                         //joining
                         .flatMap(context1 -> Stream.concat(
                                 Stream.of(finalDelimiter),
@@ -196,7 +222,8 @@ public class ModelKeywordBlockConverter<MODEL>
                 context.addAll(listTemp);
             }else{
                 //Unknown
-                context.add(dataModel.toString());
+                //TODO may be hide meta
+                context.add(data.toString());
             }
         }
     }

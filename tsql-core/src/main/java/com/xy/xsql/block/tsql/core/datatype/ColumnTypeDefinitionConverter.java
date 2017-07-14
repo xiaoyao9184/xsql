@@ -70,7 +70,7 @@ public class ColumnTypeDefinitionConverter
 //                            .and()
 //                        .data(d -> d.getCollationName())
 //                        .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 
@@ -88,7 +88,7 @@ public class ColumnTypeDefinitionConverter
                 new BlockMetaBuilder<Void,ColumnDefinition.ColumnConstraint>()
                         .overall("column_constraint")
                         .czse(d -> d.isUseNull() || d.isUseNotNull())
-                            .optional()
+                            .style_optional()
                             .czse(ColumnDefinition.ColumnConstraint::isUseNull)
                                 .keyword(Keywords.NULL)
                                 .and()
@@ -98,7 +98,7 @@ public class ColumnTypeDefinitionConverter
                                 .and()
                             .and()
                         .czse(d -> d.isUsePrimaryKey() || d.isUseUique())
-                            .optional()
+                            .style_optional()
                             .czse(ColumnDefinition.ColumnConstraint::isUsePrimaryKey)
                                 .sub_keyword(Keywords.PRIMARY)
                                 .sub_keyword(Keywords.KEY)
@@ -115,7 +115,7 @@ public class ColumnTypeDefinitionConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 

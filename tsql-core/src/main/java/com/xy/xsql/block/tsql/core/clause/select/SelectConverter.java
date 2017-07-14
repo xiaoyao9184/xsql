@@ -34,12 +34,12 @@ public class SelectConverter
                     .sub("TOP ( expression ) [ PERCENT ] [ WITH TIES ]")
                         .optional(d -> d.getTop() == null)
                         .data(Select::getTop)
-                        .startNewline()
+                        .style_start_new_line()
                         .and()
                     .sub("select_list")
                         .ref(SelectListConverter.class)
                         .data(Select::getSelectList)
-                        .startNewline()
+                        .style_start_new_line()
                         .and()
                     .build();
     // @formatter:on
@@ -58,8 +58,9 @@ public class SelectConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,List<Select.SelectItem>>()
                         .overall("select_list")
-                        .list()
-                        .ref(SelectItemConverter.meta)
+                        .sub_list(SelectItemConverter.meta)
+                            .data(d -> d)
+                            .and()
                         .build();
         // @formatter:on
 
@@ -78,7 +79,7 @@ public class SelectConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Select.SelectItem>()
                         .description("select item")
-                        .required()
+                        .style_required()
                         .czse(Select.SelectItem::isUseAll, "*")
                             .description("all")
                             .keyword(Other.ASTERISK)
@@ -89,7 +90,7 @@ public class SelectConverter
                             .and()
                         .czse(d -> !d.isUseEQ())
                             .description("base")
-                            .required()
+                            .style_required()
                             .sub()
                                 .description("column/expression")
                                 .czse(d -> d.getColumnName() != null)
@@ -99,7 +100,7 @@ public class SelectConverter
                                         .data(d -> d.getTableViewName() + ".")
                                         .and()
                                     .sub("column_name | $IDENTITY | $ROWGUID")
-                                        .required()
+                                        .style_required()
                                         .czse(d -> d.getColumnName() != null, "column_name")
                                             .data(d -> d.getColumnName().toString())
                                             .and()
@@ -122,7 +123,7 @@ public class SelectConverter
 //                                        .optional()
 //                                        .sub()
 //                                            .description(". | ::")
-//                                            .required()
+//                                            .style_required()
 //                                            .oneOf(".")
 //                                                .data(".")
 //                                                .and()
@@ -131,7 +132,7 @@ public class SelectConverter
 //                                                .and()
 //                                            .and()
 //                                        .sub()
-//                                            .required()
+//                                            .style_required()
 //                                            .oneOf()
 //                                                .description("property_name | field_name")
 //                                                .oneOf("property_name")
@@ -160,7 +161,7 @@ public class SelectConverter
                                 .czse(d -> d.getExpression() != null, "expression")
                                     .data(Select.SelectItem::getExpression)
                                     .and()
-                                .subTakeLine()
+                                .style_sub_line_delimiter()
                                 .and()
                             .sub()
                                 .description("[ AS ] column_alias")
@@ -173,8 +174,8 @@ public class SelectConverter
                                     .data(Select.SelectItem::getColumnAlias)
                                     .and()
                                 .and()
-                            .subTakeLine()
-                            .headFootTakeLine()
+                            .style_sub_line_delimiter()
+                            .style_convention_line_delimiter()
                             .and()
                         .czse(Select.SelectItem::isUseEQ)
                             .description("column_alias = expression")
@@ -186,8 +187,8 @@ public class SelectConverter
                                 .data(Select.SelectItem::getExpression)
                                 .and()
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_sub_line_delimiter()
+                        .style_convention_line_delimiter()
                         .build();
         // @formatter:on
 

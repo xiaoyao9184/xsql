@@ -20,7 +20,7 @@ public class ForConverter
                 .sub_keyword(Keywords.FOR)
                 .sub()
                     .description("{ BROWSE | <XML> | <JSON>}")
-                    .required()
+                    .style_required()
                     .czse(For::isUseBrowse)
                         .keyword(Keywords.BROWSE)
                         .and()
@@ -51,13 +51,13 @@ public class ForConverter
                         .overall("XML")
                         .sub_keyword(Keywords.Key.XML)
                         .sub()
-                            .required()
+                            .style_required()
                             .czse(d -> d.isUseRaw() ||
                                     d.isUseAuto()
                             )
                                 .sub()
                                     .description("RAW | AUTO")
-                                    .required()
+                                    .style_required()
                                     .czse(For.Xml::isUseRaw)
                                         .description("RAW")
                                         .sub_keyword(Keywords.Key.RAW)
@@ -87,7 +87,7 @@ public class ForConverter
                                         d.isUseElementsAbsent()
                                         ))
                                     .sub("CommonDirectivesForXML")
-                                        .ref(CommonDirectivesForXMLConverter.class)
+                                        .ref(CommonDirectivesForXMLConverter.meta)
                                         .data(d -> d)
                                         .and()
                                     .sub()
@@ -98,7 +98,7 @@ public class ForConverter
                                             ))
                                         .sub_keyword(Other.DELIMITER)
                                         .sub()
-                                            .required()
+                                            .style_required()
                                             .czse(For.Xml::isUseXmlData)
                                                 .keyword(Keywords.Key.XMLDATA)
                                                 .and()
@@ -138,9 +138,9 @@ public class ForConverter
                                                 .and()
                                             .and()
                                         .and()
-                                    .startNewline()
-                                    .headFootTakeLine()
-                                    .subTakeLine()
+                                    .style_start_new_line()
+                                    .style_convention_line_delimiter()
+                                    .style_sub_line_delimiter()
                                     .and()
                                 .and()
                             .czse(For.Xml::isUseExplicit)
@@ -154,7 +154,7 @@ public class ForConverter
                                         d.isUseXmlData()
                                         ))
                                     .sub("CommonDirectivesForXML")
-                                        .ref(CommonDirectivesForXMLConverter.class)
+                                        .ref(CommonDirectivesForXMLConverter.meta)
                                         .data(d -> d)
                                         .and()
                                     .sub()
@@ -165,10 +165,10 @@ public class ForConverter
                                         .sub_keyword(Other.DELIMITER)
                                         .sub_keyword(Keywords.Key.XMLDATA)
                                         .and()
-                                    .headFootTakeLine()
-                                    .subTakeLine()
+                                    .style_convention_line_delimiter()
+                                    .style_sub_line_delimiter()
                                     .and()
-                                .subTakeLine()
+                                .style_sub_line_delimiter()
                                 .and()
                             .czse(For.Xml::isUsePath)
                                 .description("-PATH")
@@ -191,7 +191,7 @@ public class ForConverter
                                         d.isUseElementsAbsent()
                                         ))
                                     .sub("CommonDirectivesForXML")
-                                        .ref(CommonDirectivesForXMLConverter.class)
+                                        .ref(CommonDirectivesForXMLConverter.meta)
                                         .data(d -> d)
                                         .and()
                                     .sub()
@@ -216,15 +216,15 @@ public class ForConverter
                                                 .and()
                                             .and()
                                         .and()
-                                    .startNewline()
-                                    .headFootTakeLine()
-                                    .subTakeLine()
+                                    .style_start_new_line()
+                                    .style_convention_line_delimiter()
+                                    .style_sub_line_delimiter()
                                     .and()
                                 .and()
-                            .headFootTakeLine()
-                            .subTakeLine()
+                            .style_convention_line_delimiter()
+                            .style_sub_line_delimiter()
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -236,8 +236,7 @@ public class ForConverter
     }
 
 
-    public static class CommonDirectivesForXMLConverter
-            implements ModelMetaBlockConverter<For.Xml> {
+    public static class CommonDirectivesForXMLConverter {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -267,11 +266,10 @@ public class ForConverter
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
-        @Override
         public BlockMeta meta() {
             return meta;
         }
@@ -287,10 +285,10 @@ public class ForConverter
                 new BlockMetaBuilder<Void,For.Json>()
                         .sub_keyword(Keywords.Key.JSON)
                         .sub()
-                            .required()
+                            .style_required()
                             .sub()
                                 .description("AUTO | PATH")
-                                .required()
+                                .style_required()
                                 .czse(d -> !d.isUsePath())
                                     .keyword(Keywords.Key.AUTO)
                                     .and()
@@ -327,13 +325,13 @@ public class ForConverter
                                     .sub_keyword(Other.DELIMITER)
                                     .sub_keyword(Keywords.Key.WITHOUT_ARRAY_WRAPPER)
                                     .and()
-                                .subTakeLine()
-                                .headFootTakeLine()
+                                .style_sub_line_delimiter()
+                                .style_convention_line_delimiter()
                                 .and()
-                            .subTakeLine()
-                            .headFootTakeLine()
+                            .style_sub_line_delimiter()
+                            .style_convention_line_delimiter()
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                     .build();
         // @formatter:on
 

@@ -16,6 +16,7 @@ import static com.xy.xsql.core.ListBuilder.initNew2;
  * @param <ParentBuilder>
  * @param <Reference> Refer to create blocks
  */
+@SuppressWarnings("WeakerAccess")
 public class BlockMetaBuilder<ParentBuilder,Reference>
         extends CodeTreeBuilder<BlockMetaBuilder<ParentBuilder,Reference>, ParentBuilder, BlockMeta> {
 
@@ -87,9 +88,8 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @return THIS
      */
     public BlockMetaBuilder<ParentBuilder,Reference> optional(Predicate<Reference> predicate) {
-        target.setOptional(true);
         target.setOptionalPredicate(predicate);
-        return this;
+        return this.style().optional(true);
     }
 
     /**
@@ -121,6 +121,11 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      */
     public <C extends ModelMetaBlockConverter> BlockMetaBuilder<ParentBuilder, Reference> ref(Class<C> converterClass) {
         target.setReferenceConverter(converterClass);
+//        if(target.isNamedReference()){
+//            this.style_reference();
+//        }
+        //TODO must have name
+        this.style_reference();
         return this;
     }
 
@@ -131,6 +136,9 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      */
     public BlockMetaBuilder<ParentBuilder, Reference> ref(BlockMeta meta) {
         target.setReferenceMeta(meta);
+        if(target.isNamedReference()){
+            this.style_reference();
+        }
         return this;
     }
 
@@ -257,17 +265,6 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
                 .ref(meta)
                 .data(d -> d)
                 .and();
-//        exclusive();
-//        initAdd(predicate,
-//                target::getExclusivePredicate,
-//                target::setExclusivePredicate);
-//        //TODO TEST
-//        return sub_ref(meta);
-
-//        initAdd(meta,
-//                target::getSub,
-//                target::setSub);
-//        return this;
     }
 
     public BlockMetaBuilder<ParentBuilder, Reference> czse_ref(Predicate<Reference> predicate, BlockMeta meta, Function<Reference,?> modelGetter) {
@@ -276,33 +273,18 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
                 .ref(meta)
                 .data(modelGetter)
                 .and();
-//        exclusive();
-//        initAdd(predicate,
-//                target::getExclusivePredicate,
-//                target::setExclusivePredicate);
-//        return sub_ref(meta, data);
     }
 
     public BlockMetaBuilder<ParentBuilder,Reference> czse_keyword(Predicate<Reference> predicate, Enum keywords) {
         return czse(predicate)
                 .keyword(keywords)
                 .and();
-//        exclusive();
-//        initAdd(predicate,
-//                target::getExclusivePredicate,
-//                target::setExclusivePredicate);
-//        return sub_keyword(keywords);
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, String name) {
         return czse(predicate)
                 .name(name)
                 .list();
-//        exclusive();
-//        initAdd(predicate,
-//                target::getExclusivePredicate,
-//                target::setExclusivePredicate);
-//        return sub_list(name);
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, BlockMeta meta) {
@@ -310,22 +292,12 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
                 .description(meta.getDescription())
                 .list()
                 .ref(meta);
-//        exclusive();
-//        initAdd(predicate,
-//                target::getExclusivePredicate,
-//                target::setExclusivePredicate);
-//        return sub_list(meta);
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, String name) {
         return czse(predicate)
                 .name(name)
                 .repeat();
-//        exclusive();
-//        initAdd(predicate,
-//                target::getExclusivePredicate,
-//                target::setExclusivePredicate);
-//        return sub_repeat(name);
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, BlockMeta meta) {
@@ -333,47 +305,8 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
                 .description(meta.getDescription())
                 .repeat()
                 .ref(meta);
-//        exclusive();
-//        initAdd(predicate,
-//                target::getExclusivePredicate,
-//                target::setExclusivePredicate);
-//        return sub_repeat(meta);
     }
 
-
-    /*
-    Style
-     */
-
-    public BlockMetaBuilder<ParentBuilder,Reference> required(){
-        target.setRequired(true);
-        return this;
-    }
-
-    public BlockMetaBuilder<ParentBuilder,Reference> optional(){
-        target.setOptional(true);
-        return this;
-    }
-
-    public BlockMetaBuilder<ParentBuilder,Reference> subTakeLine() {
-        target.setEachSubTakeLine(true);
-        return this;
-    }
-
-    public BlockMetaBuilder<ParentBuilder,Reference> headFootTakeLine() {
-        target.setHeadFootTakeLine(true);
-        return this;
-    }
-
-    public BlockMetaBuilder<ParentBuilder,Reference> startNewline() {
-        target.setStartNewLine(true);
-        return this;
-    }
-
-    public BlockMetaBuilder<ParentBuilder,Reference> endNewline() {
-        target.setEndNewLine(true);
-        return this;
-    }
 
     /*
     Format
@@ -406,11 +339,88 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
         return format().indentation(-1);
     }
 
+    /*
+    Style
+     */
+
+    public StyleBuilder<BlockMetaBuilder<ParentBuilder,Reference>> style() {
+        return new StyleBuilder<BlockMetaBuilder<ParentBuilder,Reference>>
+                (initSet(BlockMeta.Style::new,
+                        target::getStyle,
+                        target::setStyle))
+                .in(this);
+    }
+
+    /**
+     * style_required style
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_required(){
+        return this.style().required(true);
+    }
+
+    /**
+     * optional style
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_optional() {
+        return style().optional(true);
+    }
+
+    /**
+     * reference style
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_reference() {
+        return style().reference(true);
+    }
+
+    /**
+     * remove reference style
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_remove_reference() {
+        return style().reference(false);
+    }
+
+    /**
+     * use line delimiter for each sub
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_sub_line_delimiter() {
+        return style().subLineDelimiter(true);
+    }
+
+    /**
+     * use line delimiter for optional and required
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_convention_line_delimiter() {
+        return style().conventionLineDelimiter(true);
+    }
+
+    /**
+     * use
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_start_new_line() {
+        return style().startNewLine(true);
+    }
+
+    /**
+     * use
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder,Reference> style_end_new_line() {
+        return style().endNewLine(true);
+    }
+
 
     /**
      * FormatBuilder
      * @param <ParentBuilder>
      */
+    @SuppressWarnings({"TypeParameterHidesVisibleType", "unused"})
     public class FormatBuilder<ParentBuilder>
             extends CodeTreeBuilder<FormatBuilder<ParentBuilder>, ParentBuilder, BlockMeta.Format> {
 
@@ -432,6 +442,60 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
             return and();
         }
 
+    }
+
+
+    /**
+     * StyleBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "TypeParameterHidesVisibleType", "unused"})
+    public class StyleBuilder<ParentBuilder>
+            extends CodeTreeBuilder<StyleBuilder<ParentBuilder>, ParentBuilder, BlockMeta.Style> {
+
+        public StyleBuilder() {
+            super(new BlockMeta.Style());
+        }
+
+        public StyleBuilder(BlockMeta.Style style) {
+            super(style);
+        }
+
+
+        public ParentBuilder required(boolean flag) {
+            target.setRequired(flag);
+            return and();
+        }
+
+        public ParentBuilder optional(boolean flag) {
+            target.setOptional(flag);
+            return and();
+        }
+
+        public ParentBuilder reference(boolean flag) {
+            target.setReference(flag);
+            return and();
+        }
+
+        public ParentBuilder subLineDelimiter(boolean flag) {
+            target.setSubLineDelimiter(flag);
+            return and();
+        }
+
+        public ParentBuilder conventionLineDelimiter(boolean flag) {
+            target.setConventionLineDelimiter(flag);
+            return and();
+        }
+
+        public ParentBuilder startNewLine(boolean flag) {
+            target.setStartNewLine(flag);
+            return and();
+        }
+
+        public ParentBuilder endNewLine(boolean flag) {
+            target.setEndNewLine(flag);
+            return and();
+        }
     }
 
 }

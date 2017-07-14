@@ -21,9 +21,9 @@ public class GroupByConverter
                     .sub_keyword(Keywords.BY)
                     .sub_list(ItemConverter.meta)
                         .description("--GroupBy_Item_List")
-                        .required()
+                        .style_required()
                         .data(GroupBy::getItems)
-                        .headFootTakeLine()
+                        .style_convention_line_delimiter()
                         .and()
                     .build();
     // @formatter:on
@@ -40,6 +40,7 @@ public class GroupByConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.Item>()
+                        .description("group by's item")
                         .czse_ref(d -> d instanceof GroupBy.BaseItem, BaseItemConverter.meta)
                         .czse_ref(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
                         .czse_ref(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
@@ -48,7 +49,7 @@ public class GroupByConverter
                             .description("calculates the grand total")
                             .keyword("()")
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -88,7 +89,7 @@ public class GroupByConverter
                         .sub_keyword(Other.GROUP_START)
                         .sub("group_by_expression")
                             .description("{ <group_by_expression> } [,...n]")
-                            .required()
+                            .style_required()
                             .list()
                             .ref(GroupByExpressionConverter.class)
                             .data(GroupBy.RollupItem::getGroupByExpressionList)
@@ -114,7 +115,7 @@ public class GroupByConverter
                         .sub_keyword(Other.GROUP_START)
                         .sub("group_by_expression")
                             .description("{ <group_by_expression> } [,...n]")
-                            .required()
+                            .style_required()
                             .list()
                             .ref(GroupByExpressionConverter.class)
                             .data(GroupBy.CubeItem::getGroupByExpressionList)
@@ -141,7 +142,7 @@ public class GroupByConverter
                         .sub_keyword(Other.GROUP_START)
                         .sub("grouping_set")
                             .description("{ <grouping_set> } [,...n]")
-                            .required()
+                            .style_required()
                             .list()
                             .ref(GroupingSetConverter.class)
                             .data(GroupBy.GroupingSetsItem::getGroupingSetItemList)
@@ -220,7 +221,7 @@ public class GroupByConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -257,7 +258,7 @@ public class GroupByConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -279,7 +280,7 @@ public class GroupByConverter
                             .and()
                         .czse_ref(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
                         .czse_ref(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 

@@ -22,7 +22,7 @@ public class SetVariableConverter
                         .data(SetVariable::getLocalVariable)
                         .and()
                     .sub("+= | -= | *= | /= | %= | &= | ^= | |= ")
-                        .required()
+                        .style_required()
                         .data(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
                         .and()
                     .sub("expression")

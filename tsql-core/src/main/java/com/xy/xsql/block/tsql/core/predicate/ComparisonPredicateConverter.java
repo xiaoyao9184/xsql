@@ -20,7 +20,7 @@ public class ComparisonPredicateConverter
                         .and()
                     .sub("= | < > | ! = | > | > = | ! > | < | < = | ! <")
                         .data(Comparison::getOperator)
-                        .required()
+                        .style_required()
                         .and()
                     .sub("expression")
                         .data(Comparison::getOperatorExpression)

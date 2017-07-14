@@ -19,7 +19,7 @@ public class UpdateConverter
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,Update>()
                     .overall("UPDATE")
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .sub("WITH <common_table_expression> [ ,...n ]")
                         .optional(d -> d.getWith() == null)
                         .data(Update::getWith)
@@ -31,12 +31,12 @@ public class UpdateConverter
                         .and()
                     .sub()
                         .description("update target")
-                        .required()
+                        .style_required()
                         .czse(d ->
                                 d.getTableAlias() != null ||
                                 d.getTableName() != null
                             )
-                            .required()
+                            .style_required()
                             .sub()
                                 .description("table_alias/object/function")
                                 .czse(d -> d.getTableAlias() != null, "table_alias")
@@ -59,13 +59,13 @@ public class UpdateConverter
                                     .and()
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
-                            .subTakeLine()
+                            .style_sub_line_delimiter()
                             .and()
 //                        .czse_ref(d -> d.getTableVariable() != null,"@table_variable")
 //                            .data(d -> d.getTableVariable())
 //                            .and()
-                        .headFootTakeLine()
-                        .subTakeLine()
+                        .style_convention_line_delimiter()
+                        .style_sub_line_delimiter()
                         .and()
                     .sub_keyword(Keywords.SET)
                     .sub()
@@ -106,15 +106,15 @@ public class UpdateConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.SetItem>()
-                        .subTakeLine()
-                        .required()
+                        .style_sub_line_delimiter()
+                        .style_required()
                         .czse_ref(d -> d instanceof Update.ColumnAssignmentSet, ColumnAssignmentSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableAssignmentSet, VariableAssignmentSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableColumnAssignmentSet, VariableColumnAssignmentSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.ColumnCompoundSet, ColumnCompoundSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableCompoundSet, VariableCompoundSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableColumnCompoundSet, VariableColumnCompoundSetConverter.meta)
-                        .headFootTakeLine()
+                        .style_convention_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -171,7 +171,7 @@ public class UpdateConverter
                     .sub("expression")
                         .data(Update.VariableAssignmentSet::getExpression)
                         .and()
-                        .build();
+                    .build();
         // @formatter:on
 
         @Override
@@ -246,7 +246,7 @@ public class UpdateConverter
                         .data(Update.VariableCompoundSet::getVariable)
                         .and()
                     .sub("+= | -= | *= | /= | %= | &= | ^= | |=")
-                        .required()
+                        .style_required()
                         .data(Update.VariableCompoundSet::getCompound)
                         .and()
                     .sub("expression")
@@ -277,7 +277,7 @@ public class UpdateConverter
                             .data(Update.VariableColumnCompoundSet::getColumnName)
                             .and()
                         .sub("+= | -= | *= | /= | %= | &= | ^= | |=")
-                            .required()
+                            .style_required()
                             .data(Update.VariableCompoundSet::getCompound)
                             .and()
                         .sub("expression")

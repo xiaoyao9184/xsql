@@ -75,7 +75,7 @@ public class TableHintLimitedConverter
                     .czse(d -> d.equals(TableHintLimited.XLOCK))
                         .keyword(TableHintLimited.XLOCK)
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 

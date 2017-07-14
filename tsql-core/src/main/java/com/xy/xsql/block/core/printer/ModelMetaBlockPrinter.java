@@ -1,23 +1,34 @@
 package com.xy.xsql.block.core.printer;
 
-import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.core.meta.MetaManager;
-import com.xy.xsql.block.exception.BlockStructureCorrectException;
 import com.xy.xsql.block.exception.MetaException;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.ModelMetaBlock;
 
 import java.io.StringWriter;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.xy.xsql.block.core.printer.ModelMetaBlockPrinter.BlockConvention.*;
+import static com.xy.xsql.block.exception.MetaException.*;
 
 /**
+ *
+ * Print Meta
+ * Only need to go deep into 'Data meta'
+ *
+ *
+ * Print Model
+ * Must go deep into the bottom,
+ * Even if the 'Reference meta' is used,
+ * Or a 'Data meta' that contains a subset
+ *
  * Created by xiaoyao9184 on 2017/6/9.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
 public class ModelMetaBlockPrinter
         implements BlockPrinter<ModelMetaBlock,StringWriter> {
 
@@ -45,50 +56,78 @@ public class ModelMetaBlockPrinter
      * @return writer
      */
     public StringWriter printMeta(BlockMeta blockMeta, boolean printOverall, StringWriter writer) {
+        //Syntax
         if(blockMeta.isOverall() &&
                 printOverall) {
-            //Syntax
-            writer.append('<');
-            writer.append(blockMeta.getName());
-            writer.append("> ::=\n");
+            writer.append(LABEL_START.toString())
+                    .append(blockMeta.getName())
+                    .append(LABEL_END.toString())
+                    .append(SPACE.toString())
+                    .append("::=")
+                    .append(LINE.toString());
         }
 
-        //start
-        if(blockMeta.isStartNewLine()){
-            writer.append("\n");
-        }
+        //start style
+        writer.append(blockMeta.style()
+                .filter(BlockMeta.Style::isStartNewLine)
+                .map(style -> LINE.toString())
+                .orElse(EMPTY.toString()));
 
-        //style
-        if(blockMeta.isOptional()){
-            if(blockMeta.isHeadFootTakeLine()){
-                writer.append("[\n");
-            }else{
-                writer.append("[ ");
-            }
-        }else if(blockMeta.isRequired()){
-            if(blockMeta.isHeadFootTakeLine()){
-                writer.append("{\n");
-            }else{
-                writer.append("{ ");
-            }
-        }else if(blockMeta.isHeadFootTakeLine()){
-            writer.append("\n");
-        }
+        writer.append(blockMeta.style()
+                .filter(BlockMeta.Style::isOptional)
+                .map(style -> OPTIONAL_START.toString())
+                .orElse(EMPTY.toString()));
+        writer.append(blockMeta.style()
+                .filter(BlockMeta.Style::isRequired)
+                .map(style -> REQUIRED_START.toString())
+                .orElse(EMPTY.toString()));
 
-        //data
-        if(!blockMeta.isOverall() &&
-                blockMeta.isNamedReference()) {
-            //Reference Name
-            writer.append('<');
-            writer.append(blockMeta.getName());
-            writer.append('>');
-        }else if(blockMeta.isData()){
-            //Data
-            writer.append(blockMeta.getName());
-        }else if(blockMeta.isKeyword()) {
-            //Keyword
+        writer.append(blockMeta.style()
+                .filter(style -> style.isOptional() || style.isRequired())
+                .filter(style -> !style.isConventionLineDelimiter())
+                .map(style -> SPACE.toString())
+                .orElse(EMPTY.toString()));
+        writer.append(blockMeta.style()
+                .filter(style -> style.isOptional() || style.isRequired())
+                .filter(style -> style.isConventionLineDelimiter())
+                .map(style -> LINE.toString())
+                .orElse(EMPTY.toString()));
+
+        writer.append(blockMeta.style()
+                .filter(style -> style.isReference())
+                .map(style -> LABEL_START.toString())
+                .orElse(EMPTY.toString()));
+
+        //start type style
+//        blockMeta.style()
+//                .ifPresent(style -> {
+//                    if(style.isOptional()){
+//                        if(style.isConventionLineDelimiter()){
+//                            writer.append("[\n");
+//                        }else{
+//                            writer.append("[ ");
+//                        }
+//                    }else if(style.isRequired()){
+//                        if(style.isConventionLineDelimiter()){
+//                            writer.append("{\n");
+//                        }else{
+//                            writer.append("{ ");
+//                        }
+//                    }else if(style.isConventionLineDelimiter()){
+//                        writer.append("\n");
+//                    }
+//
+//                    if(style.isReference()){
+//                        writer.append("<");
+//                    }
+//                });
+
+        //context
+        if(blockMeta.isData()){
+            //use Name
             writer.append(blockMeta.getName());
         }else if(blockMeta.isAnonymousReference()){
+            //no use name
             if(blockMeta.isReferenceMeta()){
                 //Reference Meta
                 printMeta(blockMeta.getReferenceMeta(),false,writer);
@@ -103,68 +142,72 @@ public class ModelMetaBlockPrinter
         }else if(blockMeta.isOverall() ||
                 blockMeta.isVirtual()) {
             //Sub
-            String line = blockMeta.isEachSubTakeLine() ? "\n" : " ";
+            StringBuilder delimiterBuilder = new StringBuilder();
+            delimiterBuilder.append(blockMeta.style()
+                            .filter(BlockMeta.Style::isSubNewLine)
+                            .map(style -> "\n")
+                            .orElse(" "));
 
             if(blockMeta.isExclusive()){
-                line = line + "| ";
+                delimiterBuilder.append("| ");
             }else if(blockMeta.isList()){
-                line = line + ", ";
+                delimiterBuilder.append(", ");
             }
+            printMeta(blockMeta.getSub(),false,delimiterBuilder.toString(),writer);
+        }
 
-            if(blockMeta.isNamedReference()){
-                writer.append('<');
-            }
-            printMeta(blockMeta.getSub(),false,line,writer);
-            if(blockMeta.isNamedReference()){
-                writer.append('>');
-            }
-
-//            if(blockMeta.isExclusive()){
-//                //Exclusive
-//                printMeta(blockMeta.getSub(),false,line + "| ",writer);
-//            }else if(blockMeta.isList()){
-//                //List
-//                if(blockMeta.isReference()){
-//                    writer.append('<');
-//                    printMeta(blockMeta.getSub(),false,line + ", ",writer);
-//                    if(blockMeta.isReference()){
-//                        writer.append('>');
+//        //end type style
+//        blockMeta.style()
+//                .ifPresent(style -> {
+//                    if(style.isReference()){
+//                        writer.append(">");
 //                    }
-//                }else{
 //
-//                }
-//
-//            }else if(blockMeta.getSub() != null){
-//                if(blockMeta.isReference()){
-//                    writer.append('<');
-//                }
-//                //Repeat
-//                printMeta(blockMeta.getSub(),false,line,writer);
-//                if(blockMeta.isReference()){
-//                    writer.append('>');
-//                }
-//            }else{
-////                throw new Exception("error block");
-//            }
-        }
+//                    if(style.isOptional()){
+//                        if(style.isConventionLineDelimiter()){
+//                            writer.append("\n]");
+//                        }else{
+//                            writer.append(" ]");
+//                        }
+//                    }else if(style.isRequired()){
+//                        if(style.isConventionLineDelimiter()){
+//                            writer.append("\n}");
+//                        }else{
+//                            writer.append(" }");
+//                        }
+//                    }else if(style.isConventionLineDelimiter()){
+//                        writer.append("\n");
+//                    }
+//                });
+
+        //end style
 
 
-        //style
-        if(blockMeta.isRequired()){
-            if(blockMeta.isHeadFootTakeLine()){
-                writer.append("\n}");
-            }else{
-                writer.append(" }");
-            }
-        }else if(blockMeta.isOptional()){
-            if(blockMeta.isHeadFootTakeLine()){
-                writer.append("\n]");
-            }else{
-                writer.append(" ]");
-            }
-        }else if(blockMeta.isHeadFootTakeLine()){
-            writer.append("\n");
-        }
+        writer.append(blockMeta.style()
+                .filter(style -> style.isReference())
+                .map(style -> LABEL_END.toString())
+                .orElse(EMPTY.toString()));
+
+        writer.append(blockMeta.style()
+                .filter(style -> style.isOptional() || style.isRequired())
+                .filter(style -> !style.isConventionLineDelimiter())
+                .map(style -> SPACE.toString())
+                .orElse(EMPTY.toString()));
+        writer.append(blockMeta.style()
+                .filter(style -> style.isOptional() || style.isRequired())
+                .filter(style -> style.isConventionLineDelimiter())
+                .map(style -> LINE.toString())
+                .orElse(EMPTY.toString()));
+
+        writer.append(blockMeta.style()
+                .filter(BlockMeta.Style::isOptional)
+                .map(style -> OPTIONAL_END.toString())
+                .orElse(EMPTY.toString()));
+
+        writer.append(blockMeta.style()
+                .filter(BlockMeta.Style::isRequired)
+                .map(style -> REQUIRED_END.toString())
+                .orElse(EMPTY.toString()));
 
         //list repeat
         if(!blockMeta.isVirtual()){
@@ -178,10 +221,11 @@ public class ModelMetaBlockPrinter
             }
         }
 
-        //end
-        if(blockMeta.isEndNewLine()){
-            writer.append("\n");
-        }
+        //end style
+        writer.append(blockMeta.style()
+                .filter(BlockMeta.Style::isEndNewLine)
+                .map(style -> LINE.toString())
+                .orElse(EMPTY.toString()));
 
         return writer;
     }
@@ -214,21 +258,15 @@ public class ModelMetaBlockPrinter
      */
     @SuppressWarnings("unchecked")
     public StringWriter printModel(Object model){
-        if(!BlockManager.INSTANCE.checkTypeBlockConverter(model.getClass())){
-            throw new RuntimeException(new BlockStructureCorrectException(null,
-                    BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
-        }
-
-        BlockMeta hiddenMeta = BlockManager
-                .INSTANCE
-                .getTypeBlockConverter(model.getClass())
-                .meta();
-
+        BlockMeta hiddenMeta = MetaManager
+                .byModel(model.getClass())
+                .get()
+                .orElseThrow(MetaException::miss_meta);
         return printModel(hiddenMeta,model);
     }
 
     /**
-     * print context
+     * print model
      * @param meta meta
      * @param model model
      * @return writer
@@ -246,62 +284,30 @@ public class ModelMetaBlockPrinter
      * @return print any thing
      */
     @SuppressWarnings({"Duplicates", "unchecked"})
-    public boolean printModel(BlockMeta meta, Object model, StringWriter writer){
+    public void printModel(BlockMeta meta, Object model, StringWriter writer){
 
-        //Optional just return
+        //Optional
         if(meta.isOptional()){
             Predicate optionalPredicate = meta.getOptionalPredicate();
             if(optionalPredicate == null){
-                throw new RuntimeException(new BlockStructureCorrectException(meta,
-                        BlockStructureCorrectException.StructureCorrect.OPTION_FILTER_MISS));
+                throw miss_option_predicate(meta);
             }
+            //noinspection unchecked
             if(optionalPredicate.test(model)){
-                return false;
+                return;
             }
         }else if(model == null){
-            throw new RuntimeException(new BlockStructureCorrectException(meta,
-                    BlockStructureCorrectException.StructureCorrect.CONTEXT_MISS));
+            throw miss_model(meta);
         }
 
-        //start
-        if(meta.isStartNewLine()){
-            writer.append("\n");
-        }
-
-        //style
-//        if(block.isHeadFootTakeLine()){
-//            writer.append("\n");
-//        }else{
-//            writer.append(" ");
-//        }
-
+        //format style
+        writer.append(meta.format()
+                .filter(BlockMeta.Format::isNewLine)
+                .map(style -> LINE.toString())
+                .orElse(EMPTY.toString()));
 
         //data
-        if(meta.isReference()){
-            //Reference
-            BlockMeta refMeta;
-            if(meta.isNamedReference()){
-                refMeta = BlockManager
-                        .INSTANCE
-                        .getTypeBlockConverterByConverterType(meta.getReferenceConverter())
-                        .meta();
-            }else{
-                refMeta = meta.getReferenceMeta();
-            }
-            Object referenceContext = meta.getScope(model);
-
-            if(meta.isList() &&
-                    referenceContext instanceof List){
-                //List
-                printModel(refMeta, (List) referenceContext,"\n, ",writer);
-            }else if(meta.isRepeat() &&
-                    referenceContext instanceof List){
-                //Repeat
-                printModel(refMeta, (List) referenceContext,"\n ",writer);
-            }else{
-                printModel(refMeta, referenceContext, writer);
-            }
-        }else if(meta.isExclusive()){
+        if(meta.isExclusive()){
             //Exclusive
             int index = 0;
             for(Predicate p : meta.getExclusivePredicate()){
@@ -314,132 +320,140 @@ public class ModelMetaBlockPrinter
                 index++;
             }
             if(index != -1){
-                if(!BlockManager.INSTANCE.checkTypeBlockConverter(model.getClass())){
-                    throw new RuntimeException(new BlockStructureCorrectException(meta,
-                            BlockStructureCorrectException.StructureCorrect.NOTHING_PASS_EXCLUSIVE));
+                //TODO
+                //hide exclusive
+                /**
+                 * {@link com.xy.xsql.block.tsql.core.clause.select.GroupByConverter.ColumnNameItemConverter}
+                 */
+                Optional<BlockMeta> optional = MetaManager
+                        .byModel(model.getClass())
+                        .get();
+                if(!optional.isPresent()){
+                    throw MetaException.nothing_pass_exclusive(meta);
+                }else{
+                    printModel(optional.get(), model, writer);
                 }
-                BlockMeta hiddenMeta = BlockManager
-                        .INSTANCE
-                        .getTypeBlockConverter(model.getClass())
-                        .meta();
-
-                printModel(hiddenMeta,model,writer);
             }
-        }else if(meta.getSub() != null){
+        }else if(meta.isReference()){
+            //Reference child
+            BlockMeta refMeta;
+            if(meta.isReferenceConverter()){
+                Optional<BlockMeta> optional = MetaManager
+                        .byConverter(meta.getReferenceConverter())
+                        .get();
+                if(!optional.isPresent()){
+                    throw miss_reference_meta(meta);
+                }else{
+                    refMeta = optional.get();
+                }
+            }else{
+                refMeta = meta.getReferenceMeta();
+            }
+            Object referenceModel = meta.getScope(model);
+
+            if(meta.isList() &&
+                    referenceModel instanceof List){
+                //List
+                printModel(refMeta, (List) referenceModel,", ",writer);
+            }else if(meta.isRepeat() &&
+                    referenceModel instanceof List){
+                //Repeat
+                printModel(refMeta, (List) referenceModel," ",writer);
+            }else{
+                printModel(refMeta, referenceModel, writer);
+            }
+        }else if(meta.isOverall() ||
+                meta.isVirtual() ||
+                meta.getSub() != null){
             //Virtual
             if(meta.isList() ||
                     meta.isRepeat()){
                 if(meta.getSub().size() != 1){
-                    throw new RuntimeException(new BlockStructureCorrectException(meta,
-                            BlockStructureCorrectException.StructureCorrect.COLLECTION_META_AMOUNT_ERROR));
+                    throw MetaException.collection_meta_not_single(meta);
                 }
+                //item meta
                 BlockMeta itemMeta = meta.getSub().get(0);
-                Object data = meta.getScope(model);
-                if(!(data instanceof List)){
-                    throw new RuntimeException(new BlockStructureCorrectException(meta,
-                            BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MUST_LIST));
+                //collection model
+                Object collectionModel = meta.getScope(model);
+                if(!(collectionModel instanceof List)){
+                    throw MetaException.collection_model_not_collection(meta);
                 }
-                List<Object> listContext = (List)data;
-                String delimiter = null;
+                String delimiter = "";
                 if(meta.isList()){
-                    delimiter = "\n, ";
+                    delimiter = ", ";
                 }else if(meta.isRepeat()) {
-                    delimiter = "\n ";
+                    delimiter = " ";
                 }
-                printModel(itemMeta, listContext, delimiter, writer);
+                printModel(itemMeta, (List)collectionModel, delimiter, writer);
             }else{
                 printModel(meta.getSub(),model," ",writer);
             }
+        }else if(meta.isKeyword()){
+            //Keyword
+            writer.append(meta.getName());
         }else{
             //Data
-            String blockString;
-            if(meta.isKeyword()){
-                //Keyword
-                blockString = meta.getName();
-            }else{
-                Object data = meta.getScope(model);
-                if(data == null){
-                    throw new RuntimeException(new BlockStructureCorrectException(meta,
-                            BlockStructureCorrectException.StructureCorrect.NO_DATA));
-                }
-                if(BlockManager
-                        .INSTANCE
-                        .checkTypeBlockConverter(data.getClass())){
-                    BlockMeta hiddenMeta = BlockManager
-                            .INSTANCE
-                            .getTypeBlockConverter(data.getClass())
-                            .meta();
-
-                    blockString = new ModelMetaBlockPrinter()
-                            .printModel(hiddenMeta,data)
-                            .toString();
-                }else if(data instanceof List){
-                    List<Object> listData = (List)data;
-                    String delimiter;
-                    if(meta.isList()){
-                        delimiter = "\n, ";
-                    }else if(meta.isRepeat()) {
-                        delimiter = "\n ";
-                    }else{
-                        throw new RuntimeException(new BlockStructureCorrectException(meta,
-                                BlockStructureCorrectException.StructureCorrect.COLLECTION_DATA_CANT_FIND_BLOCK_META));
-                    }
-                    if(listData.size() <= 0){
-                        throw new RuntimeException(new BlockStructureCorrectException(meta,
-                                BlockStructureCorrectException.StructureCorrect.COLLECTION_CONTEXT_MISS));
-                    }
-                    Object itemData = listData.get(0);
-                    if(BlockManager
-                            .INSTANCE
-                            .checkTypeBlockConverter(itemData.getClass())){
-                        BlockMeta hiddenMeta = BlockManager
-                                .INSTANCE
-                                .getTypeBlockConverter(itemData.getClass())
-                                .meta();
-
-                        StringWriter writer1 = new StringWriter();
-                        printModel(hiddenMeta, listData, delimiter, writer1);
-                        blockString = writer1.toString();
-                    }else{
-                        blockString = listData
-                                .stream()
-                                .map(Objects::toString)
-                                .collect(Collectors.joining(delimiter));
-                    }
-                }else{
-                    blockString = data.toString();
-                }
+            Object data = meta.getScope(model);
+            if(data == null){
+                throw miss_model(meta);
             }
 
-            if(meta.isHeadFootTakeLine()){
-                writer.append("\n");
-            }else{
-//                writer.append(" ");
-            }
+            Optional<BlockMeta> optional = MetaManager
+                    .byModel(data.getClass())
+                    .get();
 
-            writer.append(blockString);
+            if(optional.isPresent()){
+                BlockMeta hiddenMeta = optional.get();
+                printModel(hiddenMeta,data,writer);
+            }else if(data instanceof List &&
+                    meta.isCollection()){
+                //collection model
+                List<Object> collectionModel = (List)data;
+                if(collectionModel.size() <= 0){
+                    throw data_collection_empty(meta);
+                }
+                //delimiter
+                String delimiter = "";
+                if(meta.isList()){
+                    delimiter = ", ";
+                }else if(meta.isRepeat()) {
+                    delimiter = " ";
+                }
 
-            if(meta.isHeadFootTakeLine()){
-                writer.append("\n");
+                List<StringWriter> collectionWriter = collectionModel
+                        .stream()
+                        .map(itemModel -> {
+                            StringWriter itemWriter = new StringWriter();
+                            Optional<BlockMeta> hideMeta = MetaManager
+                                    .byModel(itemModel.getClass())
+                                    .get();
+                            if(hideMeta.isPresent()){
+                                //item meta
+                                BlockMeta itemMeta = hideMeta.get();
+                                printModel(itemMeta, itemModel, itemWriter);
+                            }else{
+                                itemWriter.append(itemModel.toString());
+                            }
+                            return itemWriter;
+                        })
+                        .collect(Collectors.toList());
+
+                String finalDelimiter = delimiter;
+                String stringTemp = collectionWriter
+                        .stream()
+                        //joining
+                        .flatMap(sw -> Stream.concat(
+                                Stream.of(finalDelimiter),
+                                Stream.of(sw.toString())
+                        ))
+                        .skip(1)
+                        .collect(Collectors.joining(""));
+                writer.append(stringTemp);
             }else{
-//                writer.append(" ");
+                //Unknown
+                writer.append(data.toString());
             }
         }
-
-
-        //style
-//        if(block.isHeadFootTakeLine()){
-//            writer.append("\n");
-//        }else{
-//            writer.append(" ");
-//        }
-
-        //end
-        if(meta.isEndNewLine()){
-            writer.append("\n");
-        }
-
-        return true;
     }
 
     /**
@@ -510,38 +524,32 @@ public class ModelMetaBlockPrinter
      */
     @SuppressWarnings("unchecked")
     public static StringWriter print(Object model){
-        ModelMetaBlockConverter converter = BlockManager
-                .INSTANCE
-                .getTypeBlockConverter(model.getClass());
-
-        BlockMeta b = converter.meta();
-
-        return new ModelMetaBlockPrinter().printModel(b,model);
+        return new ModelMetaBlockPrinter()
+                .printModel(model);
     }
 
-    /**
-     * print meta of model class
-     * @param clazz model class
-     * @return writer
-     */
-    @SuppressWarnings("unchecked")
-    public static StringWriter print(Class clazz){
-        ModelMetaBlockConverter converter = BlockManager
-                .INSTANCE
-                .getTypeBlockConverter(clazz);
+    public enum BlockConvention {
+        ONE_OF("|"),
+        LABEL_START("<"),
+        LABEL_END(">"),
+        OPTIONAL_START("["),
+        OPTIONAL_END("]"),
+        REQUIRED_START("{"),
+        REQUIRED_END("}"),
+        SPACE(" "),
+        EMPTY(""),
+        LINE("\n");
 
-        BlockMeta b = converter.meta();
+        private String key;
 
-        return new ModelMetaBlockPrinter().printMeta(b);
-    }
+        BlockConvention(String key){
+            this.key = key;
+        }
 
-    /**
-     * print meta
-     * @param meta meta
-     * @return writer
-     */
-    public static StringWriter print(BlockMeta meta) {
-        return new ModelMetaBlockPrinter().printMeta(meta);
+        @Override
+        public String toString() {
+            return key;
+        }
     }
 
 }

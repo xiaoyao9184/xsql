@@ -5,8 +5,8 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.select.ForConverter;
 import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
-import com.xy.xsql.block.tsql.core.clause.select.IntoConverter;
 import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.clause.select.Into;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.operator.Set;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -47,7 +47,7 @@ public class SelectConverter
                         .data(Select::getOption)
                         .format_line()
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 
@@ -66,7 +66,7 @@ public class SelectConverter
                         .overall("query_expression")
                         .sub()
                             .description("first query")
-                            .required()
+                            .style_required()
                             .czse(d -> d.getQuerySpecification() != null,"query_specification")
                                 .ref(QuerySpecificationConverter.class)
                                 .data(Select.QueryExpression::getQuerySpecification)
@@ -89,7 +89,7 @@ public class SelectConverter
                             .data(Select.QueryExpression::getUnionItems)
                             .format_line()
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -110,7 +110,7 @@ public class SelectConverter
                         .description("union item")
                         .sub()
                             .description("union item's keyword")
-                            .required()
+                            .style_required()
                             .czse(d ->
                                     Set.UNION_ALL.equals(d.getOperatorSet()) ||
                                     Set.UNION.equals(d.getOperatorSet())
@@ -146,7 +146,7 @@ public class SelectConverter
                                 .and()
                             .format_line()
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -182,9 +182,9 @@ public class SelectConverter
                             .data(Select.QuerySpecification::getSelectList)
                             .format_indentation_right()
                             .and()
-                        .sub("INTO new_table")
+                        .sub()
                             .optional(d -> d.getInto() == null)
-                            .ref(IntoConverter.meta)
+                            .ref(SimpleIntoConverter.meta)
                             .data(Select.QuerySpecification::getInto)
                             .format_line()
                             .and()
@@ -209,7 +209,7 @@ public class SelectConverter
                             .data(Select.QuerySpecification::getHaving)
                             .format_line()
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -217,6 +217,21 @@ public class SelectConverter
         public BlockMeta meta() {
             return meta;
         }
+
+    }
+
+
+    public static class SimpleIntoConverter {
+
+        // @formatter:off
+        public static BlockMeta meta =
+                new BlockMetaBuilder<Void,Into>()
+                        .sub_keyword(Keywords.INTO)
+                        .sub("new_table")
+                            .data(Into::getNewTable)
+                            .and()
+                        .build();
+        // @formatter:on
 
     }
 }

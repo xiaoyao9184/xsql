@@ -44,7 +44,7 @@ public class SelectVariableConverter
                         .and()
                     .sub("= | += | -= | *= | /= | %= | &= | ^= | |=")
                         .data(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
-                        .required()
+                        .style_required()
                         .and()
                     .sub("expression")
                         .data(SelectVariable.Item::getExpression)

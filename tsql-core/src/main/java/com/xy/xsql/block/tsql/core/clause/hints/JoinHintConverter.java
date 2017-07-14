@@ -15,7 +15,7 @@ public class JoinHintConverter
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,JoinHint>()
                     .overall("join_hint")
-                    .required()
+                    .style_required()
                     .czse(d -> d.equals(JoinHint.LOOP))
                         .keyword(JoinHint.LOOP)
                         .and()

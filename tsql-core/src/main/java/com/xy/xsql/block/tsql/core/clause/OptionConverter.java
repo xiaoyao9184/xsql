@@ -49,7 +49,7 @@ public class OptionConverter
                             .ref(QueryHintConverter.class)
                             .data(d -> d)
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 

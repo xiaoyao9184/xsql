@@ -21,7 +21,7 @@ public class SearchConditionConverter
                     .overall("search_condition")
                     .sub()
                         .description("[ NOT ] <predicate> | ( <search_condition> )")
-                        .required()
+                        .style_required()
                         .sub()
                             .optional(d -> !d.isUseNot())
                             .keyword(Keywords.NOT)
@@ -51,7 +51,7 @@ public class SearchConditionConverter
                         .data(SearchCondition::getAndOrList)
                         .format_line()
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 
@@ -70,7 +70,7 @@ public class SearchConditionConverter
                         .description("search_condition's and/or item")
                         .sub()
                             .description("AND | OR")
-                            .required()
+                            .style_required()
                             .czse(SearchCondition.AndOrNotItem::isUseAnd, "AND")
                                 .keyword(Keywords.AND)
                                 .and()
@@ -84,7 +84,7 @@ public class SearchConditionConverter
                             .and()
                         .sub()
                             .description("predicate/(search_condition)")
-                            .required()
+                            .style_required()
                             .czse(d -> d.getPredicate() != null, "predicate")
                                 .ref(PredicateConverter.class)
                                 .data(SearchCondition.AndOrNotItem::getPredicate)
@@ -126,7 +126,7 @@ public class SearchConditionConverter
                         .czse_ref(d -> d instanceof In, InPredicateConverter.meta)
                         .czse_ref(d -> d instanceof ComparisonSubQuery, ComparisonSubPredicateConverter.meta)
                         .czse_ref(d -> d instanceof Exists, ExistsPredicateConverter.meta)
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 

@@ -32,12 +32,12 @@ public class DeleteConverter
                         .and()
                     .sub()
                         .description("delete target")
-                        .required()
+                        .style_required()
                         .czse(d ->
                                 d.getTableAlias() != null ||
                                 d.getTableName() != null
                         )
-                            .required()
+                            .style_required()
                             .sub()
                                 .description("table_alias/object/function")
                                 .czse(d -> d.getTableAlias() != null, "table_alias")
@@ -47,7 +47,7 @@ public class DeleteConverter
                                     .data(Delete::getTableName)
                                     .and()
             //                    .czse_ref("rowset_function_limited")
-                                .subTakeLine()
+                                .style_sub_line_delimiter()
                                 .and()
                             .sub()
                                 .description("with table hint")
@@ -60,13 +60,13 @@ public class DeleteConverter
                                     .and()
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
-                            .subTakeLine()
+                            .style_sub_line_delimiter()
                             .and()
 //                        .czse_ref(d -> d.getTableVariable() != null,"@table_variable")
 //                            .data(d -> d.getTableVariable())
 //                            .and()
-                        .headFootTakeLine()
-                        .subTakeLine()
+                        .style_convention_line_delimiter()
+                        .style_sub_line_delimiter()
                         .and()
                     .sub("<OUTPUT Clause>")
                         .optional(d -> d.getOutput() == null)
@@ -85,7 +85,7 @@ public class DeleteConverter
                         .optional(d -> d.getOption() == null)
                         .data(Delete::getOption)
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 

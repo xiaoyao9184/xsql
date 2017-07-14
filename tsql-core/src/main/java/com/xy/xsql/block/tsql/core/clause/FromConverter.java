@@ -22,10 +22,10 @@ public class FromConverter
                     .sub_keyword(Keywords.FROM)
                     .sub("table_source")
                         .description("{ <table_source> } [ ,...n ]")
-                        .required()
                         .list()
                         .ref(TableSourceConverter.class)
                         .data(From::getTableSourceList)
+                        .style_required()
                         .format_indentation_right()
                         .and()
                     .build();
@@ -44,18 +44,6 @@ public class FromConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.TableSource>()
                         .overall("table_source")
-//                        .when(d -> d instanceof From.BaseTable)
-//                            .then(BaseTableConverter.meta())
-//                        .when(d -> d instanceof From.DerivedTable)
-//                            .then(BaseTableConverter.meta())
-//                        .when(d -> d instanceof From.JoinedTable)
-//                            .then("joined_table")
-//                                .ref(From.JoinedTable.class)
-//                                .data(d -> d)
-//                                .and()
-//                        .when(d -> d instanceof From.VariableTable)
-//                            .then(VariableTableConverter.meta())
-
                         .czse_ref(d -> d instanceof From.BaseTable,BaseTableConverter.meta)
                         .czse_ref(d -> d instanceof From.DerivedTable,DerivedTableConverter.meta)
                         .czse(d -> d instanceof From.JoinedTable,"joined_table")
@@ -64,21 +52,7 @@ public class FromConverter
                             .and()
                         .czse_ref(d -> d instanceof From.VariableTable,VariableTableConverter.meta)
                         .czse_ref(d -> d instanceof From.BaseWithTimeTable,BaseWithTimeTableConverter.meta)
-//                        .czse_ref(BaseTableConverter.meta())
-//                            .filter(d -> d instanceof From.BaseTable)
-//                            .and()
-//                        .czse_ref(DerivedTableConverter.meta())
-//                            .filter(d -> d instanceof From.DerivedTable)
-//                            .and()
-//                        .czse_ref("joined_table")
-//                            .filter(d -> d instanceof From.JoinedTable)
-//                            .ref(From.JoinedTable.class)
-//                            .data(d -> d)
-//                            .and()
-//                        .czse_ref(VariableTableConverter.meta())
-//                            .filter(d -> d instanceof From.VariableTable)
-//                            .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -128,7 +102,7 @@ public class FromConverter
                                 .data(From.BaseTable::getTableHintList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
-                            .startNewline()
+                            .style_start_new_line()
                             .format_indentation_right()
                             .and()
                         .build();
@@ -286,7 +260,7 @@ public class FromConverter
                                 .data(From.TableSample::getRepeatSeed)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
-                            .startNewline()
+                            .style_start_new_line()
                             .and()
                         .build();
         // @formatter:on
@@ -360,13 +334,13 @@ public class FromConverter
                                 .and()
                             .sub()
                                 .description("CROSS | OUTER")
-                                .required()
                                 .czse(From.JoinedTable::isUseCrossApply)
                                     .keyword(Keywords.CROSS)
                                     .and()
                                 .czse(From.JoinedTable::isUseOuterApply)
                                     .keyword(Keywords.OUTER)
                                     .and()
+                                .style_required()
                                 .format_line()
                                 .and()
                             .sub_keyword(Keywords.Key.APPLY)
@@ -391,7 +365,7 @@ public class FromConverter
                                 .keyword(Other.GROUP_END)
                                 .and()
                             .and()
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -417,15 +391,14 @@ public class FromConverter
                             .optional(d -> d.getKeywords().equals(From.JoinTypeKeywords.JOIN))
                             .sub()
                                 .description("inner/outer")
-                                .required()
                                 .czse(d -> d.getKeywords().equals(From.JoinTypeKeywords.INNER_JOIN))
                                     .keyword(Keywords.INNER)
                                     .and()
                                 .czse(d -> !d.getKeywords().equals(From.JoinTypeKeywords.INNER_JOIN))
                                     .description("left/right/full outer")
-                                    .required()
+                                    .style_required()
                                     .sub()
-                                        .required()
+                                        .style_required()
                                         .czse(d -> d.getKeywords().equals(From.JoinTypeKeywords.LEFT_OUTER_JOIN))
                                             .keyword(Keywords.LEFT)
                                             .and()
@@ -445,6 +418,7 @@ public class FromConverter
                                         .keyword(Keywords.OUTER)
                                         .and()
                                     .and()
+                                .style_required()
                                 .and()
                             .sub("join_hint")
                                 .optional(d -> d.getJoinHint() == null)
@@ -453,7 +427,7 @@ public class FromConverter
                                 .and()
                             .and()
                         .sub_keyword(Keywords.JOIN)
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -474,7 +448,6 @@ public class FromConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,From.SystemTime>()
                         .overall("system_time")
-                        .required()
                         .czse(d -> d.getDateTime() != null)
                             .description("as of")
                             .sub_keyword(Keywords.AS)
@@ -530,8 +503,9 @@ public class FromConverter
                             .description("all")
                             .sub_keyword(Keywords.ALL)
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_required()
+                        .style_convention_line_delimiter()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 

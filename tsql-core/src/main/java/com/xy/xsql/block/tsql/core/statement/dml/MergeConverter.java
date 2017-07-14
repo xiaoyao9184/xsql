@@ -48,7 +48,8 @@ public class MergeConverter
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .and()
-                    .sub("as table_alias")
+                    .sub()
+                        .description("as table_alias")
                         .optional(d -> d.getTableAlias() == null)
                         .sub()
                             .optional(d -> !d.isUseAs())
@@ -96,7 +97,7 @@ public class MergeConverter
                         .optional(d -> d.getOption() == null)
                         .data(Merge::getOption)
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 
@@ -113,7 +114,7 @@ public class MergeConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Merge.MergeHint>()
                         .overall("merge_hint")
-                        .required()
+                        .style_required()
                         .sub("table_hint_limited")
                             .optional(d -> d.getTableHintLimitedList() == null)
                             .list()
@@ -135,8 +136,8 @@ public class MergeConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_sub_line_delimiter()
+                        .style_convention_line_delimiter()
                         .build();
         // @formatter:on
 
@@ -166,7 +167,7 @@ public class MergeConverter
                             .and()
                         .sub()
                             .keyword(Keywords.THEN)
-                            .startNewline()
+                            .style_start_new_line()
                             .and()
                         .sub("merge_matched")
                             .ref(MergeMatchedConverter.class)
@@ -182,8 +183,7 @@ public class MergeConverter
 
     }
 
-    public static class NotMatchedTargetWhenThenConverter
-            implements ModelMetaBlockConverter<Merge.NotMatchedWhenThen> {
+    public static class NotMatchedTargetWhenThenConverter {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -208,7 +208,7 @@ public class MergeConverter
                             .and()
                         .sub()
                             .keyword(Keywords.THEN)
-                            .startNewline()
+                            .style_start_new_line()
                             .and()
                         .sub("merge_not_matched")
                             .ref(MergeNotMatchedConverter.class)
@@ -217,15 +217,13 @@ public class MergeConverter
                         .build();
         // @formatter:on
 
-        @Override
         public BlockMeta meta() {
             return meta;
         }
 
     }
 
-    public static class NotMatchedSourceWhenThenConverter
-            implements ModelMetaBlockConverter<Merge.NotMatchedWhenThen> {
+    public static class NotMatchedSourceWhenThenConverter {
 
         // @formatter:off
         public static BlockMeta meta =
@@ -246,7 +244,7 @@ public class MergeConverter
                             .and()
                         .sub()
                             .keyword(Keywords.THEN)
-                            .startNewline()
+                            .style_start_new_line()
                             .and()
                         .sub("merge_matched")
                             .ref(MergeMatchedConverter.class)
@@ -255,7 +253,6 @@ public class MergeConverter
                         .build();
         // @formatter:on
 
-        @Override
         public BlockMeta meta() {
             return meta;
         }
@@ -269,7 +266,7 @@ public class MergeConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Merge.MergeMatched>()
                         .overall("merge_matched")
-                        .required()
+                        .style_required()
                         .czse(Merge.MergeMatched::isUseSet)
                             .description("update")
                             .sub_keyword(Keywords.UPDATE)
@@ -308,35 +305,41 @@ public class MergeConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Merge.MergeNotMatched>()
                         .overall("merge_not_matched")
-                        .required()
+                        .style_required()
                         .sub_keyword(Keywords.INSERT)
                         .sub()
                             .description("(column_list)")
                             .optional(d -> d.getColumns() == null)
                             .sub_keyword(Other.GROUP_START)
                             .sub("column_list")
+                    //TODO reference style
+//                                .sub_ref(InsertConverter.ColumnListConverter.meta,Merge.MergeNotMatched::getColumns)
                                 .ref(InsertConverter.ColumnListConverter.meta)
                                 .data(Merge.MergeNotMatched::getColumns)
+                                .style_remove_reference()
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
                         .sub()
                             .description("values")
-                            .required()
+                            .style_required()
                             //TODO donot use ref
                             .czse(d -> d.getValues() != null, "VALUES ( values_list )")
+                    //TODO reference style
+//                                .sub_ref(TableValueConstructorConverter.meta,Merge.MergeNotMatched::getValues)
                                 .ref(TableValueConstructorConverter.meta)
                                 .data(Merge.MergeNotMatched::getValues)
+                                .style_remove_reference()
                                 .and()
                             .czse(Merge.MergeNotMatched::isUseDefaultValues)
                                 .description("detault values")
                                 .sub_keyword(Keywords.DEFAULT)
                                 .sub_keyword(Keywords.VALUES)
                                 .and()
-                            .subTakeLine()
-                            .startNewline()
+                            .style_sub_line_delimiter()
+                            .style_start_new_line()
                             .and()
-                        .headFootTakeLine()
+                        .style_convention_line_delimiter()
                         .build();
         // @formatter:on
 

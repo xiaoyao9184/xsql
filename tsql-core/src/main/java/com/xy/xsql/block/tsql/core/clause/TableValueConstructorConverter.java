@@ -55,8 +55,8 @@ public class TableValueConstructorConverter
                         .overall("row value expression list")
                         .sub("row value expression")
                             .list()
-                            .required()
-                            .ref(RowValueExpressionConverter.class)
+                            .style_required()
+                            .ref(RowValueExpressionConverter.meta)
                             .data(d -> d)
                             .and()
                         .build();
@@ -70,14 +70,13 @@ public class TableValueConstructorConverter
     }
 
 
-    public static class RowValueExpressionConverter
-            implements ModelMetaBlockConverter<Expression> {
+    public static class RowValueExpressionConverter {
 
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Expression>()
                         .overall("row value expression")
-                        .required()
+                        .style_required()
                         .czse(d -> d instanceof Default,"DEFAULT")
                             .data(d -> d)
                             .and()
@@ -90,7 +89,6 @@ public class TableValueConstructorConverter
                         .build();
         // @formatter:on
 
-        @Override
         public BlockMeta meta() {
             return meta;
         }

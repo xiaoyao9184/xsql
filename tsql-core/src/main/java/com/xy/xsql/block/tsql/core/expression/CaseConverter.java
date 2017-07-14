@@ -26,7 +26,7 @@ public class CaseConverter
                         .ref(SearchedCaseConverter.meta)
                         .data(d -> d)
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 

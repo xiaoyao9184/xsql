@@ -21,7 +21,7 @@ public class TruncateTableConverter
                     .sub_keyword(Keywords.TABLE)
                     .sub("[ { database_name .[ schema_name ] . | schema_name . } ]  table_name")
                         .data(TruncateTable::getTableName)
-                        .startNewline()
+                        .style_start_new_line()
                         .and()
                     .sub()
                         .description("[ WITH ( PARTITIONS ( { <partition_number_expression> | <range> }[ , ...n ] ) ) ]")
@@ -39,7 +39,7 @@ public class TruncateTableConverter
                             .sub_keyword(Other.GROUP_END)
                             .and()
                         .sub_keyword(Other.GROUP_END)
-                        .startNewline()
+                        .style_start_new_line()
                         .and()
                     .build();
     // @formatter:on
@@ -56,7 +56,7 @@ public class TruncateTableConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TruncateTable.Partitions>()
-                        .required()
+                        .style_required()
                         .czse(d -> d instanceof TruncateTable.PartitionNumberExpression)
                             .name("partition_number_expression")
                             .ref(PartitionNumberExpressionConverter.class)
@@ -110,7 +110,9 @@ public class TruncateTableConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TruncateTable.PartitionNumberExpression>()
                         .overall("partition_number_expression")
-                        .data(TruncateTable.PartitionNumberExpression::getNumber)
+                        .sub()
+                            .data(TruncateTable.PartitionNumberExpression::getNumber)
+                            .and()
                         .build();
         // @formatter:on
 

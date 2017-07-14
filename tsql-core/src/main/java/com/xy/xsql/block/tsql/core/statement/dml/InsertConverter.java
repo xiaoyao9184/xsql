@@ -38,7 +38,7 @@ public class InsertConverter
                         .and()
                     .sub()
                         .description("into target")
-                        .required()
+                        .style_required()
                         .sub()
                             .description("object/function")
                             .czse(d -> d.getTableName() != null, "<object>")
@@ -58,16 +58,19 @@ public class InsertConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_sub_line_delimiter()
+                        .style_convention_line_delimiter()
                         .and()
                     .sub()
                         .description("(column_list)")
                         .optional(d -> d.getColumns() == null)
                         .sub_keyword(Other.GROUP_START)
                         .sub("column_list")
+                    //TODO reference style
+//                            .sub_ref(ColumnListConverter.meta,Insert::getColumns)
                             .ref(ColumnListConverter.meta)
                             .data(Insert::getColumns)
+                            .style_remove_reference()
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .and()
@@ -78,7 +81,7 @@ public class InsertConverter
                         .and()
                     .sub()
                         .description("values")
-                        .required()
+                        .style_required()
                         //TODO donot use ref
                         .czse(d -> d.getValues() != null, "VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]")
                             .ref(TableValueConstructorConverter.class)
@@ -92,10 +95,10 @@ public class InsertConverter
                             .sub_keyword(Keywords.DEFAULT)
                             .sub_keyword(Keywords.VALUES)
                             .and()
-                        .headFootTakeLine()
-                        .subTakeLine()
+                        .style_convention_line_delimiter()
+                        .style_sub_line_delimiter()
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 
@@ -114,7 +117,7 @@ public class InsertConverter
                         .description("column_list")
                         .list()
                         .data(d -> d)
-                        .subTakeLine()
+                        .style_sub_line_delimiter()
                         .build();
         // @formatter:on
 

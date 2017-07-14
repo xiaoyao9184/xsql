@@ -32,7 +32,7 @@ public class InPredicateConverter
                             .and()
                         .czse(d -> d.getExpressionList() != null,"expression")
                             .list()
-                            .required()
+                            .style_required()
                             .data(In::getExpressionList)
                             .and()
                         .and()

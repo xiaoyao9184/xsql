@@ -23,7 +23,7 @@ public class TableHintConverter
                         .keyword(Keywords.Key.NOEXPAND)
                         .and()
                     .sub()
-                        .required()
+                        .style_required()
                         .czse(d ->
                                 TableHint.Type.INDEX.equals(d.getType()) &&
                                 !d.isUseOneIndexValue()
@@ -138,10 +138,10 @@ public class TableHintConverter
                         .czse(d -> TableHint.Type.XLOCK.equals(d.getType()))
                             .keyword(TableHint.Type.XLOCK)
                             .and()
-                        .subTakeLine()
-                        .headFootTakeLine()
+                        .style_sub_line_delimiter()
+                        .style_convention_line_delimiter()
                         .and()
-                    .subTakeLine()
+                    .style_sub_line_delimiter()
                     .build();
     // @formatter:on
 

@@ -11,7 +11,9 @@ repositories {
 
 dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
-    compile 'org.reflections:reflections:0.9.11'
+    compile group: 'org.reflections', name: 'reflections', version:'0.9.11'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+
 
     compile project(':tsql-model')
     testCompile group: 'junit', name: 'junit', version: '4.11'
