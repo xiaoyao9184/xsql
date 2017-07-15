@@ -19,14 +19,14 @@ public class SetVariableConverter
                     .overall("SET @local_variable")
                     .sub_keyword(Keywords.SET)
                     .sub("@local_variable")
-                        .data(SetVariable::getLocalVariable)
+                        .scope(SetVariable::getLocalVariable)
                         .and()
                     .sub("+= | -= | *= | /= | %= | &= | ^= | |= ")
                         .style_required()
-                        .data(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
+                        .scope(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
                         .and()
                     .sub("expression")
-                        .data(SetVariable::getExpression)
+                        .scope(SetVariable::getExpression)
                         .and()
                     .build();
     // @formatter:on

@@ -13,19 +13,19 @@ import static com.xy.xsql.core.ListBuilder.initNew2;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
- * @param <ParentBuilder>
- * @param <Reference> Refer to create blocks
+ * @param <ParentBuilder> ParentBuilder
+ * @param <Scope> Model Scope
  */
-@SuppressWarnings("WeakerAccess")
-public class BlockMetaBuilder<ParentBuilder,Reference>
-        extends CodeTreeBuilder<BlockMetaBuilder<ParentBuilder,Reference>, ParentBuilder, BlockMeta> {
+@SuppressWarnings({"WeakerAccess", "UnusedReturnValue", "unused"})
+public class BlockMetaBuilder<ParentBuilder, Scope>
+        extends CodeTreeBuilder<BlockMetaBuilder<ParentBuilder, Scope>, ParentBuilder, BlockMeta> {
 
     public BlockMetaBuilder() {
         super(new BlockMeta());
     }
 
-    public BlockMetaBuilder(BlockMeta block) {
-        super(block);
+    public BlockMetaBuilder(BlockMeta meta) {
+        super(meta);
     }
 
 
@@ -38,7 +38,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param name name
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> name(String name){
+    public BlockMetaBuilder<ParentBuilder, Scope> name(String name){
         target.setName(name);
         return this;
     }
@@ -48,7 +48,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param description description
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> description(String description){
+    public BlockMetaBuilder<ParentBuilder, Scope> description(String description){
         target.setDescription(description);
         return this;
     }
@@ -58,11 +58,11 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      */
 
     /**
-     * set data
-     * @param getter data getter
+     * set scope getter
+     * @param getter scope getter
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> data(Function<Reference,?> getter){
+    public BlockMetaBuilder<ParentBuilder, Scope> scope(Function<Scope,?> getter){
         target.setScopeGetter(getter);
         return this;
     }
@@ -76,7 +76,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param name name
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> overall(String name) {
+    public BlockMetaBuilder<ParentBuilder, Scope> overall(String name) {
         target.setOverall(true);
         target.setName(name);
         return this;
@@ -87,7 +87,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param predicate predicate
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> optional(Predicate<Reference> predicate) {
+    public BlockMetaBuilder<ParentBuilder, Scope> optional(Predicate<Scope> predicate) {
         target.setOptionalPredicate(predicate);
         return this.style().optional(true);
     }
@@ -97,7 +97,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param keywords keywords
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> keyword(String keywords) {
+    public BlockMetaBuilder<ParentBuilder, Scope> keyword(String keywords) {
         target.setKeyword(true);
         target.setName(keywords);
         target.setScopeGetter(d -> keywords);
@@ -109,7 +109,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param keywords keywords
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> keyword(Enum keywords) {
+    public BlockMetaBuilder<ParentBuilder, Scope> keyword(Enum keywords) {
         return keyword(keywords.toString());
     }
 
@@ -119,7 +119,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param <C> converter type
      * @return THIS
      */
-    public <C extends ModelMetaBlockConverter> BlockMetaBuilder<ParentBuilder, Reference> ref(Class<C> converterClass) {
+    public <C extends ModelMetaBlockConverter> BlockMetaBuilder<ParentBuilder, Scope> ref(Class<C> converterClass) {
         target.setReferenceConverter(converterClass);
 //        if(target.isNamedReference()){
 //            this.style_reference();
@@ -134,7 +134,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * @param meta meta
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder, Reference> ref(BlockMeta meta) {
+    public BlockMetaBuilder<ParentBuilder, Scope> ref(BlockMeta meta) {
         target.setReferenceMeta(meta);
         if(target.isNamedReference()){
             this.style_reference();
@@ -146,8 +146,8 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * build anonymous reference meta
      * @return BlockMetaBuilder
      */
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Reference>,Reference> ref() {
-        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Reference>, Reference>
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> ref() {
+        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
                 (initSet(BlockMeta::new,
                         target::getReferenceMeta,
                         target::setReferenceMeta))
@@ -158,7 +158,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * set list collection meta
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> list() {
+    public BlockMetaBuilder<ParentBuilder, Scope> list() {
         target.setList(true);
         return this;
     }
@@ -167,7 +167,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * set repeat collection meta
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> repeat() {
+    public BlockMetaBuilder<ParentBuilder, Scope> repeat() {
         target.setRepeat(true);
         return this;
     }
@@ -177,61 +177,61 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
     Sub meta
      */
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub() {
-        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference>
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub() {
+        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
                 (initNew2(BlockMeta::new,
                         target::getSub,
                         target::setSub))
                 .in(this);
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub(String name) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub(String name) {
         return sub()
                 .name(name);
     }
 
-    public BlockMetaBuilder<ParentBuilder, Reference> sub_ref(BlockMeta meta) {
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_ref(BlockMeta meta) {
         return sub()
                 .description(meta.getDescription())
                 .ref(meta)
-                .data(d -> d)
+                .scope(d -> d)
                 .and();
     }
 
-    public BlockMetaBuilder<ParentBuilder, Reference> sub_ref(BlockMeta meta, Function<Reference,?> modelGetter) {
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_ref(BlockMeta meta, Function<Scope,?> scopeGetter) {
         return sub()
                 .description(meta.getDescription())
                 .ref(meta)
-                .data(modelGetter)
+                .scope(scopeGetter)
                 .and();
     }
 
-    public BlockMetaBuilder<ParentBuilder,Reference> sub_keyword(Enum keywords) {
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_keyword(Enum keywords) {
         return sub()
                 .keyword(keywords)
                 .and();
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub_list(String name) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub_list(String name) {
         return sub()
                 .name(name)
                 .list();
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub_list(BlockMeta meta) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub_list(BlockMeta meta) {
         return sub()
                 .description(meta.getDescription())
                 .list()
                 .ref(meta);
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub_repeat(String name) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub_repeat(String name) {
         return sub()
                 .name(name)
                 .repeat();
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> sub_repeat(BlockMeta meta) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub_repeat(BlockMeta meta) {
         return sub()
                 .description(meta.getDescription())
                 .repeat()
@@ -243,64 +243,64 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
     Case meta
      */
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse(Predicate<Reference> predicate) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse(Predicate<Scope> predicate) {
         initAdd(predicate,
                 target::getExclusivePredicate,
                 target::setExclusivePredicate);
-        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference>
+        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
                 (initNew2(BlockMeta::new,
                         target::getSub,
                         target::setSub))
                 .in(this);
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse(Predicate<Reference> predicate, String name) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse(Predicate<Scope> predicate, String name) {
         return czse(predicate)
                 .name(name);
     }
 
-    public BlockMetaBuilder<ParentBuilder,Reference> czse_ref(Predicate<Reference> predicate, BlockMeta meta) {
+    public BlockMetaBuilder<ParentBuilder, Scope> czse_ref(Predicate<Scope> predicate, BlockMeta meta) {
         return czse(predicate)
                 .description(meta.getDescription())
                 .ref(meta)
-                .data(d -> d)
+                .scope(d -> d)
                 .and();
     }
 
-    public BlockMetaBuilder<ParentBuilder, Reference> czse_ref(Predicate<Reference> predicate, BlockMeta meta, Function<Reference,?> modelGetter) {
+    public BlockMetaBuilder<ParentBuilder, Scope> czse_ref(Predicate<Scope> predicate, BlockMeta meta, Function<Scope,?> scopeGetter) {
         return czse(predicate)
                 .description(meta.getDescription())
                 .ref(meta)
-                .data(modelGetter)
+                .scope(scopeGetter)
                 .and();
     }
 
-    public BlockMetaBuilder<ParentBuilder,Reference> czse_keyword(Predicate<Reference> predicate, Enum keywords) {
+    public BlockMetaBuilder<ParentBuilder, Scope> czse_keyword(Predicate<Scope> predicate, Enum keywords) {
         return czse(predicate)
                 .keyword(keywords)
                 .and();
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, String name) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse_list(Predicate<Scope> predicate, String name) {
         return czse(predicate)
                 .name(name)
                 .list();
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_list(Predicate<Reference> predicate, BlockMeta meta) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse_list(Predicate<Scope> predicate, BlockMeta meta) {
         return czse(predicate)
                 .description(meta.getDescription())
                 .list()
                 .ref(meta);
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, String name) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse_repeat(Predicate<Scope> predicate, String name) {
         return czse(predicate)
                 .name(name)
                 .repeat();
     }
 
-    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder,Reference>,Reference> czse_repeat(Predicate<Reference> predicate, BlockMeta meta) {
+    public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse_repeat(Predicate<Scope> predicate, BlockMeta meta) {
         return czse(predicate)
                 .description(meta.getDescription())
                 .repeat()
@@ -312,29 +312,29 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
     Format
      */
 
-    public FormatBuilder<BlockMetaBuilder<ParentBuilder,Reference>> format() {
-        return new FormatBuilder<BlockMetaBuilder<ParentBuilder,Reference>>
+    public FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> format() {
+        return new FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
                 (initSet(BlockMeta.Format::new,
                         target::getFormat,
                         target::setFormat))
                 .in(this);
     }
 
-    public BlockMetaBuilder<ParentBuilder,Reference> format_line() {
+    public BlockMetaBuilder<ParentBuilder, Scope> format_line() {
         return format().line();
     }
 
-    public BlockMetaBuilder<ParentBuilder,Reference> format_indentation(int level) {
+    public BlockMetaBuilder<ParentBuilder, Scope> format_indentation(int level) {
         format().line();
         return format().indentation(level);
     }
 
-    public BlockMetaBuilder<ParentBuilder,Reference> format_indentation_right() {
+    public BlockMetaBuilder<ParentBuilder, Scope> format_indentation_right() {
         format().line();
         return format().indentation(1);
     }
 
-    public BlockMetaBuilder<ParentBuilder,Reference> format_indentation_left() {
+    public BlockMetaBuilder<ParentBuilder, Scope> format_indentation_left() {
         format().line();
         return format().indentation(-1);
     }
@@ -343,8 +343,8 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
     Style
      */
 
-    public StyleBuilder<BlockMetaBuilder<ParentBuilder,Reference>> style() {
-        return new StyleBuilder<BlockMetaBuilder<ParentBuilder,Reference>>
+    public StyleBuilder<BlockMetaBuilder<ParentBuilder, Scope>> style() {
+        return new StyleBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
                 (initSet(BlockMeta.Style::new,
                         target::getStyle,
                         target::setStyle))
@@ -355,7 +355,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * style_required style
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_required(){
+    public BlockMetaBuilder<ParentBuilder, Scope> style_required(){
         return this.style().required(true);
     }
 
@@ -363,7 +363,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * optional style
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_optional() {
+    public BlockMetaBuilder<ParentBuilder, Scope> style_optional() {
         return style().optional(true);
     }
 
@@ -371,7 +371,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * reference style
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_reference() {
+    public BlockMetaBuilder<ParentBuilder, Scope> style_reference() {
         return style().reference(true);
     }
 
@@ -379,7 +379,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * remove reference style
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_remove_reference() {
+    public BlockMetaBuilder<ParentBuilder, Scope> style_remove_reference() {
         return style().reference(false);
     }
 
@@ -387,7 +387,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * use line delimiter for each sub
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_sub_line_delimiter() {
+    public BlockMetaBuilder<ParentBuilder, Scope> style_sub_line_delimiter() {
         return style().subLineDelimiter(true);
     }
 
@@ -395,7 +395,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * use line delimiter for optional and required
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_convention_line_delimiter() {
+    public BlockMetaBuilder<ParentBuilder, Scope> style_convention_line_delimiter() {
         return style().conventionLineDelimiter(true);
     }
 
@@ -403,7 +403,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * use
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_start_new_line() {
+    public BlockMetaBuilder<ParentBuilder, Scope> style_start_new_line() {
         return style().startNewLine(true);
     }
 
@@ -411,7 +411,7 @@ public class BlockMetaBuilder<ParentBuilder,Reference>
      * use
      * @return THIS
      */
-    public BlockMetaBuilder<ParentBuilder,Reference> style_end_new_line() {
+    public BlockMetaBuilder<ParentBuilder, Scope> style_end_new_line() {
         return style().endNewLine(true);
     }
 

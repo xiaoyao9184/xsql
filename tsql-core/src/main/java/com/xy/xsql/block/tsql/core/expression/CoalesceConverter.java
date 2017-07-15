@@ -21,7 +21,7 @@ public class CoalesceConverter
                     .sub_keyword(Other.GROUP_START)
                     .sub("expression")
                         .list()
-                        .data(Coalesce::getExpressionList)
+                        .scope(Coalesce::getExpressionList)
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

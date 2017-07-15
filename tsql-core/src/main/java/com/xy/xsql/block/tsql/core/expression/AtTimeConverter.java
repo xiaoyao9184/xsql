@@ -17,13 +17,13 @@ public class AtTimeConverter
             new BlockMetaBuilder<Void,AtTimeZone>()
                     .overall("AT TIME ZONE")
                     .sub("inputdate")
-                        .data(AtTimeZone::getInputExpression)
+                        .scope(AtTimeZone::getInputExpression)
                         .and()
                     .sub_keyword(Keywords.Key.AT)
                     .sub_keyword(Keywords.Key.TIME)
                     .sub_keyword(Keywords.Key.ZONE)
                     .sub("timezone")
-                        .data(AtTimeZone::getTimezone)
+                        .scope(AtTimeZone::getTimezone)
                         .and()
                     .build();
     // @formatter:on

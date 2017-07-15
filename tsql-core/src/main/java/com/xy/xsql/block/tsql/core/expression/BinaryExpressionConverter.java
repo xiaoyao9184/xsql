@@ -16,13 +16,13 @@ public class BinaryExpressionConverter
             new BlockMetaBuilder<Void,BinaryExpression>()
                     .description("binary expression")
                     .sub("expression")
-                        .data(BinaryExpression::getExpressionLeft)
+                        .scope(BinaryExpression::getExpressionLeft)
                         .and()
                     .sub("binary_operator")
-                        .data(BinaryExpression::getOperator)
+                        .scope(BinaryExpression::getOperator)
                         .and()
                     .sub("expression")
-                        .data(BinaryExpression::getExpressionRight)
+                        .scope(BinaryExpression::getExpressionRight)
                         .and()
                     .build();
     // @formatter:on

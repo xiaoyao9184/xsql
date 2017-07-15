@@ -179,6 +179,7 @@ public class BulkInsertConverterTest {
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value

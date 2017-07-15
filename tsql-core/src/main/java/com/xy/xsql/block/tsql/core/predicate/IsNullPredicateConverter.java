@@ -17,7 +17,7 @@ public class IsNullPredicateConverter
             new BlockMetaBuilder<Void,IsNull>()
                     .overall("IS NULL")
                     .sub("expression")
-                        .data(IsNull::getExpression)
+                        .scope(IsNull::getExpression)
                         .and()
                     .sub_keyword(Keywords.IS)
                     .sub()

@@ -18,7 +18,7 @@ public class BetweenPredicateConverter
             new BlockMetaBuilder<Void,Between>()
                     .overall("BETWEEN")
                     .sub("expression")
-                        .data(Between::getExpression)
+                        .scope(Between::getExpression)
                         .and()
                     .sub()
                         .optional(d -> !d.isUseNotOperator())
@@ -26,12 +26,12 @@ public class BetweenPredicateConverter
                         .and()
                     .sub_keyword(Logical.BETWEEN)
                     .sub("expression")
-                        .data(Between::getStartExpression)
+                        .scope(Between::getStartExpression)
                         .style_required()
                         .and()
                     .sub_keyword(Keywords.AND)
                     .sub("expression")
-                        .data(Between::getEndExpression)
+                        .scope(Between::getEndExpression)
                         .and()
                     .build();
     // @formatter:on

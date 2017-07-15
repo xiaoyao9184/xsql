@@ -21,7 +21,7 @@ public class WithConverter
                     .sub_list("common_table_expression")
                         .description("common_table_expression list")
                         .ref(CommonTableExpressionConverter.class)
-                        .data(With::getCommonTableExpressionList)
+                        .scope(With::getCommonTableExpressionList)
                         .and()
                     .build();
     // @formatter:on
@@ -40,7 +40,7 @@ public class WithConverter
                 new BlockMetaBuilder<Void,With.CommonTableExpression>()
                         .overall("common_table_expression")
                         .sub("expression_name")
-                            .data(With.CommonTableExpression::getExpressionName)
+                            .scope(With.CommonTableExpression::getExpressionName)
                             .and()
                         .sub()
                             .description("column_name list")
@@ -48,7 +48,7 @@ public class WithConverter
                                     data.getColumnName().isEmpty())
                             .sub_keyword(Other.GROUP_START)
                             .sub_list("column_name")
-                                .data(With.CommonTableExpression::getColumnName)
+                                .scope(With.CommonTableExpression::getColumnName)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .format_indentation_right()
@@ -63,7 +63,7 @@ public class WithConverter
                             .format_indentation_right()
                             .and()
                         .sub("CTE_query_definition")
-                            .data(With.CommonTableExpression::getCteQueryDefinition)
+                            .scope(With.CommonTableExpression::getCteQueryDefinition)
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();

@@ -21,9 +21,10 @@ public class GroupByConverter
                     .sub_keyword(Keywords.BY)
                     .sub_list(ItemConverter.meta)
                         .description("--GroupBy_Item_List")
+                        .scope(GroupBy::getItems)
                         .style_required()
-                        .data(GroupBy::getItems)
                         .style_convention_line_delimiter()
+                        .format_indentation_right()
                         .and()
                     .build();
     // @formatter:on
@@ -67,7 +68,7 @@ public class GroupByConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.BaseItem>()
                         .sub("column-expression")
-                            .data(GroupBy.BaseItem::getExpression)
+                            .scope(GroupBy.BaseItem::getExpression)
                             .and()
                         .build();
         // @formatter:on
@@ -92,7 +93,7 @@ public class GroupByConverter
                             .style_required()
                             .list()
                             .ref(GroupByExpressionConverter.class)
-                            .data(GroupBy.RollupItem::getGroupByExpressionList)
+                            .scope(GroupBy.RollupItem::getGroupByExpressionList)
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();
@@ -118,7 +119,7 @@ public class GroupByConverter
                             .style_required()
                             .list()
                             .ref(GroupByExpressionConverter.class)
-                            .data(GroupBy.CubeItem::getGroupByExpressionList)
+                            .scope(GroupBy.CubeItem::getGroupByExpressionList)
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();
@@ -145,7 +146,7 @@ public class GroupByConverter
                             .style_required()
                             .list()
                             .ref(GroupingSetConverter.class)
-                            .data(GroupBy.GroupingSetsItem::getGroupingSetItemList)
+                            .scope(GroupBy.GroupingSetsItem::getGroupingSetItemList)
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();
@@ -182,7 +183,7 @@ public class GroupByConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,GroupBy.ColumnNameItem>()
                         .sub("column-name")
-                            .data(GroupBy.ColumnNameItem::getColumnName)
+                            .scope(GroupBy.ColumnNameItem::getColumnName)
                             .and()
                         .sub()
                             .description("with DISTRIBUTED_AGG")
@@ -210,14 +211,14 @@ public class GroupByConverter
                 new BlockMetaBuilder<Void,GroupBy.GroupByExpression>()
                         .overall("group_by_expression")
                         .czse(d -> d.getColumnExpressionList().size() == 1,"column-expression")
-                            .data(d -> d.getColumnExpressionList().get(0))
+                            .scope(d -> d.getColumnExpressionList().get(0))
                             .and()
                         .czse(d -> d.getColumnExpressionList().size() > 1)
                             .description("( column-expression [ ,...n ] )")
                             .sub_keyword(Other.GROUP_START)
                             .sub("column-expression")
                                 .list()
-                                .data(GroupBy.GroupByExpression::getColumnExpressionList)
+                                .scope(GroupBy.GroupByExpression::getColumnExpressionList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
@@ -246,7 +247,7 @@ public class GroupByConverter
                         .czse(d -> d.getGroupByExpressionList().size() == 1, "grouping_set_item")
                             .description("grouping_set_item")
                             .ref(GroupingSetItemConverter.class)
-                            .data(d -> d.getGroupByExpressionList().get(0))
+                            .scope(d -> d.getGroupByExpressionList().get(0))
                             .and()
                         .czse(d -> d.getGroupByExpressionList().size() > 1)
                             .description("( <grouping_set_item> [ ,...n ] )")
@@ -254,7 +255,7 @@ public class GroupByConverter
                             .sub("grouping_set_item")
                                 .list()
                                 .ref(GroupingSetItemConverter.class)
-                                .data(GroupBy.GroupingSet::getGroupByExpressionList)
+                                .scope(GroupBy.GroupingSet::getGroupByExpressionList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()

@@ -20,7 +20,8 @@ public class HavingConverter
                     .sub_keyword(Keywords.HAVING)
                     .sub("search condition")
                         .ref(SearchConditionConverter.class)
-                        .data(Having::getSearchCondition)
+                        .scope(Having::getSearchCondition)
+                        .format_indentation_right()
                         .and()
                     .build();
     // @formatter:on

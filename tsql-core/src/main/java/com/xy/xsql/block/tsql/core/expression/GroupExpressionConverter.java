@@ -19,11 +19,11 @@ public class GroupExpressionConverter
                     .sub()
                         .czse(d -> d.getExpression() != null,"expression")
                             .ref(ExpressionConverter.meta)
-                            .data(d -> d)
+                            .scope(d -> d)
                             .and()
                         .czse(d -> d.getStatement() != null, "scalar_subquery")
                             .ref(ScalarSubqueryConverter.meta)
-                            .data(d -> d)
+                            .scope(d -> d)
                             .and()
                         .and()
                     .build();
@@ -43,7 +43,7 @@ public class GroupExpressionConverter
                         .description("( expression )")
                         .sub_keyword(Other.GROUP_START)
                         .sub("expression")
-                            .data(GroupExpression::getExpression)
+                            .scope(GroupExpression::getExpression)
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();
@@ -59,7 +59,7 @@ public class GroupExpressionConverter
                         .description("( scalar_subquery )")
                         .sub_keyword(Other.GROUP_START)
                         .sub("scalar_subquery")
-                            .data(GroupExpression::getStatement)
+                            .scope(GroupExpression::getStatement)
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();

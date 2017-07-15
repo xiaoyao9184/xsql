@@ -78,6 +78,7 @@ public class HavingConverterTest {
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value

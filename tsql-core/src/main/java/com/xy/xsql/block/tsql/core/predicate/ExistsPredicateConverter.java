@@ -20,7 +20,7 @@ public class ExistsPredicateConverter
                     .sub_keyword(Keywords.EXISTS)
                     .sub_keyword(Other.GROUP_START)
                     .sub("subquery")
-                        .data(Exists::getSubquery)
+                        .scope(Exists::getSubquery)
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

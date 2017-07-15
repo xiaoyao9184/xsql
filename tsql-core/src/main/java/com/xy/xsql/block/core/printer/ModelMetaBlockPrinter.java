@@ -281,7 +281,6 @@ public class ModelMetaBlockPrinter
      * @param meta meta
      * @param model model
      * @param writer writer
-     * @return print any thing
      */
     @SuppressWarnings({"Duplicates", "unchecked"})
     public void printModel(BlockMeta meta, Object model, StringWriter writer){

@@ -19,12 +19,12 @@ public class ReNameConverter
                     .czse(d -> d.getDbName() != null)
                         .description("rename database")
                         .ref(ReNameDataBaseConverter.meta)
-                        .data(d -> d)
+                        .scope(d -> d)
                         .and()
                     .czse(d -> d.getTableName() != null)
                         .description("rename object")
                         .ref(ReNameTableConverter.meta)
-                        .data(d -> d)
+                        .scope(d -> d)
                         .and()
                     .style_sub_line_delimiter()
                     .build();
@@ -49,11 +49,11 @@ public class ReNameConverter
                             .keyword("::")
                             .and()
                         .sub("database_name")
-                            .data(ReName::getDbName)
+                            .scope(ReName::getDbName)
                             .and()
                         .sub_keyword(Keywords.TO)
                         .sub("new_database_name")
-                            .data(ReName::getNewName)
+                            .scope(ReName::getNewName)
                             .and()
                         .build();
         // @formatter:on
@@ -77,11 +77,11 @@ public class ReNameConverter
                             .keyword("::")
                             .and()
                         .sub("[ [ database_name .  [schema_name ] ] . ] | [schema_name . ] ] table_name")
-                            .data(ReName::getTableName)
+                            .scope(ReName::getTableName)
                             .and()
                         .sub_keyword(Keywords.TO)
                         .sub("new_table_name")
-                            .data(ReName::getNewName)
+                            .scope(ReName::getNewName)
                             .and()
                         .build();
         // @formatter:on

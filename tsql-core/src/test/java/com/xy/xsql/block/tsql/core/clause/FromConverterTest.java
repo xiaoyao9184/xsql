@@ -263,6 +263,8 @@ public class FromConverterTest {
         final int[] index = {1};
         model2StringMap.forEach((key, value) -> {
             StringWriter writer = ModelMetaBlockPrinter.print(key);
+            System.out.println(writer);
+
             String check = writer.toString()
                     .replaceAll(" ", "")
                     .replaceAll("\n", "");

@@ -19,7 +19,7 @@ public class WhereConverter
                     .sub_keyword(Keywords.WHERE)
                     .sub("search_condition")
                         .ref(SearchConditionConverter.class)
-                        .data(Where::getSearchCondition)
+                        .scope(Where::getSearchCondition)
                         .format_indentation_right()
                         .and()
                     .build();

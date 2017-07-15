@@ -20,7 +20,7 @@ public class TruncateTableConverter
                     .sub_keyword(Keywords.TRUNCATE)
                     .sub_keyword(Keywords.TABLE)
                     .sub("[ { database_name .[ schema_name ] . | schema_name . } ]  table_name")
-                        .data(TruncateTable::getTableName)
+                        .scope(TruncateTable::getTableName)
                         .style_start_new_line()
                         .and()
                     .sub()
@@ -34,7 +34,7 @@ public class TruncateTableConverter
                             .sub()
                                 .list()
                                 .ref(PartitionsConverter.meta)
-                                .data(TruncateTable::getPartitionsList)
+                                .scope(TruncateTable::getPartitionsList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
@@ -85,12 +85,12 @@ public class TruncateTableConverter
                         .overall("range")
                         .sub()
                             .ref(PartitionNumberExpressionConverter.class)
-                            .data(TruncateTable.Range::getPartitionNumberExpressionLeft)
+                            .scope(TruncateTable.Range::getPartitionNumberExpressionLeft)
                             .and()
                         .sub_keyword(Keywords.TO)
                         .sub()
                             .ref(PartitionNumberExpressionConverter.class)
-                            .data(TruncateTable.Range::getPartitionNumberExpressionRight)
+                            .scope(TruncateTable.Range::getPartitionNumberExpressionRight)
                             .and()
                         .build();
         // @formatter:on
@@ -111,7 +111,7 @@ public class TruncateTableConverter
                 new BlockMetaBuilder<Void,TruncateTable.PartitionNumberExpression>()
                         .overall("partition_number_expression")
                         .sub()
-                            .data(TruncateTable.PartitionNumberExpression::getNumber)
+                            .scope(TruncateTable.PartitionNumberExpression::getNumber)
                             .and()
                         .build();
         // @formatter:on

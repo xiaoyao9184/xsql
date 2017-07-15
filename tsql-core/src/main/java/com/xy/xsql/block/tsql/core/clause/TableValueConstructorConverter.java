@@ -32,9 +32,10 @@ public class TableValueConstructorConverter
                                 .ref(RowValueExpressionListConverter.class)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
+                            .format_line()
                             .and()
                         .list()
-                        .data(TableValueConstructor::getRowValueExpressionListGroup)
+                        .scope(TableValueConstructor::getRowValueExpressionListGroup)
                         .format_indentation_right()
                         .and()
                     .build();
@@ -57,7 +58,7 @@ public class TableValueConstructorConverter
                             .list()
                             .style_required()
                             .ref(RowValueExpressionConverter.meta)
-                            .data(d -> d)
+                            .scope(d -> d)
                             .and()
                         .build();
         // @formatter:on
@@ -78,13 +79,13 @@ public class TableValueConstructorConverter
                         .overall("row value expression")
                         .style_required()
                         .czse(d -> d instanceof Default,"DEFAULT")
-                            .data(d -> d)
+                            .scope(d -> d)
                             .and()
                         .czse(d -> d instanceof Null,"NULL")
-                            .data(d -> d)
+                            .scope(d -> d)
                             .and()
                         .czse(d -> true,"expression")
-                            .data(d -> d)
+                            .scope(d -> d)
                             .and()
                         .build();
         // @formatter:on

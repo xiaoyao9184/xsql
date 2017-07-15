@@ -23,6 +23,7 @@ public class PrintAdapter<B extends Block,W extends Writer> {
     }
 
     public void initPrinter(){
+        //TODO
         withPrinter((BlockPrinter<B, W>) new KeywordListBlockPrinter());
     }
 

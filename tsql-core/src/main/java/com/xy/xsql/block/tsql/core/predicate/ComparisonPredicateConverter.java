@@ -16,14 +16,14 @@ public class ComparisonPredicateConverter
             new BlockMetaBuilder<Void,Comparison>()
                     .overall("Comparison Predicate")
                     .sub("expression")
-                        .data(Comparison::getExpression)
+                        .scope(Comparison::getExpression)
                         .and()
                     .sub("= | < > | ! = | > | > = | ! > | < | < = | ! <")
-                        .data(Comparison::getOperator)
+                        .scope(Comparison::getOperator)
                         .style_required()
                         .and()
                     .sub("expression")
-                        .data(Comparison::getOperatorExpression)
+                        .scope(Comparison::getOperatorExpression)
                         .and()
                     .build();
     // @formatter:on

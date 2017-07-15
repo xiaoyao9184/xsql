@@ -20,7 +20,7 @@ public class TopConverter
                     .sub_keyword(Keywords.TOP)
                     .sub_keyword(Other.GROUP_START)
                     .sub("expression")
-                        .data(Top::getExpression)
+                        .scope(Top::getExpression)
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .sub()

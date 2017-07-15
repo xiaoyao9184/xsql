@@ -63,7 +63,7 @@ public class ModelKeywordBlockConverter<MODEL>
         }
 
 
-        //format style
+        //format style: line indentation
         meta.format()
                 .ifPresent(format -> {
                     context.setNewLine(format.isNewLine());
@@ -249,7 +249,7 @@ public class ModelKeywordBlockConverter<MODEL>
                     String delimiterFormat = delimiter;
                     if(cacheSub.isNewLine()){
                         String start = Strings.repeat(cacheSub.getIndentation(),cacheSub.getSafeLevel());
-                        delimiterFormat = "\n" + start;
+                        delimiterFormat = "\n" + start + delimiterFormat;
                     }
                     return Stream.concat(
                             Stream.of(delimiterFormat),
@@ -281,7 +281,11 @@ public class ModelKeywordBlockConverter<MODEL>
                     String delimiterFormat = delimiter;
                     if(cacheSub.isNewLine()){
                         String start = Strings.repeat(cacheSub.getIndentation(),cacheSub.getSafeLevel());
-                        delimiterFormat = "\n" + start;
+                        if(delimiterFormat.equals(" ")){
+                            delimiterFormat = "\n" + start;
+                        }else{
+                            delimiterFormat = "\n" + start + delimiterFormat;
+                        }
                     }
                     return Stream.concat(
                             Stream.of(delimiterFormat),

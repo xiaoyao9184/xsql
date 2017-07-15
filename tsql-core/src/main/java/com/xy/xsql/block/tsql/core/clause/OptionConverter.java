@@ -25,7 +25,7 @@ public class OptionConverter
                     .sub("query_hint")
                         .list()
                         .ref(QueryOptionConverter.class)
-                        .data(Option::getQueryOption)
+                        .scope(Option::getQueryOption)
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();
@@ -47,7 +47,7 @@ public class OptionConverter
                         .czse_ref(d -> d instanceof Option.LabelQueryOption, LabelQueryOptionConverter.meta)
                         .czse(d -> d instanceof QueryHint, "query_hint")
                             .ref(QueryHintConverter.class)
-                            .data(d -> d)
+                            .scope(d -> d)
                             .and()
                         .style_sub_line_delimiter()
                         .build();
@@ -70,7 +70,7 @@ public class OptionConverter
                         .sub_keyword(Keywords.Key.LABEL)
                         .sub_keyword(Assignment.ASSIGNMENT)
                         .sub("label_name")
-                            .data(Option.LabelQueryOption::getLabelName)
+                            .scope(Option.LabelQueryOption::getLabelName)
                             .and()
                         .build();
         // @formatter:on

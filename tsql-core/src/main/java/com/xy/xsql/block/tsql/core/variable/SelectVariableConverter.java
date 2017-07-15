@@ -22,7 +22,7 @@ public class SelectVariableConverter
                         .description("{ @local_variable { = | += | -= | *= | /= | %= | &= | ^= | |= } expression } [ ,...n ]")
                         .list()
                         .ref(SelectVariableItemConverter.meta)
-                        .data(SelectVariable::getItems)
+                        .scope(SelectVariable::getItems)
                         .and()
                     .build();
     // @formatter:on
@@ -40,14 +40,14 @@ public class SelectVariableConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,SelectVariable.Item>()
                     .sub("@local_variable")
-                        .data(SelectVariable.Item::getLocalVariable)
+                        .scope(SelectVariable.Item::getLocalVariable)
                         .and()
                     .sub("= | += | -= | *= | /= | %= | &= | ^= | |=")
-                        .data(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
+                        .scope(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
                         .style_required()
                         .and()
                     .sub("expression")
-                        .data(SelectVariable.Item::getExpression)
+                        .scope(SelectVariable.Item::getExpression)
                         .and()
                     .build();
         // @formatter:on

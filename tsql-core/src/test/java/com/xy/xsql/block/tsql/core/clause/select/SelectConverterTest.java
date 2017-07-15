@@ -148,6 +148,7 @@ public class SelectConverterTest {
 
             check = check
                     .replaceAll(" ", "")
+                    .replaceAll("\t", "")
                     .replaceAll("\n", "");
 
             String ok = value

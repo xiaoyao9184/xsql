@@ -18,7 +18,7 @@ public class IntoConverter
                     .overall("INTO Clause")
                     .sub_keyword(Keywords.INTO)
                     .sub("new_table")
-                        .data(Into::getNewTable)
+                        .scope(Into::getNewTable)
                         .and()
                     .sub()
                         .description("on filegroup")
@@ -27,7 +27,7 @@ public class IntoConverter
                             .keyword(Keywords.ON)
                             .and()
                         .sub("filegroup")
-                            .data(Into::getFileGroup)
+                            .scope(Into::getFileGroup)
                             .and()
                         .and()
                     .build();
