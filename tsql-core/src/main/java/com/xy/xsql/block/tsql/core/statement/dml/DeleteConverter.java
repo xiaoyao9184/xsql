@@ -27,7 +27,7 @@ public class DeleteConverter
                         .scope(Delete::getTop)
                         .format_line()
                         .and()
-                    .sub("FROM")
+                    .sub()
                         .optional(d -> !d.isUseForm())
                         .keyword(Keywords.FROM)
                         .format_line()

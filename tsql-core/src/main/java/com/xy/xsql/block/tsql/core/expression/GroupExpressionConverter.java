@@ -15,7 +15,7 @@ public class GroupExpressionConverter
     // @formatter:off
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,GroupExpression>()
-                    .description("( expression ) | ( scalar_subquery )")
+                    .description("(expression)/(scalar_subquery)")
                     .sub()
                         .czse(d -> d.getExpression() != null,"expression")
                             .ref(ExpressionConverter.meta)

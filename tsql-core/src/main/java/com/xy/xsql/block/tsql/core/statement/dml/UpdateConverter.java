@@ -153,14 +153,10 @@ public class UpdateConverter
                         .czse(d -> d.getExpression() != null,"expression")
                             .scope(Update.ColumnAssignmentSet::getExpression)
                             .and()
-                        .czse(Update.ColumnAssignmentSet::isUseDefault,"DEFAULT")
-                            .keyword(Keywords.DEFAULT)
-                            .and()
-                        .czse(Update.ColumnAssignmentSet::isUseNull,"NULL")
-                            .keyword(Keywords.NULL)
-                            .and()
+                        .czse_keyword(Update.ColumnAssignmentSet::isUseDefault,Keywords.DEFAULT)
+                        .czse_keyword(Update.ColumnAssignmentSet::isUseNull,Keywords.NULL)
                         .and()
-                        .build();
+                    .build();
         // @formatter:on
 
         @Override

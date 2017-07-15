@@ -19,7 +19,7 @@ public class SelectVariableConverter
                     .overall("SELECT @local_variable")
                     .sub_keyword(Keywords.SELECT)
                     .sub()
-                        .description("{ @local_variable { = | += | -= | *= | /= | %= | &= | ^= | |= } expression } [ ,...n ]")
+                        .description("select local_variable's item list")
                         .list()
                         .ref(SelectVariableItemConverter.meta)
                         .scope(SelectVariable::getItems)

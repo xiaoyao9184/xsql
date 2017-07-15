@@ -16,18 +16,10 @@ public class JoinHintConverter
             new BlockMetaBuilder<Void,JoinHint>()
                     .overall("join_hint")
                     .style_required()
-                    .czse(d -> d.equals(JoinHint.LOOP))
-                        .keyword(JoinHint.LOOP)
-                        .and()
-                    .czse(d -> d.equals(JoinHint.HASH))
-                        .keyword(JoinHint.HASH)
-                        .and()
-                    .czse(d -> d.equals(JoinHint.MERGE))
-                        .keyword(JoinHint.MERGE)
-                        .and()
-                    .czse(d -> d.equals(JoinHint.REMOTE))
-                        .keyword(JoinHint.REMOTE)
-                        .and()
+                    .czse_keyword(d -> d.equals(JoinHint.LOOP), JoinHint.LOOP)
+                    .czse_keyword(d -> d.equals(JoinHint.HASH), JoinHint.HASH)
+                    .czse_keyword(d -> d.equals(JoinHint.MERGE), JoinHint.MERGE)
+                    .czse_keyword(d -> d.equals(JoinHint.REMOTE), JoinHint.REMOTE)
                     .build();
     // @formatter:on
 

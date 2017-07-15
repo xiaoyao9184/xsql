@@ -24,7 +24,7 @@ public class TruncateTableConverter
                         .style_start_new_line()
                         .and()
                     .sub()
-                        .description("[ WITH ( PARTITIONS ( { <partition_number_expression> | <range> }[ , ...n ] ) ) ]")
+                        .description("with partitions")
                         .optional(d -> d.getPartitionsList() == null)
                         .sub_keyword(Keywords.WITH)
                         .sub_keyword(Other.GROUP_START)

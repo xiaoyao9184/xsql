@@ -45,7 +45,7 @@ public class QueryHintConverterTest {
                         "| NO_PERFORMANCE_SPOOL\n" +
                         "| OPTIMIZE FOR ( @variable_name { UNKNOWN | = literal_constant } [,...n] )\n" +
                         "| OPTIMIZE FOR UNKNOWN\n" +
-                        "| PARAMETERIZATION { SIMPLE | SIMPLE }\n" +
+                        "| PARAMETERIZATION { SIMPLE | FORCED }\n" +
                         "| RECOMPILE\n" +
                         "| ROBUST PLAN\n" +
                         "| USE HINT ( '<hint_name>' [,...n] )\n" +
