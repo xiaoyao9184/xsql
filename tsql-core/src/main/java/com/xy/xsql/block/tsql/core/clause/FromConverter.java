@@ -137,6 +137,7 @@ public class FromConverter
                                     .scope(From.DerivedTable::getValues)
                                     .and()
                                 .and()
+                            .format_indentation_right()
                             .sub_keyword(Other.GROUP_END)
                             .and()
                         .sub()
@@ -158,8 +159,8 @@ public class FromConverter
                                 .scope(From.DerivedTable::getColumnAliass)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
-                            .format_line()
                             .and()
+                        .sub_format_line(true)
                         .build();
         // @formatter:on
 

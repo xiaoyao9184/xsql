@@ -195,36 +195,7 @@ public class ModelKeywordBlockConverter<MODEL>
                 }else if(meta.isRepeat()) {
                     delimiter = " ";
                 }
-
-                List<Context> collectionContext = collectionModel
-                        .stream()
-                        .map(itemModel -> {
-                            Context itemContext = new Context();
-                            Optional<BlockMeta> hideMeta = MetaManager
-                                    .byModel(itemModel.getClass())
-                                    .get();
-                            if(hideMeta.isPresent()){
-                                //item meta
-                                BlockMeta itemMeta = hideMeta.get();
-                                build(itemMeta, itemModel, itemContext);
-                            }else{
-                                itemContext.add(itemModel.toString());
-                            }
-                            return itemContext;
-                        })
-                        .collect(Collectors.toList());
-
-                String finalDelimiter = delimiter;
-                List<String> listTemp = collectionContext
-                        .stream()
-                        //joining
-                        .flatMap(context1 -> Stream.concat(
-                                Stream.of(finalDelimiter),
-                                context1.getList().stream()
-                        ))
-                        .skip(1)
-                        .collect(Collectors.toList());
-                context.addAll(listTemp);
+                build(collectionModel,delimiter,context);
             }else{
                 //Unknown
                 //TODO may be hide meta
@@ -235,12 +206,14 @@ public class ModelKeywordBlockConverter<MODEL>
 
     /**
      * build meta collection
+     * with one model scope
      * @param collectionMeta meta collection
      * @param model model
      * @param delimiter delimiter
      * @param context out
      */
     public void build(Collection<BlockMeta> collectionMeta, Object model, String delimiter, Context context) {
+        //The default format for the subset
         //line
         String lineDefault = context.sub_format()
                 .filter(BlockMeta.Format::isNewLine)
@@ -269,30 +242,41 @@ public class ModelKeywordBlockConverter<MODEL>
                 .filter(itemContext -> !itemContext.isEmpty())
                 //joining
                 .flatMap(itemContext -> {
-                    //format block start
-                    StringBuilder delimiterBuilder = new StringBuilder();
+                    //If the format is defined, the parent default format is ignored
+                    String lineDefaultItem = itemContext.format()
+                            .map(f -> EMPTY.toString())
+                            .orElse(lineDefault);
+                    String indentationDefaultItem = itemContext.format()
+                            .map(f -> EMPTY.toString())
+                            .orElse(indentationDefault);
+                    String delimiterDefaultItem = itemContext.format()
+                            .map(f -> delimiter)
+                            .orElse(delimiterDefault);
+
+                    //item format
                     //line
                     String lineCustomize = itemContext.format()
                             .filter(BlockMeta.Format::isNewLine)
                             .map(f -> LINE.toString())
-                            .orElse(lineDefault);
-                    delimiterBuilder.append(lineCustomize);
+                            .orElse(lineDefaultItem);
                     //indentation
                     String indentationCustomize = itemContext.format()
                             .filter(BlockMeta.Format::isNewLine)
                             .map(f -> Strings.repeat(f.getIndentationChar(),
                                     context.getAbsoluteLevel() + f.getIndentation()))
-                            .orElse(indentationDefault);
-                    delimiterBuilder.append(indentationCustomize);
+                            .orElse(indentationDefaultItem);
                     //delimiter
                     String delimiterCustomize = itemContext.format()
                             .filter(f -> !f.isUseDefaultDelimiter())
-                            .map(f -> f.getDelimiterChar())
-                            .orElse(delimiterDefault);
-                    delimiterBuilder.append(delimiterCustomize);
+                            .map(BlockMeta.Format::getDelimiterChar)
+                            .orElse(delimiterDefaultItem);
+
+                    String delimiterFormat = lineCustomize +
+                            indentationCustomize +
+                            delimiterCustomize;
 
                     return Stream.concat(
-                            Stream.of(delimiterBuilder.toString()),
+                            Stream.of(delimiterFormat),
                             itemContext.getList().stream());
                 })
                 .skip(1)
@@ -302,13 +286,14 @@ public class ModelKeywordBlockConverter<MODEL>
 
     /**
      * build model collection
+     * with many model scope
      * @param meta meta
      * @param collectionModel model collection
      * @param delimiter delimiter
      * @param context out
      */
     public void build(BlockMeta meta, Collection<Object> collectionModel, String delimiter, Context context) {
-        //TODO 针对sub的格式
+        //The default format for the subset
         //line
         String lineDefault = context.sub_format()
                 .filter(BlockMeta.Format::isNewLine)
@@ -336,29 +321,41 @@ public class ModelKeywordBlockConverter<MODEL>
                 .filter(itemContext -> !itemContext.isEmpty())
                 //joining
                 .flatMap(itemContext -> {
-                    //TODO 针对item的格式
-                    StringBuilder formatBuilder = new StringBuilder();
+                    //If the format is defined, the parent default format is ignored
+                    String lineDefaultItem = itemContext.format()
+                            .map(f -> EMPTY.toString())
+                            .orElse(lineDefault);
+                    String indentationDefaultItem = itemContext.format()
+                            .map(f -> EMPTY.toString())
+                            .orElse(indentationDefault);
+                    String delimiterDefaultItem = itemContext.format()
+                            .map(f -> delimiter)
+                            .orElse(delimiterDefault);
+
+                    //item format
                     //line
                     String lineCustomize = itemContext.format()
                             .filter(BlockMeta.Format::isNewLine)
                             .map(f -> LINE.toString())
-                            .orElse(lineDefault);
-                    formatBuilder.append(lineCustomize);
+                            .orElse(lineDefaultItem);
                     //indentation
                     String indentationCustomize = itemContext.format()
                             .filter(BlockMeta.Format::isNewLine)
-                            .map(f -> Strings.repeat(f.getIndentationChar(),itemContext.getAbsoluteLevel()))
-                            .orElse(indentationDefault);
-                    formatBuilder.append(indentationCustomize);
+                            .map(f -> Strings.repeat(f.getIndentationChar(),
+                                    context.getAbsoluteLevel() + f.getIndentation()))
+                            .orElse(indentationDefaultItem);
                     //delimiter
                     String delimiterCustomize = itemContext.format()
                             .filter(f -> !f.isUseDefaultDelimiter())
                             .map(BlockMeta.Format::getDelimiterChar)
-                            .orElse(delimiterDefault);
-                    formatBuilder.append(delimiterCustomize);
+                            .orElse(delimiterDefaultItem);
+
+                    String delimiterFormat = lineCustomize +
+                            indentationCustomize +
+                            delimiterCustomize;
 
                     return Stream.concat(
-                            Stream.of(formatBuilder.toString()),
+                            Stream.of(delimiterFormat),
                             itemContext.getList().stream());
                 })
                 .skip(1)
@@ -366,7 +363,40 @@ public class ModelKeywordBlockConverter<MODEL>
         context.addAll(listTemp);
     }
 
-
+    /**
+     * build model collection
+     * without no meta
+     * @param collectionModel model collection
+     * @param delimiter delimiter
+     * @param context out
+     */
+    public void build(Collection<Object> collectionModel, String delimiter, Context context) {
+        List<String> listTemp = collectionModel
+                .stream()
+                .map(itemModel -> {
+                    Context itemContext = new Context();
+                    Optional<BlockMeta> hideMeta = MetaManager
+                            .byModel(itemModel.getClass())
+                            .get();
+                    if(hideMeta.isPresent()){
+                        //item meta
+                        BlockMeta itemMeta = hideMeta.get();
+                        build(itemMeta, itemModel, itemContext);
+                    }else{
+                        itemContext.add(itemModel.toString());
+                    }
+                    return itemContext;
+                })
+                .filter(itemContext -> !itemContext.isEmpty())
+                //joining
+                .flatMap(itemContext -> Stream.concat(
+                        Stream.of(delimiter),
+                        itemContext.getList().stream()
+                ))
+                .skip(1)
+                .collect(Collectors.toList());
+        context.addAll(listTemp);
+    }
 
 
     public static PrintAdapter convert(Object model){

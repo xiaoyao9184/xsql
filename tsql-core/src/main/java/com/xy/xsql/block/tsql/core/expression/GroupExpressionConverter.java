@@ -44,6 +44,7 @@ public class GroupExpressionConverter
                         .sub_keyword(Other.GROUP_START)
                         .sub("expression")
                             .scope(GroupExpression::getExpression)
+                            .format_indentation_right()
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();
@@ -60,6 +61,7 @@ public class GroupExpressionConverter
                         .sub_keyword(Other.GROUP_START)
                         .sub("scalar_subquery")
                             .scope(GroupExpression::getStatement)
+                            .format_indentation_right()
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();

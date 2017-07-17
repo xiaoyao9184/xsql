@@ -368,8 +368,11 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
 
     /**
      * use line with empty delimiter
+     * @deprecated Only enable the line flag will inherit the parent indentation
+     * @see #format_line_empty_delimiter()
      * @return THIS
      */
+    @Deprecated
     public BlockMetaBuilder<ParentBuilder, Scope> format_line_delimiter() {
         return format()
                 .delimiter(LINE.toString())
@@ -387,11 +390,11 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .and();
     }
 
-//
 //    public BlockMetaBuilder<ParentBuilder, Scope> format_indentation() {
 //        return format()
 //                .line()
 //                .indentation(0)
+//                .delimiter(EMPTY.toString())
 //                .and();
 //    }
 
@@ -459,6 +462,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .and();
     }
 
+    @Deprecated
     public BlockMetaBuilder<ParentBuilder, Scope> sub_format_line_delimiter() {
         return sub_format()
                 .delimiter(LINE.toString())

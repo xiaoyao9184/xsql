@@ -45,14 +45,16 @@ public class CaseConverter
                         .sub_keyword(Keywords.CASE)
                         .sub("input_expression")
                             .scope(Case::getInputExpression)
-                            .format_indentation_right()
+                            .format()
+                                .line(false)
+                                .and()
                             .and()
                         .sub()
                             .description("when then list")
                             .repeat()
                             .ref(CaseWhenThenExpressionConverter.meta)
                             .scope(Case::getWhenThenExpressionList)
-                            .format_line()
+                            .sub_format_line(true)
                             .and()
                         .sub()
                             .description("else")
@@ -61,9 +63,9 @@ public class CaseConverter
                             .sub("else_result_expression")
                                 .scope(Case::getElseResultExpression)
                                 .and()
-                            .format_line()
                             .and()
                         .sub_keyword(Keywords.END)
+                        .sub_format_line(true)
                         .build();
         // @formatter:on
 
@@ -95,6 +97,7 @@ public class CaseConverter
                                 .and()
                             .and()
                         .sub_keyword(Keywords.END)
+                        .sub_format_line(true)
                         .build();
         // @formatter:on
 

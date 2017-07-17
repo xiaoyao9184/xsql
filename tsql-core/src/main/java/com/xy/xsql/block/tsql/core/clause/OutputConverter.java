@@ -30,7 +30,7 @@ public class OutputConverter
                             .and()
                         .sub()
                             .keyword(Keywords.INTO)
-                            .format_line_delimiter()
+                            .format_line(true)
                             .and()
 //                        .sub_keyword(Keywords.INTO)
                         .sub()
@@ -63,7 +63,7 @@ public class OutputConverter
                             .scope(Output::getOutputDmlSelectList)
                             .format_indentation_right()
                             .and()
-                        .format_line_delimiter()
+                        .format_line(true)
                         .and()
                     .style_sub_line_delimiter()
                     .build();

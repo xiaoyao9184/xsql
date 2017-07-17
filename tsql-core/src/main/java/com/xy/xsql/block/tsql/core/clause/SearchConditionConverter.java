@@ -52,7 +52,7 @@ public class SearchConditionConverter
                         .sub_format_line(true)
                         .and()
                     .style_sub_line_delimiter()
-                    .sub_format_line_empty_delimiter()
+                    .sub_format_line(true)
                     .build();
     // @formatter:on
 
@@ -96,7 +96,6 @@ public class SearchConditionConverter
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
                             .and()
-                        .format_line()
                         .build();
         // @formatter:on
 
