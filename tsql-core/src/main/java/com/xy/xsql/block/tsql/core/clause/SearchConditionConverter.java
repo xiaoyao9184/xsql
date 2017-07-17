@@ -49,9 +49,10 @@ public class SearchConditionConverter
                         .repeat()
                         .ref(AndOrNotItemConverter.meta)
                         .scope(SearchCondition::getAndOrList)
-                        .format_line()
+                        .sub_format_line(true)
                         .and()
                     .style_sub_line_delimiter()
+                    .sub_format_line_empty_delimiter()
                     .build();
     // @formatter:on
 

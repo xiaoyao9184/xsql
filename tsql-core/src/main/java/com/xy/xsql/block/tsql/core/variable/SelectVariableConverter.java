@@ -23,6 +23,7 @@ public class SelectVariableConverter
                         .list()
                         .ref(SelectVariableItemConverter.meta)
                         .scope(SelectVariable::getItems)
+                        .sub_format_line()
                         .and()
                     .build();
     // @formatter:on

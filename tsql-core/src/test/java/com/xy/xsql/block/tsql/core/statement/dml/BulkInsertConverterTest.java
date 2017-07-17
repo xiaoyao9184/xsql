@@ -176,6 +176,7 @@ public class BulkInsertConverterTest {
                     .convert(key)
                     .print();
             System.out.println(check);
+            System.out.println("==========");
 
             check = check
                     .replaceAll(" ", "")

@@ -29,7 +29,8 @@ public class OrderByConverter
                         .ref(OffsetFetchConverter.class)
                         .scope(OrderBy::getOffsetFetch)
                         .style_start_new_line()
-                        .format_line()
+                        .format_empty_delimiter()
+                        .format_indentation_right()
                         .and()
                     .build();
     // @formatter:on
@@ -126,6 +127,7 @@ public class OrderByConverter
                             .sub_keyword(Keywords.Key.ONLY)
                             .style_start_new_line()
                             .style_convention_line_delimiter()
+                            .format_line_empty_delimiter()
                             .and()
                         .build();
         // @formatter:on

@@ -31,14 +31,9 @@ public class MergeConverterTest {
                         "[ WITH <common_table_expression> [ ,...n ] ]\n" +
                         "MERGE\n" +
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
-                        "[ INTO ]\n" +
-                        "<target_table>\n" +
-                        "[ WITH ( <merge_hint> ) ]\n" +
-                        "[ [ AS ] table_alias ]\n" +
-                        "USING\n" +
-                        "<table_source>\n" +
-                        "ON\n" +
-                        "<merge_search_condition>\n" +
+                        "[ INTO ] <target_table> [ WITH ( <merge_hint> ) ] [ [ AS ] table_alias ]\n" +
+                        "USING <table_source>\n" +
+                        "ON <merge_search_condition>\n" +
                         "[ WHEN MATCHED [ AND <clause_search_condition> ] \n" +
                         "THEN <merge_matched> ] [...n]\n" +
                         "[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ] \n" +
@@ -295,6 +290,7 @@ public class MergeConverterTest {
                     .convert(key)
                     .print();
             System.out.println(check);
+            System.out.println("==========");
 
             check = check
                     .replaceAll(" ", "")

@@ -30,7 +30,6 @@ public class ForConverter
                         .scope(For::getJson)
                         .and()
                     .style_required()
-                    .format_indentation_right()
                     .and()
                 .build();
     // @formatter:on
@@ -209,9 +208,10 @@ public class ForConverter
                                 .and()
                             .style_convention_line_delimiter()
                             .style_sub_line_delimiter()
-                            .format_line()
                             .and()
                         .style_sub_line_delimiter()
+                        .sub_format_line_empty_delimiter()
+                        .sub_format_indentation_right()
                         .build();
         // @formatter:on
 

@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.block.core.printer.ModelMetaBlockPrinter.BlockConvention.*;
+import static com.xy.xsql.block.model.BlockMeta.BlockConvention.*;
 import static com.xy.xsql.block.exception.MetaException.*;
 
 /**
@@ -59,11 +59,11 @@ public class ModelMetaBlockPrinter
         //Syntax
         if(blockMeta.isOverall() &&
                 printOverall) {
-            writer.append(LABEL_START.toString())
+            writer.append(REFERENCE_START.toString())
                     .append(blockMeta.getName())
-                    .append(LABEL_END.toString())
-                    .append(SPACE.toString())
-                    .append("::=")
+                    .append(REFERENCE_END.toString())
+                    .append(BLANKS.toString())
+                    .append(REFERENCE_LABEL.toString())
                     .append(LINE.toString());
         }
 
@@ -85,7 +85,7 @@ public class ModelMetaBlockPrinter
         writer.append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
                 .filter(style -> !style.isConventionLineDelimiter())
-                .map(style -> SPACE.toString())
+                .map(style -> BLANKS.toString())
                 .orElse(EMPTY.toString()));
         writer.append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
@@ -95,7 +95,7 @@ public class ModelMetaBlockPrinter
 
         writer.append(blockMeta.style()
                 .filter(style -> style.isReference())
-                .map(style -> LABEL_START.toString())
+                .map(style -> REFERENCE_START.toString())
                 .orElse(EMPTY.toString()));
 
         //start type style
@@ -103,22 +103,26 @@ public class ModelMetaBlockPrinter
 //                .ifPresent(style -> {
 //                    if(style.isOptional()){
 //                        if(style.isConventionLineDelimiter()){
-//                            writer.append("[\n");
+//                            writer.append(OPTIONAL_START.toString())
+//                                    .append(LINE.toString());
 //                        }else{
-//                            writer.append("[ ");
+//                            writer.append(OPTIONAL_START.toString())
+//                                    .append(BLANKS.toString());
 //                        }
 //                    }else if(style.isRequired()){
 //                        if(style.isConventionLineDelimiter()){
-//                            writer.append("{\n");
+//                            writer.append(REQUIRED_START.toString())
+//                                    .append(LINE.toString());
 //                        }else{
-//                            writer.append("{ ");
+//                            writer.append(REQUIRED_START.toString())
+//                                    .append(BLANKS.toString());
 //                        }
 //                    }else if(style.isConventionLineDelimiter()){
-//                        writer.append("\n");
+//                        writer.append(LINE.toString());
 //                    }
 //
 //                    if(style.isReference()){
-//                        writer.append("<");
+//                        writer.append(REFERENCE_START.toString());
 //                    }
 //                });
 
@@ -145,38 +149,46 @@ public class ModelMetaBlockPrinter
             StringBuilder delimiterBuilder = new StringBuilder();
             delimiterBuilder.append(blockMeta.style()
                             .filter(BlockMeta.Style::isSubNewLine)
-                            .map(style -> "\n")
-                            .orElse(" "));
+                            .map(style -> LINE.toString())
+                            .orElse(BLANKS.toString()));
 
             if(blockMeta.isExclusive()){
-                delimiterBuilder.append("| ");
+                delimiterBuilder
+                        .append(ONE_OF.toString())
+                        .append(BLANKS.toString());
             }else if(blockMeta.isList()){
-                delimiterBuilder.append(", ");
+                delimiterBuilder
+                        .append(COMMA.toString())
+                        .append(BLANKS.toString());
             }
             printMeta(blockMeta.getSub(),false,delimiterBuilder.toString(),writer);
         }
 
-//        //end type style
+        //end type style
 //        blockMeta.style()
 //                .ifPresent(style -> {
 //                    if(style.isReference()){
-//                        writer.append(">");
+//                        writer.append(REFERENCE_END.toString());
 //                    }
 //
 //                    if(style.isOptional()){
 //                        if(style.isConventionLineDelimiter()){
-//                            writer.append("\n]");
+//                            writer.append(OPTIONAL_END.toString())
+//                                    .append(LINE.toString());
 //                        }else{
-//                            writer.append(" ]");
+//                            writer.append(OPTIONAL_END.toString())
+//                                    .append(BLANKS.toString());
 //                        }
 //                    }else if(style.isRequired()){
 //                        if(style.isConventionLineDelimiter()){
-//                            writer.append("\n}");
+//                            writer.append(REQUIRED_END.toString())
+//                                    .append(LINE.toString());
 //                        }else{
-//                            writer.append(" }");
+//                            writer.append(REQUIRED_END.toString())
+//                                    .append(BLANKS.toString());
 //                        }
 //                    }else if(style.isConventionLineDelimiter()){
-//                        writer.append("\n");
+//                        writer.append(LINE.toString());
 //                    }
 //                });
 
@@ -185,13 +197,13 @@ public class ModelMetaBlockPrinter
 
         writer.append(blockMeta.style()
                 .filter(style -> style.isReference())
-                .map(style -> LABEL_END.toString())
+                .map(style -> REFERENCE_END.toString())
                 .orElse(EMPTY.toString()));
 
         writer.append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
                 .filter(style -> !style.isConventionLineDelimiter())
-                .map(style -> SPACE.toString())
+                .map(style -> BLANKS.toString())
                 .orElse(EMPTY.toString()));
         writer.append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
@@ -213,11 +225,14 @@ public class ModelMetaBlockPrinter
         if(!blockMeta.isVirtual()){
             if(blockMeta.isList() &&
                     blockMeta.isRepeat()){
-                writer.append(" [ [, ]...n ]");
+                writer.append(BLANKS.toString())
+                        .append(REPEATED_COMMA_BLANKS.toString());
             }else if(blockMeta.isList()){
-                writer.append(" [,...n]");
+                writer.append(BLANKS.toString())
+                        .append(REPEATED_COMMA.toString());
             }else if(blockMeta.isRepeat()){
-                writer.append(" [...n]");
+                writer.append(BLANKS.toString())
+                        .append(REPEATED_BLANKS.toString());
             }
         }
 
@@ -525,30 +540,6 @@ public class ModelMetaBlockPrinter
     public static StringWriter print(Object model){
         return new ModelMetaBlockPrinter()
                 .printModel(model);
-    }
-
-    public enum BlockConvention {
-        ONE_OF("|"),
-        LABEL_START("<"),
-        LABEL_END(">"),
-        OPTIONAL_START("["),
-        OPTIONAL_END("]"),
-        REQUIRED_START("{"),
-        REQUIRED_END("}"),
-        SPACE(" "),
-        EMPTY(""),
-        LINE("\n");
-
-        private String key;
-
-        BlockConvention(String key){
-            this.key = key;
-        }
-
-        @Override
-        public String toString() {
-            return key;
-        }
     }
 
 }

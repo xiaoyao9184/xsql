@@ -7,6 +7,8 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static com.xy.xsql.block.model.BlockMeta.BlockConvention.EMPTY;
+import static com.xy.xsql.block.model.BlockMeta.BlockConvention.LINE;
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew2;
@@ -320,23 +322,153 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .in(this);
     }
 
-    public BlockMetaBuilder<ParentBuilder, Scope> format_line() {
-        return format().line();
+    public FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> sub_format() {
+        return new FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
+                (initSet(BlockMeta.Format::new,
+                        target::getSubFormat,
+                        target::setSubFormat))
+                .in(this);
     }
 
-    public BlockMetaBuilder<ParentBuilder, Scope> format_indentation(int level) {
-        format().line();
-        return format().indentation(level);
+
+    /**
+     * use line of delimiter
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder, Scope> format_line() {
+        return format()
+                .line()
+                .indentation(0)
+                .delimiter(true)
+                .and();
     }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> format_line(boolean emptyDelimiter) {
+        if(emptyDelimiter){
+            return format()
+                    .line()
+                    .indentation(0)
+                    .delimiter(EMPTY.toString())
+                    .and();
+        }
+        return format()
+                .line()
+                .indentation(0)
+                .delimiter(true)
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> format_line_empty_delimiter() {
+        return format()
+                .line()
+                .indentation(0)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    /**
+     * use line with empty delimiter
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder, Scope> format_line_delimiter() {
+        return format()
+                .delimiter(LINE.toString())
+                .and();
+        //can not exclude indentation
+//        return format()
+//                .line()
+//                .delimiter(EMPTY.toString())
+//                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> format_empty_delimiter() {
+        return format()
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+//
+//    public BlockMetaBuilder<ParentBuilder, Scope> format_indentation() {
+//        return format()
+//                .line()
+//                .indentation(0)
+//                .and();
+//    }
 
     public BlockMetaBuilder<ParentBuilder, Scope> format_indentation_right() {
-        format().line();
-        return format().indentation(1);
+        return format()
+                .line()
+                .indentation(1)
+                .delimiter(EMPTY.toString())
+                .and();
     }
 
     public BlockMetaBuilder<ParentBuilder, Scope> format_indentation_left() {
-        format().line();
-        return format().indentation(-1);
+        return format()
+                .line()
+                .indentation(-1)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+
+
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_format_line() {
+        return sub_format()
+                .line()
+                .indentation(0)
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_format_line(boolean emptyDelimiter) {
+        if(emptyDelimiter){
+            return sub_format()
+                    .line()
+                    .indentation(0)
+                    .delimiter(EMPTY.toString())
+                    .and();
+        }
+        return sub_format()
+                .line()
+                .indentation(0)
+                .delimiter(true)
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_format_line_empty_delimiter() {
+        return sub_format()
+                .line()
+                .indentation(0)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_format_indentation_right() {
+        return sub_format()
+                .line()
+                .indentation(1)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_format_indentation_left() {
+        return sub_format()
+                .line()
+                .indentation(-1)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_format_line_delimiter() {
+        return sub_format()
+                .delimiter(LINE.toString())
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> sub_format_empty_delimiter() {
+        return sub_format()
+                .delimiter(EMPTY.toString())
+                .and();
     }
 
     /*
@@ -416,6 +548,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
     }
 
 
+
     /**
      * FormatBuilder
      * @param <ParentBuilder>
@@ -432,16 +565,37 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
             super(format);
         }
 
-        public ParentBuilder line(){
+
+        public FormatBuilder<ParentBuilder> line(boolean use){
+            target.setNewLine(use);
+            return this;
+        }
+
+        public FormatBuilder<ParentBuilder> line(){
             target.setNewLine(true);
-            return and();
+            return this;
         }
 
-        public ParentBuilder indentation(int level){
+        public FormatBuilder<ParentBuilder> indentation(String indentation){
+            target.setIndentationChar(indentation);
+            return this;
+        }
+
+        public FormatBuilder<ParentBuilder> indentation(int level){
             target.setIndentation(level);
-            return and();
+            return this;
         }
 
+        public FormatBuilder<ParentBuilder> delimiter(boolean useDefault) {
+            target.setUseDefaultDelimiter(useDefault);
+            return this;
+        }
+
+        public FormatBuilder<ParentBuilder> delimiter(String delimiter){
+            target.setUseDefaultDelimiter(false);
+            target.setDelimiterChar(delimiter);
+            return this;
+        }
     }
 
 

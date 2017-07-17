@@ -30,6 +30,7 @@ public class ComparisonSubPredicateConverter
                     .sub_keyword(Other.GROUP_START)
                     .sub("subquery")
                         .scope(ComparisonSubQuery::getSubquery)
+                        .format_indentation_right()
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

@@ -284,11 +284,18 @@ public class FromConverterTest {
     @Test
     public void testKeywordPrint() throws Exception {
         final int[] index = {1};
-        model2StringMap.forEach((key, value) -> {
+        model2StringMap.entrySet()
+                .stream()
+                .skip(index[0]-1)
+                .forEach(kv -> {
+            From key = kv.getKey();
+            String value = kv.getValue();
+
             String check = ModelKeywordBlockConverter
                     .convert(key)
                     .print();
             System.out.println(check);
+            System.out.println("==========");
 
             check = check
                     .replaceAll(" ", "")

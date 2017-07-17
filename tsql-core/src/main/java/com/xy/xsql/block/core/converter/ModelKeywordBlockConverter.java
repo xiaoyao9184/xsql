@@ -17,9 +17,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.block.core.printer.ModelMetaBlockPrinter.BlockConvention.EMPTY;
-import static com.xy.xsql.block.core.printer.ModelMetaBlockPrinter.BlockConvention.LINE;
 import static com.xy.xsql.block.exception.MetaException.*;
+import static com.xy.xsql.block.model.BlockMeta.BlockConvention.EMPTY;
+import static com.xy.xsql.block.model.BlockMeta.BlockConvention.LINE;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -64,10 +64,15 @@ public class ModelKeywordBlockConverter<MODEL>
 
 
         //format style: line indentation
+        context.setMeta(meta);
         meta.format()
                 .ifPresent(format -> {
-                    context.setNewLine(format.isNewLine());
+                    context.setFormat(format);
                     context.addLevel(format.getIndentation());
+                });
+        meta.sub_format()
+                .ifPresent(format -> {
+                    context.setSubFormat(format);
                 });
 
         //data
@@ -229,38 +234,6 @@ public class ModelKeywordBlockConverter<MODEL>
     }
 
     /**
-     * build model collection
-     * @param meta meta
-     * @param collectionModel model collection
-     * @param delimiter delimiter
-     * @param context out
-     */
-    public void build(BlockMeta meta, Collection<Object> collectionModel, String delimiter, Context context) {
-        List<String> listTemp = collectionModel
-                .stream()
-                .map(model -> {
-                    Context cacheSub = new Context().withLevel(context.level);
-                    build(meta, model, cacheSub);
-                    return cacheSub;
-                })
-                .filter(cacheSub -> !cacheSub.isEmpty())
-                //joining
-                .flatMap(cacheSub -> {
-                    String delimiterFormat = delimiter;
-                    if(cacheSub.isNewLine()){
-                        String start = Strings.repeat(cacheSub.getIndentation(),cacheSub.getSafeLevel());
-                        delimiterFormat = "\n" + start + delimiterFormat;
-                    }
-                    return Stream.concat(
-                            Stream.of(delimiterFormat),
-                            cacheSub.getList().stream());
-                })
-                .skip(1)
-                .collect(Collectors.toList());
-        context.addAll(listTemp);
-    }
-
-    /**
      * build meta collection
      * @param collectionMeta meta collection
      * @param model model
@@ -268,33 +241,131 @@ public class ModelKeywordBlockConverter<MODEL>
      * @param context out
      */
     public void build(Collection<BlockMeta> collectionMeta, Object model, String delimiter, Context context) {
+        //line
+        String lineDefault = context.sub_format()
+                .filter(BlockMeta.Format::isNewLine)
+                .map(f -> LINE.toString())
+                .orElse(EMPTY.toString());
+        //indentation
+        String indentationDefault = context.sub_format()
+                .filter(BlockMeta.Format::isNewLine)
+                .map(f -> Strings.repeat(f.getIndentationChar(),
+                        context.getAbsoluteLevel() + f.getIndentation()))
+                .orElse(EMPTY.toString());
+        //delimiter
+        String delimiterDefault = context.sub_format()
+                .filter(f -> !f.isUseDefaultDelimiter())
+                .map(BlockMeta.Format::getDelimiterChar)
+                .orElse(delimiter);
+
         List<String> listTemp = collectionMeta
                 .stream()
                 .map(meta -> {
-                    Context cacheSub = new Context().withLevel(context.level);
-                    build(meta, model, cacheSub);
-                    return cacheSub;
+                    Context itemContext = new Context().withLevel(context.level);
+//                    Context itemContext = context.clone();
+                    build(meta, model, itemContext);
+                    return itemContext;
                 })
-                .filter(cacheSub -> !cacheSub.isEmpty())
+                .filter(itemContext -> !itemContext.isEmpty())
                 //joining
-                .flatMap(cacheSub -> {
-                    String delimiterFormat = delimiter;
-                    if(cacheSub.isNewLine()){
-                        String start = Strings.repeat(cacheSub.getIndentation(),cacheSub.getSafeLevel());
-                        if(delimiterFormat.equals(" ")){
-                            delimiterFormat = "\n" + start;
-                        }else{
-                            delimiterFormat = "\n" + start + delimiterFormat;
-                        }
-                    }
+                .flatMap(itemContext -> {
+                    //format block start
+                    StringBuilder delimiterBuilder = new StringBuilder();
+                    //line
+                    String lineCustomize = itemContext.format()
+                            .filter(BlockMeta.Format::isNewLine)
+                            .map(f -> LINE.toString())
+                            .orElse(lineDefault);
+                    delimiterBuilder.append(lineCustomize);
+                    //indentation
+                    String indentationCustomize = itemContext.format()
+                            .filter(BlockMeta.Format::isNewLine)
+                            .map(f -> Strings.repeat(f.getIndentationChar(),
+                                    context.getAbsoluteLevel() + f.getIndentation()))
+                            .orElse(indentationDefault);
+                    delimiterBuilder.append(indentationCustomize);
+                    //delimiter
+                    String delimiterCustomize = itemContext.format()
+                            .filter(f -> !f.isUseDefaultDelimiter())
+                            .map(f -> f.getDelimiterChar())
+                            .orElse(delimiterDefault);
+                    delimiterBuilder.append(delimiterCustomize);
+
                     return Stream.concat(
-                            Stream.of(delimiterFormat),
-                            cacheSub.getList().stream());
+                            Stream.of(delimiterBuilder.toString()),
+                            itemContext.getList().stream());
                 })
                 .skip(1)
                 .collect(Collectors.toList());
         context.addAll(listTemp);
     }
+
+    /**
+     * build model collection
+     * @param meta meta
+     * @param collectionModel model collection
+     * @param delimiter delimiter
+     * @param context out
+     */
+    public void build(BlockMeta meta, Collection<Object> collectionModel, String delimiter, Context context) {
+        //TODO 针对sub的格式
+        //line
+        String lineDefault = context.sub_format()
+                .filter(BlockMeta.Format::isNewLine)
+                .map(f -> LINE.toString())
+                .orElse(EMPTY.toString());
+        //indentation
+        String indentationDefault = context.sub_format()
+                .filter(BlockMeta.Format::isNewLine)
+                .map(f -> Strings.repeat(f.getIndentationChar(),
+                        context.getAbsoluteLevel() + f.getIndentation()))
+                .orElse(EMPTY.toString());
+        //delimiter
+        String delimiterDefault = context.sub_format()
+                .filter(f -> !f.isUseDefaultDelimiter())
+                .map(BlockMeta.Format::getDelimiterChar)
+                .orElse(delimiter);
+
+        List<String> listTemp = collectionModel
+                .stream()
+                .map(model -> {
+                    Context itemContext = new Context().withLevel(context.level);
+                    build(meta, model, itemContext);
+                    return itemContext;
+                })
+                .filter(itemContext -> !itemContext.isEmpty())
+                //joining
+                .flatMap(itemContext -> {
+                    //TODO 针对item的格式
+                    StringBuilder formatBuilder = new StringBuilder();
+                    //line
+                    String lineCustomize = itemContext.format()
+                            .filter(BlockMeta.Format::isNewLine)
+                            .map(f -> LINE.toString())
+                            .orElse(lineDefault);
+                    formatBuilder.append(lineCustomize);
+                    //indentation
+                    String indentationCustomize = itemContext.format()
+                            .filter(BlockMeta.Format::isNewLine)
+                            .map(f -> Strings.repeat(f.getIndentationChar(),itemContext.getAbsoluteLevel()))
+                            .orElse(indentationDefault);
+                    formatBuilder.append(indentationCustomize);
+                    //delimiter
+                    String delimiterCustomize = itemContext.format()
+                            .filter(f -> !f.isUseDefaultDelimiter())
+                            .map(BlockMeta.Format::getDelimiterChar)
+                            .orElse(delimiterDefault);
+                    formatBuilder.append(delimiterCustomize);
+
+                    return Stream.concat(
+                            Stream.of(formatBuilder.toString()),
+                            itemContext.getList().stream());
+                })
+                .skip(1)
+                .collect(Collectors.toList());
+        context.addAll(listTemp);
+    }
+
 
 
 
@@ -313,13 +384,29 @@ public class ModelKeywordBlockConverter<MODEL>
     public static class Context {
 
         private List<String> list;
-        private boolean newLine;
+
+        /**
+         * Absolute level
+         */
         private int level;
-        private String indentation = "\t";
+
+
+        private BlockMeta meta;
+        private BlockMeta.Format format;
+        private BlockMeta.Format subFormat;
 
         public Context(){
             list = new ArrayList<>();
         }
+
+
+        public Context clone(){
+            Context clone = new Context();
+            clone.setLevel(this.level);
+            clone.setFormat(this.format);
+            return clone;
+        }
+
 
         public List<String> getList() {
             return list;
@@ -327,14 +414,6 @@ public class ModelKeywordBlockConverter<MODEL>
 
         public void setList(List<String> list) {
             this.list = list;
-        }
-
-        public boolean isNewLine() {
-            return newLine;
-        }
-
-        public void setNewLine(boolean newLine) {
-            this.newLine = newLine;
         }
 
         public int getLevel() {
@@ -345,14 +424,35 @@ public class ModelKeywordBlockConverter<MODEL>
             this.level = level;
         }
 
-        public String getIndentation() {
-            return indentation;
+        public BlockMeta getMeta() {
+            return meta;
         }
 
-        public void setIndentation(String indentation) {
-            this.indentation = indentation;
+        public void setMeta(BlockMeta meta) {
+            this.meta = meta;
         }
 
+        public BlockMeta.Format getFormat() {
+            return format;
+        }
+
+        public void setFormat(BlockMeta.Format format) {
+            this.format = format;
+        }
+
+        public BlockMeta.Format getSubFormat() {
+            return subFormat;
+        }
+
+        public void setSubFormat(BlockMeta.Format subFormat) {
+            this.subFormat = subFormat;
+        }
+
+        /**
+         * current level
+         * @param level current level
+         * @return THIS
+         */
         public Context withLevel(int level){
             this.level = level;
             return this;
@@ -362,7 +462,15 @@ public class ModelKeywordBlockConverter<MODEL>
 
          */
 
-        public int getSafeLevel() {
+        public Optional<BlockMeta.Format> format(){
+            return Optional.ofNullable(format);
+        }
+
+        public Optional<BlockMeta.Format> sub_format(){
+            return Optional.ofNullable(subFormat);
+        }
+
+        public int getAbsoluteLevel() {
             return level < 0 ? 0 : level;
         }
 
@@ -370,41 +478,18 @@ public class ModelKeywordBlockConverter<MODEL>
             level = level + formatLevel;
         }
 
-        public void subLevel(int formatLevel) {
-            level = level - formatLevel;
-        }
-
         public void add(String s) {
-//            String start = Strings.repeat(indentation,this.level);
-//            list.add(start + s);
             list.add(s);
         }
 
         public void addAll(List<String> listTemp) {
-//            listTemp = listTemp
-//                    .stream()
-//                    .map(s -> {
-//                        String start = Strings.repeat(indentation,this.level);
-//                        return start + s;
-//                    })
-//                    .collect(Collectors.toList());
-            list.addAll(listTemp);
-        }
-
-        public void addAll(List<String> listTemp, int level) {
-            listTemp = listTemp
-                    .stream()
-                    .map(s -> {
-                        String start = Strings.repeat(indentation,level);
-                        return start + s;
-                    })
-                    .collect(Collectors.toList());
             list.addAll(listTemp);
         }
 
         public boolean isEmpty() {
             return list.isEmpty();
         }
+
     }
 
 }

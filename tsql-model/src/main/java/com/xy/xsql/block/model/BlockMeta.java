@@ -102,6 +102,7 @@ public class BlockMeta implements Block {
     Format
      */
     private Format format;
+    private Format subFormat;
     private Style style;
 
     public BlockMeta(){}
@@ -245,6 +246,14 @@ public class BlockMeta implements Block {
         this.format = format;
     }
 
+    public Format getSubFormat() {
+        return subFormat;
+    }
+
+    public void setSubFormat(Format subFormat) {
+        this.subFormat = subFormat;
+    }
+
     public Style getStyle() {
         return style;
     }
@@ -265,6 +274,9 @@ public class BlockMeta implements Block {
         return Optional.ofNullable(this.getFormat());
     }
 
+    public Optional<Format> sub_format(){
+        return Optional.ofNullable(this.getSubFormat());
+    }
 
     public boolean isOptional() {
         return this.optionalPredicate != null;
@@ -439,10 +451,14 @@ public class BlockMeta implements Block {
 
     /**
      * Format for print model
+     * Operates for the interval between the current block and the previous block
      */
     public static class Format {
         private boolean newLine;
         private int indentation;
+        private String indentationChar = "\t";
+        private boolean useDefaultDelimiter = true;
+        private String delimiterChar;
 
         public boolean isNewLine() {
             return newLine;
@@ -456,8 +472,71 @@ public class BlockMeta implements Block {
             return indentation;
         }
 
+        /**
+         * < 0 left indentation
+         * > 0 right indentation
+         * @param indentation indentation level
+         */
         public void setIndentation(int indentation) {
             this.indentation = indentation;
+        }
+
+        public boolean isUseDefaultDelimiter() {
+            return useDefaultDelimiter;
+        }
+
+        public void setUseDefaultDelimiter(boolean useDefaultDelimiter) {
+            this.useDefaultDelimiter = useDefaultDelimiter;
+        }
+
+        public String getIndentationChar() {
+            return indentationChar;
+        }
+
+        public void setIndentationChar(String indentationChar) {
+            this.indentationChar = indentationChar;
+        }
+
+        public String getDelimiterChar() {
+            return delimiterChar;
+        }
+
+        public void setDelimiterChar(String delimiterChar) {
+            this.delimiterChar = delimiterChar;
+        }
+    }
+
+
+
+    public enum BlockConvention {
+        EMPTY(""),
+        COMMA(","),
+        BLANKS(" "),
+        ONE_OF("|"),
+        LINE("\n"),
+        TERMINATOR(";"),
+        REFERENCE_LABEL("::="),
+
+        REPEATED_COMMA("[,...n]"),
+        REPEATED_BLANKS("[...n]"),
+        REPEATED_COMMA_BLANKS("[ [, ]...n ]"),
+
+        REFERENCE_START("<"),
+        REFERENCE_END(">"),
+        OPTIONAL_START("["),
+        OPTIONAL_END("]"),
+        REQUIRED_START("{"),
+        REQUIRED_END("}");
+
+        private String key;
+
+        BlockConvention(String key){
+            this.key = key;
+        }
+
+        @Override
+        public String toString() {
+            return key;
         }
     }
 

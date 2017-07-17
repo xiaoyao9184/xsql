@@ -29,6 +29,7 @@ public class InPredicateConverter
                     .sub()
                         .czse(d -> d.getSubquery() != null,"subquery")
                             .scope(In::getSubquery)
+                            .format_indentation_right()
                             .and()
                         .czse(d -> d.getExpressionList() != null,"expression")
                             .list()

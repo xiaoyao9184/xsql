@@ -21,6 +21,7 @@ public class ExistsPredicateConverter
                     .sub_keyword(Other.GROUP_START)
                     .sub("subquery")
                         .scope(Exists::getSubquery)
+                        .format_indentation_right()
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

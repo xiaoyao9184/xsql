@@ -39,7 +39,7 @@ public class InsertConverterTest {
                         "[ ( column_list ) ]\n" +
                         "[ <OUTPUT Clause> ]\n" +
                         "{\n" +
-                        "<VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n     ]>\n" +
+                        "VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n ]\n" +
                         "| DEFAULT VALUES\n" +
                         "}");
     }
@@ -344,6 +344,7 @@ public class InsertConverterTest {
                     .convert(key)
                     .print();
             System.out.println(check);
+            System.out.println("==========");
 
             check = check
                     .replaceAll(" ", "")

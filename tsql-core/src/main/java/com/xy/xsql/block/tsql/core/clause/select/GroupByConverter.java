@@ -25,6 +25,7 @@ public class GroupByConverter
                         .style_required()
                         .style_convention_line_delimiter()
                         .format_indentation_right()
+                        .sub_format_line()
                         .and()
                     .build();
     // @formatter:on

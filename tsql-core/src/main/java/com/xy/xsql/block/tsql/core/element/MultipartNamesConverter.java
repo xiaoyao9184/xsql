@@ -28,6 +28,7 @@ public class MultipartNamesConverter {
                                     .scope(TableName::getServerName)
                                     .and()
                                 .sub_keyword(Other.POINT)
+                                .sub_format_empty_delimiter()
                                 .and()
                             .sub()
                                 .description("database_name.schema_name.")
@@ -46,6 +47,7 @@ public class MultipartNamesConverter {
                                         .scope(TableName::getSchemaName)
                                         .and()
                                     .sub_keyword(Other.POINT)
+                                    .sub_format_empty_delimiter()
                                     .and()
                                 .czse(d -> d.getSchemaName() != null)
                                     .description("schema_name.")
@@ -53,12 +55,15 @@ public class MultipartNamesConverter {
                                         .scope(TableName::getSchemaName)
                                         .and()
                                     .sub_keyword(Other.POINT)
+                                    .sub_format_empty_delimiter()
                                     .and()
                                 .and()
+                            .sub_format_empty_delimiter()
                             .and()
                         .sub("table_name")
                             .scope(TableName::getTableOrViewName)
                             .and()
+                        .sub_format_empty_delimiter()
                         .build();
         // @formatter:on
 
@@ -85,10 +90,12 @@ public class MultipartNamesConverter {
                                 .scope(ColumnName::getTable)
                                 .and()
                             .sub_keyword(Other.POINT)
+                            .sub_format_empty_delimiter()
                             .and()
                         .sub("column_name")
                             .scope(ColumnName::getName)
                             .and()
+                        .sub_format_empty_delimiter()
                         .build();
         // @formatter:on
 

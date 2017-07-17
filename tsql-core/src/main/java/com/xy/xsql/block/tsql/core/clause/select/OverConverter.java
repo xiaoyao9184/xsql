@@ -40,6 +40,11 @@ public class OverConverter
                         .style_convention_line_delimiter()
                         .style_start_new_line()
                         .style_end_new_line()
+                        .format_indentation_right()
+//                        .format_empty_delimiter()
+                        .sub_format_line(true)
+//                        .sub_format_indentation_right()
+//                        .sub_format_empty_delimiter()
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();
@@ -63,6 +68,8 @@ public class OverConverter
                         .sub("value_expression")
                             .list()
                             .scope(Over.PartitionBy::getValueExpressionList)
+                            .format_indentation_right()
+                            .sub_format_line()
                             .and()
                         .build();
         // @formatter:on
@@ -88,6 +95,8 @@ public class OverConverter
                             .list()
                             .ref(com.xy.xsql.block.tsql.core.clause.select.OrderByConverter.ItemConverter.meta)
                             .scope(Over.OrderBy::getItems)
+                            .format_indentation_right()
+                            .sub_format_line()
                             .and()
                         .build();
         // @formatter:on
