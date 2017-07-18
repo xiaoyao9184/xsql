@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 
 import static com.xy.xsql.block.model.BlockMeta.BlockConvention.EMPTY;
 import static com.xy.xsql.block.model.BlockMeta.BlockConvention.LINE;
+import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREFIX_COMMA;
+import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREFIX_ONE_OF;
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew2;
@@ -475,6 +477,139 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .and();
     }
 
+
+     /*
+    Syntax
+     */
+
+    public SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> syntax() {
+        return new SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
+                (initSet(BlockMeta.SyntaxFormat::new,
+                        target::getSyntaxFormat,
+                        target::setSyntaxFormat))
+                .in(this);
+    }
+
+    public SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> sub_syntax() {
+        return new SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
+                (initSet(BlockMeta.SyntaxFormat::new,
+                        target::getSubSyntaxFormat,
+                        target::setSubSyntaxFormat))
+                .in(this);
+    }
+
+
+    /**
+     * use new line
+     * for NOT Collection meta
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_line() {
+        return syntax()
+                .line()
+                .indentation(0)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    /**
+     * use new line with indentation
+     * for NOT Collection meta
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_indentation_right() {
+        return syntax()
+                .line()
+                .indentation(1)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    @Deprecated
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_line_empty_delimiter() {
+        return syntax()
+                .line()
+                .indentation(0)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    @Deprecated
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_empty_delimiter() {
+        return syntax()
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+
+
+    public BlockMetaBuilder<ParentBuilder,Scope> syntax_context_indentation() {
+        return syntax()
+                .indentation_content()
+                .and();
+    }
+
+
+    /**
+     * sub use new line
+     * for Collection meta
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_sub_line() {
+        String delimiter;
+        //noinspection Duplicates
+        if(target.isList()){
+            delimiter = NO_PREFIX_COMMA.toString();
+        }else if(target.isExclusive()){
+            delimiter = NO_PREFIX_ONE_OF.toString();
+        }else{
+            delimiter = EMPTY.toString();
+        }
+        return sub_syntax()
+                .line()
+                .indentation(0)
+                .delimiter(delimiter)
+                .and();
+    }
+
+    /**
+     * sub use new line with indentation
+     * for Collection meta
+     * @return THIS
+     */
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_sub_indentation_right() {
+        String delimiter;
+        //noinspection Duplicates
+        if(target.isList()){
+            delimiter = NO_PREFIX_COMMA.toString();
+        }else if(target.isExclusive()){
+            delimiter = NO_PREFIX_ONE_OF.toString();
+        }else{
+            delimiter = EMPTY.toString();
+        }
+        return sub_syntax()
+                .line()
+                .indentation(1)
+                .delimiter(delimiter)
+                .and();
+    }
+
+    @Deprecated
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_sub_line_empty_delimiter() {
+        return sub_syntax()
+                .line()
+                .indentation(0)
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
+    @Deprecated
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_sub_empty_delimiter() {
+        return sub_syntax()
+                .delimiter(EMPTY.toString())
+                .and();
+    }
+
     /*
     Style
      */
@@ -552,7 +687,6 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
     }
 
 
-
     /**
      * FormatBuilder
      * @param <ParentBuilder>
@@ -596,6 +730,77 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
         }
 
         public FormatBuilder<ParentBuilder> delimiter(String delimiter){
+            target.setUseDefaultDelimiter(false);
+            target.setDelimiterChar(delimiter);
+            return this;
+        }
+    }
+
+
+    /**
+     * StyleBuilder
+     * @param <ParentBuilder>
+     */
+    @SuppressWarnings({"SameParameterValue", "TypeParameterHidesVisibleType", "unused"})
+    public class SyntaxFormatBuilder<ParentBuilder>
+            extends CodeTreeBuilder<SyntaxFormatBuilder<ParentBuilder>, ParentBuilder, BlockMeta.SyntaxFormat> {
+
+        public SyntaxFormatBuilder() {
+            super(new BlockMeta.SyntaxFormat());
+        }
+
+        public SyntaxFormatBuilder(BlockMeta.SyntaxFormat syntaxFormat) {
+            super(syntaxFormat);
+        }
+
+
+        public SyntaxFormatBuilder<ParentBuilder> required(boolean flag) {
+            target.setRequired(flag);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> optional(boolean flag) {
+            target.setOptional(flag);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> reference(boolean flag) {
+            target.setReference(flag);
+            return this;
+        }
+
+
+        public SyntaxFormatBuilder<ParentBuilder> line(boolean use){
+            target.setNewLine(use);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> line(){
+            target.setNewLine(true);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> indentation_content(){
+            target.setIndentationContent(true);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> indentation(String indentation){
+            target.setIndentationChar(indentation);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> indentation(int level){
+            target.setIndentation(level);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> delimiter(boolean useDefault) {
+            target.setUseDefaultDelimiter(useDefault);
+            return this;
+        }
+
+        public SyntaxFormatBuilder<ParentBuilder> delimiter(String delimiter){
             target.setUseDefaultDelimiter(false);
             target.setDelimiterChar(delimiter);
             return this;

@@ -41,8 +41,9 @@ public class FromConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<table_source> ::=\n" +
-                        "table_or_view_name [ [ AS ] table_alias ] [ <tablesample_clause> ] \n" +
-                        "[ WITH ( <table_hint> [ [, ]...n ] ) ]\n" +
+                        "table_or_view_name [ [ AS ] table_alias ]\n" +
+                        "\t[ <tablesample_clause> ]\n" +
+                        "\t[ WITH ( <table_hint> [ [, ]...n ] ) ]\n" +
                         "| derived_table [ [ AS ] table_alias ] [ ( column_alias [,...n] ) ]\n" +
                         "| <joined_table>\n" +
                         "| @variable [ [ AS ] table_alias ]\n" +
@@ -58,8 +59,9 @@ public class FromConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "table_or_view_name [ [ AS ] table_alias ] [ <tablesample_clause> ] \n" +
-                        "[ WITH ( <table_hint> [ [, ]...n ] ) ]");
+                "table_or_view_name [ [ AS ] table_alias ]\n" +
+                        "\t[ <tablesample_clause> ]\n" +
+                        "\t[ WITH ( <table_hint> [ [, ]...n ] ) ]");
     }
 
     @Test
@@ -149,6 +151,21 @@ public class FromConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<date_time> ::=\n" +
                         "<date_time_literal> | @date_time_variable");
+    }
+
+
+    @Test
+    public void testMetaPrint_TableSample() throws Exception {
+        BlockMeta b = FromConverter.TableSampleConverter.meta;
+
+        StringWriter writer = new ModelMetaBlockPrinter()
+                .printMeta(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<tablesample_clause> ::=\n" +
+                        "TABLESAMPLE [ SYSTEM ] ( sample_number [ PERCENT | ROWS ] )\n" +
+                        "\t[ REPEATABLE ( repeat_seed ) ]");
     }
 
 

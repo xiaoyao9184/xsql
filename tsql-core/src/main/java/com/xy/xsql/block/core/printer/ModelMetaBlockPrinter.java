@@ -1,11 +1,14 @@
 package com.xy.xsql.block.core.printer;
 
+import com.google.common.base.Strings;
+import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.core.meta.MetaManager;
 import com.xy.xsql.block.exception.MetaException;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.ModelMetaBlock;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -14,6 +17,7 @@ import java.util.stream.Stream;
 
 import static com.xy.xsql.block.model.BlockMeta.BlockConvention.*;
 import static com.xy.xsql.block.exception.MetaException.*;
+import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.*;
 
 /**
  *
@@ -32,10 +36,10 @@ import static com.xy.xsql.block.exception.MetaException.*;
 public class ModelMetaBlockPrinter
         implements BlockPrinter<ModelMetaBlock,StringWriter> {
 
-    private StringWriter writer;
+//    private StringWriter writer;
 
     public ModelMetaBlockPrinter(){
-        writer = new StringWriter();
+//        writer = new StringWriter();
     }
 
 
@@ -45,21 +49,36 @@ public class ModelMetaBlockPrinter
      * @return writer
      */
     public StringWriter printMeta(BlockMeta blockMeta) {
-        return printMeta(blockMeta,true,writer);
+        Context context = new Context();
+        context.setPrintOverall(true);
+        printMeta(blockMeta,context);
+        return context.getWriter();
     }
 
     /**
      * print meta
      * @param blockMeta meta list
-     * @param printOverall printOverall
-     * @param writer writer
      * @return writer
      */
-    public StringWriter printMeta(BlockMeta blockMeta, boolean printOverall, StringWriter writer) {
+    public void printMeta(BlockMeta blockMeta, Context context) {
+
+        //format style: line indentation
+        context.setMeta(blockMeta);
+        blockMeta.syntax()
+                .ifPresent(syntax -> {
+                    context.setSyntax(syntax);
+                    context.addLevel(syntax.getIndentation());
+                });
+        blockMeta.sub_syntax()
+                .ifPresent(syntax -> {
+                    context.setSubSyntax(syntax);
+                });
+
         //Syntax
         if(blockMeta.isOverall() &&
-                printOverall) {
-            writer.append(REFERENCE_START.toString())
+                context.isPrintOverall()) {
+            context.getWriter()
+                    .append(REFERENCE_START.toString())
                     .append(blockMeta.getName())
                     .append(REFERENCE_END.toString())
                     .append(BLANKS.toString())
@@ -68,155 +87,123 @@ public class ModelMetaBlockPrinter
         }
 
         //start style
-        writer.append(blockMeta.style()
-                .filter(BlockMeta.Style::isStartNewLine)
-                .map(style -> LINE.toString())
-                .orElse(EMPTY.toString()));
+//        context.getWriter().append(blockMeta.style()
+//                .filter(BlockMeta.Style::isStartNewLine)
+//                .map(style -> LINE.toString())
+//                .orElse(EMPTY.toString()));
 
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(BlockMeta.Style::isOptional)
                 .map(style -> OPTIONAL_START.toString())
                 .orElse(EMPTY.toString()));
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(BlockMeta.Style::isRequired)
                 .map(style -> REQUIRED_START.toString())
                 .orElse(EMPTY.toString()));
 
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
                 .filter(style -> !style.isConventionLineDelimiter())
                 .map(style -> BLANKS.toString())
                 .orElse(EMPTY.toString()));
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
                 .filter(style -> style.isConventionLineDelimiter())
                 .map(style -> LINE.toString())
                 .orElse(EMPTY.toString()));
 
-        writer.append(blockMeta.style()
-                .filter(style -> style.isReference())
-                .map(style -> REFERENCE_START.toString())
+
+        //TODO
+        context.getWriter().append(blockMeta.syntax()
+                .filter(BlockMeta.SyntaxFormat::isIndentationContent)
+                .map(style ->{
+                    context.addLevel(1);
+                    return LINE.toString() +
+                            Strings.repeat(style.getIndentationChar(),
+                                    context.getAbsoluteLevel());
+                })
                 .orElse(EMPTY.toString()));
 
-        //start type style
-//        blockMeta.style()
-//                .ifPresent(style -> {
-//                    if(style.isOptional()){
-//                        if(style.isConventionLineDelimiter()){
-//                            writer.append(OPTIONAL_START.toString())
-//                                    .append(LINE.toString());
-//                        }else{
-//                            writer.append(OPTIONAL_START.toString())
-//                                    .append(BLANKS.toString());
-//                        }
-//                    }else if(style.isRequired()){
-//                        if(style.isConventionLineDelimiter()){
-//                            writer.append(REQUIRED_START.toString())
-//                                    .append(LINE.toString());
-//                        }else{
-//                            writer.append(REQUIRED_START.toString())
-//                                    .append(BLANKS.toString());
-//                        }
-//                    }else if(style.isConventionLineDelimiter()){
-//                        writer.append(LINE.toString());
-//                    }
-//
-//                    if(style.isReference()){
-//                        writer.append(REFERENCE_START.toString());
-//                    }
-//                });
 
+        context.getWriter().append(blockMeta.style()
+                .filter(BlockMeta.Style::isReference)
+                .map(style -> REFERENCE_START.toString())
+                .orElse(EMPTY.toString()));
         //context
         if(blockMeta.isData()){
             //use Name
-            writer.append(blockMeta.getName());
+            context.getWriter().append(blockMeta.getName());
         }else if(blockMeta.isAnonymousReference()){
             //no use name
             if(blockMeta.isReferenceMeta()){
                 //Reference Meta
-                printMeta(blockMeta.getReferenceMeta(),false,writer);
+                printMeta(blockMeta.getReferenceMeta(),context);
             }else{
                 //Reference Converter
                 BlockMeta hideMeta = MetaManager
                         .byConverter(blockMeta.getReferenceConverter())
                         .get()
                         .orElseThrow(MetaException::miss_meta);
-                printMeta(hideMeta,false,writer);
+                printMeta(hideMeta,context);
             }
         }else if(blockMeta.isOverall() ||
                 blockMeta.isVirtual()) {
             //Sub
-            StringBuilder delimiterBuilder = new StringBuilder();
-            delimiterBuilder.append(blockMeta.style()
-                            .filter(BlockMeta.Style::isSubNewLine)
-                            .map(style -> LINE.toString())
-                            .orElse(BLANKS.toString()));
-
-            if(blockMeta.isExclusive()){
-                delimiterBuilder
-                        .append(ONE_OF.toString())
-                        .append(BLANKS.toString());
-            }else if(blockMeta.isList()){
-                delimiterBuilder
-                        .append(COMMA.toString())
-                        .append(BLANKS.toString());
+//            StringBuilder delimiterBuilder = new StringBuilder();
+////            delimiterBuilder.append(blockMeta.style()
+////                            .filter(BlockMeta.Style::isSubNewLine)
+////                            .map(style -> LINE.toString())
+////                            .orElse(BLANKS.toString()));
+//
+//            if(blockMeta.isExclusive()){
+//                delimiterBuilder
+//                        .append(BLANKS.toString())
+//                        .append(ONE_OF.toString())
+//                        .append(BLANKS.toString());
+//            }else if(blockMeta.isList()){
+//                delimiterBuilder
+//                        .append(BLANKS.toString())
+//                        .append(COMMA.toString())
+//                        .append(BLANKS.toString());
+//            }else{
+//                delimiterBuilder
+//                        .append(BLANKS.toString());
+//            }
+            String delimiter;
+            if(blockMeta.isList()){
+                delimiter = PREFIX_COMMA.toString();
+            }else if(blockMeta.isExclusive()){
+                delimiter = PREFIX_ONE_OF.toString();
+            }else{
+                delimiter = BLANKS.toString();
             }
-            printMeta(blockMeta.getSub(),false,delimiterBuilder.toString(),writer);
+
+            printMeta(blockMeta.getSub(),false,delimiter,context);
         }
 
-        //end type style
-//        blockMeta.style()
-//                .ifPresent(style -> {
-//                    if(style.isReference()){
-//                        writer.append(REFERENCE_END.toString());
-//                    }
-//
-//                    if(style.isOptional()){
-//                        if(style.isConventionLineDelimiter()){
-//                            writer.append(OPTIONAL_END.toString())
-//                                    .append(LINE.toString());
-//                        }else{
-//                            writer.append(OPTIONAL_END.toString())
-//                                    .append(BLANKS.toString());
-//                        }
-//                    }else if(style.isRequired()){
-//                        if(style.isConventionLineDelimiter()){
-//                            writer.append(REQUIRED_END.toString())
-//                                    .append(LINE.toString());
-//                        }else{
-//                            writer.append(REQUIRED_END.toString())
-//                                    .append(BLANKS.toString());
-//                        }
-//                    }else if(style.isConventionLineDelimiter()){
-//                        writer.append(LINE.toString());
-//                    }
-//                });
-
         //end style
-
-
-        writer.append(blockMeta.style()
-                .filter(style -> style.isReference())
+        context.getWriter().append(blockMeta.style()
+                .filter(BlockMeta.Style::isReference)
                 .map(style -> REFERENCE_END.toString())
                 .orElse(EMPTY.toString()));
 
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
                 .filter(style -> !style.isConventionLineDelimiter())
                 .map(style -> BLANKS.toString())
                 .orElse(EMPTY.toString()));
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(style -> style.isOptional() || style.isRequired())
                 .filter(style -> style.isConventionLineDelimiter())
                 .map(style -> LINE.toString())
                 .orElse(EMPTY.toString()));
 
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(BlockMeta.Style::isOptional)
                 .map(style -> OPTIONAL_END.toString())
                 .orElse(EMPTY.toString()));
 
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(BlockMeta.Style::isRequired)
                 .map(style -> REQUIRED_END.toString())
                 .orElse(EMPTY.toString()));
@@ -225,44 +212,100 @@ public class ModelMetaBlockPrinter
         if(!blockMeta.isVirtual()){
             if(blockMeta.isList() &&
                     blockMeta.isRepeat()){
-                writer.append(BLANKS.toString())
+                context.getWriter().append(BLANKS.toString())
                         .append(REPEATED_COMMA_BLANKS.toString());
             }else if(blockMeta.isList()){
-                writer.append(BLANKS.toString())
+                context.getWriter().append(BLANKS.toString())
                         .append(REPEATED_COMMA.toString());
             }else if(blockMeta.isRepeat()){
-                writer.append(BLANKS.toString())
+                context.getWriter().append(BLANKS.toString())
                         .append(REPEATED_BLANKS.toString());
             }
         }
 
         //end style
-        writer.append(blockMeta.style()
+        context.getWriter().append(blockMeta.style()
                 .filter(BlockMeta.Style::isEndNewLine)
                 .map(style -> LINE.toString())
                 .orElse(EMPTY.toString()));
-
-        return writer;
     }
 
     /**
      * print meta list
-     * @param blockMetaList meta
+//     * @param blockMetaList meta
      * @param printOverall printOverall
      * @param delimiter delimiter
-     * @param writer writer
+//     * @param writer writer
      */
-    public void printMeta(List<BlockMeta> blockMetaList, boolean printOverall, String delimiter, StringWriter writer) {
-        writer.append(
-                blockMetaList
+    public void printMeta(List<BlockMeta> collectionMeta, boolean printOverall, String delimiter, Context context) {
+        //The default format for the subset
+        //line
+        String defaultLine = context.sub_syntax()
+                .filter(BlockMeta.Format::isNewLine)
+                .map(f -> LINE.toString())
+                .orElse(EMPTY.toString());
+        //indentation
+        String defaultIndentation = context.sub_syntax()
+                .filter(BlockMeta.Format::isNewLine)
+                .map(f -> Strings.repeat(f.getIndentationChar(),
+                        context.getAbsoluteLevel() + f.getIndentation()))
+                .orElse(EMPTY.toString());
+        //delimiter
+        String defaultDelimiter = context.sub_syntax()
+                .filter(f -> !f.isUseDefaultDelimiter())
+                .map(BlockMeta.Format::getDelimiterChar)
+                .orElse(delimiter);
+
+        String stringTemp = collectionMeta
                 .stream()
                 .map(sub -> {
-                    StringWriter stringWriter = new StringWriter();
-                    printMeta(sub,printOverall,stringWriter);
-                    return stringWriter.toString();
+                    Context itemContext = new Context();
+                    printMeta(sub,itemContext);
+                    return itemContext;
                 })
-                .collect(Collectors.joining(delimiter))
-        );
+                //joining
+                .flatMap(itemContext -> {
+                    //If the format is defined, the parent default format is ignored
+                    String itemDefaultLine = itemContext.syntax()
+                            .map(f -> EMPTY.toString())
+                            .orElse(defaultLine);
+                    String itemDefaultIndentation = itemContext.syntax()
+                            .map(f -> EMPTY.toString())
+                            .orElse(defaultIndentation);
+                    String itemDefaultDelimiter = itemContext.syntax()
+                            .map(f -> delimiter)
+                            .orElse(defaultDelimiter);
+
+                    //item format
+                    //line
+                    String itemCustomizeLine = itemContext.syntax()
+                            .filter(BlockMeta.Format::isNewLine)
+                            .map(f -> LINE.toString())
+                            .orElse(itemDefaultLine);
+                    //indentation
+                    String itemCustomizeIndentation = itemContext.syntax()
+                            .filter(BlockMeta.Format::isNewLine)
+                            .map(f -> Strings.repeat(f.getIndentationChar(),
+                                    context.getAbsoluteLevel() + f.getIndentation()))
+                            .orElse(itemDefaultIndentation);
+                    //delimiter
+                    String itemCustomizeDelimiter = itemContext.syntax()
+                            .filter(f -> !f.isUseDefaultDelimiter())
+                            .map(BlockMeta.Format::getDelimiterChar)
+                            .orElse(itemDefaultDelimiter);
+
+                    String itemDelimiter = itemCustomizeLine +
+                            itemCustomizeIndentation +
+                            itemCustomizeDelimiter;
+
+                    return Stream.concat(
+                            Stream.of(itemDelimiter),
+                            Stream.of(itemContext.getWriter().toString()));
+                })
+                .skip(1)
+                .collect(Collectors.joining());
+
+        context.getWriter().append(stringTemp);
     }
 
 
@@ -287,6 +330,7 @@ public class ModelMetaBlockPrinter
      * @return writer
      */
     public StringWriter printModel(BlockMeta meta, Object model){
+        StringWriter writer = new StringWriter();
         printModel(meta, model, writer);
         return writer;
     }
@@ -521,13 +565,12 @@ public class ModelMetaBlockPrinter
     @Override
     public StringWriter print(ModelMetaBlock block) {
         if(block.getModel() == null){
-            printMeta(block.getMeta());
+            return printMeta(block.getMeta());
         }else if(block.getMeta() == null){
-            printModel(block.getModel());
+            return printModel(block.getModel());
         }else{
-            printModel(block.getMeta(),block.getModel());
+            return printModel(block.getMeta(),block.getModel());
         }
-        return this.writer;
     }
 
 
@@ -540,6 +583,134 @@ public class ModelMetaBlockPrinter
     public static StringWriter print(Object model){
         return new ModelMetaBlockPrinter()
                 .printModel(model);
+    }
+
+
+
+
+    /**
+     * print Meta Context
+     */
+    @SuppressWarnings({"WeakerAccess", "SameParameterValue", "unused"})
+    public static class Context {
+
+        private boolean printOverall;
+        private StringWriter writer;
+
+        /**
+         * Absolute level
+         */
+        private int level;
+
+        private BlockMeta meta;
+        private BlockMeta.Style style;
+        private BlockMeta.Style subStyle;
+        private BlockMeta.SyntaxFormat syntax;
+        private BlockMeta.SyntaxFormat subSyntax;
+
+        public Context(){
+            writer = new StringWriter();
+        }
+
+        public boolean isPrintOverall() {
+            return printOverall;
+        }
+
+        public void setPrintOverall(boolean printOverall) {
+            this.printOverall = printOverall;
+        }
+
+        public StringWriter getWriter() {
+            return writer;
+        }
+
+        public void setWriter(StringWriter writer) {
+            this.writer = writer;
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public void setLevel(int level) {
+            this.level = level;
+        }
+
+        public BlockMeta getMeta() {
+            return meta;
+        }
+
+        public void setMeta(BlockMeta meta) {
+            this.meta = meta;
+        }
+
+        public BlockMeta.Style getStyle() {
+            return style;
+        }
+
+        public void setStyle(BlockMeta.Style style) {
+            this.style = style;
+        }
+
+        public BlockMeta.Style getSubStyle() {
+            return subStyle;
+        }
+
+        public void setSubStyle(BlockMeta.Style subStyle) {
+            this.subStyle = subStyle;
+        }
+
+        public BlockMeta.SyntaxFormat getSyntax() {
+            return syntax;
+        }
+
+        public void setSyntax(BlockMeta.SyntaxFormat syntax) {
+            this.syntax = syntax;
+        }
+
+        public BlockMeta.SyntaxFormat getSubSyntax() {
+            return subSyntax;
+        }
+
+        public void setSubSyntax(BlockMeta.SyntaxFormat subSyntax) {
+            this.subSyntax = subSyntax;
+        }
+
+        /*
+
+         */
+
+        public Context clone(){
+            Context clone = new Context();
+            clone.setLevel(this.level);
+            clone.setStyle(this.style);
+            return clone;
+        }
+
+        public int getAbsoluteLevel() {
+            return level < 0 ? 0 : level;
+        }
+
+        public void addLevel(int formatLevel) {
+            level = level + formatLevel;
+        }
+
+        public Optional<BlockMeta.Style> format(){
+            return Optional.ofNullable(style);
+        }
+
+        public Optional<BlockMeta.Style> sub_format(){
+            return Optional.ofNullable(subStyle);
+        }
+
+        public Optional<BlockMeta.SyntaxFormat> syntax(){
+            return Optional.ofNullable(syntax);
+        }
+
+        public Optional<BlockMeta.SyntaxFormat> sub_syntax(){
+            return Optional.ofNullable(subSyntax);
+        }
+
     }
 
 }

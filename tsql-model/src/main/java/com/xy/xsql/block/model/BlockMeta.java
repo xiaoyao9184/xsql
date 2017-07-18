@@ -103,6 +103,8 @@ public class BlockMeta implements Block {
      */
     private Format format;
     private Format subFormat;
+    private SyntaxFormat syntaxFormat;
+    private SyntaxFormat subSyntaxFormat;
     private Style style;
 
     public BlockMeta(){}
@@ -254,6 +256,22 @@ public class BlockMeta implements Block {
         this.subFormat = subFormat;
     }
 
+    public SyntaxFormat getSyntaxFormat() {
+        return syntaxFormat;
+    }
+
+    public void setSyntaxFormat(SyntaxFormat syntaxFormat) {
+        this.syntaxFormat = syntaxFormat;
+    }
+
+    public SyntaxFormat getSubSyntaxFormat() {
+        return subSyntaxFormat;
+    }
+
+    public void setSubSyntaxFormat(SyntaxFormat subSyntaxFormat) {
+        this.subSyntaxFormat = subSyntaxFormat;
+    }
+
     public Style getStyle() {
         return style;
     }
@@ -277,6 +295,17 @@ public class BlockMeta implements Block {
     public Optional<Format> sub_format(){
         return Optional.ofNullable(this.getSubFormat());
     }
+
+    public Optional<SyntaxFormat> syntax(){
+        return Optional.ofNullable(this.getSyntaxFormat());
+    }
+
+    public Optional<SyntaxFormat> sub_syntax(){
+        return Optional.ofNullable(this.getSubSyntaxFormat());
+    }
+
+
+
 
     public boolean isOptional() {
         return this.optionalPredicate != null;
@@ -449,6 +478,45 @@ public class BlockMeta implements Block {
 
     }
 
+    public static class SyntaxFormat extends Format {
+        private boolean required;
+        private boolean optional;
+        private boolean reference;
+        private boolean indentationContent;
+
+        public boolean isRequired() {
+            return required;
+        }
+
+        public void setRequired(boolean required) {
+            this.required = required;
+        }
+
+        public boolean isOptional() {
+            return optional;
+        }
+
+        public void setOptional(boolean optional) {
+            this.optional = optional;
+        }
+
+        public boolean isReference() {
+            return reference;
+        }
+
+        public void setReference(boolean reference) {
+            this.reference = reference;
+        }
+
+        public boolean isIndentationContent() {
+            return indentationContent;
+        }
+
+        public void setIndentationContent(boolean indentationContent) {
+            this.indentationContent = indentationContent;
+        }
+    }
+
     /**
      * Format for print model
      * Operates for the interval between the current block and the previous block
@@ -508,10 +576,35 @@ public class BlockMeta implements Block {
 
 
 
+    public enum BlockDelimiterConvention {
+        _COMMA_(" , "),
+        _ONE_OF_(" | "),
+        COMMA_(", "),
+        ONE_OF_("| "),
+
+
+        PREFIX_COMMA(" , "),
+        PREFIX_ONE_OF(" | "),
+
+        NO_PREFIX_COMMA(", "),
+        NO_PREFIX_ONE_OF("| ");
+
+        private String key;
+
+        BlockDelimiterConvention(String key){
+            this.key = key;
+        }
+
+        @Override
+        public String toString() {
+            return key;
+        }
+    }
+
     public enum BlockConvention {
         EMPTY(""),
-        COMMA(","),
         BLANKS(" "),
+        COMMA(","),
         ONE_OF("|"),
         LINE("\n"),
         TERMINATOR(";"),
