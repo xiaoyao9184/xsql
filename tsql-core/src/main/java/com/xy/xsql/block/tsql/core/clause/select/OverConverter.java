@@ -119,7 +119,7 @@ public class OverConverter
                         .overall("ROW or RANGE clause")
                         .sub()
                             .description("row/range")
-                            .style_required()
+                            .syntax_required()
                             .czse_keyword(Over.RowRange::isUseRows, Keywords.Key.ROWS)
                             .czse_keyword(d -> !d.isUseRows(), Keywords.Key.RANGE)
                             .and()
@@ -144,7 +144,7 @@ public class OverConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameExtent>()
                         .overall("window frame extent")
-                        .style_required()
+                        .syntax_required()
                         .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
                             .ref(WindowFramePrecedingConverter.class)
                             .scope(d -> d)
@@ -199,7 +199,7 @@ public class OverConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.WindowFrameBound>()
                         .overall("window frame bound")
-                        .style_required()
+                        .syntax_required()
                         .czse(d -> d instanceof Over.WindowFramePreceding,"window frame preceding")
                             .ref(WindowFramePrecedingConverter.class)
                             .scope(d -> d)
@@ -297,7 +297,7 @@ public class OverConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Over.UnsignedValueSpecification>()
                         .overall("unsigned value specification")
-                        .style_required()
+                        .syntax_required()
                         .sub("<unsigned integer literal>")
                             .scope(d -> d.toNumberConstant().toString())
                             .and()

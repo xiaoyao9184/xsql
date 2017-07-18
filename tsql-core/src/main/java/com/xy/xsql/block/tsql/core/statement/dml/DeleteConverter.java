@@ -32,12 +32,12 @@ public class DeleteConverter
                         .and()
                     .sub()
                         .description("delete target")
-                        .style_required()
+                        .syntax_required()
                         .czse(d ->
                                 d.getTableAlias() != null ||
                                 d.getTableName() != null
                         )
-                            .style_required()
+                            .syntax_required()
                             .sub()
                                 .description("table_alias/object/function")
                                 .czse(d -> d.getTableAlias() != null, "table_alias")

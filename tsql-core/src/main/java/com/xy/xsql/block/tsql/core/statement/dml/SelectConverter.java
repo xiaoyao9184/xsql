@@ -62,7 +62,7 @@ public class SelectConverter
                         .overall("query_expression")
                         .sub()
                             .description("first query")
-                            .style_required()
+                            .syntax_required()
                             .czse(d -> d.getQuerySpecification() != null,"query_specification")
                                 .ref(QuerySpecificationConverter.class)
                                 .scope(Select.QueryExpression::getQuerySpecification)
@@ -109,7 +109,7 @@ public class SelectConverter
                         .description("union item")
                         .sub()
                             .description("union item's keyword")
-                            .style_required()
+                            .syntax_required()
                             .czse(d ->
                                     Set.UNION_ALL.equals(d.getOperatorSet()) ||
                                     Set.UNION.equals(d.getOperatorSet())

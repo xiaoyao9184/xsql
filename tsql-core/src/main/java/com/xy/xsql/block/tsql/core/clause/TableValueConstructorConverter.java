@@ -56,7 +56,7 @@ public class TableValueConstructorConverter
                         .overall("row value expression list")
                         .sub("row value expression")
                             .list()
-                            .style_required()
+                            .syntax_required()
                             .ref(RowValueExpressionConverter.meta)
                             .scope(d -> d)
                             .and()
@@ -77,7 +77,7 @@ public class TableValueConstructorConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Expression>()
                         .overall("row value expression")
-                        .style_required()
+                        .syntax_required()
                         .czse(d -> d instanceof Default,"DEFAULT")
                             .scope(d -> d)
                             .and()

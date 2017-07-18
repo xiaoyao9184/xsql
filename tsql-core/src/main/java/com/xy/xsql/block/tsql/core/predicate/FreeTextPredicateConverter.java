@@ -21,7 +21,7 @@ public class FreeTextPredicateConverter
                     .sub_keyword(Other.GROUP_START)
                     .sub()
                         .sub()
-                            .style_required()
+                            .syntax_required()
                             .czse(d -> d.getColumnName() != null, "column_name")
                                 .scope(FreeText::getColumnName)
                                 .and()

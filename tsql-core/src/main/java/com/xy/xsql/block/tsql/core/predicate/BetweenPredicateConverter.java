@@ -27,7 +27,7 @@ public class BetweenPredicateConverter
                     .sub_keyword(Logical.BETWEEN)
                     .sub("expression")
                         .scope(Between::getStartExpression)
-                        .style_required()
+                        .syntax_required()
                         .and()
                     .sub_keyword(Keywords.AND)
                     .sub("expression")

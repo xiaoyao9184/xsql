@@ -131,11 +131,11 @@ public class FromConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<system_time> ::=\n" +
                         "{\n" +
-                        "AS OF <date_time>\n" +
-                        "| FROM <start_date_time> TO <end_date_time>\n" +
-                        "| BETWEEN <start_date_time> AND <end_date_time>\n" +
-                        "| CONTAINED IN ( <start_date_time> , <end_date_time> )\n" +
-                        "| ALL\n" +
+                        "\tAS OF <date_time>\n" +
+                        "\t| FROM <start_date_time> TO <end_date_time>\n" +
+                        "\t| BETWEEN <start_date_time> AND <end_date_time>\n" +
+                        "\t| CONTAINED IN ( <start_date_time> , <end_date_time> )\n" +
+                        "\t| ALL\n" +
                         "}");
     }
 

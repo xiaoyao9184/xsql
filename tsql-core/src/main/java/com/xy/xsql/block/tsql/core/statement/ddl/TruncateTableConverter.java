@@ -56,7 +56,7 @@ public class TruncateTableConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TruncateTable.Partitions>()
-                        .style_required()
+                        .syntax_required()
                         .czse(d -> d instanceof TruncateTable.PartitionNumberExpression)
                             .name("partition_number_expression")
                             .ref(PartitionNumberExpressionConverter.class)

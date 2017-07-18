@@ -93,7 +93,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
      */
     public BlockMetaBuilder<ParentBuilder, Scope> optional(Predicate<Scope> predicate) {
         target.setOptionalPredicate(predicate);
-        return this.style().optional(true);
+        return this.syntax_optional();
     }
 
     /**
@@ -126,10 +126,10 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
     public <C extends ModelMetaBlockConverter> BlockMetaBuilder<ParentBuilder, Scope> ref(Class<C> converterClass) {
         target.setReferenceConverter(converterClass);
 //        if(target.isNamedReference()){
-//            this.style_reference();
+//            this.syntax_reference();
 //        }
         //TODO must have name
-        this.style_reference();
+        this.syntax_reference();
         return this;
     }
 
@@ -141,7 +141,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
     public BlockMetaBuilder<ParentBuilder, Scope> ref(BlockMeta meta) {
         target.setReferenceMeta(meta);
         if(target.isNamedReference()){
-            this.style_reference();
+            this.syntax_reference();
         }
         return this;
     }
@@ -499,6 +499,30 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
     }
 
 
+    public BlockMetaBuilder<ParentBuilder,Scope> syntax_required() {
+        return syntax()
+                .required(true)
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder,Scope> syntax_optional() {
+        return syntax()
+                .optional(true)
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_reference() {
+        return syntax()
+                .reference(true)
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_reference_remove() {
+        return syntax()
+                .reference(false)
+                .and();
+    }
+
     /**
      * use new line
      * for NOT Collection meta
@@ -614,6 +638,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
     Style
      */
 
+    @Deprecated
     public StyleBuilder<BlockMetaBuilder<ParentBuilder, Scope>> style() {
         return new StyleBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
                 (initSet(BlockMeta.Style::new,
@@ -622,42 +647,12 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .in(this);
     }
 
-    /**
-     * style_required style
-     * @return THIS
-     */
-    public BlockMetaBuilder<ParentBuilder, Scope> style_required(){
-        return this.style().required(true);
-    }
-
-    /**
-     * optional style
-     * @return THIS
-     */
-    public BlockMetaBuilder<ParentBuilder, Scope> style_optional() {
-        return style().optional(true);
-    }
-
-    /**
-     * reference style
-     * @return THIS
-     */
-    public BlockMetaBuilder<ParentBuilder, Scope> style_reference() {
-        return style().reference(true);
-    }
-
-    /**
-     * remove reference style
-     * @return THIS
-     */
-    public BlockMetaBuilder<ParentBuilder, Scope> style_remove_reference() {
-        return style().reference(false);
-    }
 
     /**
      * use line delimiter for each sub
      * @return THIS
      */
+    @Deprecated
     public BlockMetaBuilder<ParentBuilder, Scope> style_sub_line_delimiter() {
         return style().subLineDelimiter(true);
     }
@@ -666,6 +661,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
      * use line delimiter for optional and required
      * @return THIS
      */
+    @Deprecated
     public BlockMetaBuilder<ParentBuilder, Scope> style_convention_line_delimiter() {
         return style().conventionLineDelimiter(true);
     }
@@ -674,6 +670,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
      * use
      * @return THIS
      */
+    @Deprecated
     public BlockMetaBuilder<ParentBuilder, Scope> style_start_new_line() {
         return style().startNewLine(true);
     }
@@ -682,9 +679,11 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
      * use
      * @return THIS
      */
+    @Deprecated
     public BlockMetaBuilder<ParentBuilder, Scope> style_end_new_line() {
         return style().endNewLine(true);
     }
+
 
 
     /**

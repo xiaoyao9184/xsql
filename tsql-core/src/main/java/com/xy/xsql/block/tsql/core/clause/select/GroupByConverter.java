@@ -22,7 +22,7 @@ public class GroupByConverter
                     .sub_list(ItemConverter.meta)
                         .description("group by's item list")
                         .scope(GroupBy::getItems)
-                        .style_required()
+                        .syntax_required()
                         .style_convention_line_delimiter()
                         .format_indentation_right()
                         .sub_format_line()
@@ -93,7 +93,7 @@ public class GroupByConverter
                             .list()
                             .ref(GroupByExpressionConverter.class)
                             .scope(GroupBy.RollupItem::getGroupByExpressionList)
-                            .style_required()
+                            .syntax_required()
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();
@@ -118,7 +118,7 @@ public class GroupByConverter
                             .list()
                             .ref(GroupByExpressionConverter.class)
                             .scope(GroupBy.CubeItem::getGroupByExpressionList)
-                            .style_required()
+                            .syntax_required()
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();
@@ -144,7 +144,7 @@ public class GroupByConverter
                             .list()
                             .ref(GroupingSetConverter.class)
                             .scope(GroupBy.GroupingSetsItem::getGroupingSetItemList)
-                            .style_required()
+                            .syntax_required()
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .build();

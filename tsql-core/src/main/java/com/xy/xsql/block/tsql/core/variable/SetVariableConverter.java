@@ -22,7 +22,7 @@ public class SetVariableConverter
                         .scope(SetVariable::getLocalVariable)
                         .and()
                     .sub("+= | -= | *= | /= | %= | &= | ^= | |= ")
-                        .style_required()
+                        .syntax_required()
                         .scope(d -> d.getCompound() == null ? Assignment.ASSIGNMENT : d.getCompound())
                         .and()
                     .sub("expression")

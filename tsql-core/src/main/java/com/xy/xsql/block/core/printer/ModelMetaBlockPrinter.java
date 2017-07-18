@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,197 +46,203 @@ public class ModelMetaBlockPrinter
 
     /**
      * print meta
-     * @param blockMeta meta
+     * @param meta meta
      * @return writer
      */
-    public StringWriter printMeta(BlockMeta blockMeta) {
+    public StringWriter printMeta(BlockMeta meta) {
         Context context = new Context();
         context.setPrintOverall(true);
-        printMeta(blockMeta,context);
+        printMeta(meta,context);
         return context.getWriter();
+
+//        //Syntax format
+//        String overall = EMPTY.toString();
+//        if(blockMeta.isOverall()) {
+//            overall = new StringBuilder()
+//                    .append(REFERENCE_START.toString())
+//                    .append(blockMeta.getName())
+//                    .append(REFERENCE_END.toString())
+//                    .append(BLANKS.toString())
+//                    .append(REFERENCE_LABEL.toString())
+//                    .append(LINE.toString())
+//                    .toString();
+//        }
+//
+//        String startOptional = blockMeta.syntax()
+//                .filter(BlockMeta.SyntaxFormat::isOptional)
+//                .map(style -> OPTIONAL_START.toString())
+//                .orElse(EMPTY.toString());
+//        String startRequired = blockMeta.syntax()
+//                .filter(BlockMeta.SyntaxFormat::isRequired)
+//                .map(style -> REQUIRED_START.toString())
+//                .orElse(EMPTY.toString());
+//
+//
+//        String endOptional = blockMeta.syntax()
+//                .filter(BlockMeta.SyntaxFormat::isOptional)
+//                .map(style -> OPTIONAL_END.toString())
+//                .orElse(EMPTY.toString());
+//        String endRequired = blockMeta.syntax()
+//                .filter(BlockMeta.SyntaxFormat::isRequired)
+//                .map(style -> REQUIRED_END.toString())
+//                .orElse(EMPTY.toString());
+//
+//        return new StringWriter()
+//                .append(overall)
+//                .append(startOptional)
+//                .append(startOptional)
+//                .append(context.getWriter().toString())
+//                .append(endOptional)
+//                .append(endRequired);
     }
 
     /**
      * print meta
-     * @param blockMeta meta list
-     * @return writer
+     * @param meta meta
+     * @param context context
      */
-    public void printMeta(BlockMeta blockMeta, Context context) {
-
-        //format style: line indentation
-        context.setMeta(blockMeta);
-        blockMeta.syntax()
+    public void printMeta(BlockMeta meta, Context context) {
+        //fill context
+        context.setMeta(meta);
+        meta.syntax()
                 .ifPresent(syntax -> {
                     context.setSyntax(syntax);
                     context.addLevel(syntax.getIndentation());
                 });
-        blockMeta.sub_syntax()
+        meta.sub_syntax()
                 .ifPresent(syntax -> {
                     context.setSubSyntax(syntax);
                 });
 
-        //Syntax
-        if(blockMeta.isOverall() &&
-                context.isPrintOverall()) {
-            context.getWriter()
+        //Syntax Format
+        String overall = EMPTY.toString();
+        if(meta.isOverall()) {
+            overall = new StringBuilder()
                     .append(REFERENCE_START.toString())
-                    .append(blockMeta.getName())
+                    .append(meta.getName())
                     .append(REFERENCE_END.toString())
                     .append(BLANKS.toString())
                     .append(REFERENCE_LABEL.toString())
-                    .append(LINE.toString());
+                    .append(LINE.toString())
+                    .toString();
         }
 
-        //start style
-//        context.getWriter().append(blockMeta.style()
-//                .filter(BlockMeta.Style::isStartNewLine)
-//                .map(style -> LINE.toString())
-//                .orElse(EMPTY.toString()));
-
-        context.getWriter().append(blockMeta.style()
-                .filter(BlockMeta.Style::isOptional)
+        String startOptional = meta.syntax()
+                .filter(BlockMeta.SyntaxFormat::isOptional)
                 .map(style -> OPTIONAL_START.toString())
-                .orElse(EMPTY.toString()));
-        context.getWriter().append(blockMeta.style()
-                .filter(BlockMeta.Style::isRequired)
+                .orElse(EMPTY.toString());
+        String startRequired = meta.syntax()
+                .filter(BlockMeta.SyntaxFormat::isRequired)
                 .map(style -> REQUIRED_START.toString())
-                .orElse(EMPTY.toString()));
-
-        context.getWriter().append(blockMeta.style()
-                .filter(style -> style.isOptional() || style.isRequired())
-                .filter(style -> !style.isConventionLineDelimiter())
+                .orElse(EMPTY.toString());
+        String startOptionalRequiredDelimiter = meta.syntax()
+                .filter(s -> s.isRequired() || s.isOptional())
                 .map(style -> BLANKS.toString())
-                .orElse(EMPTY.toString()));
-        context.getWriter().append(blockMeta.style()
-                .filter(style -> style.isOptional() || style.isRequired())
-                .filter(style -> style.isConventionLineDelimiter())
-                .map(style -> LINE.toString())
-                .orElse(EMPTY.toString()));
+                .orElse(EMPTY.toString());
 
-
-        //TODO
-        context.getWriter().append(blockMeta.syntax()
+        String startIndentation = meta.syntax()
                 .filter(BlockMeta.SyntaxFormat::isIndentationContent)
                 .map(style ->{
                     context.addLevel(1);
                     return LINE.toString() +
-                            Strings.repeat(style.getIndentationChar(),
+                            Strings.repeat(
+                                    style.getIndentationChar(),
                                     context.getAbsoluteLevel());
                 })
-                .orElse(EMPTY.toString()));
+                .orElse(startOptionalRequiredDelimiter);
 
+        context.getWriter()
+                .append(overall)
+                .append(startOptional)
+                .append(startRequired)
+                .append(startIndentation);
 
-        context.getWriter().append(blockMeta.style()
-                .filter(BlockMeta.Style::isReference)
-                .map(style -> REFERENCE_START.toString())
-                .orElse(EMPTY.toString()));
-        //context
-        if(blockMeta.isData()){
+        //Syntax Content
+        if(meta.isData()){
             //use Name
-            context.getWriter().append(blockMeta.getName());
-        }else if(blockMeta.isAnonymousReference()){
+            String name = meta.syntax()
+                    .filter(BlockMeta.SyntaxFormat::isReference)
+                    .map(s ->
+                            REFERENCE_START.toString() +
+                            meta.getName() +
+                            REFERENCE_END.toString())
+                    .orElse(meta.getName());
+            context.getWriter().append(name);
+        }else if(meta.isAnonymousReference()){
             //no use name
-            if(blockMeta.isReferenceMeta()){
+            BlockMeta refMeta;
+            if(meta.isReferenceMeta()){
                 //Reference Meta
-                printMeta(blockMeta.getReferenceMeta(),context);
+                refMeta = meta.getReferenceMeta();
             }else{
                 //Reference Converter
-                BlockMeta hideMeta = MetaManager
-                        .byConverter(blockMeta.getReferenceConverter())
+                refMeta = MetaManager
+                        .byConverter(meta.getReferenceConverter())
                         .get()
                         .orElseThrow(MetaException::miss_meta);
-                printMeta(hideMeta,context);
             }
-        }else if(blockMeta.isOverall() ||
-                blockMeta.isVirtual()) {
+            printMeta(refMeta,context);
+        }else if(meta.isOverall() ||
+                meta.isVirtual()) {
             //Sub
-//            StringBuilder delimiterBuilder = new StringBuilder();
-////            delimiterBuilder.append(blockMeta.style()
-////                            .filter(BlockMeta.Style::isSubNewLine)
-////                            .map(style -> LINE.toString())
-////                            .orElse(BLANKS.toString()));
-//
-//            if(blockMeta.isExclusive()){
-//                delimiterBuilder
-//                        .append(BLANKS.toString())
-//                        .append(ONE_OF.toString())
-//                        .append(BLANKS.toString());
-//            }else if(blockMeta.isList()){
-//                delimiterBuilder
-//                        .append(BLANKS.toString())
-//                        .append(COMMA.toString())
-//                        .append(BLANKS.toString());
-//            }else{
-//                delimiterBuilder
-//                        .append(BLANKS.toString());
-//            }
             String delimiter;
-            if(blockMeta.isList()){
+            if(meta.isList()){
                 delimiter = PREFIX_COMMA.toString();
-            }else if(blockMeta.isExclusive()){
+            }else if(meta.isExclusive()){
                 delimiter = PREFIX_ONE_OF.toString();
             }else{
                 delimiter = BLANKS.toString();
             }
-
-            printMeta(blockMeta.getSub(),false,delimiter,context);
+            printMeta(meta.getSub(),false,delimiter,context);
         }
 
-        //end style
-        context.getWriter().append(blockMeta.style()
-                .filter(BlockMeta.Style::isReference)
-                .map(style -> REFERENCE_END.toString())
-                .orElse(EMPTY.toString()));
+        //Syntax Format
+        String endIndentation = meta.syntax()
+                .filter(BlockMeta.SyntaxFormat::isIndentationContent)
+                .map(style ->{
+                    context.addLevel(-1);
+                    return LINE.toString() +
+                            Strings.repeat(
+                                    style.getIndentationChar(),
+                                    context.getAbsoluteLevel());
+                })
+                .orElse(startOptionalRequiredDelimiter);
 
-        context.getWriter().append(blockMeta.style()
-                .filter(style -> style.isOptional() || style.isRequired())
-                .filter(style -> !style.isConventionLineDelimiter())
-                .map(style -> BLANKS.toString())
-                .orElse(EMPTY.toString()));
-        context.getWriter().append(blockMeta.style()
-                .filter(style -> style.isOptional() || style.isRequired())
-                .filter(style -> style.isConventionLineDelimiter())
-                .map(style -> LINE.toString())
-                .orElse(EMPTY.toString()));
-
-        context.getWriter().append(blockMeta.style()
-                .filter(BlockMeta.Style::isOptional)
+        String endOptional = meta.syntax()
+                .filter(BlockMeta.SyntaxFormat::isOptional)
                 .map(style -> OPTIONAL_END.toString())
-                .orElse(EMPTY.toString()));
-
-        context.getWriter().append(blockMeta.style()
-                .filter(BlockMeta.Style::isRequired)
+                .orElse(EMPTY.toString());
+        String endRequired = meta.syntax()
+                .filter(BlockMeta.SyntaxFormat::isRequired)
                 .map(style -> REQUIRED_END.toString())
-                .orElse(EMPTY.toString()));
+                .orElse(EMPTY.toString());
 
-        //list repeat
-        if(!blockMeta.isVirtual()){
-            if(blockMeta.isList() &&
-                    blockMeta.isRepeat()){
-                context.getWriter().append(BLANKS.toString())
-                        .append(REPEATED_COMMA_BLANKS.toString());
-            }else if(blockMeta.isList()){
-                context.getWriter().append(BLANKS.toString())
-                        .append(REPEATED_COMMA.toString());
-            }else if(blockMeta.isRepeat()){
-                context.getWriter().append(BLANKS.toString())
-                        .append(REPEATED_BLANKS.toString());
+        //list or repeat
+        String repeat = EMPTY.toString();
+        if(!meta.isVirtual()){
+            if(meta.isList() &&
+                    meta.isRepeat()){
+                repeat = BLANKS.toString() + REPEATED_COMMA_BLANKS.toString();
+            }else if(meta.isList()){
+                repeat = BLANKS.toString() + REPEATED_COMMA.toString();
+            }else if(meta.isRepeat()){
+                repeat = BLANKS.toString() + REPEATED_BLANKS.toString();
             }
         }
 
-        //end style
-        context.getWriter().append(blockMeta.style()
-                .filter(BlockMeta.Style::isEndNewLine)
-                .map(style -> LINE.toString())
-                .orElse(EMPTY.toString()));
+        context.getWriter()
+                .append(endIndentation)
+                .append(endRequired)
+                .append(endOptional)
+                .append(repeat);
     }
 
     /**
-     * print meta list
-//     * @param blockMetaList meta
+     * print meta collection
+     * @param collectionMeta meta collection
      * @param printOverall printOverall
      * @param delimiter delimiter
-//     * @param writer writer
+     * @param context context
      */
     public void printMeta(List<BlockMeta> collectionMeta, boolean printOverall, String delimiter, Context context) {
         //The default format for the subset
@@ -266,6 +273,7 @@ public class ModelMetaBlockPrinter
                 //joining
                 .flatMap(itemContext -> {
                     //If the format is defined, the parent default format is ignored
+                    //TODO must merge
                     String itemDefaultLine = itemContext.syntax()
                             .map(f -> EMPTY.toString())
                             .orElse(defaultLine);
@@ -298,9 +306,9 @@ public class ModelMetaBlockPrinter
                             itemCustomizeIndentation +
                             itemCustomizeDelimiter;
 
-                    return Stream.concat(
-                            Stream.of(itemDelimiter),
-                            Stream.of(itemContext.getWriter().toString()));
+                    return Stream.of(
+                            itemDelimiter,
+                            itemContext.getWriter().toString());
                 })
                 .skip(1)
                 .collect(Collectors.joining());

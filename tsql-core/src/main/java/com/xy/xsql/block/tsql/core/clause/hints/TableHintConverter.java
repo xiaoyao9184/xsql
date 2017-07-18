@@ -90,7 +90,7 @@ public class TableHintConverter
                         .czse_keyword(d -> TableHint.Type.TABLOCKX.equals(d.getType()), TableHint.Type.TABLOCKX)
                         .czse_keyword(d -> TableHint.Type.UPDLOCK.equals(d.getType()), TableHint.Type.UPDLOCK)
                         .czse_keyword(d -> TableHint.Type.XLOCK.equals(d.getType()), TableHint.Type.XLOCK)
-                        .style_required()
+                        .syntax_required()
                         .style_convention_line_delimiter()
                         .style_sub_line_delimiter()
                         .and()

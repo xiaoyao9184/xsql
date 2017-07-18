@@ -96,7 +96,7 @@ public class BulkInsertConverter
                                 .sub_keyword(BulkInsert.WithEnum.CODEPAGE)
                                 .sub_keyword(Assignment.ASSIGNMENT)
                                 .sub()
-                                    .style_required()
+                                    .syntax_required()
                                     .czse(d -> "'ACP'".equals(d.getCodePage().toString()),"'ACP'")
                                         .scope(d -> d.getCodePage().toString())
                                         .and()
@@ -121,7 +121,7 @@ public class BulkInsertConverter
                                 .sub_keyword(BulkInsert.WithEnum.DATAFILETYPE)
                                 .sub_keyword(Assignment.ASSIGNMENT)
                                 .sub()
-                                    .style_required()
+                                    .syntax_required()
                                     .czse(d -> "'char'".equals(d.getDataFileType().toString()),"'char'")
                                         .scope(d -> d.getDataFileType().toString())
                                         .and()
@@ -394,7 +394,7 @@ public class BulkInsertConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,BulkInsert.OrderColumn>()
-                        .style_required()
+                        .syntax_required()
                         .sub("column")
                             .scope(BulkInsert.OrderColumn::getColumn)
                             .and()

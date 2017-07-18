@@ -41,7 +41,7 @@ public class TableTypeDefinitionConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,TableTypeDefinition.Item>()
-                        .style_required()
+                        .syntax_required()
                         .czse(d -> d instanceof ColumnDefinition)
                             .name("column_definition")
                             .ref(ColumnTypeDefinitionConverter.class)
@@ -70,7 +70,7 @@ public class TableTypeDefinitionConverter
                         .czse(d -> d.getColumnName() != null)
                             .sub()
                                 .description("primary key/unique")
-                                .style_required()
+                                .syntax_required()
                                 .czse(TableTypeDefinition.TableConstraint::isUsePrimaryKey)
                                     .sub_keyword(Keywords.PRIMARY)
                                     .sub_keyword(Keywords.KEY)
