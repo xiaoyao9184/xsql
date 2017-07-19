@@ -3,6 +3,7 @@ package com.xy.xsql.block.core.meta;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import net.sf.cglib.proxy.Enhancer;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,12 +25,26 @@ import static com.xy.xsql.core.ListBuilder.initNew2;
 public class BlockMetaBuilder<ParentBuilder, Scope>
         extends CodeTreeBuilder<BlockMetaBuilder<ParentBuilder, Scope>, ParentBuilder, BlockMeta> {
 
+    private MetaReadOnlyProxy metaReadOnlyProxy;
+
     public BlockMetaBuilder() {
         super(new BlockMeta());
+
+        this.metaReadOnlyProxy = MetaReadOnlyProxy.create(null);
+        this.target = this.metaReadOnlyProxy.meta();
     }
 
     public BlockMetaBuilder(BlockMeta meta) {
         super(meta);
+
+        this.metaReadOnlyProxy = MetaReadOnlyProxy.create(meta);
+        this.target = this.metaReadOnlyProxy.meta();
+    }
+
+    @Override
+    public BlockMeta build() {
+        this.metaReadOnlyProxy.enable();
+        return super.build();
     }
 
 
@@ -549,24 +564,6 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .and();
     }
 
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> syntax_line_empty_delimiter() {
-        return syntax()
-                .line()
-                .indentation(0)
-                .delimiter(EMPTY.toString())
-                .and();
-    }
-
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> syntax_empty_delimiter() {
-        return syntax()
-                .delimiter(EMPTY.toString())
-                .and();
-    }
-
-
-
     public BlockMetaBuilder<ParentBuilder,Scope> syntax_context_indentation() {
         return syntax()
                 .indentation_content()
@@ -617,23 +614,6 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .delimiter(delimiter)
                 .and();
     }
-
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> syntax_sub_line_empty_delimiter() {
-        return sub_syntax()
-                .line()
-                .indentation(0)
-                .delimiter(EMPTY.toString())
-                .and();
-    }
-
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> syntax_sub_empty_delimiter() {
-        return sub_syntax()
-                .delimiter(EMPTY.toString())
-                .and();
-    }
-
 
     /**
      * FormatBuilder
