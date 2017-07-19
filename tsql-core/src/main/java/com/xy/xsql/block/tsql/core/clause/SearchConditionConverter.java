@@ -51,7 +51,7 @@ public class SearchConditionConverter
                         .scope(SearchCondition::getAndOrList)
                         .sub_format_line(true)
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .sub_format_line(true)
                     .build();
     // @formatter:on
@@ -123,7 +123,7 @@ public class SearchConditionConverter
                         .czse_ref(d -> d instanceof In, InPredicateConverter.meta)
                         .czse_ref(d -> d instanceof ComparisonSubQuery, ComparisonSubPredicateConverter.meta)
                         .czse_ref(d -> d instanceof Exists, ExistsPredicateConverter.meta)
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 

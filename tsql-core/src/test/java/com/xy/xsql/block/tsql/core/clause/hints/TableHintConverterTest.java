@@ -30,29 +30,29 @@ public class TableHintConverterTest {
                 "<table_hint> ::=\n" +
                         "[ NOEXPAND ]\n" +
                         "{\n" +
-                        "INDEX ( index_value [,...n] )\n" +
-                        "| INDEX = ( index_value )\n" +
-                        "| FORCESEEK [ ( index_value ( index_column_name [,...n] ) ) ]\n" +
-                        "| FORCESCAN\n" +
-                        "| FORCESEEK\n" +
-                        "| HOLDLOCK\n" +
-                        "| NOLOCK\n" +
-                        "| NOWAIT\n" +
-                        "| PAGLOCK\n" +
-                        "| READCOMMITTED\n" +
-                        "| READCOMMITTEDLOCK\n" +
-                        "| READPAST\n" +
-                        "| READUNCOMMITTED\n" +
-                        "| REPEATABLEREAD\n" +
-                        "| ROWLOCK\n" +
-                        "| SERIALIZABLE\n" +
-                        "| SNAPSHOT\n" +
-                        "| SNAPSHOT\n" +
-                        "| SPATIAL_WINDOW_MAX_CELLS = integer\n" +
-                        "| TABLOCK\n" +
-                        "| TABLOCKX\n" +
-                        "| UPDLOCK\n" +
-                        "| XLOCK\n" +
+                        "\tINDEX ( index_value [,...n] )\n" +
+                        "\t| INDEX = ( index_value )\n" +
+                        "\t| FORCESEEK [ ( index_value ( index_column_name [,...n] ) ) ]\n" +
+                        "\t| FORCESCAN\n" +
+                        "\t| FORCESEEK\n" +
+                        "\t| HOLDLOCK\n" +
+                        "\t| NOLOCK\n" +
+                        "\t| NOWAIT\n" +
+                        "\t| PAGLOCK\n" +
+                        "\t| READCOMMITTED\n" +
+                        "\t| READCOMMITTEDLOCK\n" +
+                        "\t| READPAST\n" +
+                        "\t| READUNCOMMITTED\n" +
+                        "\t| REPEATABLEREAD\n" +
+                        "\t| ROWLOCK\n" +
+                        "\t| SERIALIZABLE\n" +
+                        "\t| SNAPSHOT\n" +
+                        "\t| SNAPSHOT\n" +
+                        "\t| SPATIAL_WINDOW_MAX_CELLS = integer\n" +
+                        "\t| TABLOCK\n" +
+                        "\t| TABLOCKX\n" +
+                        "\t| UPDLOCK\n" +
+                        "\t| XLOCK\n" +
                         "}");
     }
 

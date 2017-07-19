@@ -28,8 +28,8 @@ public class OrderByConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<ORDER BY Clause> ::=\n" +
-                        "ORDER BY \n" +
-                        "order_by_expression [ ASC | DESC ] [,...n] \n" +
+                        "ORDER BY\n" +
+                        "order_by_expression [ ASC | DESC ] [,...n]\n" +
                         "[ <offset_fetch> ]");
     }
 
@@ -43,9 +43,9 @@ public class OrderByConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<offset_fetch> ::=\n" +
-                        "OFFSET { integer_constant | offset_row_count_expression } { ROW | ROWS } \n" +
+                        "OFFSET { integer_constant | offset_row_count_expression } { ROW | ROWS }\n" +
                         "[\n" +
-                        "FETCH { FIRST | NEXT } { integer_constant | fetch_row_count_expression } { ROW | ROWS } ONLY\n" +
+                        "\tFETCH { FIRST | NEXT } { integer_constant | fetch_row_count_expression } { ROW | ROWS } ONLY\n" +
                         "]");
     }
 

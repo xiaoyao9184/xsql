@@ -58,8 +58,8 @@ public class InsertConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .style_sub_line_delimiter()
-                        .style_convention_line_delimiter()
+                        .syntax_sub_line()
+                        .syntax_context_indentation()
                         .format_indentation_right()
                         .and()
                     .sub()
@@ -98,10 +98,10 @@ public class InsertConverter
                             .sub_keyword(Keywords.DEFAULT)
                             .sub_keyword(Keywords.VALUES)
                             .and()
-                        .style_convention_line_delimiter()
-                        .style_sub_line_delimiter()
+                        .syntax_context_indentation()
+                        .syntax_sub_line()
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .sub_format_line(true)
                     .build();
     // @formatter:on
@@ -121,7 +121,7 @@ public class InsertConverter
                         .description("column_list")
                         .list()
                         .scope(d -> d)
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 

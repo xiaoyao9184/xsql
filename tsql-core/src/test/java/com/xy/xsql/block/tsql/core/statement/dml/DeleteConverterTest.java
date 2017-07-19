@@ -33,9 +33,8 @@ public class DeleteConverterTest {
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
                         "[ FROM ]\n" +
                         "{\n" +
-                        "{ table_alias\n" +
-                        "| <object>\n" +
-                        "[ WITH ( table_hint_limited [...n] ) ] }\n" +
+                        "\t{ table_alias | <object>\n" +
+                        "\t\t[ WITH ( table_hint_limited [...n] ) ] }\n" +
                         "}\n" +
                         "[ <OUTPUT Clause> ]\n" +
                         "[ FROM table_source [ ,...n ] ]\n" +

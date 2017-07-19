@@ -23,7 +23,7 @@ public class GroupByConverter
                         .description("group by's item list")
                         .scope(GroupBy::getItems)
                         .syntax_required()
-                        .style_convention_line_delimiter()
+                        .syntax_context_indentation()
                         .format_indentation_right()
                         .sub_format_line()
                         .and()
@@ -51,7 +51,7 @@ public class GroupByConverter
                             .description("calculates the grand total")
                             .keyword("()")
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 
@@ -220,7 +220,7 @@ public class GroupByConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 
@@ -257,7 +257,7 @@ public class GroupByConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 
@@ -279,7 +279,7 @@ public class GroupByConverter
                             .and()
                         .czse_ref(d -> d instanceof GroupBy.RollupItem, RollupItemConverter.meta)
                         .czse_ref(d -> d instanceof GroupBy.CubeItem, CubeItemConverter.meta)
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 

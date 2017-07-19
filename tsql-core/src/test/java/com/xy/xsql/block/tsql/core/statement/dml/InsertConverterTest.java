@@ -33,14 +33,14 @@ public class InsertConverterTest {
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
                         "[ INTO ]\n" +
                         "{\n" +
-                        "<object>\n" +
-                        "[ WITH ( <Table_Hint_Limited> [...n] ) ]\n" +
+                        "\t<object>\n" +
+                        "\t[ WITH ( <Table_Hint_Limited> [...n] ) ]\n" +
                         "}\n" +
                         "[ ( column_list ) ]\n" +
                         "[ <OUTPUT Clause> ]\n" +
                         "{\n" +
-                        "VALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n ]\n" +
-                        "| DEFAULT VALUES\n" +
+                        "\tVALUES ( { DEFAULT | NULL | expression } [ ,...n ] ) [ ,...n ]\n" +
+                        "\t| DEFAULT VALUES\n" +
                         "}");
     }
 

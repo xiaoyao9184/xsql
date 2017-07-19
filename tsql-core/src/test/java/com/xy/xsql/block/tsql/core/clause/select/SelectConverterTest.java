@@ -28,8 +28,8 @@ public class SelectConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<SELECT Clause> ::=\n" +
-                        "SELECT [ ALL | DISTINCT ] \n" +
-                        "[ TOP ( expression ) [ PERCENT ] [ WITH TIES ] ] \n" +
+                        "SELECT [ ALL | DISTINCT ]\n" +
+                        "[ TOP ( expression ) [ PERCENT ] [ WITH TIES ] ]\n" +
                         "<select_list>");
     }
 
@@ -44,14 +44,14 @@ public class SelectConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<select_list> ::=\n" +
                         "{\n" +
-                        "*\n" +
-                        "| { table_name | view_name | table_alias }.* \n" +
-                        "| {\n" +
-                        "[ { table_name | view_name | table_alias }. ] { column_name | $IDENTITY | $ROWGUID }\n" +
-                        "| expression\n" +
-                        "[ [ AS ] column_alias ]\n" +
-                        "}\n" +
-                        "| column_alias = expression\n" +
+                        "\t*\n" +
+                        "\t| { table_name | view_name | table_alias }.* \n" +
+                        "\t| {\n" +
+                        "\t\t[ { table_name | view_name | table_alias }. ] { column_name | $IDENTITY | $ROWGUID }\n" +
+                        "\t\t| expression\n" +
+                        "\t\t[ [ AS ] column_alias ]\n" +
+                        "\t}\n" +
+                        "\t| column_alias = expression\n" +
                         "} [,...n]");
     }
 

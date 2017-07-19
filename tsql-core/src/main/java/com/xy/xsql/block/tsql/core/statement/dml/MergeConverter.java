@@ -114,7 +114,7 @@ public class MergeConverter
                         .optional(d -> d.getOption() == null)
                         .scope(Merge::getOption)
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .sub_format_line(true)
                     .build();
     // @formatter:on
@@ -154,8 +154,8 @@ public class MergeConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .style_sub_line_delimiter()
-                        .style_convention_line_delimiter()
+                        .syntax_sub_line()
+                        .syntax_context_indentation()
                         .build();
         // @formatter:on
 
@@ -185,7 +185,7 @@ public class MergeConverter
                             .and()
                         .sub()
                             .keyword(Keywords.THEN)
-                            .style_start_new_line()
+                            .syntax_indentation_right()
                             .format_line(true)
                             .and()
                         .sub("merge_matched")
@@ -228,7 +228,7 @@ public class MergeConverter
                             .and()
                         .sub()
                             .keyword(Keywords.THEN)
-                            .style_start_new_line()
+                            .syntax_indentation_right()
                             .format_line(true)
                             .and()
                         .sub("merge_not_matched")
@@ -266,7 +266,7 @@ public class MergeConverter
                             .and()
                         .sub()
                             .keyword(Keywords.THEN)
-                            .style_start_new_line()
+                            .syntax_indentation_right()
                             .format_line()
                             .and()
                         .sub("merge_matched")
@@ -358,11 +358,11 @@ public class MergeConverter
                                 .sub_keyword(Keywords.VALUES)
                                 .and()
                             .syntax_required()
-                            .style_sub_line_delimiter()
-                            .style_start_new_line()
+                            .syntax_indentation_right()
+                            .syntax_sub_line()
                             .format_line(true)
                             .and()
-                        .style_convention_line_delimiter()
+                        .syntax_context_indentation()
                         .build();
         // @formatter:on
 

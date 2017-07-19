@@ -18,17 +18,17 @@ public class DeclareVariableConverter
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,DeclareVariable>()
                 .overall("DECLARE @local_variable")
-                .style_sub_line_delimiter()
+                .syntax_sub_line()
                 .sub_keyword(Keywords.DECLARE)
                 .sub()
                     .description("DECLARE's param")
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .czse(d -> d.getItems() != null)
                         .description("local/cursor list")
                         .list()
                         .ref(DeclareVariableItemPredicateRenderer.meta)
                         .scope(DeclareVariable::getItems)
-                        .style_convention_line_delimiter()
+                        .syntax_context_indentation()
                         .and()
                     .czse(d -> d.getTableTypeDefinition() != null)
                         .description("table")
@@ -62,7 +62,6 @@ public class DeclareVariableConverter
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DeclareVariable.Item>()
                         .description("local/cursor")
-                        .style_sub_line_delimiter()
                         .czse(d -> d.getDataType() != null)
                             .description("local")
                             .syntax_required()
@@ -93,7 +92,8 @@ public class DeclareVariableConverter
                                 .and()
                             .sub_keyword(Keywords.CURSOR)
                             .and()
-                    .build();
+                        .syntax_sub_line()
+                        .build();
         // @formatter:on
 
         @Override

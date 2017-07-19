@@ -42,7 +42,7 @@ public class SelectConverter
                         .optional(d -> d.getOption() == null)
                         .scope(Select::getOption)
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .sub_format_line_empty_delimiter()
                     .build();
     // @formatter:on
@@ -87,7 +87,7 @@ public class SelectConverter
                             .format_line(true)
                             .sub_format_line(true)
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .sub_format_line_empty_delimiter()
                         .build();
         // @formatter:on
@@ -141,7 +141,7 @@ public class SelectConverter
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .sub_format_line(true)
                         .build();
         // @formatter:on
@@ -202,7 +202,7 @@ public class SelectConverter
                             .optional(d -> d.getHaving() == null)
                             .scope(Select.QuerySpecification::getHaving)
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .sub_format_line_empty_delimiter()
                         .build();
         // @formatter:on

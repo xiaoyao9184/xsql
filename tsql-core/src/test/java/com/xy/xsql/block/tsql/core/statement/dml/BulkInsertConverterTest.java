@@ -28,9 +28,9 @@ public class BulkInsertConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<BULK INSERT> ::=\n" +
-                        "BULK INSERT \n" +
-                        "[ database_name . [ schema_name ] . | schema_name . ][ table_name | view_name ]  \n" +
-                        "FROM 'data_file' \n" +
+                        "BULK INSERT\n" +
+                        "[ database_name . [ schema_name ] . | schema_name . ][ table_name | view_name ]\n" +
+                        "FROM 'data_file'\n" +
                         "[ WITH\n" +
                         "(\n" +
                         "[ BATCHSIZE = batch_size ]\n" +

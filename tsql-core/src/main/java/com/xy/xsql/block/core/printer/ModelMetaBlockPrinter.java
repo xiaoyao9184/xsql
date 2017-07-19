@@ -116,7 +116,8 @@ public class ModelMetaBlockPrinter
 
         //Syntax Format
         String overall = EMPTY.toString();
-        if(meta.isOverall()) {
+        if(meta.isOverall() &&
+                context.isPrintOverall()) {
             overall = new StringBuilder()
                     .append(REFERENCE_START.toString())
                     .append(meta.getName())
@@ -267,6 +268,7 @@ public class ModelMetaBlockPrinter
                 .stream()
                 .map(sub -> {
                     Context itemContext = new Context();
+                    itemContext.setLevel(context.getAbsoluteLevel());
                     printMeta(sub,itemContext);
                     return itemContext;
                 })
@@ -274,15 +276,19 @@ public class ModelMetaBlockPrinter
                 .flatMap(itemContext -> {
                     //If the format is defined, the parent default format is ignored
                     //TODO must merge
-                    String itemDefaultLine = itemContext.syntax()
-                            .map(f -> EMPTY.toString())
-                            .orElse(defaultLine);
-                    String itemDefaultIndentation = itemContext.syntax()
-                            .map(f -> EMPTY.toString())
-                            .orElse(defaultIndentation);
-                    String itemDefaultDelimiter = itemContext.syntax()
-                            .map(f -> delimiter)
-                            .orElse(defaultDelimiter);
+//                    String itemDefaultLine = itemContext.syntax()
+//                            .map(f -> EMPTY.toString())
+//                            .orElse(defaultLine);
+//                    String itemDefaultIndentation = itemContext.syntax()
+//                            .map(f -> EMPTY.toString())
+//                            .orElse(defaultIndentation);
+//                    String itemDefaultDelimiter = itemContext.syntax()
+//                            .map(f -> delimiter)
+//                            .orElse(defaultDelimiter);
+
+                    String itemDefaultLine = defaultLine;
+                    String itemDefaultIndentation = defaultIndentation;
+                    String itemDefaultDelimiter = defaultDelimiter;
 
                     //item format
                     //line
@@ -611,8 +617,6 @@ public class ModelMetaBlockPrinter
         private int level;
 
         private BlockMeta meta;
-        private BlockMeta.Style style;
-        private BlockMeta.Style subStyle;
         private BlockMeta.SyntaxFormat syntax;
         private BlockMeta.SyntaxFormat subSyntax;
 
@@ -652,22 +656,6 @@ public class ModelMetaBlockPrinter
             this.meta = meta;
         }
 
-        public BlockMeta.Style getStyle() {
-            return style;
-        }
-
-        public void setStyle(BlockMeta.Style style) {
-            this.style = style;
-        }
-
-        public BlockMeta.Style getSubStyle() {
-            return subStyle;
-        }
-
-        public void setSubStyle(BlockMeta.Style subStyle) {
-            this.subStyle = subStyle;
-        }
-
         public BlockMeta.SyntaxFormat getSyntax() {
             return syntax;
         }
@@ -691,7 +679,6 @@ public class ModelMetaBlockPrinter
         public Context clone(){
             Context clone = new Context();
             clone.setLevel(this.level);
-            clone.setStyle(this.style);
             return clone;
         }
 
@@ -701,14 +688,6 @@ public class ModelMetaBlockPrinter
 
         public void addLevel(int formatLevel) {
             level = level + formatLevel;
-        }
-
-        public Optional<BlockMeta.Style> format(){
-            return Optional.ofNullable(style);
-        }
-
-        public Optional<BlockMeta.Style> sub_format(){
-            return Optional.ofNullable(subStyle);
         }
 
         public Optional<BlockMeta.SyntaxFormat> syntax(){

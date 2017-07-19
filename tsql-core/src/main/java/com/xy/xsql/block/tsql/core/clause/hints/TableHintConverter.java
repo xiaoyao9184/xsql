@@ -91,10 +91,10 @@ public class TableHintConverter
                         .czse_keyword(d -> TableHint.Type.UPDLOCK.equals(d.getType()), TableHint.Type.UPDLOCK)
                         .czse_keyword(d -> TableHint.Type.XLOCK.equals(d.getType()), TableHint.Type.XLOCK)
                         .syntax_required()
-                        .style_convention_line_delimiter()
-                        .style_sub_line_delimiter()
+                        .syntax_context_indentation()
+                        .syntax_sub_line()
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .build();
     // @formatter:on
 

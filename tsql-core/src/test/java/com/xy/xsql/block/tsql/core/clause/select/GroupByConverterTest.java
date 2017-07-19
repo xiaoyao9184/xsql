@@ -29,11 +29,11 @@ public class GroupByConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<GROUP BY> ::=\n" +
                         "GROUP BY {\n" +
-                        "column-expression\n" +
-                        "| ROLLUP ( { <group_by_expression> } [,...n] )\n" +
-                        "| CUBE ( { <group_by_expression> } [,...n] )\n" +
-                        "| GROUPING SETS ( { <grouping_set> } [,...n] )\n" +
-                        "| ()\n" +
+                        "\tcolumn-expression\n" +
+                        "\t| ROLLUP ( { <group_by_expression> } [,...n] )\n" +
+                        "\t| CUBE ( { <group_by_expression> } [,...n] )\n" +
+                        "\t| GROUPING SETS ( { <grouping_set> } [,...n] )\n" +
+                        "\t| ()\n" +
                         "} [,...n]");
     }
 

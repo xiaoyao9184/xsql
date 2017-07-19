@@ -28,8 +28,8 @@ public class TruncateTableConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<TRUNCATE TABLE> ::=\n" +
-                        "TRUNCATE TABLE \n" +
-                        "[ { database_name .[ schema_name ] . | schema_name . } ]  table_name \n" +
+                        "TRUNCATE TABLE\n" +
+                        "[ { database_name .[ schema_name ] . | schema_name . } ]  table_name\n" +
                         "[ WITH ( PARTITIONS ( { <partition_number_expression> | <range> } [,...n] ) ) ]");
     }
 

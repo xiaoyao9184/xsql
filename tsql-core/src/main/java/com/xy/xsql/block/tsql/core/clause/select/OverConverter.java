@@ -36,10 +36,10 @@ public class OverConverter
                             .ref(RowRangeConverter.class)
                             .scope(Over::getRowRange)
                             .and()
-                        .style_sub_line_delimiter()
-                        .style_convention_line_delimiter()
-                        .style_start_new_line()
-                        .style_end_new_line()
+//                        .syntax_line()
+                        .syntax_context_indentation()
+                        .syntax_sub_line()
+//                        .style_end_new_line()
                         .format_indentation_right()
 //                        .format_empty_delimiter()
                         .sub_format_line(true)
@@ -153,8 +153,8 @@ public class OverConverter
                             .ref(WindowFrameBetweenConverter.class)
                             .scope(d -> d)
                             .and()
-                        .style_sub_line_delimiter()
-                        .style_convention_line_delimiter()
+                        .syntax_sub_line()
+                        .syntax_context_indentation()
                         .build();
         // @formatter:on
 
@@ -208,8 +208,8 @@ public class OverConverter
                             .ref(WindowFrameFollowingConverter.class)
                             .scope(d -> d)
                             .and()
-                        .style_sub_line_delimiter()
-                        .style_convention_line_delimiter()
+                        .syntax_sub_line()
+                        .syntax_context_indentation()
                         .build();
         // @formatter:on
 

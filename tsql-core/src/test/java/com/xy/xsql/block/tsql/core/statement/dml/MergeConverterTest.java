@@ -34,12 +34,12 @@ public class MergeConverterTest {
                         "[ INTO ] <target_table> [ WITH ( <merge_hint> ) ] [ [ AS ] table_alias ]\n" +
                         "USING <table_source>\n" +
                         "ON <merge_search_condition>\n" +
-                        "[ WHEN MATCHED [ AND <clause_search_condition> ] \n" +
-                        "THEN <merge_matched> ] [...n]\n" +
-                        "[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ] \n" +
-                        "THEN <merge_not_matched> ]\n" +
-                        "[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ] \n" +
-                        "THEN <merge_matched> ] [...n]\n" +
+                        "[ WHEN MATCHED [ AND <clause_search_condition> ]\n" +
+                        "\tTHEN <merge_matched> ] [...n]\n" +
+                        "[ WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]\n" +
+                        "\tTHEN <merge_not_matched> ]\n" +
+                        "[ WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]\n" +
+                        "\tTHEN <merge_matched> ] [...n]\n" +
                         "[ <output_clause> ]\n" +
                         "[ OPTION ( <query_hint> [ ,...n ] ) ]");
     }
@@ -55,8 +55,8 @@ public class MergeConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<merge_hint> ::=\n" +
                         "{\n" +
-                        "[ <table_hint_limited> ] [,...n]\n" +
-                        "[ [ , ] INDEX ( index_val [,...n] ) ]\n" +
+                        "\t[ <table_hint_limited> ] [,...n]\n" +
+                        "\t[ [ , ] INDEX ( index_val [,...n] ) ]\n" +
                         "}");
     }
 
@@ -69,8 +69,8 @@ public class MergeConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "WHEN MATCHED [ AND <clause_search_condition> ] \n" +
-                        "THEN <merge_matched>");
+                "WHEN MATCHED [ AND <clause_search_condition> ]\n" +
+                        "\tTHEN <merge_matched>");
     }
 
     @Test
@@ -82,8 +82,8 @@ public class MergeConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ] \n" +
-                        "THEN <merge_not_matched>");
+                "WHEN NOT MATCHED [ BY TARGET ] [ AND <clause_search_condition> ]\n" +
+                        "\tTHEN <merge_not_matched>");
     }
 
     @Test
@@ -95,8 +95,8 @@ public class MergeConverterTest {
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
-                "WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ] \n" +
-                        "THEN <merge_matched>");
+                "WHEN NOT MATCHED BY SOURCE [ AND <clause_search_condition> ]\n" +
+                        "\tTHEN <merge_matched>");
     }
 
     @Test
@@ -123,9 +123,9 @@ public class MergeConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<merge_not_matched> ::=\n" +
                         "{\n" +
-                        "INSERT [ ( column_list ) ] \n" +
-                        "{ VALUES ( values_list )\n" +
-                        "| DEFAULT VALUES }\n" +
+                        "\tINSERT [ ( column_list ) ]\n" +
+                        "\t\t{ VALUES ( values_list )\n" +
+                        "\t\t| DEFAULT VALUES }\n" +
                         "}");
     }
 

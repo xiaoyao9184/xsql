@@ -36,7 +36,7 @@ public class UpdateConverter
                                 d.getTableAlias() != null ||
                                 d.getTableName() != null
                             )
-                            .syntax_required()
+                            .description("base table target")
                             .sub()
                                 .description("table_alias/object/function")
                                 .czse(d -> d.getTableAlias() != null, "table_alias")
@@ -59,14 +59,15 @@ public class UpdateConverter
                                     .and()
                                 .sub_keyword(Other.GROUP_END)
                                 .and()
-                            .style_sub_line_delimiter()
+                            .syntax_required()
+                            .syntax_sub_indentation_right()
                             .and()
 //                        .czse_ref(d -> d.getTableVariable() != null,"@table_variable")
 //                            .data(d -> d.getTableVariable())
 //                            .and()
                         .syntax_required()
-                        .style_convention_line_delimiter()
-                        .style_sub_line_delimiter()
+                        .syntax_context_indentation()
+                        .syntax_sub_line()
                         .format_indentation_right()
                         .and()
                     .sub()
@@ -98,7 +99,7 @@ public class UpdateConverter
                         .scope(Update::getOption)
                         .format_line()
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .sub_format_line(true)
                     .build();
     // @formatter:on
@@ -115,15 +116,15 @@ public class UpdateConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,Update.SetItem>()
-                        .style_sub_line_delimiter()
-                        .syntax_required()
                         .czse_ref(d -> d instanceof Update.ColumnAssignmentSet, ColumnAssignmentSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableAssignmentSet, VariableAssignmentSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableColumnAssignmentSet, VariableColumnAssignmentSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.ColumnCompoundSet, ColumnCompoundSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableCompoundSet, VariableCompoundSetConverter.meta)
                         .czse_ref(d -> d instanceof Update.VariableColumnCompoundSet, VariableColumnCompoundSetConverter.meta)
-                        .style_convention_line_delimiter()
+                        .syntax_required()
+                        .syntax_context_indentation()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 

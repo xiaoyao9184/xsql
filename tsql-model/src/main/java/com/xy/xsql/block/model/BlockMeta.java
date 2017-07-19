@@ -105,7 +105,6 @@ public class BlockMeta implements Block {
     private Format subFormat;
     private SyntaxFormat syntaxFormat;
     private SyntaxFormat subSyntaxFormat;
-    private Style style;
 
     public BlockMeta(){}
 
@@ -272,21 +271,9 @@ public class BlockMeta implements Block {
         this.subSyntaxFormat = subSyntaxFormat;
     }
 
-    public Style getStyle() {
-        return style;
-    }
-
-    public void setStyle(Style style) {
-        this.style = style;
-    }
-
     /*
     No Getter
      */
-
-    public Optional<Style> style(){
-        return Optional.ofNullable(this.getStyle());
-    }
 
     public Optional<Format> format(){
         return Optional.ofNullable(this.getFormat());
@@ -411,73 +398,6 @@ public class BlockMeta implements Block {
     /**
      * Style for print syntax
      */
-    public static class Style {
-        private boolean required;
-        private boolean optional;
-        private boolean reference;
-        private boolean startNewLine;
-        private boolean endNewLine;
-        private boolean conventionLineDelimiter;
-        private boolean subLineDelimiter;
-
-        public boolean isRequired() {
-            return required;
-        }
-
-        public void setRequired(boolean required) {
-            this.required = required;
-        }
-
-        public boolean isOptional() {
-            return optional;
-        }
-
-        public void setOptional(boolean optional) {
-            this.optional = optional;
-        }
-
-        public boolean isReference() {
-            return reference;
-        }
-
-        public void setReference(boolean reference) {
-            this.reference = reference;
-        }
-
-        public boolean isStartNewLine() {
-            return startNewLine;
-        }
-
-        public void setStartNewLine(boolean startNewLine) {
-            this.startNewLine = startNewLine;
-        }
-
-        public Boolean isSubNewLine() {
-            return subLineDelimiter;
-        }
-
-        public boolean isEndNewLine() {
-            return endNewLine;
-        }
-
-        public void setEndNewLine(boolean endNewLine) {
-            this.endNewLine = endNewLine;
-        }
-
-        public void setSubLineDelimiter(boolean subLineDelimiter) {
-            this.subLineDelimiter = subLineDelimiter;
-        }
-
-        public boolean isConventionLineDelimiter() {
-            return conventionLineDelimiter;
-        }
-
-        public void setConventionLineDelimiter(boolean conventionLineDelimiter) {
-            this.conventionLineDelimiter = conventionLineDelimiter;
-        }
-
-    }
-
     public static class SyntaxFormat extends Format {
         private boolean required;
         private boolean optional;

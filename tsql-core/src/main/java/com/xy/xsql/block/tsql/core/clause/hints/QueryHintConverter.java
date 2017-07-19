@@ -186,7 +186,7 @@ public class QueryHintConverter
                             .and()
                         .sub_keyword(Other.GROUP_END)
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .build();
     // @formatter:on
 

@@ -634,57 +634,6 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .and();
     }
 
-    /*
-    Style
-     */
-
-    @Deprecated
-    public StyleBuilder<BlockMetaBuilder<ParentBuilder, Scope>> style() {
-        return new StyleBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
-                (initSet(BlockMeta.Style::new,
-                        target::getStyle,
-                        target::setStyle))
-                .in(this);
-    }
-
-
-    /**
-     * use line delimiter for each sub
-     * @return THIS
-     */
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> style_sub_line_delimiter() {
-        return style().subLineDelimiter(true);
-    }
-
-    /**
-     * use line delimiter for optional and required
-     * @return THIS
-     */
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> style_convention_line_delimiter() {
-        return style().conventionLineDelimiter(true);
-    }
-
-    /**
-     * use
-     * @return THIS
-     */
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> style_start_new_line() {
-        return style().startNewLine(true);
-    }
-
-    /**
-     * use
-     * @return THIS
-     */
-    @Deprecated
-    public BlockMetaBuilder<ParentBuilder, Scope> style_end_new_line() {
-        return style().endNewLine(true);
-    }
-
-
 
     /**
      * FormatBuilder
@@ -803,60 +752,6 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
             target.setUseDefaultDelimiter(false);
             target.setDelimiterChar(delimiter);
             return this;
-        }
-    }
-
-
-    /**
-     * StyleBuilder
-     * @param <ParentBuilder>
-     */
-    @SuppressWarnings({"SameParameterValue", "TypeParameterHidesVisibleType", "unused"})
-    public class StyleBuilder<ParentBuilder>
-            extends CodeTreeBuilder<StyleBuilder<ParentBuilder>, ParentBuilder, BlockMeta.Style> {
-
-        public StyleBuilder() {
-            super(new BlockMeta.Style());
-        }
-
-        public StyleBuilder(BlockMeta.Style style) {
-            super(style);
-        }
-
-
-        public ParentBuilder required(boolean flag) {
-            target.setRequired(flag);
-            return and();
-        }
-
-        public ParentBuilder optional(boolean flag) {
-            target.setOptional(flag);
-            return and();
-        }
-
-        public ParentBuilder reference(boolean flag) {
-            target.setReference(flag);
-            return and();
-        }
-
-        public ParentBuilder subLineDelimiter(boolean flag) {
-            target.setSubLineDelimiter(flag);
-            return and();
-        }
-
-        public ParentBuilder conventionLineDelimiter(boolean flag) {
-            target.setConventionLineDelimiter(flag);
-            return and();
-        }
-
-        public ParentBuilder startNewLine(boolean flag) {
-            target.setStartNewLine(flag);
-            return and();
-        }
-
-        public ParentBuilder endNewLine(boolean flag) {
-            target.setEndNewLine(flag);
-            return and();
         }
     }
 

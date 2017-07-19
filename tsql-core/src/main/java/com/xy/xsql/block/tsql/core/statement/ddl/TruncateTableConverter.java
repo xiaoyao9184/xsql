@@ -21,7 +21,7 @@ public class TruncateTableConverter
                     .sub_keyword(Keywords.TABLE)
                     .sub("[ { database_name .[ schema_name ] . | schema_name . } ]  table_name")
                         .scope(TruncateTable::getTableName)
-                        .style_start_new_line()
+                        .syntax_line()
                         .and()
                     .sub()
                         .description("with partitions")
@@ -39,7 +39,7 @@ public class TruncateTableConverter
                             .sub_keyword(Other.GROUP_END)
                             .and()
                         .sub_keyword(Other.GROUP_END)
-                        .style_start_new_line()
+                        .syntax_line()
                         .and()
                     .build();
     // @formatter:on

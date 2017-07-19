@@ -41,8 +41,8 @@ public class WithConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<common_table_expression> ::=\n" +
-                        "expression_name [ ( column_name [,...n] ) ] \n" +
-                        "AS \n" +
+                        "expression_name [ ( column_name [,...n] ) ]\n" +
+                        "AS\n" +
                         "( CTE_query_definition )");
     }
 

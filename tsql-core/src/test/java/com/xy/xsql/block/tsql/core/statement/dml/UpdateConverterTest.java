@@ -32,17 +32,17 @@ public class UpdateConverterTest {
                         "UPDATE\n" +
                         "[ TOP ( expression ) [ PERCENT ] ]\n" +
                         "{\n" +
-                        "{ table_alias | <object>\n" +
-                        "[ WITH ( <Table_Hint_Limited> [...n] ) ] }\n" +
+                        "\t{ table_alias | <object>\n" +
+                        "\t\t[ WITH ( <Table_Hint_Limited> [...n] ) ] }\n" +
                         "}\n" +
                         "SET\n" +
                         "{\n" +
-                        "column_name = expression | DEFAULT | NULL\n" +
-                        "| @variable = expression\n" +
-                        "| @variable = column = expression\n" +
-                        "| column_name += | -= | *= | /= | %= | &= | ^= | |= expression\n" +
-                        "| @variable { += | -= | *= | /= | %= | &= | ^= | |= } expression\n" +
-                        "| @variable = column { += | -= | *= | /= | %= | &= | ^= | |= } expression\n" +
+                        "\tcolumn_name = expression | DEFAULT | NULL\n" +
+                        "\t| @variable = expression\n" +
+                        "\t| @variable = column = expression\n" +
+                        "\t| column_name += | -= | *= | /= | %= | &= | ^= | |= expression\n" +
+                        "\t| @variable { += | -= | *= | /= | %= | &= | ^= | |= } expression\n" +
+                        "\t| @variable = column { += | -= | *= | /= | %= | &= | ^= | |= } expression\n" +
                         "} [,...n]\n" +
                         "[ <OUTPUT Clause> ]\n" +
                         "[ FROM table_source [ ,...n ]  ]\n" +

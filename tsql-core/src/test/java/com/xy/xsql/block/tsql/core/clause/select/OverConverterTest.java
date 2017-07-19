@@ -29,9 +29,9 @@ public class OverConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<OVER> ::=\n" +
                         "OVER ( \n" +
-                        "[ <PARTITION BY clause> ]\n" +
-                        "[ <ORDER BY clause> ]\n" +
-                        "[ <ROW or RANGE clause> ]\n" +
+                        "\t[ <PARTITION BY clause> ]\n" +
+                        "\t[ <ORDER BY clause> ]\n" +
+                        "\t[ <ROW or RANGE clause> ]\n" +
                         " )");
     }
 
@@ -85,8 +85,8 @@ public class OverConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<window frame extent> ::=\n" +
                         "{\n" +
-                        "<window frame preceding>\n" +
-                        "| <window frame between>\n" +
+                        "\t<window frame preceding>\n" +
+                        "\t| <window frame between>\n" +
                         "}");
     }
 
@@ -114,8 +114,8 @@ public class OverConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<window frame bound> ::=\n" +
                         "{\n" +
-                        "<window frame preceding>\n" +
-                        "| <window frame following>\n" +
+                        "\t<window frame preceding>\n" +
+                        "\t| <window frame following>\n" +
                         "}");
     }
 

@@ -65,7 +65,7 @@ public class OutputConverter
                             .and()
                         .format_line(true)
                         .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .build();
     // @formatter:on
 
@@ -184,7 +184,7 @@ public class OutputConverter
                         .czse(Output.ColumnName::is$action, "$action")
                             .scope(d -> "$action")
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 

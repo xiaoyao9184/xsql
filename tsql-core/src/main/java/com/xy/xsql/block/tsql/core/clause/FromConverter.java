@@ -49,11 +49,9 @@ public class FromConverter
                         .czse(d -> d instanceof From.JoinedTable,"joined_table")
                             .ref(JoinedTableConverter.class)
                             .scope(d -> d)
-                            .syntax_line()
                             .and()
                         .czse_ref(d -> d instanceof From.VariableTable,VariableTableConverter.meta)
                         .czse_ref(d -> d instanceof From.BaseWithTimeTable,BaseWithTimeTableConverter.meta)
-                        .style_sub_line_delimiter()
                         .syntax_sub_line()
                         .build();
         // @formatter:on
@@ -90,9 +88,8 @@ public class FromConverter
                             .optional(d -> d.getTableSample() == null)
                             .ref(TableSampleConverter.class)
                             .scope(From.BaseTable::getTableSample)
-                            .style_start_new_line()
-                            .format_indentation_right()
                             .syntax_indentation_right()
+                            .format_indentation_right()
                             .and()
                         .sub()
                             .description("with table_hint")
@@ -106,9 +103,8 @@ public class FromConverter
                                 .scope(From.BaseTable::getTableHintList)
                                 .and()
                             .sub_keyword(Other.GROUP_END)
-                            .style_start_new_line()
-                            .format_indentation_right()
                             .syntax_indentation_right()
+                            .format_indentation_right()
                             .and()
                         .build();
         // @formatter:on
@@ -267,7 +263,6 @@ public class FromConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .syntax_indentation_right()
-                            .style_start_new_line()
                             .and()
                         .build();
         // @formatter:on
@@ -375,7 +370,6 @@ public class FromConverter
                                 .and()
                             .sub_format_line_empty_delimiter()
                             .and()
-                        .style_sub_line_delimiter()
                         .syntax_sub_line()
                         .build();
         // @formatter:on
@@ -432,7 +426,6 @@ public class FromConverter
                                 .and()
                             .and()
                         .sub_keyword(Keywords.JOIN)
-                        .style_sub_line_delimiter()
                         .syntax_sub_line()
                         .build();
         // @formatter:on

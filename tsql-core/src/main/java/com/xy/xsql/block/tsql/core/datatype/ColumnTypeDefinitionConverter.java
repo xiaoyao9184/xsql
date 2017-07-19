@@ -70,7 +70,7 @@ public class ColumnTypeDefinitionConverter
 //                            .and()
 //                        .data(d -> d.getCollationName())
 //                        .and()
-                    .style_sub_line_delimiter()
+                    .syntax_sub_line()
                     .build();
     // @formatter:on
 
@@ -111,7 +111,7 @@ public class ColumnTypeDefinitionConverter
                                 .and()
                             .sub_keyword(Other.GROUP_END)
                             .and()
-                        .style_sub_line_delimiter()
+                        .syntax_sub_line()
                         .build();
         // @formatter:on
 

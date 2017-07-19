@@ -43,22 +43,22 @@ public class ForConverterTest {
                 "<XML> ::=\n" +
                         "XML\n" +
                         "{\n" +
-                        "{ RAW [ ( 'ElementName' ) ] | AUTO } \n" +
-                        "[\n" +
-                        "<CommonDirectivesForXML>\n" +
-                        "[ , { XMLDATA | XMLSCHEMA [ ( 'TargetNameSpaceURI' ) ] } ]\n" +
-                        "[ , ELEMENTS [ XSINIL | ABSENT ] ]\n" +
-                        "]\n" +
-                        "| EXPLICIT\n" +
-                        "[\n" +
-                        "<CommonDirectivesForXML>\n" +
-                        "[ , XMLDATA ]\n" +
-                        "]\n" +
-                        "| PATH [ ( 'ElementName' ) ] \n" +
-                        "[\n" +
-                        "<CommonDirectivesForXML>\n" +
-                        "[ , ELEMENTS [ XSINIL | ABSENT ] ]\n" +
-                        "]\n" +
+                        "\t{ RAW [ ( 'ElementName' ) ] | AUTO }\n" +
+                        "\t[\n" +
+                        "\t\t<CommonDirectivesForXML>\n" +
+                        "\t\t[ , { XMLDATA | XMLSCHEMA [ ( 'TargetNameSpaceURI' ) ] } ]\n" +
+                        "\t\t[ , ELEMENTS [ XSINIL | ABSENT ] ]\n" +
+                        "\t]\n" +
+                        "\t| EXPLICIT\n" +
+                        "\t[\n" +
+                        "\t\t<CommonDirectivesForXML>\n" +
+                        "\t\t[ , XMLDATA ]\n" +
+                        "\t]\n" +
+                        "\t| PATH [ ( 'ElementName' ) ]\n" +
+                        "\t[\n" +
+                        "\t\t<CommonDirectivesForXML>\n" +
+                        "\t\t[ , ELEMENTS [ XSINIL | ABSENT ] ]\n" +
+                        "\t]\n" +
                         "}");
     }
 
@@ -88,12 +88,12 @@ public class ForConverterTest {
         Assert.assertEquals(writer.toString(),
                 "JSON\n" +
                         "{\n" +
-                        "{ AUTO | PATH }\n" +
-                        "[\n" +
-                        "[ , ROOT ( 'RootName' ) ]\n" +
-                        "[ , INCLUDE_NULL_VALUES ]\n" +
-                        "[ , WITHOUT_ARRAY_WRAPPER ]\n" +
-                        "]\n" +
+                        "\t{ AUTO | PATH }\n" +
+                        "\t[\n" +
+                        "\t\t[ , ROOT ( 'RootName' ) ]\n" +
+                        "\t\t[ , INCLUDE_NULL_VALUES ]\n" +
+                        "\t\t[ , WITHOUT_ARRAY_WRAPPER ]\n" +
+                        "\t]\n" +
                         "}");
     }
 
