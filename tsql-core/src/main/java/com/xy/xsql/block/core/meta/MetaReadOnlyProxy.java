@@ -1,6 +1,7 @@
 package com.xy.xsql.block.core.meta;
 
 import com.xy.xsql.block.model.BlockMeta;
+import net.sf.cglib.beans.BeanCopier;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -10,6 +11,7 @@ import java.lang.reflect.Method;
 /**
  * Created by xiaoyao9184 on 2017/7/19.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MetaReadOnlyProxy implements MethodInterceptor {
 
     private BlockMeta meta;
@@ -18,6 +20,19 @@ public class MetaReadOnlyProxy implements MethodInterceptor {
     public MetaReadOnlyProxy(BlockMeta meta){
         this.meta = meta;
         this.enable = false;
+        this.init();
+    }
+
+    private void init(){
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(BlockMeta.class);
+        enhancer.setCallback(this);
+        BlockMeta proxy = (BlockMeta) enhancer.create();
+        if(this.meta != null){
+            BeanCopier.create(BlockMeta.class,BlockMeta.class,false)
+                    .copy(meta,proxy,null);
+        }
+        this.meta = proxy;
     }
 
     /**
@@ -39,10 +54,7 @@ public class MetaReadOnlyProxy implements MethodInterceptor {
      * @return proxy meta
      */
     public BlockMeta meta(){
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(BlockMeta.class);
-        enhancer.setCallback(this);
-        return (BlockMeta) enhancer.create();
+        return this.meta;
     }
 
     @Override
@@ -53,7 +65,7 @@ public class MetaReadOnlyProxy implements MethodInterceptor {
             }
         }
 
-        return method.invoke(meta,args);
+        return proxy.invokeSuper(obj,args);
     }
 
 
@@ -62,10 +74,8 @@ public class MetaReadOnlyProxy implements MethodInterceptor {
      * @param meta meta can be null
      * @return THIS
      */
+    @SuppressWarnings("WeakerAccess")
     public static MetaReadOnlyProxy create(BlockMeta meta){
-        if(meta == null){
-            meta = new BlockMeta();
-        }
         return new MetaReadOnlyProxy(meta);
     }
 }

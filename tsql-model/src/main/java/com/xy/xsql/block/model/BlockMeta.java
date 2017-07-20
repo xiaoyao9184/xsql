@@ -398,7 +398,7 @@ public class BlockMeta implements Block {
     /**
      * Style for print syntax
      */
-    public static class SyntaxFormat extends Format {
+    public static class SyntaxFormat extends Format implements Cloneable {
         private boolean required;
         private boolean optional;
         private boolean reference;
@@ -435,13 +435,23 @@ public class BlockMeta implements Block {
         public void setIndentationContent(boolean indentationContent) {
             this.indentationContent = indentationContent;
         }
+
+        @Override
+        public SyntaxFormat clone(){
+            return super.clone();
+        }
+
+//        @Override
+//        public Object clone() throws CloneNotSupportedException {
+//            return super.clone();
+//        }
     }
 
     /**
      * Format for print model
      * Operates for the interval between the current block and the previous block
      */
-    public static class Format {
+    public static class Format implements Cloneable {
         private boolean newLine;
         private int indentation;
         private String indentationChar = "\t";
@@ -492,6 +502,33 @@ public class BlockMeta implements Block {
         public void setDelimiterChar(String delimiterChar) {
             this.delimiterChar = delimiterChar;
         }
+
+//        @Override
+//        public Object clone() throws CloneNotSupportedException {
+//            return super.clone();
+//        }
+
+        @Override
+        public SyntaxFormat clone(){
+            SyntaxFormat prototype = null;
+            try{
+                prototype = (SyntaxFormat)super.clone();
+            }catch(CloneNotSupportedException e){
+                e.printStackTrace();
+            }
+            return prototype;
+        }
+
+        //        @Override
+//        public Format clone(){
+//            Format prototype = null;
+//            try{
+//                prototype = (Format)super.clone();
+//            }catch(CloneNotSupportedException e){
+//                e.printStackTrace();
+//            }
+//            return prototype;
+//        }
     }
 
 

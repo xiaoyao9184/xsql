@@ -3,7 +3,6 @@ package com.xy.xsql.block.core.meta;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import net.sf.cglib.proxy.Enhancer;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -14,7 +13,6 @@ import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREF
 import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREFIX_ONE_OF;
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew2;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -26,19 +24,59 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
         extends CodeTreeBuilder<BlockMetaBuilder<ParentBuilder, Scope>, ParentBuilder, BlockMeta> {
 
     private MetaReadOnlyProxy metaReadOnlyProxy;
+    private Function<BlockMeta,BlockMeta> cloneMetaFunction;
 
     public BlockMetaBuilder() {
-        super(new BlockMeta());
-
-        this.metaReadOnlyProxy = MetaReadOnlyProxy.create(null);
-        this.target = this.metaReadOnlyProxy.meta();
+        super(null);
+        this.init();
     }
 
     public BlockMetaBuilder(BlockMeta meta) {
         super(meta);
+        this.init();
+    }
 
-        this.metaReadOnlyProxy = MetaReadOnlyProxy.create(meta);
+
+    /**
+     * Clone the parent sub format
+     * @param prototypeMeta prototype meta
+     * @return BlockMeta
+     */
+    public static BlockMeta cloneSubFormat(BlockMeta prototypeMeta){
+        BlockMeta resultMeta = new BlockMeta();
+
+        if(prototypeMeta.getSubFormat() != null){
+            resultMeta.setFormat(prototypeMeta.getSubFormat().clone());
+        }
+        if(prototypeMeta.getSubSyntaxFormat() != null){
+            resultMeta.setSyntaxFormat(prototypeMeta.getSubSyntaxFormat().clone());
+        }
+        return resultMeta;
+    }
+
+    /**
+     * Replace target to proxy
+     */
+    private void init(){
+        //Replace target to proxy
+        this.metaReadOnlyProxy = MetaReadOnlyProxy.create(this.target);
         this.target = this.metaReadOnlyProxy.meta();
+        //default clone function
+        this.cloneMetaFunction = BlockMetaBuilder::cloneSubFormat;
+    }
+
+    /**
+     * Clone target
+     * @return BlockMeta
+     */
+    private BlockMeta cloneMeta(){
+        return this.cloneMetaFunction.apply(this.target);
+    }
+
+    @Override
+    public ParentBuilder and() {
+        this.metaReadOnlyProxy.enable();
+        return super.back();
     }
 
     @Override
@@ -167,10 +205,9 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
      */
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> ref() {
         return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
-                (initSet(BlockMeta::new,
-                        target::getReferenceMeta,
-                        target::setReferenceMeta))
-                .in(this);
+                (new BlockMeta())
+                .enter(this,
+                        meta -> target.setReferenceMeta(meta));
     }
 
     /**
@@ -191,17 +228,17 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
         return this;
     }
 
-
     /*
     Sub meta
      */
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub() {
         return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
-                (initNew2(BlockMeta::new,
-                        target::getSub,
-                        target::setSub))
-                .in(this);
+                (this.cloneMeta())
+                .enter(this,
+                        meta -> initAdd(meta,
+                                target::getSub,
+                                target::setSub));
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub(String name) {
@@ -266,11 +303,12 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
         initAdd(predicate,
                 target::getExclusivePredicate,
                 target::setExclusivePredicate);
-        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
-                (initNew2(BlockMeta::new,
-                        target::getSub,
-                        target::setSub))
-                .in(this);
+        return sub();
+//        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
+//                (initNew2(this::cloneMeta,
+//                        target::getSub,
+//                        target::setSub))
+//                .in(this);
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse(Predicate<Scope> predicate, String name) {
@@ -532,11 +570,29 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
                 .and();
     }
 
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_required_remove() {
+        return syntax()
+                .required(false)
+                .and();
+    }
+
+    public BlockMetaBuilder<ParentBuilder, Scope> syntax_optional_remove() {
+        return syntax()
+                .optional(false)
+                .and();
+    }
+
     public BlockMetaBuilder<ParentBuilder, Scope> syntax_reference_remove() {
         return syntax()
                 .reference(false)
                 .and();
     }
+
+//    public BlockMetaBuilder<ParentBuilder, Scope> syntax_default_remove() {
+//        return syntax()
+//                .default(false)
+//                .and();
+//    }
 
     /**
      * use new line

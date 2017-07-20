@@ -18,8 +18,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.xy.xsql.block.exception.MetaException.*;
+import static com.xy.xsql.block.model.BlockMeta.BlockConvention.BLANKS;
 import static com.xy.xsql.block.model.BlockMeta.BlockConvention.EMPTY;
 import static com.xy.xsql.block.model.BlockMeta.BlockConvention.LINE;
+import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.COMMA_;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -128,11 +130,11 @@ public class ModelKeywordBlockConverter<MODEL>
             if(meta.isList() &&
                     refModel instanceof List){
                 //List
-                build(refMeta, (List) refModel, ", ", context);
+                build(refMeta, (List) refModel, COMMA_.toString(), context);
             }else if(meta.isRepeat() &&
                     refModel instanceof List){
                 //Repeat
-                build(refMeta, (List) refModel, " ", context);
+                build(refMeta, (List) refModel, BLANKS.toString(), context);
             }else{
                 build(refMeta, refModel, context);
             }
@@ -153,15 +155,15 @@ public class ModelKeywordBlockConverter<MODEL>
                     throw MetaException.collection_model_not_collection(meta);
                 }
                 //delimiter
-                String delimiter = "";
+                String delimiter = EMPTY.toString();
                 if(meta.isList()){
-                    delimiter = ", ";
+                    delimiter = COMMA_.toString();
                 }else if(meta.isRepeat()) {
-                    delimiter = " ";
+                    delimiter = BLANKS.toString();
                 }
                 build(itemMeta, (List)collectionModel, delimiter, context);
             }else{
-                build(meta.getSub(), model, " ", context);
+                build(meta.getSub(), model, BLANKS.toString(), context);
             }
         }else if(meta.isKeyword()){
             //Keyword
@@ -189,11 +191,11 @@ public class ModelKeywordBlockConverter<MODEL>
                     throw data_collection_empty(meta);
                 }
                 //delimiter
-                String delimiter = "";
+                String delimiter = EMPTY.toString();
                 if(meta.isList()){
-                    delimiter = ", ";
+                    delimiter = COMMA_.toString();
                 }else if(meta.isRepeat()) {
-                    delimiter = " ";
+                    delimiter = BLANKS.toString();
                 }
                 build(collectionModel,delimiter,context);
             }else{

@@ -62,7 +62,9 @@ public abstract class CodeTreeBuilder<This, Parent, Target>
      * @return Parent
      */
     public Parent back() {
-        this.backHandleFunction.accept(this.target);
+        if(this.backHandleFunction != null){
+            this.backHandleFunction.accept(this.target);
+        }
         return out();
     }
 }
