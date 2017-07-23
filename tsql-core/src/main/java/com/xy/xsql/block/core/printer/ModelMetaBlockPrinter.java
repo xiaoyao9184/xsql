@@ -1,18 +1,15 @@
 package com.xy.xsql.block.core.printer;
 
 import com.google.common.base.Strings;
-import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
-import com.xy.xsql.block.core.meta.MetaManager;
+import com.xy.xsql.block.meta.MetaManager;
 import com.xy.xsql.block.exception.MetaException;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.ModelMetaBlock;
 
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -179,7 +176,7 @@ public class ModelMetaBlockPrinter
                 //Reference Converter
                 refMeta = MetaManager
                         .byConverter(meta.getReferenceConverter())
-                        .get()
+                        .meta()
                         .orElseThrow(MetaException::miss_meta);
             }
             printMeta(refMeta,context);
@@ -332,7 +329,7 @@ public class ModelMetaBlockPrinter
     public StringWriter printModel(Object model){
         BlockMeta hiddenMeta = MetaManager
                 .byModel(model.getClass())
-                .get()
+                .meta()
                 .orElseThrow(MetaException::miss_meta);
         return printModel(hiddenMeta,model);
     }
@@ -399,7 +396,7 @@ public class ModelMetaBlockPrinter
                  */
                 Optional<BlockMeta> optional = MetaManager
                         .byModel(model.getClass())
-                        .get();
+                        .meta();
                 if(!optional.isPresent()){
                     throw MetaException.nothing_pass_exclusive(meta);
                 }else{
@@ -412,7 +409,7 @@ public class ModelMetaBlockPrinter
             if(meta.isReferenceConverter()){
                 Optional<BlockMeta> optional = MetaManager
                         .byConverter(meta.getReferenceConverter())
-                        .get();
+                        .meta();
                 if(!optional.isPresent()){
                     throw miss_reference_meta(meta);
                 }else{
@@ -472,7 +469,7 @@ public class ModelMetaBlockPrinter
 
             Optional<BlockMeta> optional = MetaManager
                     .byModel(data.getClass())
-                    .get();
+                    .meta();
 
             if(optional.isPresent()){
                 BlockMeta hiddenMeta = optional.get();
@@ -498,7 +495,7 @@ public class ModelMetaBlockPrinter
                             StringWriter itemWriter = new StringWriter();
                             Optional<BlockMeta> hideMeta = MetaManager
                                     .byModel(itemModel.getClass())
-                                    .get();
+                                    .meta();
                             if(hideMeta.isPresent()){
                                 //item meta
                                 BlockMeta itemMeta = hideMeta.get();

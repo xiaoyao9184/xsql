@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.meta.BlockMetaBuilder;
+import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.datatype.Constant;

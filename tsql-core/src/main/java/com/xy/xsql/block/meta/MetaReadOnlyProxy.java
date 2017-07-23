@@ -1,4 +1,4 @@
-package com.xy.xsql.block.core.meta;
+package com.xy.xsql.block.meta;
 
 import com.xy.xsql.block.model.BlockMeta;
 import net.sf.cglib.beans.BeanCopier;

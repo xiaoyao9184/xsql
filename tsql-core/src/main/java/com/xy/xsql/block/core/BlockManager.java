@@ -1,14 +1,18 @@
 package com.xy.xsql.block.core;
 
+import com.xy.xsql.block.core.converter.BlockConverter;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
+import com.xy.xsql.block.core.printer.BlockPrinter;
+import com.xy.xsql.block.meta.MetaManager;
+import com.xy.xsql.block.model.Block;
+import com.xy.xsql.core.mapper.SourceTargetMapper;
+import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.util.GenericTypeUtil;
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -16,82 +20,166 @@ import java.util.stream.Stream;
 public enum BlockManager {
     INSTANCE;
 
-    private static Map<Type,ModelMetaBlockConverter> typeBlockBuilderMap;
-    private static Map<Type,ModelMetaBlockConverter> converterTypeBlockConverterMap;
-//    private static Map<Type,ModelMetaBlockConverter> converterTypeBlockConverterMap;
+    private Logger logger;
+    private SourceTargetMapper<Type,BlockConverter> model2converter;
+    private SourceTargetMapper<Type,BlockPrinter> block2printer;
 
-    private static Map<Type,IndexClassMapper> map;
-
-
-    static {
-        typeBlockBuilderMap = new HashMap<>();
-        converterTypeBlockConverterMap = new HashMap<>();
-        BlockManager.INSTANCE.scan("com.xy.xsql.block.tsql.core");
-    }
-
-
-    public void register(Type clazz, ModelMetaBlockConverter modelMetaBlockConverter){
-        //TODO same type
-        typeBlockBuilderMap.put(clazz, modelMetaBlockConverter);
-        converterTypeBlockConverterMap.put(modelMetaBlockConverter.getClass(), modelMetaBlockConverter);
+    BlockManager() {
+        logger = LoggerFactory.getLogger(BlockManager.class);
+        model2converter = new SourceTargetMapper<>();
+        block2printer = new SourceTargetMapper<>();
     }
 
     public void scan(String basePackage){
-        Reflections reflections = new Reflections(basePackage);
-
-        Set<Class<? extends ModelMetaBlockConverter>> subTypes = reflections.getSubTypesOf(ModelMetaBlockConverter.class);
-
-        subTypes
-                .forEach(b -> {
-                    Type[] types = b.getGenericInterfaces();
-                    Stream.of(types)
-                            .filter(t -> {
-                                return t instanceof ParameterizedType;
-                            })
-                            .map(t -> (ParameterizedType)t)
-                            .filter(pt -> {
-                                return ModelMetaBlockConverter.class.equals(pt.getRawType());
-                            })
-                            .filter(pt -> {
-                                return pt.getActualTypeArguments() != null &&
-                                        pt.getActualTypeArguments().length == 1;
-                            })
-                            .findFirst()
-                            .ifPresent(pt -> {
-                                try {
-                                    Type type = pt.getActualTypeArguments()[0];
-                                    ModelMetaBlockConverter obj = b.newInstance();
-                                    register(type,obj);
-                                } catch (InstantiationException | IllegalAccessException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-
-                });
-
+        byConverter().scan(basePackage);
+        byPrinter().scan(basePackage);
     }
 
-
-    public <T> IndexClassMapper<Object,T> target(Class<T> targetClass){
-        return map.get(targetClass);
+    public String print(Object model) {
+        Block block = byConverter().convert(model);
+        return byPrinter().print(block);
     }
 
 
 
 
-    public Map<Type,ModelMetaBlockConverter> getTypeBlockConverterMap(){
-        return typeBlockBuilderMap;
+    static{
+        BlockManager.INSTANCE.scan(BlockManager.class.getPackage().getName());
     }
 
-    public ModelMetaBlockConverter getTypeBlockConverter(Type type) {
-        return typeBlockBuilderMap.get(type);
+    public static BlockManager init(Enum... instance) {
+//        if()
+//        instance.getClass().getEnumConstants()
+        return BlockManager.INSTANCE;
     }
 
-    public ModelMetaBlockConverter getTypeBlockConverterByConverterType(Class refClass) {
-        return converterTypeBlockConverterMap.get(refClass);
+
+    public static ConverterHandler byConverter(){
+        return new ConverterHandler();
     }
 
-    public boolean checkTypeBlockConverter(Type type) {
-        return typeBlockBuilderMap.containsKey(type);
+    public static PrinterHandler byPrinter(){
+        return new PrinterHandler();
     }
+
+
+    public static class ConverterHandler {
+
+        @SuppressWarnings("unchecked")
+        public Block convert(Object model){
+            if(BlockManager.INSTANCE.model2converter.checkLeft(model.getClass())){
+                return BlockManager.INSTANCE.model2converter
+                        .getByLeft(model.getClass())
+                        .convert(model);
+            }
+            return null;
+        }
+
+
+
+        public void register(Type type, ModelMetaBlockConverter converter) {
+            if(BlockManager.INSTANCE.model2converter.checkLeft(type)){
+                BlockManager.INSTANCE.logger.debug("The same type is handled by multiple BlockConverter: " +
+                        type.getTypeName() + "-" +
+                        BlockManager.INSTANCE.model2converter.getByLeft(type).getClass().getName());
+            }else{
+                BlockManager.INSTANCE.model2converter.map(type,converter);
+            }
+        }
+
+        public void register(BlockConverter converter){
+            GenericTypeUtil.getGenericArguments(converter.getClass(),BlockConverter.class)
+                    .findFirst()
+                    .ifPresent(type -> {
+                        if(BlockManager.INSTANCE.model2converter.checkLeft(type)){
+                            BlockManager.INSTANCE.logger.debug("The same type is handled by multiple BlockConverter: " +
+                                    type.getTypeName() + "-" +
+                                    BlockManager.INSTANCE.model2converter.getByLeft(type).getClass().getName());
+                        }else{
+                            BlockManager.INSTANCE.model2converter.map(type,converter);
+                        }
+                    });
+        }
+
+        public void register(Class<? extends BlockConverter> converter){
+            GenericTypeUtil.getGenericArguments(converter,BlockConverter.class)
+                    .findFirst()
+                    .filter(type -> type instanceof Class)
+                    .ifPresent(type -> {
+                        if(BlockManager.INSTANCE.model2converter.checkLeft(type)){
+                            BlockManager.INSTANCE.logger.debug("The same type is handled by multiple BlockConverter: " +
+                                    type.getTypeName() + "-" +
+                                    BlockManager.INSTANCE.model2converter.getByLeft(type).getClass().getName());
+                        }else{
+                            try {
+                                BlockConverter blockConverter = converter.newInstance();
+                                BlockManager.INSTANCE.model2converter.map(type,blockConverter);
+                            } catch (InstantiationException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        }
+
+        public void scan(String basePackage){
+            new Reflections(basePackage)
+                    .getSubTypesOf(BlockConverter.class)
+                    .forEach(this::register);
+        }
+    }
+
+    public static class PrinterHandler {
+
+        @SuppressWarnings("unchecked")
+        public <B extends Block> String print(B block){
+            if(BlockManager.INSTANCE.block2printer.checkLeft(block.getClass())){
+                return BlockManager.INSTANCE.block2printer
+                        .getByLeft(block.getClass())
+                        .print(block)
+                        .toString();
+            }
+            return null;
+        }
+
+        public void register(BlockPrinter printer){
+            GenericTypeUtil.getGenericArguments(printer.getClass(),BlockPrinter.class)
+                    .findFirst()
+                    .ifPresent(type -> {
+                        if(BlockManager.INSTANCE.block2printer.checkLeft(type)){
+                            BlockManager.INSTANCE.logger.debug("The same type is handled by multiple BlockPrinter: " +
+                                    type.getTypeName() + "-" +
+                                    BlockManager.INSTANCE.block2printer.getByLeft(type).getClass().getName());
+                        }else{
+                            BlockManager.INSTANCE.block2printer.map(type,printer);
+                        }
+                    });
+        }
+
+        public void register(Class<? extends BlockPrinter> printer){
+            GenericTypeUtil.getGenericArguments(printer,BlockPrinter.class)
+                    .findFirst()
+                    .filter(type -> type instanceof Class)
+                    .ifPresent(type -> {
+                        if(BlockManager.INSTANCE.block2printer.checkLeft(type)){
+                            BlockManager.INSTANCE.logger.debug("The same type is handled by multiple BlockPrinter: " +
+                                    type.getTypeName() + "-" +
+                                    BlockManager.INSTANCE.block2printer.getByLeft(type).getClass().getName());
+                        }else{
+                            try {
+                                BlockPrinter blockPrinter = printer.newInstance();
+                                BlockManager.INSTANCE.block2printer.map(type,blockPrinter);
+                            } catch (InstantiationException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        }
+
+        public void scan(String basePackage){
+            new Reflections(basePackage)
+                    .getSubTypesOf(BlockPrinter.class)
+                    .forEach(this::register);
+        }
+    }
+
 }

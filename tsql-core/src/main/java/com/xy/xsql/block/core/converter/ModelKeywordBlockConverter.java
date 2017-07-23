@@ -1,7 +1,7 @@
 package com.xy.xsql.block.core.converter;
 
 import com.google.common.base.Strings;
-import com.xy.xsql.block.core.meta.MetaManager;
+import com.xy.xsql.block.meta.MetaManager;
 import com.xy.xsql.block.core.printer.PrintAdapter;
 import com.xy.xsql.block.exception.MetaException;
 import com.xy.xsql.block.model.BlockMeta;
@@ -35,7 +35,7 @@ public class ModelKeywordBlockConverter<MODEL>
     public KeywordListBlock build(MODEL model){
         BlockMeta meta = MetaManager
                 .byModel(model.getClass())
-                .get()
+                .meta()
                 .orElseThrow(MetaException::miss_meta);
 
         Context context = new Context();
@@ -74,6 +74,7 @@ public class ModelKeywordBlockConverter<MODEL>
                 });
         meta.sub_format()
                 .ifPresent(format -> {
+                    //noinspection Convert2MethodRef
                     context.setSubFormat(format);
                 });
 
@@ -103,7 +104,7 @@ public class ModelKeywordBlockConverter<MODEL>
                  */
                 Optional<BlockMeta> optional = MetaManager
                         .byModel(model.getClass())
-                        .get();
+                        .meta();
                 if(!optional.isPresent()){
                     throw MetaException.nothing_pass_exclusive(meta);
                 }else{
@@ -116,7 +117,7 @@ public class ModelKeywordBlockConverter<MODEL>
             if(meta.isReferenceConverter()){
                 Optional<BlockMeta> optional = MetaManager
                         .byConverter(meta.getReferenceConverter())
-                        .get();
+                        .meta();
                 if(!optional.isPresent()){
                     throw miss_reference_meta(meta);
                 }else{
@@ -178,7 +179,7 @@ public class ModelKeywordBlockConverter<MODEL>
 
             Optional<BlockMeta> optional = MetaManager
                     .byModel(data.getClass())
-                    .get();
+                    .meta();
 
             if(optional.isPresent()){
                 BlockMeta hiddenMeta = optional.get();
@@ -379,7 +380,7 @@ public class ModelKeywordBlockConverter<MODEL>
                     Context itemContext = new Context();
                     Optional<BlockMeta> hideMeta = MetaManager
                             .byModel(itemModel.getClass())
-                            .get();
+                            .meta();
                     if(hideMeta.isPresent()){
                         //item meta
                         BlockMeta itemMeta = hideMeta.get();
@@ -432,6 +433,7 @@ public class ModelKeywordBlockConverter<MODEL>
         }
 
 
+        @SuppressWarnings("MethodDoesntCallSuperMethod")
         public Context clone(){
             Context clone = new Context();
             clone.setLevel(this.level);

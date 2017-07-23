@@ -1,4 +1,4 @@
-package com.xy.xsql.block.core;
+package com.xy.xsql.core.mapper;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
