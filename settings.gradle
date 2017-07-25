@@ -9,6 +9,4 @@ include 'entity-model'
 include 'entity-core'
 include 'entity-spring'
 include 'entity-test'
-
-
-include 'orm'
+include 'dialect-mssql'
