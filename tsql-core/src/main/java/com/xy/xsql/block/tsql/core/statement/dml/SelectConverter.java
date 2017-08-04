@@ -181,6 +181,7 @@ public class SelectConverter
                             .format_indentation_right()
                             .and()
                         .sub()
+                            .description("into")
                             .optional(d -> d.getInto() == null)
                             .ref(SimpleIntoConverter.meta)
                             .scope(Select.QuerySpecification::getInto)
