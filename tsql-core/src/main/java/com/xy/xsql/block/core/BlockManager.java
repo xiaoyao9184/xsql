@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -37,6 +38,7 @@ public enum BlockManager {
 
     public String print(Object model) {
         Block block = byConverter().convert(model);
+        Objects.requireNonNull(block);
         return byPrinter().print(block);
     }
 
