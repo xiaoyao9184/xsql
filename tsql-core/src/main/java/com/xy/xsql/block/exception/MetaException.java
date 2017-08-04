@@ -33,6 +33,7 @@ public class MetaException
     }
 
 
+
     public enum Type {
         UNKNOWN,
         OTHER,
@@ -47,7 +48,8 @@ public class MetaException
         EMPTY_COLLECTION_SCOPE,
         SCOPE_NOT_COLLECTION,
 
-        MISS_REFERENCE_META;
+        MISS_REFERENCE_META,
+        HIDE_EXCLUSIVE_CYCLE;
 
     }
 
@@ -73,6 +75,9 @@ public class MetaException
 
     public static RuntimeException nothing_pass_exclusive(BlockMeta meta){
         return new RuntimeException(new MetaException(meta,Type.NOTHING_PASS_EXCLUSIVE));
+    }
+    public static RuntimeException hide_exclusive_cycle(BlockMeta meta) {
+        return new RuntimeException(new MetaException(meta,Type.HIDE_EXCLUSIVE_CYCLE));
     }
 
     public static RuntimeException collection_meta_not_single(BlockMeta meta){

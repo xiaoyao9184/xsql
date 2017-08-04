@@ -5,6 +5,8 @@ import com.xy.xsql.block.meta.MetaManager;
 import com.xy.xsql.block.exception.MetaException;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.ModelMetaBlock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.StringWriter;
 import java.util.List;
@@ -34,10 +36,12 @@ import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.*;
 public class ModelMetaBlockPrinter
         implements BlockPrinter<ModelMetaBlock,StringWriter> {
 
+    private final Logger logger;
 //    private StringWriter writer;
 
     public ModelMetaBlockPrinter(){
 //        writer = new StringWriter();
+        logger = LoggerFactory.getLogger(ModelMetaBlockPrinter.class);
     }
 
 
@@ -390,6 +394,7 @@ public class ModelMetaBlockPrinter
             }
             if(index != -1){
                 //TODO
+                logger.warn("Exclusive Meta maybe hide default predicate!");
                 //hide exclusive
                 /**
                  * {@link com.xy.xsql.block.tsql.core.clause.select.GroupByConverter.ColumnNameItemConverter}
@@ -400,6 +405,10 @@ public class ModelMetaBlockPrinter
                 if(!optional.isPresent()){
                     throw MetaException.nothing_pass_exclusive(meta);
                 }else{
+                    if(optional.get().equals(meta)){
+                        throw MetaException.hide_exclusive_cycle(meta);
+                    }
+
                     printModel(optional.get(), model, writer);
                 }
             }
