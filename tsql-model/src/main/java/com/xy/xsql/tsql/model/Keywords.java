@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.model;
 
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.Unknown;
+import com.xy.xsql.tsql.model.statement.ddl.create.CreateDataBase;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -304,7 +305,12 @@ public enum Keywords {
         RANGE, UNBOUNDED, PRECEDING, FOLLOWING,
 
         //FROM
-        TABLESAMPLE, SYSTEM, REPEATABLE, CONTAINED, SYSTEM_TIME;
+        TABLESAMPLE, SYSTEM, REPEATABLE, CONTAINED, SYSTEM_TIME,
+
+        /**
+         * @see CreateDataBase
+         */
+        CONTAINMENT, NONE, PARTIAL;
 
         @Override
         public String toString(){
