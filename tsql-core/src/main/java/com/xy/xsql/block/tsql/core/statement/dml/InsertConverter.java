@@ -120,6 +120,7 @@ public class InsertConverter
                 new BlockMetaBuilder<Void,List<ColumnName>>()
                         .description("column_list")
                         .list()
+                        .ref(ColumnNameConverter.meta)
                         .scope(d -> d)
                         .syntax_sub_line()
                         .build();
@@ -129,6 +130,19 @@ public class InsertConverter
         public BlockMeta meta() {
             return meta;
         }
+
+    }
+
+
+    public static class ColumnNameConverter {
+
+        // @formatter:off
+        public static BlockMeta meta =
+                new BlockMetaBuilder<Void,ColumnName>()
+                        .description("column")
+                        .scope(ColumnName::getName)
+                        .build();
+        // @formatter:on
 
     }
 
