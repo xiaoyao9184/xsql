@@ -1,8 +1,5 @@
 package com.xy.xsql.tsql.model.datatype;
 
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.expression.Expression;
-
 import java.util.List;
 
 /**
@@ -16,6 +13,7 @@ import java.util.List;
  */
 public class TableTypeDefinition {
 
+    //( { <column_definition> | <table_constraint> } [ ,...n ] )
     private List<Item> list;
 
     public List<Item> getList() {
@@ -27,57 +25,10 @@ public class TableTypeDefinition {
     }
 
 
-    public interface Item {
-
-    }
-
     /**
-     *
-     * <table_constraint> ::=
-     { { PRIMARY KEY | UNIQUE } ( column_name [ ,...n ] )
-     | CHECK ( logical_expression )
-     }
-     *
+     * <column_definition> | <table_constraint>
      */
-    public static class TableConstraint implements Item {
-        //{ PRIMARY KEY | UNIQUE } ( column_name [ ,...n ] )
-        private boolean usePrimaryKey;
-        private boolean useUnique;
-        private List<ColumnName>  columnName;
-        //CHECK ( logical_expression )
-        private Expression logicalExpression;
-
-        public boolean isUsePrimaryKey() {
-            return usePrimaryKey;
-        }
-
-        public void setUsePrimaryKey(boolean usePrimaryKey) {
-            this.usePrimaryKey = usePrimaryKey;
-        }
-
-        public boolean isUseUnique() {
-            return useUnique;
-        }
-
-        public void setUseUnique(boolean useUnique) {
-            this.useUnique = useUnique;
-        }
-
-        public List<ColumnName> getColumnName() {
-            return columnName;
-        }
-
-        public void setColumnName(List<ColumnName> columnName) {
-            this.columnName = columnName;
-        }
-
-        public Expression getLogicalExpression() {
-            return logicalExpression;
-        }
-
-        public void setLogicalExpression(Expression logicalExpression) {
-            this.logicalExpression = logicalExpression;
-        }
+    public interface Item {
 
     }
 

@@ -1,10 +1,6 @@
 package com.xy.xsql.tsql.model.statement.ddl.create;
 
-import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;
-
-import java.util.List;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/statements/create-database-sql-server-transact-sql#syntax

@@ -23,7 +23,7 @@ public class CreateView implements Statement {
     private Select selectStatement;
 
     //[ WITH CHECK OPTION ]
-    private boolean useCheckOpton;
+    private boolean useCheckOption;
 
 
     public boolean isUseAlter() {
@@ -74,12 +74,12 @@ public class CreateView implements Statement {
         this.selectStatement = selectStatement;
     }
 
-    public boolean isUseCheckOpton() {
-        return useCheckOpton;
+    public boolean isUseCheckOption() {
+        return useCheckOption;
     }
 
-    public void setUseCheckOpton(boolean useCheckOpton) {
-        this.useCheckOpton = useCheckOpton;
+    public void setUseCheckOption(boolean useCheckOption) {
+        this.useCheckOption = useCheckOption;
     }
 
     public enum ViewAttribute {
