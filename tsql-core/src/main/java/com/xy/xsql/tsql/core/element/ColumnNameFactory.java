@@ -29,6 +29,9 @@ public class ColumnNameFactory {
      */
     @SuppressWarnings("unchecked")
     public static ColumnName c(String... server_db_schema_table_column){
+        if(server_db_schema_table_column.length == 1){
+            return c(server_db_schema_table_column[0]);
+        }
         List<String> listReversedOrder = reverse(server_db_schema_table_column);
 
         ColumnName columnName = new ColumnName();
