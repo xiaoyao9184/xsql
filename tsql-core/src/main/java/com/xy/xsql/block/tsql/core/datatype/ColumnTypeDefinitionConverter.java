@@ -3,9 +3,16 @@ package com.xy.xsql.block.tsql.core.datatype;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.tsql.core.element.constraint.CheckConverters;
+import com.xy.xsql.block.tsql.core.element.constraint.NullOrNotNullConverter;
+import com.xy.xsql.block.tsql.core.element.constraint.PrimaryUniqueConverters;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
+import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.element.constraint.Check;
+import com.xy.xsql.tsql.model.element.constraint.NullOrNotNull;
+import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.element.table.TableConstraint;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -81,37 +88,48 @@ public class ColumnTypeDefinitionConverter
 
 
     public static class ColumnConstraintConverter
-            implements ModelMetaBlockConverter<ColumnDefinition.ColumnConstraint> {
+            implements ModelMetaBlockConverter<ColumnConstraint> {
 
         // @formatter:off
         public static BlockMeta meta =
-                new BlockMetaBuilder<Void,ColumnDefinition.ColumnConstraint>()
+                new BlockMetaBuilder<Void,ColumnConstraint>()
                         .overall("column_constraint")
-                        .czse(d -> d.isUseNull() || d.isUseNotNull())
+                        .czse(d -> d.getConstraint() instanceof NullOrNotNull)
                             .syntax_optional()
-                            .czse_keyword(ColumnDefinition.ColumnConstraint::isUseNull, Keywords.NULL)
-                            .czse(ColumnDefinition.ColumnConstraint::isUseNotNull)
-                                .sub_keyword(Keywords.NOT)
-                                .sub_keyword(Keywords.NULL)
-                                .and()
+                            .scope(ColumnConstraint::getConstraint)
+                            .ref(NullOrNotNullConverter.meta)
                             .and()
-                        .czse(d -> d.isUsePrimaryKey() || d.isUseUique())
+                        .czse(d -> d.getConstraint() instanceof PrimaryUnique)
                             .syntax_optional()
-                            .czse(ColumnDefinition.ColumnConstraint::isUsePrimaryKey)
-                                .sub_keyword(Keywords.PRIMARY)
-                                .sub_keyword(Keywords.KEY)
-                                .and()
-                            .czse_keyword(ColumnDefinition.ColumnConstraint::isUseUique, Keywords.UNIQUE)
+                            .scope(ColumnConstraint::getConstraint)
+                            .ref(SimplePrimaryUniqueConverter.meta)
                             .and()
-                        .czse(d -> d.getLogicalExpression() != null)
-                            .sub_keyword(Keywords.CHECK)
-                            .sub_keyword(Other.GROUP_START)
-                            .sub("logical_expression")
-                                .scope(ColumnDefinition.ColumnConstraint::getLogicalExpression)
-                                .and()
-                            .sub_keyword(Other.GROUP_END)
+                        .czse(d -> d.getConstraint() instanceof Check)
+                            .scope(ColumnConstraint::getConstraint)
+                            .ref(CheckConverters.SimpleCheckConverter.meta)
                             .and()
                         .syntax_sub_line()
+                        .build();
+        // @formatter:on
+
+        @Override
+        public BlockMeta meta() {
+            return meta;
+        }
+
+    }
+
+    public static class SimplePrimaryUniqueConverter
+            implements ModelMetaBlockConverter<PrimaryUnique> {
+
+        // @formatter:off
+        public static BlockMeta meta =
+                new BlockMetaBuilder<Void,PrimaryUnique>()
+                        .czse(PrimaryUnique::isUsePrimaryKey)
+                            .sub_keyword(Keywords.PRIMARY)
+                            .sub_keyword(Keywords.KEY)
+                            .and()
+                        .czse_keyword(d -> !d.isUsePrimaryKey(), Keywords.UNIQUE)
                         .build();
         // @formatter:on
 

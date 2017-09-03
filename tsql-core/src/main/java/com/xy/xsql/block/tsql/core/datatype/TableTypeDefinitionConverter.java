@@ -3,10 +3,15 @@ package com.xy.xsql.block.tsql.core.datatype;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.block.tsql.core.element.constraint.CheckConverters;
+import com.xy.xsql.block.tsql.core.element.constraint.PrimaryUniqueConverters;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
+import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.element.constraint.Check;
+import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.element.table.TableConstraint;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -46,7 +51,7 @@ public class TableTypeDefinitionConverter
                             .name("column_definition")
                             .ref(ColumnTypeDefinitionConverter.class)
                             .and()
-                        .czse(d -> d instanceof TableTypeDefinition.TableConstraint)
+                        .czse(d -> d instanceof TableConstraint)
                             .name("table_constraint")
                             .ref(TableConstraintConverter.class)
                             .and()
@@ -61,36 +66,19 @@ public class TableTypeDefinitionConverter
     }
 
     public static class TableConstraintConverter
-            implements ModelMetaBlockConverter<TableTypeDefinition.TableConstraint> {
+            implements ModelMetaBlockConverter<TableConstraint> {
 
         // @formatter:off
         public static BlockMeta meta =
-                new BlockMetaBuilder<Void,TableTypeDefinition.TableConstraint>()
+                new BlockMetaBuilder<Void,TableConstraint>()
                         .overall("table_constraint")
-                        .czse(d -> d.getColumnName() != null)
-                            .sub()
-                                .description("primary key/unique")
-                                .syntax_required()
-                                .czse(TableTypeDefinition.TableConstraint::isUsePrimaryKey)
-                                    .sub_keyword(Keywords.PRIMARY)
-                                    .sub_keyword(Keywords.KEY)
-                                    .and()
-                                .czse_keyword(TableTypeDefinition.TableConstraint::isUseUnique, Keywords.UNIQUE)
-                                .and()
-                            .sub_keyword(Other.GROUP_START)
-                            .sub("column_name")
-                                .list()
-                                .scope(TableTypeDefinition.TableConstraint::getColumnName)
-                                .and()
-                            .sub_keyword(Other.GROUP_END)
+                        .czse(d -> d.getConstraint() instanceof PrimaryUnique)
+                            .scope(TableConstraint::getConstraint)
+                            .ref(PrimaryUniqueConverters.SimplePrimaryUniqueConverter.meta)
                             .and()
-                        .czse(d -> d.getLogicalExpression() != null)
-                            .sub_keyword(Keywords.CHECK)
-                            .sub_keyword(Other.GROUP_START)
-                            .sub("logical_expression")
-                                .scope(TableTypeDefinition.TableConstraint::getLogicalExpression)
-                                .and()
-                            .sub_keyword(Other.GROUP_END)
+                        .czse(d -> d.getConstraint() instanceof Check)
+                            .scope(TableConstraint::getConstraint)
+                            .ref(CheckConverters.SimpleCheckConverter.meta)
                             .and()
                         .syntax_sub_line()
                         .build();

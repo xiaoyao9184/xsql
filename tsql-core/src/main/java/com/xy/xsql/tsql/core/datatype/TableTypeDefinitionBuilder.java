@@ -1,13 +1,20 @@
 package com.xy.xsql.tsql.core.datatype;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
+import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
+import com.xy.xsql.tsql.core.element.table.TableConstraintBuilder;
+import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.element.table.TableConstraint;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
@@ -37,8 +44,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
 
     public TableConstraintBuilder<TableTypeDefinitionBuilder<ParentBuilder>> withTableConstraint(){
         return new TableConstraintBuilder<TableTypeDefinitionBuilder<ParentBuilder>>
-                ((TableTypeDefinition.TableConstraint)
-                        initNew(TableTypeDefinition.TableConstraint::new,
+                ((TableConstraint)
+                        initNew(TableConstraint::new,
                                 target::getList,
                                 target::setList))
                 .in(this);
@@ -77,114 +84,52 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
 
     /**
      * Quick inout set TableConstraintBuilder' PrimaryKey and ColumnName
-     * @param columnNames
-     * @return
+     * @param columnNames columnNames
+     * @return THIS
      */
     public TableTypeDefinitionBuilder<ParentBuilder> $_PrimaryKey(ColumnName... columnNames){
+        List<PrimaryUnique.Column> columnList = Stream.of(columnNames)
+                .map(columnName -> {
+                    PrimaryUnique.Column column = new PrimaryUnique.Column();
+                    column.setColumn(columnName.getName());
+                    return column;
+                })
+                .collect(Collectors.toList());
         return withTableConstraint()
-                .withPrimaryKey()
-                .withColumnName(columnNames)
+                .$PRIMARY_KEY()
+                .withColumn(columnList)
                 .and();
     }
 
     /**
      * Quick inout set TableConstraintBuilder' Unique and ColumnName
-     * @param columnNames
-     * @return
+     * @param columnNames columnNames
+     * @return THIS
      */
     public TableTypeDefinitionBuilder<ParentBuilder> $_Unique(ColumnName... columnNames){
+        List<PrimaryUnique.Column> columnList = Stream.of(columnNames)
+                .map(columnName -> {
+                    PrimaryUnique.Column column = new PrimaryUnique.Column();
+                    column.setColumn(columnName.getName());
+                    return column;
+                })
+                .collect(Collectors.toList());
         return withTableConstraint()
-                .withUnique()
-                .withColumnName(columnNames)
+                .$UNIQUE()
+                .withColumn(columnList)
                 .and();
     }
 
     /**
      * Quick inout set TableConstraintBuilder' Unique and ColumnName
-     * @param logicalExpression
-     * @return
+     * @param logicalExpression logicalExpression
+     * @return THIS
      */
     public TableTypeDefinitionBuilder<ParentBuilder> $_Check(Expression logicalExpression){
         return withTableConstraint()
+                .$CHECK()
                 .withLogicalExpression(logicalExpression)
                 .and();
-    }
-
-
-
-    /**
-     *
-     * @param <ParentBuilder>
-     */
-    public class TableConstraintBuilder<ParentBuilder>
-            extends CodeTreeBuilder<TableConstraintBuilder<ParentBuilder>,ParentBuilder,TableTypeDefinition.TableConstraint> {
-
-        public TableConstraintBuilder(TableTypeDefinition.TableConstraint tar) {
-            super(tar);
-        }
-
-
-        public TableConstraintBuilder<ParentBuilder> withPrimaryKey(){
-            target.setUsePrimaryKey(true);
-            return this;
-        }
-
-        public TableConstraintBuilder<ParentBuilder> withUnique(){
-            target.setUseUnique(true);
-            return this;
-        }
-
-        public TableConstraintBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
-            if(CheckUtil.isNullOrEmpty(columnNames)){
-                return this;
-            }
-            initAdd(Arrays.asList(columnNames),
-                    target::getColumnName,
-                    target::setColumnName);
-            return this;
-        }
-
-        public TableConstraintBuilder<ParentBuilder> withLogicalExpression(Expression logicalExpression){
-            target.setLogicalExpression(logicalExpression);
-            return this;
-        }
-
-
-        /**
-         * Quick inout set PrimaryKey and ColumnName
-         * @param columnNames
-         * @return
-         */
-        public ParentBuilder _PrimaryKey$(ColumnName... columnNames){
-            target.setUsePrimaryKey(true);
-            initAdd(Arrays.asList(columnNames),
-                    target::getColumnName,
-                    target::setColumnName);
-            return this.and();
-        }
-
-        /**
-         * Quick inout set Unique and ColumnName
-         * @param columnNames
-         * @return
-         */
-        public ParentBuilder _Unique$(ColumnName... columnNames){
-            target.setUseUnique(true);
-            initAdd(Arrays.asList(columnNames),
-                    target::getColumnName,
-                    target::setColumnName);
-            return this.and();
-        }
-
-        /**
-         * Quick inout set Unique and ColumnName
-         * @param logicalExpression
-         * @return
-         */
-        public ParentBuilder _Check$(Expression logicalExpression){
-            target.setLogicalExpression(logicalExpression);
-            return this.and();
-        }
     }
 
 }

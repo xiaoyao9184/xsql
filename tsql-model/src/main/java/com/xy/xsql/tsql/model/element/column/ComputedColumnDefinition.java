@@ -1,9 +1,8 @@
 package com.xy.xsql.tsql.model.element.column;
 
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.constraint.Constraint;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateTable;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.statement.ddl.create.CreateTable;
  */
 public class ComputedColumnDefinition
         extends ColumnName
-        implements CreateTable.DiskBasedColumn {
+        implements DiskBasedCreateTable.Item {
 
     //AS computed_column_expression
     private Expression computedColumnExpression;

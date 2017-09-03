@@ -196,7 +196,7 @@ public class CreateViewBuilderTest {
         Assert.assertEquals(exampleC.getSchemaName(),"dbo");
         Assert.assertEquals(exampleC.getViewName(),"SeattleOnly");
         Assert.assertEquals(exampleC.getSelectStatement(),selectC);
-        Assert.assertEquals(exampleC.isUseCheckOpton(),true);
+        Assert.assertEquals(exampleC.isUseCheckOption(),true);
     }
 
     // @formatter:off

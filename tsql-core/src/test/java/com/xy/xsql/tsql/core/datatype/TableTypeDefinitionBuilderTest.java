@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.datatype;
 
-import com.xy.xsql.tsql.model.datatype.ColumnDefinition;
+import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,19 +22,20 @@ public class TableTypeDefinitionBuilderTest {
                 .withColumnDefinition()
                     .withColumnName(c("EmpID"))
                     .withDataType(_int())
-                //TODO NOT NULL
+                    .withUseNotNull(true)
                     .and()
                 .withColumnDefinition(
                         c_int("OldVacationHours"),
                         c_int("NewVacationHours"),
                         c_datetime("ModifiedDate"))
                 .withTableConstraint()
-                    .withPrimaryKey()
-                    .withColumnName(c("EmpID"))
+//                    .$Constraint()
+//                    .withPrimaryKey()
+//                    .withColumnName(c("EmpID"))
                     .and()
                 .withTableConstraint()
-                    .withUnique()
-                    .withColumnName(c("ModifiedDate"))
+//                    .withUnique()
+//                    .withColumnName(c("ModifiedDate"))
                     .and()
                 .build();
 
@@ -71,7 +72,7 @@ public class TableTypeDefinitionBuilderTest {
                 .withColumnDefinition()
                     .withColumnName(c("EmpID"))
                     .withDataType(_int())
-                //TODO NOT NULL
+                    .withUseNotNull(true)
                     .and()
                 .withColumnDefinition(
                         c_int("OldVacationHours"),

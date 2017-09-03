@@ -6,6 +6,10 @@ package com.xy.xsql.tsql.model.element.constraint;
 public class NullOrNotNull implements Constraint {
     private boolean useNull;
 
+    public NullOrNotNull(boolean useNull){
+        this.useNull = useNull;
+    }
+
     public boolean isUseNull() {
         return useNull;
     }

@@ -10,17 +10,18 @@ public class Partition {
     //      | default
     //     }
     //]
-    private String partitionSchemeName;
+    private String schemeName;
     private String columnName;
     private String filegroupName;
     private boolean useDefault;
+    private boolean useNull;
 
-    public String getPartitionSchemeName() {
-        return partitionSchemeName;
+    public String getSchemeName() {
+        return schemeName;
     }
 
-    public void setPartitionSchemeName(String partitionSchemeName) {
-        this.partitionSchemeName = partitionSchemeName;
+    public void setSchemeName(String schemeName) {
+        this.schemeName = schemeName;
     }
 
     public String getColumnName() {

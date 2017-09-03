@@ -3,7 +3,8 @@ package com.xy.xsql.tsql.model.element.table;
 import com.xy.xsql.tsql.model.element.index.IndexOption;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.element.index.Partition;
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateTable;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
 
 import java.util.List;
 
@@ -12,13 +13,14 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/8/16.
  */
 public class TableIndex
-        implements CreateTable.DiskBasedColumn, CreateTable.MemoryBasedColumn {
+        implements DiskBasedCreateTable.Item, MemoryOptimizedCreateTable.Item  {
     //
     private String indexName;
     private Boolean useClustered;
     private Boolean useNonClustered;
-    private boolean useColumnstore;
-    private List<PrimaryUnique.Item> columnNameList;
+    private boolean useColumnStore;
+    private boolean useHash;
+    private List<PrimaryUnique.Column> columnNameList;
 
     //[ WITH ( <index_option> [ ,... n ] ) ]
     private List<IndexOption> indexOptionList;
@@ -62,19 +64,19 @@ public class TableIndex
         this.useNonClustered = useNonClustered;
     }
 
-    public boolean isUseColumnstore() {
-        return useColumnstore;
+    public boolean isUseColumnStore() {
+        return useColumnStore;
     }
 
-    public void setUseColumnstore(boolean useColumnstore) {
-        this.useColumnstore = useColumnstore;
+    public void setUseColumnStore(boolean useColumnStore) {
+        this.useColumnStore = useColumnStore;
     }
 
-    public List<PrimaryUnique.Item> getColumnNameList() {
+    public List<PrimaryUnique.Column> getColumnNameList() {
         return columnNameList;
     }
 
-    public void setColumnNameList(List<PrimaryUnique.Item> columnNameList) {
+    public void setColumnNameList(List<PrimaryUnique.Column> columnNameList) {
         this.columnNameList = columnNameList;
     }
 
@@ -116,5 +118,13 @@ public class TableIndex
 
     public void setDelay(Integer delay) {
         this.delay = delay;
+    }
+
+    public boolean isUseHash() {
+        return useHash;
+    }
+
+    public void setUseHash(boolean useHash) {
+        this.useHash = useHash;
     }
 }

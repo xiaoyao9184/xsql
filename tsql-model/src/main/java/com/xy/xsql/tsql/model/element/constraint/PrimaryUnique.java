@@ -27,7 +27,7 @@ public class PrimaryUnique implements Constraint {
     //Table
 
     //(column [ ASC | DESC ] [ ,...n ] )
-    private List<Item> columns;
+    private List<Column> columns;
 
     //Memory
 
@@ -36,7 +36,12 @@ public class PrimaryUnique implements Constraint {
     //WITH (BUCKET_COUNT = bucket_count)
     private Integer bucketCount;
 
+    public PrimaryUnique() {
+    }
 
+    public PrimaryUnique(boolean usePrimaryKey) {
+        this.usePrimaryKey = usePrimaryKey;
+    }
 
 
     public boolean isUsePrimaryKey() {
@@ -55,11 +60,11 @@ public class PrimaryUnique implements Constraint {
         this.useClustered = useClustered;
     }
 
-    public List<Item> getColumns() {
+    public List<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(List<Item> columns) {
+    public void setColumns(List<Column> columns) {
         this.columns = columns;
     }
 
@@ -103,12 +108,18 @@ public class PrimaryUnique implements Constraint {
         this.bucketCount = bucketCount;
     }
 
-    public static class Item {
+    public static class Column {
         private String column;
 
         //[ ASC | DESC ]
         private boolean useAsc;
         private boolean useDesc;
+
+        public Column(){}
+
+        public Column(String column){
+            this.column = column;
+        }
 
         public String getColumn() {
             return column;

@@ -1,13 +1,13 @@
 package com.xy.xsql.tsql.model.element.column;
 
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateTable;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql
  * Created by xiaoyao9184 on 2017/8/7.
  */
 public class ColumnSetDefinition
-        implements CreateTable.DiskBasedColumn {
+        implements DiskBasedCreateTable.Item {
     //column_set_name XML COLUMN_SET FOR ALL_SPARSE_COLUMNS
     private String columnSetName;
 

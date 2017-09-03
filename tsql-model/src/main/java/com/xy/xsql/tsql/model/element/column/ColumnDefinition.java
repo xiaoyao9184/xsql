@@ -1,13 +1,13 @@
 package com.xy.xsql.tsql.model.element.column;
 
-
 import com.xy.xsql.tsql.model.datatype.DataType;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.collation.Collate;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateTable;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ColumnDefinition
         extends ColumnName
-        implements TableTypeDefinition.Item, CreateTable.DiskBasedColumn, CreateTable.MemoryBasedColumn {
+        implements TableTypeDefinition.Item, DiskBasedCreateTable.Item, MemoryOptimizedCreateTable.Item {
 
     //<data_type>
     //scalar_data_type
@@ -59,8 +59,8 @@ public class ColumnDefinition
 //              ENCRYPTION_TYPE = { DETERMINISTIC | RANDOMIZED } ,
 //    ALGORITHM = 'AEAD_AES_256_CBC_HMAC_SHA_256'
 //            ) ]
-    private String columnEncryotedKey;
-    private boolean randomizedEncryotedType;
+    private String columnEncryptionKey;
+    private boolean randomizedEncryptionType;
     private StringConstant algorithm;
     //[ column_constraint ] [ ...n ]
     private List<ColumnConstraint> columnConstraint;
@@ -214,20 +214,20 @@ public class ColumnDefinition
         this.useRowGuidCol = useRowGuidCol;
     }
 
-    public String getColumnEncryotedKey() {
-        return columnEncryotedKey;
+    public String getColumnEncryptionKey() {
+        return columnEncryptionKey;
     }
 
-    public void setColumnEncryotedKey(String columnEncryotedKey) {
-        this.columnEncryotedKey = columnEncryotedKey;
+    public void setColumnEncryptionKey(String columnEncryptionKey) {
+        this.columnEncryptionKey = columnEncryptionKey;
     }
 
-    public boolean isRandomizedEncryotedType() {
-        return randomizedEncryotedType;
+    public boolean isRandomizedEncryptionType() {
+        return randomizedEncryptionType;
     }
 
-    public void setRandomizedEncryotedType(boolean randomizedEncryotedType) {
-        this.randomizedEncryotedType = randomizedEncryotedType;
+    public void setRandomizedEncryptionType(boolean randomizedEncryptionType) {
+        this.randomizedEncryptionType = randomizedEncryptionType;
     }
 
     public StringConstant getAlgorithm() {

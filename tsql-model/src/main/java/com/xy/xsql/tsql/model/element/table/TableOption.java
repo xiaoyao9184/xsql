@@ -4,7 +4,6 @@ import com.xy.xsql.tsql.model.element.collation.Collate;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql
@@ -14,24 +13,24 @@ public interface TableOption {
 
 
 
-    enum  DATA_COMPRESSION_Type {
+    enum DataCompressionType {
         NONE,
         ROW,
         PAGE
     }
 
-    class DATA_COMPRESSION implements TableOption {
-        private DATA_COMPRESSION_Type type;
+    class DataCompression implements TableOption {
+        private DataCompressionType type;
 
         //[ WITH ( PARTITIONS ( { <partition_number_expression> | <range> }
         //[ , ...n ] ) ) ]
         private List<TruncateTable.Partitions> partitionsList;
 
-        public DATA_COMPRESSION_Type getType() {
+        public DataCompressionType getType() {
             return type;
         }
 
-        public void setType(DATA_COMPRESSION_Type type) {
+        public void setType(DataCompressionType type) {
             this.type = type;
         }
 
@@ -44,7 +43,7 @@ public interface TableOption {
         }
     }
 
-    class FILETABLE_DIRECTORY implements TableOption {
+    class FileTableDirectory implements TableOption {
         private String directoryName;
 
         public String getDirectoryName() {
@@ -56,44 +55,44 @@ public interface TableOption {
         }
     }
 
-    class FILETABLE_COLLATE_FILENAME implements TableOption {
+    class FileTableCollateFilename implements TableOption {
 
-        private Collate collation_name;
+        private Collate collationName;
 
-        public Collate getCollation_name() {
-            return collation_name;
+        public Collate getCollationName() {
+            return collationName;
         }
 
-        public void setCollation_name(Collate collation_name) {
-            this.collation_name = collation_name;
-        }
-    }
-
-    class FILETABLE_PRIMARY_KEY_CONSTRAINT_NAME implements TableOption {
-
-        private Collate collation_name;
-
-        public Collate getCollation_name() {
-            return collation_name;
-        }
-
-        public void setCollation_name(Collate collation_name) {
-            this.collation_name = collation_name;
+        public void setCollationName(Collate collationName) {
+            this.collationName = collationName;
         }
     }
 
-    class FILETABLE_STREAMID_UNIQUE_CONSTRAINT_NAME extends FILETABLE_PRIMARY_KEY_CONSTRAINT_NAME {
+    class FileTablePrimaryKeyConstraintName implements TableOption {
+
+        private Collate collationName;
+
+        public Collate getCollationName() {
+            return collationName;
+        }
+
+        public void setCollationName(Collate collationName) {
+            this.collationName = collationName;
+        }
+    }
+
+    class FileTableStreamIdUniqueConstraintName extends FileTablePrimaryKeyConstraintName {
 
     }
 
-    class FILETABLE_FULLPATH_UNIQUE_CONSTRAINT_NAME extends FILETABLE_PRIMARY_KEY_CONSTRAINT_NAME {
+    class FileTableFullPathUniqueConstraintName extends FileTablePrimaryKeyConstraintName {
 
     }
 
-    class SYSTEM_VERSIONING implements TableOption {
+    class SystemVersioning implements TableOption {
         private String schemaName;
         private String historyTableName;
-        private String useDataConsistencyCheck;
+        private Boolean useDataConsistencyCheck;
 
         public String getSchemaName() {
             return schemaName;
@@ -111,16 +110,16 @@ public interface TableOption {
             this.historyTableName = historyTableName;
         }
 
-        public String getUseDataConsistencyCheck() {
+        public Boolean getUseDataConsistencyCheck() {
             return useDataConsistencyCheck;
         }
 
-        public void setUseDataConsistencyCheck(String useDataConsistencyCheck) {
+        public void setUseDataConsistencyCheck(Boolean useDataConsistencyCheck) {
             this.useDataConsistencyCheck = useDataConsistencyCheck;
         }
     }
 
-    class REMOTE_DATA_ARCHIVE implements TableOption {
+    class RemoteDataArchive implements TableOption {
 
         private List<TableStretchOptions> tableStretchOptionsList;
 
@@ -143,9 +142,9 @@ public interface TableOption {
         }
     }
 
-    class MEMORY_OPTIMIZED implements TableOption {}
+    class MemoryOptimized implements TableOption {}
 
-    class DURABILITY implements TableOption {
+    class Durability implements TableOption {
         private boolean schemaAndData;
 
         public boolean isSchemaAndData() {

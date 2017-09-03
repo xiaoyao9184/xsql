@@ -6,7 +6,9 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/8/7.
  */
 public class Foreign implements Constraint {
-    //REFERENCES referenced_table_name [ ( ref_column [ ,...n ] ) ]
+    private boolean useForeignKey;
+    //REFERENCES [ schema_name . ] referenced_table_name [ ( ref_column [ ,...n ] ) ]
+    private String schemaName;
     private String referencedTableName;
     private List<String> refColumns;
     //[ ON DELETE { NO ACTION | CASCADE | SET NULL | SET DEFAULT } ]
@@ -19,6 +21,22 @@ public class Foreign implements Constraint {
     //Table
     //( column [ ,...n ] )
     private List<String> columns;
+
+    public boolean isUseForeignKey() {
+        return useForeignKey;
+    }
+
+    public void setUseForeignKey(boolean useForeignKey) {
+        this.useForeignKey = useForeignKey;
+    }
+
+    public String getSchemaName() {
+        return schemaName;
+    }
+
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
 
     public List<String> getColumns() {
         return columns;

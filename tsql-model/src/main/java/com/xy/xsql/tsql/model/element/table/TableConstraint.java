@@ -1,12 +1,9 @@
 package com.xy.xsql.tsql.model.element.table;
 
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
-import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.constraint.Constraint;
-import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateTable;
-
-import java.util.List;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
+import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/data-types/table-transact-sql
@@ -15,7 +12,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2017/8/7.
  */
 public class TableConstraint
-        implements Constraint, TableTypeDefinition.Item, CreateTable.DiskBasedColumn, CreateTable.MemoryBasedColumn {
+        implements Constraint, TableTypeDefinition.Item, DiskBasedCreateTable.Item, MemoryOptimizedCreateTable.Item {
 
     //CONSTRAINT constraint_name
     private String constraintName;
