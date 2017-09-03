@@ -56,7 +56,7 @@ public class CreateViewBuilder extends CodeBuilder<CreateView> {
     }
 
     public CreateViewBuilder withCheckOption(){
-        target.setUseCheckOpton(true);
+        target.setUseCheckOption(true);
         return this;
     }
 

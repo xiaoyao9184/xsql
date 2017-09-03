@@ -7,8 +7,6 @@ import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.operator.Assignment;
 import com.xy.xsql.tsql.model.statement.ddl.create.CreateDataBase;
 
-eName;
-
 /**
  * Created by xiaoyao9184 on 2017/8/3.
  */
