@@ -74,11 +74,11 @@ public class TableTypeDefinitionConverter
                         .overall("table_constraint")
                         .czse(d -> d.getConstraint() instanceof PrimaryUnique)
                             .scope(TableConstraint::getConstraint)
-                            .ref(PrimaryUniqueConverters.SimplePrimaryUniqueConverter.meta)
+                            .ref(PrimaryUniqueConverters.Simple.meta)
                             .and()
                         .czse(d -> d.getConstraint() instanceof Check)
                             .scope(TableConstraint::getConstraint)
-                            .ref(CheckConverters.SimpleCheckConverter.meta)
+                            .ref(CheckConverters.Simple.meta)
                             .and()
                         .syntax_sub_line()
                         .build();

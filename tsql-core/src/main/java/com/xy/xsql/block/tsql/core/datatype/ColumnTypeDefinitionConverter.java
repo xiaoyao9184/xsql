@@ -5,14 +5,12 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.element.constraint.CheckConverters;
 import com.xy.xsql.block.tsql.core.element.constraint.NullOrNotNullConverter;
-import com.xy.xsql.block.tsql.core.element.constraint.PrimaryUniqueConverters;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.constraint.Check;
 import com.xy.xsql.tsql.model.element.constraint.NullOrNotNull;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
-import com.xy.xsql.tsql.model.element.table.TableConstraint;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.
@@ -106,7 +104,7 @@ public class ColumnTypeDefinitionConverter
                             .and()
                         .czse(d -> d.getConstraint() instanceof Check)
                             .scope(ColumnConstraint::getConstraint)
-                            .ref(CheckConverters.SimpleCheckConverter.meta)
+                            .ref(CheckConverters.Simple.meta)
                             .and()
                         .syntax_sub_line()
                         .build();

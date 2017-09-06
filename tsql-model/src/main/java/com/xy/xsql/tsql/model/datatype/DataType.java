@@ -12,16 +12,40 @@ import com.xy.xsql.tsql.model.element.Other;
  */
 public class DataType {
 
+
+    private String typeSchemaName;
     private String name;
     private Synonyms synonym;
     private Integer precision;
     private Integer scale;
     private Integer length;
 
+    private boolean useMax;
+
+    private boolean useDocument;
+    private StringConstant xmlSchemaCollection;
+
     public DataType() {
     }
 
     public DataType(String name) {
+        this.name = name;
+    }
+
+
+    public String getTypeSchemaName() {
+        return typeSchemaName;
+    }
+
+    public void setTypeSchemaName(String typeSchemaName) {
+        this.typeSchemaName = typeSchemaName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -80,7 +104,29 @@ public class DataType {
         return this;
     }
 
+    public boolean isUseMax() {
+        return useMax;
+    }
 
+    public void setUseMax(boolean useMax) {
+        this.useMax = useMax;
+    }
+
+    public boolean isUseDocument() {
+        return useDocument;
+    }
+
+    public void setUseDocument(boolean useDocument) {
+        this.useDocument = useDocument;
+    }
+
+    public StringConstant getXmlSchemaCollection() {
+        return xmlSchemaCollection;
+    }
+
+    public void setXmlSchemaCollection(StringConstant xmlSchemaCollection) {
+        this.xmlSchemaCollection = xmlSchemaCollection;
+    }
 
     @Override
     public String toString() {

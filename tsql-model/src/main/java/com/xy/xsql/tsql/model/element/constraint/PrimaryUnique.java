@@ -112,8 +112,7 @@ public class PrimaryUnique implements Constraint {
         private String column;
 
         //[ ASC | DESC ]
-        private boolean useAsc;
-        private boolean useDesc;
+        private Boolean useAsc;
 
         public Column(){}
 
@@ -129,21 +128,14 @@ public class PrimaryUnique implements Constraint {
             this.column = column;
         }
 
-        public boolean isUseAsc() {
+        public Boolean isUseAsc() {
             return useAsc;
         }
 
-        public void setUseAsc(boolean useAsc) {
+        public void setUseAsc(Boolean useAsc) {
             this.useAsc = useAsc;
         }
 
-        public boolean isUseDesc() {
-            return useDesc;
-        }
-
-        public void setUseDesc(boolean useDesc) {
-            this.useDesc = useDesc;
-        }
     }
 
 }

@@ -207,4 +207,26 @@ public interface TableOption {
 //        DURABILITY,
 //        SYSTEM_VERSIONING
 //    }
+
+
+    enum KeyWords {
+        DATA_COMPRESSION,
+        FILETABLE_DIRECTORY,
+        FILETABLE_COLLATE_FILENAME,
+        FILETABLE_PRIMARY_KEY_CONSTRAINT_NAME,
+        FILETABLE_STREAMID_UNIQUE_CONSTRAINT_NAME,
+        FILETABLE_FULLPATH_UNIQUE_CONSTRAINT_NAME,
+        SYSTEM_VERSIONING,
+        HISTORY_TABLE,
+        DATA_CONSISTENCY_CHECK,
+        REMOTE_DATA_ARCHIVE,
+        MIGRATION_STATE,
+        PAUSED, FILTER_PREDICATE, DURABILITY, SCHEMA_ONLY, SCHEMA_AND_DATA, MEMORY_OPTIMIZED;
+
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+    }
 }

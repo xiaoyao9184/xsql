@@ -399,11 +399,6 @@ public class PrimaryUniques {
             return this;
         }
 
-        public PrimaryUniqueColumnBuilder<ParentBuilder> withUseDesc(boolean useDesc){
-            target.setUseDesc(useDesc);
-            return this;
-        }
-
         /*
         Quick
          */
@@ -430,8 +425,8 @@ public class PrimaryUniques {
          * Quick set
          * @return ParentBuilder
          */
-        public ParentBuilder $Aesc(){
-            return withUseDesc(true)
+        public ParentBuilder $Desc(){
+            return withUseAsc(false)
                     .and();
         }
 

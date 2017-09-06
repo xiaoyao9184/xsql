@@ -310,7 +310,39 @@ public enum Keywords {
         /**
          * @see CreateDataBase
          */
-        CONTAINMENT, NONE, PARTIAL;
+        CONTAINMENT, NONE, PARTIAL,
+
+        /**
+         * @see com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable
+         */
+        FILESTREAM, COLLATE, SPARSE, MASKED, GENERATED, ALWAYS, START, END, HIDDEN, ENCRYPTED, COLUMN_ENCRYPTION_KEY, ENCRYPTION_TYPE, DETERMINISTIC, RANDOMIZED, ALGORITHM,
+
+
+        /**
+         * @see com.xy.xsql.tsql.model.datatype.DataType
+         */
+        CONTENT, DOCUMENT,
+
+        /**
+         * @see com.xy.xsql.tsql.model.element.column.ColumnSetDefinition
+         */
+        COLUMN_SET, ALL_SPARSE_COLUMNS,
+
+        /**
+         * @see com.xy.xsql.tsql.model.element.column.ComputedColumnDefinition
+         */
+        PERSISTED,
+
+        /**
+         * @see com.xy.xsql.tsql.model.element.table.TableIndex
+         */
+        COLUMNSTORE,
+
+        /**
+         * @see com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable
+         * @see com.xy.xsql.tsql.model.element.column.ColumnIndex
+         */
+        FILESTREAM_ON, TEXTIMAGE_ON, PERIOD, BUCKET_COUNT;
 
         @Override
         public String toString(){

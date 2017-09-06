@@ -6,9 +6,18 @@ package com.xy.xsql.tsql.model.element.table;
  */
 public class TableStretchOptions {
     //[ FILTER_PREDICATE = { null | table_predicate_function } , ]
+    private boolean useFilterPredicate;
     private String tablePredicateFunction;
     //MIGRATION_STATE = { OUTBOUND | INBOUND | PAUSED }
     private MigrationState MigrationState;
+
+    public boolean isUseFilterPredicate() {
+        return useFilterPredicate;
+    }
+
+    public void setUseFilterPredicate(boolean useFilterPredicate) {
+        this.useFilterPredicate = useFilterPredicate;
+    }
 
     public String getTablePredicateFunction() {
         return tablePredicateFunction;
