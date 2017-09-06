@@ -1,7 +1,6 @@
 package com.xy.xsql.core.mapper;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by xiaoyao9184 on 2017/7/12.
@@ -12,8 +11,8 @@ public class SourceTargetMapper<LEFT, RIGHT> {
     private Map<RIGHT, LEFT> right2left;
 
     public SourceTargetMapper() {
-        left2right = new HashMap<>();
-        right2left = new HashMap<>();
+        left2right = new LinkedHashMap<>();
+        right2left = new LinkedHashMap<>();
     }
 
 
@@ -38,4 +37,11 @@ public class SourceTargetMapper<LEFT, RIGHT> {
         return right2left.containsKey(right);
     }
 
+    public Set<LEFT> getLeft() {
+        return left2right.keySet();
+    }
+
+    public Set<RIGHT> getRight() {
+        return right2left.keySet();
+    }
 }

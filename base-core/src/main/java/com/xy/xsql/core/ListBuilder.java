@@ -114,6 +114,15 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
         return t;
     }
 
+    public static <T,R extends T> Collection<R> initAdd2(final Getter<List<T>> getter, final Setter<List<T>> setter, final Collection<R> t) {
+        if(getter.get() == null){
+            setter.set(new ArrayList<>());
+        }
+        getter.get().addAll(t);
+
+        return t;
+    }
+
     /**
      * Call setter with each element
      * @param t
