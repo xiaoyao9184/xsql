@@ -10,3 +10,5 @@ include 'entity-core'
 include 'entity-spring'
 include 'entity-test'
 include 'dialect-mssql'
+
+include 'benjiql-over-tsql'
