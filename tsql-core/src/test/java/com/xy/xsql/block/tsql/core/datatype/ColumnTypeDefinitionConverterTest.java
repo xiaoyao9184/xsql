@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class ColumnTypeDefinitionConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = ColumnTypeDefinitionConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -38,8 +38,7 @@ public class ColumnTypeDefinitionConverterTest {
     public void testMetaPrint_ColumnConstraint() throws Exception {
         BlockMeta b = ColumnTypeDefinitionConverter.ColumnConstraintConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

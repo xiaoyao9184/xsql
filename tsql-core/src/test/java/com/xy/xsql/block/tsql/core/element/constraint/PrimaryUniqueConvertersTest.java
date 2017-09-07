@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.element.constraint;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,8 +17,7 @@ public class PrimaryUniqueConvertersTest {
     public void testMetaPrint_Simple() throws Exception {
         BlockMeta b = PrimaryUniqueConverters.Simple.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -29,8 +28,7 @@ public class PrimaryUniqueConvertersTest {
     public void testMetaPrint_DiskBasedColumn() throws Exception {
         BlockMeta b = PrimaryUniqueConverters.DiskBasedColumn.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -49,8 +47,7 @@ public class PrimaryUniqueConvertersTest {
     public void testMetaPrint_DiskBasedTable() throws Exception {
         BlockMeta b = PrimaryUniqueConverters.DiskBasedTable.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -70,8 +67,7 @@ public class PrimaryUniqueConvertersTest {
     public void testMetaPrint_MemoryOptimizedTable() throws Exception {
         BlockMeta b = PrimaryUniqueConverters.MemoryOptimizedTable.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

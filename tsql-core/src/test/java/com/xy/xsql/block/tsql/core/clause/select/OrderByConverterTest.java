@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class OrderByConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = OrderByConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -37,8 +37,7 @@ public class OrderByConverterTest {
     public void testMetaPrint_OffsetFetch() throws Exception {
         BlockMeta b = OrderByConverter.OffsetFetchConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

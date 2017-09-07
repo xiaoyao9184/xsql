@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause.hints;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
@@ -22,8 +23,7 @@ public class JoinHintConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = JoinHintConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

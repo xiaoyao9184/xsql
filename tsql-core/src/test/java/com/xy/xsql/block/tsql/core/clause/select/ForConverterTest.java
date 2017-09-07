@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class ForConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = ForConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -35,8 +35,7 @@ public class ForConverterTest {
     public void testMetaPrint_Xml() throws Exception {
         BlockMeta b = ForConverter.XmlConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -66,8 +65,7 @@ public class ForConverterTest {
     public void testMetaPrint_CommonDirectivesForXML() throws Exception {
         BlockMeta b = ForConverter.CommonDirectivesForXMLConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -81,8 +79,7 @@ public class ForConverterTest {
     public void testJson() throws Exception {
         BlockMeta b = ForConverter.JsonConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

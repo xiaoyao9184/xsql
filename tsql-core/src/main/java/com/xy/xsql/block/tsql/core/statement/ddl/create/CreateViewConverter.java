@@ -71,7 +71,7 @@ public class CreateViewConverter
                             .and()
                         .and()
                     .sub()
-                        .description("with check point")
+                        .description("with check option")
                         .optional(d -> !d.isUseCheckOption())
                         .sub_keyword(Keywords.WITH)
                         .sub_keyword(Keywords.CHECK)

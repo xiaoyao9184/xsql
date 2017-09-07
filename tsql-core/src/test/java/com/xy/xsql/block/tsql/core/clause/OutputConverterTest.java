@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class OutputConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = OutputConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -36,8 +36,7 @@ public class OutputConverterTest {
     public void testMetaPrint_DmlSelectList() throws Exception {
         BlockMeta b = OutputConverter.DmlSelectListConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -49,8 +48,7 @@ public class OutputConverterTest {
     public void testMetaPrint_DmlSelect() throws Exception {
         BlockMeta b = OutputConverter.DmlSelectConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -61,8 +59,7 @@ public class OutputConverterTest {
     public void testMetaPrint_ColumnName() throws Exception {
         BlockMeta b = OutputConverter.ColumnNameConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

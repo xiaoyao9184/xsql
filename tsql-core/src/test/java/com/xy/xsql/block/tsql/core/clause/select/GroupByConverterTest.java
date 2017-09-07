@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class GroupByConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = GroupByConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -41,8 +41,7 @@ public class GroupByConverterTest {
     public void testMetaPrint_GroupByExpression() throws Exception {
         BlockMeta b = GroupByConverter.GroupByExpressionConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -55,8 +54,7 @@ public class GroupByConverterTest {
     public void testMetaPrint_GroupingSet() throws Exception {
         BlockMeta b = GroupByConverter.GroupingSetConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -70,8 +68,7 @@ public class GroupByConverterTest {
     public void testMetaPrint_GroupingSetItem() throws Exception {
         BlockMeta b = GroupByConverter.GroupingSetItemConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

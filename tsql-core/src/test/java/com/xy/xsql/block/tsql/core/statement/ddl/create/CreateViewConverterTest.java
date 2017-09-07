@@ -1,6 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.ddl.create;
 
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.ddl.CreateViewBuilderTest;
@@ -13,8 +14,6 @@ import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by xiaoyao9184 on 2017/8/4.
  */
@@ -24,8 +23,7 @@ public class CreateViewConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = CreateViewConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -33,15 +31,14 @@ public class CreateViewConverterTest {
                         "CREATE [ OR ALTER ] VIEW [ schema_name . ] view_name [ ( column [,...n] ) ]\n" +
                         "[ WITH <view_attribute> [,...n] ]\n" +
                         "AS select_statement\n" +
-                        "[ WITH CHECK POINT ]");
+                        "[ WITH CHECK OPTION ]");
     }
 
     @Test
     public void testMetaPrint_ViewAttribute() throws Exception {
         BlockMeta b = CreateViewConverter.ViewAttributeConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

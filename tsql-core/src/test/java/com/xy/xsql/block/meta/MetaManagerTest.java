@@ -55,7 +55,7 @@ public class MetaManagerTest {
                 .byModel(Select.class)
                 .converter();
         Type typeConverter2 = MetaManager
-                .byModel(SelectConverter.class)
+                .byConverter(SelectConverter.class)
                 .converter();
 
         Assert.assertEquals(typeConverter.getTypeName(), typeConverter2.getTypeName());

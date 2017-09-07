@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.datatype;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,8 +16,7 @@ public class TableTypeDefinitionConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = TableTypeDefinitionConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -29,8 +28,7 @@ public class TableTypeDefinitionConverterTest {
     public void testMetaPrint_TableConstraint() throws Exception {
         BlockMeta b = TableTypeDefinitionConverter.TableConstraintConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

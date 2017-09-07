@@ -1,7 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Select;
@@ -22,8 +23,7 @@ public class SelectConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = SelectConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -39,8 +39,7 @@ public class SelectConverterTest {
     public void testMetaPrint_QueryExpression() throws Exception {
         BlockMeta b = SelectConverter.QueryExpressionConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -54,8 +53,7 @@ public class SelectConverterTest {
     public void testMetaPrint_QuerySpecification() throws Exception {
         BlockMeta b = SelectConverter.QuerySpecificationConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -75,8 +73,7 @@ public class SelectConverterTest {
     public void testMetaPrint_UnionItem() throws Exception {
         BlockMeta b = SelectConverter.UnionItemConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

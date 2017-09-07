@@ -1,7 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
@@ -22,8 +23,7 @@ public class BulkInsertConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = BulkInsertConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

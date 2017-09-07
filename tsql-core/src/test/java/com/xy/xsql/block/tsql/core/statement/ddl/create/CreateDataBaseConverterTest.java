@@ -1,6 +1,7 @@
 package com.xy.xsql.block.tsql.core.statement.ddl.create;
 
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.ddl.CreateDataBaseBuilderTest;
@@ -13,8 +14,6 @@ import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by xiaoyao9184 on 2017/8/4.
  */
@@ -24,8 +23,7 @@ public class CreateDataBaseConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = CreateDataBaseConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

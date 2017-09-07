@@ -1,7 +1,8 @@
 package com.xy.xsql.block.tsql.core.variable;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.variable.SetVariableBuilderTest;
 import com.xy.xsql.tsql.model.variable.SetVariable;
@@ -22,8 +23,7 @@ public class SetVariableConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = SetVariableConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         assert true;

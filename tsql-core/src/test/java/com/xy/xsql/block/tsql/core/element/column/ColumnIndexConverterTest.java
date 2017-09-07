@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.element.column;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,8 +17,7 @@ public class ColumnIndexConverterTest {
     public void testMetaPrint_DiskBased() throws Exception {
         BlockMeta b = ColumnIndexConverters.DiskBased.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -35,8 +34,7 @@ public class ColumnIndexConverterTest {
     public void testMetaPrint_MemoryOptimized() throws Exception {
         BlockMeta b = ColumnIndexConverters.MemoryOptimized.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

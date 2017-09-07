@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause.select;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class OverConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = OverConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -39,8 +39,7 @@ public class OverConverterTest {
     public void testMetaPrint_PartitionBy() throws Exception {
         BlockMeta b = OverConverter.PartitionByConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -52,8 +51,7 @@ public class OverConverterTest {
     public void testMetaPrint_OrderBy() throws Exception {
         BlockMeta b = OverConverter.OrderByConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -65,8 +63,7 @@ public class OverConverterTest {
     public void testMetaPrint_RowRange() throws Exception {
         BlockMeta b = OverConverter.RowRangeConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -78,8 +75,7 @@ public class OverConverterTest {
     public void testMetaPrint_WindowFrameExtent() throws Exception {
         BlockMeta b = OverConverter.WindowFrameExtentConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -94,8 +90,7 @@ public class OverConverterTest {
     public void testMetaPrint_WindowFrameBetween() throws Exception {
         BlockMeta b = OverConverter.WindowFrameBetweenConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -107,8 +102,7 @@ public class OverConverterTest {
     public void testMetaPrint_WindowFrameBound() throws Exception {
         BlockMeta b = OverConverter.WindowFrameBoundConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -123,8 +117,7 @@ public class OverConverterTest {
     public void testMetaPrint_WindowFramePreceding() throws Exception {
         BlockMeta b = OverConverter.WindowFramePrecedingConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -136,8 +129,7 @@ public class OverConverterTest {
     public void testMetaPrint_WindowFrameFollowing() throws Exception {
         BlockMeta b = OverConverter.WindowFrameFollowingConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -149,8 +141,7 @@ public class OverConverterTest {
     public void testMetaPrint_UnsignedValueSpecification() throws Exception {
         BlockMeta b = OverConverter.UnsignedValueSpecificationConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

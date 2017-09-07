@@ -1,7 +1,8 @@
 package com.xy.xsql.block.tsql.core.clause;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.FromBuilderTest;
 import com.xy.xsql.tsql.model.clause.From;
@@ -22,8 +23,7 @@ public class FromConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = FromConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -35,8 +35,7 @@ public class FromConverterTest {
     public void testMetaPrint_TableSource() throws Exception {
         BlockMeta b = FromConverter.TableSourceConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -54,8 +53,7 @@ public class FromConverterTest {
     public void testMetaPrint_BaseTable() throws Exception {
         BlockMeta b = FromConverter.BaseTableConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -68,8 +66,7 @@ public class FromConverterTest {
     public void testMetaPrint_DerivedTable() throws Exception {
         BlockMeta b = FromConverter.DerivedTableConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -80,8 +77,7 @@ public class FromConverterTest {
     public void testMetaPrint_JoinedTable() throws Exception {
         BlockMeta b = FromConverter.JoinedTableConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -96,8 +92,7 @@ public class FromConverterTest {
     public void testMetaPrint_VariableTable() throws Exception {
         BlockMeta b = FromConverter.VariableTableConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -109,8 +104,7 @@ public class FromConverterTest {
     public void testMetaPrint_JoinType() throws Exception {
         BlockMeta b = FromConverter.JoinTypeConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -124,8 +118,7 @@ public class FromConverterTest {
     public void testMetaPrint_SystemTime() throws Exception {
         BlockMeta b = FromConverter.SystemTimeConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -144,8 +137,7 @@ public class FromConverterTest {
     public void testMetaPrint_DateTime() throws Exception {
         BlockMeta b = FromConverter.DateTimeConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -158,8 +150,7 @@ public class FromConverterTest {
     public void testMetaPrint_TableSample() throws Exception {
         BlockMeta b = FromConverter.TableSampleConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

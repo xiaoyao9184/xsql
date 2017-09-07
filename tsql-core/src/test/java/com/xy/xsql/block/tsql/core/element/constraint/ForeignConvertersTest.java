@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.element.constraint;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,8 +17,7 @@ public class ForeignConvertersTest {
     public void testMetaPrint_DiskBasedColumn() throws Exception {
         BlockMeta b = ForeignConverters.DiskBasedColumn.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -33,8 +32,7 @@ public class ForeignConvertersTest {
     public void testMetaPrint_DiskBasedTable() throws Exception {
         BlockMeta b = ForeignConverters.DiskBasedTable.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

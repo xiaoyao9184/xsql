@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.statement.ddl;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class ReNameConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = ReNameConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -36,8 +36,7 @@ public class ReNameConverterTest {
     public void testMetaPrint_ReNameDataBase() throws Exception {
         BlockMeta b = ReNameConverter.ReNameDataBaseConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -49,8 +48,7 @@ public class ReNameConverterTest {
     public void testMetaPrint_ReNameTable() throws Exception {
         BlockMeta b = ReNameConverter.ReNameTableConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

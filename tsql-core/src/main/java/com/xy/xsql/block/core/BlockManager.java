@@ -1,12 +1,13 @@
 package com.xy.xsql.block.core;
 
 import com.xy.xsql.block.core.converter.BlockConverter;
+import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.core.printer.BlockPrinter;
 import com.xy.xsql.block.meta.MetaManager;
 import com.xy.xsql.block.model.Block;
+import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.core.mapper.SourceTargetMapper;
-import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.util.GenericTypeUtil;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -37,7 +39,17 @@ public enum BlockManager {
     }
 
     public String print(Object model) {
-        Block block = byConverter().convert(model);
+        Optional<BlockMeta> meta = MetaManager
+                .byModel(model.getClass())
+                .meta();
+
+        Block block;
+        if(meta.isPresent()){
+            block = new ModelKeywordBlockConverter<>()
+                    .build(model);
+        }else{
+            block = byConverter().convert(model);
+        }
         Objects.requireNonNull(block);
         return byPrinter().print(block);
     }
@@ -77,6 +89,13 @@ public enum BlockManager {
             return null;
         }
 
+        public BlockConverter getMapper(Type type){
+            if(BlockManager.INSTANCE.model2converter.checkLeft(type)){
+                return BlockManager.INSTANCE.model2converter
+                        .getByLeft(type);
+            }
+            return null;
+        }
 
 
         public void register(Type type, ModelMetaBlockConverter converter) {

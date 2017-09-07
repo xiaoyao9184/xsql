@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.statement.ddl.create.table;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,8 +16,7 @@ public class MemoryOptimizedCreateTableConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = MemoryOptimizedCreateTableConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -37,8 +36,7 @@ public class MemoryOptimizedCreateTableConverterTest {
     public void testMetaPrint_Item() throws Exception {
         BlockMeta b = MemoryOptimizedCreateTableConverter.ItemConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

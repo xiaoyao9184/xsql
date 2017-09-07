@@ -1,7 +1,8 @@
 package com.xy.xsql.block.tsql.core.statement.dml;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
+import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.MergeBuilderTest;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
@@ -22,8 +23,7 @@ public class MergeConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = MergeConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -48,8 +48,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MergeHint() throws Exception {
         BlockMeta b = MergeConverter.MergeHintConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -64,8 +63,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MatchedWhenThen() throws Exception {
         BlockMeta b = MergeConverter.MatchedWhenThenConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -77,8 +75,7 @@ public class MergeConverterTest {
     public void testMetaPrint_NotMatchedTargetWhenThen() throws Exception {
         BlockMeta b = MergeConverter.NotMatchedTargetWhenThenConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -90,8 +87,7 @@ public class MergeConverterTest {
     public void testMetaPrint_NotMatchedSourceWhenThen() throws Exception {
         BlockMeta b = MergeConverter.NotMatchedSourceWhenThenConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -103,8 +99,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MergeMatched() throws Exception {
         BlockMeta b = MergeConverter.MergeMatchedConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -116,8 +111,7 @@ public class MergeConverterTest {
     public void testMetaPrint_MergeNotMatched() throws Exception {
         BlockMeta b = MergeConverter.MergeNotMatchedConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

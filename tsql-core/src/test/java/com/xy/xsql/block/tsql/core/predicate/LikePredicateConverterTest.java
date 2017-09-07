@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.predicate;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,8 +16,7 @@ public class LikePredicateConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = LikePredicateConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

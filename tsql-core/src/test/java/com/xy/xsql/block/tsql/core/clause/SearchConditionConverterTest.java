@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class SearchConditionConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = SearchConditionConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -36,8 +36,7 @@ public class SearchConditionConverterTest {
     public void testMetaPrint_AndOrNotItem() throws Exception {
         BlockMeta b = SearchConditionConverter.AndOrNotItemConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -48,8 +47,7 @@ public class SearchConditionConverterTest {
     public void testMetaPrint_Predicate() throws Exception {
         BlockMeta b = SearchConditionConverter.PredicateConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

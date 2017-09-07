@@ -1,5 +1,6 @@
 package com.xy.xsql.block.tsql.core.clause;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
@@ -22,8 +23,7 @@ public class TableValueConstructorConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = TableValueConstructorConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -35,8 +35,7 @@ public class TableValueConstructorConverterTest {
     public void testMetaPrint_RowValueExpressionList() throws Exception {
         BlockMeta b = TableValueConstructorConverter.RowValueExpressionListConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -48,8 +47,7 @@ public class TableValueConstructorConverterTest {
     public void testMetaPrint_RowValueExpression() throws Exception {
         BlockMeta b = TableValueConstructorConverter.RowValueExpressionConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

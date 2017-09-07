@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.element;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,8 +21,7 @@ public class MultipartNamesConverterTest {
     public void testMetaPrint_TableName() throws Exception {
         BlockMeta b = MultipartNamesConverter.TableNameConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -33,8 +32,7 @@ public class MultipartNamesConverterTest {
     public void testMetaPrint_ColumnName() throws Exception {
         BlockMeta b = MultipartNamesConverter.ColumnNameConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

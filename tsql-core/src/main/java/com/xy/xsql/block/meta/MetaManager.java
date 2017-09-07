@@ -2,7 +2,7 @@ package com.xy.xsql.block.meta;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.core.mapper.SourceTargetMapper;
@@ -135,7 +135,7 @@ public enum MetaManager {
         public String print(){
             return getter.get()
                     .map(blockMeta ->
-                            new ModelMetaBlockPrinter().printMeta(blockMeta).toString())
+                            MetaBlockPrinter.print(blockMeta).toString())
                     .orElse(null);
         }
 

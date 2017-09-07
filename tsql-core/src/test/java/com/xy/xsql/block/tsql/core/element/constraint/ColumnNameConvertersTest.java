@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.element.constraint;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,8 +17,7 @@ public class ColumnNameConvertersTest {
     public void testMetaPrint_Base() throws Exception {
         BlockMeta b = ColumnNameConverters.Base.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -29,8 +28,7 @@ public class ColumnNameConvertersTest {
     public void testMetaPrint_Order() throws Exception {
         BlockMeta b = ColumnNameConverters.Order.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),

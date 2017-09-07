@@ -1,6 +1,6 @@
 package com.xy.xsql.block.tsql.core.expression;
 
-import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,8 +16,7 @@ public class CaseConverterTest {
     public void testMetaPrint() throws Exception {
         BlockMeta b = CaseConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -30,8 +29,7 @@ public class CaseConverterTest {
     public void testMetaPrint_SimpleCase() throws Exception {
         BlockMeta b = CaseConverter.SimpleCaseConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
@@ -43,8 +41,7 @@ public class CaseConverterTest {
     public void testMetaPrint_SearchedCase() throws Exception {
         BlockMeta b = CaseConverter.SearchedCaseConverter.meta;
 
-        StringWriter writer = new ModelMetaBlockPrinter()
-                .printMeta(b);
+        StringWriter writer = MetaBlockPrinter.print(b);
 
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
