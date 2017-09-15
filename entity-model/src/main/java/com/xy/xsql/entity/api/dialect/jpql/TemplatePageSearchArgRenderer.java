@@ -1,6 +1,6 @@
 package com.xy.xsql.entity.api.dialect.jpql;
 
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 
@@ -19,7 +19,7 @@ public interface TemplatePageSearchArgRenderer {
      * @param entityTemplateTreeArg 参数（树状）
      * @return SQL + 参数
      */
-    PlaceholderJPql getSelectJoinByTreeArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, EntityTemplateTreeArg entityTemplateTreeArg);
+    PlaceholderJSql getSelectJoinByTreeArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, EntityTemplateTreeArg entityTemplateTreeArg);
 
     /**
      * 多表 参数查询
@@ -27,5 +27,5 @@ public interface TemplatePageSearchArgRenderer {
      * @param entityTemplateTreeArg 参数（树状）
      * @return SQL + 参数
      */
-    PlaceholderJPql getSelectJoinByTreeArgCountSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg);
+    PlaceholderJSql getSelectJoinByTreeArgCountSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg);
 }

@@ -5,7 +5,7 @@ import com.xy.xsql.benjiql.core.RelationshipClassTableMetaBuilder;
 import com.xy.xsql.benjiql.core.TSqlConversions;
 import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
@@ -86,12 +86,12 @@ public class InsertRelationship<L,R>  {
         return BlockManager.INSTANCE.print(insert);
     }
 
-    public PlaceholderJPql toJPql() {
-        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> insertWithJPql = buildInsertWithJPql();
-        String sql = BlockManager.INSTANCE.print(insertWithJPql.getKey());
-        List<Object> args = insertWithJPql.getValue().collect(Collectors.toList());
+    public PlaceholderJSql toJSql() {
+        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> insertWithJSql = buildInsertWithJSql();
+        String sql = BlockManager.INSTANCE.print(insertWithJSql.getKey());
+        List<Object> args = insertWithJSql.getValue().collect(Collectors.toList());
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sql)
                 .withArgs(args);
     }
@@ -131,7 +131,7 @@ public class InsertRelationship<L,R>  {
         return insert;
     }
 
-    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> buildInsertWithJPql(){
+    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> buildInsertWithJSql(){
         List<Object> args = new ArrayList<>();
 
         TableName tableName = buildClassTable().getTableName();

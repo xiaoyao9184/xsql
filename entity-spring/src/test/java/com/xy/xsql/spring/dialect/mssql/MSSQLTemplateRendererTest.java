@@ -1,7 +1,7 @@
 package com.xy.xsql.spring.dialect.mssql;
 
 import com.xy.xsql.entity.core.template.AnnotationEntityTemplateBuilder;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
 import com.xy.xsql.entity.test.entity.User;
@@ -104,7 +104,7 @@ public class MSSQLTemplateRendererTest {
 
         MSSQLTemplateRenderer entitySql = new MSSQLTemplateRenderer();
 
-        PlaceholderJPql sql = entitySql.getSelectArgsPageSql(
+        PlaceholderJSql sql = entitySql.getSelectArgsPageSql(
                 entityTemplate,
                 1,
                 10,
@@ -150,7 +150,7 @@ public class MSSQLTemplateRendererTest {
 
         MSSQLTemplateRenderer entitySql = new MSSQLTemplateRenderer();
 
-        PlaceholderJPql sql = entitySql.getSelectArgsCountSql(
+        PlaceholderJSql sql = entitySql.getSelectArgsCountSql(
                 entityTemplate,
                 "name1","code1","type1");
 
@@ -177,7 +177,7 @@ public class MSSQLTemplateRendererTest {
 
         MSSQLTemplateRenderer entitySql = new MSSQLTemplateRenderer();
 
-        PlaceholderJPql sql = entitySql.getSelectJoinByTreeArgPageSql(
+        PlaceholderJSql sql = entitySql.getSelectJoinByTreeArgPageSql(
                 entityTemplate,
                 1,
                 10,
@@ -236,7 +236,7 @@ public class MSSQLTemplateRendererTest {
 
         MSSQLTemplateRenderer entitySql = new MSSQLTemplateRenderer();
 
-        PlaceholderJPql sql = entitySql.getSelectJoinByTreeArgCountSql(
+        PlaceholderJSql sql = entitySql.getSelectJoinByTreeArgCountSql(
                 entityTemplate,
                 new EntityTemplateTreeArg()
                         .withArgs("name1","code1","type1")

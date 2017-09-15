@@ -4,7 +4,7 @@ import com.xy.xsql.benjiql.example.Conspiracy;
 import com.xy.xsql.benjiql.example.Person;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.block.meta.MetaManager;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import org.junit.Before;
 import org.junit.Test;
 import java.sql.SQLException;
@@ -26,7 +26,7 @@ public class InsertTest {
         String sql = insert(person)
             .value(Person::getFirstName)
             .value(Person::getFavouriteNumber)
-            .toJPql().getSql();
+            .toJSql().getSql();
 
         String check = "INSERT person (first_name, favourite_number) VALUES ( ?, ? )";
         check = check
@@ -52,7 +52,7 @@ public class InsertTest {
                 .valueLeft(Conspiracy::getName)
                 .valueRight(Person::getLastName)
                 .valueRight(Person::getFirstName)
-                .toJPql().getSql();
+                .toJSql().getSql();
 
         String check = "INSERT conspiracy_person (conspiracy_name, person_last_name, person_first_name) VALUES ( ?, ?, ? )";
         check = check
@@ -74,10 +74,10 @@ public class InsertTest {
         person.setFirstName("asdf");
         person.setFavouriteNumber(55);
 
-        PlaceholderJPql jpql = insert(person)
+        PlaceholderJSql jpql = insert(person)
             .value(Person::getFirstName)
             .value(Person::getFavouriteNumber)
-            .toJPql();
+            .toJSql();
 
         assertEquals(jpql.getArgs().length,2);
     }

@@ -1,7 +1,7 @@
 package com.xy.xsql.entity.api.dialect.jpql;
 
 
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 
 /**
@@ -16,6 +16,6 @@ public interface TemplateDeleteArgRenderer {
      * @param args 参数
      * @return SQL + 参数
      */
-    PlaceholderJPql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args);
+    PlaceholderJSql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args);
 
 }

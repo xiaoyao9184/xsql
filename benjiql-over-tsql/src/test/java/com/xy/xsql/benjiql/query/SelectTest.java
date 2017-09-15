@@ -32,7 +32,7 @@ public class SelectTest {
                 .like("web%")
                 .and(Person::getFavouriteNumber)
                 .equalTo(5)
-                .toJPql().getSql();
+                .toJSql().getSql();
 
         String check = "SELECT * FROM person WHERE person.first_name = ? AND person.last_name != ? AND person.last_name LIKE ? AND person.favourite_number = ?";
 
@@ -61,7 +61,7 @@ public class SelectTest {
                 .using(Conspiracy::getName)
                 .where(Conspiracy::getName)
                 .equalTo("nsa")
-                .toJPql().getSql();
+                .toJSql().getSql();
 
         String check = "SELECT * FROM person " +
                 "JOIN conspiracy_person " +

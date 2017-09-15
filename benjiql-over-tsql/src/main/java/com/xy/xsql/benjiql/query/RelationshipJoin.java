@@ -134,8 +134,8 @@ public class RelationshipJoin<T,U>
     }
 
     @Override
-    public Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJPql(){
-        return from.wherePredicatesWithJPql();
+    public Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJSql(){
+        return from.wherePredicatesWithJSql();
     }
 
 //    @Override

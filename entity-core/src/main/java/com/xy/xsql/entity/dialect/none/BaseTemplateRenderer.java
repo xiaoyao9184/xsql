@@ -7,7 +7,7 @@ import com.xy.xsql.entity.core.template.EntityParamFilter;
 import com.xy.xsql.entity.core.util.CheckUtil;
 import com.xy.xsql.entity.core.util.ListUtil;
 import com.xy.xsql.entity.core.util.StringUtil;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityColumn;
 import com.xy.xsql.entity.model.template.EntityOrder;
 import com.xy.xsql.entity.model.template.EntityParam;
@@ -498,7 +498,7 @@ public class BaseTemplateRenderer
 
 
     @Override
-    public PlaceholderJPql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args) {
+    public PlaceholderJSql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args) {
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -548,14 +548,14 @@ public class BaseTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
 
 
     @Override
-    public PlaceholderJPql getSelectByArgsSql(EntityTemplate entityTemplate, Object... args){
+    public PlaceholderJSql getSelectByArgsSql(EntityTemplate entityTemplate, Object... args){
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -631,7 +631,7 @@ public class BaseTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
@@ -649,12 +649,12 @@ public class BaseTemplateRenderer
 
 
     @Override
-    public PlaceholderJPql getSelectJoinByArgsSql(EntityTemplate entityTemplate, Object... args) {
+    public PlaceholderJSql getSelectJoinByArgsSql(EntityTemplate entityTemplate, Object... args) {
         throw new RuntimeException("不支持‘多表 参数查询’语句");
     }
 
     @Override
-    public PlaceholderJPql getSelectJoinByTreeArgSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
+    public PlaceholderJSql getSelectJoinByTreeArgSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
         throw new RuntimeException("不支持‘多表 参数查询’语句");
     }
 

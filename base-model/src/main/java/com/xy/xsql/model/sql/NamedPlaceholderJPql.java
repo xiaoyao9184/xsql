@@ -1,13 +1,13 @@
-package com.xy.xsql.entity.model.jpql;
+package com.xy.xsql.model.sql;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * Created by xiaoyao9184 on 2016/11/24.
+ * Created by xiaoyao9184 on 2017/9/15.
  */
-public class PlaceholderJPql {
+public class NamedPlaceholderJPql {
     private String sql;
-    private Object[] args;
+    private Map<String,Object> args;
 
 
     public String getSql() {
@@ -18,11 +18,11 @@ public class PlaceholderJPql {
         this.sql = sql;
     }
 
-    public Object[] getArgs() {
+    public Map<String,Object> getArgs() {
         return args;
     }
 
-    public void setArgs(Object[] args) {
+    public void setArgs(Map<String,Object> args) {
         this.args = args;
     }
 
@@ -32,18 +32,18 @@ public class PlaceholderJPql {
      * @param sql SQL
      * @return This
      */
-    public PlaceholderJPql withSql(String sql) {
+    public NamedPlaceholderJPql withSql(String sql) {
         this.sql = sql;
         return this;
     }
 
     /**
      * Set c args
-     * @param argList args args
+     * @param argMap args args
      * @return This
      */
-    public PlaceholderJPql withArgs(List<Object> argList) {
-        this.args = argList.toArray();
+    public NamedPlaceholderJPql withArgs(Map<String,Object> argMap) {
+        this.args = argMap;
         return  this;
     }
 }

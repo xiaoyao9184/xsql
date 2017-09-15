@@ -3,7 +3,7 @@ package com.xy.xsql.benjiql.update;
 import com.xy.xsql.benjiql.example.Person;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.block.meta.MetaManager;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class UpdateTest {
         String sql = update(person)
             .value(Person::getFirstName)
             .value(Person::getFavouriteNumber)
-            .toJPql().getSql();
+            .toJSql().getSql();
 
         String check = "UPDATE person SET first_name = ?, favourite_number = ?";
         check = check
@@ -54,7 +54,7 @@ public class UpdateTest {
             .notEqualTo("bob")
             .and(Person::getFirstName)
             .like("b%")
-            .toJPql().getSql();
+            .toJSql().getSql();
 
         String check = "UPDATE person SET first_name = ?, favourite_number = ? WHERE last_name = ? AND first_name != ? AND first_name LIKE ?";
         check = check
@@ -76,14 +76,14 @@ public class UpdateTest {
         person.setFirstName("asdf");
         person.setFavouriteNumber(55);
 
-        PlaceholderJPql jpql = update(person)
+        PlaceholderJSql jpql = update(person)
             .value(Person::getFirstName)
             .value(Person::getFavouriteNumber)
             .where(Person::getLastName)
             .equalTo("weber")
             .and(Person::getFavouriteNumber)
             .equalTo(6)
-            .toJPql();
+            .toJSql();
 
         assertEquals(jpql.getArgs().length,4);
 

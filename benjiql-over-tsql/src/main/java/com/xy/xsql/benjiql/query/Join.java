@@ -92,8 +92,8 @@ public class Join<T,U>
         return from.wherePredicates();
     }
 
-    public Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJPql(){
-        return from.wherePredicatesWithJPql();
+    public Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJSql(){
+        return from.wherePredicatesWithJSql();
     }
 
 }

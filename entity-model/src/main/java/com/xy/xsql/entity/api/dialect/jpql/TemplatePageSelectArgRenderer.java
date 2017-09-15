@@ -1,6 +1,6 @@
 package com.xy.xsql.entity.api.dialect.jpql;
 
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 
 /**
@@ -18,7 +18,7 @@ public interface TemplatePageSelectArgRenderer {
      * @param args 参数
      * @return SQL
      */
-    PlaceholderJPql getSelectArgsPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args);
+    PlaceholderJSql getSelectArgsPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args);
 
     /**
      * Count Sql
@@ -26,5 +26,5 @@ public interface TemplatePageSelectArgRenderer {
      * @param args 参数
      * @return SQL
      */
-    PlaceholderJPql getSelectArgsCountSql(EntityTemplate entityTemplate, Object... args);
+    PlaceholderJSql getSelectArgsCountSql(EntityTemplate entityTemplate, Object... args);
 }

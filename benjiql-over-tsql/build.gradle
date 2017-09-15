@@ -13,7 +13,7 @@ dependencies {
     compile project(':base-model')
     compile project(':tsql-model')
     compile project(':tsql-core')
-    compile project(':entity-model')
+//    compile project(':entity-model')
     compile group: 'cglib', name: 'cglib', version: '3.2.5'
     compile group: 'com.google.guava', name: 'guava', version: '20.0'
 

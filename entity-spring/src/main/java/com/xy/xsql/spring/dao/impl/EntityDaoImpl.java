@@ -5,7 +5,7 @@ import com.xy.xsql.entity.api.dialect.jpql.*;
 import com.xy.xsql.entity.core.template.AnnotationEntityTemplateBuilder;
 import com.xy.xsql.entity.core.template.EntityColumnFilter;
 import com.xy.xsql.entity.core.template.EntityColumnsArgsBuilder;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityColumn;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
@@ -318,7 +318,7 @@ public class EntityDaoImpl<Entity, ID>
     @Override
     public Entity getByArg(Object... arg) {
         TemplateSelectArgRenderer entitySelectArgSql = safeTo(TemplateSelectArgRenderer.class);
-        PlaceholderJPql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,arg);
+        PlaceholderJSql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,arg);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.queryForObject(sql.getSql(), this.rowMapper, sql.getArgs());
@@ -327,7 +327,7 @@ public class EntityDaoImpl<Entity, ID>
     @Override
     public List<Entity> listByArg(Object... args) {
         TemplateSelectArgRenderer entitySelectArgSql = safeTo(TemplateSelectArgRenderer.class);
-        PlaceholderJPql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,args);
+        PlaceholderJSql sql = entitySelectArgSql.getSelectByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.query(sql.getSql(), this.rowMapper, sql.getArgs());
@@ -337,7 +337,7 @@ public class EntityDaoImpl<Entity, ID>
     @Override
     public void deleteListByArg(Object... args) {
         TemplateDeleteArgRenderer entityDeleteArgSql = safeTo(TemplateDeleteArgRenderer.class);
-        PlaceholderJPql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,args);
+        PlaceholderJSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
         jdbcTemplate.update(sql.getSql(), sql.getArgs());
@@ -374,7 +374,7 @@ public class EntityDaoImpl<Entity, ID>
     @Override
     public <T> List<T> searchListByArg(Class<T> resultClass, Object... args) {
         TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
-        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
+        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.query(
@@ -392,7 +392,7 @@ public class EntityDaoImpl<Entity, ID>
         }
 
         TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
-        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
+        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,args);
         log.debug("SQL create:\n" + sql.getSql());
 
         SqlPageRenderer pageSql = safeTo(SqlPageRenderer.class);
@@ -421,7 +421,7 @@ public class EntityDaoImpl<Entity, ID>
     @Override
     public <T> List<T> searchListByTreeArg(Class<T> resultClass, EntityTemplateTreeArg entityTemplateTreeArg){
         TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
-        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
+        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
         log.debug("SQL create:\n" + sql.getSql());
 
         return jdbcTemplate.query(
@@ -439,7 +439,7 @@ public class EntityDaoImpl<Entity, ID>
         }
 
         TemplateSearchArgRenderer entitySearchArgSql = safeTo(TemplateSearchArgRenderer.class);
-        PlaceholderJPql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
+        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByTreeArgSql(this.entityTemplate, entityTemplateTreeArg);
         log.debug("SQL create:\n" + sql.getSql());
 
         SqlPageRenderer pageSql = safeTo(SqlPageRenderer.class);

@@ -6,14 +6,13 @@ import com.xy.xsql.benjiql.core.TSqlConversions;
 import com.xy.xsql.benjiql.query.Select;
 import com.xy.xsql.benjiql.query.WhereCondition;
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.expression.UnknownExpression;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 
 import java.io.Serializable;
@@ -24,6 +23,8 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
 
 public abstract class Upsert<T> {
 
@@ -46,12 +47,12 @@ public abstract class Upsert<T> {
         }
 
         @Override
-        public PlaceholderJPql toJPql() {
-            Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> insertWithJPql = buildInsertWithJPql();
-            String sql = BlockManager.INSTANCE.print(insertWithJPql.getKey());
-            List<Object> args = insertWithJPql.getValue().collect(Collectors.toList());
+        public PlaceholderJSql toJSql() {
+            Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> insertWithJSql = buildInsertWithJSql();
+            String sql = BlockManager.INSTANCE.print(insertWithJSql.getKey());
+            List<Object> args = insertWithJSql.getValue().collect(Collectors.toList());
 
-            return new PlaceholderJPql()
+            return new PlaceholderJSql()
                     .withSql(sql)
                     .withArgs(args);
         }
@@ -93,7 +94,7 @@ public abstract class Upsert<T> {
             return insert;
         }
 
-        private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> buildInsertWithJPql(){
+        private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> buildInsertWithJSql(){
             List<Object> args = new ArrayList<>();
 
             TableName tableName = super.buildClassTable().getTableName();
@@ -154,12 +155,12 @@ public abstract class Upsert<T> {
         }
 
         @Override
-        public PlaceholderJPql toJPql() {
-            Map.Entry<com.xy.xsql.tsql.model.statement.dml.Update,Stream<Object>> insertWithJPql = buildUpdateWithJPql();
-            String sql = BlockManager.INSTANCE.print(insertWithJPql.getKey());
-            List<Object> args = insertWithJPql.getValue().collect(Collectors.toList());
+        public PlaceholderJSql toJSql() {
+            Map.Entry<com.xy.xsql.tsql.model.statement.dml.Update,Stream<Object>> insertWithJSql = buildUpdateWithJSql();
+            String sql = BlockManager.INSTANCE.print(insertWithJSql.getKey());
+            List<Object> args = insertWithJSql.getValue().collect(Collectors.toList());
 
-            return new PlaceholderJPql()
+            return new PlaceholderJSql()
                     .withSql(sql)
                     .withArgs(args);
         }
@@ -181,7 +182,7 @@ public abstract class Upsert<T> {
             return update;
         }
 
-        private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Update,Stream<Object>> buildUpdateWithJPql(){
+        private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Update,Stream<Object>> buildUpdateWithJSql(){
             List<Object> values = new ArrayList<>();
 
             TableName tableName = super.buildClassTable().getTableName();
@@ -193,13 +194,13 @@ public abstract class Upsert<T> {
                     })
                     .collect(Collectors.toList());
 
-            Map.Entry<Optional<Where>,Stream<Object>> whereWithJPql = super.buildWhereWithJPql();
-            values.addAll(whereWithJPql.getValue().collect(Collectors.toList()));
+            Map.Entry<Optional<Where>,Stream<Object>> whereWithJSql = super.buildWhereWithJSql();
+            values.addAll(whereWithJSql.getValue().collect(Collectors.toList()));
 
             com.xy.xsql.tsql.model.statement.dml.Update update = new com.xy.xsql.tsql.model.statement.dml.Update();
             update.setTableName(tableName);
             update.setSets(setItemList);
-            update.setWhere(whereWithJPql.getKey().orElse(null));
+            update.setWhere(whereWithJSql.getKey().orElse(null));
 
             return new AbstractMap.SimpleEntry<>(
                     update,
@@ -309,7 +310,7 @@ public abstract class Upsert<T> {
 
     public abstract String toSql();
 
-    public abstract PlaceholderJPql toJPql();
+    public abstract PlaceholderJSql toJSql();
 
     private ClassTableMetaBuilder buildClassTable(){
         if(builder == null){
@@ -323,8 +324,8 @@ public abstract class Upsert<T> {
         return TSqlConversions.where(this.wherePredicates().collect(Collectors.toList()));
     }
 
-    private Map.Entry<Optional<Where>,Stream<Object>> buildWhereWithJPql() {
-        Map.Entry<Stream<Predicate>,Stream<Object>> kv = this.wherePredicatesWithJPql();
+    private Map.Entry<Optional<Where>,Stream<Object>> buildWhereWithJSql() {
+        Map.Entry<Stream<Predicate>,Stream<Object>> kv = this.wherePredicatesWithJSql();
 
         Optional<Where> optionalWhere = TSqlConversions.where(kv.getKey()
                 .collect(Collectors.toList()));
@@ -343,13 +344,13 @@ public abstract class Upsert<T> {
                 .map(WhereCondition::buildPredicate);
     }
 
-    public Map.Entry<Stream<Predicate>,Stream<Object>> wherePredicatesWithJPql(){
+    public Map.Entry<Stream<Predicate>,Stream<Object>> wherePredicatesWithJSql(){
         List<Object> values = new ArrayList<>();
         Stream<Predicate> predicates = whereConditions.stream()
                 .map(whereCondition -> {
                     Object value = whereCondition.getValue();
                     values.add(value);
-                    value = new UnknownExpression("?");
+                    value = placeholder();
                     return whereCondition.buildPredicate(value);
                 });
 

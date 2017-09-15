@@ -6,7 +6,7 @@ import com.xy.xsql.entity.core.template.*;
 import com.xy.xsql.entity.core.util.CheckUtil;
 import com.xy.xsql.entity.core.util.ListUtil;
 import com.xy.xsql.entity.core.util.StringUtil;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.*;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
 
@@ -513,7 +513,7 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJPql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args) {
+    public PlaceholderJSql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args) {
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -563,14 +563,14 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
 
 
     @Override
-    public PlaceholderJPql getSelectByArgsSql(EntityTemplate entityTemplate, Object... args){
+    public PlaceholderJSql getSelectByArgsSql(EntityTemplate entityTemplate, Object... args){
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -646,7 +646,7 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
@@ -790,7 +790,7 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJPql getSelectJoinByArgsSql(EntityTemplate entityTemplate, Object... args) {
+    public PlaceholderJSql getSelectJoinByArgsSql(EntityTemplate entityTemplate, Object... args) {
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -905,13 +905,13 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
 
     @Override
-    public PlaceholderJPql getSelectJoinByTreeArgSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
+    public PlaceholderJSql getSelectJoinByTreeArgSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
@@ -1022,7 +1022,7 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
@@ -1093,11 +1093,11 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJPql getSelectArgsPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args) {
+    public PlaceholderJSql getSelectArgsPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args) {
         Integer rowStart = (pageStart-1) * pageSize;
         Integer rowEnd = pageStart * pageSize;
 
-        PlaceholderJPql argSql = getAddRowNumberWithTopSql(entityTemplate,rowNumberName,rowEnd,args);
+        PlaceholderJSql argSql = getAddRowNumberWithTopSql(entityTemplate,rowNumberName,rowEnd,args);
 
         argSql.setSql(getFilterRowNumberSql(argSql.getSql(),rowNumberName,rowStart));
 
@@ -1105,7 +1105,7 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public PlaceholderJPql getSelectArgsCountSql(EntityTemplate entityTemplate, Object... args) {
+    public PlaceholderJSql getSelectArgsCountSql(EntityTemplate entityTemplate, Object... args) {
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -1161,18 +1161,18 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
 
 
     @Override
-    public PlaceholderJPql getSelectJoinByTreeArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, EntityTemplateTreeArg entityTemplateTreeArg) {
+    public PlaceholderJSql getSelectJoinByTreeArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, EntityTemplateTreeArg entityTemplateTreeArg) {
         Integer rowStart = (pageStart-1) * pageSize;
         Integer rowEnd = pageStart * pageSize;
 
-        PlaceholderJPql argSql = getAddRowNumberWithTopSql(entityTemplate,rowNumberName,rowEnd,entityTemplateTreeArg);
+        PlaceholderJSql argSql = getAddRowNumberWithTopSql(entityTemplate,rowNumberName,rowEnd,entityTemplateTreeArg);
 
         argSql.setSql(getFilterRowNumberSql(argSql.getSql(),rowNumberName,rowStart));
 
@@ -1180,7 +1180,7 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public PlaceholderJPql getSelectJoinByTreeArgCountSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
+    public PlaceholderJSql getSelectJoinByTreeArgCountSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
@@ -1257,7 +1257,7 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
@@ -1271,7 +1271,7 @@ public class MSSQLTemplateRenderer
      * @param args Arg Array
      * @return ArgSql
      */
-    public PlaceholderJPql getAddRowNumberWithTopSql(EntityTemplate entityTemplate, String rowNumberName, Integer rowNumberTop, Object... args){
+    public PlaceholderJSql getAddRowNumberWithTopSql(EntityTemplate entityTemplate, String rowNumberName, Integer rowNumberTop, Object... args){
         if(args.length > entityTemplate.getParams().size()){
             throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
@@ -1374,12 +1374,12 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }
 
-    public PlaceholderJPql getAddRowNumberWithTopSql(EntityTemplate entityTemplate, String rowNumberName, Integer rowNumberTop, EntityTemplateTreeArg entityTemplateTreeArg){
+    public PlaceholderJSql getAddRowNumberWithTopSql(EntityTemplate entityTemplate, String rowNumberName, Integer rowNumberTop, EntityTemplateTreeArg entityTemplateTreeArg){
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT");
@@ -1519,7 +1519,7 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sb.toString())
                 .withArgs(argList);
     }

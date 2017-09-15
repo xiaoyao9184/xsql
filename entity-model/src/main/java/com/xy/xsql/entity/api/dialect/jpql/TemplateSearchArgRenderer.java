@@ -1,6 +1,6 @@
 package com.xy.xsql.entity.api.dialect.jpql;
 
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 
@@ -16,7 +16,7 @@ public interface TemplateSearchArgRenderer {
      * @param args 参数
      * @return SQL + 参数
      */
-    PlaceholderJPql getSelectJoinByArgsSql(EntityTemplate entityData, Object... args);
+    PlaceholderJSql getSelectJoinByArgsSql(EntityTemplate entityData, Object... args);
 
     /**
      * 多表 参数查询
@@ -24,5 +24,5 @@ public interface TemplateSearchArgRenderer {
      * @param entityDataTreeArg 参数（树状）
      * @return SQL + 参数
      */
-    PlaceholderJPql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateTreeArg entityDataTreeArg);
+    PlaceholderJSql getSelectJoinByTreeArgSql(EntityTemplate entityData, EntityTemplateTreeArg entityDataTreeArg);
 }

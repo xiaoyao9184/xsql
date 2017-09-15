@@ -1,6 +1,6 @@
 package com.xy.xsql.entity.api.dialect.jpql;
 
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 
 /**
@@ -15,6 +15,6 @@ public interface TemplateSelectArgRenderer {
      * @param args 参数
      * @return SQL + 参数
      */
-    PlaceholderJPql getSelectByArgsSql(EntityTemplate entityData, Object... args);
+    PlaceholderJSql getSelectByArgsSql(EntityTemplate entityData, Object... args);
 
 }

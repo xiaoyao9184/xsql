@@ -5,7 +5,7 @@ import com.xy.xsql.benjiql.core.ProxyObjectMethodRecording;
 import com.xy.xsql.benjiql.core.TSqlConversions;
 import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
@@ -22,6 +22,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
 
 public class Select<T> implements QueryChain<T> {
     private Class<T> cls;
@@ -105,12 +107,12 @@ public class Select<T> implements QueryChain<T> {
 //        return "SELECT * FROM " + fromClause() + buildWhere().map(sql -> " WHERE " + sql).orElse("");
     }
 
-    public PlaceholderJPql toJPql(){
-        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification,List<Object>> queryWithJPql = buildQueryWithJPql();
-        String sql = BlockManager.INSTANCE.print(queryWithJPql.getKey());
-        List<Object> args = queryWithJPql.getValue();
+    public PlaceholderJSql toJSql(){
+        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification,List<Object>> queryWithJSql = buildQueryWithJSql();
+        String sql = BlockManager.INSTANCE.print(queryWithJSql.getKey());
+        List<Object> args = queryWithJSql.getValue();
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(sql)
                 .withArgs(args);
     }
@@ -154,14 +156,14 @@ public class Select<T> implements QueryChain<T> {
         return TSqlConversions.where(wherePredicates);
     }
 
-    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification,List<Object>> buildQueryWithJPql(){
+    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification,List<Object>> buildQueryWithJSql(){
         com.xy.xsql.tsql.model.clause.select.Select.SelectItem item = new com.xy.xsql.tsql.model.clause.select.Select.SelectItem();
         item.setUseAll(true);
 
         From from = new From();
         from.setTableSourceList(Collections.singletonList(fromClause()));
 
-        Optional<Map.Entry<Where,List<Object>>> whereWithArgs = buildWhereWithJPql();
+        Optional<Map.Entry<Where,List<Object>>> whereWithArgs = buildWhereWithJSql();
         Where where = whereWithArgs.map(Map.Entry::getKey).orElse(null);
 
         com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification query = new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification();
@@ -172,14 +174,14 @@ public class Select<T> implements QueryChain<T> {
         return new AbstractMap.SimpleEntry<>(query,whereWithArgs.map(Map.Entry::getValue).orElse(Collections.emptyList()));
     }
 
-    private Optional<Map.Entry<Where,List<Object>>> buildWhereWithJPql() {
+    private Optional<Map.Entry<Where,List<Object>>> buildWhereWithJSql() {
         Stream<Map.Entry<Predicate,Object>> predicateObjectStream = join
                 .map(j -> {
-                    Stream<Map.Entry<Predicate,Object>> s1 = j.wherePredicatesWithJPql();
-                    Stream<Map.Entry<Predicate,Object>> s2 = this.wherePredicatesWithJPql();
+                    Stream<Map.Entry<Predicate,Object>> s1 = j.wherePredicatesWithJSql();
+                    Stream<Map.Entry<Predicate,Object>> s2 = this.wherePredicatesWithJSql();
                     return Stream.concat(s1,s2);
                 })
-                .orElse(this.wherePredicatesWithJPql());
+                .orElse(this.wherePredicatesWithJSql());
 
         Map<Predicate,Object> predicateObjectMap = predicateObjectStream
                 .collect(Collectors.toMap(
@@ -236,13 +238,13 @@ public class Select<T> implements QueryChain<T> {
     }
 
     @Override
-    public Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJPql(){
+    public Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJSql(){
         return whereConditions.stream()
                 .map(whereCondition -> {
                     Object value = whereCondition.getValue();
                     Predicate predicate = whereCondition.getPredicateFunction().apply(
                             whereCondition.getFieldGetter(),
-                            new UnknownExpression("?"));
+                            placeholder());
                     return new AbstractMap.SimpleEntry<>(
                             predicate,
                             value);

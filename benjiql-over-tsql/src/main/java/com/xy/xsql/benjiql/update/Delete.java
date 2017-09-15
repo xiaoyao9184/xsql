@@ -8,17 +8,18 @@ import com.xy.xsql.benjiql.query.Select;
 import com.xy.xsql.benjiql.query.WhereCondition;
 import com.xy.xsql.benjiql.util.Conventions;
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.expression.UnknownExpression;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
 
 public class Delete<T> {
     private final Class<T> cls;
@@ -93,12 +94,12 @@ public class Delete<T> {
         return BlockManager.INSTANCE.print(delete);
     }
 
-    public PlaceholderJPql toJPql(){
-        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Delete,Stream<Object>> queryWithJPql = buildDeleteWithJPql();
-        com.xy.xsql.tsql.model.statement.dml.Delete delete = queryWithJPql.getKey();
-        List<Object> args = queryWithJPql.getValue().collect(Collectors.toList());
+    public PlaceholderJSql toJSql(){
+        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Delete,Stream<Object>> queryWithJSql = buildDeleteWithJSql();
+        com.xy.xsql.tsql.model.statement.dml.Delete delete = queryWithJSql.getKey();
+        List<Object> args = queryWithJSql.getValue().collect(Collectors.toList());
 
-        return new PlaceholderJPql()
+        return new PlaceholderJSql()
                 .withSql(BlockManager.INSTANCE.print(delete))
                 .withArgs(args);
     }
@@ -130,11 +131,11 @@ public class Delete<T> {
         return TSqlConversions.where(this.wherePredicates().collect(Collectors.toList()));
     }
 
-    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Delete,Stream<Object>> buildDeleteWithJPql(){
+    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Delete,Stream<Object>> buildDeleteWithJSql(){
         TableName tableName = new TableName();
         tableName.setTableOrViewName(Conventions.toDbName(cls.getSimpleName()));
 
-        Map.Entry<Optional<Where>,Stream<Object>> kv = buildWhereWithJPql();
+        Map.Entry<Optional<Where>,Stream<Object>> kv = buildWhereWithJSql();
 
         com.xy.xsql.tsql.model.statement.dml.Delete delete = new com.xy.xsql.tsql.model.statement.dml.Delete();
         delete.setTableName(tableName);
@@ -143,8 +144,8 @@ public class Delete<T> {
         return new AbstractMap.SimpleEntry<>(delete,kv.getValue());
     }
 
-    public Map.Entry<Optional<Where>,Stream<Object>> buildWhereWithJPql() {
-        Map.Entry<Stream<Predicate>,Stream<Object>> kv = this.wherePredicatesWithJPql();
+    public Map.Entry<Optional<Where>,Stream<Object>> buildWhereWithJSql() {
+        Map.Entry<Stream<Predicate>,Stream<Object>> kv = this.wherePredicatesWithJSql();
 
         Optional<Where> optionalWhere = TSqlConversions.where(kv.getKey()
                 .collect(Collectors.toList()));
@@ -172,13 +173,13 @@ public class Delete<T> {
 
 //    @Override
     @SuppressWarnings("Duplicates")
-    public Map.Entry<Stream<Predicate>,Stream<Object>> wherePredicatesWithJPql(){
+    public Map.Entry<Stream<Predicate>,Stream<Object>> wherePredicatesWithJSql(){
         List<Object> values = new ArrayList<>();
         Stream<Predicate> predicates = whereConditions.stream()
                 .map(whereCondition -> {
                     Object value = whereCondition.getValue();
                     values.add(value);
-                    value = new UnknownExpression("?");
+                    value = placeholder();
                     Predicate predicate = whereCondition.getPredicateFunction().apply(
                             whereCondition.getFieldGetter(),
                             value);

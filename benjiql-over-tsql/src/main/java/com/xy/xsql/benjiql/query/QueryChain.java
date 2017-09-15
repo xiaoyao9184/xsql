@@ -28,7 +28,7 @@ public interface QueryChain<COLUMN> {
 
     Stream<Object> whereValues();
 
-    Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJPql();
+    Stream<Map.Entry<Predicate,Object>> wherePredicatesWithJSql();
 
 //    public int setPlaceholders(PreparedStatement statement) throws SQLException;
 }

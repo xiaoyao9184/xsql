@@ -1,6 +1,6 @@
 package com.xy.xsql.entity.api.dialect.jpql;
 
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityTemplate;
 
 /**
@@ -16,5 +16,5 @@ public interface TemplateDistinctSearchArgRenderer {
      * @param args 参数
      * @return SQL + 参数
      */
-    PlaceholderJPql getDistinctJoinByArgsSql(EntityTemplate entityTemplate, Object... args);
+    PlaceholderJSql getDistinctJoinByArgsSql(EntityTemplate entityTemplate, Object... args);
 }

@@ -4,7 +4,7 @@ import com.xy.xsql.benjiql.example.Conspiracy;
 import com.xy.xsql.benjiql.example.Person;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.block.meta.MetaManager;
-import com.xy.xsql.entity.model.jpql.PlaceholderJPql;
+import com.xy.xsql.model.sql.PlaceholderJSql;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +52,7 @@ public class DeleteTest {
             .like("%w%")
             .and(Person::getFirstName)
             .notEqualTo("bob")
-            .toJPql().getSql();
+            .toJSql().getSql();
 
         String check = "DELETE person WHERE last_name = ? AND favourite_number = ? AND first_name LIKE ? AND first_name != ?";
 
@@ -77,7 +77,7 @@ public class DeleteTest {
                 .equalTo("nsa")
                 .andRight(Person::getLastName)
                 .equalTo("smith")
-                .toJPql().getSql();
+                .toJSql().getSql();
 
         String check = "DELETE conspiracy_person " +
                 "WHERE conspiracy_name = ? " +
@@ -99,12 +99,12 @@ public class DeleteTest {
 
     @Test
     public void should_set_values() throws SQLException {
-        PlaceholderJPql jpql = delete(Person.class)
+        PlaceholderJSql jpql = delete(Person.class)
                 .where(Person::getLastName)
                 .equalTo("weber")
                 .and(Person::getFavouriteNumber)
                 .equalTo(6)
-                .toJPql();
+                .toJSql();
 
         String sql = jpql.getSql();
         String check = "DELETE person WHERE last_name = ? AND favourite_number = ?";
