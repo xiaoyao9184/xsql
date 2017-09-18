@@ -1,17 +1,17 @@
-package com.xy.xsql.model;
+package com.xy.xsql.model.param;
 
 /**
  * Created by xiaoyao9184 on 2017/9/14.
  */
-public class ModelParamHolder<M,P> {
+public class ParameterModel<M,P> {
 
     private M model;
     private P param;
 
-    public ModelParamHolder() {
+    public ParameterModel() {
     }
 
-    public ModelParamHolder(M model, P param) {
+    public ParameterModel(M model, P param) {
         this.model = model;
         this.param = param;
     }
