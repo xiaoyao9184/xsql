@@ -10,7 +10,7 @@ import java.io.StringWriter;
 /**
  * Created by xiaoyao9184 on 2017/9/6.
  */
-public class TableOptionConvertersTest {
+public class AlterTableOptionConvertersTest {
 
 
     @Test

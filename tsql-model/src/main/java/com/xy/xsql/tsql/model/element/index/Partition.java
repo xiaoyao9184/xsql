@@ -47,4 +47,12 @@ public class Partition {
     public void setUseDefault(boolean useDefault) {
         this.useDefault = useDefault;
     }
+
+    public boolean isUseNull() {
+        return useNull;
+    }
+
+    public void setUseNull(boolean useNull) {
+        this.useNull = useNull;
+    }
 }

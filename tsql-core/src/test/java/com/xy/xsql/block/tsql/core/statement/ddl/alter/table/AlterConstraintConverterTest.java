@@ -1,0 +1,29 @@
+package com.xy.xsql.block.tsql.core.statement.ddl.alter.table;
+
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.StringWriter;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by xiaoyao9184 on 2017/9/18
+ */
+public class AlterConstraintConverterTest {
+
+    @Test
+    public void testMetaPrint() throws Exception {
+        BlockMeta b = AlterConstraintConverter.meta;
+
+        StringWriter writer = MetaBlockPrinter.print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "[ WITH ] { CHECK | NOCHECK } CONSTRAINT\n" +
+                        "\t{ ALL | constraint_name [,...n] }");
+    }
+
+}

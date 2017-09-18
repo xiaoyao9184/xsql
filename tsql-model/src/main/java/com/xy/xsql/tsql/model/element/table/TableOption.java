@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.model.element.table;
 
 import com.xy.xsql.tsql.model.element.collation.Collate;
 import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
+import com.xy.xsql.tsql.model.statement.ddl.alter.table.Item;
 
 import java.util.List;
 
@@ -12,7 +13,10 @@ import java.util.List;
 public interface TableOption {
 
 
-
+    /**
+     * TODO simple of
+     * @see com.xy.xsql.tsql.model.element.index.IndexOption.DataCompression
+     */
     enum DataCompressionType {
         NONE,
         ROW,

@@ -342,7 +342,14 @@ public enum Keywords {
          * @see com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable
          * @see com.xy.xsql.tsql.model.element.column.ColumnIndex
          */
-        FILESTREAM_ON, TEXTIMAGE_ON, PERIOD, BUCKET_COUNT;
+        FILESTREAM_ON, TEXTIMAGE_ON, PERIOD, BUCKET_COUNT,
+
+        /**
+         * @see com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTable
+         */
+        ONLINE, MAXDOP, MOVE, CHANGE_TRACKING, TRACK_COLUMNS_UPDATED, SWITCH,
+        WAIT_AT_LOW_PRIORITY, MAX_DURATION, ABORT_AFTER_WAIT, MINUTES, INFINITE, HISTORY_RETENTION_PERIOD,
+        REBUILD, SORT_IN_TEMPDB, LOCK_ESCALATION, FILETABLE_NAMESPACE, ENABLE, OFF_WITHOUT_DATA_RECOVERY, PAUSED;
 
         @Override
         public String toString(){

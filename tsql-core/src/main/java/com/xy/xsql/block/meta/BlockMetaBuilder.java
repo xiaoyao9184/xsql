@@ -211,6 +211,18 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
     }
 
     /**
+     * build anonymous reference meta
+     * @return BlockMetaBuilder
+     */
+    public <NewScope> BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, NewScope> ref_scope(Function<Scope,NewScope> getter) {
+        this.scope(getter);
+        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, NewScope>
+                (new BlockMeta())
+                .enter(this,
+                        meta -> target.setReferenceMeta(meta));
+    }
+
+    /**
      * set list collection meta
      * @return THIS
      */
