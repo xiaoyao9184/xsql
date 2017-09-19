@@ -38,9 +38,9 @@ public class PrimaryUniqueConvertersTest {
                         "\t\tWITH FILLFACTOR = fillfactor\n" +
                         "\t\t| WITH ( index_option [,...n] )\n" +
                         "\t]\n" +
-                        "\tON { partition_scheme_name ( partition_column_name )\n" +
+                        "\t[ ON { partition_scheme_name ( partition_column_name )\n" +
                         "\t\t| filegroup_name\n" +
-                        "\t\t| \"default\" }\n");
+                        "\t\t| \"default\" } ]\n");
     }
 
     @Test
@@ -58,9 +58,9 @@ public class PrimaryUniqueConvertersTest {
                         "\t\tWITH FILLFACTOR = fillfactor\n" +
                         "\t\t| WITH ( <index_option> [,...n] )\n" +
                         "\t]\n" +
-                        "\tON { partition_scheme_name ( partition_column_name )\n" +
+                        "\t[ ON { partition_scheme_name ( partition_column_name )\n" +
                         "\t\t| filegroup_name\n" +
-                        "\t\t| \"default\" }\n");
+                        "\t\t| \"default\" } ]\n");
     }
 
     @Test

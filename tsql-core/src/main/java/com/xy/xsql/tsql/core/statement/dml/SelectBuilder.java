@@ -12,8 +12,11 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Set;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
+import java.util.Arrays;
+
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
+import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
@@ -73,6 +76,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
                         target::getOrderBy,
                         target::setOrderBy))
                 .in(this);
+    }
+
+    public SelectBuilder withOrderBy(OrderBy orderBy) {
+        target.setOrderBy(orderBy);
+        return this;
     }
 
     public ForBuilder<SelectBuilder> withFor() {
@@ -453,6 +461,13 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
+        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(com.xy.xsql.tsql.model.clause.select.Select.SelectItem... selectItems) {
+            initAdd(Arrays.asList(selectItems),
+                    target::getSelectList,
+                    target::setSelectList);
+            return this;
+        }
+
         public QuerySpecificationBuilder<ParentBuilder> withInto(String newTable) {
             return new IntoBuilder<QuerySpecificationBuilder<ParentBuilder>>
                     (initSet(Into::new,
@@ -468,6 +483,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
             target.setFrom(from);
             return new FromBuilder<QuerySpecificationBuilder<ParentBuilder>>(from)
                     .in(this);
+        }
+
+        public QuerySpecificationBuilder<ParentBuilder> withWhere(Where where) {
+            target.setWhere(where);
+            return this;
         }
 
         public WhereBuilder<QuerySpecificationBuilder<ParentBuilder>> withWhere() {
@@ -656,6 +676,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
         public HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> $Having() {
             return withHaving();
         }
+
     }
 
 }

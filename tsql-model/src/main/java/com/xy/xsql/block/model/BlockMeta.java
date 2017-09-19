@@ -63,6 +63,8 @@ import java.util.function.Predicate;
  * Is 'Data meta' with stationary String data
  * {@link #keyword} mode meta corresponds to the model scope and name is the same string
  *
+ * TODO maybe use Generic description Predicate and check for print
+ *
  * Created by xiaoyao9184 on 2017/3/14.
  */
 @SuppressWarnings({"unchecked", "unused", "SameParameterValue"})

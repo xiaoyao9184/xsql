@@ -7,6 +7,8 @@ import com.xy.xsql.block.exception.MetaException;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.model.KeywordListBlock;
 import com.xy.xsql.core.builder.BaseBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.COMMA_;
 @SuppressWarnings({"Duplicates", "unchecked"})
 public class ModelKeywordBlockConverter<MODEL>
         implements BaseBuilder<MODEL,KeywordListBlock> {
+
+    private static final Logger logger = LoggerFactory.getLogger(ModelKeywordBlockConverter.class);
 
 
     @Override
@@ -54,6 +58,7 @@ public class ModelKeywordBlockConverter<MODEL>
         if(meta.isOptional()){
             Predicate optionalPredicate = meta.getOptionalPredicate();
             if(optionalPredicate == null){
+                logger.error("Meta {}, miss option predicate !", meta.toString());
                 throw miss_option_predicate(meta);
             }
             //noinspection unchecked
@@ -61,6 +66,7 @@ public class ModelKeywordBlockConverter<MODEL>
                 return;
             }
         }else if(model == null){
+            logger.error("Meta {}, miss scope model !", meta.toString());
             throw miss_model(meta);
         }
 
@@ -81,6 +87,8 @@ public class ModelKeywordBlockConverter<MODEL>
         //data
         if(meta.isExclusive()){
             if(meta.getExclusivePredicate().size() != meta.getSub().size()){
+                logger.error("Meta {}, sub meta count size not same with predicate count : {}/{}",
+                        meta.toString(), meta.getSub().size(), meta.getExclusivePredicate().size());
                 throw MetaException.not_same_exclusive_meta_and_predicate(meta);
             }
 
@@ -99,6 +107,7 @@ public class ModelKeywordBlockConverter<MODEL>
             if(index != -1){
                 //TODO
                 //hide exclusive
+                logger.debug("Meta {}, all predicates are not passed, maybe use hide meta .", meta.toString());
                 /**
                  * {@link com.xy.xsql.block.tsql.core.clause.select.GroupByConverter.ColumnNameItemConverter}
                  */
@@ -106,6 +115,7 @@ public class ModelKeywordBlockConverter<MODEL>
                         .byModel(model.getClass())
                         .meta();
                 if(!optional.isPresent()){
+                    logger.error("Meta {}, all predicates are not passed !", meta.toString());
                     throw MetaException.nothing_pass_exclusive(meta);
                 }else{
                     build(optional.get(), model, context);
@@ -119,6 +129,8 @@ public class ModelKeywordBlockConverter<MODEL>
                         .byConverter(meta.getReferenceConverter())
                         .meta();
                 if(!optional.isPresent()){
+                    logger.error("Meta {}, miss reference meta by converter {} !",
+                            meta.toString(), meta.getReferenceConverter().getName());
                     throw miss_reference_meta(meta);
                 }else{
                     refMeta = optional.get();
@@ -127,6 +139,13 @@ public class ModelKeywordBlockConverter<MODEL>
                 refMeta = meta.getReferenceMeta();
             }
             Object refModel = meta.getScope(model);
+            //TODO maybe check whether BlockMeta supports this model
+            if(refModel == null){
+                logger.error("Meta {}, miss scope model !", meta.toString());
+                throw miss_model(meta);
+            }
+            logger.debug("Meta {}, reference meta {} use new scope {} .",
+                    meta, refMeta, refModel.getClass().getName());
 
             if(meta.isList() &&
                     refModel instanceof List){
@@ -146,6 +165,8 @@ public class ModelKeywordBlockConverter<MODEL>
             if(meta.isList() ||
                     meta.isRepeat()){
                 if(meta.getSub().size() != 1){
+                    logger.error("Meta {}, collection meta sub meta count must be single {}/0:",
+                            meta.toString(), meta.getSub().size());
                     throw MetaException.collection_meta_not_single(meta);
                 }
                 //item meta
@@ -153,6 +174,7 @@ public class ModelKeywordBlockConverter<MODEL>
                 //collection model
                 Object collectionModel = meta.getScope(model);
                 if(!(collectionModel instanceof List)){
+                    logger.error("Meta {}, collection meta scope count must be multiple :", meta.toString());
                     throw MetaException.collection_model_not_collection(meta);
                 }
                 //delimiter
@@ -174,6 +196,7 @@ public class ModelKeywordBlockConverter<MODEL>
             //Data
             Object data = meta.getScope(model);
             if(data == null){
+                logger.error("Meta {}, miss scope :", meta.toString());
                 throw miss_model(meta);
             }
 
@@ -189,6 +212,7 @@ public class ModelKeywordBlockConverter<MODEL>
                 //collection model
                 List<Object> collectionModel = (List)data;
                 if(collectionModel.size() <= 0){
+                    logger.error("Meta {}, collection meta scope count must be multiple  :", meta.toString());
                     throw data_collection_empty(meta);
                 }
                 //delimiter
@@ -202,6 +226,8 @@ public class ModelKeywordBlockConverter<MODEL>
             }else{
                 //Unknown
                 //TODO may be hide meta
+                logger.debug("Meta {}, data {} is unknown .",
+                        meta.toString(), data.getClass().getName());
                 context.add(data.toString());
             }
         }
@@ -216,6 +242,8 @@ public class ModelKeywordBlockConverter<MODEL>
      * @param context out
      */
     public void build(Collection<BlockMeta> collectionMeta, Object model, String delimiter, Context context) {
+        logger.debug("Multiple {} meta use same scope model {} , use delimiter '{}'",
+                collectionMeta.size(), model.getClass(), delimiter);
         //The default format for the subset
         //line
         String lineDefault = context.sub_format()
@@ -296,6 +324,8 @@ public class ModelKeywordBlockConverter<MODEL>
      * @param context out
      */
     public void build(BlockMeta meta, Collection<Object> collectionModel, String delimiter, Context context) {
+        logger.debug("Multiple {} scope model use same meta {} , use delimiter '{}'",
+                collectionModel.size(), meta.toString(), delimiter);
         //The default format for the subset
         //line
         String lineDefault = context.sub_format()
@@ -374,6 +404,8 @@ public class ModelKeywordBlockConverter<MODEL>
      * @param context out
      */
     public void build(Collection<Object> collectionModel, String delimiter, Context context) {
+        logger.debug("Multiple {} scope model , use delimiter '{}'",
+                collectionModel.size(), delimiter);
         List<String> listTemp = collectionModel
                 .stream()
                 .map(itemModel -> {

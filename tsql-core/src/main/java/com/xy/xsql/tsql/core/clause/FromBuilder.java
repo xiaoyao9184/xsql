@@ -26,7 +26,6 @@ import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.SUB_QUERY;
-import static com.xy.xsql.tsql.core.statement.dml.SelectBuilder.SELECT;
 
 /**
  * FromBuilder
@@ -53,6 +52,13 @@ public class FromBuilder<ParentBuilder>
         return new TableSourceBuilder<FromBuilder<ParentBuilder>>
                 (target.getTableSourceList()::add)
                 .in(this);
+    }
+
+    public FromBuilder<ParentBuilder> withItem(From.TableSource... tableSources) {
+        initAdd(Arrays.asList(tableSources),
+                target::getTableSourceList,
+                target::setTableSourceList);
+        return this;
     }
 
 

@@ -31,6 +31,10 @@ public class PrimaryUniques {
             super(tar);
         }
 
+        public ColumnPrimaryUniqueBuilder() {
+            super(new PrimaryUnique());
+        }
+
 
         public ColumnPrimaryUniqueBuilder<ParentBuilder> withUsePrimaryKey(boolean usePrimaryKey){
             target.setUsePrimaryKey(usePrimaryKey);

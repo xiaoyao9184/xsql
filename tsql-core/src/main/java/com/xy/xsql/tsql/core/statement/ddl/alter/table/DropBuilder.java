@@ -185,6 +185,10 @@ public class DropBuilder<ParentBuilder>
             super(tar);
         }
 
+        public DropColumnBuilder() {
+            super(new Drop.DropColumn());
+        }
+
         public DropColumnBuilder<ParentBuilder> withUseIfExists(boolean useIfExists) {
             target.setUseIfExists(useIfExists);
             return this;

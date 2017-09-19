@@ -33,9 +33,9 @@ public class ComputedColumnDefinitionConvertersTest {
                         "\t\t\t\tWITH FILLFACTOR = fillfactor\n" +
                         "\t\t\t\t| WITH ( index_option [,...n] )\n" +
                         "\t\t\t]\n" +
-                        "\t\t\tON { partition_scheme_name ( partition_column_name )\n" +
+                        "\t\t\t[ ON { partition_scheme_name ( partition_column_name )\n" +
                         "\t\t\t\t| filegroup_name\n" +
-                        "\t\t\t\t| \"default\" }\n" +
+                        "\t\t\t\t| \"default\" } ]\n" +
                         "\t\t | [ FOREIGN KEY ] \n" +
                         "\t\t\tREFERENCES [ schema_name . ] referenced_table_name [ ( ref_column ) ]\n" +
                         "\t\t\t[ ON DELETE [ NO ACTION | CASCADE | SET NULL | SET DEFAULT ] ]\n" +

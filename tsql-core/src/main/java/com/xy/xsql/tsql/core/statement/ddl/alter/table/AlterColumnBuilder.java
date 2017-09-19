@@ -16,6 +16,10 @@ public class AlterColumnBuilder<ParentBuilder>
         super(target);
     }
 
+    public AlterColumnBuilder() {
+        super(new AlterColumn());
+    }
+
     public AlterColumnBuilder<ParentBuilder> withColumnName(String name){
         target.setColumnName(name);
         return this;

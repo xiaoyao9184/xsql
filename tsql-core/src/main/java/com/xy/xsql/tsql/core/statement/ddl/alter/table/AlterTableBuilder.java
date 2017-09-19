@@ -14,6 +14,10 @@ public class AlterTableBuilder extends CodeBuilder<AlterTable> {
         super(target);
     }
 
+    public AlterTableBuilder() {
+        super(new AlterTable());
+    }
+
     public AlterTableBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
