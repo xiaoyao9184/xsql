@@ -269,14 +269,14 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
         }
 
         /**
-         * Transform to
+         * Transform to TableConstraint
          * @param constraintName constraintName
          * @return TableConstraintBuilder
          */
         public TableConstraintBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
-                    .in(this.out())
+                    .enter(this.out(),cd -> target.set(cd))
                     .withConstraintName(constraintName);
         }
 
@@ -325,7 +325,7 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
         }
 
         /**
-         * Transform to
+         * Transform to TableIndex
          * @param indexName indexName
          * @return TableIndexBuilder
          */
