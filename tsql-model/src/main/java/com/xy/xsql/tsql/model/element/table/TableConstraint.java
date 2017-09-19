@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.model.element.table;
 
 import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.constraint.Constraint;
+import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
 
@@ -12,7 +13,7 @@ import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTa
  * Created by xiaoyao9184 on 2017/8/7.
  */
 public class TableConstraint
-        implements Constraint, TableTypeDefinition.Item, DiskBasedCreateTable.Item, MemoryOptimizedCreateTable.Item {
+        implements Constraint, TableTypeDefinition.Item, DiskBasedCreateTable.Item, MemoryOptimizedCreateTable.Item, Add.AddItem {
 
     //CONSTRAINT constraint_name
     private String constraintName;

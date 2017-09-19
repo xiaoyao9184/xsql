@@ -8,7 +8,7 @@ import java.util.List;
 public class AlterConstraint implements Item {
 
     private boolean useWith;
-    private boolean useEnable;
+    private boolean useCheck;
     private List<String> constraintNames;
 
     public boolean isUseWith() {
@@ -19,12 +19,12 @@ public class AlterConstraint implements Item {
         this.useWith = useWith;
     }
 
-    public boolean isUseEnable() {
-        return useEnable;
+    public boolean isUseCheck() {
+        return useCheck;
     }
 
-    public void setUseEnable(boolean useEnable) {
-        this.useEnable = useEnable;
+    public void setUseCheck(boolean useCheck) {
+        this.useCheck = useCheck;
     }
 
     public List<String> getConstraintNames() {

@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.model.element.column;
 
+import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
 
 /**
@@ -7,7 +8,7 @@ import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
  * Created by xiaoyao9184 on 2017/8/7.
  */
 public class ColumnSetDefinition
-        implements DiskBasedCreateTable.Item {
+        implements DiskBasedCreateTable.Item, Add.AddItem {
     //column_set_name XML COLUMN_SET FOR ALL_SPARSE_COLUMNS
     private String columnSetName;
 

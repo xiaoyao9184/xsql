@@ -9,6 +9,12 @@ public class Collate implements Clause {
 
     private String name;
 
+    public Collate(){}
+
+    public Collate(String name){
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

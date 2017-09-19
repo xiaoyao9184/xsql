@@ -6,6 +6,7 @@ import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.collation.Collate;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class ColumnDefinition
         extends ColumnName
-        implements TableTypeDefinition.Item, DiskBasedCreateTable.Item, MemoryOptimizedCreateTable.Item {
+        implements TableTypeDefinition.Item, DiskBasedCreateTable.Item, MemoryOptimizedCreateTable.Item, Add.AddItem {
 
     //<data_type>
     //scalar_data_type
