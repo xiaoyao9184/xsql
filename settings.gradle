@@ -12,3 +12,4 @@ include 'entity-test'
 include 'dialect-mssql'
 
 include 'benjiql-over-tsql'
+include 'hsweb-ezorm-over-tsql'
