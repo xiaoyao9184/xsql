@@ -160,7 +160,7 @@ public class SelectConverter
                                 .description("as column_alias")
                                 .optional(d -> d.getColumnAlias() == null)
                                 .sub()
-                                    .optional(Select.SelectItem::isUseAs)
+                                    .optional(d -> !d.isUseAs())
                                     .keyword(Keywords.AS)
                                     .and()
                                 .sub("column_alias")
