@@ -128,6 +128,7 @@ public class SelectBuilder<ParentBuilder>
     public SelectBuilder<ParentBuilder> $(ColumnName columnName, String columnAlias) {
         return withSelectItem()
                 .withColumnName(columnName)
+                .withAs()
                 .withColumnAlias(columnAlias)
                 .and();
     }
@@ -169,6 +170,7 @@ public class SelectBuilder<ParentBuilder>
     public SelectBuilder<ParentBuilder> $(Expression expression, String columnAlias) {
         return withSelectItem()
                 .withExpression(expression)
+                .withAs()
                 .withColumnAlias(columnAlias)
                 .and();
     }

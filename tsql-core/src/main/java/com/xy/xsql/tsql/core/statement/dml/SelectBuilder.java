@@ -588,6 +588,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
         public QuerySpecificationBuilder<ParentBuilder> $(ColumnName columnName, String columnAlias) {
             return withSelectItem()
                     .withColumnName(columnName)
+                    .withAs()
                     .withColumnAlias(columnAlias)
                     .and();
         }
@@ -627,6 +628,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
         public QuerySpecificationBuilder<ParentBuilder> $(Expression expression, String columnAlias) {
             return withSelectItem()
                     .withExpression(expression)
+                    .withAs()
                     .withColumnAlias(columnAlias)
                     .and();
         }
