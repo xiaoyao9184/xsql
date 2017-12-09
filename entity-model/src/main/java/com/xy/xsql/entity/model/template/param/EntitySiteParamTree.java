@@ -24,8 +24,8 @@ public class EntitySiteParamTree extends EntitySiteParam {
     }
 
     /**
-     * EntitySiteParam append USE flag and entity args
-     * @param entityArgs entity args
+     * EntitySiteParam append USE flag and entities args
+     * @param entityArgs entities args
      */
     public EntitySiteParamTree(Object... entityArgs){
         super();
@@ -34,9 +34,9 @@ public class EntitySiteParamTree extends EntitySiteParam {
     }
 
     /**
-     * EntitySiteParam append USE flag, entity class and entity args
-     * @param entityClass entity class
-     * @param entityArgs entity args
+     * EntitySiteParam append USE flag, entities class and entities args
+     * @param entityClass entities class
+     * @param entityArgs entities args
      */
     public EntitySiteParamTree(Class entityClass, Object... entityArgs){
         super();
@@ -46,9 +46,9 @@ public class EntitySiteParamTree extends EntitySiteParam {
     }
 
     /**
-     * EntitySiteParam append USE flag, entity column name and entity args
-     * @param bindColumnName entity column name
-     * @param entityArgs entity args
+     * EntitySiteParam append USE flag, entities column name and entities args
+     * @param bindColumnName entities column name
+     * @param entityArgs entities args
      */
     public EntitySiteParamTree(String bindColumnName, Object... entityArgs){
         super();

@@ -1,6 +1,6 @@
 package com.xy.xsql.spring.dialect.h2;
 
-import com.xy.xsql.entity.api.dialect.TypeMapper;
+import com.xy.xsql.entity.api.dialect.type.TypeMapper;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -59,7 +59,7 @@ public class H2TypeMapper implements TypeMapper<Class<?>,String> {
     @Override
     public Boolean isSupport(Class<?> clazz) {
         return mappingSqlType.containsKey(clazz);
-//        return this.supportClass.contains(clazz);
+//        return this.supportClass.contains(simple);
     }
 
     @Override

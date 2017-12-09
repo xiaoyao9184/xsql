@@ -5,7 +5,6 @@ package com.xy.xsql.spring.dialect;
  */
 public enum DialectType {
     NONE,
-    OSCAR,
     H2,
     SQLSERVER;
 }

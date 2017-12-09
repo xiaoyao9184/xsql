@@ -9,7 +9,7 @@ public class EntitySiteParamFillerTest {
 //
 //    @Test
 //    public void testDeep2WithNoParam(){
-//        EntityTemplate data = new AnnotationEntityTemplateBuilder()
+//        EntityInfo data = new EAnnotationEntityInfoBuilder()
 //                .withScanEntity(true)
 //                .build(User.class);
 //
@@ -38,7 +38,7 @@ public class EntitySiteParamFillerTest {
 //
 //    @Test
 //    public void testDeep3WithParam(){
-//        EntityTemplate data = new AnnotationEntityTemplateBuilder()
+//        EntityInfo data = new EAnnotationEntityInfoBuilder()
 //                .withScanEntity(true)
 //                .withScanParam(true)
 //                .build(UserLog.class);

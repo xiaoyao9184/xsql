@@ -3,7 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -12,6 +12,8 @@ repositories {
 dependencies {
     //commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    //
+    compile group: 'org.reflections', name: 'reflections', version:'0.9.11'
     //commons-beanutils
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
     //JPA
@@ -19,13 +21,15 @@ dependencies {
     //commons-dbutils
     compile group: 'commons-dbutils', name: 'commons-dbutils', version:'1.6'
     //Spring JDBC
-    compile group: 'org.springframework', name: 'spring-jdbc', version:'3.2.6.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'4.3.6.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:"4.3.6.RELEASE"
     //
     compile project(":entity-model")
     compile project(":entity-core")
 
     //Test
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     //Spring
     testCompile group: 'org.springframework', name: 'spring-test', version:'4.3.6.RELEASE'
     testCompile group: 'org.springframework', name: 'spring-context', version:"4.3.6.RELEASE"

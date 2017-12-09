@@ -106,6 +106,7 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
      * @return
      */
     public static <T> Collection<T> initAdd(final Collection<T> t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
+        if(t == null) return null;
         if(getter.get() == null){
             setter.set(new ArrayList<>());
         }
@@ -115,6 +116,7 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
     }
 
     public static <T,R extends T> Collection<R> initAdd2(final Getter<List<T>> getter, final Setter<List<T>> setter, final Collection<R> t) {
+        if(t == null) return null;
         if(getter.get() == null){
             setter.set(new ArrayList<>());
         }

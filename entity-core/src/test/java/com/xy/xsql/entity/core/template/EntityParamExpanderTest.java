@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class EntityParamExpanderTest {
 
-    private EntityTemplate entityTemplate;
+    private EntityInfo entityInfo;
     private List<EntityParam> params;
     private EntityTemplateTreeArg treeArg;
 
     /**
-     * EntityTemplate Tree:
+     * EntityInfo Tree:
      * Byte
      *   Integer
      */
@@ -62,7 +62,7 @@ public class EntityParamExpanderTest {
                 .withColumn(columns.get(4)));
 
 
-        EntityTemplate template4Integer = new EntityTemplate()
+        EntityInfo template4Integer = new EntityInfo()
                 .withClass(Integer.class)
                 .withTable(table)
                 .withColumns(columns)
@@ -72,7 +72,7 @@ public class EntityParamExpanderTest {
         List<EntityLink> linkList4Byte = new ArrayList<>();
         linkList4Byte.add(new EntityLink().withColumn(columns.get(2)).withTemplate(template4Integer));
 
-        entityTemplate = new EntityTemplate()
+        entityInfo = new EntityInfo()
                 .withClass(Byte.class)
                 .withTable(table)
                 .withColumns(columns)
@@ -92,7 +92,7 @@ public class EntityParamExpanderTest {
     public void testExpandAll(){
         List<EntityParam> listAssert = new EntityParamExpander()
                 .withTreeArg(treeArg)
-                .build(entityTemplate);
+                .build(entityInfo);
 
         Assert.assertEquals(listAssert.size(),10);
         Assert.assertEquals(listAssert.get(0).getArg(),1);
@@ -144,7 +144,7 @@ public class EntityParamExpanderTest {
         List<EntityParam> listAssert = new EntityParamExpander()
                 .withDeepMax(0)
                 .withTreeArg(treeArg)
-                .build(entityTemplate);
+                .build(entityInfo);
 
         Assert.assertEquals(listAssert.size(),5);
         Assert.assertEquals(listAssert.get(0).getArg(),1);

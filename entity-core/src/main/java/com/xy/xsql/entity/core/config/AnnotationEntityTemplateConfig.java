@@ -1,8 +1,8 @@
 package com.xy.xsql.entity.core.config;
 
 import com.xy.xsql.core.holder.ParentHolder;
-import com.xy.xsql.entity.api.dialect.TypeMapper;
-import com.xy.xsql.entity.dialect.none.AllVarcharTypeMapper;
+import com.xy.xsql.entity.api.dialect.type.TypeMapper;
+import com.xy.xsql.entity.core.dialect.none.AllVarcharTypeMapper;
 
 /**
  * Created by xiaoyao9184 on 2016/10/15.

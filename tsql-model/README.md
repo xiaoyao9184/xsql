@@ -126,7 +126,7 @@ to be evaluated
 | ----- | ----- |
 | constant | String,Number |
 | scalar_function  |  |
-| [ table_name. ] column | NOT table_name alias |
+| [ table_name. ] column | NOT table_name name |
 | variable | YES |
 | ( expression ) | YES |
 | ( scalar_subquery ) | SELECT |

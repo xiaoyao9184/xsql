@@ -1,10 +1,10 @@
 package com.xy.xsql.entity.core.template;
 
 import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.entity.model.template.EntityInfo;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
 import com.xy.xsql.entity.model.template.EntityLink;
 import com.xy.xsql.entity.model.template.EntityParam;
-import com.xy.xsql.entity.model.template.EntityTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2016/11/25.
  */
-public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<EntityParam>> {
+public class EntityParamExpander implements BaseBuilder<EntityInfo,List<EntityParam>> {
 
     protected static final Log log = LogFactory.getLog(EntityParamExpander.class);
 
@@ -54,7 +54,7 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
 
 
     @Override
-    public List<EntityParam> build(EntityTemplate entityTemplate) {
+    public List<EntityParam> build(EntityInfo entityInfo) {
         if(this.filter == null){
             this.filter = new EntityParamFilter();
         }
@@ -63,17 +63,17 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
         }
         List<EntityParam> result = new ArrayList<>();
         Integer deep = 0;
-        result.addAll(this.buildSub(entityTemplate,deep,this.entityDataTreeArg));
+        result.addAll(this.buildSub(entityInfo,deep,this.entityDataTreeArg));
         return result;
     }
 
-    private List<EntityParam> buildSub(EntityTemplate entityTemplate, Integer deep, EntityTemplateTreeArg entityDataTreeArg){
+    private List<EntityParam> buildSub(EntityInfo entityInfo, Integer deep, EntityTemplateTreeArg entityDataTreeArg){
         List<EntityParam> result = new ArrayList<>();
 
-        if(entityTemplate.getParams() != null){
+        if(entityInfo.getParams() != null){
             List<EntityParam> params = this.filter
                     .withArgs(entityDataTreeArg.getArgs())
-                    .build(entityTemplate.getParams());
+                    .build(entityInfo.getParams());
             result.addAll(params);
         }
 
@@ -83,23 +83,23 @@ public class EntityParamExpander implements BaseBuilder<EntityTemplate,List<Enti
         }
 
         int index;
-        if(entityTemplate.getLinks() != null){
+        if(entityInfo.getLinks() != null){
             index = 0;
-            for (EntityLink entityLink : entityTemplate.getLinks()) {
+            for (EntityLink entityLink : entityInfo.getLinks()) {
                 if(entityLink.getTemplate() == null){
                     continue;
                 }
-                EntityTemplate entityTemplateSub = entityLink.getTemplate();
-                EntityTemplateTreeArg entityDataTreeArgSub = entityDataTreeArg.getSubTree(index, entityTemplateSub.getClazz());
+                EntityInfo entityInfoSub = entityLink.getTemplate();
+                EntityTemplateTreeArg entityDataTreeArgSub = entityDataTreeArg.getSubTree(index, entityInfoSub.getClazz());
                 if(entityDataTreeArgSub == null){
                     entityDataTreeArgSub = new EntityTemplateTreeArg()
-                            .withClass(entityTemplateSub.getClazz());
+                            .withClass(entityInfoSub.getClazz());
                 }else{
                     index++;
                 }
                 deep++;
                 List<EntityParam> resultSub = this.buildSub(
-                        entityTemplateSub,
+                        entityInfoSub,
                         deep,
                         entityDataTreeArgSub);
                 deep--;

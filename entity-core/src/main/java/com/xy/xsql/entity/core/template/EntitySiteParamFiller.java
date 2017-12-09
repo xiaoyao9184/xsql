@@ -1,10 +1,10 @@
 package com.xy.xsql.entity.core.template;
 
 import com.xy.xsql.core.builder.BaseBuilder;
+import com.xy.xsql.entity.model.template.EntityInfo;
 import com.xy.xsql.entity.model.template.param.EntitySiteParam;
 import com.xy.xsql.entity.model.template.EntityLink;
 import com.xy.xsql.entity.model.template.EntityParam;
-import com.xy.xsql.entity.model.template.EntityTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by xiaoyao9184 on 2016/11/25.
  */
 @Deprecated
-public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<EntitySiteParam>>, Cloneable {
+public class EntitySiteParamFiller implements BaseBuilder<EntityInfo,List<EntitySiteParam>>, Cloneable {
 
 
     private static Logger log = LoggerFactory.getLogger(EntitySiteParamFiller.class);
@@ -31,7 +31,7 @@ public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<En
         return this;
     }
 
-//    public EntitySiteParamFiller withEntityTemplateData(EntityTemplate entityTemplateData){
+//    public EntitySiteParamFiller withEntityTemplateData(EntityInfo entityTemplateData){
 //        this.entityTemplateData = entityTemplateData;
 //        return this;
 //    }
@@ -47,9 +47,9 @@ public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<En
 
 
     @Override
-    public List<EntitySiteParam> build(EntityTemplate entityTemplate) {
-        if(entityTemplate == null){
-            throw  new RuntimeException("EntityTemplate is not set, so cant fill it form EntityTemplate!");
+    public List<EntitySiteParam> build(EntityInfo entityInfo) {
+        if(entityInfo == null){
+            throw  new RuntimeException("EntityInfo is not set, so cant fill it form EntityInfo!");
         }
         this.tarList = new ArrayList<>();
 
@@ -72,13 +72,13 @@ public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<En
                     .withUseArgs(false);
         }
         deepNow++;
-        buildDeep(deepNow,indexNow, entityTemplate,paramNow);
+        buildDeep(deepNow,indexNow, entityInfo,paramNow);
 
         return tarList;
     }
 
 
-    private void buildDeep(Integer deepNow, Integer indexNow, EntityTemplate dataNow, EntitySiteParam paramNow){
+    private void buildDeep(Integer deepNow, Integer indexNow, EntityInfo dataNow, EntitySiteParam paramNow){
         if(deepNow > deep){
             return;
         }
@@ -107,7 +107,7 @@ public class EntitySiteParamFiller implements BaseBuilder<EntityTemplate,List<En
 
         //子集
         for (EntityLink link: dataNow.getLinks()) {
-            EntityTemplate dataSub = link.getTemplate();
+            EntityInfo dataSub = link.getTemplate();
             EntitySiteParam paramSub;
 
             if(indexNow > srcList.size()-1){

@@ -1,7 +1,7 @@
 package com.xy.xsql.spring.dialect.mssql;
 
 import com.xy.xsql.entity.api.annotation.Relationships;
-import com.xy.xsql.entity.api.dialect.jpql.*;
+import com.xy.xsql.entity.api.dialect.render.jsql.*;
 import com.xy.xsql.entity.core.template.*;
 import com.xy.xsql.entity.core.util.CheckUtil;
 import com.xy.xsql.entity.core.util.ListUtil;
@@ -33,17 +33,17 @@ public class MSSQLTemplateRenderer
         TemplatePageSearchArgRenderer {
 
     @Override
-    public String getCreateTableSql(EntityTemplate entityTemplate) {
+    public String getCreateTableSql(EntityInfo entityInfo) {
         StringBuilder sb = new StringBuilder()
                 .append("CREATE TABLE")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("(")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn entityColumn: entityTemplate.getColumns()) {
+        for (EntityColumn entityColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -67,30 +67,30 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getDropTableSql(EntityTemplate entityTemplate) {
+    public String getDropTableSql(EntityInfo entityInfo) {
         return new StringBuilder()
                 .append("DROP TABLE")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .toString();
     }
 
     @Override
-    public String getAlterTableSql(EntityTemplate entityTemplateOld, EntityTemplate entityTemplateNew) {
+    public String getAlterTableSql(EntityInfo entityInfoOld, EntityInfo entityInfoNew) {
         //Comparison Column
         EntityColumnComparator entityColumnComparator = new EntityColumnComparator();
         List<EntityColumn> addList = ListUtil.lostElementList(
-                entityTemplateOld.getColumns(),
-                entityTemplateNew.getColumns(),
+                entityInfoOld.getColumns(),
+                entityInfoNew.getColumns(),
                 entityColumnComparator);
         List<EntityColumn> dropList = ListUtil.lostElementList(
-                entityTemplateNew.getColumns(),
-                entityTemplateOld.getColumns(),
+                entityInfoNew.getColumns(),
+                entityInfoOld.getColumns(),
                 entityColumnComparator);
         List<EntityColumn> alterList = ListUtil.bothIncludedElementList(
-                entityTemplateNew.getColumns(),
-                entityTemplateOld.getColumns(),
+                entityInfoNew.getColumns(),
+                entityInfoOld.getColumns(),
                 entityColumnComparator);
 
         StringBuilder sb = new StringBuilder();
@@ -102,7 +102,7 @@ public class MSSQLTemplateRenderer
         if(!CheckUtil.isNullOrEmpty(addList)){
             sb.append("ALTER TABLE")
                     .append("\n")
-                    .append(entityTemplateOld.getTable().getName())
+                    .append(entityInfoOld.getTable().getName())
                     .append("\n")
                     .append("ADD");
             for (EntityColumn column: addList) {
@@ -133,7 +133,7 @@ public class MSSQLTemplateRenderer
         if(!CheckUtil.isNullOrEmpty(dropList)){
             sb.append("ALTER TABLE")
                     .append("\n")
-                    .append(entityTemplateOld.getTable().getName())
+                    .append(entityInfoOld.getTable().getName())
                     .append("\n")
                     .append("DROP COLUMN");
             for (EntityColumn column: dropList) {
@@ -157,7 +157,7 @@ public class MSSQLTemplateRenderer
             for (EntityColumn column: alterList) {
                 sb.append("ALTER TABLE")
                         .append("\n")
-                        .append(entityTemplateOld.getTable().getName())
+                        .append(entityInfoOld.getTable().getName())
                         .append("\n")
                         .append("ALTER COLUMN")
                         .append(" ")
@@ -179,14 +179,14 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getTableCountSql(EntityTemplate entityTemplate) {
+    public String getTableCountSql(EntityInfo entityInfo) {
         return new StringBuilder()
                 .append("SELECT\n")
                 .append("COUNT(name)\n")
                 .append("FROM sysobjects\n")
                 .append("WHERE name=\n")
                 .append("'")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("'")
                 .append("\n")
                 .append("AND type='u'")
@@ -196,17 +196,17 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public String getInsertSql(EntityTemplate entityTemplate) {
+    public String getInsertSql(EntityInfo entityInfo) {
         StringBuilder sb = new StringBuilder()
                 .append("INSERT INTO")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("(")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityTemplate.getColumns()) {
+        for (EntityColumn eColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -222,7 +222,7 @@ public class MSSQLTemplateRenderer
                 .append("\n")
                 .append("(")
                 .append("\n")
-                .append(StringUtil.fillJoin("?", entityTemplate.getColumns().size(), ","))
+                .append(StringUtil.fillJoin("?", entityInfo.getColumns().size(), ","))
                 .append("\n")
                 .append(")")
                 .append("\n");
@@ -231,21 +231,21 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getInsertByEntityCountSql(EntityTemplate entityTemplate, int entityCount){
+    public String getInsertByEntityCountSql(EntityInfo entityInfo, int entityCount){
         if(entityCount == 1){
-            return getInsertSql(entityTemplate);
+            return getInsertSql(entityInfo);
         }
 
         StringBuilder sb = new StringBuilder()
                 .append("INSERT INTO")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("(")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityTemplate.getColumns()) {
+        for (EntityColumn eColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -263,7 +263,7 @@ public class MSSQLTemplateRenderer
         StringBuilder values = new StringBuilder()
                 .append("(")
                 .append("\n")
-                .append(StringUtil.fillJoin("?", entityTemplate.getColumns().size(), ","))
+                .append(StringUtil.fillJoin("?", entityInfo.getColumns().size(), ","))
                 .append("\n")
                 .append(")")
                 .append("\n");
@@ -274,13 +274,13 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getSelectByIdSql(EntityTemplate entityTemplate){
+    public String getSelectByIdSql(EntityInfo entityInfo){
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityTemplate.getColumns()) {
+        for (EntityColumn eColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -291,11 +291,11 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityTemplate.getKeys().get(0).getName())
+                .append(entityInfo.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n");
 
@@ -303,9 +303,9 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getSelectByIdsSql(EntityTemplate entityTemplate, int idCount){
+    public String getSelectByIdsSql(EntityInfo entityInfo, int idCount){
         if(idCount == 1){
-            return getSelectByIdSql(entityTemplate);
+            return getSelectByIdSql(entityInfo);
         }
 
         StringBuilder sb = new StringBuilder()
@@ -313,7 +313,7 @@ public class MSSQLTemplateRenderer
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityTemplate.getColumns()) {
+        for (EntityColumn eColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -324,13 +324,13 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n");
 
         if(idCount > 0){
             sb.append("WHERE")
                     .append("\n")
-                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append(entityInfo.getKeys().get(0).getName())
                     .append("\n")
                     .append("IN (")
                     .append(StringUtil.fillJoin("?", idCount, ","))
@@ -342,17 +342,17 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getUpdateByIdSql(EntityTemplate entityTemplate) {
+    public String getUpdateByIdSql(EntityInfo entityInfo) {
         StringBuilder sb = new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityTemplate.getColumns()) {
+        for (EntityColumn eColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -364,7 +364,7 @@ public class MSSQLTemplateRenderer
 
         sb.append("WHERE")
                 .append("\n")
-                .append(entityTemplate.getKeys().get(0).getName())
+                .append(entityInfo.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n");
 
@@ -372,21 +372,21 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getUpdateByIdsSql(EntityTemplate entityTemplate, int idCount) {
+    public String getUpdateByIdsSql(EntityInfo entityInfo, int idCount) {
         if(idCount == 1){
-            return getUpdateByIdSql(entityTemplate);
+            return getUpdateByIdSql(entityInfo);
         }
 
         StringBuilder sb = new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn eColumn: entityTemplate.getColumns()) {
+        for (EntityColumn eColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -394,7 +394,7 @@ public class MSSQLTemplateRenderer
                     .append(" = ")
                     .append("CASE")
                     .append(" ")
-                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append(entityInfo.getKeys().get(0).getName())
                     .append("\n")
                     .append(StringUtil.fillJoin("WHEN ? THEN ?",idCount,"\n"))
                     .append("\n")
@@ -405,7 +405,7 @@ public class MSSQLTemplateRenderer
 
         sb.append("WHERE")
                 .append("\n")
-                .append(entityTemplate.getKeys().get(0).getName())
+                .append(entityInfo.getKeys().get(0).getName())
                 .append("\n")
                 .append("IN (")
                 .append(StringUtil.fillJoin("?", idCount, ","))
@@ -416,34 +416,34 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getDeleteByIdSql(EntityTemplate entityTemplate) {
+    public String getDeleteByIdSql(EntityInfo entityInfo) {
         return new StringBuilder()
                 .append("DELETE FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityTemplate.getKeys().get(0).getName())
+                .append(entityInfo.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n")
                 .toString();
     }
 
     @Override
-    public String getDeleteByIdsSql(EntityTemplate entityTemplate, int idCount) {
+    public String getDeleteByIdsSql(EntityInfo entityInfo, int idCount) {
         if(idCount == 1){
-            return getDeleteByIdSql(entityTemplate);
+            return getDeleteByIdSql(entityInfo);
         }
 
         return new StringBuilder()
                 .append("DELETE FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityTemplate.getKeys().get(0).getName())
+                .append(entityInfo.getKeys().get(0).getName())
                 .append("\n")
                 .append("IN (")
                 .append(StringUtil.fillJoin("?", idCount, ","))
@@ -454,53 +454,53 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public String getUpdateStatusByIdSql(EntityTemplate entityTemplate){
-        if(entityTemplate.getStatus() == null){
+    public String getUpdateStatusByIdSql(EntityInfo entityInfo){
+        if(entityInfo.getStatus() == null){
             throw new UnsupportedOperationException("没有Status字段！");
         }
         return new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n")
-                .append(entityTemplate.getStatus().getName())
+                .append(entityInfo.getStatus().getName())
                 .append(" = ")
                 .append(" ? ")
                 .append("\n")
                 .append("WHERE")
                 .append("\n")
-                .append(entityTemplate.getKeys().get(0).getName())
+                .append(entityInfo.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n")
                 .toString();
     }
 
     @Override
-    public String getUpdateStatusByIdsSql(EntityTemplate entityTemplate, int idCount){
+    public String getUpdateStatusByIdsSql(EntityInfo entityInfo, int idCount){
         if(idCount == 1){
-            return getUpdateStatusByIdSql(entityTemplate);
+            return getUpdateStatusByIdSql(entityInfo);
         }
-        if(entityTemplate.getStatus() == null){
+        if(entityInfo.getStatus() == null){
             throw new UnsupportedOperationException("没有Status字段！");
         }
 
         StringBuilder sb = new StringBuilder()
                 .append("UPDATE")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n")
                 .append("SET")
                 .append("\n")
-                .append(entityTemplate.getStatus().getName())
+                .append(entityInfo.getStatus().getName())
                 .append(" = ?")
                 .append("\n");
 
         if(idCount > 0){
             sb.append("WHERE")
                     .append("\n")
-                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append(entityInfo.getKeys().get(0).getName())
                     .append("\n")
                     .append("IN (")
                     .append(StringUtil.fillJoin("?", idCount, ","))
@@ -513,9 +513,9 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJSql getDeleteByArgsSql(EntityTemplate entityTemplate, Object... args) {
-        if(args.length > entityTemplate.getParams().size()){
-            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+    public PlaceholderJSql getDeleteByArgsSql(EntityInfo entityInfo, Object... args) {
+        if(args.length > entityInfo.getParams().size()){
+            throw new UnsupportedOperationException(entityInfo.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
 
         List<Object> argList = new ArrayList<>();
@@ -523,12 +523,12 @@ public class MSSQLTemplateRenderer
         StringBuilder sb = new StringBuilder()
                 .append("DELETE FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n");
 
         List<EntityParam> list = new EntityParamFilter()
                 .withArgs(args)
-                .build(entityTemplate.getParams());
+                .build(entityInfo.getParams());
 
         int index;
         if(list.size() > 0){
@@ -570,9 +570,9 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJSql getSelectByArgsSql(EntityTemplate entityTemplate, Object... args){
-        if(args.length > entityTemplate.getParams().size()){
-            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+    public PlaceholderJSql getSelectByArgsSql(EntityInfo entityInfo, Object... args){
+        if(args.length > entityInfo.getParams().size()){
+            throw new UnsupportedOperationException(entityInfo.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
 
         List<Object> argList = new ArrayList<>();
@@ -581,7 +581,7 @@ public class MSSQLTemplateRenderer
                 .append("\n");
 
         int index = 0;
-        for (EntityColumn entityColumn: entityTemplate.getColumns()) {
+        for (EntityColumn entityColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -592,13 +592,13 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n");
 
 
         List<EntityParam> list = new EntityParamFilter()
                 .withArgs(args)
-                .build(entityTemplate.getParams());
+                .build(entityInfo.getParams());
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -632,10 +632,10 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        if(entityTemplate.getOrders().size() > 0){
+        if(entityInfo.getOrders().size() > 0){
             sb.append("ORDER BY\n");
             index = 0;
-            for (EntityOrder order: entityTemplate.getOrders()) {
+            for (EntityOrder order: entityInfo.getOrders()) {
                 sb.append(CheckUtil.isStart(index) ? "" : ",")
                         .append(" ")
                         .append(order.getColumn().getName())
@@ -653,7 +653,7 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public String getSelectJoinByIdSql(EntityTemplate entityTemplate) {
+    public String getSelectJoinByIdSql(EntityInfo entityInfo) {
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
                 .append("\n");
@@ -661,7 +661,7 @@ public class MSSQLTemplateRenderer
         int index = 0;
 
         List<EntityColumn> allColumnList = new EntityColumnExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         for (EntityColumn entityColumn: allColumnList) {
             if(index != 0){
@@ -678,27 +678,27 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append(" AS ")
-                .append(entityTemplate.getTable().getAliasName())
+                .append(entityInfo.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityInfo entityInfoSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityTemplateSub.getTable().getName())
+                    .append(entityInfoSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(entityInfoSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -708,9 +708,9 @@ public class MSSQLTemplateRenderer
 
         sb.append("WHERE")
                 .append("\n")
-                .append(entityTemplate.getTable().getAliasName())
+                .append(entityInfo.getTable().getAliasName())
                 .append(".")
-                .append(entityTemplate.getKeys().get(0).getName())
+                .append(entityInfo.getKeys().get(0).getName())
                 .append(" = ?")
                 .append("\n");
 
@@ -718,7 +718,7 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public String getSelectJoinByIdsSql(EntityTemplate entityTemplate, int idCount) {
+    public String getSelectJoinByIdsSql(EntityInfo entityInfo, int idCount) {
 
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
@@ -727,7 +727,7 @@ public class MSSQLTemplateRenderer
         int index = 0;
 
         List<EntityColumn> allColumnList = new EntityColumnExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         for (EntityColumn entityColumn: allColumnList) {
             if(index != 0){
@@ -744,27 +744,27 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append(" AS ")
-                .append(entityTemplate.getTable().getAliasName())
+                .append(entityInfo.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityInfo entityInfoSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityTemplateSub.getTable().getName())
+                    .append(entityInfoSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(entityInfoSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -775,9 +775,9 @@ public class MSSQLTemplateRenderer
         if(idCount > 0){
             sb.append("WHERE")
                     .append("\n")
-                    .append(entityTemplate.getTable().getAliasName())
+                    .append(entityInfo.getTable().getAliasName())
                     .append(".")
-                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append(entityInfo.getKeys().get(0).getName())
                     .append("\n")
                     .append("IN (")
                     .append(StringUtil.fillJoin("?", idCount, ","))
@@ -790,9 +790,9 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJSql getSelectJoinByArgsSql(EntityTemplate entityTemplate, Object... args) {
-        if(args.length > entityTemplate.getParams().size()){
-            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+    public PlaceholderJSql getSelectJoinByArgsSql(EntityInfo entityInfo, Object... args) {
+        if(args.length > entityInfo.getParams().size()){
+            throw new UnsupportedOperationException(entityInfo.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
 
         List<Object> argList = new ArrayList<>();
@@ -803,7 +803,7 @@ public class MSSQLTemplateRenderer
         int index = 0;
 
         List<EntityColumn> allColumnList = new EntityColumnExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         for (EntityColumn entityColumn: allColumnList) {
             if(index != 0){
@@ -820,27 +820,27 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append(" AS ")
-                .append(entityTemplate.getTable().getAliasName())
+                .append(entityInfo.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityInfo entityInfoSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityTemplateSub.getTable().getName())
+                    .append(entityInfoSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(entityInfoSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -850,7 +850,7 @@ public class MSSQLTemplateRenderer
 
         List<EntityParam> list = new EntityParamFilter()
                 .withArgs(args)
-                .build(entityTemplate.getParams());
+                .build(entityInfo.getParams());
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -887,7 +887,7 @@ public class MSSQLTemplateRenderer
         }
 
         List<EntityOrder> listOrder = new EntityOrderExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         if(listOrder.size() > 0){
             sb.append("ORDER BY\n");
@@ -911,7 +911,7 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public PlaceholderJSql getSelectJoinByTreeArgSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
+    public PlaceholderJSql getSelectJoinByTreeArgSql(EntityInfo entityInfo, EntityTemplateTreeArg entityTemplateTreeArg) {
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
@@ -920,7 +920,7 @@ public class MSSQLTemplateRenderer
         int index = 0;
 
         List<EntityColumn> allColumnList = new EntityColumnExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         for (EntityColumn entityColumn: allColumnList) {
             if(index != 0){
@@ -937,27 +937,27 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append(" AS ")
-                .append(entityTemplate.getTable().getAliasName())
+                .append(entityInfo.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityInfo entityInfoSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityTemplateSub.getTable().getName())
+                    .append(entityInfoSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(entityInfoSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -967,7 +967,7 @@ public class MSSQLTemplateRenderer
 
         List<EntityParam> list = new EntityParamExpander()
                 .withTreeArg(entityTemplateTreeArg)
-                .build(entityTemplate);
+                .build(entityInfo);
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -1004,7 +1004,7 @@ public class MSSQLTemplateRenderer
         }
 
         List<EntityOrder> listOrder = new EntityOrderExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         if(listOrder.size() > 0){
             sb.append("ORDER BY\n");
@@ -1093,11 +1093,11 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJSql getSelectArgsPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, Object... args) {
+    public PlaceholderJSql getSelectArgsPageSql(EntityInfo entityInfo, Integer pageStart, Integer pageSize, String rowNumberName, Object... args) {
         Integer rowStart = (pageStart-1) * pageSize;
         Integer rowEnd = pageStart * pageSize;
 
-        PlaceholderJSql argSql = getAddRowNumberWithTopSql(entityTemplate,rowNumberName,rowEnd,args);
+        PlaceholderJSql argSql = getAddRowNumberWithTopSql(entityInfo,rowNumberName,rowEnd,args);
 
         argSql.setSql(getFilterRowNumberSql(argSql.getSql(),rowNumberName,rowStart));
 
@@ -1105,9 +1105,9 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public PlaceholderJSql getSelectArgsCountSql(EntityTemplate entityTemplate, Object... args) {
-        if(args.length > entityTemplate.getParams().size()){
-            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+    public PlaceholderJSql getSelectArgsCountSql(EntityInfo entityInfo, Object... args) {
+        if(args.length > entityInfo.getParams().size()){
+            throw new UnsupportedOperationException(entityInfo.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
 
         List<Object> argList = new ArrayList<>();
@@ -1120,13 +1120,13 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n");
 
 
         List<EntityParam> list = new EntityParamFilter()
                 .withArgs(args)
-                .build(entityTemplate.getParams());
+                .build(entityInfo.getParams());
 
         int index = 0;
         if(list.size() > 0){
@@ -1168,11 +1168,11 @@ public class MSSQLTemplateRenderer
 
 
     @Override
-    public PlaceholderJSql getSelectJoinByTreeArgPageSql(EntityTemplate entityTemplate, Integer pageStart, Integer pageSize, String rowNumberName, EntityTemplateTreeArg entityTemplateTreeArg) {
+    public PlaceholderJSql getSelectJoinByTreeArgPageSql(EntityInfo entityInfo, Integer pageStart, Integer pageSize, String rowNumberName, EntityTemplateTreeArg entityTemplateTreeArg) {
         Integer rowStart = (pageStart-1) * pageSize;
         Integer rowEnd = pageStart * pageSize;
 
-        PlaceholderJSql argSql = getAddRowNumberWithTopSql(entityTemplate,rowNumberName,rowEnd,entityTemplateTreeArg);
+        PlaceholderJSql argSql = getAddRowNumberWithTopSql(entityInfo,rowNumberName,rowEnd,entityTemplateTreeArg);
 
         argSql.setSql(getFilterRowNumberSql(argSql.getSql(),rowNumberName,rowStart));
 
@@ -1180,7 +1180,7 @@ public class MSSQLTemplateRenderer
     }
 
     @Override
-    public PlaceholderJSql getSelectJoinByTreeArgCountSql(EntityTemplate entityTemplate, EntityTemplateTreeArg entityTemplateTreeArg) {
+    public PlaceholderJSql getSelectJoinByTreeArgCountSql(EntityInfo entityInfo, EntityTemplateTreeArg entityTemplateTreeArg) {
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT")
@@ -1191,27 +1191,27 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append(" AS ")
-                .append(entityTemplate.getTable().getAliasName())
+                .append(entityInfo.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityInfo entityInfoSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityTemplateSub.getTable().getName())
+                    .append(entityInfoSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(entityInfoSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -1221,7 +1221,7 @@ public class MSSQLTemplateRenderer
 
         List<EntityParam> list = new EntityParamExpander()
                 .withTreeArg(entityTemplateTreeArg)
-                .build(entityTemplate);
+                .build(entityInfo);
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -1265,15 +1265,15 @@ public class MSSQLTemplateRenderer
 
     /**
      * Add Row Number with top filter
-     * @param entityTemplate Entity Template
+     * @param entityInfo Entity Template
      * @param rowNumberName Row Number Name
      * @param rowNumberTop Row Number End
      * @param args Arg Array
      * @return ArgSql
      */
-    public PlaceholderJSql getAddRowNumberWithTopSql(EntityTemplate entityTemplate, String rowNumberName, Integer rowNumberTop, Object... args){
-        if(args.length > entityTemplate.getParams().size()){
-            throw new UnsupportedOperationException(entityTemplate.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
+    public PlaceholderJSql getAddRowNumberWithTopSql(EntityInfo entityInfo, String rowNumberName, Integer rowNumberTop, Object... args){
+        if(args.length > entityInfo.getParams().size()){
+            throw new UnsupportedOperationException(entityInfo.getClazz().getName() + " 实际参数数量大于标注的参数数量，无法生成SQL！");
         }
 
         List<Object> argList = new ArrayList<>();
@@ -1286,10 +1286,10 @@ public class MSSQLTemplateRenderer
         sb.append("\n");
 
         sb.append("ROW_NUMBER() OVER (\n");
-        if(entityTemplate.getOrders().size() > 0){
+        if(entityInfo.getOrders().size() > 0){
             sb.append("ORDER BY\n");
             int index = 0;
-            for (EntityOrder order: entityTemplate.getOrders()) {
+            for (EntityOrder order: entityInfo.getOrders()) {
                 sb.append(CheckUtil.isStart(index) ? "" : ",")
                         .append(" ")
                         .append(order.getColumn().getName())
@@ -1300,7 +1300,7 @@ public class MSSQLTemplateRenderer
             }
         } else {
             sb.append("ORDER BY\n")
-                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append(entityInfo.getKeys().get(0).getName())
                     .append("\n");
         }
         sb.append(") AS ")
@@ -1309,7 +1309,7 @@ public class MSSQLTemplateRenderer
                 .append(",");
 
         int index = 0;
-        for (EntityColumn entityColumn: entityTemplate.getColumns()) {
+        for (EntityColumn entityColumn: entityInfo.getColumns()) {
             if(index != 0){
                 sb.append(",");
             }
@@ -1320,13 +1320,13 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append("\n");
 
 
         List<EntityParam> list = new EntityParamFilter()
                 .withArgs(args)
-                .build(entityTemplate.getParams());
+                .build(entityInfo.getParams());
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -1360,10 +1360,10 @@ public class MSSQLTemplateRenderer
             }
         }
 
-        if(entityTemplate.getOrders().size() > 0){
+        if(entityInfo.getOrders().size() > 0){
             sb.append("ORDER BY\n");
             index = 0;
-            for (EntityOrder order: entityTemplate.getOrders()) {
+            for (EntityOrder order: entityInfo.getOrders()) {
                 sb.append(CheckUtil.isStart(index) ? "" : ",")
                         .append(" ")
                         .append(order.getColumn().getName())
@@ -1379,7 +1379,7 @@ public class MSSQLTemplateRenderer
                 .withArgs(argList);
     }
 
-    public PlaceholderJSql getAddRowNumberWithTopSql(EntityTemplate entityTemplate, String rowNumberName, Integer rowNumberTop, EntityTemplateTreeArg entityTemplateTreeArg){
+    public PlaceholderJSql getAddRowNumberWithTopSql(EntityInfo entityInfo, String rowNumberName, Integer rowNumberTop, EntityTemplateTreeArg entityTemplateTreeArg){
         List<Object> argList = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT");
@@ -1390,10 +1390,10 @@ public class MSSQLTemplateRenderer
         sb.append("\n");
 
         sb.append("ROW_NUMBER() OVER (\n");
-        if(entityTemplate.getOrders().size() > 0){
+        if(entityInfo.getOrders().size() > 0){
             sb.append("ORDER BY\n");
             int index = 0;
-            for (EntityOrder order: entityTemplate.getOrders()) {
+            for (EntityOrder order: entityInfo.getOrders()) {
                 sb.append(CheckUtil.isStart(index) ? "" : ",")
                         .append(" ")
                         .append(order.getColumn().getTable().getAliasName())
@@ -1406,7 +1406,7 @@ public class MSSQLTemplateRenderer
             }
         } else {
             sb.append("ORDER BY\n")
-                    .append(entityTemplate.getKeys().get(0).getName())
+                    .append(entityInfo.getKeys().get(0).getName())
                     .append("\n");
         }
         sb.append(") AS ")
@@ -1417,7 +1417,7 @@ public class MSSQLTemplateRenderer
         int index = 0;
 
         List<EntityColumn> allColumnList = new EntityColumnExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         for (EntityColumn entityColumn: allColumnList) {
             if(index != 0){
@@ -1434,27 +1434,27 @@ public class MSSQLTemplateRenderer
 
         sb.append("FROM")
                 .append("\n")
-                .append(entityTemplate.getTable().getName())
+                .append(entityInfo.getTable().getName())
                 .append(" AS ")
-                .append(entityTemplate.getTable().getAliasName())
+                .append(entityInfo.getTable().getAliasName())
                 .append("\n");
 
         List<EntityLink> allEntityLinkList = new EntityLinkExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
         for (EntityLink entityLinkEntity: allEntityLinkList) {
-            EntityTemplate entityTemplateSub = entityLinkEntity.getTemplate();
+            EntityInfo entityInfoSub = entityLinkEntity.getTemplate();
             EntityColumn entityColumn = entityLinkEntity.getColumn();
             sb.append("LEFT JOIN")
                     .append("\n")
-                    .append(entityTemplateSub.getTable().getName())
+                    .append(entityInfoSub.getTable().getName())
                     .append(" AS ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append("\n");
             sb.append("ON")
                     .append(" ")
-                    .append(entityTemplateSub.getTable().getAliasName())
+                    .append(entityInfoSub.getTable().getAliasName())
                     .append(".")
-                    .append(entityTemplateSub.getKeys().get(0).getName())
+                    .append(entityInfoSub.getKeys().get(0).getName())
                     .append(" = ")
                     .append(entityColumn.getTable().getAliasName())
                     .append(".")
@@ -1464,7 +1464,7 @@ public class MSSQLTemplateRenderer
 
         List<EntityParam> list = new EntityParamExpander()
                 .withTreeArg(entityTemplateTreeArg)
-                .build(entityTemplate);
+                .build(entityInfo);
 
         if(list.size() > 0){
             sb.append("WHERE\n");
@@ -1501,7 +1501,7 @@ public class MSSQLTemplateRenderer
         }
 
         List<EntityOrder> listOrder = new EntityOrderExpander()
-                .build(entityTemplate);
+                .build(entityInfo);
 
         if(listOrder.size() > 0){
             sb.append("ORDER BY\n");

@@ -6,14 +6,14 @@ package com.xy.xsql.entity.model.template;
  */
 public class EntityLink {
     private EntityColumn column;
-    private EntityTemplate template;
+    private EntityInfo template;
 
 
     public EntityColumn getColumn() {
         return column;
     }
 
-    public EntityTemplate getTemplate() {
+    public EntityInfo getTemplate() {
         return template;
     }
 
@@ -29,11 +29,11 @@ public class EntityLink {
 
     /**
      * set annotation
-     * @param entityTemplate EntityTemplate
+     * @param entityInfo EntityInfo
      * @return This
      */
-    public EntityLink withTemplate(EntityTemplate entityTemplate) {
-        this.template = entityTemplate;
+    public EntityLink withTemplate(EntityInfo entityInfo) {
+        this.template = entityInfo;
         return this;
     }
 

@@ -1,7 +1,7 @@
 package com.xy.xsql.spring.dao;
 
 import com.xy.xsql.entity.core.template.EntityColumnsArgsBuilder;
-import com.xy.xsql.entity.model.template.EntityTemplate;
+import com.xy.xsql.entity.model.template.EntityInfo;
 import com.xy.xsql.entity.model.template.param.EntityTemplateTreeArg;
 import com.xy.xsql.model.page.PageQuery;
 import com.xy.xsql.model.page.PageResult;
@@ -50,17 +50,17 @@ public interface EntitysDao<Entity, EntityId> {
 
 
     public static class CacheData<Entity> {
-        private EntityTemplate entityTemplate;
+        private EntityInfo entityInfo;
         private RowMapper<Entity> rowMapper;
         private EntityColumnsArgsBuilder<Entity> entityColumnsArgsBuilder;
         private EntityColumnsArgsBuilder<Entity> entityIdsArgBuilder;
 
-        public EntityTemplate getEntityTemplate() {
-            return entityTemplate;
+        public EntityInfo getEntityInfo() {
+            return entityInfo;
         }
 
-        public void setEntityTemplate(EntityTemplate entityTemplate) {
-            this.entityTemplate = entityTemplate;
+        public void setEntityInfo(EntityInfo entityInfo) {
+            this.entityInfo = entityInfo;
         }
 
         public RowMapper<Entity> getRowMapper() {
@@ -87,8 +87,8 @@ public interface EntitysDao<Entity, EntityId> {
             this.entityIdsArgBuilder = entityIdsArgBuilder;
         }
 
-        public CacheData<Entity> withEntityData(EntityTemplate entityTemplate) {
-            this.entityTemplate = entityTemplate;
+        public CacheData<Entity> withEntityData(EntityInfo entityInfo) {
+            this.entityInfo = entityInfo;
             return this;
         }
 

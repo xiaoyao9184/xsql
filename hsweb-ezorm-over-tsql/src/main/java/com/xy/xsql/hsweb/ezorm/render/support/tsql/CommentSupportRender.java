@@ -66,7 +66,7 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
 //
 //        if (param.getIncludes().isEmpty() && param.getExcludes().isEmpty()) {
 //            param.includes("*");
-//            metaData.getCorrelations().forEach(correlation -> param.includes(correlation.getAlias() + ".*"));
+//            metaData.getCorrelations().forEach(correlation -> param.includes(correlation.getName() + ".*"));
 //        }
 //        //解析要查询的字段
 //        this.selectField = parseOperationField(metaData, param);

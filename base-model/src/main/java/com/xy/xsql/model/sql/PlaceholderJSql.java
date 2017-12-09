@@ -46,4 +46,9 @@ public class PlaceholderJSql {
         this.args = argList.toArray();
         return  this;
     }
+
+    public PlaceholderJSql withArgs(Object... args) {
+        this.args = args;
+        return  this;
+    }
 }

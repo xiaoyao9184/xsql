@@ -41,7 +41,7 @@ public class EntityColumnFilter implements BaseBuilder<List<EntityColumn>,List<E
     }
 
     /**
-     * Set Not NULL Property entity to filter
+     * Set Not NULL Property entities to filter
      * @param entity Entity
      * @return This
      */

@@ -1,14 +1,14 @@
 package com.xy.xsql.spring.dao.impl;
 
 import com.xy.xsql.entity.api.annotation.Relationships;
-import com.xy.xsql.entity.api.dialect.jpql.TemplateDeleteArgRenderer;
-import com.xy.xsql.entity.api.dialect.jpql.TemplateDistinctSearchArgRenderer;
-import com.xy.xsql.entity.api.dialect.jpql.TemplateSearchArgRenderer;
+import com.xy.xsql.entity.api.dialect.render.jsql.TemplateDeleteArgRenderer;
+import com.xy.xsql.entity.api.dialect.render.jsql.TemplateDistinctSearchArgRenderer;
+import com.xy.xsql.entity.api.dialect.render.jsql.TemplateSearchArgRenderer;
+import com.xy.xsql.entity.model.template.EntityInfo;
 import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.entity.model.template.EntityColumn;
 import com.xy.xsql.entity.model.template.EntityLink;
 import com.xy.xsql.entity.model.template.EntityParam;
-import com.xy.xsql.entity.model.template.EntityTemplate;
 import com.xy.xsql.spring.dao.EntityDao;
 import com.xy.xsql.spring.dao.EntityLinkDao;
 import com.xy.xsql.spring.mapping.BaseEntityRowMapper;
@@ -43,7 +43,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
     @Override
     public void afterEntityDataInit() {
         this.autoLinkParams = new ArrayList<>();
-        for (EntityLink link: this.entityTemplate.getLinks()) {
+        for (EntityLink link: this.entityInfo.getLinks()) {
             autoLinkParams.add(new EntityParam()
                     .withColumn(link.getColumn())
                     .withRelationship(Relationships.EQUAL));
@@ -52,14 +52,14 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
         //
         List<EntityParam> params = new ArrayList<>();
         params.addAll(this.autoLinkParams);
-        params.addAll(this.entityTemplate.getParams());
-        this.entityTemplate.withParams(params);
+        params.addAll(this.entityInfo.getParams());
+        this.entityInfo.withParams(params);
     }
 
 
     private List<Object> getArgsByLinkEntity(Class entity, Object id){
         List<Object> argList = new ArrayList<>();
-        for (EntityLink link: this.entityTemplate.getLinks()) {
+        for (EntityLink link: this.entityInfo.getLinks()) {
             if(link.getTemplate().getClazz().equals(entity)){
                 argList.add(id);
                 break;
@@ -71,7 +71,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
     }
 
     private EntityColumn getColumnByLinkEntity(Class entity){
-        for (EntityLink link: this.entityTemplate.getLinks()) {
+        for (EntityLink link: this.entityInfo.getLinks()) {
             if(link.getTemplate().getClazz().equals(entity)){
                 return link.getColumn();
             }
@@ -80,7 +80,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
     }
 
     private EntityLink getLinkByLinkEntity(Class entity) {
-        for (EntityLink link: this.entityTemplate.getLinks()) {
+        for (EntityLink link: this.entityInfo.getLinks()) {
             if(link.getTemplate().getClazz().equals(entity)){
                 return link;
             }
@@ -105,7 +105,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
     @Override
     public void deleteByLinkId(LinkID... linkID) {
         TemplateDeleteArgRenderer entityDeleteArgSql = safeTo(TemplateDeleteArgRenderer.class);
-        PlaceholderJSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,(Object[]) linkID);
+        PlaceholderJSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityInfo,(Object[]) linkID);
         log.debug("SQL create:\n" + sql.getSql());
 
         jdbcTemplate.update(sql.getSql(), sql.getArgs());
@@ -116,7 +116,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
         TemplateDeleteArgRenderer entityDeleteArgSql = safeTo(TemplateDeleteArgRenderer.class);
         List<Object> params = getArgsByLinkEntity(linkEntity, linkID);
 
-        PlaceholderJSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityTemplate,params.toArray());
+        PlaceholderJSql sql = entityDeleteArgSql.getDeleteByArgsSql(this.entityInfo,params.toArray());
         log.debug("SQL create:\n" + sql.getSql());
 
         jdbcTemplate.update(sql.getSql(), sql.getArgs());
@@ -133,7 +133,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
             aliasNamePrefix = column.getAliasName() + "_";
         }
 
-        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,(Object[]) linkID);
+        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityInfo,(Object[]) linkID);
         log.debug("SQL create:\n" + sql.getSql());
 
         final String finalAliasNamePrefix = aliasNamePrefix;
@@ -159,7 +159,7 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
             aliasNamePrefix = column.getAliasName() + "_";
         }
 
-        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityTemplate,params.toArray());
+        PlaceholderJSql sql = entitySearchArgSql.getSelectJoinByArgsSql(this.entityInfo,params.toArray());
         log.debug("SQL create:\n" + sql.getSql());
 
         final String finalAliasNamePrefix = aliasNamePrefix;
@@ -181,28 +181,28 @@ public class EntityLinkDaoImpl<Entity, ID, LinkID>
 
         EntityLink link = getLinkByLinkEntity(resultEntity);
         if(link == null){
-            throw new RuntimeException(this.entityTemplate.getClazz().getName() + " 关系实体不包含 " + resultEntity.getName() + "！");
+            throw new RuntimeException(this.entityInfo.getClazz().getName() + " 关系实体不包含 " + resultEntity.getName() + "！");
         }
         List<EntityParam> linkParams = new ArrayList<>();
-        for (EntityLink eLink: this.entityTemplate.getLinks()) {
+        for (EntityLink eLink: this.entityInfo.getLinks()) {
             linkParams.add(new EntityParam()
                     .withColumn(eLink.getColumn())
                     .withRelationship(Relationships.IN));
         }
-        linkParams.addAll(this.entityTemplate.getParams().subList(
+        linkParams.addAll(this.entityInfo.getParams().subList(
                 linkParams.size() - 1,
-                this.entityTemplate.getParams().size() - 1));
+                this.entityInfo.getParams().size() - 1));
 
         String aliasNamePrefix = link.getColumn().getAliasName() + "_";
-        EntityTemplate entityTemplate = new EntityTemplate()
+        EntityInfo entityInfo = new EntityInfo()
                 .withColumns(link.getTemplate().getColumns())
-                .withTable(this.entityTemplate.getTable())
-                .withLinks(this.entityTemplate.getLinks())
+                .withTable(this.entityInfo.getTable())
+                .withLinks(this.entityInfo.getLinks())
                 .withParams(linkParams)
-                .withOrders(this.entityTemplate.getOrders());
+                .withOrders(this.entityInfo.getOrders());
         List<Object> params = getArgsByLinkEntity(linkEntity, linkID);
 
-        PlaceholderJSql sql = entityDistinctSearchArgSql.getDistinctJoinByArgsSql(entityTemplate,params.toArray());
+        PlaceholderJSql sql = entityDistinctSearchArgSql.getDistinctJoinByArgsSql(entityInfo,params.toArray());
         log.debug("SQL create:\n" + sql.getSql());
 
         final String finalAliasNamePrefix = aliasNamePrefix;
