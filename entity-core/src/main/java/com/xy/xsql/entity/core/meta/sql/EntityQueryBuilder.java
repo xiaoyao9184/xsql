@@ -446,7 +446,7 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
      */
     public ColumnMeta columnMetaByName(String name) {
         return columnNameIndexer.column(name)
-                .orElseThrow(NoColumnMethodDefFoundError::new);
+                .orElseThrow(() -> new NoColumnMethodDefFoundError(name));
     }
 
     /**
@@ -505,7 +505,7 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
         builder.tableClassIndexer = SimpleTableMetaManager.INSTANCE;
         builder.tableRelationshipClassIndexer = SimpleTableMetaManager.INSTANCE;
         TableMeta tableMeta = SimpleTableMetaManager.INSTANCE.table(builder.entity)
-                .orElseThrow(NoTableClassDefFoundError::new);
+                .orElseThrow(() -> new NoTableClassDefFoundError(builder.entity));
         SimpleColumnMetaHolder simpleColumnMetaHolder = new SimpleColumnMetaHolder(tableMeta);
         builder.columnCollectionIndexer = simpleColumnMetaHolder;
         builder.columnNumberIndexer = simpleColumnMetaHolder;

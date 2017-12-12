@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import java.util.List;
 
 /**
+ * Same like
+ * @see com.xy.xsql.entity.core.meta.SimpleTableMetaManager
  * Created by xiaoyao9184 on 2017/9/22.
  */
 public interface RelationshipEntityManager

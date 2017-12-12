@@ -32,9 +32,8 @@ public class SimpleColumnMetaHolder
     private ClassTableMetaBuilderSelector classTableMetaBuilderSelector;
     private TableMeta<ColumnMeta> tableMeta;
 
-    public SimpleColumnMetaHolder(TableMeta<ColumnMeta> tableMeta) {
+    public SimpleColumnMetaHolder(TableMeta tableMeta) {
         this.tableMeta = tableMeta;
-
     }
 
     @Override
