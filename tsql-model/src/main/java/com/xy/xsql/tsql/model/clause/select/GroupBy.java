@@ -1,7 +1,6 @@
 package com.xy.xsql.tsql.model.clause.select;
 
 import com.xy.xsql.tsql.model.clause.Clause;
-import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Expression;
 
@@ -197,7 +196,7 @@ public class GroupBy implements Clause {
     /**
      * () --calculates the grand total
      */
-    public static class TotalItem implements Item {
+    public static class TotalItem implements Item, GroupingSet.Item {
 
     }
 
@@ -248,7 +247,7 @@ public class GroupBy implements Clause {
      */
     public static class GroupingSet {
         private boolean useTotal;
-        private List<Item> groupByExpressionList;
+        private List<Item> groupingSetItemList;
 
         public boolean isUseTotal() {
             return useTotal;
@@ -258,12 +257,12 @@ public class GroupBy implements Clause {
             this.useTotal = useTotal;
         }
 
-        public List<Item> getGroupByExpressionList() {
-            return groupByExpressionList;
+        public List<Item> getGroupingSetItemList() {
+            return groupingSetItemList;
         }
 
-        public void setGroupByExpressionList(List<Item> groupByExpressionList) {
-            this.groupByExpressionList = groupByExpressionList;
+        public void setGroupingSetItemList(List<Item> groupingSetItemList) {
+            this.groupingSetItemList = groupingSetItemList;
         }
 
 

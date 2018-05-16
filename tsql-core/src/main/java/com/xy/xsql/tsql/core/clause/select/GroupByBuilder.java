@@ -3,7 +3,6 @@ package com.xy.xsql.tsql.core.clause.select;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.builder.CodeTreeLazyConfigBuilder;
 import com.xy.xsql.core.lambda.Setter;
-import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import com.xy.xsql.tsql.model.clause.select.GroupBy.GroupByExpression;
 import com.xy.xsql.tsql.model.element.ColumnName;
@@ -38,6 +37,13 @@ public class GroupByBuilder<ParentBuilder>
         return new ItemBuilder<GroupByBuilder<ParentBuilder>>
                 (target.getItems()::add)
                 .in(this);
+    }
+
+    public GroupByBuilder<ParentBuilder> withItem(GroupBy.Item item){
+        initAdd(item,
+                target::getItems,
+                target::setItems);
+        return this;
     }
 
 
@@ -271,6 +277,23 @@ public class GroupByBuilder<ParentBuilder>
     }
 
     /**
+     * TotalItemBuilder
+     * @param <ParentBuilder>
+     */
+    public static class TotalItemBuilder<ParentBuilder>
+            extends CodeTreeLazyConfigBuilder<TotalItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.TotalItem, GroupBy.TotalItem> {
+
+        public TotalItemBuilder(GroupBy.TotalItem item) {
+            super(item);
+        }
+
+        public TotalItemBuilder(Setter<GroupBy.TotalItem> setter) {
+            super(new GroupBy.TotalItem(),setter);
+        }
+
+    }
+
+    /**
      * GroupingSetsItemBuilder
      * @param <ParentBuilder>
      */
@@ -292,6 +315,13 @@ public class GroupByBuilder<ParentBuilder>
                             target::getGroupingSetItemList,
                             target::setGroupingSetItemList))
                     .in(this);
+        }
+
+        public GroupingSetsItemBuilder<ParentBuilder> withItem(GroupBy.GroupingSet item) {
+            initAdd(item,
+                    target::getGroupingSetItemList,
+                    target::setGroupingSetItemList);
+            return this;
         }
 
 
@@ -359,13 +389,26 @@ public class GroupByBuilder<ParentBuilder>
         }
 
         public GroupingSetItemBuilder<GroupingSetBuilder<ParentBuilder>> withItem(){
-            initList(target::getGroupByExpressionList,
-                    target::setGroupByExpressionList);
+            initList(target::getGroupingSetItemList,
+                    target::setGroupingSetItemList);
             return new GroupingSetItemBuilder<GroupingSetBuilder<ParentBuilder>>
-                    (target.getGroupByExpressionList()::add)
+                    (target.getGroupingSetItemList()::add)
                     .in(this);
         }
 
+        public GroupingSetBuilder<ParentBuilder> withItem(GroupBy.GroupingSet.Item item){
+            initAdd(item,
+                    target::getGroupingSetItemList,
+                    target::setGroupingSetItemList);
+            return this;
+        }
+
+        public GroupingSetBuilder<ParentBuilder> withItem(GroupBy.GroupingSet.Item... item){
+            initList(target::getGroupingSetItemList,
+                    target::setGroupingSetItemList);
+            this.target.getGroupingSetItemList().addAll(Arrays.asList(item));
+            return this;
+        }
 
 
 
