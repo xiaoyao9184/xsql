@@ -156,6 +156,7 @@ public class From implements Clause {
     }
 
     /**
+     * TODO use derived_table to be interface, and rename this to DerivedTableWithAs
      * derived_table [ [ AS ] table_alias ] [ ( column_alias [ ,...n ] ) ]
      */
     public static class DerivedTable implements TableSource {

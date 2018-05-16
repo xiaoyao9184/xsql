@@ -348,7 +348,8 @@ public class BulkInsert implements Statement {
 
     /**
      * ORDER
-     * TODO maybe same as OrderBy.Item
+     * TODO maybe use OrderBy.Item, limit with builder
+     * @see com.xy.xsql.tsql.model.clause.select.OrderBy.Item
      */
     public static class OrderColumn {
 
@@ -356,9 +357,7 @@ public class BulkInsert implements Statement {
         private boolean useAsc;
         private boolean useDesc;
 
-        public OrderColumn(){
-
-        }
+        public OrderColumn(){}
 
         public ColumnName getColumn() {
             return column;
