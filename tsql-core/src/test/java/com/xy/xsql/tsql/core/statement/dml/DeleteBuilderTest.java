@@ -35,7 +35,7 @@ public class DeleteBuilderTest {
      */
     public Delete exampleA = DELETE()
             .$From(t("Sales","SalesPersonQuotaHistory"))
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -71,7 +71,7 @@ public class DeleteBuilderTest {
                         e_number(1000.00)
                 ))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -115,7 +115,7 @@ public class DeleteBuilderTest {
                         c("EndDate")
                 ))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -158,7 +158,7 @@ public class DeleteBuilderTest {
             .$Where()
                 //TODO support CURRENT OF
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     /**
@@ -219,7 +219,7 @@ public class DeleteBuilderTest {
                         subQuery
                 ))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -276,7 +276,7 @@ public class DeleteBuilderTest {
                         e_number(2500000.00)
                 ))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -349,7 +349,7 @@ public class DeleteBuilderTest {
                             e_number(2500000.00)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -410,7 +410,7 @@ public class DeleteBuilderTest {
                             e_string("20020701")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -452,7 +452,7 @@ public class DeleteBuilderTest {
             .$OrderBy()
                 .$(c("DueDate")).$Asc()
                 .and()
-            .done();
+            .build();
     //parent+quick
     /**
      * DELETE FROM Purchasing.PurchaseOrderDetail
@@ -469,7 +469,7 @@ public class DeleteBuilderTest {
                             subQueryE2
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -516,7 +516,7 @@ public class DeleteBuilderTest {
                             e_number(16)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -556,7 +556,7 @@ public class DeleteBuilderTest {
     public Delete exampleG = DELETE()
                 //TODO function
 
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -584,7 +584,7 @@ public class DeleteBuilderTest {
     public Delete exampleH = DELETE()
                 //TODO function
 
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -623,7 +623,7 @@ public class DeleteBuilderTest {
                             e_number(20621)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -699,7 +699,7 @@ public class DeleteBuilderTest {
                             e_number(130)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test

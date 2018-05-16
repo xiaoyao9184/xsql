@@ -180,7 +180,7 @@ public class MergeBuilderTest {
                             c_inserted())
                     .$Into("MyTempTable")
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -278,7 +278,7 @@ public class MergeBuilderTest {
                         c_deleted("Quantity"),
                         c_deleted("ModifiedDate"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -341,7 +341,7 @@ public class MergeBuilderTest {
                 .$(c_$action())
                 .$Into("SummaryOfChanges")
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -447,7 +447,7 @@ public class MergeBuilderTest {
                     .$Deleted("Quantity")
                     .$As("PreviousQty")
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     @Test

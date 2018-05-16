@@ -9,6 +9,9 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
@@ -51,6 +54,11 @@ public class SelectBuilder<ParentBuilder>
                         target::getSelectList,
                         target::setSelectList))
                 .in(this);
+    }
+
+    public SelectBuilder<ParentBuilder> withTop(Top top) {
+        this.target.setTop(top);
+        return this;
     }
 
 
@@ -176,12 +184,30 @@ public class SelectBuilder<ParentBuilder>
     }
 
 
+    public static class SelectListBuilder<ParentBuilder>
+            extends CodeTreeBuilder<SelectListBuilder<ParentBuilder>,ParentBuilder,List<Select.SelectItem>> {
+
+        public SelectListBuilder() {
+            super(new ArrayList<>());
+        }
+
+        public SelectItemBuilder<SelectListBuilder<ParentBuilder>> withItem(){
+            return new SelectItemBuilder<SelectListBuilder<ParentBuilder>>
+                    ()
+                    .enter(this, item -> this.target.add(item));
+        }
+    }
+
     /**
      * SelectItemBuilder
      * @param <ParentBuilder>
      */
     public static class SelectItemBuilder<ParentBuilder>
             extends CodeTreeBuilder<SelectItemBuilder<ParentBuilder>,ParentBuilder,Select.SelectItem> {
+
+        public SelectItemBuilder() {
+            super(new Select.SelectItem());
+        }
 
         public SelectItemBuilder(Select.SelectItem selectItem) {
             super(selectItem);

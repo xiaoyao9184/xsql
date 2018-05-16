@@ -38,6 +38,11 @@ public class OrderByBuilder<ParentBuilder>
                 .in(this);
     }
 
+    public OrderByBuilder<ParentBuilder> withOffsetFetch(OrderBy.OffsetFetch offsetFetch){
+        this.target.setOffsetFetch(offsetFetch);
+        return this;
+    }
+
     /*
     Quick set
      */
@@ -250,6 +255,14 @@ public class OrderByBuilder<ParentBuilder>
         public OffsetFetchBuilder<ParentBuilder> withUseFetchRows() {
             target.setUseFetchRows(true);
             return this;
+        }
+
+        public void withFetch(OrderBy.OffsetFetch fetch) {
+            target.setUseFetch(true);
+            target.setUseFetchFirst(fetch.isUseFetchFirst());
+            target.setUseFetchRows(fetch.isUseFetchRows());
+            target.setFetchIntegerConstant(fetch.getIntegerConstant());
+            target.setFetchOffsetRowCountExpression(fetch.getFetchOffsetRowCountExpression());
         }
 
 

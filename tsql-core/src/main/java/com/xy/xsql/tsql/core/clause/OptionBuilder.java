@@ -8,6 +8,7 @@ import com.xy.xsql.tsql.model.datatype.StringConstant;
 
 import java.util.Arrays;
 
+import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
@@ -32,6 +33,13 @@ public class OptionBuilder<ParentBuilder>
         return new QueryOptionBuilder<OptionBuilder<ParentBuilder>>
                 (target.getQueryOption()::add)
                 .in(this);
+    }
+
+    public OptionBuilder<ParentBuilder> withItem(Option.QueryOption queryOption){
+        initAdd(queryOption,
+                this.target::getQueryOption,
+                this.target::setQueryOption);
+        return this;
     }
 
 

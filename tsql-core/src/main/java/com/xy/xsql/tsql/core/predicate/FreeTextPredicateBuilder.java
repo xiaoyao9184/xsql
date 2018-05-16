@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.predicate.FreeText;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
@@ -44,6 +45,11 @@ public class FreeTextPredicateBuilder<ParentBuilder>
                 Arrays.stream(columnNames)
                         .map(ColumnName::new)
                         .collect(Collectors.toList()));
+        return this;
+    }
+
+    public FreeTextPredicateBuilder<ParentBuilder> withColumn(List<ColumnName> columnNames) {
+        target.setColumnList(columnNames);
         return this;
     }
 

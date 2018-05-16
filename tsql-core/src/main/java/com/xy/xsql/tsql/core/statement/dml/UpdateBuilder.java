@@ -15,7 +15,9 @@ import com.xy.xsql.tsql.model.statement.dml.Update;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
@@ -49,6 +51,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
+    public UpdateBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
+
     /**
      * in
      * @return TopBuilder
@@ -59,6 +66,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                         target::getTop,
                         target::setTop))
                 .in(this);
+    }
+
+    public UpdateBuilder withTop(Top top){
+        this.target.setTop(top);
+        return this;
     }
 
     /**
@@ -103,6 +115,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         return this;
     }
 
+    public UpdateBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
+        initAdd(tableHintLimiteds,
+                target::getTableHintLimitedList,
+                target::setTableHintLimitedList);
+        return this;
+    }
+
     /**
      * in
      * @return SetItemBuilder
@@ -113,6 +132,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         return new SetItemBuilder<UpdateBuilder>
                 (target.getSets()::add)
                 .in(this);
+    }
+
+    public UpdateBuilder withSetItem(List<Update.SetItem> setItems){
+        initAdd(setItems,
+                target::getSets,
+                target::setSets);
+        return this;
     }
 
     /**
@@ -127,6 +153,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
+    public UpdateBuilder withOutput(Output output) {
+        this.target.setOutput(output);
+        return this;
+    }
+
     /**
      * in
      * @return FromBuilder
@@ -137,6 +168,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                         target::getFrom,
                         target::setFrom))
                 .in(this);
+    }
+
+    public UpdateBuilder withFrom(From from) {
+        this.target.setFrom(from);
+        return this;
     }
 
     /**
@@ -151,6 +187,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
+    public UpdateBuilder withWhere(Where where) {
+        this.target.setWhere(where);
+        return this;
+    }
+
     /**
      * in
      * @return OptionBuilder
@@ -161,6 +202,11 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                         target::getOption,
                         target::setOption))
                 .in(this);
+    }
+
+    public UpdateBuilder withOption(Option option) {
+        this.target.setOption(option);
+        return this;
     }
 
 
@@ -287,6 +333,19 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
 
 
+    public static class SetListBuilder<ParentBuilder>
+            extends CodeTreeBuilder<SetListBuilder<ParentBuilder>,ParentBuilder,List<Update.SetItem>> {
+
+        public SetListBuilder() {
+            super(new ArrayList<>());
+        }
+
+        public SetItemBuilder<SetListBuilder<ParentBuilder>> withItem(){
+            return new SetItemBuilder<SetListBuilder<ParentBuilder>>
+                    (item -> this.target.add(item))
+                    .in(this);
+        }
+    }
 
     /**
      * Abstract SetItem Builder

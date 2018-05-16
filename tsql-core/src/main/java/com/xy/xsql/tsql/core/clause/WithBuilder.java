@@ -7,6 +7,7 @@ import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
@@ -33,6 +34,13 @@ public class WithBuilder<ParentBuilder>
                         this.target::getCommonTableExpressionList,
                         this.target::setCommonTableExpressionList))
                 .in(this);
+    }
+
+    public WithBuilder<ParentBuilder> withItem(With.CommonTableExpression commonTableExpression){
+        initAdd(commonTableExpression,
+                this.target::getCommonTableExpressionList,
+                this.target::setCommonTableExpressionList);
+        return this;
     }
 
 
@@ -96,6 +104,16 @@ public class WithBuilder<ParentBuilder>
             }
             initAdd(Arrays.asList(columnNames),
                      this.target::getColumnName,
+                    this.target::setColumnName);
+            return this;
+        }
+
+        public CommonTableExpressionBuilder<ParentBuilder> withColumnName(List<ColumnName> columnNames){
+            if(CheckUtil.isNullOrEmpty(columnNames)){
+                return this;
+            }
+            initAdd(columnNames,
+                    this.target::getColumnName,
                     this.target::setColumnName);
             return this;
         }

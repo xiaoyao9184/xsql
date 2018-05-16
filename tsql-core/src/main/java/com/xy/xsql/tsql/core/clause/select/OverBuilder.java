@@ -8,6 +8,7 @@ import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
@@ -51,6 +52,16 @@ public class OverBuilder<ParentBuilder>
                         target::getRowRange,
                         target::setRowRange))
                 .in(this);
+    }
+
+    public OverBuilder<ParentBuilder> withPartitionBy(Over.PartitionBy partitionBy){
+        this.target.setPartitionBy(partitionBy);
+        return this;
+    }
+
+    public OverBuilder<ParentBuilder> withRowRange(Over.RowRange rowRange){
+        this.target.setRowRange(rowRange);
+        return this;
     }
 
 
@@ -163,6 +174,16 @@ public class OverBuilder<ParentBuilder>
             initAdd(Arrays.asList(orderByItems),
                             target::getItems,
                             target::setItems);
+            return this;
+        }
+
+        public OrderByBuilder<ParentBuilder> withItems(List<OrderBy.Item> orderByItems) {
+            if(CheckUtil.isNullOrEmpty(orderByItems)){
+                return this;
+            }
+            initAdd(orderByItems,
+                    target::getItems,
+                    target::setItems);
             return this;
         }
     }

@@ -319,7 +319,7 @@ public class OptionBuilderTest {
 
         Assert.assertEquals(option2.getQueryOption().size(),1);
 
-        Assert.assertEquals(option.getQueryOption().get(0).getClass(), QueryHint.class);
+        Assert.assertEquals(option2.getQueryOption().get(0).getClass(), QueryHint.class);
         QueryHint queryHint2 = (QueryHint) option2.getQueryOption().get(0);
         Assert.assertEquals(queryHint2.getType(),DISABLE_EXTERNALPUSHDOWN);
     }

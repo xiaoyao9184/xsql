@@ -45,7 +45,7 @@ public class UpdateBuilderTest {
                         c("ModifiedDate"),
                         e("GETDATE()"))
                 )
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -57,7 +57,7 @@ public class UpdateBuilderTest {
                     .withColumnName(c("ModifiedDate"))
                     .withExpression(e("GETDATE()"))
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Person.Address");
@@ -90,7 +90,7 @@ public class UpdateBuilderTest {
                                 c("SalesQuota")
                         )
                 )
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -110,7 +110,7 @@ public class UpdateBuilderTest {
                     .withColumnName(c("SalesQuota"))
                     .withUseNull(true)
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Sales.SalesPerson");
@@ -163,7 +163,7 @@ public class UpdateBuilderTest {
                             e_n_string("Red")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -191,7 +191,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Production.Product");
@@ -247,7 +247,7 @@ public class UpdateBuilderTest {
                             c("th","BusinessEntityID")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -277,7 +277,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"HumanResources.Employee");
@@ -404,7 +404,7 @@ public class UpdateBuilderTest {
                             e_number(0)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -449,7 +449,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Production.BillOfMaterials");
@@ -482,7 +482,7 @@ public class UpdateBuilderTest {
                         )
                 )
                 //TODO CURRENT OF
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -495,7 +495,7 @@ public class UpdateBuilderTest {
                     .withExpression(e_number(2))
                     .and()
                 //TODO CURRENT OF
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"HumanResources.EmployeePayHistory");
@@ -530,7 +530,7 @@ public class UpdateBuilderTest {
                                 )
                         )
                 )
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -546,7 +546,7 @@ public class UpdateBuilderTest {
                                         e_number(2)
                                 ))
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Production.Product");
@@ -579,7 +579,7 @@ public class UpdateBuilderTest {
                             e_n_string("Red")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -601,7 +601,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Production.Product");
@@ -632,7 +632,7 @@ public class UpdateBuilderTest {
                     ))
                     .and()
                 .and()
-            .done();
+            .build();
 
     private Select subQuery3C = SELECT()
             .$Select()
@@ -655,7 +655,7 @@ public class UpdateBuilderTest {
                     .$(c("so","SalesPersonID"))
                     .and()
                 .and()
-            .done();
+            .build();
 
     /**
      * UPDATE Sales.SalesPerson
@@ -679,7 +679,7 @@ public class UpdateBuilderTest {
                                 )
                         )
                 )
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -695,7 +695,7 @@ public class UpdateBuilderTest {
                                         e_subquery(subQuery3C)
                                 ))
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Sales.SalesPerson");
@@ -725,7 +725,7 @@ public class UpdateBuilderTest {
                             e_number(20.00)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -746,7 +746,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Production.Location");
@@ -783,7 +783,7 @@ public class UpdateBuilderTest {
                             e_string("United States")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -804,7 +804,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"Person.vStateProvinceCountryRegion");
@@ -855,7 +855,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -896,7 +896,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
         Assert.assertEquals(update.getTableName().toString(),"sr");
@@ -940,7 +940,7 @@ public class UpdateBuilderTest {
                     .$(t("HumanResources","Employee"),"e")
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     /**
@@ -974,7 +974,7 @@ public class UpdateBuilderTest {
                         .withTableAlias("e")
                         .and()
                     .and()
-                .done();
+                .build();
         // @formatter:on
 
 //        Assert.assertEquals(update.getTableName().toString(),"Person.vStateProvinceCountryRegion");
@@ -1043,7 +1043,7 @@ public class UpdateBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1100,7 +1100,7 @@ public class UpdateBuilderTest {
                                 c("SalesYTD"),
                                 e_subquery(query5A2))
                 ))
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1131,7 +1131,7 @@ public class UpdateBuilderTest {
                             e_number(4)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1147,7 +1147,7 @@ public class UpdateBuilderTest {
                         c("GroupName"),
                         e_n_string("Sales and Marketing")
                 ))
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1163,7 +1163,7 @@ public class UpdateBuilderTest {
                         c("GroupName"),
                         e_n_string("Sales and Marketing")
                 ))
-                .done();
+                .build();
     // @formatter:on
 
     /*
@@ -1199,7 +1199,7 @@ public class UpdateBuilderTest {
                             e_n_string("Front Reflector Bracket Installation")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     // @formatter:off
@@ -1221,7 +1221,7 @@ public class UpdateBuilderTest {
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
                     .and()
-                .done();
+                .build();
 
     /**
      * -- Replacing temporary data with the correct data. Setting @Length to NULL
@@ -1243,7 +1243,7 @@ public class UpdateBuilderTest {
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
                     .and()
-                .done();
+                .build();
 
     /**
      * -- Appending additional data to the end of the column by setting
@@ -1265,7 +1265,7 @@ public class UpdateBuilderTest {
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
                     .and()
-                .done();
+                .build();
 
     /**
      * -- Removing all data from @Offset to the end of the existing value by
@@ -1287,7 +1287,7 @@ public class UpdateBuilderTest {
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
                     .and()
-                .done();
+                .build();
 
     /**
      * -- Removing partial data beginning at position 9 and ending at
@@ -1309,7 +1309,7 @@ public class UpdateBuilderTest {
                             e_n_string("Crank Arm and Tire Maintenance")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1334,7 +1334,7 @@ public class UpdateBuilderTest {
                             e_number(1)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1356,7 +1356,7 @@ public class UpdateBuilderTest {
                             e_number(2)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     /*
@@ -1383,7 +1383,7 @@ public class UpdateBuilderTest {
                             e_string("Anchorage")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1406,7 +1406,7 @@ public class UpdateBuilderTest {
                             e_string("Anchorage")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1428,7 +1428,7 @@ public class UpdateBuilderTest {
                             e_string("Anchorage")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     /*
@@ -1460,7 +1460,7 @@ public class UpdateBuilderTest {
                             e_string("BK-%")
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1489,7 +1489,7 @@ public class UpdateBuilderTest {
                 .$Option()
                     .$(OPTIMIZE_FOR("Product","BK-%"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     /*
@@ -1531,7 +1531,7 @@ public class UpdateBuilderTest {
                     .$Inserted("ModifiedDate")
                     .$Into("MyTableVar")
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     /*
@@ -1572,7 +1572,7 @@ public class UpdateBuilderTest {
                             e_number(1)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1595,7 +1595,7 @@ public class UpdateBuilderTest {
                             e_number(2)
                     ))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 

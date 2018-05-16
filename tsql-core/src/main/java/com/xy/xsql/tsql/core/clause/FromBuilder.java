@@ -939,6 +939,18 @@ public class FromBuilder<ParentBuilder>
             return this;
         }
 
+        public BaseTableBuilder<ParentBuilder> withTableSample(From.TableSample tableSample){
+            this.target.setTableSample(tableSample);
+            return this;
+        }
+
+        public BaseTableBuilder<ParentBuilder> withTableHint(List<TableHint> tableHints){
+            initAdd(tableHints,
+                    target::getTableHintList,
+                    target::setTableHintList);
+            return this;
+        }
+
 
         /**
          * Quick set tableAlias
@@ -1233,11 +1245,21 @@ public class FromBuilder<ParentBuilder>
                     .in(this);
         }
 
+        public JoinedTableBuilder<ParentBuilder> withTableSource2(From.TableSource tableSource){
+            this.target.setTableSource2(tableSource);
+            return this;
+        }
+
         public SearchConditionBuilder<JoinedTableBuilder<ParentBuilder>> withSearchCondition(){
             return new SearchConditionBuilder<JoinedTableBuilder<ParentBuilder>>
                     (set(SearchCondition::new,
                             target::setSearchCondition))
                     .in(this);
+        }
+
+        public JoinedTableBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
+            this.target.setSearchCondition(searchCondition);
+            return this;
         }
 
 
@@ -1452,6 +1474,11 @@ public class FromBuilder<ParentBuilder>
                     .in(this);
         }
 
+        public BaseWithTimeTableBuilder<ParentBuilder> withSystemTime(From.SystemTime systemTime){
+            this.target.setSystemTime(systemTime);
+            return this;
+        }
+
         public SystemTimeBuilder<BaseWithTimeTableBuilder<ParentBuilder>> $ForSystemTime() {
             return withSystemTime();
         }
@@ -1553,6 +1580,11 @@ public class FromBuilder<ParentBuilder>
 
         public ParentBuilder _AsOf(LocalVariable dateTime) {
             target.setDateTime(new From.DateTime(dateTime));
+            return and();
+        }
+
+        public ParentBuilder _AsOf(From.DateTime dateTime) {
+            target.setDateTime(dateTime);
             return and();
         }
 
@@ -1746,13 +1778,23 @@ public class FromBuilder<ParentBuilder>
                 return this;
             }
 
-            public FromToBuilder<ParentBuilder> withTo(StringConstant startDateTime) {
-                target.setEndDateTime(new From.DateTime(startDateTime));
+            public FromToBuilder<ParentBuilder> withFrom(From.DateTime dateTime) {
+                target.setStartDateTime(dateTime);
                 return this;
             }
 
-            public FromToBuilder<ParentBuilder> withTo(LocalVariable startDateTime) {
-                target.setEndDateTime(new From.DateTime(startDateTime));
+            public FromToBuilder<ParentBuilder> withTo(StringConstant endDateTime) {
+                target.setEndDateTime(new From.DateTime(endDateTime));
+                return this;
+            }
+
+            public FromToBuilder<ParentBuilder> withTo(LocalVariable endDateTime) {
+                target.setEndDateTime(new From.DateTime(endDateTime));
+                return this;
+            }
+
+            public FromToBuilder<ParentBuilder> withTo(From.DateTime endDateTime) {
+                target.setEndDateTime(endDateTime);
                 return this;
             }
 
@@ -1814,13 +1856,23 @@ public class FromBuilder<ParentBuilder>
                 return this;
             }
 
-            public BetweenAndBuilder<ParentBuilder> withAnd(StringConstant startDateTime) {
-                target.setEndDateTime(new From.DateTime(startDateTime));
+            public BetweenAndBuilder<ParentBuilder> withBetween(From.DateTime dateTime) {
+                target.setStartDateTime(dateTime);
                 return this;
             }
 
-            public BetweenAndBuilder<ParentBuilder> withAnd(LocalVariable startDateTime) {
-                target.setEndDateTime(new From.DateTime(startDateTime));
+            public BetweenAndBuilder<ParentBuilder> withAnd(StringConstant endDateTime) {
+                target.setEndDateTime(new From.DateTime(endDateTime));
+                return this;
+            }
+
+            public BetweenAndBuilder<ParentBuilder> withAnd(LocalVariable endDateTime) {
+                target.setEndDateTime(new From.DateTime(endDateTime));
+                return this;
+            }
+
+            public BetweenAndBuilder<ParentBuilder> withAnd(From.DateTime endDateTime) {
+                target.setEndDateTime(endDateTime);
                 return this;
             }
 
@@ -1878,18 +1930,28 @@ public class FromBuilder<ParentBuilder>
                 return this;
             }
 
+            public ContainedInBuilder<ParentBuilder> withStart(From.DateTime startDateTime) {
+                target.setStartDateTime(startDateTime);
+                return this;
+            }
+
             public ContainedInBuilder<ParentBuilder> withStart(LocalVariable startDateTime) {
                 target.setStartDateTime(new From.DateTime(startDateTime));
                 return this;
             }
 
-            public ContainedInBuilder<ParentBuilder> withEnd(StringConstant startDateTime) {
-                target.setEndDateTime(new From.DateTime(startDateTime));
+            public ContainedInBuilder<ParentBuilder> withEnd(StringConstant endDateTime) {
+                target.setEndDateTime(new From.DateTime(endDateTime));
                 return this;
             }
 
-            public ContainedInBuilder<ParentBuilder> withEnd(LocalVariable startDateTime) {
-                target.setEndDateTime(new From.DateTime(startDateTime));
+            public ContainedInBuilder<ParentBuilder> withEnd(LocalVariable endDateTime) {
+                target.setEndDateTime(new From.DateTime(endDateTime));
+                return this;
+            }
+
+            public ContainedInBuilder<ParentBuilder> withEnd(From.DateTime endDateTime) {
+                target.setEndDateTime(endDateTime);
                 return this;
             }
 

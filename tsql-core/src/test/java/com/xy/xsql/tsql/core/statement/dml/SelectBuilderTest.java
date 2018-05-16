@@ -187,7 +187,7 @@ public class SelectBuilderTest {
                     .$(c("Name"))
                     .$Asc()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -377,7 +377,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("ProductName")).$Desc()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -542,7 +542,7 @@ public class SelectBuilderTest {
                                         ))
                                         .and()
                                     .and()
-                                .done()
+                                .build()
                     ))
                     .and()
                 .and()
@@ -581,7 +581,7 @@ public class SelectBuilderTest {
                                     ))
                                     .and()
                                 .and()
-                            .done()
+                            .build()
                     ))
                     .and()
                 .and()
@@ -635,7 +635,7 @@ public class SelectBuilderTest {
                                                 c("sp","BusinessEntityID")))
                                         .and()
                                     .and()
-                                .done()
+                                .build()
                     ))
                     .and()
                 .and()
@@ -681,7 +681,7 @@ public class SelectBuilderTest {
                                         ))
                                         .and()
                                     .and()
-                                .done()
+                                .build()
                     ))
                     .and()
                 .and()
@@ -755,19 +755,19 @@ public class SelectBuilderTest {
                                                                         ))
                                                                         .and()
                                                                     .and()
-                                                                .done()
+                                                                .build()
                                                         ))
                                                         .and()
                                                     .and()
-                                                .done()
+                                                .build()
                                         ))
                                         .and()
                                     .and()
-                                .done()
+                                .build()
                     ))
                     .and()
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -792,7 +792,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("SalesOrderID"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -821,7 +821,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("ProductID"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -853,7 +853,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("ProductModelID"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -890,7 +890,7 @@ public class SelectBuilderTest {
                             c("UnitPrice")
                     ))).$Desc()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -922,7 +922,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(e("AVG(UnitPrice)"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -953,7 +953,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("ProductID"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -986,7 +986,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("SalesOrderID"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1024,7 +1024,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("ProductID"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1058,7 +1058,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1086,7 +1086,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1114,7 +1114,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1153,7 +1153,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1192,7 +1192,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1231,7 +1231,7 @@ public class SelectBuilderTest {
                 .$Option()
                     .$(HASH_GROUP(),FAST(10))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1272,7 +1272,7 @@ public class SelectBuilderTest {
                 .$Option()
                     .$(MERGE_UNION())
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     // @formatter:off
@@ -1299,7 +1299,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     // @formatter:off
@@ -1339,7 +1339,7 @@ public class SelectBuilderTest {
                 .$OrderBy()
                     .$(c("Name"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1367,7 +1367,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1406,7 +1406,7 @@ public class SelectBuilderTest {
                             .and()
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1423,7 +1423,7 @@ public class SelectBuilderTest {
                         .$(t("dbo","ProductResults"))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1451,7 +1451,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1495,7 +1495,7 @@ public class SelectBuilderTest {
                         .and()
                     .and()
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1536,7 +1536,7 @@ public class SelectBuilderTest {
             .$OrderBy()
                 .$(c("Name"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1576,7 +1576,7 @@ public class SelectBuilderTest {
                         ))
                     .and()
                 .and()
-                .done();
+                .build();
     // @formatter:on
 
 
@@ -1618,7 +1618,7 @@ public class SelectBuilderTest {
                         .and()
                     .and()
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1660,7 +1660,7 @@ public class SelectBuilderTest {
                         .and()
                     .and()
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1706,7 +1706,7 @@ public class SelectBuilderTest {
                         .and()
                     .and()
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 }

@@ -3,11 +3,16 @@ package com.xy.xsql.tsql.core.statement.dml;
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.tsql.core.clause.*;
 import com.xy.xsql.tsql.model.clause.*;
+import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
  * Created by xiaoyao9184 on 2017/1/9.
@@ -35,6 +40,11 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
+    public DeleteBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
+
     /**
      *
      * @return
@@ -45,6 +55,11 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                         target::getTop,
                         target::setTop))
                 .in(this);
+    }
+
+    public DeleteBuilder withTop(Top top){
+        this.target.setTop(top);
+        return this;
     }
 
     /**
@@ -88,6 +103,25 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     }
 
     /**
+     * set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
+    public DeleteBuilder withTableHint(TableHintLimited... tableHintLimiteds){
+        initAdd(Arrays.asList(tableHintLimiteds),
+                target::getTableHintLimitedList,
+                target::setTableHintLimitedList);
+        return this;
+    }
+
+    public DeleteBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
+        initAdd(tableHintLimiteds,
+                target::getTableHintLimitedList,
+                target::setTableHintLimitedList);
+        return this;
+    }
+
+    /**
      *
      * @return
      */
@@ -97,6 +131,11 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                         target::getOutput,
                         target::setOutput))
                 .in(this);
+    }
+
+    public DeleteBuilder withOutput(Output output) {
+        this.target.setOutput(output);
+        return this;
     }
 
     /**
@@ -111,6 +150,11 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
+    public DeleteBuilder withFrom(From from) {
+        this.target.setFrom(from);
+        return this;
+    }
+
     /**
      *
      * @return
@@ -123,6 +167,11 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
+    public DeleteBuilder withWhere(Where where) {
+        this.target.setWhere(where);
+        return this;
+    }
+
     /**
      *
      * @return
@@ -133,6 +182,11 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                         target::getOption,
                         target::setOption))
                 .in(this);
+    }
+
+    public DeleteBuilder withOption(Option option) {
+        this.target.setOption(option);
+        return this;
     }
 
 

@@ -16,6 +16,7 @@ import com.xy.xsql.tsql.model.statement.dml.Insert;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
@@ -42,12 +43,22 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
+    public InsertBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
+
     public TopBuilder<InsertBuilder> withTop(){
         return new TopBuilder<InsertBuilder>
                 (initSet(Top::new,
                         target::getTop,
                         target::setTop))
                 .in(this);
+    }
+
+    public InsertBuilder withTop(Top top){
+        this.target.setTop(top);
+        return this;
     }
 
     public InsertBuilder withInto(){
@@ -65,8 +76,20 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return this;
     }
 
-    private InsertBuilder withWith(TableHintLimited... tableHintLimiteds) {
+    /**
+     * set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
+    public InsertBuilder withTableHint(TableHintLimited... tableHintLimiteds){
         initAdd(Arrays.asList(tableHintLimiteds),
+                target::getTableHintLimitedList,
+                target::setTableHintLimitedList);
+        return this;
+    }
+
+    public InsertBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
+        initAdd(tableHintLimiteds,
                 target::getTableHintLimitedList,
                 target::setTableHintLimitedList);
         return this;
@@ -82,6 +105,16 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return this;
     }
 
+    public InsertBuilder withColumn(List<ColumnName> columnNames){
+        if(CheckUtil.isNullOrEmpty(columnNames)){
+            return this;
+        }
+        initAdd(columnNames,
+                target::getColumns,
+                target::setColumns);
+        return this;
+    }
+
     public OutputBuilder<InsertBuilder> withOutput() {
         return new OutputBuilder<InsertBuilder>
                 (initSet(Output::new,
@@ -90,12 +123,22 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
+    public InsertBuilder withOutput(Output output) {
+        this.target.setOutput(output);
+        return this;
+    }
+
     public TableValueConstructorBuilder<InsertBuilder> withValues(){
         return new TableValueConstructorBuilder<InsertBuilder>
                 (initSet(TableValueConstructor::new,
                         target::getValues,
                         target::setValues))
                 .in(this);
+    }
+
+    public InsertBuilder withValues(TableValueConstructor values){
+        this.target.setValues(values);
+        return this;
     }
 
     public InsertBuilder withDefaultValues() {
@@ -139,7 +182,7 @@ public class InsertBuilder extends CodeBuilder<Insert> {
     }
 
     public InsertBuilder $With(TableHintLimited... tableHintLimiteds) {
-        return withWith(tableHintLimiteds);
+        return withTableHint(tableHintLimiteds);
     }
 
     public OutputBuilder<InsertBuilder> $Output() {

@@ -48,7 +48,7 @@ public class InsertBuilderTest {
                 .$Values()
                     .$(e_n_string("FT"),e_n_string("Feet"),e_string("20080414"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -89,7 +89,7 @@ public class InsertBuilderTest {
                     .$(e_n_string("Y"),e_n_string("Yards"),e_string("20080923"))
                     .$(e_n_string("Y3"),e_n_string("Cubic Yards"),e_string("20080923"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     @Test
@@ -141,7 +141,7 @@ public class InsertBuilderTest {
                 .$Values()
                     .$(e_n_string("Square Yards"),e_n_string("Y2"),e("GETDATE()"))
                     .and()
-                .done();
+                .build();
     // @formatter:on
 
     /**
@@ -193,7 +193,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e_string("Explicit value"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -209,7 +209,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e_string("Explicit value"),e_string("Explicit value"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -225,7 +225,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e_string("Explicit value"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -237,7 +237,7 @@ public class InsertBuilderTest {
             .$Into()
             .$(t("T1"))
             .$Default_Values()
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -319,7 +319,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e_string("Row #1"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -333,7 +333,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e_string("Row #2"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -349,7 +349,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e_number(-99),e_string("Explicit identity value"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -366,7 +366,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e("NEWID()"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -378,7 +378,7 @@ public class InsertBuilderTest {
             .$Into()
             .$(t("T1"))
             .$Default_Values()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -394,7 +394,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e("CONVERT(Point, '3,4')"))
                 .and()
-            .done();
+            .build();
 
     /**
      * INSERT INTO dbo.Points (PointValue) VALUES (CONVERT(Point, '1,5'))
@@ -406,7 +406,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e("CONVERT(Point, '1,5')"))
                 .and()
-            .done();
+            .build();
 
     /**
      * INSERT INTO dbo.Points (PointValue) VALUES (CAST ('1,99' AS Point))
@@ -418,7 +418,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e("CAST ('1,99' AS Point)"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -466,7 +466,7 @@ public class InsertBuilderTest {
             .$(t("dbo","EmployeeSales"))
             //TODO derived_table
 //            .$Select(derivedTableH1)
-            .done();
+            .build();
 
     /**
      * --INSERT...EXECUTE procedure example
@@ -478,7 +478,7 @@ public class InsertBuilderTest {
             .$(t("dbo","EmployeeSales"))
             //TODO execute_statement
 //            .$Execute()
-            .done();
+            .build();
 
     /**
      * INSERT INTO dbo.EmployeeSales
@@ -498,7 +498,7 @@ public class InsertBuilderTest {
             .$(t("dbo","EmployeeSales"))
             //TODO execute_statement
 //            .$Execute()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -613,7 +613,7 @@ public class InsertBuilderTest {
             .$(t("HumanResources","NewEmployee"))
             //TODO derived_table
 //            .$Select(derivedTableI1)
-            .done();
+            .build();
 
 
     // @formatter:off
@@ -673,7 +673,7 @@ public class InsertBuilderTest {
                 .and()
             //TODO derived_table
 //            .$Select(derivedTableJ1)
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -734,7 +734,7 @@ public class InsertBuilderTest {
                 .and()
             //TODO derived_table
 //            .$Select(derivedTableJ2)
-            .done();
+            .build();
     // @formatter:on
 
     /*
@@ -754,7 +754,7 @@ public class InsertBuilderTest {
             .$Values()
                 .$(e_string("Row 1"),e_number(1))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -789,7 +789,7 @@ public class InsertBuilderTest {
             .$(c("ModifiedDate"))
             //TODO derived_table
 //            .$Select(derivedTableL)
-            .done();
+            .build();
     // @formatter:on
 
     /*
@@ -815,7 +815,7 @@ public class InsertBuilderTest {
                 .$(e_n_string("Public Relations"),
                         e_n_string("Executive General and Administration"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -833,7 +833,7 @@ public class InsertBuilderTest {
                 .$(e_string("Environmental Impact"),
                         e_string("Engineering"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -856,7 +856,7 @@ public class InsertBuilderTest {
                 .$(e_string("Standards and Methods"),
                         e_string("Quality Assurance"))
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -902,7 +902,7 @@ public class InsertBuilderTest {
             .$(t("dbo","FastCustomer2009"))
             //TODO derived_table
 //            .$Select(derivedTableP)
-            .done();
+            .build();
     // @formatter:on
 
     /*
@@ -952,7 +952,7 @@ public class InsertBuilderTest {
             .$(c("ModifiedDate"))
             //TODO derived_table
 //            .$Select(derivedTableQ)
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -982,7 +982,7 @@ public class InsertBuilderTest {
             .$(c("GroupName"))
             //TODO derived_table
 //            .$Select(derivedTableR)
-            .done();
+            .build();
     // @formatter:on
 
     /*
@@ -1010,7 +1010,7 @@ public class InsertBuilderTest {
                         e_number(80.00)
                 )
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
     /*
@@ -1039,7 +1039,7 @@ public class InsertBuilderTest {
                         e("GETDATE()")
                 )
                 .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1101,7 +1101,7 @@ public class InsertBuilderTest {
                 .and()
             //TODO derived_table
 //            .$Select(derivedTableU)
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1215,7 +1215,7 @@ public class InsertBuilderTest {
             .$(c("RemovedOnDate"))
             //TODO derived_table
 //            .$Select(derivedTableV)
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1231,7 +1231,7 @@ public class InsertBuilderTest {
             .$(t("EmployeeTitles"))
             //TODO derived_table
 //            .$Select(derivedTableW)
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1255,7 +1255,7 @@ public class InsertBuilderTest {
 //            .$Option()
 //                .$(e_n_string("label1"))
 //                .and()
-            .done();
+            .build();
     // @formatter:on
 
 
@@ -1315,7 +1315,7 @@ public class InsertBuilderTest {
             .$(c("LastName"))
             //TODO derived_table
 //            .$Select(derivedTableY)
-            .done();
+            .build();
     // @formatter:on
 
 }

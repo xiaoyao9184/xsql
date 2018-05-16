@@ -4,6 +4,8 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Case;
 import com.xy.xsql.tsql.model.expression.Expression;
 
+import java.util.List;
+
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
@@ -36,6 +38,13 @@ public class CaseBuilder<ParentBuilder>
         return this;
     }
 
+    public CaseBuilder<ParentBuilder> withWhen(List<Case.WhenThenExpression> whenThenExpressionList) {
+        initAdd(whenThenExpressionList,
+                target::getWhenThenExpressionList,
+                target::setWhenThenExpressionList);
+        return this;
+    }
+
     public CaseBuilder<ParentBuilder> withElse(Expression elseResultExpression) {
         target.withElseResultExpression(elseResultExpression);
         return this;
@@ -57,7 +66,7 @@ public class CaseBuilder<ParentBuilder>
 
 
 
-    public class WhenThenExpressionBuilder<ParentBuilder>
+    public static class WhenThenExpressionBuilder<ParentBuilder>
             extends CodeTreeBuilder<WhenThenExpressionBuilder<ParentBuilder>,ParentBuilder,Case.WhenThenExpression> {
 
 

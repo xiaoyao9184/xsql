@@ -13,6 +13,7 @@ import com.xy.xsql.tsql.model.operator.Set;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
@@ -36,6 +37,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
                         target::getWith,
                         target::setWith))
                 .in(this);
+    }
+
+    public SelectBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
     }
 
 //    public QuerySpecificationBuilder<SelectBuilder> withQuery() {
@@ -91,12 +97,22 @@ public class SelectBuilder extends CodeBuilder<Select> {
                 .in(this);
     }
 
+    public SelectBuilder withFor(For for_) {
+        this.target.setForClause(for_);
+        return this;
+    }
+
     public OptionBuilder<SelectBuilder> withOption() {
         return new OptionBuilder<SelectBuilder>
                 (initSet(Option::new,
                         target::getOption,
                         target::setOption))
                 .in(this);
+    }
+
+    public SelectBuilder withOption(Option option) {
+        this.target.setOption(option);
+        return this;
     }
 
 
@@ -413,6 +429,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
+        public UnitItemBuilder<ParentBuilder> withQuerySpecification(Select.QuerySpecification querySpecification){
+            this.target.setQuerySpecification(querySpecification);
+            return this;
+        }
+
     }
 
 
@@ -451,6 +472,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
+        public QuerySpecificationBuilder<ParentBuilder> withTop(Top top){
+            this.target.setTop(top);
+            return this;
+        }
+
         public com.xy.xsql.tsql.core.clause.select.SelectBuilder.SelectItemBuilder<QuerySpecificationBuilder<ParentBuilder>> withSelectItem(){
             com.xy.xsql.tsql.model.clause.select.Select.SelectItem item = new com.xy.xsql.tsql.model.clause.select.Select.SelectItem();
             initList(target::getSelectList,
@@ -463,6 +489,13 @@ public class SelectBuilder extends CodeBuilder<Select> {
 
         public QuerySpecificationBuilder<ParentBuilder> withSelectItem(com.xy.xsql.tsql.model.clause.select.Select.SelectItem... selectItems) {
             initAdd(Arrays.asList(selectItems),
+                    target::getSelectList,
+                    target::setSelectList);
+            return this;
+        }
+
+        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> selectItems) {
+            initAdd(selectItems,
                     target::getSelectList,
                     target::setSelectList);
             return this;
@@ -485,6 +518,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
+        public QuerySpecificationBuilder<ParentBuilder> withFrom(From from) {
+            this.target.setFrom(from);
+            return this;
+        }
+
         public QuerySpecificationBuilder<ParentBuilder> withWhere(Where where) {
             target.setWhere(where);
             return this;
@@ -504,11 +542,21 @@ public class SelectBuilder extends CodeBuilder<Select> {
             return groupByBuilder.in(this);
         }
 
+        public QuerySpecificationBuilder<ParentBuilder> withGroupBy(GroupBy groupBy) {
+            this.target.setGroupBy(groupBy);
+            return this;
+        }
+
         public HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> withHaving() {
             Having having = new Having();
             target.setHaving(having);
             HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> havingBuilder = new HavingBuilder<>(having);
             return havingBuilder.in(this);
+        }
+
+        public QuerySpecificationBuilder<ParentBuilder> withHaving(Having having) {
+            this.target.setHaving(having);
+            return this;
         }
 
 

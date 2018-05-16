@@ -9,10 +9,12 @@ import com.xy.xsql.tsql.model.expression.ScalarExpression;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
@@ -68,6 +70,28 @@ public class OutputBuilder<ParentBuilder>
                         this.target::setOutputDmlSelectList))
                 .in(this);
     }
+
+    public OutputBuilder<ParentBuilder> withDmlSelect(List<Output.DmlSelect> dmlSelectList){
+        this.target.setDmlSelectList(dmlSelectList);
+        return this;
+    }
+
+    public OutputBuilder<ParentBuilder> withColumnName(List<ColumnName> columnNameList){
+        if(CheckUtil.isNullOrEmpty(columnNameList)){
+            return this;
+        }
+        initAdd(columnNameList,
+                target::getColumnList,
+                target::setColumnList);
+        return this;
+    }
+
+    public OutputBuilder<ParentBuilder> withOutputDmlSelect(List<Output.DmlSelect> dmlSelectList){
+        this.target.setOutputDmlSelectList(dmlSelectList);
+        return this;
+    }
+
+
 
     /*
     Quick set
@@ -349,6 +373,27 @@ public class OutputBuilder<ParentBuilder>
                 this.target::getOutputDmlSelectList,
                 this.target::setOutputDmlSelectList);
         return this;
+    }
+
+
+
+    public static class DmlSelectListBuilder<ParentBuilder>
+            extends CodeTreeBuilder<DmlSelectListBuilder<ParentBuilder>,ParentBuilder,List<Output.DmlSelect>> {
+
+        public DmlSelectListBuilder() {
+            super(new ArrayList<>());
+        }
+
+        public DmlSelectListBuilder(List<Output.DmlSelect> dmlSelects) {
+            super(dmlSelects);
+        }
+
+        public DmlSelectBuilder<DmlSelectListBuilder<ParentBuilder>> withItem(){
+            return new DmlSelectBuilder<DmlSelectListBuilder<ParentBuilder>>
+                    ()
+                    .enter(this, dmlSelect -> this.target.add(dmlSelect));
+        }
+
     }
 
     /**
