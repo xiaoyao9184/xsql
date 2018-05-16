@@ -3,18 +3,18 @@ package com.xy.xsql.core.configurator;
 import com.xy.xsql.core.lambda.Setter;
 
 /**
- * ValueConfigurator
- * Config Target' Value field in implement Class
+ * CacheValueSetterConfigurator
+ * Config Target's Value field using setter in implement Class
  * Created by xiaoyao9184 on 2017/3/19.
  * @param <Target>
  * @param <Value>
  */
-public abstract class ValueConfigurator<Target,Value>
+public abstract class CacheValueSetterConfigurator<Target,Value>
         implements BaseConfigurator<Target> {
 
     private Value value;
 
-    public ValueConfigurator(Value value){
+    public CacheValueSetterConfigurator(Value value){
         this.value = value;
     }
 

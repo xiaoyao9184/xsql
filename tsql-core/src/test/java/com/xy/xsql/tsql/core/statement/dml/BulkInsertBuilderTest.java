@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
 import static com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilder.*;
+import static com.xy.xsql.tsql.core.statement.dml.BulkInsertBuilder.WithSetter.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.
@@ -35,7 +36,7 @@ public class BulkInsertBuilderTest {
                     FIELDTERMINATOR(" |"),
                     ROWTERMINATOR(" |\\n")
             )
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -76,7 +77,7 @@ public class BulkInsertBuilderTest {
                     ROWTERMINATOR(" :\\n"),
                     FIRE_TRIGGERS()
             )
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -112,7 +113,7 @@ public class BulkInsertBuilderTest {
             .$With(
                     ROWTERMINATOR("''+CHAR(10)+''")
             )
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -147,10 +148,10 @@ public class BulkInsertBuilderTest {
             .$From("D:\\data.csv")
             .$With(
                     CODEPAGE("65001"),
-                    DATAFILETYPE(_char()),
+                    DATAFILETYPE(char_()),
                     FIELDTERMINATOR(",")
             )
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -159,7 +160,7 @@ public class BulkInsertBuilderTest {
         BulkInsert bulkInsert = new BulkInsertBuilder()
                 .withTableViewName(t("MyTable"))
                 .withCodePage("56001")
-                .withDataFileType(_char())
+                .withDataFileType(char_())
                 .withFieldTerminator(",")
                 .build();
         // @formatter:on
@@ -184,7 +185,7 @@ public class BulkInsertBuilderTest {
             .$With(
                     FORMAT("CSV")
             )
-            .done();
+            .build();
     // @formatter:on
 
     @Test
@@ -218,7 +219,7 @@ public class BulkInsertBuilderTest {
                     FORMAT("CSV"),
                     DATASOURCE("MyAzureInvoices")
             )
-            .done();
+            .build();
     // @formatter:on
 
     @Test

@@ -1,20 +1,19 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.configurator.BaseConfigurator;
-import com.xy.xsql.core.configurator.BooleanValueConfigurator;
-import com.xy.xsql.core.configurator.ValueConfigurator;
-import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.datatype.NumberConstant;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
@@ -86,8 +85,8 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @param codePage
      * @return This
      */
-    public BulkInsertBuilder withCodePage(QuickConfigurator.CodePage codePage){
-        target.setCodePage(codePage.getValue());
+    public BulkInsertBuilder withCodePage(CodePage codePage){
+        target.setCodePage(codePage);
         return this;
     }
 
@@ -110,8 +109,8 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @param dataFileType
      * @return
      */
-    public BulkInsertBuilder withDataFileType(QuickConfigurator.DataFileType dataFileType){
-        target.setDataFileType(dataFileType.getValue());
+    public BulkInsertBuilder withDataFileType(DataFileType dataFileType){
+        target.setDataFileType(dataFileType);
         return this;
     }
 
@@ -344,44 +343,112 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @param items
      * @return
      */
-    public BulkInsertBuilder $With(QuickConfigurator.WithSetter... items){
+    public BulkInsertBuilder $With(WithSetter... items){
         Arrays.stream(items)
                 .forEach(item -> item.config(target));
         return this;
     }
 
-    //CODEPAGE
-    public static QuickConfigurator.CodePage _code_page(String codePage){
-        return new QuickConfigurator.CodePage(codePage);
-    }
-    public static QuickConfigurator.CodePage _ACP(){
-        return QuickConfigurator.ACP;
-    }
-    public static QuickConfigurator.CodePage _OEM(){
-        return QuickConfigurator.OEM;
-    }
-    public static QuickConfigurator.CodePage _RAW(){
-        return QuickConfigurator.RAW;
-    }
-
-    //DATAFILETYPE
-    public static QuickConfigurator.DataFileType _char(){
-        return QuickConfigurator.Char;
-    }
-    public static QuickConfigurator.DataFileType _native(){
-        return QuickConfigurator.Native;
-    }
-    public static QuickConfigurator.DataFileType _wideChar(){
-        return QuickConfigurator.WideChar;
-    }
-    public static QuickConfigurator.DataFileType _wideNative(){
-        return QuickConfigurator.WideNative;
-    }
 
 
+    public static class OrderColumnBuilder<ParentBuilder>
+            extends CodeTreeBuilder<OrderColumnBuilder<ParentBuilder>,ParentBuilder,BulkInsert.OrderColumn> {
 
 
+        public OrderColumnBuilder(BulkInsert.OrderColumn orderColumn) {
+            super(orderColumn);
+        }
 
+        public OrderColumnBuilder<ParentBuilder> withAsc(){
+            target.setUseAsc(true);
+            return this;
+        }
+
+        @Deprecated
+        public OrderColumnBuilder<ParentBuilder> withAsc(boolean useAsc){
+            target.setUseAsc(useAsc);
+            return this;
+        }
+
+        public OrderColumnBuilder<ParentBuilder> withDesc(){
+            target.setUseDesc(true);
+            return this;
+        }
+
+        @Deprecated
+        public OrderColumnBuilder<ParentBuilder> withDesc(boolean useDesc){
+            target.setUseDesc(useDesc);
+            return this;
+        }
+
+        public OrderColumnBuilder<ParentBuilder> withColumnName(ColumnName columnName){
+            target.setColumn(columnName);
+            return this;
+        }
+
+    }
+
+    public static class OrderBuilder
+            extends CodeBuilder<List<BulkInsert.OrderColumn>>
+            implements WithSetter {
+
+        public OrderBuilder(){
+            super(new ArrayList<>());
+        }
+
+        public OrderBuilder(BulkInsert.OrderColumn... columns){
+            super(Arrays.asList(columns));
+        }
+
+        @Override
+        public void config(BulkInsert bulkInsert) {
+            initAdd(target,
+                    bulkInsert::getOrderList,
+                    bulkInsert::setOrderList);
+        }
+
+
+        private BulkInsert.OrderColumn getLastItem(){
+            if(target.size() > 0){
+                int i = target.size() - 1;
+                return target.get(i);
+            }
+            return null;
+        }
+
+        public OrderColumnBuilder<OrderBuilder> withItem(){
+            return new OrderColumnBuilder<OrderBuilder>
+                    (initSet(BulkInsert.OrderColumn::new,
+                            () -> null,
+                            (i) -> target.add(i)))
+                    .in(this);
+        }
+
+
+        public OrderBuilder $(ColumnName columnName) {
+            return withItem()
+                    .withColumnName(columnName)
+                    .and();
+        }
+
+        public OrderBuilder $Aes(){
+            BulkInsert.OrderColumn last = getLastItem();
+            return new OrderColumnBuilder<OrderBuilder>
+                    (last)
+                    .in(this)
+                    .withAsc()
+                    .and();
+        }
+
+        public OrderBuilder $Desc(){
+            BulkInsert.OrderColumn last = getLastItem();
+            return new OrderColumnBuilder<OrderBuilder>
+                    (last)
+                    .in(this)
+                    .withDesc()
+                    .and();
+        }
+    }
 
     /*
     For quick build
@@ -392,511 +459,152 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     And then call in the Builder to achieve the purpose of setting attributes
 
      */
-    public static class QuickConfigurator {
-        
-        /**
-         * Just create to block Generic parameters
-         * for 'unchecked generic array creation for varargs parameter'
-         */
-        public interface WithSetter extends BaseConfigurator<BulkInsert> {
 
+    public static class CodePage extends StringConstant {
+        public CodePage(String string) {
+            super(string);
         }
-
-        /**
-         * Just create to block Generic parameters
-         * for 'unchecked generic array creation for varargs parameter'
-         */
-        public static abstract class KeyWithValueConfigurator
-                extends BooleanValueConfigurator<BulkInsert>
-                implements WithSetter {
-
-            //TODO not use
-            private BulkInsert.WithEnum withKey;
-
-            KeyWithValueConfigurator(BulkInsert.WithEnum withKey){
-                this.withKey = withKey;
-            }
-
-        }
-
-        /**
-         * Just create to block Generic parameters
-         * for 'unchecked generic array creation for varargs parameter'
-         */
-        public static abstract class StringWithConfigurator
-                extends ValueConfigurator<BulkInsert,StringConstant>
-                implements WithSetter {
-
-            //TODO not use
-            private BulkInsert.WithEnum withKey;
-
-            public StringWithConfigurator(BulkInsert.WithEnum withKey, StringConstant value) {
-                super(value);
-                this.withKey = withKey;
-            }
-
-        }
-
-        /**
-         * Just create to block Generic parameters
-         * for 'unchecked generic array creation for varargs parameter'
-         */
-        public static abstract class NumberWithConfigurator
-                extends ValueConfigurator<BulkInsert,NumberConstant>
-                implements WithSetter {
-
-            //TODO not use
-            private BulkInsert.WithEnum withKey;
-
-            public NumberWithConfigurator(BulkInsert.WithEnum withKey, NumberConstant value) {
-                super(value);
-                this.withKey = withKey;
-            }
-
-        }
-
-
-        public static CodePage ACP = new CodePage("ACP");
-        public static CodePage OEM = new CodePage("OEM");
-        public static CodePage RAW = new CodePage("RAW");
-
-        public static DataFileType Char = new DataFileType("char");
-        public static DataFileType Native = new DataFileType("native");
-        public static DataFileType WideChar = new DataFileType("widechar");
-        public static DataFileType WideNative = new DataFileType("widenative");
-
-
-        public static class BatchSize extends NumberWithConfigurator {
-
-            public BatchSize(Integer batchSize) {
-                super(BulkInsert.WithEnum.BATCHSIZE,
-                        new NumberConstant(batchSize));
-            }
-
-            @Override
-            public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setBatchSize;
-            }
-        }
-        public static class CheckConstraints extends KeyWithValueConfigurator {
-
-            public CheckConstraints() {
-                super(BulkInsert.WithEnum.CHECK_CONSTRAINTS);
-            }
-
-            @Override
-            public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setCheckConstraints;
-            }
-        }
-        public static class CodePage extends StringWithConfigurator {
-
-            public CodePage(String codePage) {
-                super(BulkInsert.WithEnum.CODEPAGE,
-                        new StringConstant(codePage).withQuote());
-            }
-
-            public CodePage(StringConstant codePage) {
-                super(BulkInsert.WithEnum.CODEPAGE,
-                        codePage);
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setCodePage;
-            }
-        }
-        public static class DataFileType extends StringWithConfigurator {
-
-            public DataFileType(String dataType) {
-                super(BulkInsert.WithEnum.DATAFILETYPE,
-                        new StringConstant(dataType).withQuote());
-            }
-
-            public DataFileType(StringConstant dataFileType) {
-                super(BulkInsert.WithEnum.DATAFILETYPE,
-                        dataFileType);
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setDataFileType;
-            }
-        }
-        public static class DataSource extends StringWithConfigurator {
-
-            public DataSource(String dataSource) {
-                super(BulkInsert.WithEnum.DATASOURCE,
-                        new StringConstant(dataSource).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setDataSource;
-            }
-        }
-        public static class ErrorFile extends StringWithConfigurator {
-
-            public ErrorFile(String errorFile) {
-                super(BulkInsert.WithEnum.ERRORFILE,
-                        new StringConstant(errorFile).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setErrorFile;
-            }
-        }
-        public static class ErrorFileDataSource extends StringWithConfigurator {
-
-            public ErrorFileDataSource(String errorFileDataSource) {
-                super(BulkInsert.WithEnum.ERRORFILE_DATASOURCE,
-                        new StringConstant(errorFileDataSource).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setErrorFileDataSource;
-            }
-        }
-        public static class FirstRow extends NumberWithConfigurator {
-
-            public FirstRow(Number firstRow) {
-                super(BulkInsert.WithEnum.FIRSTROW,
-                        new NumberConstant(firstRow));
-            }
-
-            @Override
-            public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setFirstRow;
-            }
-        }
-        public static class FireTriggers extends KeyWithValueConfigurator {
-
-            public FireTriggers() {
-                super(BulkInsert.WithEnum.FIRE_TRIGGERS);
-            }
-
-            @Override
-            public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setFireTriggers;
-            }
-        }
-        public static class FormatFileDataSource extends StringWithConfigurator {
-
-            public FormatFileDataSource(String formatFileDataSource) {
-                super(BulkInsert.WithEnum.FORMATFILE_DATASOURCE,
-                        new StringConstant(formatFileDataSource).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setFormatFileDataSource;
-            }
-        }
-        public static class KeepIdentity extends KeyWithValueConfigurator {
-
-            public KeepIdentity() {
-                super(BulkInsert.WithEnum.KEEPIDENTITY);
-            }
-
-            @Override
-            public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setKeepIdentity;
-            }
-        }
-        public static class KeepNulls extends KeyWithValueConfigurator {
-
-            public KeepNulls() {
-                super(BulkInsert.WithEnum.KEEPNULLS);
-            }
-
-            @Override
-            public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setKeepNulls;
-            }
-        }
-        public static class KiloBytesPerBatch extends NumberWithConfigurator {
-
-            public KiloBytesPerBatch(Number kiloBytesPerBatch) {
-                super(BulkInsert.WithEnum.KILOBYTES_PER_BATCH,
-                        new NumberConstant(kiloBytesPerBatch));
-            }
-
-            @Override
-            public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setKilobytesPerBatch;
-            }
-        }
-        public static class LastRow extends NumberWithConfigurator {
-
-            public LastRow(Number lastRow) {
-                super(BulkInsert.WithEnum.LASTROW,
-                        new NumberConstant(lastRow));
-            }
-
-            @Override
-            public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setLastRow;
-            }
-        }
-        public static class MaxErrors extends NumberWithConfigurator {
-
-            public MaxErrors(Number maxErrors) {
-                super(BulkInsert.WithEnum.MAXERRORS,
-                        new NumberConstant(maxErrors));
-            }
-
-            @Override
-            public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setMaxErrors;
-            }
-        }
-        public static class Order implements WithSetter {
-
-            private List<BulkInsert.OrderColumn> columnList;
-
-            public Order(BulkInsert.OrderColumn... columns){
-                this.columnList = Arrays.asList(columns);
-            }
-
-            public Order(ColumnName... columns){
-                this.columnList = Arrays.stream(columns)
-                        .map(column -> {
-                            BulkInsert.OrderColumn orderColumn = new BulkInsert.OrderColumn();
-                            orderColumn.setColumn(column);
-                            return orderColumn;
-                        })
-                        .collect(Collectors.toList());
-            }
-
-            public Order(boolean aes, boolean desc, ColumnName... columns){
-                this.columnList = Arrays.stream(columns)
-                        .map(column -> {
-                            BulkInsert.OrderColumn orderColumn = new BulkInsert.OrderColumn();
-                            orderColumn.setColumn(column);
-                            orderColumn.setUseAsc(aes);
-                            return orderColumn;
-                        })
-                        .collect(Collectors.toList());
-            }
-
-//        public Order(OrderBy.Item... columns) {
-//            this.columnList = Arrays.asList(columns);
-//        }
-
-            @Override
-            public void config(BulkInsert bulkInsert) {
-                initAdd(columnList,
-                        bulkInsert::getOrderList,
-                        bulkInsert::setOrderList);
-            }
-        }
-        public static class RowsPerBatch extends NumberWithConfigurator {
-
-            public RowsPerBatch(Number rowsPerBatch) {
-                super(BulkInsert.WithEnum.ROWS_PER_BATCH,
-                        new NumberConstant(rowsPerBatch));
-            }
-
-            @Override
-            public Setter<NumberConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setRowsPerBatch;
-            }
-        }
-        public static class RowTerminator extends StringWithConfigurator {
-
-            public RowTerminator(String rowTerminator) {
-                super(BulkInsert.WithEnum.ROWTERMINATOR,
-                        new StringConstant(rowTerminator).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setRowTerminator;
-            }
-        }
-        public static class TabLock extends KeyWithValueConfigurator {
-
-            public TabLock() {
-                super(BulkInsert.WithEnum.TABLOCK);
-            }
-
-            @Override
-            public Setter<Boolean> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setTabLock;
-            }
-        }
-        public static class Format extends StringWithConfigurator {
-
-            public Format(String format) {
-                super(BulkInsert.WithEnum.FORMAT,
-                        new StringConstant(format).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setFormat;
-            }
-        }
-        public static class FieldQuote extends StringWithConfigurator {
-
-            public FieldQuote(String fieldQuote) {
-                super(BulkInsert.WithEnum.FIELDQUOTE,
-                        new StringConstant(fieldQuote).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return null;
-            }
-        }
-        public static class FormatFile extends StringWithConfigurator {
-
-            public FormatFile(String formatFile) {
-                super(BulkInsert.WithEnum.FORMATFILE,
-                        new StringConstant(formatFile).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setFormatFile;
-            }
-        }
-        public static class FieldTerminator extends StringWithConfigurator {
-
-            public FieldTerminator(String fieldTerminator) {
-                super(BulkInsert.WithEnum.FIELDTERMINATOR,
-                        new StringConstant(fieldTerminator).withQuote());
-            }
-
-            @Override
-            public Setter<StringConstant> getSetter(BulkInsert bulkInsert) {
-                return bulkInsert::setFieldTerminator;
-            }
-
+    }
+    public static class DataFileType extends StringConstant {
+        public DataFileType(String string) {
+            super(string);
         }
     }
 
 
+    /**
+     * Just create to block Generic parameters
+     * for 'unchecked generic array creation for varargs parameter'
+     */
+    public interface WithSetter
+            extends BaseConfigurator<BulkInsert> {
 
-    public static QuickConfigurator.WithSetter BATCHSIZE(Integer batchSize){
-        return new QuickConfigurator.BatchSize(batchSize);
-    }
+        static WithSetter BATCHSIZE(Integer batchSize){
+            return bulkInsert -> bulkInsert.setBatchSize(new NumberConstant(batchSize));
+        }
 
-    public static QuickConfigurator.WithSetter CHECK_CONSTRAINTS(){
-        return new QuickConfigurator.CheckConstraints();
-    }
+        static WithSetter CHECK_CONSTRAINTS(){
+            return bulkInsert -> bulkInsert.setCheckConstraints(true);
+        }
 
-    public static QuickConfigurator.WithSetter CODEPAGE(String codePage){
-        return new QuickConfigurator.CodePage(codePage);
-    }
+        static WithSetter CODEPAGE(String codePage){
+            return bulkInsert -> bulkInsert.setCodePage(new StringConstant(codePage));
+        }
 
-    @Deprecated
-    public static QuickConfigurator.WithSetter CODEPAGE(StringConstant codePage){
-        return new QuickConfigurator.CodePage(codePage);
-    }
+        static WithSetter CODEPAGE(CodePage codePage){
+            return bulkInsert -> bulkInsert.setCodePage(codePage);
+        }
 
-    public static QuickConfigurator.WithSetter CODEPAGE(QuickConfigurator.CodePage codePage){
-        return codePage;
-    }
+        static WithSetter DATAFILETYPE(DataFileType dataFileType){
+            return bulkInsert -> bulkInsert.setDataFileType(dataFileType);
+        }
 
-    @Deprecated
-    public static QuickConfigurator.WithSetter DATAFILETYPE(String dataFileType){
-        return new QuickConfigurator.DataFileType(dataFileType);
-    }
+        static CodePage ACP(){
+            return new CodePage("ACP");
+        }
+        static CodePage OEM(){
+            return new CodePage("OEM");
+        }
+        static CodePage RAW(){
+            return new CodePage("RAW");
+        }
+        CodePage ACP = new CodePage("ACP");
+        CodePage OEM = new CodePage("OEM");
+        CodePage RAW = new CodePage("RAW");
 
-    @Deprecated
-    public static QuickConfigurator.WithSetter DATAFILETYPE(StringConstant dataFileType){
-        return new QuickConfigurator.DataFileType(dataFileType);
-    }
+        static DataFileType char_(){
+            return new DataFileType("char");
+        }
+        static DataFileType native_(){
+            return new DataFileType("native");
+        }
+        static DataFileType widechar_(){
+            return new DataFileType("widechar");
+        }
+        static DataFileType widenative_(){
+            return new DataFileType("widenative");
+        }
+        DataFileType char_ = new DataFileType("char");
+        DataFileType native_ = new DataFileType("native");
+        DataFileType widechar_ = new DataFileType("widechar");
+        DataFileType widenative_ = new DataFileType("widenative");
 
-    public static QuickConfigurator.WithSetter DATAFILETYPE(QuickConfigurator.DataFileType dataFileType){
-        return dataFileType;
-    }
 
-    public static QuickConfigurator.WithSetter DATASOURCE(String dataSource){
-        return new QuickConfigurator.DataSource(dataSource);
-    }
+        static WithSetter DATASOURCE(String dataSource){
+            return bulkInsert -> bulkInsert.setDataSource(new StringConstant(dataSource));
+        }
 
-    public static QuickConfigurator.WithSetter ERRORFILE(String errorFile){
-        return new QuickConfigurator.ErrorFile(errorFile);
-    }
+        static WithSetter ERRORFILE(String errorFile){
+            return bulkInsert -> bulkInsert.setErrorFile(new StringConstant(errorFile));
+        }
 
-    public static QuickConfigurator.WithSetter ERRORFILE_DATASOURCE(String errorFileDataSource){
-        return new QuickConfigurator.ErrorFileDataSource(errorFileDataSource);
-    }
+        static WithSetter ERRORFILE_DATASOURCE(String errorFileDataSource){
+            return bulkInsert -> bulkInsert.setErrorFileDataSource(new StringConstant(errorFileDataSource));
+        }
 
-    public static QuickConfigurator.WithSetter FIRSTROW(Integer firstRow){
-        return new QuickConfigurator.FirstRow(firstRow);
-    }
+        static WithSetter FIRSTROW(Integer firstRow){
+            return bulkInsert -> bulkInsert.setFirstRow(new NumberConstant(firstRow));
+        }
 
-    public static QuickConfigurator.WithSetter FIRE_TRIGGERS(){
-        return new QuickConfigurator.FireTriggers();
-    }
+        static WithSetter FIRE_TRIGGERS(){
+            return bulkInsert -> bulkInsert.setFireTriggers(true);
+        }
 
-    public static QuickConfigurator.WithSetter FORMATFILE_DATASOURCE(String dataSourceName){
-        return new QuickConfigurator.FormatFileDataSource(dataSourceName);
-    }
+        static WithSetter FORMATFILE_DATASOURCE(String dataSourceName){
+            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(dataSourceName));
+        }
 
-    public static QuickConfigurator.WithSetter KEEPIDENTITY(){
-        return new QuickConfigurator.KeepIdentity();
-    }
+        static WithSetter KEEPIDENTITY(){
+            return bulkInsert -> bulkInsert.setKeepIdentity(true);
+        }
 
-    public static QuickConfigurator.WithSetter KEEPNULLS(){
-        return new QuickConfigurator.KeepNulls();
-    }
+        static WithSetter KEEPNULLS(){
+            return bulkInsert -> bulkInsert.setKeepNulls(true);
+        }
 
-    public static QuickConfigurator.WithSetter KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
-        return new QuickConfigurator.KiloBytesPerBatch(kilobytesPerBatch);
-    }
+        static WithSetter KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
+            return bulkInsert -> bulkInsert.setKilobytesPerBatch(new NumberConstant(kilobytesPerBatch));
+        }
 
-    public static QuickConfigurator.WithSetter LASTROW(Integer lastRow){
-        return new QuickConfigurator.LastRow(lastRow);
-    }
+        static WithSetter LASTROW(Integer lastRow){
+            return bulkInsert -> bulkInsert.setLastRow(new NumberConstant(lastRow));
+        }
 
-    public static QuickConfigurator.WithSetter MAXERRORS(Integer maxErrors){
-        return new QuickConfigurator.MaxErrors(maxErrors);
-    }
+        static WithSetter MAXERRORS(Integer maxErrors){
+            return bulkInsert -> bulkInsert.setMaxErrors(new NumberConstant(maxErrors));
+        }
 
-    public static QuickConfigurator.WithSetter ORDER(ColumnName... columns){
-        return new QuickConfigurator.Order(columns);
-    }
+        static WithSetter ORDER(){
+            return new OrderBuilder();
+        }
 
-    public static QuickConfigurator.WithSetter ORDER_ASC(ColumnName... columns){
-        return new QuickConfigurator.Order(true,false,columns);
-    }
+        static WithSetter ROWS_PER_BATCH(Integer rowsPerBatch){
+            return bulkInsert -> bulkInsert.setRowsPerBatch(new NumberConstant(rowsPerBatch));
+        }
 
-    public static QuickConfigurator.WithSetter ORDER_DESC(ColumnName... columns){
-        return new QuickConfigurator.Order(false,true,columns);
-    }
+        static WithSetter ROWTERMINATOR(String rowTerminator){
+            return bulkInsert -> bulkInsert.setRowTerminator(new StringConstant(rowTerminator));
+        }
 
-    public static QuickConfigurator.WithSetter ROWS_PER_BATCH(Integer rowsPerBatch){
-        return new QuickConfigurator.RowsPerBatch(rowsPerBatch);
-    }
+        static WithSetter TABLOCK (){
+            return bulkInsert -> bulkInsert.setTabLock(true);
+        }
 
-    public static QuickConfigurator.WithSetter ROWTERMINATOR(String rowTerminator){
-        return new QuickConfigurator.RowTerminator(rowTerminator);
-    }
+        static WithSetter FORMAT(String format){
+            return bulkInsert -> bulkInsert.setFormat(new StringConstant(format));
+        }
 
-    public static QuickConfigurator.WithSetter TABLOCK (){
-        return new QuickConfigurator.TabLock();
-    }
+        static WithSetter FIELDQUOTE(String fieldQuote){
+            return bulkInsert -> bulkInsert.setFieldQuote(new StringConstant(fieldQuote));
+        }
 
-    public static QuickConfigurator.WithSetter FORMAT(String format){
-        return new QuickConfigurator.Format(format);
-    }
+        static WithSetter FORMATFILE(String formatFile){
+            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(formatFile));
+        }
 
-    public static QuickConfigurator.WithSetter FIELDQUOTE(String fieldQuote){
-        return new QuickConfigurator.FieldQuote(fieldQuote);
-    }
-
-    public static QuickConfigurator.WithSetter FORMATFILE(String formatFile){
-        return new QuickConfigurator.FormatFile(formatFile);
-    }
-
-    public static QuickConfigurator.WithSetter FIELDTERMINATOR(String fieldTerminator){
-        return new QuickConfigurator.FieldTerminator(fieldTerminator);
+        static WithSetter FIELDTERMINATOR(String fieldTerminator){
+            return bulkInsert -> bulkInsert.setFieldTerminator(new StringConstant(fieldTerminator));
+        }
     }
 
 }
