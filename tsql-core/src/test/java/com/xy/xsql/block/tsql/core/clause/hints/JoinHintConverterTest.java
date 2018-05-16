@@ -12,7 +12,7 @@ import java.io.StringWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.*;
+import static com.xy.xsql.tsql.core.clause.hints.JoinHints.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.

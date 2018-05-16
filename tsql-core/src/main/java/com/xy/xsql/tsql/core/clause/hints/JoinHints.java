@@ -3,10 +3,10 @@ package com.xy.xsql.tsql.core.clause.hints;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 
 /**
- * JoinHintBuilder
+ * JoinHintFactory
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class JoinHintBuilder {
+public class JoinHints {
 
     /*
     Quick build

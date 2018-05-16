@@ -4,12 +4,12 @@ import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.clause.hints.JoinHintBuilder.*;
+import static com.xy.xsql.tsql.core.clause.hints.JoinHints.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class JoinHintBuilderTest {
+public class JoinHintsTest {
 
     /**
      * HASH
