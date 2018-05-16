@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.select.*;
+import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Set;
 import com.xy.xsql.tsql.model.statement.Statement;
 
@@ -97,7 +98,7 @@ public class Select implements Statement {
     /**
      * <query_expression>
      */
-    public static class QueryExpression {
+    public static class QueryExpression implements Expression {
         //{ <query_specification> | ( <query_expression> ) }
         private QuerySpecification querySpecification;
         private QueryExpression queryExpression;
@@ -273,7 +274,7 @@ public class Select implements Statement {
     /**
      * <query_expression>
      */
-    public interface QueryExpression2 {
+    public interface QueryExpression2 extends Expression {
 
     }
 
