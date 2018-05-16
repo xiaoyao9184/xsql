@@ -46,6 +46,16 @@ public class ForBuilder<ParentBuilder>
                 .in(this);
     }
 
+    public ForBuilder<ParentBuilder> withXml(For.Xml xml){
+        target.setXml(xml);
+        return this;
+    }
+
+    public ForBuilder<ParentBuilder> withJson(For.Json json){
+        target.setJson(json);
+        return this;
+    }
+
 
     /**
      * Quick set
@@ -78,7 +88,7 @@ public class ForBuilder<ParentBuilder>
      * XmlBuilder
      * @param <ParentBuilder>
      */
-    public class XmlBuilder<ParentBuilder>
+    public static class XmlBuilder<ParentBuilder>
             extends CodeTreeBuilder<XmlBuilder<ParentBuilder>,ParentBuilder,For.Xml> {
 
         public XmlBuilder(For.Xml tar) {
@@ -139,6 +149,11 @@ public class ForBuilder<ParentBuilder>
             return this;
         }
 
+        public XmlBuilder<ParentBuilder> withElements(){
+            target.setUseElements(true);
+            return this;
+        }
+
         public XmlBuilder<ParentBuilder> withElementsAbsent(){
             target.setUseElementsAbsent(true);
             return this;
@@ -190,7 +205,7 @@ public class ForBuilder<ParentBuilder>
      * JsonBuilder
      * @param <ParentBuilder>
      */
-    public class JsonBuilder<ParentBuilder>
+    public static class JsonBuilder<ParentBuilder>
             extends CodeTreeBuilder<JsonBuilder<ParentBuilder>,ParentBuilder,For.Json> {
 
         public JsonBuilder(For.Json tar) {

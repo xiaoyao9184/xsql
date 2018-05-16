@@ -100,6 +100,7 @@ public class For implements Clause {
         private StringConstant targetNameSpaceURI;
 
         //[ , ELEMENTS [ XSINIL | ABSENT ] ]
+        private boolean useElements;
         private boolean useElementsXsinil;
         private boolean useElementsAbsent;
 
@@ -165,6 +166,14 @@ public class For implements Clause {
 
         public void setTargetNameSpaceURI(StringConstant targetNameSpaceURI) {
             this.targetNameSpaceURI = targetNameSpaceURI;
+        }
+
+        public boolean isUseElements() {
+            return useElements;
+        }
+
+        public void setUseElements(boolean useElements) {
+            this.useElements = useElements;
         }
 
         public boolean isUseElementsXsinil() {
