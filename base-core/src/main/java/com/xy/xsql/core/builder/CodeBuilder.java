@@ -7,7 +7,7 @@ package com.xy.xsql.core.builder;
  * @param <Target> build target
  */
 public abstract class CodeBuilder<Target>
-        implements BaseBuilder<Void, Target> {
+        implements BaseBuilder<Void, Target>, SimpleBuilder<Target> {
 
     protected Target target;
 
@@ -29,6 +29,7 @@ public abstract class CodeBuilder<Target>
      * @see #build(Void)
      * @return
      */
+    @Override
     public Target build() {
         return target;
     }
@@ -37,6 +38,7 @@ public abstract class CodeBuilder<Target>
      * @see #build(Void)
      * @return
      */
+    @Deprecated
     public Target done(){
         return target;
     }
