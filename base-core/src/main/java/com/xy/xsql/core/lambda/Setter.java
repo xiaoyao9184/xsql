@@ -13,4 +13,9 @@ public interface Setter<T> {
      * @param t T
      */
     void set(T t);
+
+
+    static <T> Setter<T> empty(){
+        return (e) -> {};
+    }
 }

@@ -13,4 +13,8 @@ public interface Getter<T> {
      * @return T
      */
     T get();
+
+    static <T> Getter<T> empty(){
+        return () -> null;
+    }
 }

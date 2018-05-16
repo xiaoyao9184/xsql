@@ -13,4 +13,8 @@ public interface Configurator<T> {
      * @param t T
      */
     void config(T t);
+
+    static <T> Configurator<T> empty(){
+        return (e) -> {};
+    }
 }
