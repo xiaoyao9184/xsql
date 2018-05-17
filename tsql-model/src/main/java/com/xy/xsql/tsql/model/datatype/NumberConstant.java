@@ -85,7 +85,9 @@ public class NumberConstant implements Constant, Expression {
         }
 
         if(unsigned){
-            if(number instanceof Integer){
+            if(number instanceof Byte){
+                number = Math.abs(number.byteValue());
+            }else if(number instanceof Integer){
                 number = Math.abs(number.intValue());
             }else if(number instanceof Short){
                 number = Math.abs(number.shortValue());
