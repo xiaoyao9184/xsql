@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.core.predicate;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
@@ -29,7 +30,7 @@ public class ComparisonSubQueryPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withOperator(Comparison operator) {
         target.setOperator(operator);
         return this;
     }

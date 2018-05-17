@@ -12,7 +12,6 @@ import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.*;
 import static com.xy.xsql.tsql.core.clause.hints.TableHintBuilder.INDEX;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.*;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.dml.SelectBuilder.SELECT;
@@ -398,7 +397,7 @@ public class SelectBuilderTest {
                                 c("OrderQty"),
                                 c("UnitPrice")
                         )),
-                        e(e_negative(
+                        e(e_subtraction(
                                 e_number(1.0),
                                 c("UnitPriceDiscount")
                         )))

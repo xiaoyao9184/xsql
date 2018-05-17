@@ -3,9 +3,10 @@ package com.xy.xsql.tsql.model.operator;
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
+ * Equals or same
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Comparison implements Operator {
+public enum Comparison implements Operator, BinaryOperator {
 
     EQUAL("=",Type.Comparison),
     GREATER(">",Type.Comparison),

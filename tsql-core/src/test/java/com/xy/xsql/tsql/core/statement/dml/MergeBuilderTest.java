@@ -12,7 +12,6 @@ import static com.xy.xsql.tsql.core.clause.TableValueConstructorBuilder.VALUES;
 import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_negative;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.dml.MergeBuilder.MERGE;
@@ -250,7 +249,7 @@ public class MergeBuilderTest {
             .$When_Matched()
                 .$And()
                     .$(p_less_equal(
-                            e_negative(c("target","Quantity"),
+                            e_subtraction(c("target","Quantity"),
                                     c("source","OrderQty")),
                             e_number(0)
                     ))
@@ -262,7 +261,7 @@ public class MergeBuilderTest {
                 .$Then()
                     .$Update_Set(
                             s(c("target","Quantity"),
-                                   e_negative(
+                                   e_subtraction(
                                 c("target","Quantity"),
                                 c("source","OrderQty"))),
                             s(c("target","ModifiedDate"),
@@ -411,7 +410,7 @@ public class MergeBuilderTest {
             .$When_Matched()
                 .$And()
                     .$(p_greater_equal(
-                            e_negative(
+                            e_subtraction(
                                 c("pi","Quantity"),
                                 c("src","OrderQty")),
                             e_number(0)
@@ -420,7 +419,7 @@ public class MergeBuilderTest {
                 .$Then()
                     .$Update_Set(s(
                         c("pi","Quantity"),
-                        e_negative(
+                            e_subtraction(
                                 c("pi","Quantity"),
                                 c("src","OrderQty"))
                     ))
@@ -428,7 +427,7 @@ public class MergeBuilderTest {
             .$When_Matched()
                 .$And()
                     .$(p_less_equal(
-                            e_negative(
+                            e_subtraction(
                                     c("pi","Quantity"),
                                     c("src","OrderQty")),
                             e_number(0)

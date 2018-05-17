@@ -5,14 +5,14 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.Case;
 import com.xy.xsql.tsql.model.expression.GroupExpression;
+import com.xy.xsql.tsql.model.operator.Arithmetic;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.operator.Operators;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_and;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_binary;
 
 
 /**

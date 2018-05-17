@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.model.predicate;
 
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.Expression;
 
 /**
@@ -7,10 +8,12 @@ import com.xy.xsql.tsql.model.expression.Expression;
  * expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class Comparison implements Predicate, Expression {
+public class Comparison
+        extends BinaryExpression
+        implements Predicate, Expression {
     //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
     private Expression expression;
-    private com.xy.xsql.tsql.model.operator.Operator operator;
+    private com.xy.xsql.tsql.model.operator.Comparison operator;
     private Expression operatorExpression;
 
     public Expression getExpression() {
@@ -21,11 +24,11 @@ public class Comparison implements Predicate, Expression {
         this.expression = expression;
     }
 
-    public com.xy.xsql.tsql.model.operator.Operator getOperator() {
+    public com.xy.xsql.tsql.model.operator.Comparison getOperator() {
         return operator;
     }
 
-    public void setOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
+    public void setOperator(com.xy.xsql.tsql.model.operator.Comparison operator) {
         this.operator = operator;
     }
 

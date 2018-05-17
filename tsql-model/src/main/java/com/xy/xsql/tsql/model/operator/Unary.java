@@ -5,10 +5,11 @@ import com.xy.xsql.tsql.model.Keywords;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Unary implements Operator {
+public enum Unary implements Operator, BinaryOperator {
 
-    PLUS("+",Type.Unary),
-    NEGATIVE("-",Type.Unary);
+    POSITIVE("+",Type.Unary),
+    NEGATIVE("-",Type.Unary),
+    COMPLEMENT("~",Type.Unary);
 
     private String keyword;
     private Type type;

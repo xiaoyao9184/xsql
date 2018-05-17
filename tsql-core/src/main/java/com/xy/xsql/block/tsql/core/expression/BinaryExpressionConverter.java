@@ -19,7 +19,7 @@ public class BinaryExpressionConverter
                         .scope(BinaryExpression::getExpressionLeft)
                         .and()
                     .sub("binary_operator")
-                        .scope(BinaryExpression::getOperator)
+                        .scope(BinaryExpression::getBinaryOperator)
                         .and()
                     .sub("expression")
                         .scope(BinaryExpression::getExpressionRight)

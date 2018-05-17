@@ -11,8 +11,6 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_addition;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_multiplication;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
 import static com.xy.xsql.tsql.core.variable.SetVariableBuilder.SET_V;
 
@@ -128,7 +126,7 @@ public class SetVariableBuilderTest {
 
         SetVariable setVariable3 = new SetVariableBuilder<Void>()
                 .withLocalVariable("NewBalance")
-                .withCompound(Compound.MULTIPLY_EQUALS)
+                .withCompound(Options.MULTIPLY_ASSIGNMENT)
                 .withExpression(e_number(10))
                 .build();
         // @formatter:on
@@ -140,7 +138,7 @@ public class SetVariableBuilderTest {
         Assert.assertEquals(setVariable2.getExpression().getClass(), BinaryExpression.class);
 
         Assert.assertEquals(setVariable3.getLocalVariable().toString(),"@NewBalance");
-        Assert.assertEquals(setVariable3.getCompound(),Compound.MULTIPLY_EQUALS);
+        Assert.assertEquals(setVariable3.getCompound(),Options.MULTIPLY_ASSIGNMENT);
         Assert.assertEquals(setVariable3.getExpression().toString(),"10");
     }
 

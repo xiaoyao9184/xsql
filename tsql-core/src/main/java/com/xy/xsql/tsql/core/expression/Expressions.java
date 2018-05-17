@@ -1,13 +1,12 @@
 package com.xy.xsql.tsql.core.expression;
 
 import com.xy.xsql.tsql.model.datatype.*;
-import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.expression.GroupExpression;
-import com.xy.xsql.tsql.model.expression.KeywordExpression;
-import com.xy.xsql.tsql.model.expression.UnknownExpression;
+import com.xy.xsql.tsql.model.expression.*;
+import com.xy.xsql.tsql.model.operator.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -28,6 +27,9 @@ public class Expressions {
         return new UnknownExpression(expressionString);
     }
 
+
+    //
+
     /**
      * null
      * @return
@@ -43,6 +45,8 @@ public class Expressions {
     public static KeywordExpression e_default(){
         return new Default();
     }
+
+    //constant
 
     /**
      * constant
@@ -125,6 +129,12 @@ public class Expressions {
         return new NumberConstant(numberExpression).withMoney();
     }
 
+    //TODO scalar_function
+
+    //column in ColumnNameFactory
+
+    //variable
+
     /**
      * Is the name of a variable, or parameter
      * @param variableExpression
@@ -134,16 +144,20 @@ public class Expressions {
         return new LocalVariable(variableExpression);
     }
 
+    //expression
+
     /**
      *
      * @param expression
      * @return
      */
-    public static Expression e(Expression expression){
+    public static GroupExpression e(Expression expression){
         GroupExpression groupExpression = new GroupExpression();
         groupExpression.setExpression(expression);
         return groupExpression;
     }
+
+    //scalar_subquery
 
     /**
      * TODO maybe not use GroupExpression
@@ -175,17 +189,313 @@ public class Expressions {
         return groupExpression;
     }
 
+
+
+    //
+
+    public static BinaryExpression e_binary(Expression leftExpression, BinaryOperator operator, Expression... rightExpression){
+        BinaryExpression groupExpression = new BinaryExpression();
+        groupExpression.setBinaryOperator(operator);
+        groupExpression.setExpressionLeft(leftExpression);
+        groupExpression.setExpressionRight(rightExpression[0]);
+        if(rightExpression.length > 1){
+            Expression[] newRight = Arrays.copyOfRange(rightExpression,1,rightExpression.length);
+            return e_binary(groupExpression,operator,newRight);
+        }
+
+        return groupExpression;
+    }
+
+
     /**
-     * AtTimeZone
+     * arithmetic
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_addition(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Arithmetic.ADDITION, rightExpression);
+    }
+
+    /**
+     * arithmetic
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_subtraction(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Arithmetic.SUBTRACTION, rightExpression);
+    }
+
+    /**
+     * arithmetic
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_multiplication(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Arithmetic.MULTIPLICATION, rightExpression);
+    }
+
+    /**
+     * arithmetic
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_division(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Arithmetic.DIVISION, rightExpression);
+    }
+
+    /**
+     * arithmetic
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_modulo(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Arithmetic.MODULO, rightExpression);
+    }
+
+    /**
+     * assignment
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_assignment(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Assignment.ASSIGNMENT, rightExpression);
+    }
+
+    /**
+     * bitwise
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_bitwise_and(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Bitwise.AND, rightExpression);
+    }
+
+    /**
+     * bitwise
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_bitwise_and_equals(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Bitwise.AND_EQUALS, rightExpression);
+    }
+
+    /**
+     * bitwise
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_bitwise_or(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Bitwise.OR, rightExpression);
+    }
+
+    /**
+     * bitwise
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_bitwise_or_equals(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Bitwise.OR_EQUALS, rightExpression);
+    }
+
+    /**
+     * bitwise
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_bitwise_xor(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Bitwise.XOR, rightExpression);
+    }
+
+    /**
+     * bitwise
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_bitwise_xor_equals(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Bitwise.XOR_EQUALS, rightExpression);
+    }
+
+    /**
+     * bitwise
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_bitwise_not(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Bitwise.NOT, rightExpression);
+    }
+
+    public static BinaryExpression e_equals(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.EQUAL, rightExpression);
+    }
+    public static BinaryExpression e_grerater(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.GREATER, rightExpression);
+    }
+    public static BinaryExpression e_less(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.LESS, rightExpression);
+    }
+    public static BinaryExpression e_greater_equal(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.GREATER_EQUAL, rightExpression);
+    }
+    public static BinaryExpression e_less_equal(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.LESS_EQUAL, rightExpression);
+    }
+    public static BinaryExpression e_not_equal(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.NOT_EQUAL, rightExpression);
+    }
+    public static BinaryExpression e_not_equal_not_iso(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.NOT_EQUAL_NOT_ISO, rightExpression);
+    }
+    public static BinaryExpression e_not_less_not_iso(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.NOT_LESS_NOT_ISO, rightExpression);
+    }
+    public static BinaryExpression e_not_greater_not_iso(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Comparison.NOT_GREATER_NOT_ISO, rightExpression);
+    }
+
+//    public static BinaryExpression e_add_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.ADD_ASSIGNMENT, rightExpression);
+//    }
+//
+//    public static BinaryExpression e_subtract_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.SUBTRACT_ASSIGNMENT, rightExpression);
+//    }
+//
+//    public static BinaryExpression e_multiply_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.MULTIPLY_ASSIGNMENT, rightExpression);
+//    }
+//
+//    public static BinaryExpression e_divide_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.DIVIDE_ASSIGNMENT, rightExpression);
+//    }
+//
+//    public static BinaryExpression e_modulo_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.MODULO_ASSIGNMENT, rightExpression);
+//    }
+//
+//    public static BinaryExpression e_bit_and_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.BITWISE_AND_ASSIGNMENT, rightExpression);
+//    }
+//
+//    public static BinaryExpression e_bit_exclusive_or_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.BITWISE_EXCLUSIVE_OR_ASSIGNMENT, rightExpression);
+//    }
+//
+//    public static BinaryExpression e_bit_or_equals(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Compound.BITWISE_OR_ASSIGNMENT, rightExpression);
+//    }
+
+
+    /**
+     * logical
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_and(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Logical.AND, rightExpression);
+    }
+
+    /**
+     * logical
+     * @param leftExpression
+     * @param rightExpression
+     * @return
+     */
+    public static BinaryExpression e_or(Expression leftExpression, Expression rightExpression){
+        return e_binary(leftExpression, Logical.OR, rightExpression);
+    }
+
+    /*
+    logical operator
+    ALL,AND,ANY,BETWEEN,EXISTS,IN,LIKE,NOT,OR,SOME
+    most of these are not binocular operators but special predicate,
+    like BETWEEN,EXISTS,IN,LIKE;ALL,ANY,SOME.
+    and remain NOT
+     */
+
+    /**
+     * [ NOT ] boolean_expression is Much like [ NOT ] <predicate>
      * @param expression
      * @return
      */
-    public static Expression e_at_time_zone(Expression expression,String timeZone){
-        return new AtTimeZoneBuilder<Void>()
-                .withExpression(expression)
-                .withTimezone(timeZone)
-                .build();
+    public static NotExpression e_not(Expression expression){
+        NotExpression notExpression = new NotExpression();
+        notExpression.setExpression(expression);
+        return notExpression;
     }
+
+
+
+//    /**
+//     * logical
+//     * @param leftExpression
+//     * @param rightExpression
+//     * @return
+//     */
+//    public static BinaryExpression e_all(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Logical.ALL, rightExpression);
+//    }
+//
+//    /**
+//     * logical
+//     * @param leftExpression
+//     * @param rightExpression
+//     * @return
+//     */
+//    public static BinaryExpression e_some(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Logical.SOME, rightExpression);
+//    }
+//
+//    /**
+//     * logical
+//     * @param leftExpression
+//     * @param rightExpression
+//     * @return
+//     */
+//    public static BinaryExpression e_any(Expression leftExpression, Expression rightExpression){
+//        return e_binary(leftExpression, Logical.ANY, rightExpression);
+//    }
+
+    //
+
+    public static UnaryExpression e_positive(Expression expression){
+        UnaryExpression unaryExpression = new UnaryExpression();
+        unaryExpression.setUnary(Unary.POSITIVE);
+        unaryExpression.setExpression(expression);
+        return unaryExpression;
+    }
+
+    public static UnaryExpression e_negative(Expression expression){
+        UnaryExpression unaryExpression = new UnaryExpression();
+        unaryExpression.setUnary(Unary.NEGATIVE);
+        unaryExpression.setExpression(expression);
+        return unaryExpression;
+    }
+
+    public static UnaryExpression e_complement(Expression expression){
+        UnaryExpression unaryExpression = new UnaryExpression();
+        unaryExpression.setUnary(Unary.COMPLEMENT);
+        unaryExpression.setExpression(expression);
+        return unaryExpression;
+    }
+
+
+    //TODO ranking_windowed_function | aggregate_windowed_function
+
+
 
     /**
      * Case
@@ -195,6 +505,10 @@ public class Expressions {
         return new CaseBuilder<>();
     }
 
+    /**
+     * Case
+     * @return
+     */
     public static CaseBuilder<Void> e_case(Expression expression){
         return new CaseBuilder<Void>()
                 .withInput(expression);
@@ -223,4 +537,17 @@ public class Expressions {
                 .withExpression(expressionRight)
                 .build();
     }
+//
+//    /**
+//     * AtTimeZone
+//     * @param expression
+//     * @return
+//     */
+//    public static Expression e_at_time_zone(Expression expression,String timeZone){
+//        return new AtTimeZoneBuilder<Void>()
+//                .withExpression(expression)
+//                .withTimezone(timeZone)
+//                .build();
+//    }
+
 }

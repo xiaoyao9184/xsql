@@ -7,12 +7,8 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_division;
-import static com.xy.xsql.tsql.core.expression.Expressions.e;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
-import static com.xy.xsql.tsql.core.predicate.Predicates.p_equal;
-import static com.xy.xsql.tsql.core.predicate.Predicates.p_greater;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
+import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.ddl.CreateViewBuilder.CREATE_VIEW;
 import static com.xy.xsql.tsql.core.statement.ddl.CreateViewBuilder.ENCRYPTION;
 import static com.xy.xsql.tsql.core.statement.ddl.CreateViewBuilder.SCHEMABINDING;

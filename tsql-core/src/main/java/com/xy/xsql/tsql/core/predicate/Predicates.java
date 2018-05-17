@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.core.predicate;
 
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.predicate.Predicate;
@@ -53,7 +54,7 @@ public class Predicates {
     public static Predicate p_equal(Expression left, Expression right){
         return new ComparisonPredicateBuilder<Void>()
                 .withExpression(left)
-                .withOperator(Operators.EQUAL)
+                .withOperator(Comparison.EQUAL)
                 .withExpression(right)
                 .build();
     }

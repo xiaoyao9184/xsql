@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.core.variable;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.operator.Compound;
+import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.tsql.model.variable.SelectVariable;
 
 import static com.xy.xsql.core.ListBuilder.initNew;
@@ -68,8 +69,14 @@ public class SelectVariableBuilder<ParentBuilder>
             super(tar);
         }
 
+        @Deprecated
         public SelectVariableItemBuilder<ParentBuilder> withLocalVariable(String variable){
             target.setLocalVariable(e_variable(variable));
+            return this;
+        }
+
+        public SelectVariableItemBuilder<ParentBuilder> withLocalVariable(LocalVariable variable){
+            target.setLocalVariable(variable);
             return this;
         }
 
@@ -122,7 +129,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $AddAssign(Expression expression) {
-            return withCompound(Compound.ADD_EQUALS)
+            return withCompound(Compound.ADD_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }
@@ -133,7 +140,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $SubtractAssign(Expression expression) {
-            return withCompound(Compound.SUBTRACT_EQUALS)
+            return withCompound(Compound.SUBTRACT_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }
@@ -144,7 +151,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $MultiplyAssign(Expression expression) {
-            return withCompound(Compound.MULTIPLY_EQUALS)
+            return withCompound(Compound.MULTIPLY_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }
@@ -155,7 +162,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $DivideAssign(Expression expression) {
-            return withCompound(Compound.DIVIDE_EQUALS)
+            return withCompound(Compound.DIVIDE_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }
@@ -166,7 +173,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $ModuloAssign(Expression expression) {
-            return withCompound(Compound.MODULO_EQUALS)
+            return withCompound(Compound.MODULO_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }
@@ -177,7 +184,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $BitwiseANDAssign(Expression expression) {
-            return withCompound(Compound.BITWISE_AND_EQUALS)
+            return withCompound(Compound.BITWISE_AND_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }
@@ -188,7 +195,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $BitwiseXORAssign(Expression expression) {
-            return withCompound(Compound.BITWISE_EXCLUSIVE_OR_EQUALS)
+            return withCompound(Compound.BITWISE_EXCLUSIVE_OR_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }
@@ -199,7 +206,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $BitwiseORAssign(Expression expression) {
-            return withCompound(Compound.BITWISE_OR_EQUALS)
+            return withCompound(Compound.BITWISE_OR_ASSIGNMENT)
                     .withExpression(expression)
                     .and();
         }

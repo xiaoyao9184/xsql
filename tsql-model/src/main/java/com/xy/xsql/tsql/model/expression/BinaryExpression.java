@@ -1,14 +1,14 @@
 package com.xy.xsql.tsql.model.expression;
 
+import com.xy.xsql.tsql.model.operator.BinaryOperator;
 import com.xy.xsql.tsql.model.operator.Operator;
-import com.xy.xsql.tsql.model.statement.Statement;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
  */
 public class BinaryExpression implements Expression, ScalarExpression {
     private Expression expressionLeft;
-    private Operator operator;
+    private BinaryOperator binaryOperator;
     private Expression expressionRight;
 
     public BinaryExpression() {
@@ -22,12 +22,12 @@ public class BinaryExpression implements Expression, ScalarExpression {
         this.expressionLeft = expressionLeft;
     }
 
-    public Operator getOperator() {
-        return operator;
+    public Operator getBinaryOperator() {
+        return binaryOperator;
     }
 
-    public void setOperator(Operator operator) {
-        this.operator = operator;
+    public void setBinaryOperator(BinaryOperator binaryOperator) {
+        this.binaryOperator = binaryOperator;
     }
 
     public Expression getExpressionRight() {
@@ -44,8 +44,8 @@ public class BinaryExpression implements Expression, ScalarExpression {
         return this;
     }
 
-    public BinaryExpression withOperator(Operator operator) {
-        this.operator = operator;
+    public BinaryExpression withOperator(BinaryOperator operator) {
+        this.binaryOperator = operator;
         return this;
     }
 

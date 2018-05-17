@@ -16,11 +16,13 @@ public interface Operator {
     /**
      * @return
      */
+    //TODO return enum
     String getKeyword();
 
     /**
      *
      * @return
      */
+    @Deprecated
     Type getType();
 }

@@ -5,7 +5,6 @@ import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.datatype.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 

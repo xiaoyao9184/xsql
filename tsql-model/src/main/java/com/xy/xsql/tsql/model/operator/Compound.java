@@ -7,14 +7,14 @@ import com.xy.xsql.tsql.model.Keywords;
  */
 public enum Compound implements Operator {
 
-    ADD_EQUALS("+=",Type.Compound),
-    SUBTRACT_EQUALS("-=",Type.Compound),
-    MULTIPLY_EQUALS("*=",Type.Compound),
-    DIVIDE_EQUALS("/=",Type.Compound),
-    MODULO_EQUALS("%=",Type.Compound),
-    BITWISE_AND_EQUALS("&=",Type.Compound),
-    BITWISE_EXCLUSIVE_OR_EQUALS("^=",Type.Compound),
-    BITWISE_OR_EQUALS("|=",Type.Compound);
+    ADD_ASSIGNMENT("+=",Type.Compound),
+    SUBTRACT_ASSIGNMENT("-=",Type.Compound),
+    MULTIPLY_ASSIGNMENT("*=",Type.Compound),
+    DIVIDE_ASSIGNMENT("/=",Type.Compound),
+    MODULO_ASSIGNMENT("%=",Type.Compound),
+    BITWISE_AND_ASSIGNMENT("&=",Type.Compound),
+    BITWISE_EXCLUSIVE_OR_ASSIGNMENT("^=",Type.Compound),
+    BITWISE_OR_ASSIGNMENT("|=",Type.Compound);
 
     private String keyword;
     private Type type;

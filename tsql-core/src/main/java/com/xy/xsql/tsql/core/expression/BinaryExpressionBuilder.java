@@ -1,0 +1,32 @@
+package com.xy.xsql.tsql.core.expression;
+
+import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.tsql.model.expression.BinaryExpression;
+import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.BinaryOperator;
+
+/**
+ * Created by xiaoyao9184 on 2018/5/17.
+ */
+public class BinaryExpressionBuilder<ParentBuilder>
+        extends CodeTreeBuilder<BinaryExpressionBuilder<ParentBuilder>,ParentBuilder,BinaryExpression> {
+
+    public BinaryExpressionBuilder() {
+        super(new BinaryExpression());
+    }
+
+    public BinaryExpressionBuilder<ParentBuilder> withExpressionLeft(Expression expression){
+        target.setExpressionLeft(expression);
+        return this;
+    }
+    public BinaryExpressionBuilder<ParentBuilder> withExpressionRight(Expression expression){
+        target.setExpressionRight(expression);
+        return this;
+    }
+
+    public BinaryExpressionBuilder<ParentBuilder> withUnary(BinaryOperator binaryOperator){
+        target.setBinaryOperator(binaryOperator);
+        return this;
+    }
+
+}

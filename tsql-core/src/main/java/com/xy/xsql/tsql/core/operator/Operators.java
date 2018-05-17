@@ -6,6 +6,7 @@ import com.xy.xsql.tsql.model.operator.*;
  * Operator Factory
  * Created by xiaoyao9184 on 2017/3/18.
  */
+@Deprecated
 public class Operators {
 
     public static class Arithmetic {
@@ -43,14 +44,14 @@ public class Operators {
     }
 
     public static class Compound {
-        public static Operator ADD_EQUALS = com.xy.xsql.tsql.model.operator.Compound.ADD_EQUALS;
-        public static Operator SUBTRACT_EQUALS = com.xy.xsql.tsql.model.operator.Compound.SUBTRACT_EQUALS;
-        public static Operator MULTIPLY_EQUALS = com.xy.xsql.tsql.model.operator.Compound.MULTIPLY_EQUALS;
-        public static Operator DIVIDE_EQUALS = com.xy.xsql.tsql.model.operator.Compound.DIVIDE_EQUALS;
-        public static Operator MODULO_EQUALS = com.xy.xsql.tsql.model.operator.Compound.MODULO_EQUALS;
-        public static Operator BITWISE_AND_EQUALS = com.xy.xsql.tsql.model.operator.Compound.BITWISE_AND_EQUALS;
-        public static Operator BITWISE_EXCLUSIVE_OR_EQUALS = com.xy.xsql.tsql.model.operator.Compound.BITWISE_EXCLUSIVE_OR_EQUALS;
-        public static Operator BITWISE_OR_EQUALS = com.xy.xsql.tsql.model.operator.Compound.BITWISE_OR_EQUALS;
+        public static Operator ADD_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.ADD_ASSIGNMENT;
+        public static Operator SUBTRACT_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.SUBTRACT_ASSIGNMENT;
+        public static Operator MULTIPLY_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.MULTIPLY_ASSIGNMENT;
+        public static Operator DIVIDE_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.DIVIDE_ASSIGNMENT;
+        public static Operator MODULO_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.MODULO_ASSIGNMENT;
+        public static Operator BITWISE_AND_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.BITWISE_AND_ASSIGNMENT;
+        public static Operator BITWISE_EXCLUSIVE_OR_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.BITWISE_EXCLUSIVE_OR_ASSIGNMENT;
+        public static Operator BITWISE_OR_ASSIGNMENT = com.xy.xsql.tsql.model.operator.Compound.BITWISE_OR_ASSIGNMENT;
     }
 
     public static class Logical {
@@ -75,11 +76,12 @@ public class Operators {
 
     public static class StringConcatenation {
         public static Operator CONCATENATION = com.xy.xsql.tsql.model.operator.StringConcatenation.CONCATENATION;
-        public static Operator CONCATENATION_SET = com.xy.xsql.tsql.model.operator.StringConcatenation.CONCATENATION_SET;
+        public static Operator CONCATENATION_SET = com.xy.xsql.tsql.model.operator.StringConcatenation.CONCATENATION_ASSIGNMENT;
     }
 
     public static class Unary {
-        public static Operator PLUS = com.xy.xsql.tsql.model.operator.Unary.PLUS;
+        public static Operator POSITIVE = com.xy.xsql.tsql.model.operator.Unary.POSITIVE;
         public static Operator NEGATIVE = com.xy.xsql.tsql.model.operator.Unary.NEGATIVE;
+        public static Operator COMPLEMENT = com.xy.xsql.tsql.model.operator.Unary.COMPLEMENT;
     }
 }

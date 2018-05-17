@@ -17,7 +17,6 @@ import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERYS;
 import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.SUB_QUERY;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.*;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.StatementBuilderFactory.SELECT;
@@ -321,7 +320,7 @@ public class UpdateBuilderTest {
                 .$(c("bom","ComponentID"))
                 .$(c("p","PerAssemblyQty"))
                 .$(c("bom","EndDate"))
-                .$(e_plus(
+                .$(e_addition(
                         c("ComponentLevel"),
                         e_number(1)
                 ))
@@ -569,7 +568,7 @@ public class UpdateBuilderTest {
                 .$(t("Production","Product"))
                 .$Set(
                         s(c("ListPrice"),
-                                Compound.ADD_EQUALS,
+                                Compound.ADD_ASSIGNMENT,
                                 e_variable("NewPrice")
                         )
                 )
@@ -589,7 +588,7 @@ public class UpdateBuilderTest {
                 .withTableName(t("Production","Product"))
                 .withSetItem()._ColumnCompound()
                     .withColumnName(c("ListPrice"))
-                    .withCompound(Compound.ADD_EQUALS)
+                    .withCompound(Compound.ADD_ASSIGNMENT)
                     .withExpression(e_variable("NewPrice"))
                     .and()
                 .withWhere()
@@ -610,7 +609,7 @@ public class UpdateBuilderTest {
         Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnCompoundSet.class);
         Update.ColumnCompoundSet setItem = (Update.ColumnCompoundSet) update.getSets().get(0);
         Assert.assertEquals(setItem.getColumnName().toString(), "ListPrice");
-        Assert.assertEquals(setItem.getCompound(),Compound.ADD_EQUALS);
+        Assert.assertEquals(setItem.getCompound(),Compound.ADD_ASSIGNMENT);
         Assert.assertEquals(setItem.getExpression().toString(),"@NewPrice");
 
         Assert.assertNotNull(update.getWhere());
@@ -833,7 +832,7 @@ public class UpdateBuilderTest {
                 .$Set(
                         s(
                                 c("sr","Name"),
-                                Compound.ADD_EQUALS,
+                                Compound.ADD_ASSIGNMENT,
                                 e_string(" - tool malfunction"))
                 )
                 .$From()
@@ -865,7 +864,7 @@ public class UpdateBuilderTest {
                 .withTableName(t("sr"))
                 .withSetItem()._ColumnCompound()
                     .withColumnName(c("sr","CountryRegionName"))
-                    .withCompound(Compound.ADD_EQUALS)
+                    .withCompound(Compound.ADD_ASSIGNMENT)
                     .withExpression(e_string(" - tool malfunction"))
                     .and()
                 .withFrom()
@@ -1020,7 +1019,7 @@ public class UpdateBuilderTest {
                 .$(t("Sales","SalesPerson"))
                 .$Set(s(
                         c("SalesYTD"),
-                        e_plus(
+                        e_addition(
                                 c("SalesYTD"),
                                 c("SubTotal"))
                 ))
@@ -1096,7 +1095,7 @@ public class UpdateBuilderTest {
                 .$(t("Sales","SalesPerson"))
                 .$Set(s(
                         c("SalesYTD"),
-                        e_plus(
+                        e_addition(
                                 c("SalesYTD"),
                                 e_subquery(query5A2))
                 ))
@@ -1559,7 +1558,7 @@ public class UpdateBuilderTest {
                                 .$When(p_equal(
                                         c("SalariedFlag"),
                                         e_number(0))
-                                ).$Then(e_plus(
+                                ).$Then(e_addition(
                                         c("VacationHours"),
                                         e_variable("NewHours")
                                 )).$Else(e_variable("NewHours"))

@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.Keywords;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Logical implements Operator {
+public enum Logical implements Operator, BinaryOperator {
 
     ALL(Keywords.ALL, Type.Logical),
     AND(Keywords.AND, Type.Logical),

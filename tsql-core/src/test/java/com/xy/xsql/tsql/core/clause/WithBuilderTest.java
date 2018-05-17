@@ -10,7 +10,6 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERYS;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_addition;
 import static com.xy.xsql.tsql.core.expression.Expressions.*;
 import static com.xy.xsql.tsql.core.predicate.Predicates.*;
 import static com.xy.xsql.tsql.core.statement.StatementBuilderFactory.SELECT;

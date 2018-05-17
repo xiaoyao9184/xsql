@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.Keywords;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Bitwise implements Operator {
+public enum Bitwise implements Operator, BinaryOperator {
 
     AND("&",Type.Bitwise),
     AND_EQUALS("&=",Type.Bitwise),

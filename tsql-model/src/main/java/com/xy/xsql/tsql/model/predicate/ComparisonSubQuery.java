@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.model.predicate;
 
 import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.operator.Comparison;
 import com.xy.xsql.tsql.model.operator.Logical;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
@@ -14,7 +15,7 @@ public class ComparisonSubQuery implements Predicate, Expression {
     //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < }
     //{ ALL | SOME | ANY} ( subquery )
     private Expression expression;
-    private com.xy.xsql.tsql.model.operator.Operator operator;
+    private Comparison operator;
     private ALL_SOME_ANY all_some_any;
     private Select subquery;
 
@@ -26,12 +27,12 @@ public class ComparisonSubQuery implements Predicate, Expression {
         this.expression = expression;
     }
 
-    public com.xy.xsql.tsql.model.operator.Operator getOperator() {
+    public Comparison getOperator() {
         return operator;
     }
 
-    public void setOperator(com.xy.xsql.tsql.model.operator.Operator Operators) {
-        this.operator = Operators;
+    public void setOperator(Comparison operator) {
+        this.operator = operator;
     }
 
     public ALL_SOME_ANY getAll_some_any() {

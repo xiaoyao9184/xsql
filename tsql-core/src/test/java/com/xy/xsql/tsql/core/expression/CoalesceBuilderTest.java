@@ -2,14 +2,11 @@ package com.xy.xsql.tsql.core.expression;
 
 import com.xy.xsql.tsql.model.expression.BinaryExpression;
 import com.xy.xsql.tsql.model.expression.Coalesce;
-import com.xy.xsql.tsql.model.expression.GroupExpression;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.operator.Arithmetic;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.expression.Expressions.e;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_binary;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
 
 
 /**
@@ -53,10 +50,8 @@ public class CoalesceBuilderTest {
                                 e_number(40),
                                 e_number(52)
                         )
-                )
-                .withExpression(e("salary"))
-                .withExpression(
-                        e_binary(
+                        ,e("salary")
+                        ,e_binary(
                                 e("commission"),
                                 Operators.MULTIPLICATION,
                                 e("num_sales")

@@ -70,7 +70,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $AddAssign(Expression expression) {
-        return withCompound(Compound.ADD_EQUALS)
+        return withCompound(Compound.ADD_ASSIGNMENT)
                 .withExpression(expression);
     }
 
@@ -80,7 +80,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $SubtractAssign(Expression expression) {
-        return withCompound(Compound.SUBTRACT_EQUALS)
+        return withCompound(Compound.SUBTRACT_ASSIGNMENT)
                 .withExpression(expression);
     }
 
@@ -90,7 +90,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $MultiplyAssign(Expression expression) {
-        return withCompound(Compound.MULTIPLY_EQUALS)
+        return withCompound(Compound.MULTIPLY_ASSIGNMENT)
                 .withExpression(expression);
     }
 
@@ -100,7 +100,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $DivideAssign(Expression expression) {
-        return withCompound(Compound.DIVIDE_EQUALS)
+        return withCompound(Compound.DIVIDE_ASSIGNMENT)
                 .withExpression(expression);
     }
 
@@ -110,7 +110,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $ModuloAssign(Expression expression) {
-        return withCompound(Compound.MODULO_EQUALS)
+        return withCompound(Compound.MODULO_ASSIGNMENT)
                 .withExpression(expression);
     }
 
@@ -120,7 +120,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $BitwiseANDAssign(Expression expression) {
-        return withCompound(Compound.BITWISE_AND_EQUALS)
+        return withCompound(Compound.BITWISE_AND_ASSIGNMENT)
                 .withExpression(expression);
     }
 
@@ -130,7 +130,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $BitwiseXORAssign(Expression expression) {
-        return withCompound(Compound.BITWISE_EXCLUSIVE_OR_EQUALS)
+        return withCompound(Compound.BITWISE_EXCLUSIVE_OR_ASSIGNMENT)
                 .withExpression(expression);
     }
 
@@ -140,7 +140,7 @@ public class SetVariableBuilder<ParentBuilder>
      * @return THIS
      */
     public SetVariableBuilder<ParentBuilder> $BitwiseORAssign(Expression expression) {
-        return withCompound(Compound.BITWISE_OR_EQUALS)
+        return withCompound(Compound.BITWISE_OR_ASSIGNMENT)
                 .withExpression(expression);
     }
 

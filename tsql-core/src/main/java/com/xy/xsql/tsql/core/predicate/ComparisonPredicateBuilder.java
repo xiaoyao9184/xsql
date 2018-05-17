@@ -37,7 +37,7 @@ public class ComparisonPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public ComparisonPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.operator.Operator operator) {
+    public ComparisonPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.operator.Comparison operator) {
         target.setOperator(operator);
         return this;
     }

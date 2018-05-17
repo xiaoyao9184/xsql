@@ -2,14 +2,12 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.core.expression.BinaryExpressions;
 import com.xy.xsql.tsql.model.clause.select.GroupBy;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
-import static com.xy.xsql.tsql.core.expression.Expressions.e;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
+import static com.xy.xsql.tsql.core.expression.Expressions.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -325,7 +323,7 @@ public class GroupByBuilderTest {
                 (GroupByBuilder.class,GroupBy.class)
                 .$child()
                     .$(c("SalesAmount"))
-                    .$(BinaryExpressions.e_multiplication(
+                    .$(e_multiplication(
                             c("SalesAmount"),
                             e_number(1.10)
                     ))

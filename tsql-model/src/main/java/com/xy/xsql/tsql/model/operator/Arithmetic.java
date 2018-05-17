@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.Keywords;
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Arithmetic implements Operator {
+public enum Arithmetic implements Operator, BinaryOperator {
     ADDITION("+", Type.Arithmetic),
     SUBTRACTION("-", Type.Arithmetic),
     MULTIPLICATION("*", Type.Arithmetic),
