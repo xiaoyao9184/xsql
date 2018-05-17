@@ -159,4 +159,15 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
                 Collectors.toList());
     }
 
+    public static <T> T getLastItem(List<T> list){
+        int index = list.size() - 1;
+        return list.get(index);
+    }
+
+    public static <T> T popLastItem(List<T> list){
+        int index = list.size() - 1;
+        T last = list.get(index);
+        list.remove(index);
+        return last;
+    }
 }
