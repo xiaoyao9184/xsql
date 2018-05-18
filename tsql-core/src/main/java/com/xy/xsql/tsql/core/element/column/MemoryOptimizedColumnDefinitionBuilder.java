@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.element.column;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
@@ -12,7 +12,6 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import java.util.Collections;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**

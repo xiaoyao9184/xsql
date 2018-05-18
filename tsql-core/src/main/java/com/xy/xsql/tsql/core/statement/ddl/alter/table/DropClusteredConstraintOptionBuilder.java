@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.element.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
-import com.xy.xsql.tsql.model.datatype.OnOff;
+import com.xy.xsql.tsql.model.datatypes.other.OnOff;
 import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 

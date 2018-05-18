@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.elements.variables;
 
-import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 

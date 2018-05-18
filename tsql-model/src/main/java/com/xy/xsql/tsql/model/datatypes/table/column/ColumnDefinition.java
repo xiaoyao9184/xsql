@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.model.datatypes.table.column;
 
-import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;

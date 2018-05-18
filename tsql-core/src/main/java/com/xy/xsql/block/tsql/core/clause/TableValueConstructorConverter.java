@@ -4,9 +4,8 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
+import com.xy.xsql.tsql.model.elements.expressions.keyword.KeywordExpression;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
-import com.xy.xsql.tsql.model.datatype.Default;
-import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
@@ -78,10 +77,10 @@ public class TableValueConstructorConverter
                 new BlockMetaBuilder<Void,Expression>()
                         .overall("row value expression")
                         .syntax_required()
-                        .czse(d -> d instanceof Default,"DEFAULT")
+                        .czse(d -> KeywordExpression.isKeywords(d,Keywords.DEFAULT),"DEFAULT")
                             .scope(d -> d)
                             .and()
-                        .czse(d -> d instanceof Null,"NULL")
+                        .czse(d -> KeywordExpression.isKeywords(d,Keywords.NULL),"NULL")
                             .scope(d -> d)
                             .and()
                         .czse(d -> true,"expression")

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.xy.xsql.tsql.model.queries.SearchCondition;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.queries.Where;
-import com.xy.xsql.tsql.model.datatype.Null;
+import com.xy.xsql.tsql.model.elements.expressions.keyword.Null;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 import com.xy.xsql.tsql.model.queries.predicates.Predicate;

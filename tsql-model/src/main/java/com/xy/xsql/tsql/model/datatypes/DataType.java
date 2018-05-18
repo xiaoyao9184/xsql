@@ -1,203 +1,266 @@
 package com.xy.xsql.tsql.model.datatypes;
 
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.elements.Other;
+import com.xy.xsql.tsql.model.datatypes.precision_scale_length.Length;
+import com.xy.xsql.tsql.model.datatypes.precision_scale_length.MaxLength;
+import com.xy.xsql.tsql.model.datatypes.precision_scale_length.Precision;
+import com.xy.xsql.tsql.model.datatypes.precision_scale_length.Scale;
 
 /**
- *
- *
- * Also in CREATE TABLE like this
- * [type_schema_name . ] type_name [ (precision [ , scale ]) ]
- *
- * Created by xiaoyao9184 on 2017/3/16.
+ * Created by xiaoyao9184 on 2018/5/18.
  */
-public class DataType {
+public interface DataType {
 
+    /**
+     * named for data_type
+     * @return name
+     */
+    String name();
 
-    private String typeSchemaName;
-    private String name;
-    private Synonyms synonym;
-    private Integer precision;
-    private Integer scale;
-    private Integer length;
+    /**
+     * internal keyword for data_type name
+     */
+    enum Keywords {
 
-    private boolean useMax;
+        bit,
 
-    private boolean useDocument;
-    private StringConstant xmlSchemaCollection;
+        date,
+        datetime,
+        datetime2,
+        datetimeoffset,
+        smalldatetime,
+        time,
 
-    public DataType() {
-    }
+        hierarchyid,
 
-    public DataType(String name) {
-        this.name = name;
-    }
+        decimal,
+        numeric,
+        float$("float"),
+        real,
+        int$("int"),
+        bigin,
+        smallint,
+        tinyint,
+        money,
+        smallmoney,
 
+        rowversion,
 
-    public String getTypeSchemaName() {
-        return typeSchemaName;
-    }
+        binary,
+        varbinary,
+        char$("char"),
+        varchar,
+        nchar,
+        nvarchar,
+        text,
+        ntext,
+        image,
 
-    public void setTypeSchemaName(String typeSchemaName) {
-        this.typeSchemaName = typeSchemaName;
-    }
+        geography,
+        geometry,
 
-    public String getName() {
-        return name;
-    }
+        sql_variant,
+        table,
+        uniqueidentifier,
+        xml;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        private String string;
 
-    public Synonyms getSynonym() {
-        return synonym;
-    }
-
-    public void setSynonym(Synonyms synonym) {
-        this.synonym = synonym;
-    }
-
-    public Integer getPrecision() {
-        return precision;
-    }
-
-    public void setPrecision(Integer precision) {
-        this.precision = precision;
-    }
-
-    public Integer getScale() {
-        return scale;
-    }
-
-    public void setScale(Integer scale) {
-        this.scale = scale;
-    }
-
-    public Integer getLength() {
-        return length;
-    }
-
-    public void setLength(Integer length) {
-        this.length = length;
-    }
-
-
-
-
-    public DataType withSynonym(Synonyms synonym) {
-        this.synonym = synonym;
-        return this;
-    }
-
-    public DataType withPrecision(Integer precision) {
-        this.precision = precision;
-        return this;
-    }
-
-    public DataType withScale(Integer scale) {
-        this.scale = scale;
-        return this;
-    }
-
-    public DataType withLength(Integer length) {
-        this.length = length;
-        return this;
-    }
-
-    public boolean isUseMax() {
-        return useMax;
-    }
-
-    public void setUseMax(boolean useMax) {
-        this.useMax = useMax;
-    }
-
-    public boolean isUseDocument() {
-        return useDocument;
-    }
-
-    public void setUseDocument(boolean useDocument) {
-        this.useDocument = useDocument;
-    }
-
-    public StringConstant getXmlSchemaCollection() {
-        return xmlSchemaCollection;
-    }
-
-    public void setXmlSchemaCollection(StringConstant xmlSchemaCollection) {
-        this.xmlSchemaCollection = xmlSchemaCollection;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder b = new StringBuilder();
-        if(name != null){
-            b.append(name);
-            return b.toString();
+        Keywords(){
+            this.string = this.name();
         }
-
-        b.append(this.synonym.toString());
-        if(length != null){
-            b.append(Other.GROUP_START.toString())
-                .append(this.length)
-                .append(Other.GROUP_END.toString());
-        }else if(precision != null && scale != null){
-            b.append(Other.GROUP_START.toString())
-                    .append(this.precision)
-                    .append(Other.DELIMITER.toString())
-                    .append(this.scale)
-                    .append(Other.GROUP_END.toString());
-        }else if(precision != null){
-            b.append(Other.GROUP_START.toString())
-                    .append(this.precision)
-                    .append(Other.GROUP_END.toString());
+        Keywords(String string){
+            this.string = string;
         }
-        return b.toString();
-    }
-
-
-    public enum Synonyms {
-        _date(),
-        _datetime(),
-        _datetime2(),
-        _datetimeoffset(),
-        _smalldatetime(),
-        _time(),
-
-        _bit(),
-        _decimal(),
-        _numeric(),
-        _float(),
-        _real(),
-        _bigint(),
-        _int(),
-        _smallint(),
-        _tinyint(),
-        _money(),
-        _smallmoney(),
-
-        _binary(),
-        _varbinary(),
-        _char(),
-        _varchar(),
-        _nchar(),
-        _nvarchar(),
-        _ntext(),
-        _text(),
-        _image(),
-
-
-        _uniqueidentifier(),
-        _timestamp(),
-        _rowversion(),
-        _hierarchyid(),
-        _sql_variant(),
-        _xml();
 
         @Override
-        public String toString() {
-            return name().replace("_","");
+        public String toString(){
+            return string;
         }
     }
+
+    /**
+     * use keyword for data_type's name
+     */
+    interface KeywordNamed extends DataType {
+
+        @Override
+        default String name() {
+            return keyword().toString();
+        }
+
+        Keywords keyword();
+
+
+        static KeywordNamed keyword_type(Keywords keywords){
+            return () -> keywords;
+        }
+    }
+
+
+    abstract class SimpleDataType
+            implements DataType {
+
+    }
+
+    abstract class SpatialDataType
+            implements DataType {
+
+    }
+
+    abstract class FractionalSecondsPrecisionDataType
+            implements DataType,Precision {
+
+        public FractionalSecondsPrecisionDataType(){}
+
+        public FractionalSecondsPrecisionDataType(Integer precision) {
+            this.precision = precision;
+        }
+
+        protected Integer precision;
+
+        public void precision(Integer precision) {
+            this.precision = precision;
+        }
+
+        @Override
+        public int precision() {
+            return precision;
+        }
+
+        @Override
+        public boolean precisionUsed() {
+            return precision != null && precision > 0;
+        }
+    }
+
+    abstract class FractionalSecondsScaleDataType
+            implements DataType,Scale {
+
+        public FractionalSecondsScaleDataType(){}
+
+        public FractionalSecondsScaleDataType(Integer scale) {
+            this.scale = scale;
+        }
+
+        protected Integer scale;
+
+        public void scale(Integer scale) {
+            this.scale = scale;
+        }
+
+        @Override
+        public int scale() {
+            return scale;
+        }
+
+        @Override
+        public boolean scaleUsed() {
+            return scale != null && scale >= 0;
+        }
+    }
+
+    abstract class PrecisionScaleDataType
+            implements DataType,Precision,Scale {
+
+        public PrecisionScaleDataType(){}
+
+        public PrecisionScaleDataType(Integer precision, Integer scale) {
+            this.precision = precision;
+            this.scale = scale;
+        }
+
+        protected Integer precision;
+        protected Integer scale;
+
+        public void precision(Integer precision) {
+            this.precision = precision;
+        }
+
+        public void scale(Integer scale) {
+            this.scale = scale;
+        }
+
+        @Override
+        public int precision() {
+            return precision;
+        }
+
+        @Override
+        public int scale() {
+            return scale;
+        }
+
+        @Override
+        public boolean precisionUsed() {
+            return precision != null && precision > 0;
+        }
+
+        @Override
+        public boolean scaleUsed() {
+            return scale != null && scale >= 0;
+        }
+    }
+
+    abstract class FixedLengthDataType
+            implements DataType,Length {
+
+        public FixedLengthDataType(){}
+
+        public FixedLengthDataType(Integer length) {
+            this.length = length;
+        }
+
+        protected Integer length;
+
+        public void length(Integer length) {
+            this.length = length;
+        }
+
+        @Override
+        public int length() {
+            return length;
+        }
+
+        @Override
+        public boolean lengthUsed() {
+            return length != null && length >= 0;
+        }
+    }
+
+    abstract class MaxFixedLengthDataType
+            implements DataType,Length,MaxLength {
+
+        public MaxFixedLengthDataType(){}
+
+        public MaxFixedLengthDataType(Integer length) {
+            this.length = length;
+        }
+
+        protected Integer length;
+        protected boolean max;
+
+        public void length(Integer length) {
+            this.length = length;
+        }
+
+        public void max(boolean max) {
+            this.max = max;
+        }
+
+        @Override
+        public int length() {
+            return length;
+        }
+
+        @Override
+        public boolean lengthUsed() {
+            return !maxUsed() && length != null && length >= 0;
+        }
+
+        @Override
+        public boolean maxUsed() {
+            return max;
+        }
+    }
+
 }

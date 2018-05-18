@@ -3,7 +3,7 @@ package com.xy.xsql.block.tsql.core.datatype;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
 import com.xy.xsql.tsql.model.elements.Other;
 
 /**

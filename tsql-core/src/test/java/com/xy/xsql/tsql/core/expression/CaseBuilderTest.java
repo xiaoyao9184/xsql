@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.expression;
 
-import com.xy.xsql.tsql.model.datatype.Null;
+import com.xy.xsql.tsql.model.elements.expressions.keyword.Null;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Case;

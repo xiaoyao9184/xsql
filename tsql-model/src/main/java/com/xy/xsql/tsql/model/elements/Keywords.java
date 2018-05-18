@@ -1,11 +1,5 @@
 package com.xy.xsql.tsql.model.elements;
 
-import com.xy.xsql.tsql.model.datatypes.DataType;
-import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
-import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
-import com.xy.xsql.tsql.model.datatypes.table.column.ComputedColumnDefinition;
-import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
-
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -310,7 +304,7 @@ public enum Keywords {
         TABLESAMPLE, SYSTEM, REPEATABLE, CONTAINED, SYSTEM_TIME,
 
         /**
-         * @see CreateDataBase
+         * @see com.xy.xsql.tsql.model.statements.create.CreateDataBase
          */
         CONTAINMENT, NONE, PARTIAL,
 
@@ -321,17 +315,17 @@ public enum Keywords {
 
 
         /**
-         * @see DataType
+         * @see com.xy.xsql.tsql.model.datatypes.table.column.DataType
          */
         CONTENT, DOCUMENT,
 
         /**
-         * @see ColumnSetDefinition
+         * @see com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition
          */
         COLUMN_SET, ALL_SPARSE_COLUMNS,
 
         /**
-         * @see ComputedColumnDefinition
+         * @see com.xy.xsql.tsql.model.datatypes.table.column.ComputedColumnDefinition
          */
         PERSISTED,
 
@@ -342,7 +336,7 @@ public enum Keywords {
 
         /**
          * @see com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable
-         * @see ColumnIndex
+         * @see com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex
          */
         FILESTREAM_ON, TEXTIMAGE_ON, PERIOD, BUCKET_COUNT,
 

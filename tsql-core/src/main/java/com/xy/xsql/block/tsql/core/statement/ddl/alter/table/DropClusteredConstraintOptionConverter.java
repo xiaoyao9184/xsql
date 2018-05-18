@@ -5,7 +5,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.element.index.PartitionConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.datatype.OnOff;
+import com.xy.xsql.tsql.model.datatypes.other.OnOff;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
 import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 

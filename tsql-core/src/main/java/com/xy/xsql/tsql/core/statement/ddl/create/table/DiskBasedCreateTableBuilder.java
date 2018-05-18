@@ -12,7 +12,7 @@ import com.xy.xsql.tsql.core.element.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.core.element.index.PartitionBuilder;
 import com.xy.xsql.tsql.core.element.table.TableConstraintBuilder;
 import com.xy.xsql.tsql.core.element.table.TableIndexBuilder;
-import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
