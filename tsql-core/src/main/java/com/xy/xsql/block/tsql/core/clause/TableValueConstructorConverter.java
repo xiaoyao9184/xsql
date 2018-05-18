@@ -3,11 +3,11 @@ package com.xy.xsql.block.tsql.core.clause;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.datatype.Default;
 import com.xy.xsql.tsql.model.datatype.Null;
-import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.List;

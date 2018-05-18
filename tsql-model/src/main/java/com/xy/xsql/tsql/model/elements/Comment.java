@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element;
+package com.xy.xsql.tsql.model.elements;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms181627.aspx

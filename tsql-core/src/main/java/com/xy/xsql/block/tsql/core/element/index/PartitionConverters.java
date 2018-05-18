@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.element.index;
 
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.element.index.Partition;
 
 /**

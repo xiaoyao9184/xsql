@@ -7,8 +7,8 @@ import com.xy.xsql.block.tsql.core.clause.FromConverter;
 import com.xy.xsql.block.tsql.core.clause.OutputConverter;
 import com.xy.xsql.block.tsql.core.clause.TableValueConstructorConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.element.Other;
+import com.xy.xsql.tsql.model.elements.Keywords;
+import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 
 /**

@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.element.constraint;
 
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
 
 /**

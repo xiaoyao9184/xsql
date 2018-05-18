@@ -1,8 +1,6 @@
-package com.xy.xsql.tsql.model;
+package com.xy.xsql.tsql.model.elements;
 
 import com.xy.xsql.tsql.model.datatypes.DataType;
-import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.ddl.create.CreateDataBase;
 
 import java.util.Arrays;

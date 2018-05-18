@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.elements.operators;
 
-import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.elements.Keywords;
 
 /**
  * This is a special case

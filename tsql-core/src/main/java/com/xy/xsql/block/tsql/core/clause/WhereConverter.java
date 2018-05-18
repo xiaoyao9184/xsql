@@ -3,7 +3,7 @@ package com.xy.xsql.block.tsql.core.clause;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.clause.Where;
 
 /**

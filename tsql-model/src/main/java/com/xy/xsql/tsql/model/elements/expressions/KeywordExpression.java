@@ -1,7 +1,6 @@
 package com.xy.xsql.tsql.model.elements.expressions;
 
-import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.elements.expressions.Expression;
+import com.xy.xsql.tsql.model.elements.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2016/11/13.

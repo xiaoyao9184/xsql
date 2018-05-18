@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.Keywords;
+import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;

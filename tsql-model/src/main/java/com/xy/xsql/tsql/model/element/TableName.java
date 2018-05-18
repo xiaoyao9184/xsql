@@ -1,5 +1,7 @@
 package com.xy.xsql.tsql.model.element;
 
+import com.xy.xsql.tsql.model.elements.Other;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
