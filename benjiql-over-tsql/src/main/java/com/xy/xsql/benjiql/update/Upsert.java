@@ -12,7 +12,7 @@ import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 
 import java.io.Serializable;

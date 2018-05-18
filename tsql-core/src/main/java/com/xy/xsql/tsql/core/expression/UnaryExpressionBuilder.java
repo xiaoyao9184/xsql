@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.core.expression;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.expression.UnaryExpression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.UnaryExpression;
 import com.xy.xsql.tsql.model.operator.Unary;
 
 /**

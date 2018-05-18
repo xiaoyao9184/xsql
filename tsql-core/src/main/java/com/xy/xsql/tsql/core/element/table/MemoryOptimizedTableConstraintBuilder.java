@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.element.constraint.Constraint;
 import com.xy.xsql.tsql.model.element.constraint.Foreign;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.element.table.TableConstraint;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import static com.xy.xsql.core.FiledBuilder.initSet2;
 

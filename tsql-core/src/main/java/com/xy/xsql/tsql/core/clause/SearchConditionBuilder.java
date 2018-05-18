@@ -9,9 +9,8 @@ import com.xy.xsql.tsql.core.predicate.transform.ContainsFreeTextTransformBuilde
 import com.xy.xsql.tsql.core.predicate.transform.ExpressionTransformBuilder;
 import com.xy.xsql.tsql.model.clause.SearchCondition;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.predicate.Contains;
-import com.xy.xsql.tsql.model.predicate.Exists;
 import com.xy.xsql.tsql.model.predicate.FreeText;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 import com.xy.xsql.tsql.model.statement.dml.Select;

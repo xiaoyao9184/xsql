@@ -1,6 +1,6 @@
 package com.xy.xsql.jdbc.model;
 
-import com.xy.xsql.tsql.model.expression.UnknownExpression;
+import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 
 /**
  * JDBC SQL Placeholder

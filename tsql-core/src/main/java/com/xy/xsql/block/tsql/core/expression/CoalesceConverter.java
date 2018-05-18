@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.expression.Coalesce;
+import com.xy.xsql.tsql.model.elements.expressions.Coalesce;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.

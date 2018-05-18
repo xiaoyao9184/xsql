@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.datatypes.constants;
 
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
  * bit constants

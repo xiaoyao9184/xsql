@@ -1,20 +1,14 @@
 package com.xy.xsql.tsql.core.element.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.core.element.column.ColumnConstraintBuilder;
 import com.xy.xsql.tsql.core.element.constraint.CheckBuilder;
 import com.xy.xsql.tsql.core.element.constraint.Foreigns;
 import com.xy.xsql.tsql.core.element.constraint.PrimaryUniques;
-import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.constraint.Check;
 import com.xy.xsql.tsql.model.element.constraint.Constraint;
 import com.xy.xsql.tsql.model.element.constraint.Foreign;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.element.table.TableConstraint;
-import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.util.CheckUtil;
-
-import java.util.Arrays;
 
 import static com.xy.xsql.core.FiledBuilder.initSet2;
 

@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.clause.Where;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.expression.UnknownExpression;
+import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.predicate.*;
 import org.apache.commons.beanutils.BeanUtilsBean;

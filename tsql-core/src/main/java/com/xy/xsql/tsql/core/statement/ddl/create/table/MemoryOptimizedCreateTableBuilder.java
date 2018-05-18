@@ -4,7 +4,6 @@ import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.core.element.column.MemoryOptimizedColumnDefinitionBuilder;
-import com.xy.xsql.tsql.core.element.constraint.CheckBuilder;
 import com.xy.xsql.tsql.core.element.constraint.Foreigns;
 import com.xy.xsql.tsql.core.element.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.core.element.table.MemoryOptimizedTableConstraintBuilder;
@@ -17,7 +16,7 @@ import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.table.TableConstraint;
 import com.xy.xsql.tsql.model.element.table.TableIndex;
 import com.xy.xsql.tsql.model.element.table.TableOption;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
 
 import java.util.Arrays;

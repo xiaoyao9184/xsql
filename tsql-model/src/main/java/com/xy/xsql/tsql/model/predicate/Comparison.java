@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.tsql.model.expression.BinaryExpression;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
  * TODO maybe use Comparison.Comparison named

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
  * https://msdn.microsoft.com/en-us/library/ms189463.aspx

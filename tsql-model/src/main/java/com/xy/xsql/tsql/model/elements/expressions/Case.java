@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.expression;
+package com.xy.xsql.tsql.model.elements.expressions;
 
 import java.util.ArrayList;
 import java.util.List;

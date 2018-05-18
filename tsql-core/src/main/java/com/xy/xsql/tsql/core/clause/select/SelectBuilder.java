@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.clause.select.Select;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
 import com.xy.xsql.tsql.model.clause.Clause;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.List;
 

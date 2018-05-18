@@ -1,8 +1,7 @@
 package com.xy.xsql.tsql.core.expression;
 
-import com.xy.xsql.tsql.model.expression.BinaryExpression;
-import com.xy.xsql.tsql.model.expression.Coalesce;
-import com.xy.xsql.tsql.model.operator.Arithmetic;
+import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
+import com.xy.xsql.tsql.model.elements.expressions.Coalesce;
 import org.junit.Assert;
 import org.junit.Test;
 

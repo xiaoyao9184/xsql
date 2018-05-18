@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.tsql.model.clause.With;
-import com.xy.xsql.tsql.model.expression.BinaryExpression;
+import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.operator.Compound;
 import com.xy.xsql.tsql.model.operator.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;

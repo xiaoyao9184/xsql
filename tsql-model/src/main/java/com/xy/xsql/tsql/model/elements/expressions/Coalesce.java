@@ -1,4 +1,6 @@
-package com.xy.xsql.tsql.model.expression;
+package com.xy.xsql.tsql.model.elements.expressions;
+
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.List;
 

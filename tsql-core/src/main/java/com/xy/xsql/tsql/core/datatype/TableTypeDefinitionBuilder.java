@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.element.table.TableConstraint;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;

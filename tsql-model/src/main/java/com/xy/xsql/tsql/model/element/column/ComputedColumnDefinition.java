@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.element.column;
 
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
 

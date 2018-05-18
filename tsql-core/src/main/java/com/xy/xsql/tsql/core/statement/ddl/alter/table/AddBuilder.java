@@ -15,7 +15,7 @@ import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.column.ColumnSetDefinition;
 import com.xy.xsql.tsql.model.element.column.ComputedColumnDefinition;
 import com.xy.xsql.tsql.model.element.table.TableConstraint;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
 
 import java.util.Arrays;

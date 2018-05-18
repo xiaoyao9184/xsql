@@ -1,6 +1,6 @@
 package com.xy.xsql.jpql.model;
 
-import com.xy.xsql.tsql.model.expression.UnknownExpression;
+import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 
 /**
  * Created by xiaoyao9184 on 2017/9/14.

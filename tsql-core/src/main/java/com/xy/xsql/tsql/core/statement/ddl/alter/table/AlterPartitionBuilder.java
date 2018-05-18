@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterPartition;
 import com.xy.xsql.tsql.model.statement.ddl.alter.table.LowPriorityLockWait;
 

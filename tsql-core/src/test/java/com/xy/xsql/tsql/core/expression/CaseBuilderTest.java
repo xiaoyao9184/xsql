@@ -2,11 +2,8 @@ package com.xy.xsql.tsql.core.expression;
 
 import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.expression.BinaryExpression;
-import com.xy.xsql.tsql.model.expression.Case;
-import com.xy.xsql.tsql.model.expression.GroupExpression;
-import com.xy.xsql.tsql.model.operator.Arithmetic;
-import com.xy.xsql.tsql.model.operator.Comparison;
+import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
+import com.xy.xsql.tsql.model.elements.expressions.Case;
 import com.xy.xsql.tsql.model.operator.Operators;
 import org.junit.Assert;
 import org.junit.Test;

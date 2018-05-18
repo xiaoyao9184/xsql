@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.expression;
 
-import com.xy.xsql.tsql.model.expression.Coalesce;
-import com.xy.xsql.tsql.model.expression.NullIf;
+import com.xy.xsql.tsql.model.elements.expressions.Coalesce;
+import com.xy.xsql.tsql.model.elements.expressions.NullIf;
 import org.junit.Assert;
 import org.junit.Test;
 

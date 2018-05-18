@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.element.constraint;
 
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
  * Created by xiaoyao9184 on 2017/8/7.

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.expression;
 
-import com.xy.xsql.tsql.model.expression.AtTimeZone;
+import com.xy.xsql.tsql.model.elements.expressions.AtTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 

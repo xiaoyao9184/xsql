@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.model.datatype;
 
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.expression.KeywordExpression;
-import com.xy.xsql.tsql.model.expression.RowValueExpression;
+import com.xy.xsql.tsql.model.elements.expressions.KeywordExpression;
+import com.xy.xsql.tsql.model.elements.expressions.RowValueExpression;
 
 /**
  * Created by xiaoyao9184 on 2017/3/23.

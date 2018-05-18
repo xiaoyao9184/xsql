@@ -1,11 +1,10 @@
 package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.expression.ScalarExpression;
+import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 
@@ -14,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;

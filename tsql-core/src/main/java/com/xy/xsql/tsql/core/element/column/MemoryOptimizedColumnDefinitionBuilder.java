@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.element.collation.Collate;
 import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.column.ColumnIndex;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.Collections;
 

@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.core.element.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
 import com.xy.xsql.tsql.model.element.column.ComputedColumnDefinition;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;

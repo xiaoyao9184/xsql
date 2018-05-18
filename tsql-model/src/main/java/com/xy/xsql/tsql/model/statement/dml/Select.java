@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.model.statement.dml;
 
 import com.xy.xsql.tsql.model.clause.*;
 import com.xy.xsql.tsql.model.clause.select.*;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.operator.Set;
 import com.xy.xsql.tsql.model.statement.Statement;
 

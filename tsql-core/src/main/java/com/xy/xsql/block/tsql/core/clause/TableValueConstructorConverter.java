@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.clause.TableValueConstructor;
 import com.xy.xsql.tsql.model.datatype.Default;
 import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.List;
 

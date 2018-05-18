@@ -1,11 +1,7 @@
 package com.xy.xsql.tsql.core.element.index;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.index.Partition;
-import com.xy.xsql.tsql.model.expression.Expression;
-
-import java.util.Arrays;
 
 /**
  * Created by xiaoyao9184 on 2017/8/17.

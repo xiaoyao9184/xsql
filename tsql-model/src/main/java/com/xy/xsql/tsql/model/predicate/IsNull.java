@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
  * expression IS [ NOT ] NULL

@@ -1,8 +1,6 @@
 package com.xy.xsql.tsql.model.statement.ddl.alter.table;
 
-import com.xy.xsql.tsql.model.expression.Expression;
-
-import java.util.List;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
  * Created by xiaoyao9184 on 2017/9/17

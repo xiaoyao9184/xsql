@@ -1,7 +1,6 @@
 package com.xy.xsql.tsql.model.datatypes.constants;
 
-import com.xy.xsql.tsql.model.datatypes.constants.Constant;
-import com.xy.xsql.tsql.model.expression.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
