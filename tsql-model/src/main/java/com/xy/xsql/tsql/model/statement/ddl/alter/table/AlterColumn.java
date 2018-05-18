@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.statement.ddl.alter.table;
 
-import com.xy.xsql.tsql.model.datatype.DataType;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.collation.Collate;
 
 /**

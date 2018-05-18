@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.datatype;
 
-import com.xy.xsql.tsql.model.datatype.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 
 /**
  * DataType Factory

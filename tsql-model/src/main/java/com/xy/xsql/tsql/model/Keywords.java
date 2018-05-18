@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.model;
 
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.Unknown;
 import com.xy.xsql.tsql.model.statement.ddl.create.CreateDataBase;
@@ -319,7 +320,7 @@ public enum Keywords {
 
 
         /**
-         * @see com.xy.xsql.tsql.model.datatype.DataType
+         * @see DataType
          */
         CONTENT, DOCUMENT,
 

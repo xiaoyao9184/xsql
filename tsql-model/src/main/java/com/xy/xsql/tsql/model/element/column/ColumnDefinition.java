@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.model.element.column;
 
-import com.xy.xsql.tsql.model.datatype.DataType;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
-import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.collation.Collate;
 import com.xy.xsql.tsql.model.expression.Expression;

@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.element.column;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.datatype.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.collation.Collate;
 import com.xy.xsql.tsql.model.element.column.ColumnConstraint;

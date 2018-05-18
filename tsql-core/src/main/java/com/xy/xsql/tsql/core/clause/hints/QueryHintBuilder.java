@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.clause.hints;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 

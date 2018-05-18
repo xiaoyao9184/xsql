@@ -7,7 +7,7 @@ import com.xy.xsql.block.tsql.core.element.constraint.CheckConverters;
 import com.xy.xsql.block.tsql.core.element.constraint.PrimaryUniqueConverters;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.constraint.Check;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;

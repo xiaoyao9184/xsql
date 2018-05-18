@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.statement.ddl;
 
-import com.xy.xsql.tsql.model.datatype.NumberConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.expression.Expression;
 import com.xy.xsql.tsql.model.statement.Statement;

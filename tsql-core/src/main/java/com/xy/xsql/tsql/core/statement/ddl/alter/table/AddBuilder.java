@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.core.element.constraint.CheckBuilder;
 import com.xy.xsql.tsql.core.element.constraint.Foreigns;
 import com.xy.xsql.tsql.core.element.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.core.element.table.TableConstraintBuilder;
-import com.xy.xsql.tsql.model.datatype.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.column.ColumnSetDefinition;

@@ -8,7 +8,7 @@ import com.xy.xsql.block.tsql.core.element.column.ColumnSetDefinitionConverter;
 import com.xy.xsql.block.tsql.core.element.column.ComputedColumnDefinitionConverter;
 import com.xy.xsql.block.tsql.core.element.table.TableConstraintConverters;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.datatype.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.column.ColumnSetDefinition;

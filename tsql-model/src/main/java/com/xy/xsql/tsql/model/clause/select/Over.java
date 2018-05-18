@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
 import com.xy.xsql.tsql.model.clause.Clause;
-import com.xy.xsql.tsql.model.datatype.NumberConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.expression.Expression;
 
 import java.util.List;

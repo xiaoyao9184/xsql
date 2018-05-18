@@ -1,9 +1,8 @@
 package com.xy.xsql.tsql.model.variable;
 
-import com.xy.xsql.tsql.model.datatype.DataType;
-import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
 import com.xy.xsql.tsql.model.expression.Expression;
-import com.xy.xsql.tsql.model.statement.Statement;
 
 import java.util.List;
 

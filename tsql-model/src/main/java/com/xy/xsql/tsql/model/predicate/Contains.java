@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.predicate;
 
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 
 import java.util.List;

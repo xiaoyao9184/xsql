@@ -5,7 +5,7 @@ import com.xy.xsql.benjiql.core.ProxyObjectMethodRecording;
 import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.benjiql.util.Conventions;
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.tsql.model.datatype.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;

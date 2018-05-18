@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.core.clause.hints;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 import java.util.Arrays;
 import java.util.Collections;

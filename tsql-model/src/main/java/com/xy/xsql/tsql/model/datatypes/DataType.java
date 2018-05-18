@@ -1,5 +1,6 @@
-package com.xy.xsql.tsql.model.datatype;
+package com.xy.xsql.tsql.model.datatypes;
 
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.Other;
 
 /**

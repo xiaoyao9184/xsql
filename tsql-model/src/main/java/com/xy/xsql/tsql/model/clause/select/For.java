@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.clause.select;
 
 import com.xy.xsql.tsql.model.clause.Clause;
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 /**
  *

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.expression;
 
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 /**
  * https://msdn.microsoft.com/en-us/library/mt612795.aspx

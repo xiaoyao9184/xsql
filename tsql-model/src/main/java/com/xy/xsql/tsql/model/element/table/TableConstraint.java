@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.element.table;
 
-import com.xy.xsql.tsql.model.datatype.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.constraint.Constraint;
 import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
 import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;

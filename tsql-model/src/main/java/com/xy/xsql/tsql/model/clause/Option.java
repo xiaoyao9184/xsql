@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.clause;
 
-import com.xy.xsql.tsql.model.datatype.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 import java.util.List;
 

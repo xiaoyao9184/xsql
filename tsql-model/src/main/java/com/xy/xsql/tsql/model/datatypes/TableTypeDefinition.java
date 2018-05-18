@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.datatype;
+package com.xy.xsql.tsql.model.datatypes;
 
 import java.util.List;
 
