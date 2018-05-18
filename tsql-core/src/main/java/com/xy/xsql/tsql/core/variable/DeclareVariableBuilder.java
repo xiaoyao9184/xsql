@@ -5,8 +5,8 @@ import com.xy.xsql.tsql.core.datatype.TableTypeDefinitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.variable.DeclareVariable;
-import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.tsql.model.elements.variables.DeclareVariable;
+import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initNew;

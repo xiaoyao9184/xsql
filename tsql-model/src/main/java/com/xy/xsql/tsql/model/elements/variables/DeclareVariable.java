@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.variable;
+package com.xy.xsql.tsql.model.elements.variables;
 
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;

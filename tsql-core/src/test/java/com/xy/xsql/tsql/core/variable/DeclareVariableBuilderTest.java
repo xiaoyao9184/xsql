@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.variable;
 
-import com.xy.xsql.tsql.model.variable.DeclareVariable;
+import com.xy.xsql.tsql.model.elements.variables.DeclareVariable;
 import org.junit.Assert;
 import org.junit.Test;
 

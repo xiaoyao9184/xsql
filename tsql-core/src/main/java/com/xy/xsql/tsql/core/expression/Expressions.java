@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.*;
 import com.xy.xsql.tsql.model.elements.operators.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 
 import java.util.Arrays;
 import java.util.UUID;

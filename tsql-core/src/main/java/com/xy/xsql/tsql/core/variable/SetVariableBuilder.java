@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.variable;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
-import com.xy.xsql.tsql.model.variable.SetVariable;
+import com.xy.xsql.tsql.model.elements.variables.SetVariable;
 
 import static com.xy.xsql.tsql.core.expression.Expressions.e_variable;
 

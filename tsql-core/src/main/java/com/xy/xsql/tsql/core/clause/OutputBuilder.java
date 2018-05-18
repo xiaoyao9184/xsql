@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.clause.Output;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
-import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.ArrayList;

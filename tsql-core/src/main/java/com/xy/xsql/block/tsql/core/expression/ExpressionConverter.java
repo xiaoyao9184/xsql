@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
-import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.

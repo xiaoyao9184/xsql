@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.variable;
+package com.xy.xsql.tsql.model.elements.variables;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;

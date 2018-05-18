@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.model.clause;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
-import com.xy.xsql.tsql.model.variable.LocalVariable;
+import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 
 import java.util.List;
 

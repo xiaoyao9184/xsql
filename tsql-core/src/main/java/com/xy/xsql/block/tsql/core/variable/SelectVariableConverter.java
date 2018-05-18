@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
-import com.xy.xsql.tsql.model.variable.SelectVariable;
+import com.xy.xsql.tsql.model.elements.variables.SelectVariable;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.
