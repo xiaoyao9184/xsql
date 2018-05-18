@@ -12,7 +12,7 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.elements.operators.Operators;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import com.xy.xsql.tsql.model.predicate.In;
 import com.xy.xsql.tsql.model.predicate.Like;

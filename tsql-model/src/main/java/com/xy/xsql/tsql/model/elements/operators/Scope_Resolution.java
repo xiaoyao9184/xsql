@@ -1,26 +1,27 @@
-package com.xy.xsql.tsql.model.operator;
+package com.xy.xsql.tsql.model.elements.operators;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Assignment implements Operator, BinaryOperator {
+public enum Scope_Resolution implements Operator {
 
-    ASSIGNMENT("=", Type.Assignment);
+    SCOPE_RESOLUTION("::",Type.Scope_Resolution);
 
     private String keyword;
     private Type type;
 
-    Assignment(Keywords keyword, Type type){
+    Scope_Resolution(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Assignment(String keyword, Type type){
+    Scope_Resolution(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
+
 
     @Override
     public String toString(){

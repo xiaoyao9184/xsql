@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.datatypes.constants.BinaryConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.*;
-import com.xy.xsql.tsql.model.operator.*;
+import com.xy.xsql.tsql.model.elements.operators.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 

@@ -6,7 +6,7 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Select;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Assignment;
+import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 import java.util.List;
 

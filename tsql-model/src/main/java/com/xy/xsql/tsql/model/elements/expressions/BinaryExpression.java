@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.elements.expressions;
 
-import com.xy.xsql.tsql.model.operator.BinaryOperator;
-import com.xy.xsql.tsql.model.operator.Operator;
+import com.xy.xsql.tsql.model.elements.operators.BinaryOperator;
+import com.xy.xsql.tsql.model.elements.operators.Operator;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.

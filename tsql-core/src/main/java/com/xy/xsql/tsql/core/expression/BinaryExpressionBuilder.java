@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.expression;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.operator.BinaryOperator;
+import com.xy.xsql.tsql.model.elements.operators.BinaryOperator;
 
 /**
  * Created by xiaoyao9184 on 2018/5/17.

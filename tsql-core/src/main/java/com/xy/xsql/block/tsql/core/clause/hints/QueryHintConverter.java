@@ -6,7 +6,7 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.hints.QueryHint;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Assignment;
+import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.

@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.datatype.TableTypeDefinitionConverter;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.operator.Comparison;
+import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.variable.DeclareVariable;
 
 /**

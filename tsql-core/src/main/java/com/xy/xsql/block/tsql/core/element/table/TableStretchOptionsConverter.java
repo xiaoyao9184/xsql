@@ -6,7 +6,7 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.table.TableOption;
 import com.xy.xsql.tsql.model.element.table.TableStretchOptions;
-import com.xy.xsql.tsql.model.operator.Assignment;
+import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 import static com.xy.xsql.block.tsql.core.element.EnumConverterUtil.getSyntaxString;
 

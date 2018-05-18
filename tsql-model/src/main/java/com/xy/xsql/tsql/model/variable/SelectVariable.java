@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.variable;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.operator.Compound;
+import com.xy.xsql.tsql.model.elements.operators.Compound;
 
 import java.util.List;
 

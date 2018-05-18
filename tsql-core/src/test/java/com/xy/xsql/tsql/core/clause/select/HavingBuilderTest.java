@@ -10,7 +10,7 @@ import org.junit.Test;
 import static com.xy.xsql.tsql.core.expression.Expressions.e;
 import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
 import static com.xy.xsql.tsql.core.predicate.Predicates.p_greater;
-import static com.xy.xsql.tsql.model.operator.Operators.GREATER;
+import static com.xy.xsql.tsql.model.elements.operators.Operators.GREATER;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.

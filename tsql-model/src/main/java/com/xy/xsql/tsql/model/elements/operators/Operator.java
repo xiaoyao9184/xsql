@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.operator;
+package com.xy.xsql.tsql.model.elements.operators;
 
 
 /**

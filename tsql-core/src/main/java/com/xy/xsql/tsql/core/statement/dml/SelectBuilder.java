@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.operator.Set;
+import com.xy.xsql.tsql.model.elements.operators.Set;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 import java.util.Arrays;

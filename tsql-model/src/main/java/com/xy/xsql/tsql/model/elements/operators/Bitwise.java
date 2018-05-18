@@ -1,25 +1,29 @@
-package com.xy.xsql.tsql.model.operator;
+package com.xy.xsql.tsql.model.elements.operators;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Unary implements Operator, BinaryOperator {
+public enum Bitwise implements Operator, BinaryOperator {
 
-    POSITIVE("+",Type.Unary),
-    NEGATIVE("-",Type.Unary),
-    COMPLEMENT("~",Type.Unary);
+    AND("&",Type.Bitwise),
+    AND_EQUALS("&=",Type.Bitwise),
+    OR("|",Type.Bitwise),
+    OR_EQUALS("|=",Type.Bitwise),
+    XOR("^",Type.Bitwise),
+    XOR_EQUALS("^=",Type.Bitwise),
+    NOT("~",Type.Bitwise);
 
     private String keyword;
     private Type type;
 
-    Unary(Keywords keyword, Type type){
+    Bitwise(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Unary(String keyword, Type type){
+    Bitwise(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }

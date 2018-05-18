@@ -1,30 +1,26 @@
-package com.xy.xsql.tsql.model.operator;
+package com.xy.xsql.tsql.model.elements.operators;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Compound implements Operator {
+public enum Set implements Operator {
 
-    ADD_ASSIGNMENT("+=",Type.Compound),
-    SUBTRACT_ASSIGNMENT("-=",Type.Compound),
-    MULTIPLY_ASSIGNMENT("*=",Type.Compound),
-    DIVIDE_ASSIGNMENT("/=",Type.Compound),
-    MODULO_ASSIGNMENT("%=",Type.Compound),
-    BITWISE_AND_ASSIGNMENT("&=",Type.Compound),
-    BITWISE_EXCLUSIVE_OR_ASSIGNMENT("^=",Type.Compound),
-    BITWISE_OR_ASSIGNMENT("|=",Type.Compound);
+    EXCEPT("EXCEPT",Type.Set),
+    INTERSECT("INTERSECT",Type.Set),
+    UNION("UNION",Type.Set),
+    UNION_ALL("UNION ALL",Type.Set);
 
     private String keyword;
     private Type type;
 
-    Compound(Keywords keyword, Type type){
+    Set(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Compound(String keyword, Type type){
+    Set(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
@@ -44,4 +40,5 @@ public enum Compound implements Operator {
     public Type getType(){
         return this.type;
     }
+
 }

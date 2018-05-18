@@ -7,7 +7,7 @@ import com.xy.xsql.block.tsql.core.element.index.PartitionConverters;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
-import com.xy.xsql.tsql.model.operator.Assignment;
+import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 /**
  * Created by xiaoyao9184 on 2017/9/3.

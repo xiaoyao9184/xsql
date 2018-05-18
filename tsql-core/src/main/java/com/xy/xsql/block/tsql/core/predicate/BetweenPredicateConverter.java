@@ -4,7 +4,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.Keywords;
-import com.xy.xsql.tsql.model.operator.Logical;
+import com.xy.xsql.tsql.model.elements.operators.Logical;
 import com.xy.xsql.tsql.model.predicate.Between;
 
 /**

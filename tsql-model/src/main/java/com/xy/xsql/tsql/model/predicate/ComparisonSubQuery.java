@@ -1,8 +1,9 @@
 package com.xy.xsql.tsql.model.predicate;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.operator.Comparison;
-import com.xy.xsql.tsql.model.operator.Logical;
+import com.xy.xsql.tsql.model.elements.operators.Operator;
+import com.xy.xsql.tsql.model.elements.operators.Comparison;
+import com.xy.xsql.tsql.model.elements.operators.Logical;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**
@@ -57,9 +58,9 @@ public class ComparisonSubQuery implements Predicate, Expression {
         SOME(Logical.SOME),
         ANY(Logical.ANY);
 
-        private com.xy.xsql.tsql.model.operator.Operator operator;
+        private Operator operator;
 
-        ALL_SOME_ANY(com.xy.xsql.tsql.model.operator.Operator operator){
+        ALL_SOME_ANY(Operator operator){
             this.operator = operator;
         }
 
@@ -68,7 +69,7 @@ public class ComparisonSubQuery implements Predicate, Expression {
             return this.operator.toString();
         }
 
-        public com.xy.xsql.tsql.model.operator.Operator toOperator(){
+        public Operator toOperator(){
             return this.operator;
         }
     }

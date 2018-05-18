@@ -2,7 +2,7 @@ package com.xy.xsql.block.tsql.core.operator;
 
 import com.xy.xsql.block.core.converter.BlockConverter;
 import com.xy.xsql.block.model.KeywordBlock;
-import com.xy.xsql.tsql.model.operator.Operator;
+import com.xy.xsql.tsql.model.elements.operators.Operator;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.

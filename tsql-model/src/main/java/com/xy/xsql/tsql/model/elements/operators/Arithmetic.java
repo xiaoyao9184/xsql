@@ -1,26 +1,26 @@
-package com.xy.xsql.tsql.model.operator;
+package com.xy.xsql.tsql.model.elements.operators;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Set implements Operator {
-
-    EXCEPT("EXCEPT",Type.Set),
-    INTERSECT("INTERSECT",Type.Set),
-    UNION("UNION",Type.Set),
-    UNION_ALL("UNION ALL",Type.Set);
+public enum Arithmetic implements Operator, BinaryOperator {
+    ADDITION("+", Type.Arithmetic),
+    SUBTRACTION("-", Type.Arithmetic),
+    MULTIPLICATION("*", Type.Arithmetic),
+    DIVISION("/", Type.Arithmetic),
+    MODULO("%", Type.Arithmetic);
 
     private String keyword;
     private Type type;
 
-    Set(Keywords keyword, Type type){
+    Arithmetic(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Set(String keyword, Type type){
+    Arithmetic(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }

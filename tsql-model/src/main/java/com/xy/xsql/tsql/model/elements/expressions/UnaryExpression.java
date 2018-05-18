@@ -1,7 +1,6 @@
 package com.xy.xsql.tsql.model.elements.expressions;
 
-import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.operator.Unary;
+import com.xy.xsql.tsql.model.elements.operators.Unary;
 
 /**
  * Created by xiaoyao9184 on 2018/5/17.

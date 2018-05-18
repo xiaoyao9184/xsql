@@ -8,7 +8,7 @@ import com.xy.xsql.block.tsql.core.clause.select.GroupByConverter;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.clause.select.Into;
 import com.xy.xsql.tsql.model.element.Other;
-import com.xy.xsql.tsql.model.operator.Set;
+import com.xy.xsql.tsql.model.elements.operators.Set;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**

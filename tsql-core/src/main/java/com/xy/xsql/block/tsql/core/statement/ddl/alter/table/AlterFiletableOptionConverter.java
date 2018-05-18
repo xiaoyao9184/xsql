@@ -3,13 +3,11 @@ package com.xy.xsql.block.tsql.core.statement.ddl.alter.table;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.block.tsql.core.element.EnumConverterUtil;
 import com.xy.xsql.tsql.model.Keywords;
 import com.xy.xsql.tsql.model.element.Other;
 import com.xy.xsql.tsql.model.element.table.TableOption;
-import com.xy.xsql.tsql.model.operator.Assignment;
+import com.xy.xsql.tsql.model.elements.operators.Assignment;
 import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterFiletableOption;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTableOption;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

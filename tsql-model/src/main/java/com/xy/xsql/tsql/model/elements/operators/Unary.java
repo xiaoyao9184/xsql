@@ -1,26 +1,25 @@
-package com.xy.xsql.tsql.model.operator;
+package com.xy.xsql.tsql.model.elements.operators;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Arithmetic implements Operator, BinaryOperator {
-    ADDITION("+", Type.Arithmetic),
-    SUBTRACTION("-", Type.Arithmetic),
-    MULTIPLICATION("*", Type.Arithmetic),
-    DIVISION("/", Type.Arithmetic),
-    MODULO("%", Type.Arithmetic);
+public enum Unary implements Operator, BinaryOperator {
+
+    POSITIVE("+",Type.Unary),
+    NEGATIVE("-",Type.Unary),
+    COMPLEMENT("~",Type.Unary);
 
     private String keyword;
     private Type type;
 
-    Arithmetic(Keywords keyword, Type type){
+    Unary(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Arithmetic(String keyword, Type type){
+    Unary(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
@@ -40,5 +39,4 @@ public enum Arithmetic implements Operator, BinaryOperator {
     public Type getType(){
         return this.type;
     }
-
 }

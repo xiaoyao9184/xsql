@@ -10,7 +10,7 @@ import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.operator.Compound;
+import com.xy.xsql.tsql.model.elements.operators.Compound;
 import com.xy.xsql.tsql.model.statement.dml.Update;
 import com.xy.xsql.tsql.model.variable.LocalVariable;
 import com.xy.xsql.util.CheckUtil;

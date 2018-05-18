@@ -5,7 +5,7 @@ import com.xy.xsql.benjiql.core.TSqlConversions;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.elements.operators.Operators;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import com.xy.xsql.tsql.model.predicate.Predicate;
 

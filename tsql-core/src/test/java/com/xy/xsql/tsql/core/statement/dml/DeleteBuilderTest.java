@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.elements.operators.Operators;
 import com.xy.xsql.tsql.model.predicate.Between;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import com.xy.xsql.tsql.model.predicate.In;

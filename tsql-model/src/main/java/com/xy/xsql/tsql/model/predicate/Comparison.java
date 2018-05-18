@@ -13,7 +13,7 @@ public class Comparison
         implements Predicate, Expression {
     //expression { = | < > | ! = | > | > = | ! > | < | < = | ! < } expression
     private Expression expression;
-    private com.xy.xsql.tsql.model.operator.Comparison operator;
+    private com.xy.xsql.tsql.model.elements.operators.Comparison operator;
     private Expression operatorExpression;
 
     public Expression getExpression() {
@@ -24,11 +24,11 @@ public class Comparison
         this.expression = expression;
     }
 
-    public com.xy.xsql.tsql.model.operator.Comparison getOperator() {
+    public com.xy.xsql.tsql.model.elements.operators.Comparison getOperator() {
         return operator;
     }
 
-    public void setOperator(com.xy.xsql.tsql.model.operator.Comparison operator) {
+    public void setOperator(com.xy.xsql.tsql.model.elements.operators.Comparison operator) {
         this.operator = operator;
     }
 

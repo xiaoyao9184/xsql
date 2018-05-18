@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.clause.From;
 import com.xy.xsql.tsql.model.clause.hints.JoinHint;
 import com.xy.xsql.tsql.model.clause.hints.TableHint;
-import com.xy.xsql.tsql.model.operator.Operators;
+import com.xy.xsql.tsql.model.elements.operators.Operators;
 import com.xy.xsql.tsql.model.predicate.Comparison;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;

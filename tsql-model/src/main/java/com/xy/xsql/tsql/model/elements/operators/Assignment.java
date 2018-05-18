@@ -1,33 +1,26 @@
-package com.xy.xsql.tsql.model.operator;
+package com.xy.xsql.tsql.model.elements.operators;
 
 import com.xy.xsql.tsql.model.Keywords;
 
 /**
  * Created by xiaoyao9184 on 2017/3/14.
  */
-public enum Bitwise implements Operator, BinaryOperator {
+public enum Assignment implements Operator, BinaryOperator {
 
-    AND("&",Type.Bitwise),
-    AND_EQUALS("&=",Type.Bitwise),
-    OR("|",Type.Bitwise),
-    OR_EQUALS("|=",Type.Bitwise),
-    XOR("^",Type.Bitwise),
-    XOR_EQUALS("^=",Type.Bitwise),
-    NOT("~",Type.Bitwise);
+    ASSIGNMENT("=", Type.Assignment);
 
     private String keyword;
     private Type type;
 
-    Bitwise(Keywords keyword, Type type){
+    Assignment(Keywords keyword, Type type){
         this.keyword = keyword.name();
         this.type = type;
     }
 
-    Bitwise(String keyword, Type type){
+    Assignment(String keyword, Type type){
         this.keyword = keyword;
         this.type = type;
     }
-
 
     @Override
     public String toString(){
@@ -43,4 +36,5 @@ public enum Bitwise implements Operator, BinaryOperator {
     public Type getType(){
         return this.type;
     }
+
 }
