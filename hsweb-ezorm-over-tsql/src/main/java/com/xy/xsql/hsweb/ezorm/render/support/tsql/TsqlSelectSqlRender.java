@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
-import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
-import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.Expressions.e;
-import static com.xy.xsql.tsql.core.statement.dml.SelectBuilder.SELECT;
+import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
+import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
 
 /**
  * Created by zhouhao on 16-5-17.

@@ -4,7 +4,7 @@ import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.core.statement.dml.MergeBuilderTest;
+import com.xy.xsql.tsql.builder.chain.statements.MergeBuilderTest;
 import com.xy.xsql.tsql.model.statements.Merge;
 import org.junit.Assert;
 import org.junit.Before;

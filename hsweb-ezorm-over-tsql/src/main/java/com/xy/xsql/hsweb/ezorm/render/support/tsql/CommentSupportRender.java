@@ -10,7 +10,7 @@ import com.xy.xsql.tsql.model.datatypes.table.Alias;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
-import com.xy.xsql.tsql.model.elements.operators.Operators;
+import com.xy.xsql.tsql.builder.chain.elements.operators.Operators;
 import com.xy.xsql.tsql.model.queries.predicates.*;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
@@ -31,7 +31,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 
 /**
  * Created by xiaoyao9184 on 2017/9/14.

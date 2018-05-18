@@ -13,8 +13,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 
 /**
  * Created by xiaoyao9184 on 2017/7/31.

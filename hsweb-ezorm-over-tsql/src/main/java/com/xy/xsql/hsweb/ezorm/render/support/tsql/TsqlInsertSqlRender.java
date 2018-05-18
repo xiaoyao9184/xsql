@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
-import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.statement.dml.InsertBuilder.INSERT;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.statements.InsertBuilder.INSERT;
 
 public class TsqlInsertSqlRender implements SqlRender<InsertParam> {
     PropertyUtilsBean propertyUtils = BeanUtilsBean.getInstance().getPropertyUtils();

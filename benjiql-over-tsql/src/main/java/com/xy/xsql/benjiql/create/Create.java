@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.tsql.core.datatype.DataTypes._user_defined;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes._user_defined;
 
 public class Create<T> {
     private final Class<T> cls;

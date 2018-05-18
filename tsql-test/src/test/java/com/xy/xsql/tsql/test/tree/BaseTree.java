@@ -1,18 +1,18 @@
 package com.xy.xsql.tsql.test.tree;
 
-import com.xy.xsql.tsql.core.statement.dml.SelectBuilder.QuerySpecificationBuilder;
+import com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.QuerySpecificationBuilder;
 import com.xy.xsql.tsql.model.statements.Insert;
 import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
-import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_number;
-import static com.xy.xsql.tsql.core.expression.Expressions.e_string;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_addition;
-import static com.xy.xsql.tsql.core.predicate.Predicates.p_like;
-import static com.xy.xsql.tsql.core.statement.dml.InsertBuilder.INSERT;
-import static com.xy.xsql.tsql.core.statement.dml.SelectBuilder.SELECT;
+import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_like;
+import static com.xy.xsql.tsql.builder.chain.statements.InsertBuilder.INSERT;
+import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.

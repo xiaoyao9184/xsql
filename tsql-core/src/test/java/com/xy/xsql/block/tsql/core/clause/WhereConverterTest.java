@@ -4,7 +4,7 @@ import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.core.clause.WhereBuilderTest;
+import com.xy.xsql.tsql.builder.chain.queries.WhereBuilderTest;
 import com.xy.xsql.tsql.model.queries.Where;
 import org.junit.Assert;
 import org.junit.Before;

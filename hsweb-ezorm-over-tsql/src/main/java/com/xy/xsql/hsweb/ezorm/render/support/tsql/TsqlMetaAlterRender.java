@@ -1,9 +1,9 @@
 package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
-import com.xy.xsql.tsql.core.statement.ddl.alter.table.AlterColumnBuilder;
-import com.xy.xsql.tsql.core.statement.ddl.alter.table.DropBuilder;
+import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnDefinitionBuilder;
+import com.xy.xsql.tsql.builder.chain.statements.alter.table.AlterColumnBuilder;
+import com.xy.xsql.tsql.builder.chain.statements.alter.table.DropBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterColumn;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterTable;
@@ -19,10 +19,10 @@ import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.tsql.core.datatype.DataTypes._user_defined;
-import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
-import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.statement.StatementBuilderFactory.ALTER_TABLE;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes._user_defined;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.StatementBuilderFactory.ALTER_TABLE;
 
 public class TsqlMetaAlterRender implements SqlRender<Boolean> {
 

@@ -11,8 +11,8 @@ import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 
 import java.util.List;
 
-import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.statement.dml.DeleteBuilder.DELETE;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.statements.DeleteBuilder.DELETE;
 
 /**
  * Created by xiaoyao9184 on 2017/9/14.

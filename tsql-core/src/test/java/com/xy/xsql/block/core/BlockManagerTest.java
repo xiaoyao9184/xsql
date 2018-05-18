@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 
 /**
  * Created by xiaoyao9184 on 2017/5/13.

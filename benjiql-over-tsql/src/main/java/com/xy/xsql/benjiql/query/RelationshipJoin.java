@@ -7,7 +7,7 @@ import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
-import com.xy.xsql.tsql.model.elements.operators.Operators;
+import com.xy.xsql.tsql.builder.chain.elements.operators.Operators;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 

@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
-import static com.xy.xsql.tsql.core.element.TableNameFactory.t;
-import static com.xy.xsql.tsql.core.statement.dml.UpdateBuilder.UPDATE;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.queries.UpdateBuilder.UPDATE;
 
 /**
  * Created by xiaoyao9184 on 2017/9/14.

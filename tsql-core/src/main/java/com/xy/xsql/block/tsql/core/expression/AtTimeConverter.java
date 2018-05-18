@@ -4,7 +4,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.elements.expressions.AtTimeZone;
+import com.xy.xsql.tsql.model.queries.AtTimeZone;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.

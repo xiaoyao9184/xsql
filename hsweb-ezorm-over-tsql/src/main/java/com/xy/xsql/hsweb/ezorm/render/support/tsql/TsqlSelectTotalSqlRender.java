@@ -13,7 +13,7 @@ import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 
 import java.util.List;
 
-import static com.xy.xsql.tsql.core.clause.subquery.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
 
 /**
  * Created by zhouhao on 16-5-17.
