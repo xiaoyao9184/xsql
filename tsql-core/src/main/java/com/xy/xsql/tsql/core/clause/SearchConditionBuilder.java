@@ -7,12 +7,12 @@ import com.xy.xsql.tsql.core.predicate.FreeTextPredicateBuilder;
 import com.xy.xsql.tsql.core.predicate.PredicateBuilder;
 import com.xy.xsql.tsql.core.predicate.transform.ContainsFreeTextTransformBuilder;
 import com.xy.xsql.tsql.core.predicate.transform.ExpressionTransformBuilder;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
+import com.xy.xsql.tsql.model.queries.SearchCondition;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.predicate.Contains;
-import com.xy.xsql.tsql.model.predicate.FreeText;
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.Contains;
+import com.xy.xsql.tsql.model.queries.predicates.FreeText;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 import static com.xy.xsql.core.FiledBuilder.set;

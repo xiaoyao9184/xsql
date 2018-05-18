@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.queries.Top;
 import org.junit.Assert;
 import org.junit.Test;
 

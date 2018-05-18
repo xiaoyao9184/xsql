@@ -7,13 +7,13 @@ import com.xy.xsql.benjiql.query.Select;
 import com.xy.xsql.benjiql.query.WhereCondition;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.sql.PlaceholderJSql;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.queries.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 import java.io.Serializable;
 import java.util.*;

@@ -1,9 +1,9 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.tsql.model.clause.*;
-import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Set;
+import com.xy.xsql.tsql.model.queries.*;
+import com.xy.xsql.tsql.model.queries.select.*;
 import com.xy.xsql.tsql.model.statement.Statement;
 
 import java.util.List;
@@ -180,7 +180,7 @@ public class Select implements Statement {
         //<TOP Clause>
         private Top top;
         //< select_list >
-        private List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> selectList;
+        private List<com.xy.xsql.tsql.model.queries.select.Select.SelectItem> selectList;
         //[ INTO new_table ]
         private Into into;
         //<FROM Clause>
@@ -216,11 +216,11 @@ public class Select implements Statement {
             this.top = top;
         }
 
-        public List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> getSelectList() {
+        public List<com.xy.xsql.tsql.model.queries.select.Select.SelectItem> getSelectList() {
             return selectList;
         }
 
-        public void setSelectList(List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> selectList) {
+        public void setSelectList(List<com.xy.xsql.tsql.model.queries.select.Select.SelectItem> selectList) {
             this.selectList = selectList;
         }
 

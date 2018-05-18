@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.predicate.Exists;
+import com.xy.xsql.tsql.model.queries.predicates.Exists;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.

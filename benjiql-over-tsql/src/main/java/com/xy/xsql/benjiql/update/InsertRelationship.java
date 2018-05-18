@@ -6,7 +6,7 @@ import com.xy.xsql.benjiql.core.TSqlConversions;
 import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.sql.PlaceholderJSql;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 

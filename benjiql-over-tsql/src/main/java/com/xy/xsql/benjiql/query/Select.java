@@ -6,17 +6,17 @@ import com.xy.xsql.benjiql.core.TSqlConversions;
 import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.sql.PlaceholderJSql;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.queries.From;
+import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
-import com.xy.xsql.tsql.model.predicate.Comparison;
-import com.xy.xsql.tsql.model.predicate.In;
-import com.xy.xsql.tsql.model.predicate.Like;
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.Comparison;
+import com.xy.xsql.tsql.model.queries.predicates.In;
+import com.xy.xsql.tsql.model.queries.predicates.Like;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 import java.util.*;
 import java.util.function.Function;
@@ -127,7 +127,7 @@ public class Select<T> implements QueryChain<T> {
     }
 
     private com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification buildQuery(){
-        com.xy.xsql.tsql.model.clause.select.Select.SelectItem item = new com.xy.xsql.tsql.model.clause.select.Select.SelectItem();
+        com.xy.xsql.tsql.model.queries.select.Select.SelectItem item = new com.xy.xsql.tsql.model.queries.select.Select.SelectItem();
         item.setUseAll(true);
 
         From from = new From();
@@ -157,7 +157,7 @@ public class Select<T> implements QueryChain<T> {
     }
 
     private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification,List<Object>> buildQueryWithJSql(){
-        com.xy.xsql.tsql.model.clause.select.Select.SelectItem item = new com.xy.xsql.tsql.model.clause.select.Select.SelectItem();
+        com.xy.xsql.tsql.model.queries.select.Select.SelectItem item = new com.xy.xsql.tsql.model.queries.select.Select.SelectItem();
         item.setUseAll(true);
 
         From from = new From();

@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.clause.select.OrderBy;
+import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;

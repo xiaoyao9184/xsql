@@ -4,7 +4,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.clause.hints.QueryHint;
+import com.xy.xsql.tsql.model.queries.hints.QueryHint;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
 

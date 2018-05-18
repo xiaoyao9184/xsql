@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.operators.Logical;
-import com.xy.xsql.tsql.model.predicate.Between;
+import com.xy.xsql.tsql.model.queries.predicates.Between;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.

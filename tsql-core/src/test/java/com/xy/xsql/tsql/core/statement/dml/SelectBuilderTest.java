@@ -1,9 +1,9 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.tsql.core.clause.TableValueConstructorBuilder;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
+import com.xy.xsql.tsql.model.queries.From;
+import com.xy.xsql.tsql.model.queries.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;
 import org.junit.Test;

@@ -2,14 +2,14 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.queries.SearchCondition;
+import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
-import com.xy.xsql.tsql.model.predicate.Between;
-import com.xy.xsql.tsql.model.predicate.Comparison;
-import com.xy.xsql.tsql.model.predicate.In;
-import com.xy.xsql.tsql.model.predicate.Like;
+import com.xy.xsql.tsql.model.queries.predicates.Between;
+import com.xy.xsql.tsql.model.queries.predicates.Comparison;
+import com.xy.xsql.tsql.model.queries.predicates.In;
+import com.xy.xsql.tsql.model.queries.predicates.Like;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -2,8 +2,8 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;
-import com.xy.xsql.tsql.model.clause.Option;
-import com.xy.xsql.tsql.model.clause.hints.QueryHint;
+import com.xy.xsql.tsql.model.queries.Option;
+import com.xy.xsql.tsql.model.queries.hints.QueryHint;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 import java.util.Arrays;

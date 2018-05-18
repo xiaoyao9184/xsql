@@ -2,8 +2,8 @@ package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.param.ListParameterModel;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.queries.From;
+import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.hsweb.ezorm.core.param.QueryParam;

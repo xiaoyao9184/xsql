@@ -1,6 +1,6 @@
 package com.xy.xsql.benjiql.query;
 
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

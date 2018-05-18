@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.clause.hint;
 
 import com.xy.xsql.tsql.core.clause.hints.TableHintBuilder;
-import com.xy.xsql.tsql.model.clause.hints.TableHint;
+import com.xy.xsql.tsql.model.queries.hints.TableHint;
 import org.junit.Assert;
 import org.junit.Test;
 

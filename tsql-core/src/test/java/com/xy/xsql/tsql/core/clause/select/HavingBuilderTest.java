@@ -2,8 +2,8 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.model.clause.select.Having;
-import com.xy.xsql.tsql.model.predicate.Comparison;
+import com.xy.xsql.tsql.model.queries.select.Having;
+import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import org.junit.Assert;
 import org.junit.Test;
 

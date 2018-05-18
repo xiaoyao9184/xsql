@@ -4,7 +4,9 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.predicate.ContainsPredicateBuilder;
 import com.xy.xsql.tsql.core.predicate.FreeTextPredicateBuilder;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.predicate.*;
+import com.xy.xsql.tsql.model.queries.predicates.Contains;
+import com.xy.xsql.tsql.model.queries.predicates.FreeText;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 /**
  * Abstract Predicate Builder

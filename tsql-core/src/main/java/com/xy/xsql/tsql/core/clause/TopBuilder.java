@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.clause.Top;
+import com.xy.xsql.tsql.model.queries.Top;
 
 /**
  * TopBuilder

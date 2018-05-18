@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.clause.hint.TableHintBuilderTest;
-import com.xy.xsql.tsql.model.clause.hints.TableHint;
+import com.xy.xsql.tsql.model.queries.hints.TableHint;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

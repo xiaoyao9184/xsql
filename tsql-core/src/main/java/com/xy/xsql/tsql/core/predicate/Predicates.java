@@ -4,8 +4,8 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
-import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**

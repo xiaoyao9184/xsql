@@ -1,13 +1,13 @@
 package com.xy.xsql.benjiql.core;
 
 import com.google.common.collect.ImmutableMap;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.queries.SearchCondition;
+import com.xy.xsql.tsql.model.queries.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.datatype.Null;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 import java.util.*;
 import java.util.function.Function;

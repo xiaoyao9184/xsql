@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.model.clause.select.OrderBy;
+import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.statement.dml.Select;

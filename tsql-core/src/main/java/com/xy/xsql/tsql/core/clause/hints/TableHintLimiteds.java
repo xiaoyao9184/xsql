@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.clause.hints;
 
-import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
+import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 
 /**
  * TableHint Factory

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.predicate;
 
-import com.xy.xsql.tsql.model.predicate.Contains;
+import com.xy.xsql.tsql.model.queries.predicates.Contains;
 import org.junit.Assert;
 import org.junit.Test;
 

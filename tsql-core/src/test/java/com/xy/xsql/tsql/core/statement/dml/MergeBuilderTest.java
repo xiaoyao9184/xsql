@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Merge;
 import com.xy.xsql.tsql.model.statement.dml.Select;

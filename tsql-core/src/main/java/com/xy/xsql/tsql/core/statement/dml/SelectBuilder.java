@@ -4,12 +4,12 @@ import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.*;
 import com.xy.xsql.tsql.core.clause.select.*;
-import com.xy.xsql.tsql.model.clause.*;
-import com.xy.xsql.tsql.model.clause.select.*;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Set;
+import com.xy.xsql.tsql.model.queries.*;
+import com.xy.xsql.tsql.model.queries.select.*;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 import java.util.Arrays;
@@ -478,7 +478,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         public com.xy.xsql.tsql.core.clause.select.SelectBuilder.SelectItemBuilder<QuerySpecificationBuilder<ParentBuilder>> withSelectItem(){
-            com.xy.xsql.tsql.model.clause.select.Select.SelectItem item = new com.xy.xsql.tsql.model.clause.select.Select.SelectItem();
+            com.xy.xsql.tsql.model.queries.select.Select.SelectItem item = new com.xy.xsql.tsql.model.queries.select.Select.SelectItem();
             initList(target::getSelectList,
                     target::setSelectList);
             target.getSelectList().add(item);
@@ -487,14 +487,14 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
-        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(com.xy.xsql.tsql.model.clause.select.Select.SelectItem... selectItems) {
+        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(com.xy.xsql.tsql.model.queries.select.Select.SelectItem... selectItems) {
             initAdd(Arrays.asList(selectItems),
                     target::getSelectList,
                     target::setSelectList);
             return this;
         }
 
-        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(List<com.xy.xsql.tsql.model.clause.select.Select.SelectItem> selectItems) {
+        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(List<com.xy.xsql.tsql.model.queries.select.Select.SelectItem> selectItems) {
             initAdd(selectItems,
                     target::getSelectList,
                     target::setSelectList);

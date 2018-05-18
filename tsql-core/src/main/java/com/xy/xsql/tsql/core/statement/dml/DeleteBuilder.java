@@ -2,10 +2,10 @@ package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.tsql.core.clause.*;
-import com.xy.xsql.tsql.model.clause.*;
-import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
+import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.queries.*;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
 
 import java.util.Arrays;

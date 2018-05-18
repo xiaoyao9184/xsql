@@ -4,12 +4,12 @@ import com.xy.xsql.benjiql.core.ProxyObjectMethodRecording;
 import com.xy.xsql.benjiql.core.RelationshipClassTableMetaBuilder;
 import com.xy.xsql.benjiql.core.TSqlConversions;
 import com.xy.xsql.benjiql.ddl.JoinTables;
-import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
-import com.xy.xsql.tsql.model.predicate.Comparison;
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.Comparison;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 import java.io.Serializable;
 import java.util.ArrayList;

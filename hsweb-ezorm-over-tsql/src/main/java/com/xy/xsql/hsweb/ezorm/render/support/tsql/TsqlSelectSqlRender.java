@@ -2,10 +2,10 @@ package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.param.ListParameterModel;
-import com.xy.xsql.tsql.model.clause.From;
-import com.xy.xsql.tsql.model.clause.Where;
-import com.xy.xsql.tsql.model.clause.select.OrderBy;
-import com.xy.xsql.tsql.model.clause.select.Select.SelectItem;
+import com.xy.xsql.tsql.model.queries.From;
+import com.xy.xsql.tsql.model.queries.Where;
+import com.xy.xsql.tsql.model.queries.select.OrderBy;
+import com.xy.xsql.tsql.model.queries.select.Select.SelectItem;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;

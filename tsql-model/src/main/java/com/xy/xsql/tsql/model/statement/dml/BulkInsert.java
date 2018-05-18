@@ -4,6 +4,7 @@ import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.statement.Statement;
 
 import java.util.List;
@@ -349,7 +350,7 @@ public class BulkInsert implements Statement {
     /**
      * ORDER
      * TODO maybe use OrderBy.Item, limit with builder
-     * @see com.xy.xsql.tsql.model.clause.select.OrderBy.Item
+     * @see OrderBy.Item
      */
     public static class OrderColumn {
 

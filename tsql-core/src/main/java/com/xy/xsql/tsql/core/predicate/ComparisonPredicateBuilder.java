@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.core.predicate;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.predicate.Comparison;
+import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.

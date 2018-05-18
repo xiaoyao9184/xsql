@@ -5,9 +5,9 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.predicate.*;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.clause.SearchCondition;
+import com.xy.xsql.tsql.model.queries.SearchCondition;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.predicate.*;
+import com.xy.xsql.tsql.model.queries.predicates.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.

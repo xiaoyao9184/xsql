@@ -9,10 +9,10 @@ import com.xy.xsql.benjiql.query.WhereCondition;
 import com.xy.xsql.benjiql.util.Conventions;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.sql.PlaceholderJSql;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.predicate.Predicate;
+import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 import java.util.*;
 import java.util.function.Function;

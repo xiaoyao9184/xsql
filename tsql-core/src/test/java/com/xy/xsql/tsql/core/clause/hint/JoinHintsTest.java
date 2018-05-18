@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.clause.hint;
 
-import com.xy.xsql.tsql.model.clause.hints.JoinHint;
+import com.xy.xsql.tsql.model.queries.hints.JoinHint;
 import org.junit.Assert;
 import org.junit.Test;
 

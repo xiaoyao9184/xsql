@@ -3,7 +3,7 @@ package com.xy.xsql.block.tsql.core.predicate;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.model.predicate.Comparison;
+import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 
 /**
  * Created by xiaoyao9184 on 2017/6/15.

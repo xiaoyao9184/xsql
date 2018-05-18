@@ -2,7 +2,7 @@ package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.param.ListParameterModel;
-import com.xy.xsql.tsql.model.clause.Where;
+import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
 import org.hsweb.ezorm.core.param.Param;
 import org.hsweb.ezorm.rdb.executor.SQL;

@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Configurator;
-import com.xy.xsql.tsql.model.clause.select.For;
+import com.xy.xsql.tsql.model.queries.select.For;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 import java.util.Arrays;

@@ -2,8 +2,7 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.model.clause.select.Over;
-import com.xy.xsql.tsql.model.clause.select.Select;
+import com.xy.xsql.tsql.model.queries.select.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

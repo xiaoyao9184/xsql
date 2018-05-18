@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.predicate;
 
-import com.xy.xsql.tsql.model.predicate.FreeText;
+import com.xy.xsql.tsql.model.queries.predicates.FreeText;
 import org.junit.Assert;
 import org.junit.Test;
 

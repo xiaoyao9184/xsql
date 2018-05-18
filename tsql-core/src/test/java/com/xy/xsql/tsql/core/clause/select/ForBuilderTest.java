@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.clause.select;
 
-import com.xy.xsql.tsql.model.clause.select.For;
+import com.xy.xsql.tsql.model.queries.select.For;
 import org.junit.Assert;
 import org.junit.Test;
 

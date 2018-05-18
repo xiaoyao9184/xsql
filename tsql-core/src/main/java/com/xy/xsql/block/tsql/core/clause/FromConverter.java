@@ -6,7 +6,7 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.hints.JoinHintConverter;
 import com.xy.xsql.block.tsql.core.clause.hints.TableHintConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.elements.Other;
 
 /**

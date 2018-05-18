@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.clause.SearchConditionConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.clause.select.Having;
+import com.xy.xsql.tsql.model.queries.select.Having;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.

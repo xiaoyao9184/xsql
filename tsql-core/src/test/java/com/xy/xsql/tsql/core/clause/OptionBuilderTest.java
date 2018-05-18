@@ -2,8 +2,8 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
-import com.xy.xsql.tsql.model.clause.Option;
-import com.xy.xsql.tsql.model.clause.hints.QueryHint;
+import com.xy.xsql.tsql.model.queries.Option;
+import com.xy.xsql.tsql.model.queries.hints.QueryHint;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,13 +14,13 @@ import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.FORCE_ORDER;
 import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.HASH_GROUP;
 import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.HASH_JOIN;
 import static com.xy.xsql.tsql.core.clause.hints.QueryHintBuilder.MERGE_JOIN;
-import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.DISABLE_EXTERNALPUSHDOWN;
-import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.FAST;
-import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.FORCE_EXTERNALPUSHDOWN;
-import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.FORCE_ORDER;
-import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.HASH_GROUP;
-import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.HASH_JOIN;
-import static com.xy.xsql.tsql.model.clause.hints.QueryHint.Type.MERGE_JOIN;
+import static com.xy.xsql.tsql.model.queries.hints.QueryHint.Type.DISABLE_EXTERNALPUSHDOWN;
+import static com.xy.xsql.tsql.model.queries.hints.QueryHint.Type.FAST;
+import static com.xy.xsql.tsql.model.queries.hints.QueryHint.Type.FORCE_EXTERNALPUSHDOWN;
+import static com.xy.xsql.tsql.model.queries.hints.QueryHint.Type.FORCE_ORDER;
+import static com.xy.xsql.tsql.model.queries.hints.QueryHint.Type.HASH_GROUP;
+import static com.xy.xsql.tsql.model.queries.hints.QueryHint.Type.HASH_JOIN;
+import static com.xy.xsql.tsql.model.queries.hints.QueryHint.Type.MERGE_JOIN;
 
 
 /**

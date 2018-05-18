@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.predicate;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
-import com.xy.xsql.tsql.model.predicate.ComparisonSubQuery;
+import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 
 /**

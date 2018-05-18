@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.clause;
 import com.xy.xsql.tsql.core.MockParent;
 import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;

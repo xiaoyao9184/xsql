@@ -1,10 +1,10 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
-import com.xy.xsql.tsql.model.clause.From;
+import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
-import com.xy.xsql.tsql.model.predicate.Between;
-import com.xy.xsql.tsql.model.predicate.Comparison;
-import com.xy.xsql.tsql.model.predicate.In;
+import com.xy.xsql.tsql.model.queries.predicates.Between;
+import com.xy.xsql.tsql.model.queries.predicates.Comparison;
+import com.xy.xsql.tsql.model.queries.predicates.In;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
 import com.xy.xsql.tsql.model.statement.dml.Select;
 import org.junit.Assert;

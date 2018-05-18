@@ -3,7 +3,7 @@ package com.xy.xsql.block.tsql.core.clause.hints;
 import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.model.clause.hints.JoinHint;
+import com.xy.xsql.tsql.model.queries.hints.JoinHint;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,10 +1,10 @@
 package com.xy.xsql.tsql.model.statement.dml;
 
-import com.xy.xsql.tsql.model.clause.Output;
-import com.xy.xsql.tsql.model.clause.TableValueConstructor;
-import com.xy.xsql.tsql.model.clause.Top;
-import com.xy.xsql.tsql.model.clause.With;
-import com.xy.xsql.tsql.model.clause.hints.TableHintLimited;
+import com.xy.xsql.tsql.model.queries.Output;
+import com.xy.xsql.tsql.model.queries.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.Top;
+import com.xy.xsql.tsql.model.queries.With;
+import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.statement.Statement;

@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.predicate;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.predicate.Contains;
+import com.xy.xsql.tsql.model.queries.predicates.Contains;
 
 import java.util.Arrays;
 import java.util.List;

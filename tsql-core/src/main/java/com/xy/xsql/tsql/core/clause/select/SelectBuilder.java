@@ -2,8 +2,8 @@ package com.xy.xsql.tsql.core.clause.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.clause.TopBuilder;
-import com.xy.xsql.tsql.model.clause.Top;
-import com.xy.xsql.tsql.model.clause.select.Select;
+import com.xy.xsql.tsql.model.queries.Top;
+import com.xy.xsql.tsql.model.queries.select.Select;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
