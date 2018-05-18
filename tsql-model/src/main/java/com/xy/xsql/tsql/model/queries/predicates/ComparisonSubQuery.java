@@ -4,8 +4,7 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Operator;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.elements.operators.Logical;
-import com.xy.xsql.tsql.model.queries.predicates.Predicate;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 /**
  * TODO maybe use Comparison.Logical named

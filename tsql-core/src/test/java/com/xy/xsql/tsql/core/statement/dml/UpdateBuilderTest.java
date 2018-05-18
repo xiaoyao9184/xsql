@@ -4,8 +4,8 @@ import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
-import com.xy.xsql.tsql.model.statement.dml.Select;
-import com.xy.xsql.tsql.model.statement.dml.Update;
+import com.xy.xsql.tsql.model.queries.Select;
+import com.xy.xsql.tsql.model.queries.Update;
 import org.junit.Assert;
 import org.junit.Test;
 

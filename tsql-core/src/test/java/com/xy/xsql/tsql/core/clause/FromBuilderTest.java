@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.queries.hints.JoinHint;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

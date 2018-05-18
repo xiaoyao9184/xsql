@@ -2,7 +2,7 @@ package com.xy.xsql.block.meta;
 
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.statement.dml.SelectConverter;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

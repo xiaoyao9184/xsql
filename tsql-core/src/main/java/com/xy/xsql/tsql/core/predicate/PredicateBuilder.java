@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.*;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 /**
  * Abstract Predicate Builder

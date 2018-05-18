@@ -5,7 +5,7 @@ import com.xy.xsql.model.param.ListParameterModel;
 import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.hsweb.ezorm.core.param.QueryParam;
 import org.hsweb.ezorm.rdb.executor.SQL;
 import org.hsweb.ezorm.rdb.meta.RDBTableMetaData;

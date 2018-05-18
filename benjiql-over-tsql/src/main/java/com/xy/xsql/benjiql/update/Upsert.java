@@ -150,13 +150,13 @@ public abstract class Upsert<T> {
 
         @Override
         public String toSql() {
-            com.xy.xsql.tsql.model.statement.dml.Update update = buildUpdate();
+            com.xy.xsql.tsql.model.queries.Update update = buildUpdate();
             return BlockManager.INSTANCE.print(update);
         }
 
         @Override
         public PlaceholderJSql toJSql() {
-            Map.Entry<com.xy.xsql.tsql.model.statement.dml.Update,Stream<Object>> insertWithJSql = buildUpdateWithJSql();
+            Map.Entry<com.xy.xsql.tsql.model.queries.Update,Stream<Object>> insertWithJSql = buildUpdateWithJSql();
             String sql = BlockManager.INSTANCE.print(insertWithJSql.getKey());
             List<Object> args = insertWithJSql.getValue().collect(Collectors.toList());
 
@@ -165,29 +165,29 @@ public abstract class Upsert<T> {
                     .withArgs(args);
         }
 
-        private com.xy.xsql.tsql.model.statement.dml.Update buildUpdate(){
+        private com.xy.xsql.tsql.model.queries.Update buildUpdate(){
             TableName tableName = super.buildClassTable().getTableName();
 
-            List<com.xy.xsql.tsql.model.statement.dml.Update.SetItem> setItemList = super.setConditions.stream()
+            List<com.xy.xsql.tsql.model.queries.Update.SetItem> setItemList = super.setConditions.stream()
                     .map(UpdateSet::buildSetItem)
                     .collect(Collectors.toList());
 
             Where where = super.buildWhere()
                     .orElse(null);
 
-            com.xy.xsql.tsql.model.statement.dml.Update update = new com.xy.xsql.tsql.model.statement.dml.Update();
+            com.xy.xsql.tsql.model.queries.Update update = new com.xy.xsql.tsql.model.queries.Update();
             update.setTableName(tableName);
             update.setSets(setItemList);
             update.setWhere(where);
             return update;
         }
 
-        private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Update,Stream<Object>> buildUpdateWithJSql(){
+        private Map.Entry<com.xy.xsql.tsql.model.queries.Update,Stream<Object>> buildUpdateWithJSql(){
             List<Object> values = new ArrayList<>();
 
             TableName tableName = super.buildClassTable().getTableName();
 
-            List<com.xy.xsql.tsql.model.statement.dml.Update.SetItem> setItemList = super.setConditions.stream()
+            List<com.xy.xsql.tsql.model.queries.Update.SetItem> setItemList = super.setConditions.stream()
                     .map(s -> {
                         values.add(s.getValue());
                         return s.buildSetItem(TSqlConversions.placeholderExpression());
@@ -197,7 +197,7 @@ public abstract class Upsert<T> {
             Map.Entry<Optional<Where>,Stream<Object>> whereWithJSql = super.buildWhereWithJSql();
             values.addAll(whereWithJSql.getValue().collect(Collectors.toList()));
 
-            com.xy.xsql.tsql.model.statement.dml.Update update = new com.xy.xsql.tsql.model.statement.dml.Update();
+            com.xy.xsql.tsql.model.queries.Update update = new com.xy.xsql.tsql.model.queries.Update();
             update.setTableName(tableName);
             update.setSets(setItemList);
             update.setWhere(whereWithJSql.getKey().orElse(null));
@@ -239,7 +239,7 @@ public abstract class Upsert<T> {
             ColumnName columnName = column(getter);
             columnName.setTable(null);
             Expression expression = TSqlConversions.expression(v);
-            com.xy.xsql.tsql.model.statement.dml.Update.ColumnAssignmentSet set = new com.xy.xsql.tsql.model.statement.dml.Update.ColumnAssignmentSet();
+            com.xy.xsql.tsql.model.queries.Update.ColumnAssignmentSet set = new com.xy.xsql.tsql.model.queries.Update.ColumnAssignmentSet();
             set.setColumnName(columnName);
             if(expression instanceof Null){
                 set.setUseNull(true);
@@ -371,7 +371,7 @@ public abstract class Upsert<T> {
     public static class UpdateSet<T> {
         private Function<T,?> fieldGetter;
         private Object value;
-        private BiFunction<Function<T,?>, Object, com.xy.xsql.tsql.model.statement.dml.Update.SetItem> setItemFunction;
+        private BiFunction<Function<T,?>, Object, com.xy.xsql.tsql.model.queries.Update.SetItem> setItemFunction;
 
         public Function<T, ?> getFieldGetter() {
             return fieldGetter;
@@ -389,20 +389,20 @@ public abstract class Upsert<T> {
             this.value = value;
         }
 
-        public BiFunction<Function<T, ?>, Object, com.xy.xsql.tsql.model.statement.dml.Update.SetItem> getSetItemFunction() {
+        public BiFunction<Function<T, ?>, Object, com.xy.xsql.tsql.model.queries.Update.SetItem> getSetItemFunction() {
             return setItemFunction;
         }
 
-        public void setSetItemFunction(BiFunction<Function<T, ?>, Object, com.xy.xsql.tsql.model.statement.dml.Update.SetItem> setItemFunction) {
+        public void setSetItemFunction(BiFunction<Function<T, ?>, Object, com.xy.xsql.tsql.model.queries.Update.SetItem> setItemFunction) {
             this.setItemFunction = setItemFunction;
         }
 
 
-        public com.xy.xsql.tsql.model.statement.dml.Update.SetItem buildSetItem(){
+        public com.xy.xsql.tsql.model.queries.Update.SetItem buildSetItem(){
             return setItemFunction.apply(fieldGetter,value);
         }
 
-        public com.xy.xsql.tsql.model.statement.dml.Update.SetItem buildSetItem(Object value){
+        public com.xy.xsql.tsql.model.queries.Update.SetItem buildSetItem(Object value){
             return setItemFunction.apply(fieldGetter,value);
         }
     }

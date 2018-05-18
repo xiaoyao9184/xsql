@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.core.statement.dml.UpdateBuilderTest;
-import com.xy.xsql.tsql.model.statement.dml.Update;
+import com.xy.xsql.tsql.model.queries.Update;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

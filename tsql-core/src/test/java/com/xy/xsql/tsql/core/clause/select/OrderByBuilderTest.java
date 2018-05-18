@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

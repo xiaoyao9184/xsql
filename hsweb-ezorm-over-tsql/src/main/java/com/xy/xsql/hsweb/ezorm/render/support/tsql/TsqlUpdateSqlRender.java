@@ -2,7 +2,7 @@ package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.statement.dml.Update;
+import com.xy.xsql.tsql.model.queries.Update;
 import org.hsweb.ezorm.core.param.UpdateParam;
 import org.hsweb.ezorm.rdb.executor.SQL;
 import org.hsweb.ezorm.rdb.meta.RDBColumnMetaData;

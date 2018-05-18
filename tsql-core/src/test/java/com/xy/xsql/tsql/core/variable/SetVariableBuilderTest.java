@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.variable;
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.tsql.model.elements.variables.SetVariable;
 import org.junit.Assert;
 import org.junit.Test;

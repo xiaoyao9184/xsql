@@ -13,7 +13,7 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Contains;
 import com.xy.xsql.tsql.model.queries.predicates.FreeText;
 import com.xy.xsql.tsql.model.queries.predicates.Predicate;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;

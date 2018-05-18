@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.queries.predicates.Between;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.predicates.In;
 import com.xy.xsql.tsql.model.statement.dml.Delete;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

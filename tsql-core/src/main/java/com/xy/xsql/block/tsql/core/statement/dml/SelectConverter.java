@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.queries.select.Into;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.operators.Set;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.

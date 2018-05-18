@@ -102,13 +102,13 @@ public class Select<T> implements QueryChain<T> {
 
 
     public String toSql() {
-        com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification query = buildQuery();
+        com.xy.xsql.tsql.model.queries.Select.QuerySpecification query = buildQuery();
         return BlockManager.INSTANCE.print(query);
 //        return "SELECT * FROM " + fromClause() + buildWhere().map(sql -> " WHERE " + sql).orElse("");
     }
 
     public PlaceholderJSql toJSql(){
-        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification,List<Object>> queryWithJSql = buildQueryWithJSql();
+        Map.Entry<com.xy.xsql.tsql.model.queries.Select.QuerySpecification,List<Object>> queryWithJSql = buildQueryWithJSql();
         String sql = BlockManager.INSTANCE.print(queryWithJSql.getKey());
         List<Object> args = queryWithJSql.getValue();
 
@@ -126,7 +126,7 @@ public class Select<T> implements QueryChain<T> {
         return builder;
     }
 
-    private com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification buildQuery(){
+    private com.xy.xsql.tsql.model.queries.Select.QuerySpecification buildQuery(){
         com.xy.xsql.tsql.model.queries.select.Select.SelectItem item = new com.xy.xsql.tsql.model.queries.select.Select.SelectItem();
         item.setUseAll(true);
 
@@ -136,7 +136,7 @@ public class Select<T> implements QueryChain<T> {
         Where where = buildWhere()
                 .orElse(null);
 
-        com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification query = new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification();
+        com.xy.xsql.tsql.model.queries.Select.QuerySpecification query = new com.xy.xsql.tsql.model.queries.Select.QuerySpecification();
         query.setSelectList(Collections.singletonList(item));
         query.setFrom(from);
         query.setWhere(where);
@@ -156,7 +156,7 @@ public class Select<T> implements QueryChain<T> {
         return TSqlConversions.where(wherePredicates);
     }
 
-    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification,List<Object>> buildQueryWithJSql(){
+    private Map.Entry<com.xy.xsql.tsql.model.queries.Select.QuerySpecification,List<Object>> buildQueryWithJSql(){
         com.xy.xsql.tsql.model.queries.select.Select.SelectItem item = new com.xy.xsql.tsql.model.queries.select.Select.SelectItem();
         item.setUseAll(true);
 
@@ -166,7 +166,7 @@ public class Select<T> implements QueryChain<T> {
         Optional<Map.Entry<Where,List<Object>>> whereWithArgs = buildWhereWithJSql();
         Where where = whereWithArgs.map(Map.Entry::getKey).orElse(null);
 
-        com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification query = new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification();
+        com.xy.xsql.tsql.model.queries.Select.QuerySpecification query = new com.xy.xsql.tsql.model.queries.Select.QuerySpecification();
         query.setSelectList(Collections.singletonList(item));
         query.setFrom(from);
         query.setWhere(where);

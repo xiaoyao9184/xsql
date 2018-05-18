@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.statement.dml;
+package com.xy.xsql.tsql.model.queries;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Set;

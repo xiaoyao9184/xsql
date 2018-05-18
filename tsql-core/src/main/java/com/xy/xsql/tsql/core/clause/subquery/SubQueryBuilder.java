@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.clause.subquery;
 
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 /**
  * SubQuery Builder
@@ -27,13 +27,13 @@ public class SubQueryBuilder {
 
 
 
-    public static Select SUB_QUERY(com.xy.xsql.tsql.model.statement.dml.Select.QueryExpression queryExpression){
+    public static Select SUB_QUERY(Select.QueryExpression queryExpression){
         return new SelectBuilder()
                 .withQuery(queryExpression)
                 .build();
     }
 
-    public static Select SUB_QUERY(com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification querySpecification){
+    public static Select SUB_QUERY(Select.QuerySpecification querySpecification){
         return new SelectBuilder()
                 .withQuery(querySpecification)
                 .build();

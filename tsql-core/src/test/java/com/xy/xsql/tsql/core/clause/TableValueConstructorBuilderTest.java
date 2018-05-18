@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.core.MockParentBuilder;
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilder;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

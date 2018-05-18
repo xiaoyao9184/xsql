@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.variable;
 
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.tsql.model.elements.variables.SelectVariable;
 import org.junit.Assert;
 import org.junit.Test;

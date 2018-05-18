@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.statement.ddl.create;
 
 import com.xy.xsql.tsql.model.statement.Statement;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 import java.util.List;
 

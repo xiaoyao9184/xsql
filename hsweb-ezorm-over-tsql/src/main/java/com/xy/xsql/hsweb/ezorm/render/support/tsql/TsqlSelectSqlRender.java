@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.queries.select.Select.SelectItem;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.util.CheckUtil;
 import org.hsweb.commons.StringUtils;
 import org.hsweb.ezorm.core.param.QueryParam;

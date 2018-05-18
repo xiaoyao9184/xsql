@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.statement.dml;
+package com.xy.xsql.tsql.model.queries;
 
 import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.Alias;

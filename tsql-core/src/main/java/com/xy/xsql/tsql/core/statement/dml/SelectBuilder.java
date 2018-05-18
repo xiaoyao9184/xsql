@@ -10,7 +10,7 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Set;
 import com.xy.xsql.tsql.model.queries.*;
 import com.xy.xsql.tsql.model.queries.select.*;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +45,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
     }
 
 //    public QuerySpecificationBuilder<SelectBuilder> withQuery() {
-//        com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification querySpecification = new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification();
+//        com.xy.xsql.tsql.model.queries.Select.QuerySpecification querySpecification = new com.xy.xsql.tsql.model.queries.Select.QuerySpecification();
 //        target.setQueryExpression(querySpecification);
 //        return new QuerySpecificationBuilder<SelectBuilder>
 //                (querySpecification)
@@ -204,7 +204,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
             extends CodeTreeBuilder<QueryExpressionBuilder<ParentBuilder>,ParentBuilder, Select.QueryExpression> {
 
         public QueryExpressionBuilder() {
-            super(new com.xy.xsql.tsql.model.statement.dml.Select.QueryExpression());
+            super(new Select.QueryExpression());
         }
 
         public QueryExpressionBuilder(Select.QueryExpression queryExpression) {
@@ -405,7 +405,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
     public static class UnitItemBuilder<ParentBuilder>
             extends CodeTreeBuilder<UnitItemBuilder<ParentBuilder>, ParentBuilder, Select.UnionItem> {
 
-        public UnitItemBuilder(com.xy.xsql.tsql.model.statement.dml.Select.UnionItem unionItem) {
+        public UnitItemBuilder(Select.UnionItem unionItem) {
             super(unionItem);
         }
 
@@ -447,10 +447,10 @@ public class SelectBuilder extends CodeBuilder<Select> {
             extends CodeTreeBuilder<QuerySpecificationBuilder<ParentBuilder>, ParentBuilder, Select.QuerySpecification> {
 
         public QuerySpecificationBuilder() {
-            super(new com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification());
+            super(new Select.QuerySpecification());
         }
 
-        public QuerySpecificationBuilder(com.xy.xsql.tsql.model.statement.dml.Select.QuerySpecification tar) {
+        public QuerySpecificationBuilder(Select.QuerySpecification tar) {
             super(tar);
         }
 

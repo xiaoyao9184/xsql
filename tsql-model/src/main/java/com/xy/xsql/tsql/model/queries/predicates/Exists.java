@@ -1,8 +1,7 @@
 package com.xy.xsql.tsql.model.queries.predicates;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.queries.predicates.Predicate;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 
 /**
  * EXISTS ( subquery )

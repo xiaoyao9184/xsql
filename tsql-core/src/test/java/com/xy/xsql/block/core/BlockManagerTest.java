@@ -5,7 +5,7 @@ import com.xy.xsql.block.meta.MetaManager;
 import com.xy.xsql.block.model.Block;
 import com.xy.xsql.block.model.KeywordBlock;
 import com.xy.xsql.block.model.MetaBlock;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

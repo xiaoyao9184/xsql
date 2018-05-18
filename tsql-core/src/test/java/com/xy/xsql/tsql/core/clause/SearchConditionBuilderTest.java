@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.queries.predicates.In;
 import com.xy.xsql.tsql.model.queries.predicates.Like;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -11,7 +11,7 @@ import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
 import com.xy.xsql.tsql.model.queries.*;
-import com.xy.xsql.tsql.model.statement.dml.Update;
+import com.xy.xsql.tsql.model.queries.Update;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 

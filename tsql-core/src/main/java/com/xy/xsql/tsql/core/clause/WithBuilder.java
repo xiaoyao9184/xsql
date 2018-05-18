@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.clause;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.statement.dml.Select;
+import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
