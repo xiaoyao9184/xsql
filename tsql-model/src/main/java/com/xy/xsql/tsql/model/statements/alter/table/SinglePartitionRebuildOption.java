@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.statements.alter.table;
 
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
-import com.xy.xsql.tsql.model.element.index.IndexOption;
+import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

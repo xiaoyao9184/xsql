@@ -2,8 +2,8 @@ package com.xy.xsql.tsql.core.clause;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.queries.Output;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.util.CheckUtil;

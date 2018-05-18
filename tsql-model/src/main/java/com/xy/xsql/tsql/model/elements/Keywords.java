@@ -1,6 +1,9 @@
 package com.xy.xsql.tsql.model.elements;
 
 import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ComputedColumnDefinition;
 import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
 
 import java.util.Arrays;
@@ -323,23 +326,23 @@ public enum Keywords {
         CONTENT, DOCUMENT,
 
         /**
-         * @see com.xy.xsql.tsql.model.element.column.ColumnSetDefinition
+         * @see ColumnSetDefinition
          */
         COLUMN_SET, ALL_SPARSE_COLUMNS,
 
         /**
-         * @see com.xy.xsql.tsql.model.element.column.ComputedColumnDefinition
+         * @see ComputedColumnDefinition
          */
         PERSISTED,
 
         /**
-         * @see com.xy.xsql.tsql.model.element.table.TableIndex
+         * @see com.xy.xsql.tsql.model.datatypes.table.table.TableIndex
          */
         COLUMNSTORE,
 
         /**
          * @see com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable
-         * @see com.xy.xsql.tsql.model.element.column.ColumnIndex
+         * @see ColumnIndex
          */
         FILESTREAM_ON, TEXTIMAGE_ON, PERIOD, BUCKET_COUNT,
 

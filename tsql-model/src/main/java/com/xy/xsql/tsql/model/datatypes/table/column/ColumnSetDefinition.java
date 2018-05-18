@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element.column;
+package com.xy.xsql.tsql.model.datatypes.table.column;
 
 import com.xy.xsql.tsql.model.statements.alter.table.Add;
 import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;

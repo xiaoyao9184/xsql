@@ -4,7 +4,7 @@ import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
 import com.xy.xsql.tsql.core.statement.ddl.alter.table.AlterColumnBuilder;
 import com.xy.xsql.tsql.core.statement.ddl.alter.table.DropBuilder;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterColumn;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterTable;
 import com.xy.xsql.tsql.model.statements.alter.table.Drop;

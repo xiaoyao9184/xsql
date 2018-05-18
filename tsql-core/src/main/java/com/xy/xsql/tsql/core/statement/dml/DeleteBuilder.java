@@ -3,8 +3,8 @@ package com.xy.xsql.tsql.core.statement.dml;
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.tsql.core.clause.*;
 import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
-import com.xy.xsql.tsql.model.element.Alias;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.Alias;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.queries.*;
 import com.xy.xsql.tsql.model.statements.Delete;
 

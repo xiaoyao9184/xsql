@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.statements.drop;
 
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.Statement;
 
 import java.util.List;

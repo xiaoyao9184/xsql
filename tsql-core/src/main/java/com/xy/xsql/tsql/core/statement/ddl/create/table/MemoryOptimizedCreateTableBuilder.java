@@ -10,12 +10,12 @@ import com.xy.xsql.tsql.core.element.table.MemoryOptimizedTableConstraintBuilder
 import com.xy.xsql.tsql.core.element.table.MemoryOptimizedTableIndexBuilder;
 import com.xy.xsql.tsql.core.element.table.TableConstraintBuilder;
 import com.xy.xsql.tsql.core.element.table.TableIndexBuilder;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.table.TableConstraint;
-import com.xy.xsql.tsql.model.element.table.TableIndex;
-import com.xy.xsql.tsql.model.element.table.TableOption;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableIndex;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableOption;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statements.create.table.MemoryOptimizedCreateTable;
 

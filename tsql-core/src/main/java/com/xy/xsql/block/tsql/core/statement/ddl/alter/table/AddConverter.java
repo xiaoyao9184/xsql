@@ -10,10 +10,10 @@ import com.xy.xsql.block.tsql.core.element.table.TableConstraintConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.column.ColumnSetDefinition;
-import com.xy.xsql.tsql.model.element.column.ComputedColumnDefinition;
-import com.xy.xsql.tsql.model.element.table.TableConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ComputedColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
 import com.xy.xsql.tsql.model.statements.alter.table.Add;
 
 /**

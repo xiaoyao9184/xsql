@@ -4,7 +4,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.element.column.ColumnSetDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
 
 /**
  * Created by xiaoyao9184 on 2017/9/3.

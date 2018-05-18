@@ -1,11 +1,8 @@
 package com.xy.xsql.tsql.core.element;
 
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static com.xy.xsql.core.ListBuilder.reverse;
 import static com.xy.xsql.core.ListBuilder.setter;

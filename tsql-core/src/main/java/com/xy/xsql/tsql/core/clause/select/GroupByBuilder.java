@@ -5,7 +5,7 @@ import com.xy.xsql.core.builder.CodeTreeLazyConfigBuilder;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.queries.select.GroupBy;
 import com.xy.xsql.tsql.model.queries.select.GroupBy.GroupByExpression;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.util.CheckUtil;
 

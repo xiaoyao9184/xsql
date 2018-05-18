@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element.table;
+package com.xy.xsql.tsql.model.datatypes.table.table;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql

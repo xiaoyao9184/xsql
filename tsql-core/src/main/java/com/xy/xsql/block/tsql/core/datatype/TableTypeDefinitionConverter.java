@@ -6,12 +6,12 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.element.constraint.CheckConverters;
 import com.xy.xsql.block.tsql.core.element.constraint.PrimaryUniqueConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.constraint.Check;
-import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
-import com.xy.xsql.tsql.model.element.table.TableConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Check;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
 
 /**
  * Created by xiaoyao9184 on 2017/6/20.

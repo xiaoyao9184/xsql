@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element;
+package com.xy.xsql.tsql.model.datatypes.table;
 
 import com.xy.xsql.tsql.model.elements.Other;
 

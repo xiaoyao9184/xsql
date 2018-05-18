@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.element;
 
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 import java.util.List;
 

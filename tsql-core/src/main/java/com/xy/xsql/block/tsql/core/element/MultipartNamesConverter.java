@@ -3,9 +3,9 @@ package com.xy.xsql.block.tsql.core.element;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 /**
  * Created by xiaoyao9184 on 2017/6/21.

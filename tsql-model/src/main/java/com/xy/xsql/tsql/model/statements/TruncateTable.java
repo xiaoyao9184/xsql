@@ -1,9 +1,8 @@
 package com.xy.xsql.tsql.model.statements;
 
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.statements.Statement;
 
 import java.util.List;
 

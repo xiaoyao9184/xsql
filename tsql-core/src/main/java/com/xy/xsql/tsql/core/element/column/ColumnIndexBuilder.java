@@ -1,19 +1,15 @@
 package com.xy.xsql.tsql.core.element.column;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.core.element.constraint.Foreigns;
 import com.xy.xsql.tsql.core.element.index.IndexOptionBuilder;
 import com.xy.xsql.tsql.core.element.index.PartitionBuilder;
-import com.xy.xsql.tsql.model.element.column.ColumnIndex;
-import com.xy.xsql.tsql.model.element.constraint.Foreign;
-import com.xy.xsql.tsql.model.element.index.IndexOption;
-import com.xy.xsql.tsql.model.element.index.Partition;
-import com.xy.xsql.tsql.model.element.table.TableIndex;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
+import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
+import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 
 import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.FiledBuilder.initSet2;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 

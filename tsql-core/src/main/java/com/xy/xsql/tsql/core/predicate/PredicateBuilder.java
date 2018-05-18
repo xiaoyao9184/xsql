@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.predicate;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.*;
 import com.xy.xsql.tsql.model.queries.Select;

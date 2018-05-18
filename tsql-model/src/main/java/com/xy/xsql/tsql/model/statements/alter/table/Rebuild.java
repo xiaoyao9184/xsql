@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.statements.alter.table;
 
-import com.xy.xsql.tsql.model.element.index.IndexOption;
+import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
 
 import java.util.List;
 

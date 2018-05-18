@@ -2,7 +2,7 @@ package com.xy.xsql.benjiql.query;
 
 import com.xy.xsql.benjiql.core.ProxyObjectMethodRecording;
 import com.xy.xsql.tsql.model.queries.From;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 import java.util.Map;

@@ -2,11 +2,11 @@ package com.xy.xsql.tsql.core.element.column;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.collation.Collate;
-import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.column.ColumnIndex;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.Collections;

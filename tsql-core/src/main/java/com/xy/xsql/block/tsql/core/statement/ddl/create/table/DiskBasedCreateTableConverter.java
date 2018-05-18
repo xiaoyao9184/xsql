@@ -13,11 +13,11 @@ import com.xy.xsql.block.tsql.core.element.table.TableIndexConverters;
 import com.xy.xsql.block.tsql.core.element.table.TableOptionConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.column.ColumnSetDefinition;
-import com.xy.xsql.tsql.model.element.column.ComputedColumnDefinition;
-import com.xy.xsql.tsql.model.element.table.TableConstraint;
-import com.xy.xsql.tsql.model.element.table.TableIndex;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ComputedColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableIndex;
 import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;
 import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
 

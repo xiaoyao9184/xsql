@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.variable;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.datatype.TableTypeDefinitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
-import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.variables.DeclareVariable;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;

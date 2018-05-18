@@ -2,7 +2,7 @@ package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.sql.PlaceholderJSql;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 import com.xy.xsql.tsql.model.statements.Insert;

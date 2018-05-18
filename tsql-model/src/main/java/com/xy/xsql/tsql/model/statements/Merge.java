@@ -2,11 +2,10 @@ package com.xy.xsql.tsql.model.statements;
 
 import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.Alias;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.Alias;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.queries.*;
-import com.xy.xsql.tsql.model.statements.Statement;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.core.element.column;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.column.ColumnSetDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
 
 /**
  * Use

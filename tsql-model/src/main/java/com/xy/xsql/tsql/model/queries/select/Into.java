@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.model.queries.select;
 
 import com.xy.xsql.tsql.model.queries.Clause;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 /**
  *

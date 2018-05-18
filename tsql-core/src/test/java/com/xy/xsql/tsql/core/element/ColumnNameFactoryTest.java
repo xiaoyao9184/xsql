@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.element;
 
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import org.junit.Assert;
 import org.junit.Test;
 

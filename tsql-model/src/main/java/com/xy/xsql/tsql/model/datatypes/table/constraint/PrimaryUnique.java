@@ -1,7 +1,7 @@
-package com.xy.xsql.tsql.model.element.constraint;
+package com.xy.xsql.tsql.model.datatypes.table.constraint;
 
-import com.xy.xsql.tsql.model.element.index.IndexOption;
-import com.xy.xsql.tsql.model.element.index.Partition;
+import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
+import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 
 import java.util.List;
 

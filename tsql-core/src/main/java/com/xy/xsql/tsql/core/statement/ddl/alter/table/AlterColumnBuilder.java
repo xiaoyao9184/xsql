@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.collation.Collate;
+import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterColumn;
 
 /**

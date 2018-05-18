@@ -9,7 +9,7 @@ import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
 import com.xy.xsql.tsql.model.elements.operators.Operators;
@@ -324,7 +324,7 @@ public class Select<T> implements QueryChain<T> {
          * @param value value
          * @return Predicate
          */
-        Predicate apply(com.xy.xsql.tsql.model.element.ColumnName columnName, Object value);
+        Predicate apply(ColumnName columnName, Object value);
 
         static <T> Predicate equalTo(ColumnName columnName, Object value){
             Comparison comparison = new Comparison();

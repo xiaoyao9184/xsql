@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element.index;
+package com.xy.xsql.tsql.model.datatypes.table.index;
 
 import com.xy.xsql.tsql.model.statements.TruncateTable;
 

@@ -6,7 +6,7 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.statement.ddl.TruncateTableConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.index.IndexOption;
+import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 import static com.xy.xsql.block.tsql.core.element.EnumConverterUtil.getSyntaxString;

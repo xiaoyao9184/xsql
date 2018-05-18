@@ -1,8 +1,7 @@
 package com.xy.xsql.tsql.core.element.index;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.element.index.IndexOption;
-import com.xy.xsql.tsql.model.element.index.Partition;
+import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
 
 /**
  * Created by xiaoyao9184 on 2017/8/17.

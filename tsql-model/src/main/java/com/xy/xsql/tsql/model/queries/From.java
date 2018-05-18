@@ -5,8 +5,8 @@ import com.xy.xsql.tsql.model.queries.hints.JoinHint;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.Alias;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.Alias;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 
 import java.util.List;

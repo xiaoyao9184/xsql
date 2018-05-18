@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.statements.alter.table;
 
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql

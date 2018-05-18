@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.statements.create.table;
 
-import com.xy.xsql.tsql.model.element.table.TableOption;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableOption;
 
 import java.util.List;
 

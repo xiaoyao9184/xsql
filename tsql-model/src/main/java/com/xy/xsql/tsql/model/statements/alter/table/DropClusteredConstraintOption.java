@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.model.statements.alter.table;
 
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatype.OnOff;
-import com.xy.xsql.tsql.model.element.index.Partition;
+import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 
 /**
  * Created by xiaoyao9184 on 2017/9/17

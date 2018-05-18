@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.element.constraint;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.element.constraint.Check;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Check;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**

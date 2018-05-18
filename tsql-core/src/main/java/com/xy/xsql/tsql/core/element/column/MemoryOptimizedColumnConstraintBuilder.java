@@ -4,11 +4,11 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.element.constraint.CheckBuilder;
 import com.xy.xsql.tsql.core.element.constraint.Foreigns;
 import com.xy.xsql.tsql.core.element.constraint.PrimaryUniques;
-import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
-import com.xy.xsql.tsql.model.element.constraint.Check;
-import com.xy.xsql.tsql.model.element.constraint.Constraint;
-import com.xy.xsql.tsql.model.element.constraint.Foreign;
-import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Check;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Constraint;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Foreign;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import static com.xy.xsql.core.FiledBuilder.initSet2;

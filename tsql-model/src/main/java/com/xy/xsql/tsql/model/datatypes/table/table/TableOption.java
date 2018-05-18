@@ -1,6 +1,6 @@
-package com.xy.xsql.tsql.model.element.table;
+package com.xy.xsql.tsql.model.datatypes.table.table;
 
-import com.xy.xsql.tsql.model.element.collation.Collate;
+import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.statements.TruncateTable;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface TableOption {
 
     /**
      * TODO simple of
-     * @see com.xy.xsql.tsql.model.element.index.IndexOption.DataCompression
+     * @see com.xy.xsql.tsql.model.datatypes.table.index.IndexOption.DataCompression
      */
     enum DataCompressionType {
         NONE,

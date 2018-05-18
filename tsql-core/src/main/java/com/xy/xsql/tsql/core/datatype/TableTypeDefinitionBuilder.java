@@ -3,11 +3,11 @@ package com.xy.xsql.tsql.core.datatype;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
 import com.xy.xsql.tsql.core.element.table.TableConstraintBuilder;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
-import com.xy.xsql.tsql.model.element.table.TableConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.util.CheckUtil;
 

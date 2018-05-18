@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 
 import com.xy.xsql.core.builder.CodeBuilder;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterTable;
 import com.xy.xsql.tsql.model.statements.alter.table.Item;
 

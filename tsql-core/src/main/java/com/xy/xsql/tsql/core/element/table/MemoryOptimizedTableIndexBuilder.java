@@ -3,9 +3,9 @@ package com.xy.xsql.tsql.core.element.table;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.element.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.core.element.index.PartitionBuilder;
-import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
-import com.xy.xsql.tsql.model.element.index.Partition;
-import com.xy.xsql.tsql.model.element.table.TableIndex;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableIndex;
 
 import java.util.List;
 import java.util.stream.Collectors;

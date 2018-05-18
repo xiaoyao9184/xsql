@@ -10,8 +10,8 @@ import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.datatype.Null;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 

@@ -4,7 +4,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.datatypes.constants.Constant;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;

@@ -6,8 +6,8 @@ import com.xy.xsql.block.tsql.core.element.constraint.ColumnNameConverters;
 import com.xy.xsql.block.tsql.core.element.index.PartitionConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.index.IndexOption;
-import com.xy.xsql.tsql.model.element.table.TableIndex;
+import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableIndex;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 /**

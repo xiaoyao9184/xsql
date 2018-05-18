@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.queries;
 
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
@@ -38,7 +38,7 @@ public class Output implements Clause {
 
     //[ ( column_list ) ]
     //TODO mybe just string name
-    private List<com.xy.xsql.tsql.model.element.ColumnName> columnList;
+    private List<com.xy.xsql.tsql.model.datatypes.table.ColumnName> columnList;
 
     //[ OUTPUT <dml_select_list> ] 
     private List<DmlSelect> outputDmlSelectList;
@@ -67,11 +67,11 @@ public class Output implements Clause {
         this.outputTable = outputTable;
     }
 
-    public List<com.xy.xsql.tsql.model.element.ColumnName> getColumnList() {
+    public List<com.xy.xsql.tsql.model.datatypes.table.ColumnName> getColumnList() {
         return columnList;
     }
 
-    public void setColumnList(List<com.xy.xsql.tsql.model.element.ColumnName> columnList) {
+    public void setColumnList(List<com.xy.xsql.tsql.model.datatypes.table.ColumnName> columnList) {
         this.columnList = columnList;
     }
 

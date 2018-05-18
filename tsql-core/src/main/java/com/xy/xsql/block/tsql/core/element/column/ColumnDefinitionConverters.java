@@ -4,9 +4,9 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.datatype.DataTypeConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 /**

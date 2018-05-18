@@ -1,12 +1,11 @@
 package com.xy.xsql.tsql.core.datatype;
 
 import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
-import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
-import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.element.constraint.NullOrNotNull;
-import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.NullOrNotNull;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static com.xy.xsql.tsql.core.datatype.DataTypes.*;

@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element.constraint;
+package com.xy.xsql.tsql.model.datatypes.table.constraint;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 

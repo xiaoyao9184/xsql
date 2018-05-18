@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element.index;
+package com.xy.xsql.tsql.model.datatypes.table.index;
 
 /**
  * Created by xiaoyao9184 on 2017/8/16.

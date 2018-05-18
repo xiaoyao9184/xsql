@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.clause.select;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.queries.select.Into;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 /**
  * IntoBuilder

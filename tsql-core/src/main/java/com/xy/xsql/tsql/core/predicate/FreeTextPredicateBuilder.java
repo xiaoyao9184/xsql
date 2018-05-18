@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.predicate;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.element.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.queries.predicates.FreeText;
 
 import java.util.Arrays;

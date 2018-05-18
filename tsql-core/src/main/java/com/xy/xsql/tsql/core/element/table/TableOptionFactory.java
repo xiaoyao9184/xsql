@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.core.element.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.element.collation.Collate;
-import com.xy.xsql.tsql.model.element.table.TableOption;
+import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableOption;
 import com.xy.xsql.tsql.model.statements.TruncateTable;
 
 import java.util.List;

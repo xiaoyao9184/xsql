@@ -3,8 +3,8 @@ package com.xy.xsql.benjiql.core;
 import com.xy.xsql.benjiql.util.Conventions;
 import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.core.mapper.SourceTargetMapper;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

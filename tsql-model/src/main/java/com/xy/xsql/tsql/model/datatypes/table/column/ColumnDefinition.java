@@ -1,10 +1,10 @@
-package com.xy.xsql.tsql.model.element.column;
+package com.xy.xsql.tsql.model.datatypes.table.column;
 
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.collation.Collate;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statements.alter.table.Add;
 import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;

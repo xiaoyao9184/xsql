@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.model.statements.alter.table;
 
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.collation.Collate;
+import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 
 /**
  * Created by xiaoyao9184 on 2017/9/17

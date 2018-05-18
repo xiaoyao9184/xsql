@@ -1,6 +1,6 @@
-package com.xy.xsql.tsql.model.element.column;
+package com.xy.xsql.tsql.model.datatypes.table.column;
 
-import com.xy.xsql.tsql.model.element.constraint.Constraint;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Constraint;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/data-types/table-transact-sql

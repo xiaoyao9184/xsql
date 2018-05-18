@@ -5,8 +5,8 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.configurator.BaseConfigurator;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.BulkInsert;
 
 import java.util.ArrayList;

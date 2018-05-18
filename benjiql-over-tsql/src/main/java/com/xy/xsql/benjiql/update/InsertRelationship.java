@@ -7,8 +7,8 @@ import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
-import com.xy.xsql.tsql.model.element.ColumnName;
-import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.Insert;
 
 import java.io.Serializable;

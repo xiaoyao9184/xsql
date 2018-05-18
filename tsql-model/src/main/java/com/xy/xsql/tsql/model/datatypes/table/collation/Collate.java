@@ -1,4 +1,4 @@
-package com.xy.xsql.tsql.model.element.collation;
+package com.xy.xsql.tsql.model.datatypes.table.collation;
 
 import com.xy.xsql.tsql.model.queries.Clause;
 

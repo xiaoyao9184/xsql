@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.statements.alter.table;
 
-import com.xy.xsql.tsql.model.element.table.TableStretchOptions;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableStretchOptions;
 
 import java.util.List;
 

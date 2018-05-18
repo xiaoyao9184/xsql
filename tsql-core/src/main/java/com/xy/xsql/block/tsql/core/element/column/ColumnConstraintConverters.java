@@ -6,10 +6,10 @@ import com.xy.xsql.block.tsql.core.element.constraint.CheckConverters;
 import com.xy.xsql.block.tsql.core.element.constraint.ForeignConverters;
 import com.xy.xsql.block.tsql.core.element.constraint.PrimaryUniqueConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.element.column.ColumnConstraint;
-import com.xy.xsql.tsql.model.element.constraint.Check;
-import com.xy.xsql.tsql.model.element.constraint.Foreign;
-import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Check;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.Foreign;
+import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 
 /**
  * Created by xiaoyao9184 on 2017/9/3.

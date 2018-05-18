@@ -5,7 +5,7 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.element.index.PartitionConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.element.column.ColumnIndex;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
 
 /**
