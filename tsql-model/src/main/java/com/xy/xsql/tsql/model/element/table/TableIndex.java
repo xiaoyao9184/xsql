@@ -3,8 +3,8 @@ package com.xy.xsql.tsql.model.element.table;
 import com.xy.xsql.tsql.model.element.index.IndexOption;
 import com.xy.xsql.tsql.model.element.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.element.index.Partition;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.MemoryOptimizedCreateTable;
 
 import java.util.List;
 

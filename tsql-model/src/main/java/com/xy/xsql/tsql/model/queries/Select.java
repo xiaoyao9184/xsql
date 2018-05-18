@@ -2,9 +2,8 @@ package com.xy.xsql.tsql.model.queries;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Set;
-import com.xy.xsql.tsql.model.queries.*;
 import com.xy.xsql.tsql.model.queries.select.*;
-import com.xy.xsql.tsql.model.statement.Statement;
+import com.xy.xsql.tsql.model.statements.Statement;
 
 import java.util.List;
 

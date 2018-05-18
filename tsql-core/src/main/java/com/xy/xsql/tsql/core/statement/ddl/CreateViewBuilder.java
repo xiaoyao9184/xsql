@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement.ddl;
 
 import com.xy.xsql.core.builder.CodeBuilder;
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateView;
+import com.xy.xsql.tsql.model.statements.create.CreateView;
 import com.xy.xsql.tsql.model.queries.Select;
 
 import java.util.List;

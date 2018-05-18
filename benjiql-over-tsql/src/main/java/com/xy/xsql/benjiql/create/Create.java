@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;

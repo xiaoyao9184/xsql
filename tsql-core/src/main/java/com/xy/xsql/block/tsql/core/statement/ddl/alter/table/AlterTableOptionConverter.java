@@ -7,7 +7,7 @@ import com.xy.xsql.block.tsql.core.element.EnumConverterUtil;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTableOption;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterTableOption;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

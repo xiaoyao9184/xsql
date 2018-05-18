@@ -4,13 +4,12 @@ import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.*;
 import static com.xy.xsql.tsql.core.element.ColumnNameFactory.c;
 

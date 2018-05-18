@@ -1,11 +1,10 @@
 package com.xy.xsql.tsql.core.statement.ddl;
 
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateDataBase;
+import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.core.statement.ddl.CreateDataBaseBuilder.CREATE_DATABASE;
-import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/8/4.

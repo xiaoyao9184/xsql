@@ -5,7 +5,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateDataBase;
+import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
 
 /**
  * Created by xiaoyao9184 on 2017/8/3.

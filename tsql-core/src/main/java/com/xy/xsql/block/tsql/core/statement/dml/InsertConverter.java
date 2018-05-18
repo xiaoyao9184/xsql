@@ -9,7 +9,7 @@ import com.xy.xsql.block.tsql.core.clause.hints.TableHintLimitedConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
+import com.xy.xsql.tsql.model.statements.Insert;
 
 import java.util.List;
 

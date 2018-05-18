@@ -5,7 +5,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.block.tsql.core.element.MultipartNamesConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.*;
+import com.xy.xsql.tsql.model.statements.alter.table.*;
 
 /**
  * Created by xiaoyao9184 on 2017/9/16.

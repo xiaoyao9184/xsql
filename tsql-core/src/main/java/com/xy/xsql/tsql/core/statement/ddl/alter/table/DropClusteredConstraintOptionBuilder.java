@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.core.element.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatype.OnOff;
 import com.xy.xsql.tsql.model.element.index.Partition;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.DropClusteredConstraintOption;
+import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 

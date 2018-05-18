@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.queries.*;
-import com.xy.xsql.tsql.model.statement.dml.Merge;
+import com.xy.xsql.tsql.model.statements.Merge;
 import com.xy.xsql.tsql.model.queries.Update;
 import com.xy.xsql.util.CheckUtil;
 

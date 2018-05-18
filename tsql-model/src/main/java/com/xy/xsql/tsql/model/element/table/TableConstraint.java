@@ -2,9 +2,9 @@ package com.xy.xsql.tsql.model.element.table;
 
 import com.xy.xsql.tsql.model.datatypes.TableTypeDefinition;
 import com.xy.xsql.tsql.model.element.constraint.Constraint;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
+import com.xy.xsql.tsql.model.statements.alter.table.Add;
+import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.MemoryOptimizedCreateTable;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/data-types/table-transact-sql

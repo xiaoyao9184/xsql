@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement.ddl;
 
-import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
+import com.xy.xsql.tsql.model.statements.TruncateTable;
 import org.junit.Assert;
 import org.junit.Test;
 

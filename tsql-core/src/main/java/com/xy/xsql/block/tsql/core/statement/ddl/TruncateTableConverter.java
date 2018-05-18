@@ -5,7 +5,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
+import com.xy.xsql.tsql.model.statements.TruncateTable;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.

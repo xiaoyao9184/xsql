@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.core.element.index.PartitionBuilder;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.*;
+import com.xy.xsql.tsql.model.statements.alter.table.*;
 
 /**
  * Created by xiaoyao9184 on 2017/9/16.

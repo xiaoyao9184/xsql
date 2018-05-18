@@ -23,7 +23,7 @@ import com.xy.xsql.tsql.model.element.table.TableConstraint;
 import com.xy.xsql.tsql.model.element.table.TableIndex;
 import com.xy.xsql.tsql.model.element.table.TableOption;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;
 
 import java.util.Arrays;
 import java.util.List;

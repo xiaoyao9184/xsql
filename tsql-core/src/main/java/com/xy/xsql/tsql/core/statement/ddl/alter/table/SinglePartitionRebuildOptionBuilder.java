@@ -3,8 +3,8 @@ package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.element.index.IndexOption;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.LowPriorityLockWait;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.SinglePartitionRebuildOption;
+import com.xy.xsql.tsql.model.statements.alter.table.LowPriorityLockWait;
+import com.xy.xsql.tsql.model.statements.alter.table.SinglePartitionRebuildOption;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 

@@ -5,7 +5,6 @@ import com.xy.xsql.tsql.core.statement.ddl.TruncateTableBuilder;
 import com.xy.xsql.tsql.core.statement.ddl.alter.table.AlterTableBuilder;
 import com.xy.xsql.tsql.core.statement.ddl.create.table.SimpleCreateTableBuilder;
 import com.xy.xsql.tsql.core.statement.dml.*;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTable;
 
 /**
  * Created by xiaoyao9184 on 2017/3/23.

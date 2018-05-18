@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTableOption;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterTableOption;
 
 /**
  * Created by xiaoyao9184 on 2017/9/16.

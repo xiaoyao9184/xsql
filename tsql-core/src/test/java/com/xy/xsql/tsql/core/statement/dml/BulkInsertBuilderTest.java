@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
-import com.xy.xsql.tsql.model.statement.dml.BulkInsert;
+import com.xy.xsql.tsql.model.statements.BulkInsert;
 import org.junit.Assert;
 import org.junit.Test;
 

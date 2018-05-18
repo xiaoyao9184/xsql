@@ -4,7 +4,7 @@ import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterConstraint;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterConstraint;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

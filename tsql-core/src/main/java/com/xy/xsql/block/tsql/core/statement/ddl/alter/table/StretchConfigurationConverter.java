@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.element.table.TableOption;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.StretchConfiguration;
+import com.xy.xsql.tsql.model.statements.alter.table.StretchConfiguration;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

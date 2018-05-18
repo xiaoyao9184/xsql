@@ -5,7 +5,7 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterPartition;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterPartition;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

@@ -5,7 +5,7 @@ import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
+import com.xy.xsql.tsql.model.statements.Insert;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.hsweb.ezorm.core.param.InsertParam;

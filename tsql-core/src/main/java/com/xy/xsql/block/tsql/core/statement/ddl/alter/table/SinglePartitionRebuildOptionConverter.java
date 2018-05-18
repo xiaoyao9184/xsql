@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.element.index.IndexOption;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.SinglePartitionRebuildOption;
+import com.xy.xsql.tsql.model.statements.alter.table.SinglePartitionRebuildOption;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

@@ -2,7 +2,6 @@ package com.xy.xsql.tsql.core.element.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.element.table.TableStretchOptions;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterFiletableOption;
 
 /**
  * Created by xiaoyao9184 on 2017/9/16.

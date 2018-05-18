@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.element.column;
 
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.Add;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable;
+import com.xy.xsql.tsql.model.statements.alter.table.Add;
+import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;
 
 /**
  * https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql

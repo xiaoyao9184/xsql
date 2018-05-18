@@ -13,8 +13,8 @@ import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.element.table.TableConstraint;
 import com.xy.xsql.tsql.model.element.table.TableIndex;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.MemoryOptimizedCreateTable;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.MemoryOptimizedCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
 
 /**
  * Created by xiaoyao9184 on 2017/9/4.

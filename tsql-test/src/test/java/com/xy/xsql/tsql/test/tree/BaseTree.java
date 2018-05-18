@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.test.tree;
 
 import com.xy.xsql.tsql.core.statement.dml.SelectBuilder.QuerySpecificationBuilder;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
+import com.xy.xsql.tsql.model.statements.Insert;
 import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Test;
 

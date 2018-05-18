@@ -3,7 +3,7 @@ package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
 import org.hsweb.ezorm.rdb.executor.SQL;
 import org.hsweb.ezorm.rdb.meta.RDBColumnMetaData;
 import org.hsweb.ezorm.rdb.meta.RDBTableMetaData;

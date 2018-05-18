@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement.ddl;
 
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateView;
+import com.xy.xsql.tsql.model.statements.create.CreateView;
 import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;

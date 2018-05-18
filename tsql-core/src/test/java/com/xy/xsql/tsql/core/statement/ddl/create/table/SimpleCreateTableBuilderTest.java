@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement.ddl.create.table;
 
-import com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
 import org.junit.Assert;
 import org.junit.Test;
 

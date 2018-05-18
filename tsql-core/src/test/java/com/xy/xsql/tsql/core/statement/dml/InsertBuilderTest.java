@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.core.statement.dml;
 
 import com.xy.xsql.tsql.model.queries.With;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
-import com.xy.xsql.tsql.model.statement.dml.Merge;
+import com.xy.xsql.tsql.model.statements.Insert;
+import com.xy.xsql.tsql.model.statements.Merge;
 import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;

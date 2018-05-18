@@ -1,25 +1,22 @@
 package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.tsql.core.datatype.DataTypes;
 import com.xy.xsql.tsql.core.element.column.ColumnDefinitionBuilder;
 import com.xy.xsql.tsql.core.statement.ddl.alter.table.AlterColumnBuilder;
 import com.xy.xsql.tsql.core.statement.ddl.alter.table.DropBuilder;
 import com.xy.xsql.tsql.model.element.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterColumn;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTable;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.Drop;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterColumn;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterTable;
+import com.xy.xsql.tsql.model.statements.alter.table.Drop;
 import org.hsweb.ezorm.rdb.executor.BindSQL;
 import org.hsweb.ezorm.rdb.executor.EmptySQL;
 import org.hsweb.ezorm.rdb.executor.SQL;
 import org.hsweb.ezorm.rdb.meta.RDBColumnMetaData;
 import org.hsweb.ezorm.rdb.meta.RDBTableMetaData;
-import org.hsweb.ezorm.rdb.render.SqlAppender;
 import org.hsweb.ezorm.rdb.render.SqlRender;
 import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static com.xy.xsql.tsql.core.datatype.DataTypes._user_defined;

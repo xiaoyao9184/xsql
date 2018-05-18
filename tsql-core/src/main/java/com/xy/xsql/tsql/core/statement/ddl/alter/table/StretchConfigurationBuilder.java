@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.core.element.table.TableStretchOptionsBuilder;
 import com.xy.xsql.tsql.model.element.table.TableStretchOptions;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.StretchConfiguration;
+import com.xy.xsql.tsql.model.statements.alter.table.StretchConfiguration;
 
 import java.util.List;
 

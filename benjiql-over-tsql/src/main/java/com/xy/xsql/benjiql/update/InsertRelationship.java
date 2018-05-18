@@ -9,6 +9,7 @@ import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
+import com.xy.xsql.tsql.model.statements.Insert;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
@@ -82,12 +83,12 @@ public class InsertRelationship<L,R>  {
 
 
     public String toSql() {
-        com.xy.xsql.tsql.model.statement.dml.Insert insert = buildInsert();
+        Insert insert = buildInsert();
         return BlockManager.INSTANCE.print(insert);
     }
 
     public PlaceholderJSql toJSql() {
-        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> insertWithJSql = buildInsertWithJSql();
+        Map.Entry<Insert,Stream<Object>> insertWithJSql = buildInsertWithJSql();
         String sql = BlockManager.INSTANCE.print(insertWithJSql.getKey());
         List<Object> args = insertWithJSql.getValue().collect(Collectors.toList());
 
@@ -96,7 +97,7 @@ public class InsertRelationship<L,R>  {
                 .withArgs(args);
     }
 
-    private com.xy.xsql.tsql.model.statement.dml.Insert buildInsert(){
+    private Insert buildInsert(){
         TableName tableName = buildClassTable().getTableName();
 
         Stream<ColumnName> column1 = leftConditions.stream()
@@ -124,14 +125,14 @@ public class InsertRelationship<L,R>  {
 //                        (values,e) -> values.getRowValueExpressionListGroup().get(0).add(e),
 //                        (values1,values2) -> values1.getRowValueExpressionListGroup().get(0).addAll(values2.getRowValueExpressionListGroup().get(0)));
 
-        com.xy.xsql.tsql.model.statement.dml.Insert insert = new com.xy.xsql.tsql.model.statement.dml.Insert();
+        Insert insert = new Insert();
         insert.setTableName(tableName);
         insert.setColumns(columnNameList);
         insert.setValues(tableValueConstructor);
         return insert;
     }
 
-    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> buildInsertWithJSql(){
+    private Map.Entry<Insert,Stream<Object>> buildInsertWithJSql(){
         List<Object> args = new ArrayList<>();
 
         TableName tableName = buildClassTable().getTableName();
@@ -155,7 +156,7 @@ public class InsertRelationship<L,R>  {
                 })
                 .collect(buildTableValueConstructor());
 
-        com.xy.xsql.tsql.model.statement.dml.Insert insert = new com.xy.xsql.tsql.model.statement.dml.Insert();
+        Insert insert = new Insert();
         insert.setTableName(tableName);
         insert.setColumns(columnNameList);
         insert.setValues(tableValueConstructor);

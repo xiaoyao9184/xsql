@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.elements;
 
 import com.xy.xsql.tsql.model.datatypes.DataType;
-import com.xy.xsql.tsql.model.statement.ddl.create.CreateDataBase;
+import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -312,7 +312,7 @@ public enum Keywords {
         CONTAINMENT, NONE, PARTIAL,
 
         /**
-         * @see com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable
+         * @see com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable
          */
         FILESTREAM, COLLATE, SPARSE, MASKED, GENERATED, ALWAYS, START, END, HIDDEN, ENCRYPTED, COLUMN_ENCRYPTION_KEY, ENCRYPTION_TYPE, DETERMINISTIC, RANDOMIZED, ALGORITHM,
 
@@ -338,13 +338,13 @@ public enum Keywords {
         COLUMNSTORE,
 
         /**
-         * @see com.xy.xsql.tsql.model.statement.ddl.create.table.DiskBasedCreateTable
+         * @see com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable
          * @see com.xy.xsql.tsql.model.element.column.ColumnIndex
          */
         FILESTREAM_ON, TEXTIMAGE_ON, PERIOD, BUCKET_COUNT,
 
         /**
-         * @see com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTable
+         * @see com.xy.xsql.tsql.model.statements.alter.table.AlterTable
          */
         ONLINE, MAXDOP, MOVE, CHANGE_TRACKING, TRACK_COLUMNS_UPDATED, SWITCH,
         WAIT_AT_LOW_PRIORITY, MAX_DURATION, ABORT_AFTER_WAIT, MINUTES, INFINITE, HISTORY_RETENTION_PERIOD,

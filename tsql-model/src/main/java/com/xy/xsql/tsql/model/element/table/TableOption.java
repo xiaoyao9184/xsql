@@ -1,8 +1,7 @@
 package com.xy.xsql.tsql.model.element.table;
 
 import com.xy.xsql.tsql.model.element.collation.Collate;
-import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.Item;
+import com.xy.xsql.tsql.model.statements.TruncateTable;
 
 import java.util.List;
 

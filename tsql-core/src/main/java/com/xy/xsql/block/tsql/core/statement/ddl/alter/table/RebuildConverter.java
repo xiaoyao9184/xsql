@@ -7,7 +7,7 @@ import com.xy.xsql.block.tsql.core.element.index.IndexOptionConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.Rebuild;
+import com.xy.xsql.tsql.model.statements.alter.table.Rebuild;
 
 /**
  * Created by xiaoyao9184 on 2017/9/18.

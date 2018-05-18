@@ -6,8 +6,7 @@ import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
-import com.xy.xsql.tsql.model.queries.*;
-import com.xy.xsql.tsql.model.statement.Statement;
+import com.xy.xsql.tsql.model.statements.Statement;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 
 import java.util.List;

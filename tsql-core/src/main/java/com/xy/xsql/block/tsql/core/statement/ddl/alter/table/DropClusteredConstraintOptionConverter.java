@@ -7,7 +7,7 @@ import com.xy.xsql.block.tsql.core.element.index.PartitionConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.datatype.OnOff;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.DropClusteredConstraintOption;
+import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 
 /**
  * Created by xiaoyao9184 on 2017/9/17

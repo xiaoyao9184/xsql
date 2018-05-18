@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.core.statement.ddl;
 
-import com.xy.xsql.tsql.model.statement.ddl.rename.ReName;
+import com.xy.xsql.tsql.model.statements.ReName;
 import org.junit.Assert;
 import org.junit.Test;
 

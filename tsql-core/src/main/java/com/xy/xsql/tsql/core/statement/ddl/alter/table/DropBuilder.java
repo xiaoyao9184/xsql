@@ -2,8 +2,8 @@ package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.lambda.Setter;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.Drop;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.DropClusteredConstraintOption;
+import com.xy.xsql.tsql.model.statements.alter.table.Drop;
+import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 
 import java.util.*;
 

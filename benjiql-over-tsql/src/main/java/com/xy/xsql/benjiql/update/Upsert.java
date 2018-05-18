@@ -42,13 +42,13 @@ public abstract class Upsert<T> {
 
         @Override
         public String toSql() {
-            com.xy.xsql.tsql.model.statement.dml.Insert insert = buildInsert();
+            com.xy.xsql.tsql.model.statements.Insert insert = buildInsert();
             return BlockManager.INSTANCE.print(insert);
         }
 
         @Override
         public PlaceholderJSql toJSql() {
-            Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> insertWithJSql = buildInsertWithJSql();
+            Map.Entry<com.xy.xsql.tsql.model.statements.Insert,Stream<Object>> insertWithJSql = buildInsertWithJSql();
             String sql = BlockManager.INSTANCE.print(insertWithJSql.getKey());
             List<Object> args = insertWithJSql.getValue().collect(Collectors.toList());
 
@@ -57,7 +57,7 @@ public abstract class Upsert<T> {
                     .withArgs(args);
         }
 
-        private com.xy.xsql.tsql.model.statement.dml.Insert buildInsert(){
+        private com.xy.xsql.tsql.model.statements.Insert buildInsert(){
             TableName tableName = super.buildClassTable().getTableName();
 
             List<ColumnName> columnNameList = super.setConditions.stream()
@@ -87,14 +87,14 @@ public abstract class Upsert<T> {
 //                            (values,e) -> values.getRowValueExpressionListGroup().get(0).add(e),
 //                            (values1,values2) -> values1.getRowValueExpressionListGroup().get(0).addAll(values2.getRowValueExpressionListGroup().get(0)));
 
-            com.xy.xsql.tsql.model.statement.dml.Insert insert = new com.xy.xsql.tsql.model.statement.dml.Insert();
+            com.xy.xsql.tsql.model.statements.Insert insert = new com.xy.xsql.tsql.model.statements.Insert();
             insert.setTableName(tableName);
             insert.setColumns(columnNameList);
             insert.setValues(tableValueConstructor);
             return insert;
         }
 
-        private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Insert,Stream<Object>> buildInsertWithJSql(){
+        private Map.Entry<com.xy.xsql.tsql.model.statements.Insert,Stream<Object>> buildInsertWithJSql(){
             List<Object> args = new ArrayList<>();
 
             TableName tableName = super.buildClassTable().getTableName();
@@ -120,7 +120,7 @@ public abstract class Upsert<T> {
 //                            (values,e) -> values.getRowValueExpressionListGroup().get(0).add(e),
 //                            (values1,values2) -> values1.getRowValueExpressionListGroup().get(0).addAll(values2.getRowValueExpressionListGroup().get(0)));
 
-            com.xy.xsql.tsql.model.statement.dml.Insert insert = new com.xy.xsql.tsql.model.statement.dml.Insert();
+            com.xy.xsql.tsql.model.statements.Insert insert = new com.xy.xsql.tsql.model.statements.Insert();
             insert.setTableName(tableName);
             insert.setColumns(columnNameList);
             insert.setValues(tableValueConstructor);

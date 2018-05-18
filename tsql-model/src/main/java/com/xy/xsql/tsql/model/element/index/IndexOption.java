@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.element.index;
 
-import com.xy.xsql.tsql.model.statement.ddl.TruncateTable;
+import com.xy.xsql.tsql.model.statements.TruncateTable;
 
 import java.util.List;
 

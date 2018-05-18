@@ -7,7 +7,7 @@ import com.xy.xsql.block.tsql.core.element.MultipartNamesConverter;
 import com.xy.xsql.block.tsql.core.element.column.ColumnDefinitionConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
-import com.xy.xsql.tsql.model.statement.ddl.create.table.SimpleCreateTable;
+import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
 
 /**
  * Created by xiaoyao9184 on 2017/9/4.

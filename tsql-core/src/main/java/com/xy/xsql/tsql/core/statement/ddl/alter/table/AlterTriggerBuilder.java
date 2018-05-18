@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.core.statement.ddl.alter.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterTrigger;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterTrigger;
 
 import java.util.Arrays;
 import java.util.List;

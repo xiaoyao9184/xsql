@@ -6,7 +6,7 @@ import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.Alias;
 import com.xy.xsql.tsql.model.element.TableName;
 import com.xy.xsql.tsql.model.queries.*;
-import com.xy.xsql.tsql.model.statement.dml.Delete;
+import com.xy.xsql.tsql.model.statements.Delete;
 
 import java.util.Arrays;
 import java.util.List;

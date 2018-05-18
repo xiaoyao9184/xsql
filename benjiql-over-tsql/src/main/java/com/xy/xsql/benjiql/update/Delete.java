@@ -90,13 +90,13 @@ public class Delete<T> {
 
 
     public String toSql() {
-        com.xy.xsql.tsql.model.statement.dml.Delete delete = buildDelete();
+        com.xy.xsql.tsql.model.statements.Delete delete = buildDelete();
         return BlockManager.INSTANCE.print(delete);
     }
 
     public PlaceholderJSql toJSql(){
-        Map.Entry<com.xy.xsql.tsql.model.statement.dml.Delete,Stream<Object>> queryWithJSql = buildDeleteWithJSql();
-        com.xy.xsql.tsql.model.statement.dml.Delete delete = queryWithJSql.getKey();
+        Map.Entry<com.xy.xsql.tsql.model.statements.Delete,Stream<Object>> queryWithJSql = buildDeleteWithJSql();
+        com.xy.xsql.tsql.model.statements.Delete delete = queryWithJSql.getKey();
         List<Object> args = queryWithJSql.getValue().collect(Collectors.toList());
 
         return new PlaceholderJSql()
@@ -113,14 +113,14 @@ public class Delete<T> {
         return builder;
     }
 
-    private com.xy.xsql.tsql.model.statement.dml.Delete buildDelete(){
+    private com.xy.xsql.tsql.model.statements.Delete buildDelete(){
         TableName tableName = new TableName();
         tableName.setTableOrViewName(Conventions.toDbName(cls.getSimpleName()));
 
         Where where = buildWhere()
                 .orElse(null);
 
-        com.xy.xsql.tsql.model.statement.dml.Delete delete = new com.xy.xsql.tsql.model.statement.dml.Delete();
+        com.xy.xsql.tsql.model.statements.Delete delete = new com.xy.xsql.tsql.model.statements.Delete();
         delete.setTableName(tableName);
         delete.setWhere(where);
 
@@ -131,13 +131,13 @@ public class Delete<T> {
         return TSqlConversions.where(this.wherePredicates().collect(Collectors.toList()));
     }
 
-    private Map.Entry<com.xy.xsql.tsql.model.statement.dml.Delete,Stream<Object>> buildDeleteWithJSql(){
+    private Map.Entry<com.xy.xsql.tsql.model.statements.Delete,Stream<Object>> buildDeleteWithJSql(){
         TableName tableName = new TableName();
         tableName.setTableOrViewName(Conventions.toDbName(cls.getSimpleName()));
 
         Map.Entry<Optional<Where>,Stream<Object>> kv = buildWhereWithJSql();
 
-        com.xy.xsql.tsql.model.statement.dml.Delete delete = new com.xy.xsql.tsql.model.statement.dml.Delete();
+        com.xy.xsql.tsql.model.statements.Delete delete = new com.xy.xsql.tsql.model.statements.Delete();
         delete.setTableName(tableName);
         delete.setWhere(kv.getKey().orElse(null));
 

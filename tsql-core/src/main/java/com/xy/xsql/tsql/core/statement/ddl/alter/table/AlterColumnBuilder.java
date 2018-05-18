@@ -4,7 +4,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.element.collation.Collate;
-import com.xy.xsql.tsql.model.statement.ddl.alter.table.AlterColumn;
+import com.xy.xsql.tsql.model.statements.alter.table.AlterColumn;
 
 /**
  * Created by xiaoyao9184 on 2017/9/16.

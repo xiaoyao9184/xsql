@@ -12,7 +12,7 @@ import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.element.ColumnName;
 import com.xy.xsql.tsql.model.element.TableName;
-import com.xy.xsql.tsql.model.statement.dml.Insert;
+import com.xy.xsql.tsql.model.statements.Insert;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
