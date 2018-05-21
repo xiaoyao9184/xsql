@@ -490,7 +490,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter CODEPAGE(String codePage){
-            return bulkInsert -> bulkInsert.setCodePage(new StringConstant(codePage));
+            return bulkInsert -> bulkInsert.setCodePage(new StringConstant(codePage).withQuote());
         }
 
         static WithSetter CODEPAGE(CodePage codePage){
@@ -533,15 +533,15 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
 
         static WithSetter DATASOURCE(String dataSource){
-            return bulkInsert -> bulkInsert.setDataSource(new StringConstant(dataSource));
+            return bulkInsert -> bulkInsert.setDataSource(new StringConstant(dataSource).withQuote());
         }
 
         static WithSetter ERRORFILE(String errorFile){
-            return bulkInsert -> bulkInsert.setErrorFile(new StringConstant(errorFile));
+            return bulkInsert -> bulkInsert.setErrorFile(new StringConstant(errorFile).withQuote());
         }
 
         static WithSetter ERRORFILE_DATASOURCE(String errorFileDataSource){
-            return bulkInsert -> bulkInsert.setErrorFileDataSource(new StringConstant(errorFileDataSource));
+            return bulkInsert -> bulkInsert.setErrorFileDataSource(new StringConstant(errorFileDataSource).withQuote());
         }
 
         static WithSetter FIRSTROW(Integer firstRow){
@@ -553,7 +553,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter FORMATFILE_DATASOURCE(String dataSourceName){
-            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(dataSourceName));
+            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(dataSourceName).withQuote());
         }
 
         static WithSetter KEEPIDENTITY(){
@@ -585,7 +585,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter ROWTERMINATOR(String rowTerminator){
-            return bulkInsert -> bulkInsert.setRowTerminator(new StringConstant(rowTerminator));
+            return bulkInsert -> bulkInsert.setRowTerminator(new StringConstant(rowTerminator).withQuote());
         }
 
         static WithSetter TABLOCK (){
@@ -593,19 +593,19 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter FORMAT(String format){
-            return bulkInsert -> bulkInsert.setFormat(new StringConstant(format));
+            return bulkInsert -> bulkInsert.setFormat(new StringConstant(format).withQuote());
         }
 
         static WithSetter FIELDQUOTE(String fieldQuote){
-            return bulkInsert -> bulkInsert.setFieldQuote(new StringConstant(fieldQuote));
+            return bulkInsert -> bulkInsert.setFieldQuote(new StringConstant(fieldQuote).withQuote());
         }
 
         static WithSetter FORMATFILE(String formatFile){
-            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(formatFile));
+            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(formatFile).withQuote());
         }
 
         static WithSetter FIELDTERMINATOR(String fieldTerminator){
-            return bulkInsert -> bulkInsert.setFieldTerminator(new StringConstant(fieldTerminator));
+            return bulkInsert -> bulkInsert.setFieldTerminator(new StringConstant(fieldTerminator).withQuote());
         }
     }
 

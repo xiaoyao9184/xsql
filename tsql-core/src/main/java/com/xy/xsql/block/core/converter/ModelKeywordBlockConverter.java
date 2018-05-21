@@ -109,7 +109,7 @@ public class ModelKeywordBlockConverter<MODEL>
                 //hide exclusive
                 logger.debug("Meta {}, all predicates are not passed, maybe use hide meta .", meta.toString());
                 /**
-                 * {@link com.xy.xsql.block.tsql.core.clause.select.GroupByConverter.ColumnNameItemConverter}
+                 * {@link com.xy.xsql.tsql.converter.queries.select.GroupByConverter}
                  */
                 Optional<BlockMeta> optional = MetaManager
                         .byModel(model.getClass())

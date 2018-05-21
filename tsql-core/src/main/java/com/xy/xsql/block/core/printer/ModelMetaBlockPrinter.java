@@ -110,7 +110,7 @@ public class ModelMetaBlockPrinter
                 logger.warn("Exclusive Meta maybe hide default predicate!");
                 //hide exclusive
                 /**
-                 * {@link com.xy.xsql.block.tsql.core.clause.select.GroupByConverter.ColumnNameItemConverter}
+                 * {@link com.xy.xsql.tsql.converter.queries.select.GroupByConverter}
                  */
                 Optional<BlockMeta> optional = MetaManager
                         .byModel(model.getClass())
