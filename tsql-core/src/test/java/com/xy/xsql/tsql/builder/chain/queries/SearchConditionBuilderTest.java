@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.builder.chain.queries;
 
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.queries.SearchCondition;
 import com.xy.xsql.tsql.model.queries.predicates.In;
 import com.xy.xsql.tsql.model.queries.predicates.Like;
@@ -229,14 +230,16 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LargePhotoFileName");
-        Assert.assertEquals(predicate.getLikeExpression().toString(), "'%greena_%'");
-        Assert.assertEquals(predicate.getEscapeCharacter().toString(), "'a'");
+        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%greena_%");
+        Assert.assertEquals(predicate.getEscapeCharacter().getString(), "a");
 
         Assert.assertEquals(exampleA.getPredicate().getClass(), Like.class);
         Like predicate2 = (Like) exampleA.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "LargePhotoFileName");
-        Assert.assertEquals(predicate2.getLikeExpression().toString(), "'%greena_%'");
-        Assert.assertEquals(predicate2.getEscapeCharacter().toString(), "'a'");
+        Assert.assertTrue(predicate2.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate2.getLikeExpression()).getString(), "%greena_%");
+        Assert.assertEquals(predicate2.getEscapeCharacter().getString(), "a");
     }
 
 
@@ -290,13 +293,15 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), In.class);
         In predicate = (In) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getExpressionList().get(0).toString(), "'US'");
+        Assert.assertTrue(predicate.getExpressionList().get(0) instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getExpressionList().get(0)).getString(), "US");
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
         Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getClass(), Like.class);
         Like predicate1 = (Like) searchCondition.getAndOrList().get(0).getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "City");
-        Assert.assertEquals(predicate1.getLikeExpression().toString(), "N'Pa%'");
+        Assert.assertTrue(predicate1.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate1.getLikeExpression()).getString(), "Pa%");
     }
 
 
@@ -335,7 +340,8 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertEquals(predicate.getLikeExpression().toString(), "'%and%'");
+        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%and%");
     }
 
 
@@ -369,7 +375,8 @@ public class SearchConditionBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertEquals(predicate.getLikeExpression().toString(), "N'%and%'");
+        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%and%");
     }
 
 }

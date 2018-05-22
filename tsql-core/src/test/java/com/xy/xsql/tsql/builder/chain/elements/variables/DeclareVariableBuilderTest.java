@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.elements.variables;
 
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.variables.DeclareVariable;
 import org.junit.Assert;
 import org.junit.Test;
@@ -65,7 +66,8 @@ public class DeclareVariableBuilderTest {
         Assert.assertEquals(declareVariable.getItems().get(0).getDataType().toString(),"varchar(30)");
 
         Assert.assertEquals(declareVariable2.getItems().get(0).getLocalVariable().toString(),"@find");
-        Assert.assertEquals(declareVariable2.getItems().get(0).getValue().toString(),"'Man%'");
+        Assert.assertTrue(declareVariable2.getItems().get(0).getValue() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)declareVariable2.getItems().get(0).getValue()).getString(),"Man%");
     }
 
 

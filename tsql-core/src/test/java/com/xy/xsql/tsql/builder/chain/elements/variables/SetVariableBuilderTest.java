@@ -1,6 +1,8 @@
 package com.xy.xsql.tsql.builder.chain.elements.variables;
 
 import com.xy.xsql.tsql.builder.chain.queries.SelectBuilder;
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
@@ -47,7 +49,8 @@ public class SetVariableBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(setVariable.getLocalVariable().toString(),"@myvar");
-        Assert.assertEquals(setVariable.getExpression().toString(),"'This is a test'");
+        Assert.assertTrue(setVariable.getExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)setVariable.getExpression()).getString(),"This is a test");
     }
 
 
@@ -71,7 +74,8 @@ public class SetVariableBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(setVariable.getLocalVariable().toString(),"@state");
-        Assert.assertEquals(setVariable.getExpression().toString(),"N'Oregon'");
+        Assert.assertTrue(setVariable.getExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)setVariable.getExpression()).getString(),"Oregon");
     }
 
 
@@ -133,14 +137,16 @@ public class SetVariableBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(setVariable.getLocalVariable().toString(),"@NewBalance");
-        Assert.assertEquals(setVariable.getExpression().toString(),"10");
+        Assert.assertTrue(setVariable.getExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)setVariable.getExpression()).getNumber().toString(),"10");
 
         Assert.assertEquals(setVariable2.getLocalVariable().toString(),"@NewBalance");
         Assert.assertEquals(setVariable2.getExpression().getClass(), BinaryExpression.class);
 
         Assert.assertEquals(setVariable3.getLocalVariable().toString(),"@NewBalance");
         Assert.assertEquals(setVariable3.getCompound(),Compound.MULTIPLY_ASSIGNMENT);
-        Assert.assertEquals(setVariable3.getExpression().toString(),"10");
+        Assert.assertTrue(setVariable3.getExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)setVariable3.getExpression()).getNumber().toString(),"10");
     }
 
 

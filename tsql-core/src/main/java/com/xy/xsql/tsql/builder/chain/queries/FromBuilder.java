@@ -26,6 +26,8 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.FiledBuilder.set;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_integer;
 import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.SUB_QUERY;
 
 /**
@@ -1502,7 +1504,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         public TableSampleBuilder<ParentBuilder> withSampleNumber(Integer sampleNumber){
-            target.setSampleNumber(new NumberConstant(sampleNumber).withUnsigned().withInteger());
+            target.setSampleNumber(c_unsigned_integer(sampleNumber));
             return this;
         }
 
@@ -1517,7 +1519,7 @@ public class FromBuilder<ParentBuilder>
         }
 
         public TableSampleBuilder<ParentBuilder> withRepeatSeed(Integer repeatSeed){
-            target.setRepeatSeed(new NumberConstant(repeatSeed).withUnsigned().withInteger());
+            target.setRepeatSeed(c_unsigned_integer(repeatSeed));
             return this;
         }
 
@@ -1619,7 +1621,7 @@ public class FromBuilder<ParentBuilder>
          * @return
          */
         public ParentBuilder $AsOf(String dateTime) {
-            return _AsOf(new StringConstant(dateTime).withQuote());
+            return _AsOf(c_string(dateTime));
         }
 
         /**
@@ -1648,8 +1650,8 @@ public class FromBuilder<ParentBuilder>
          */
         public ParentBuilder $FromTo(String startDateTime, String endDateTime) {
             return _From()
-                    .withFrom(new StringConstant(startDateTime).withQuote())
-                    .withTo(new StringConstant(endDateTime).withQuote())
+                    .withFrom(c_string(startDateTime))
+                    .withTo(c_string(endDateTime))
                     .and();
         }
         /**
@@ -1660,8 +1662,8 @@ public class FromBuilder<ParentBuilder>
          */
         public ParentBuilder $BetweenAnd(String startDateTime, String endDateTime) {
             return _Between()
-                    .withBetween(new StringConstant(startDateTime).withQuote())
-                    .withAnd(new StringConstant(endDateTime).withQuote())
+                    .withBetween(c_string(startDateTime))
+                    .withAnd(c_string(endDateTime))
                     .and();
         }
         /**
@@ -1672,8 +1674,8 @@ public class FromBuilder<ParentBuilder>
          */
         public ParentBuilder $ContainedIn(String startDateTime, String endDateTime) {
             return _ContainedIn()
-                    .withStart(new StringConstant(startDateTime).withQuote())
-                    .withEnd(new StringConstant(endDateTime).withQuote())
+                    .withStart(c_string(startDateTime))
+                    .withEnd(c_string(endDateTime))
                     .and();
         }
 

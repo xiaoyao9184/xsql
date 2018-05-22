@@ -1,11 +1,10 @@
-package com.xy.xsql.block.tsql.core.clause.select;
+package com.xy.xsql.tsql.converter.queries.select;
 
 import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.builder.chain.queries.select.OverBuilderTest;
-import com.xy.xsql.tsql.converter.queries.select.OverConverter;
 import com.xy.xsql.tsql.model.queries.select.Over;
 import org.junit.Assert;
 import org.junit.Before;

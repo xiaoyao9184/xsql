@@ -51,9 +51,9 @@ public class BulkInsertBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(bulkInsert.getTableOrView().toString(),"AdventureWorks2012.Sales.SalesOrderDetail");
-        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'f:\\orders\\lineitem.tbl'");
-        Assert.assertEquals(bulkInsert.getFieldTerminator().toString(),"' |'");
-        Assert.assertEquals(bulkInsert.getRowTerminator().toString(),"' |\\n'");
+        Assert.assertEquals(bulkInsert.getFormDataFile().getString(),"f:\\orders\\lineitem.tbl");
+        Assert.assertEquals(bulkInsert.getFieldTerminator().getString()," |");
+        Assert.assertEquals(bulkInsert.getRowTerminator().getString()," |\\n");
     }
 
 
@@ -93,9 +93,9 @@ public class BulkInsertBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(bulkInsert.getTableOrView().toString(),"AdventureWorks2012.Sales.SalesOrderDetail");
-        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'f:\\orders\\lineitem.tbl'");
-        Assert.assertEquals(bulkInsert.getFieldTerminator().toString(),"' |'");
-        Assert.assertEquals(bulkInsert.getRowTerminator().toString(),"' |\\n'");
+        Assert.assertEquals(bulkInsert.getFormDataFile().getString(),"f:\\orders\\lineitem.tbl");
+        Assert.assertEquals(bulkInsert.getFieldTerminator().getString()," |");
+        Assert.assertEquals(bulkInsert.getRowTerminator().getString()," |\\n");
         Assert.assertTrue(bulkInsert.isFireTriggers());
     }
 
@@ -127,8 +127,8 @@ public class BulkInsertBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(bulkInsert.getTableOrView().toString(),"AdventureWorks2012.Sales.SalesOrderDetail");
-        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"''<drive>:\\<path>\\<filename>''");
-        Assert.assertEquals(bulkInsert.getRowTerminator().toString(),"'''+CHAR(10)+'''");
+        Assert.assertEquals(bulkInsert.getFormDataFile().getString(),"'<drive>:\\<path>\\<filename>'");
+        Assert.assertEquals(bulkInsert.getRowTerminator().getString(),"''+CHAR(10)+''");
     }
 
 
@@ -166,9 +166,9 @@ public class BulkInsertBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(bulkInsert.getTableOrView().toString(),"MyTable");
-        Assert.assertEquals(bulkInsert.getCodePage().toString(),"'56001'");
-        Assert.assertEquals(bulkInsert.getDataFileType().toString(),"'char'");
-        Assert.assertEquals(bulkInsert.getFieldTerminator().toString(),"','");
+        Assert.assertEquals(bulkInsert.getCodePage().getString(),"56001");
+        Assert.assertEquals(bulkInsert.getDataFileType().getString(),"char");
+        Assert.assertEquals(bulkInsert.getFieldTerminator().getString(),",");
     }
 
 
@@ -199,8 +199,8 @@ public class BulkInsertBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(bulkInsert.getTableOrView().toString(),"Sales.Invoices");
-        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'\\\\share\\invoices\\inv-2016-07-25.csv'");
-        Assert.assertEquals(bulkInsert.getFormat().toString(),"'CSV'");
+        Assert.assertEquals(bulkInsert.getFormDataFile().getString(),"\\\\share\\invoices\\inv-2016-07-25.csv");
+        Assert.assertEquals(bulkInsert.getFormat().getString(),"CSV");
     }
 
 
@@ -234,9 +234,9 @@ public class BulkInsertBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(bulkInsert.getTableOrView().toString(),"Sales.Invoices");
-        Assert.assertEquals(bulkInsert.getFormDataFile().toString(),"'inv-2017-01-19.csv'");
-        Assert.assertEquals(bulkInsert.getDataSource().toString(),"'MyAzureInvoices'");
-        Assert.assertEquals(bulkInsert.getFormat().toString(),"'CSV'");
+        Assert.assertEquals(bulkInsert.getFormDataFile().getString(),"inv-2017-01-19.csv");
+        Assert.assertEquals(bulkInsert.getDataSource().getString(),"MyAzureInvoices");
+        Assert.assertEquals(bulkInsert.getFormat().getString(),"CSV");
     }
 
 }

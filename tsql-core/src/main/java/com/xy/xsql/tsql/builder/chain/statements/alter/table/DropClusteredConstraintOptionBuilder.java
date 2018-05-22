@@ -8,6 +8,7 @@ import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_integer;
 
 /**
  * Created by xiaoyao9184 on 2017/9/16.
@@ -40,9 +41,7 @@ public class DropClusteredConstraintOptionBuilder<ParentBuilder>
 
     public ParentBuilder $MAXDOP(Integer maxDegreeOfParallelism){
         return withMaxDegreeOfParallelism(
-                new NumberConstant(maxDegreeOfParallelism)
-                        .withInteger()
-                        .withUnsigned())
+                c_unsigned_integer(maxDegreeOfParallelism))
                 .out();
     }
 

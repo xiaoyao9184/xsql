@@ -1,13 +1,16 @@
 package com.xy.xsql.tsql.builder.chain.queries.hints;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.tsql.builder.chain.datatypes.Constants;
+import com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
 
 /**
  * TableHintBuilder
@@ -38,7 +41,7 @@ public class TableHintBuilder<ParentBuilder>
     public TableHintBuilder<ParentBuilder> withIndexValue(String... indexValues){
         target.setIndex_value(
                 Arrays.stream(indexValues)
-                        .map(StringConstant::new)
+                        .map(Constants::c_string)
                         .collect(Collectors.toList()));
         return this;
     }
@@ -46,7 +49,7 @@ public class TableHintBuilder<ParentBuilder>
     public TableHintBuilder<ParentBuilder> withPercent(String... indexColumnNames){
         target.setIndex_column_name(
                 Arrays.stream(indexColumnNames)
-                        .map(StringConstant::new)
+                        .map(Constants::c_string)
                         .collect(Collectors.toList()));
         return this;
     }
@@ -94,7 +97,7 @@ public class TableHintBuilder<ParentBuilder>
         tableHint.setIndex_value(
                 Arrays.stream(indexValues)
                         .filter(Objects::nonNull)
-                        .map(StringConstant::new)
+                        .map(Expressions::e)
                         .collect(Collectors.toList()));
         if(tableHint.getIndex_value().size() == 1){
             if(indexValues.length != 1){
@@ -113,10 +116,10 @@ public class TableHintBuilder<ParentBuilder>
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.FORCESEEK);
         tableHint.setIndex_value(
-                Collections.singletonList(new StringConstant(index_value)));
+                Collections.singletonList(e(index_value)));
         tableHint.setIndex_column_name(
                 Arrays.stream(indexColumnNames)
-                        .map(StringConstant::new)
+                        .map(Expressions::e)
                         .collect(Collectors.toList()));
         return tableHint;
     }
@@ -331,7 +334,7 @@ public class TableHintBuilder<ParentBuilder>
             target.setIndex_value(
                     Arrays.stream(indexValues)
                             .filter(Objects::nonNull)
-                            .map(StringConstant::new)
+                            .map(Expressions::e)
                             .collect(Collectors.toList()));
             return this;
         }

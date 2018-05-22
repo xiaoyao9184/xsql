@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.elements.expressions;
 
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Coalesce;
 import com.xy.xsql.tsql.model.elements.expressions.NullIf;
 import org.junit.Assert;
@@ -33,7 +34,8 @@ public class NullIfBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(nullIf.getExpressionLeft().getClass(), Coalesce.class);
-        Assert.assertEquals(nullIf.getExpressionRight().toString(),"0.0");
+        Assert.assertTrue(nullIf.getExpressionRight() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)nullIf.getExpressionRight()).getNumber().toString(),"0.0");
     }
 
     /**

@@ -92,7 +92,7 @@ public class OptionBuilderTest {
         Assert.assertEquals(option.getQueryOption().size(),1);
         Assert.assertEquals(option.getQueryOption().get(0).getClass(), Option.LabelQueryOption.class);
         Option.LabelQueryOption labelQueryOption = (Option.LabelQueryOption) option.getQueryOption().get(0);
-        Assert.assertEquals(labelQueryOption.getLabelName().toString(),"'q17'");
+        Assert.assertEquals(labelQueryOption.getLabelName().getString(),"q17");
     }
 
 
@@ -157,7 +157,7 @@ public class OptionBuilderTest {
         Assert.assertEquals(option.getQueryOption().size(),3);
         Assert.assertEquals(option.getQueryOption().get(0).getClass(), Option.LabelQueryOption.class);
         Option.LabelQueryOption labelQueryOption = (Option.LabelQueryOption) option.getQueryOption().get(0);
-        Assert.assertEquals(labelQueryOption.getLabelName().toString(),"'CustJoin'");
+        Assert.assertEquals(labelQueryOption.getLabelName().getString(),"CustJoin");
 
         Assert.assertEquals(option.getQueryOption().get(1).getClass(), QueryHint.class);
         QueryHint queryHint = (QueryHint) option.getQueryOption().get(1);

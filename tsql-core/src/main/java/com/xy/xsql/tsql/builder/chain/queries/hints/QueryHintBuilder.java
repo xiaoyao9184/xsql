@@ -1,9 +1,9 @@
 package com.xy.xsql.tsql.builder.chain.queries.hints;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.tsql.builder.chain.datatypes.Constants;
 import com.xy.xsql.tsql.model.queries.hints.QueryHint;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 
@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.OptimizeForBuilder.OPTIMIZE_FOR_Item;
 
 /**
@@ -114,7 +115,7 @@ public class QueryHintBuilder<ParentBuilder>
             return this;
         }
         initAdd(Arrays.stream(hintNames)
-                .map(n -> new StringConstant(n).withQuote())
+                .map(Constants::c_string)
                 .collect(Collectors.toList()),
                 target::getHintNameList,
                 target::setHintNameList);
@@ -127,7 +128,7 @@ public class QueryHintBuilder<ParentBuilder>
      * @return THIS
      */
     public QueryHintBuilder<ParentBuilder> withXmlPlan(String xmlPlan){
-        target.setXmlPlan(new StringConstant(xmlPlan));
+        target.setXmlPlan(c_string(xmlPlan));
         return this;
     }
 
@@ -208,7 +209,7 @@ public class QueryHintBuilder<ParentBuilder>
          * @return THIS
          */
         public OptimizeForBuilder<ParentBuilder> withLiteralConstant(String literalConstant){
-            target.setLiteralConstant(new StringConstant(literalConstant).withQuote());
+            target.setLiteralConstant(c_string(literalConstant));
             return this;
         }
 
@@ -231,7 +232,7 @@ public class QueryHintBuilder<ParentBuilder>
             QueryHint.OptimizeFor optimizeFor = new  QueryHint.OptimizeFor();
             optimizeFor.setVariableName(new LocalVariable(variableName));
             optimizeFor.setUseUnknown(useUnknown);
-            optimizeFor.setLiteralConstant(new StringConstant(literalConstant).withQuote());
+            optimizeFor.setLiteralConstant(c_string(literalConstant));
             return optimizeFor;
         }
 

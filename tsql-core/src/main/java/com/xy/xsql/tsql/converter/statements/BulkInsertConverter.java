@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.converter.statements;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.constants.StringConstantConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
@@ -11,6 +12,8 @@ import com.xy.xsql.tsql.model.statements.BulkInsert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import static com.xy.xsql.tsql.builder.chain.statements.BulkInsertBuilder.WithSetter.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/17.
@@ -97,17 +100,25 @@ public class BulkInsertConverter
                                 .sub_keyword(Assignment.ASSIGNMENT)
                                 .sub()
                                     .syntax_required()
-                                    .czse(d -> "'ACP'".equals(d.getCodePage().toString()),"'ACP'")
-                                        .scope(d -> d.getCodePage().toString())
+                                    .czse(d -> ACP().equals(d.getCodePage()),"'ACP'")
+                                        .ref(StringConstantConverter.meta)
+                                        .scope(d -> d.getCodePage())
+                                        .syntax_reference_remove()
                                         .and()
-                                    .czse(d -> "'OEM'".equals(d.getCodePage().toString()),"'OEM'")
-                                        .scope(d -> d.getCodePage().toString())
+                                    .czse(d -> OEM().equals(d.getCodePage()),"'OEM'")
+                                        .ref(StringConstantConverter.meta)
+                                        .scope(d -> d.getCodePage())
+                                        .syntax_reference_remove()
                                         .and()
-                                    .czse(d -> "'RAW'".equals(d.getCodePage().toString()),"'RAW'")
-                                        .scope(d -> d.getCodePage().toString())
+                                    .czse(d -> RAW().equals(d.getCodePage()),"'RAW'")
+                                        .ref(StringConstantConverter.meta)
+                                        .scope(d -> d.getCodePage())
+                                        .syntax_reference_remove()
                                         .and()
                                     .czse(d -> true,"'code_page'")
-                                        .scope(d -> d.getCodePage().toString())
+                                        .ref(StringConstantConverter.meta)
+                                        .scope(d -> d.getCodePage())
+                                        .syntax_reference_remove()
                                         .and()
                                     .and()
                                 .and()
@@ -122,17 +133,25 @@ public class BulkInsertConverter
                                 .sub_keyword(Assignment.ASSIGNMENT)
                                 .sub()
                                     .syntax_required()
-                                    .czse(d -> "'char'".equals(d.getDataFileType().toString()),"'char'")
-                                        .scope(d -> d.getDataFileType().toString())
+                                    .czse(d -> char_().equals(d.getDataFileType()),"'char'")
+                                        .ref(StringConstantConverter.class)
+                                        .scope(d -> d.getDataFileType())
+                                        .syntax_reference_remove()
                                         .and()
-                                    .czse(d -> "'native'".equals(d.getDataFileType().toString()),"'native'")
-                                        .scope(d -> d.getDataFileType().toString())
+                                    .czse(d -> native_().equals(d.getDataFileType()),"'native'")
+                                        .ref(StringConstantConverter.class)
+                                        .scope(d -> d.getDataFileType())
+                                        .syntax_reference_remove()
                                         .and()
-                                    .czse(d -> "'widechar'".equals(d.getDataFileType().toString()),"'widechar'")
-                                        .scope(d -> d.getDataFileType().toString())
+                                    .czse(d -> widechar_().equals(d.getDataFileType()),"'widechar'")
+                                        .ref(StringConstantConverter.class)
+                                        .scope(d -> d.getDataFileType())
+                                        .syntax_reference_remove()
                                         .and()
-                                    .czse(d -> "'widenative'".equals(d.getDataFileType().toString()),"'widenative'")
-                                        .scope(d -> d.getDataFileType().toString())
+                                    .czse(d -> widenative_().equals(d.getDataFileType()),"'widenative'")
+                                        .ref(StringConstantConverter.class)
+                                        .scope(d -> d.getDataFileType())
+                                        .syntax_reference_remove()
                                         .and()
                                     .and()
                                 .and()

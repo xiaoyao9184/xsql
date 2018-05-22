@@ -11,30 +11,14 @@ import java.util.UUID;
  */
 public class StringConstant implements Constant, Expression {
 
-    private boolean useQuote;
     private boolean useNQuote;
     private String string;
 
 
-    public StringConstant() {
-    }
+    public StringConstant() {}
 
-    public StringConstant(String string){
+    protected StringConstant(String string){
         this.string = string;
-    }
-
-    public StringConstant(UUID uuid){
-        this.string = uuid.toString().toUpperCase();
-        this.useQuote = true;
-    }
-
-
-    public boolean isUseQuote() {
-        return useQuote;
-    }
-
-    public void setUseQuote(boolean useQuote) {
-        this.useQuote = useQuote;
     }
 
     public boolean isUseNQuote() {
@@ -49,25 +33,9 @@ public class StringConstant implements Constant, Expression {
         return string;
     }
 
-
-    public StringConstant withQuote() {
-        this.useQuote = true;
-        return this;
+    public void setString(String string) {
+        this.string = string;
     }
 
-    public StringConstant withNQuote() {
-        this.useNQuote = true;
-        return this;
-    }
-
-    @Override
-    public String toString(){
-        if(this.useNQuote){
-            return "N'" + this.string + "'";
-        } else if(this.useQuote){
-            return "'" + this.string + "'";
-        }
-        return this.string;
-    }
 
 }

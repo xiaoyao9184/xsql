@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 /**
  * OptionBuilder
@@ -92,7 +93,7 @@ public class OptionBuilder<ParentBuilder>
          * @return
          */
         public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
-            target.set(new Option.LabelQueryOption(labelName));
+            target.set(new Option.LabelQueryOption(c_string(labelName)));
             return this;
         }
 

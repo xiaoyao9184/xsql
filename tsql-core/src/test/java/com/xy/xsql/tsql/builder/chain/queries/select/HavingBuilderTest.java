@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.builder.chain.queries.select;
 
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.select.Having;
 import org.junit.Assert;
@@ -56,7 +57,8 @@ public class HavingBuilderTest {
         Assert.assertEquals(having.getSearchCondition().getPredicate().getClass() ,Comparison.class);
         Comparison predicate = (Comparison) having.getSearchCondition().getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "SUM(LineTotal)");
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "100000.0");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "100000.0");
     }
 
 }

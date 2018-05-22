@@ -21,7 +21,7 @@ public class ExpressionConverter
             new BlockMetaBuilder<Void,Expression>()
                     .description("expression")
                     .czse(d -> d instanceof Constant,"constant")
-                        .scope(Object::toString)
+                        .scope(d -> d)
                         .and()
 //                    .czse(d -> d instanceof ,"scalar_function")
 //                        .and()

@@ -246,8 +246,8 @@ public class QueryHintBuilderTest {
         Assert.assertEquals(exampleL1.getType(),QueryHint.Type.RECOMPILE);
         Assert.assertEquals(exampleL2.getType(),QueryHint.Type.USE_HINT);
         Assert.assertEquals(exampleL2.getHintNameList().size(),2);
-        Assert.assertEquals(exampleL2.getHintNameList().get(0).toString(),"'ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES'");
-        Assert.assertEquals(exampleL2.getHintNameList().get(1).toString(),"'DISABLE_PARAMETER_SNIFFING'");
+        Assert.assertEquals(exampleL2.getHintNameList().get(0).getString(),"ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES");
+        Assert.assertEquals(exampleL2.getHintNameList().get(1).getString(),"DISABLE_PARAMETER_SNIFFING");
     }
 
 }

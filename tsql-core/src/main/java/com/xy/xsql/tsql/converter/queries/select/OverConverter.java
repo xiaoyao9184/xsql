@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.converter.queries.select;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.constants.NumberConstantConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.queries.select.Over;
 import com.xy.xsql.tsql.model.elements.Other;
@@ -299,7 +300,9 @@ public class OverConverter
                         .overall("unsigned value specification")
                         .syntax_required()
                         .sub("<unsigned integer literal>")
-                            .scope(d -> d.toNumberConstant().toString())
+                            .ref(NumberConstantConverter.class)
+                            .scope(Over.UnsignedValueSpecification::toNumberConstant)
+                            .syntax_reference_remove()
                             .and()
                         .build();
         // @formatter:on

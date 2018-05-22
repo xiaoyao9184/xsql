@@ -60,10 +60,6 @@ public class Option implements Clause {
         //label_name
         private StringConstant labelName;
 
-        public LabelQueryOption(String labelName) {
-            this.labelName = new StringConstant(labelName).withQuote();
-        }
-
         public LabelQueryOption(StringConstant labelName) {
             this.labelName = labelName;
         }

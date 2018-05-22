@@ -15,6 +15,8 @@ import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_number;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 
@@ -463,13 +465,11 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     public static class CodePage extends StringConstant {
         public CodePage(String string) {
             super(string);
-            this.setUseQuote(true);
         }
     }
     public static class DataFileType extends StringConstant {
         public DataFileType(String string) {
             super(string);
-            this.setUseQuote(true);
         }
     }
 
@@ -482,7 +482,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
             extends BaseConfigurator<BulkInsert> {
 
         static WithSetter BATCHSIZE(Integer batchSize){
-            return bulkInsert -> bulkInsert.setBatchSize(new NumberConstant(batchSize));
+            return bulkInsert -> bulkInsert.setBatchSize(c_number(batchSize));
         }
 
         static WithSetter CHECK_CONSTRAINTS(){
@@ -490,7 +490,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter CODEPAGE(String codePage){
-            return bulkInsert -> bulkInsert.setCodePage(new StringConstant(codePage).withQuote());
+            return bulkInsert -> bulkInsert.setCodePage(c_string(codePage));
         }
 
         static WithSetter CODEPAGE(CodePage codePage){
@@ -502,29 +502,29 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static CodePage ACP(){
-            return new CodePage("ACP");
+            return ACP;
         }
         static CodePage OEM(){
-            return new CodePage("OEM");
+            return OEM;
         }
         static CodePage RAW(){
-            return new CodePage("RAW");
+            return RAW;
         }
         CodePage ACP = new CodePage("ACP");
         CodePage OEM = new CodePage("OEM");
         CodePage RAW = new CodePage("RAW");
 
         static DataFileType char_(){
-            return new DataFileType("char");
+            return char_;
         }
         static DataFileType native_(){
-            return new DataFileType("native");
+            return native_;
         }
         static DataFileType widechar_(){
-            return new DataFileType("widechar");
+            return widechar_;
         }
         static DataFileType widenative_(){
-            return new DataFileType("widenative");
+            return widenative_;
         }
         DataFileType char_ = new DataFileType("char");
         DataFileType native_ = new DataFileType("native");
@@ -533,19 +533,19 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
 
         static WithSetter DATASOURCE(String dataSource){
-            return bulkInsert -> bulkInsert.setDataSource(new StringConstant(dataSource).withQuote());
+            return bulkInsert -> bulkInsert.setDataSource(c_string(dataSource));
         }
 
         static WithSetter ERRORFILE(String errorFile){
-            return bulkInsert -> bulkInsert.setErrorFile(new StringConstant(errorFile).withQuote());
+            return bulkInsert -> bulkInsert.setErrorFile(c_string(errorFile));
         }
 
         static WithSetter ERRORFILE_DATASOURCE(String errorFileDataSource){
-            return bulkInsert -> bulkInsert.setErrorFileDataSource(new StringConstant(errorFileDataSource).withQuote());
+            return bulkInsert -> bulkInsert.setErrorFileDataSource(c_string(errorFileDataSource));
         }
 
         static WithSetter FIRSTROW(Integer firstRow){
-            return bulkInsert -> bulkInsert.setFirstRow(new NumberConstant(firstRow));
+            return bulkInsert -> bulkInsert.setFirstRow(c_number(firstRow));
         }
 
         static WithSetter FIRE_TRIGGERS(){
@@ -553,7 +553,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter FORMATFILE_DATASOURCE(String dataSourceName){
-            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(dataSourceName).withQuote());
+            return bulkInsert -> bulkInsert.setFormatFile(c_string(dataSourceName));
         }
 
         static WithSetter KEEPIDENTITY(){
@@ -565,15 +565,15 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
-            return bulkInsert -> bulkInsert.setKilobytesPerBatch(new NumberConstant(kilobytesPerBatch));
+            return bulkInsert -> bulkInsert.setKilobytesPerBatch(c_number(kilobytesPerBatch));
         }
 
         static WithSetter LASTROW(Integer lastRow){
-            return bulkInsert -> bulkInsert.setLastRow(new NumberConstant(lastRow));
+            return bulkInsert -> bulkInsert.setLastRow(c_number(lastRow));
         }
 
         static WithSetter MAXERRORS(Integer maxErrors){
-            return bulkInsert -> bulkInsert.setMaxErrors(new NumberConstant(maxErrors));
+            return bulkInsert -> bulkInsert.setMaxErrors(c_number(maxErrors));
         }
 
         static WithSetter ORDER(){
@@ -581,11 +581,11 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter ROWS_PER_BATCH(Integer rowsPerBatch){
-            return bulkInsert -> bulkInsert.setRowsPerBatch(new NumberConstant(rowsPerBatch));
+            return bulkInsert -> bulkInsert.setRowsPerBatch(c_number(rowsPerBatch));
         }
 
         static WithSetter ROWTERMINATOR(String rowTerminator){
-            return bulkInsert -> bulkInsert.setRowTerminator(new StringConstant(rowTerminator).withQuote());
+            return bulkInsert -> bulkInsert.setRowTerminator(c_string(rowTerminator));
         }
 
         static WithSetter TABLOCK (){
@@ -593,19 +593,19 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         static WithSetter FORMAT(String format){
-            return bulkInsert -> bulkInsert.setFormat(new StringConstant(format).withQuote());
+            return bulkInsert -> bulkInsert.setFormat(c_string(format));
         }
 
         static WithSetter FIELDQUOTE(String fieldQuote){
-            return bulkInsert -> bulkInsert.setFieldQuote(new StringConstant(fieldQuote).withQuote());
+            return bulkInsert -> bulkInsert.setFieldQuote(c_string(fieldQuote));
         }
 
         static WithSetter FORMATFILE(String formatFile){
-            return bulkInsert -> bulkInsert.setFormatFile(new StringConstant(formatFile).withQuote());
+            return bulkInsert -> bulkInsert.setFormatFile(c_string(formatFile));
         }
 
         static WithSetter FIELDTERMINATOR(String fieldTerminator){
-            return bulkInsert -> bulkInsert.setFieldTerminator(new StringConstant(fieldTerminator).withQuote());
+            return bulkInsert -> bulkInsert.setFieldTerminator(c_string(fieldTerminator));
         }
     }
 

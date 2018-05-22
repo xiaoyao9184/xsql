@@ -6,6 +6,8 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterColumn;
 
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
+
 /**
  * Created by xiaoyao9184 on 2017/9/16.
  */
@@ -149,7 +151,7 @@ public class AlterColumnBuilder<ParentBuilder>
     }
 
     public AlterColumnBuilder<ParentBuilder> $WITH_FUNCTION(String maskFunction){
-        return withMaskFunction(new StringConstant(maskFunction).withQuote());
+        return withMaskFunction(c_string(maskFunction));
     }
 
     public AlterColumnBuilder<ParentBuilder> $WITH_ONLINE_ON(){

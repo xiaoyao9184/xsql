@@ -22,7 +22,7 @@ public class FreeTextPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(freeText.getColumnName().toString(),"Document");
-        Assert.assertEquals(freeText.getFreetextString().toString(),"'vital safety components'");
+        Assert.assertEquals(freeText.getFreetextString().getString(),"vital safety components");
     }
 
     /**

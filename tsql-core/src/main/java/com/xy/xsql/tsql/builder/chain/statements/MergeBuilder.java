@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.builder.chain.statements;
 
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.tsql.builder.chain.datatypes.Constants;
 import com.xy.xsql.tsql.builder.chain.queries.*;
 import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
@@ -450,7 +451,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 return this;
             }
             initAdd(Arrays.stream(indexValues)
-                            .map(StringConstant::new)
+                            .map(Constants::c_string)
                             .collect(Collectors.toList()),
                     target::getIndexValues,
                     target::setIndexValues);

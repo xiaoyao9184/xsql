@@ -22,7 +22,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Name");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"'Mountain'");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString(),"Mountain");
     }
 
     /**
@@ -38,7 +38,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Name");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"' Mountain OR Road '");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString()," Mountain OR Road ");
     }
 
     /**
@@ -54,7 +54,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Name");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"' \"Chain*\" '");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString()," \"Chain*\" ");
     }
 
     /**
@@ -70,7 +70,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Name");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"'\"chain*\" OR \"full*\"'");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString(),"\"chain*\" OR \"full*\"");
     }
 
     /**
@@ -86,7 +86,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Name");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"'NEAR((bike,control), 10, TRUE)'");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString(),"NEAR((bike,control), 10, TRUE)");
     }
 
     /**
@@ -102,7 +102,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Name");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"' FORMSOF (INFLECTIONAL, ride) '");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString()," FORMSOF (INFLECTIONAL, ride) ");
     }
 
     /**
@@ -120,8 +120,8 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Description");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"'ISABOUT (performance weight (.8),\n" +
-                "     comfortable weight (.4), smooth weight (.2) )'");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString(),"ISABOUT (performance weight (.8),\n" +
+                "     comfortable weight (.4), smooth weight (.2) )");
     }
 
     /**
@@ -154,7 +154,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Description");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"'Aluminum AND spindle'");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString(),"Aluminum AND spindle");
     }
 
     /**
@@ -175,9 +175,9 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getColumnName().toString(),"Comments");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"' AdventureWorks2008 AND\n" +
+        Assert.assertEquals(contains.getContainsSearchCondition().getString()," AdventureWorks2008 AND\n" +
                 "     Redmond AND\n" +
-                "     \"Mountain-200 Silver\" '");
+                "     \"Mountain-200 Silver\" ");
     }
 
     /**
@@ -193,7 +193,7 @@ public class ContainsPredicateBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(contains.getPropertyColumnName().toString(),"Description");
-        Assert.assertEquals(contains.getPropertyName().toString(),"'Title'");
-        Assert.assertEquals(contains.getContainsSearchCondition().toString(),"'Maintenance OR Repair'");
+        Assert.assertEquals(contains.getPropertyName().getString(),"Title");
+        Assert.assertEquals(contains.getContainsSearchCondition().getString(),"Maintenance OR Repair");
     }
 }

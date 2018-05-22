@@ -3,32 +3,23 @@ package com.xy.xsql.tsql.model.datatypes.constants;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
- * bit constants
  * integer constants
  * decimal constants
  * float and real constants
- * money constants
  * Created by xiaoyao9184 on 2016/11/13.
  */
-public class NumberConstant implements Constant, Expression {
+public class NumberConstant
+        implements Constant, NegativePositive, Expression {
 
-    private boolean flagMoney;
-    private boolean unsigned;
-    private boolean integer;
     private Number number;
+    private boolean usePositive;
+    private boolean useNegative;
 
 
-    public NumberConstant(Number number){
+    public NumberConstant(){}
+
+    protected NumberConstant(Number number){
         this.number = number;
-    }
-
-
-    public boolean isFlagMoney() {
-        return flagMoney;
-    }
-
-    public void setFlagMoney(boolean flagMoney) {
-        this.flagMoney = flagMoney;
     }
 
     public Number getNumber() {
@@ -39,76 +30,52 @@ public class NumberConstant implements Constant, Expression {
         this.number = number;
     }
 
-    public boolean isUnsigned() {
-        return unsigned;
+    @Override
+    public boolean isUseNegative() {
+        return this.useNegative;
     }
 
-    public void setUnsigned(boolean unsigned) {
-        this.unsigned = unsigned;
-    }
-
-    public boolean isInteger() {
-        return integer;
-    }
-
-    public void setInteger(boolean integer) {
-        this.integer = integer;
-    }
-
-
-    public NumberConstant withMoney(){
-        this.flagMoney = true;
-        return this;
-    }
-
-    public NumberConstant withUnsigned(){
-        this.unsigned = true;
-        return this;
-    }
-
-    public NumberConstant withInteger(){
-        this.integer = true;
-        return this;
+    public void setUseNegative(boolean useNegative) {
+        this.useNegative = useNegative;
     }
 
     @Override
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
+    public boolean isUsePositive() {
+        return usePositive;
+    }
 
-        if(flagMoney){
-            sb.append("$");
+    public void setUsePositive(boolean usePositive) {
+        this.usePositive = usePositive;
+    }
+
+
+    public String toUnsignedString(){
+        if(number instanceof Byte){
+            return String.valueOf(Math.abs(number.byteValue()));
+        }else if(number instanceof Integer){
+            return String.valueOf(Math.abs(number.intValue()));
+        }else if(number instanceof Short){
+            return String.valueOf(Math.abs(number.shortValue()));
+        }else if(number instanceof Long){
+            return String.valueOf(Math.abs(number.longValue()));
+        }else if(number instanceof Float){
+            return String.valueOf(Math.abs(number.floatValue()));
+        }else if(number instanceof Double){
+            return String.valueOf(Math.abs(number.doubleValue()));
         }
-        if(integer){
-            number = number.intValue();
+        String r = number.toString();
+        if(r.indexOf("-") == 0){
+            return r.substring(1);
         }
+        return r;
+    }
 
-        if(unsigned){
-            if(number instanceof Byte){
-                number = Math.abs(number.byteValue());
-            }else if(number instanceof Integer){
-                number = Math.abs(number.intValue());
-            }else if(number instanceof Short){
-                number = Math.abs(number.shortValue());
-            }else if(number instanceof Long){
-                number = Math.abs(number.longValue());
-            }else if(number instanceof Float){
-                number = Math.abs(number.floatValue());
-            }else if(number instanceof Double){
-                number = Math.abs(number.doubleValue());
-            }
+    public String toUnsignedIntegerString(){
+        String r = String.valueOf(Math.abs(number.intValue()));
+        if(r.indexOf("-") == 0){
+            return r.substring(1);
         }
-
-
-//        if(number instanceof Float ||
-//                number instanceof Double){
-//            DecimalFormat df = new DecimalFormat("0.00");
-//            sb.append(df.format(number));
-//        }else{
-//            sb.append(number);
-//        }
-        sb.append(number);
-
-        return sb.toString();
+        return r;
     }
 
 }

@@ -28,7 +28,7 @@ public class AtTimeZoneBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(atTimeZone.getInputExpression().toString(),"OrderDate");
-        Assert.assertEquals(atTimeZone.getTimezone().toString(),"'Pacific Standard Time'");
+        Assert.assertEquals(atTimeZone.getTimezone().getString(),"Pacific Standard Time");
     }
 
     /**
@@ -54,10 +54,10 @@ public class AtTimeZoneBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(atTimeZone.getInputExpression().getClass(),AtTimeZone.class);
-        Assert.assertEquals(atTimeZone.getTimezone().toString(),"'Central European Standard Time'");
+        Assert.assertEquals(atTimeZone.getTimezone().getString(),"Central European Standard Time");
 
         Assert.assertEquals(atTimeZone0.getInputExpression().toString(),"OrderDate");
-        Assert.assertEquals(atTimeZone0.getTimezone().toString(),"'Pacific Standard Time'");
+        Assert.assertEquals(atTimeZone0.getTimezone().getString(),"Pacific Standard Time");
     }
 
     /**
@@ -83,10 +83,10 @@ public class AtTimeZoneBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(atTimeZone.getInputExpression().toString(),"ValidFrom");
-        Assert.assertEquals(atTimeZone.getTimezone().toString(),"'Pacific Standard Time'");
+        Assert.assertEquals(atTimeZone.getTimezone().getString(),"Pacific Standard Time");
 
         Assert.assertEquals(atTimeZone0.getInputExpression().toString(),"DATEADD (month, -1, GETDATE())");
-        Assert.assertEquals(atTimeZone0.getTimezone().toString(),"'UTC'");
+        Assert.assertEquals(atTimeZone0.getTimezone().getString(),"UTC");
     }
 
 }

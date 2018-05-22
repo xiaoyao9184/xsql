@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
@@ -7,6 +8,7 @@ import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_money;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
@@ -78,7 +80,8 @@ public class SelectBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(select.getTop().getExpression().toString(),"50");
+        Assert.assertTrue(select.getTop().getExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)select.getTop().getExpression()).getNumber().toString(), "50");
 
         select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withTop()
@@ -492,11 +495,11 @@ public class SelectBuilderTest {
             .$Where()
                 .$(p_greater(
                         c("ListPrice"),
-                        e_money(25)
+                        c_money("$",25)
                 ))
                 .$And(p_less(
                         c("ListPrice"),
-                        e_money(100)
+                        c_money("$",100)
                 ))
                 .and()
             .and()
@@ -843,7 +846,7 @@ public class SelectBuilderTest {
                     .$Where()
                         .$(p_greater(
                                 c("ListPrice"),
-                                e_money(1000)
+                                c_money("$",1000)
                         ))
                         .and()
                     .$GroupBy()
@@ -1050,7 +1053,7 @@ public class SelectBuilderTest {
                     .$Having()
                         .$(p_greater(
                                 e("SUM(LineTotal)"),
-                                e_money(1000000.00)
+                                c_money("$",1000000.00)
                         ))
                         .$And(p_less(
                                 e("AVG(OrderQty)"),
@@ -1082,7 +1085,7 @@ public class SelectBuilderTest {
                     .$Having()
                         .$(p_greater(
                                 e("SUM(LineTotal)"),
-                                e_money(2000000.00)
+                                c_money("$",2000000.00)
                         ))
                         .and()
                     .and()
@@ -1216,7 +1219,7 @@ public class SelectBuilderTest {
                     .$Where()
                         .$(p_less(
                                 c("UnitPrice"),
-                                e_money(5.00)
+                                c_money("$",5.00)
                         ))
                         .and()
                     .$GroupBy()

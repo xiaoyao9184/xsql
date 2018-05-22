@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.elements.variables;
 
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.tsql.model.elements.variables.SelectVariable;
@@ -49,7 +50,8 @@ public class SelectVariableBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(selectVariable.getItems().get(0).getLocalVariable().toString(),"@var1");
-        Assert.assertEquals(selectVariable.getItems().get(0).getExpression().toString(),"'Generic Name'");
+        Assert.assertTrue(selectVariable.getItems().get(0).getExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)selectVariable.getItems().get(0).getExpression()).getString(),"Generic Name");
     }
 
 
@@ -108,7 +110,8 @@ public class SelectVariableBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(selectVariable.getItems().get(0).getLocalVariable().toString(),"@var1");
-        Assert.assertEquals(selectVariable.getItems().get(0).getExpression().toString(),"'Generic Name'");
+        Assert.assertTrue(selectVariable.getItems().get(0).getExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)selectVariable.getItems().get(0).getExpression()).getString(),"Generic Name");
 
         Assert.assertEquals(selectVariable2.getItems().get(0).getLocalVariable().toString(),"@var1");
         Assert.assertEquals(selectVariable2.getItems().get(0).getExpression().getClass(),GroupExpression.class);

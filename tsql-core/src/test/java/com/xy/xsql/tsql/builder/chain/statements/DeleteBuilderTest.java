@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.queries.predicates.Between;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
@@ -434,7 +435,8 @@ public class DeleteBuilderTest {
         // @formatter:on
 
         Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTop().getExpression().toString(),"20");
+        Assert.assertTrue(delete.getTop().getExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)delete.getTop().getExpression()).getNumber().toString(),"20");
         Assert.assertEquals(delete.getTableName().toString(),"Purchasing.PurchaseOrderDetail");
         Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }

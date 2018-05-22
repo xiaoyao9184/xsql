@@ -1,5 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
@@ -118,7 +120,8 @@ public class UpdateBuilderTest {
         Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
         Assert.assertEquals(setItem.getColumnName().toString(), "Bonus");
-        Assert.assertEquals(setItem.getExpression().toString(), "6000");
+        Assert.assertTrue(setItem.getExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)setItem.getExpression()).getNumber().toString(), "6000");
 
         Assert.assertEquals(update.getSets().get(1).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem1 = (Update.ColumnAssignmentSet) update.getSets().get(1);
@@ -199,7 +202,8 @@ public class UpdateBuilderTest {
         Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
         Assert.assertEquals(setItem.getColumnName().toString(), "Color");
-        Assert.assertEquals(setItem.getExpression().toString(), "N'Metallic Red'");
+        Assert.assertTrue(setItem.getExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)setItem.getExpression()).getString(), "Metallic Red");
     }
 
 
@@ -503,7 +507,8 @@ public class UpdateBuilderTest {
         Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
         Assert.assertEquals(setItem.getColumnName().toString(), "PayFrequency");
-        Assert.assertEquals(setItem.getExpression().toString(), "2");
+        Assert.assertTrue(setItem.getExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)setItem.getExpression()).getNumber().toString(), "2");
     }
 
 
@@ -812,7 +817,8 @@ public class UpdateBuilderTest {
         Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
         Assert.assertEquals(setItem.getColumnName().toString(), "CountryRegionName");
-        Assert.assertEquals(setItem.getExpression().toString(), "'United States of America'");
+        Assert.assertTrue(setItem.getExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)setItem.getExpression()).getString(), "United States of America");
 
         Assert.assertNotNull(update.getWhere());
     }
@@ -904,7 +910,8 @@ public class UpdateBuilderTest {
         Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnCompoundSet.class);
         Update.ColumnCompoundSet setItem = (Update.ColumnCompoundSet) update.getSets().get(0);
         Assert.assertEquals(setItem.getColumnName().toString(), "sr.CountryRegionName");
-        Assert.assertEquals(setItem.getExpression().toString(), "' - tool malfunction'");
+        Assert.assertTrue(setItem.getExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)setItem.getExpression()).getString(), " - tool malfunction");
 
         Assert.assertNotNull(update.getFrom());
     }

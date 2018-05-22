@@ -1,7 +1,7 @@
 package com.xy.xsql.tsql.model.queries.select;
 
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.Clause;
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
 /**
@@ -16,7 +16,7 @@ import com.xy.xsql.tsql.model.datatypes.table.TableName;
 public class Into implements Clause {
 
     private TableName newTable;
-    private StringConstant fileGroup;
+    private Expression fileGroup;
 
 
     public TableName getNewTable() {
@@ -27,11 +27,11 @@ public class Into implements Clause {
         this.newTable = newTable;
     }
 
-    public StringConstant getFileGroup() {
+    public Expression getFileGroup() {
         return fileGroup;
     }
 
-    public void setFileGroup(StringConstant fileGroup) {
+    public void setFileGroup(Expression fileGroup) {
         this.fileGroup = fileGroup;
     }
 

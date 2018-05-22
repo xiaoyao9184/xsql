@@ -5,6 +5,8 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.queries.AtTimeZone;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
+
 /**
  * TODO move
  * Created by xiaoyao9184 on 2017/3/16.
@@ -28,7 +30,7 @@ public class AtTimeZoneBuilder<ParentBuilder>
     }
 
     public AtTimeZoneBuilder<ParentBuilder> withTimezone(String timezone) {
-        target.setTimezone(new StringConstant(timezone).withQuote());
+        target.setTimezone(c_string(timezone));
         return this;
     }
 

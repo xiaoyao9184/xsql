@@ -3,7 +3,9 @@ package com.xy.xsql.tsql.converter.statements.alter.table;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.constants.NumberConstantConverter;
 import com.xy.xsql.tsql.converter.datatypes.table.index.PartitionConverters;
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.datatypes.other.OnOff;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
@@ -23,7 +25,9 @@ public class DropClusteredConstraintOptionConverter
                         .sub_keyword(Keywords.Key.MAXDOP)
                         .sub_keyword(Assignment.ASSIGNMENT)
                         .sub("max_degree_of_parallelism")
-                            .scope(d -> d.getMaxDegreeOfParallelism().withUnsigned().withInteger())
+                            .ref(NumberConstantConverter.meta_unsigned_integer)
+                            .scope(d -> d.getMaxDegreeOfParallelism())
+                            .syntax_reference_remove()
                             .and()
                         .and()
                     .czse(d -> d.getOnline() != null)

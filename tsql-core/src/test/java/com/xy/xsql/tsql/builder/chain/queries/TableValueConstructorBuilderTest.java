@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.builder.chain.queries;
 
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.queries.Select;
@@ -204,17 +205,17 @@ public class TableValueConstructorBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0).toString(),"N'FT2'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1).toString(),"N'Square Feet '");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(2).toString(),"'20080923'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"FT2");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Square Feet ");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(2)).getString(),"20080923");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0).toString(),"N'Y'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1).toString(),"N'Yards'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(2).toString(),"'20080923'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Y");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1)).getString(),"Yards");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(2)).getString(),"20080923");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"N'Y3'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1).toString(),"N'Cubic Yards'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(2).toString(),"'20080923'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"Y3");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Cubic Yards");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(2)).getString(),"20080923");
 
     }
 
@@ -257,14 +258,14 @@ public class TableValueConstructorBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0).toString(),"'Recommendation'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1).toString(),"'Other'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Recommendation");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Other");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0).toString(),"'Advertisement'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Advertisement");
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1).toString(),"DEFAULT");
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"NULL");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1).toString(),"'Promotion'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Promotion");
     }
 
 
@@ -300,11 +301,11 @@ public class TableValueConstructorBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0).toString(),"'Blade'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Blade");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0).toString(),"'Crown Race'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Crown Race");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"'AWC Logo Cap'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"AWC Logo Cap");
     }
 
 
@@ -343,14 +344,14 @@ public class TableValueConstructorBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0).toString(),"'Recommendation'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1).toString(),"'Other'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Recommendation");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Other");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0).toString(),"'Review'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1).toString(),"'Marketing'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Review");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1)).getString(),"Marketing");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"'Internet'");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1).toString(),"'Promotion'");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"Internet");
+        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Promotion");
     }
 
 }

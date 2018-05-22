@@ -1,5 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.elements.expressions;
 
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Case;
@@ -42,17 +44,27 @@ public class CaseBuilderTest {
         // @formatter:on
 
         Assert.assertEquals(aCase.getInputExpression().toString(),"ProductLine");
-        Assert.assertEquals(aCase.getElseResultExpression().toString(),"'Not for sale'");
+        Assert.assertTrue(aCase.getElseResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getElseResultExpression()).getString(),"Not for sale");
 
         Assert.assertEquals(aCase.getWhenThenExpressionList().size(),4);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().toString(),"'R'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getWhenExpression().toString(),"'M'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getWhenExpression().toString(),"'T'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(3).getWhenExpression().toString(),"'S'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().toString(),"'Road'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getResultExpression().toString(),"'Mountain'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getResultExpression().toString(),"'Touring'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(3).getResultExpression().toString(),"'Other sale items'");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getWhenExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getWhenExpression()).getString(),"R");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(1).getWhenExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getWhenExpression()).getString(),"M");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(2).getWhenExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getWhenExpression()).getString(),"T");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(3).getWhenExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getWhenExpression()).getString(),"S");
+
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getResultExpression()).getString(),"Road");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(1).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getResultExpression()).getString(),"Mountain");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(2).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getResultExpression()).getString(),"Touring");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(3).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getResultExpression()).getString(),"Other sale items");
     }
 
     /**
@@ -89,17 +101,22 @@ public class CaseBuilderTest {
         // @formatter:on
 
         Assert.assertNull(aCase.getInputExpression());
-        Assert.assertEquals(aCase.getElseResultExpression().toString(),"'Over $1000'");
+        Assert.assertTrue(aCase.getElseResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getElseResultExpression()).getString(),"Over $1000");
 
         Assert.assertEquals(aCase.getWhenThenExpressionList().size(),4);
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getWhenExpression().getClass(),BinaryExpression.class);
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getWhenExpression().getClass(),BinaryExpression.class);
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(3).getWhenExpression().getClass(),BinaryExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().toString(),"'Mfg item - not for resale'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getResultExpression().toString(),"'Under $50'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getResultExpression().toString(),"'Under $250'");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(3).getResultExpression().toString(),"'Under $1000'");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getResultExpression()).getString(),"Mfg item - not for resale");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(1).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getResultExpression()).getString(),"Under $50");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(2).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getResultExpression()).getString(),"Under $250");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(3).getResultExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getResultExpression()).getString(),"Under $1000");
     }
 
     /**
@@ -131,7 +148,8 @@ public class CaseBuilderTest {
         Assert.assertEquals(aCase.getElseResultExpression().toString(),"DESC");
 
         Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().toString(), "1");
+        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getWhenExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)aCase.getWhenThenExpressionList().get(0).getWhenExpression()).getNumber().toString(), "1");
         Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().toString(),"BusinessEntityID");
 
 

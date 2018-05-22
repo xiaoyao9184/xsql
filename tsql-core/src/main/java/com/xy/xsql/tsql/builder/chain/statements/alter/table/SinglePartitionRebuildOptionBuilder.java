@@ -7,6 +7,7 @@ import com.xy.xsql.tsql.model.statements.alter.table.LowPriorityLockWait;
 import com.xy.xsql.tsql.model.statements.alter.table.SinglePartitionRebuildOption;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_integer;
 
 /**
  * Created by xiaoyao9184 on 2017/9/16.
@@ -57,9 +58,7 @@ public class SinglePartitionRebuildOptionBuilder<ParentBuilder>
 
     public SinglePartitionRebuildOptionBuilder<ParentBuilder> $MAXDOP(Integer maxDegreeOfParallelism){
         return withMaxDegreeOfParallelism(
-                new NumberConstant(maxDegreeOfParallelism)
-                        .withUnsigned()
-                        .withInteger());
+                c_unsigned_integer(maxDegreeOfParallelism));
     }
 
     public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DATA_COMPRESSION_$NONE(){

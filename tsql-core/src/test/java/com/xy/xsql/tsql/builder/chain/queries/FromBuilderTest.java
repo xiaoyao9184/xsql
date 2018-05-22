@@ -914,7 +914,7 @@ public class FromBuilderTest {
         From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
         Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
-        Assert.assertEquals(tableSource.getSystemTime().getDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+        Assert.assertEquals(tableSource.getSystemTime().getDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 
@@ -955,8 +955,8 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
         Assert.assertTrue(tableSource.getSystemTime().isUseFrom());
-        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().toString(),"'2013-01-01'");
-        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
+        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 
@@ -997,8 +997,8 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
         Assert.assertTrue(tableSource.getSystemTime().isUseBetween());
-        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().toString(),"'2013-01-01'");
-        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
+        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 
@@ -1039,8 +1039,8 @@ public class FromBuilderTest {
         Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
         Assert.assertTrue(tableSource.getSystemTime().isUseContained());
-        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().toString(),"'2013-01-01'");
-        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().toString(),"'2014-01-01'");
+        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
+        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 

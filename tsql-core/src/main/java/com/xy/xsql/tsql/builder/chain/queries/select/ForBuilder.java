@@ -8,6 +8,7 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import java.util.Arrays;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 /**
  * ForBuilder
@@ -103,7 +104,7 @@ public class ForBuilder<ParentBuilder>
         public XmlBuilder<ParentBuilder> withRaw(String elementName){
             target.setUseRaw(true);
             if(elementName != null){
-                target.setRootName(new StringConstant(elementName).withQuote());
+                target.setRootName(c_string(elementName));
             }
             return this;
         }
@@ -126,7 +127,7 @@ public class ForBuilder<ParentBuilder>
         public XmlBuilder<ParentBuilder> withPath(String elementName){
             target.setUsePath(true);
             if(elementName != null){
-                target.setRootName(new StringConstant(elementName).withQuote());
+                target.setRootName(c_string(elementName));
             }
             return this;
         }
@@ -144,7 +145,7 @@ public class ForBuilder<ParentBuilder>
         public XmlBuilder<ParentBuilder> withXmlSchema(String targetNameSpaceURI){
             target.setUseXmlSchema(true);
             if(targetNameSpaceURI != null){
-                target.setRootName(new StringConstant(targetNameSpaceURI).withQuote());
+                target.setRootName(c_string(targetNameSpaceURI));
             }
             return this;
         }
@@ -182,7 +183,7 @@ public class ForBuilder<ParentBuilder>
         public XmlBuilder<ParentBuilder> withRoot(String rootName){
             target.setUseRoot(true);
             if(rootName != null){
-                target.setRootName(new StringConstant(rootName).withQuote());
+                target.setRootName(c_string(rootName));
             }
             return this;
         }
@@ -220,7 +221,7 @@ public class ForBuilder<ParentBuilder>
         public JsonBuilder<ParentBuilder> withRoot(String rootName){
             target.setUseRoot(true);
             if(rootName != null){
-                target.setRootName(new StringConstant(rootName).withQuote());
+                target.setRootName(c_string(rootName));
             }
             return this;
         }
@@ -264,7 +265,7 @@ public class ForBuilder<ParentBuilder>
             return xml -> {
                 xml.setUseRaw(true);
                 if(elementName != null){
-                    xml.setElementName(new StringConstant(elementName).withQuote());
+                    xml.setElementName(c_string(elementName));
                 }
             };
         }
@@ -285,7 +286,7 @@ public class ForBuilder<ParentBuilder>
             return xml -> {
                 xml.setUsePath(true);
                 if(elementName != null){
-                    xml.setElementName(new StringConstant(elementName).withQuote());
+                    xml.setElementName(c_string(elementName));
                 }
             };
         }
@@ -302,7 +303,7 @@ public class ForBuilder<ParentBuilder>
             return xml -> {
                 xml.setUseXmlSchema(true);
                 if(targetNameSpaceURI != null){
-                    xml.setRootName(new StringConstant(targetNameSpaceURI).withQuote());
+                    xml.setRootName(c_string(targetNameSpaceURI));
                 }
             };
         }
@@ -331,7 +332,7 @@ public class ForBuilder<ParentBuilder>
             return xml -> {
                 xml.setUseRoot(true);
                 if(rootName != null){
-                    xml.setRootName(new StringConstant(rootName).withQuote());
+                    xml.setRootName(c_string(rootName));
                 }
             };
         }
@@ -359,7 +360,7 @@ public class ForBuilder<ParentBuilder>
             return json -> {
                 json.setUseRoot(true);
                 if(rootName != null){
-                    json.setRootName(new StringConstant(rootName).withQuote());
+                    json.setRootName(c_string(rootName));
                 }
             };
         }

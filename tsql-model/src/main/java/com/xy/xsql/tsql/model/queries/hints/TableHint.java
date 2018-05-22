@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.model.queries.hints;
 
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.Clause;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
@@ -16,8 +17,8 @@ public class TableHint implements Clause {
     private boolean useNOEXPAND;
     private Type type;
     private boolean useOneIndexValue;
-    private List<StringConstant> index_value;
-    private List<StringConstant> index_column_name;
+    private List<Expression> index_value;
+    private List<Expression> index_column_name;
     private Integer integer;
 
     public boolean isUseNOEXPAND() {
@@ -44,19 +45,19 @@ public class TableHint implements Clause {
         this.useOneIndexValue = useOneIndexValue;
     }
 
-    public List<StringConstant> getIndex_value() {
+    public List<Expression> getIndex_value() {
         return index_value;
     }
 
-    public void setIndex_value(List<StringConstant> index_value) {
+    public void setIndex_value(List<Expression> index_value) {
         this.index_value = index_value;
     }
 
-    public List<StringConstant> getIndex_column_name() {
+    public List<Expression> getIndex_column_name() {
         return index_column_name;
     }
 
-    public void setIndex_column_name(List<StringConstant> index_column_name) {
+    public void setIndex_column_name(List<Expression> index_column_name) {
         this.index_column_name = index_column_name;
     }
 

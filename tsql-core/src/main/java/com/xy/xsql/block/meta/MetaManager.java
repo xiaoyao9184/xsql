@@ -77,7 +77,7 @@ public enum MetaManager {
 
 
     static{
-        MetaManager.INSTANCE.scan("com.xy.xsql.block.tsql.core");
+        MetaManager.INSTANCE.scan("com.xy.xsql.tsql.converter");
     }
 
     /**

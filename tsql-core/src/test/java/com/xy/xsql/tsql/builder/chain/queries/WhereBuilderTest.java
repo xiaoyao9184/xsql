@@ -2,6 +2,8 @@ package com.xy.xsql.tsql.builder.chain.queries;
 
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
+import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.queries.SearchCondition;
 import com.xy.xsql.tsql.model.queries.Where;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
@@ -56,7 +58,8 @@ public class WhereBuilderTest {
         Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Comparison.class);
         Comparison predicate = (Comparison) where.getSearchCondition().getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "Name");
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "'Blade'");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getOperatorExpression()).getString(), "Blade");
     }
 
 
@@ -90,7 +93,8 @@ public class WhereBuilderTest {
         Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Like.class);
         Like predicate = (Like) where.getSearchCondition().getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "Name");
-        Assert.assertEquals(predicate.getLikeExpression().toString(), "'%Frame%'");
+        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%Frame%");
     }
 
 
@@ -125,7 +129,8 @@ public class WhereBuilderTest {
         Assert.assertEquals(where.getSearchCondition().getPredicate().getClass(), Comparison.class);
         Comparison predicate = (Comparison) where.getSearchCondition().getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "ProductID");
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "12");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "12");
     }
 
 
@@ -188,7 +193,8 @@ public class WhereBuilderTest {
         Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "ProductID");
         Assert.assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "2");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "2");
 
         Assert.assertEquals(where.getSearchCondition().getAndOrList().size(),2);
 
@@ -197,14 +203,16 @@ public class WhereBuilderTest {
         Comparison predicate1 = (Comparison) andOrNotItem.getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "ProductID");
         Assert.assertEquals(predicate1.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate1.getOperatorExpression().toString(), "4");
+        Assert.assertTrue(predicate1.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate1.getOperatorExpression()).getNumber().toString(), "4");
 
         SearchCondition.AndOrNotItem andOrNotItem1 = where.getSearchCondition().getAndOrList().get(1);
         Assert.assertEquals(andOrNotItem1.getPredicate().getClass(), Comparison.class);
         Comparison predicate2 = (Comparison) andOrNotItem1.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "Name");
         Assert.assertEquals(predicate2.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate2.getOperatorExpression().toString(), "'Spokes'");
+        Assert.assertTrue(predicate2.getOperatorExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate2.getOperatorExpression()).getString(), "Spokes");
     }
 
 
@@ -264,7 +272,8 @@ public class WhereBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "Name");
-        Assert.assertEquals(predicate.getLikeExpression().toString(), "'%Frame%'");
+        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%Frame%");
 
         Assert.assertEquals(where.getSearchCondition().getAndOrList().size(),2);
 
@@ -272,14 +281,16 @@ public class WhereBuilderTest {
         Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Like.class);
         Like predicate1 = (Like) andOrNotItem.getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "Name");
-        Assert.assertEquals(predicate1.getLikeExpression().toString(), "'HL%'");
+        Assert.assertTrue(predicate1.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate1.getLikeExpression()).getString(), "HL%");
 
         SearchCondition.AndOrNotItem andOrNotItem1 = where.getSearchCondition().getAndOrList().get(1);
         Assert.assertEquals(andOrNotItem1.getPredicate().getClass(), Comparison.class);
         Comparison predicate2 = (Comparison) andOrNotItem1.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "Color");
         Assert.assertEquals(predicate2.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate2.getOperatorExpression().toString(), "'Red'");
+        Assert.assertTrue(predicate2.getOperatorExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate2.getOperatorExpression()).getString(), "Red");
     }
 
 
@@ -322,11 +333,14 @@ public class WhereBuilderTest {
         Assert.assertEquals(predicate.getExpressionList().size(), 3);
 
         Expression expression = predicate.getExpressionList().get(0);
-        Assert.assertEquals(expression.toString(), "'Blade'");
+        Assert.assertTrue(expression instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)expression).getString(), "Blade");
         Expression expression1 = predicate.getExpressionList().get(1);
-        Assert.assertEquals(expression1.toString(), "'Crown Race'");
+        Assert.assertTrue(expression1 instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)expression1).getString(), "Crown Race");
         Expression expression2 = predicate.getExpressionList().get(2);
-        Assert.assertEquals(expression2.toString(), "'Spokes'");
+        Assert.assertTrue(expression2 instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)expression2).getString(), "Spokes");
     }
 
 
@@ -363,8 +377,10 @@ public class WhereBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Between.class);
         Between predicate = (Between) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "ProductID");
-        Assert.assertEquals(predicate.getStartExpression().toString(), "725");
-        Assert.assertEquals(predicate.getEndExpression().toString(), "734");
+        Assert.assertTrue(predicate.getStartExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getStartExpression()).getNumber().toString(), "725");
+        Assert.assertTrue(predicate.getEndExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getEndExpression()).getNumber().toString(), "734");
 
     }
 
@@ -407,7 +423,8 @@ public class WhereBuilderTest {
         Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
         Assert.assertEquals(predicate.getOperator(),com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "'Smith'");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getOperatorExpression()).getString(), "Smith");
 
     }
 
@@ -443,7 +460,8 @@ public class WhereBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertEquals(predicate.getLikeExpression().toString(), "'%Smi%'");
+        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%Smi%");
 
     }
 
@@ -481,7 +499,8 @@ public class WhereBuilderTest {
         Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate.getOperator(),com.xy.xsql.tsql.model.elements.operators.Comparison.LESS_EQUAL);
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "500");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "500");
 
     }
 
@@ -543,7 +562,8 @@ public class WhereBuilderTest {
         Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate.getOperator(),com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "1");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "1");
 
         Assert.assertEquals(searchCondition.getAndOrList().size(),2);
 
@@ -552,14 +572,16 @@ public class WhereBuilderTest {
         Comparison predicate1 = (Comparison) andOrNotItem.getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate1.getOperator(),com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate1.getOperatorExpression().toString(), "8");
+        Assert.assertTrue(predicate1.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate1.getOperatorExpression()).getNumber().toString(), "8");
 
         SearchCondition.AndOrNotItem andOrNotItem1 = searchCondition.getAndOrList().get(1);
         Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Comparison.class);
         Comparison predicate2 = (Comparison) andOrNotItem1.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate2.getOperator(),com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
-        Assert.assertEquals(predicate2.getOperatorExpression().toString(), "12");
+        Assert.assertTrue(predicate2.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate2.getOperatorExpression()).getNumber().toString(), "12");
 
 
     }
@@ -620,7 +642,8 @@ public class WhereBuilderTest {
         Comparison predicate = (Comparison) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "EmployeeKey");
         Assert.assertEquals(predicate.getOperator(),com.xy.xsql.tsql.model.elements.operators.Comparison.LESS_EQUAL);
-        Assert.assertEquals(predicate.getOperatorExpression().toString(), "500");
+        Assert.assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "500");
 
 
         Assert.assertEquals(searchCondition.getAndOrList().size(), 2);
@@ -629,13 +652,15 @@ public class WhereBuilderTest {
         Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Like.class);
         Like predicate1 = (Like) andOrNotItem.getPredicate();
         Assert.assertEquals(predicate1.getExpression().toString(), "LastName");
-        Assert.assertEquals(predicate1.getLikeExpression().toString(),"'%Smi%'");
+        Assert.assertTrue(predicate1.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate1.getLikeExpression()).getString(), "%Smi%");
 
         SearchCondition.AndOrNotItem andOrNotItem1 = searchCondition.getAndOrList().get(1);
         Assert.assertEquals(andOrNotItem.getPredicate().getClass(), Like.class);
         Like predicate2 = (Like) andOrNotItem1.getPredicate();
         Assert.assertEquals(predicate2.getExpression().toString(), "FirstName");
-        Assert.assertEquals(predicate2.getLikeExpression().toString(),"'%A%'");
+        Assert.assertTrue(predicate2.getLikeExpression() instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate2.getLikeExpression()).getString(), "%A%");
 
     }
 
@@ -675,9 +700,12 @@ public class WhereBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), In.class);
         In predicate = (In) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertEquals(predicate.getExpressionList().get(0).toString(),"'Smith'");
-        Assert.assertEquals(predicate.getExpressionList().get(1).toString(), "'Godfrey'");
-        Assert.assertEquals(predicate.getExpressionList().get(2).toString(), "'Johnson'");
+        Assert.assertTrue(predicate.getExpressionList().get(0) instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getExpressionList().get(0)).getString(), "Smith");
+        Assert.assertTrue(predicate.getExpressionList().get(1) instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getExpressionList().get(1)).getString(), "Godfrey");
+        Assert.assertTrue(predicate.getExpressionList().get(2) instanceof StringConstant);
+        Assert.assertEquals(((StringConstant)predicate.getExpressionList().get(2)).getString(), "Johnson");
 
     }
 
@@ -715,8 +743,10 @@ public class WhereBuilderTest {
         Assert.assertEquals(searchCondition.getPredicate().getClass(), Between.class);
         Between predicate = (Between) searchCondition.getPredicate();
         Assert.assertEquals(predicate.getExpression().toString(), "EmployeeKey");
-        Assert.assertEquals(predicate.getStartExpression().toString(),"100");
-        Assert.assertEquals(predicate.getEndExpression().toString(), "200");
+        Assert.assertTrue(predicate.getStartExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getStartExpression()).getNumber().toString(), "100");
+        Assert.assertTrue(predicate.getEndExpression() instanceof NumberConstant);
+        Assert.assertEquals(((NumberConstant)predicate.getEndExpression()).getNumber().toString(), "200");
 
     }
 

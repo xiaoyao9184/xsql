@@ -249,9 +249,8 @@ public class Over implements Clause {
 
     public static class UnsignedValueSpecification extends NumberConstant {
 
-        public UnsignedValueSpecification(Number number) {
-            super(number);
-            withUnsigned().withInteger();
+        public UnsignedValueSpecification(Integer number) {
+            super(Math.abs(number));
         }
 
         public NumberConstant toNumberConstant(){

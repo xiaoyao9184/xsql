@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 public class Select<T> implements QueryChain<T> {
     private Class<T> cls;
@@ -346,9 +347,9 @@ public class Select<T> implements QueryChain<T> {
             Like like = new Like();
             like.setExpression(columnName);
             if(value instanceof UnknownExpression){
-                like.setLikeExpression(new StringConstant(value.toString()));
+                like.setLikeExpression(c_string(value.toString()));
             }else{
-                like.setLikeExpression(new StringConstant(value.toString()).withQuote());
+                like.setLikeExpression(c_string(value.toString()));
             }
             return like;
         }
