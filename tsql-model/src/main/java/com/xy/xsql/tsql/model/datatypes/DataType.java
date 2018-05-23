@@ -61,7 +61,9 @@ public interface DataType {
         sql_variant,
         table,
         uniqueidentifier,
-        xml;
+        xml,
+
+        max;
 
         private String string;
 

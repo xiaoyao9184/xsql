@@ -1,5 +1,7 @@
 package com.xy.xsql.tsql.model.datatypes.table.table;
 
+import com.xy.xsql.tsql.model.datatypes.DataType;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
  *
  * Created by xiaoyao9184 on 2017/3/12.
  */
-public class TableTypeDefinition {
+public class TableTypeDefinition implements DataType {
 
     //( { <column_definition> | <table_constraint> } [ ,...n ] )
     private List<Item> list;
@@ -22,6 +24,11 @@ public class TableTypeDefinition {
 
     public void setList(List<Item> list) {
         this.list = list;
+    }
+
+    @Override
+    public String name() {
+        return "table";
     }
 
 
