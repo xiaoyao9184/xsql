@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.ListBuilder.getLastItem;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_number;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
@@ -409,15 +410,6 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
                     bulkInsert::setOrderList);
         }
 
-
-        private BulkInsert.OrderColumn getLastItem(){
-            if(target.size() > 0){
-                int i = target.size() - 1;
-                return target.get(i);
-            }
-            return null;
-        }
-
         public OrderColumnBuilder<OrderBuilder> withItem(){
             return new OrderColumnBuilder<OrderBuilder>
                     (initSet(BulkInsert.OrderColumn::new,
@@ -434,7 +426,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         public OrderBuilder $Aes(){
-            BulkInsert.OrderColumn last = getLastItem();
+            BulkInsert.OrderColumn last = getLastItem(target);
             return new OrderColumnBuilder<OrderBuilder>
                     (last)
                     .in(this)
@@ -443,7 +435,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         }
 
         public OrderBuilder $Desc(){
-            BulkInsert.OrderColumn last = getLastItem();
+            BulkInsert.OrderColumn last = getLastItem(target);
             return new OrderColumnBuilder<OrderBuilder>
                     (last)
                     .in(this)
@@ -576,7 +568,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
             return bulkInsert -> bulkInsert.setMaxErrors(c_number(maxErrors));
         }
 
-        static WithSetter ORDER(){
+        static OrderBuilder ORDER(){
             return new OrderBuilder();
         }
 

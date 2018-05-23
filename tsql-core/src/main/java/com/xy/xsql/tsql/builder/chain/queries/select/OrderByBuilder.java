@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.ListBuilder.getLastItem;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
@@ -59,23 +60,11 @@ public class OrderByBuilder<ParentBuilder>
     }
 
     /**
-     * Get last Item and set
-     * @return
-     */
-    private OrderBy.Item getLastItem(){
-        if(target.getItems().size() > 0){
-            int i = target.getItems().size() - 1;
-            return target.getItems().get(i);
-        }
-        return null;
-    }
-
-    /**
      * Quick set
      * @return
      */
     public OrderByBuilder<ParentBuilder> $Desc() {
-        OrderBy.Item last = getLastItem();
+        OrderBy.Item last = getLastItem(target.getItems());
         return new OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
                 (last)
                 .in(this)
@@ -88,7 +77,7 @@ public class OrderByBuilder<ParentBuilder>
      * @return
      */
     public OrderByBuilder<ParentBuilder> $Asc() {
-        OrderBy.Item last = getLastItem();
+        OrderBy.Item last = getLastItem(target.getItems());
         return new OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
                 (last)
                 .in(this)
