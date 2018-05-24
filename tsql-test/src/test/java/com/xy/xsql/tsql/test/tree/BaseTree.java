@@ -7,12 +7,12 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_addition;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
-import static com.xy.xsql.tsql.core.expression.BinaryExpressions.e_addition;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_like;
-import static com.xy.xsql.tsql.builder.chain.statements.InsertBuilder.INSERT;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$Insert;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.
@@ -50,7 +50,7 @@ public class BaseTree {
                     .and()
                 .build();
 
-        Select select = SELECT()
+        Select select = $Select()
                 .$Select()
                     .$()
                     .$From()
@@ -88,7 +88,7 @@ public class BaseTree {
     @Test
     public void testInsert(){
         // @formatter:off
-        Insert insert = INSERT()
+        Insert insert = $Insert()
                 .$Into()
                 .$(t("test_use_tree_base"))
                 .$(c("id"))

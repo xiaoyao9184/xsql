@@ -12,7 +12,7 @@ import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.PartitionBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.table.TableConstraintBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.table.TableIndexBuilder;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
@@ -35,8 +35,10 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
+ * DiskBasedCreateTableBuilder
  * Created by xiaoyao9184 on 2017/8/18.
  */
+@SuppressWarnings({"unused","WeakerAccess"})
 public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTable> {
 
     public DiskBasedCreateTableBuilder(DiskBasedCreateTable createDiskTable) {
@@ -47,46 +49,89 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
         super(new DiskBasedCreateTable());
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
     }
 
+    /**
+     * set
+     * @param asFileTable as file tble
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withAsFileTable(boolean asFileTable){
         target.setUseAsFileTable(asFileTable);
         return this;
     }
 
+    /**
+     * set
+     * @param diskItemList Item
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withDiskBasedColumn(List<DiskBasedCreateTable.Item> diskItemList){
         target.setItems(diskItemList);
         return this;
     }
 
+    /**
+     * set
+     * @param systemStartTimeColumnName system start time column name
+     * @param systemEndTimeColumnName system end time column name
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withPeriodForSystemTime(String systemStartTimeColumnName, String systemEndTimeColumnName){
         target.setSystemStartTimeColumnName(systemStartTimeColumnName);
         target.setSystemEndTimeColumnName(systemEndTimeColumnName);
         return this;
     }
 
+    /**
+     * set
+     * @param on Partition
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withOn(Partition on){
         target.setOn(on);
         return this;
     }
 
+    /**
+     * set
+     * @param on Partition
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withTextImageOn(Partition on){
         target.setTextImageOn(on);
         return this;
     }
 
+    /**
+     * set
+     * @param on Partition
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withFileStreamOn(Partition on){
         target.setFileStreamOn(on);
         return this;
     }
 
+    /**
+     * set
+     * @param tableOptionsList TableOption
+     * @return THIS
+     */
     public DiskBasedCreateTableBuilder withTableOption(List<TableOption> tableOptionsList){
         target.setTableOptions(tableOptionsList);
         return this;
     }
+
+
 
 
     /*
@@ -141,7 +186,7 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * @param systemEndTimeColumnName systemEndTimeColumnName
      * @return THIS
      */
-    public DiskBasedCreateTableBuilder $Period_For_System_Time(String systemStartTimeColumnName, String systemEndTimeColumnName){
+    public DiskBasedCreateTableBuilder $PeriodForSystemTime(String systemStartTimeColumnName, String systemEndTimeColumnName){
         target.setSystemStartTimeColumnName(systemStartTimeColumnName);
         target.setSystemEndTimeColumnName(systemEndTimeColumnName);
         return this;
@@ -163,7 +208,7 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * Quick in
      * @return PartitionBuilder
      */
-    public PartitionBuilder<DiskBasedCreateTableBuilder> $TextImage_On(){
+    public PartitionBuilder<DiskBasedCreateTableBuilder> $TextImageOn(){
         return new PartitionBuilder<DiskBasedCreateTableBuilder>
                 (initSet(Partition::new,
                         target::getTextImageOn,
@@ -175,7 +220,7 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * Quick in
      * @return PartitionBuilder
      */
-    public PartitionBuilder<DiskBasedCreateTableBuilder> $FileStream_On(){
+    public PartitionBuilder<DiskBasedCreateTableBuilder> $FileStreamOn(){
         return new PartitionBuilder<DiskBasedCreateTableBuilder>
                 (initSet(Partition::new,
                         target::getFileStreamOn,
@@ -197,7 +242,7 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
 
 
     /**
-     *
+     * ItemBuilder
      * @param <ParentBuilder>
      */
     public static class ItemBuilder<ParentBuilder>
@@ -269,10 +314,10 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
 
         /**
          * Transform to TableConstraint
-         * @param constraintName constraintName
+         * @param constraintName constraint name
          * @return TableConstraintBuilder
          */
-        public TableConstraintBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
+        public TableConstraintBuilder<ParentBuilder> $Constraint(String constraintName){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
@@ -283,44 +328,44 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          * Transform to TableConstraint
          * @return TablePrimaryUniqueBuilder
          */
-        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $PRIMARY_KEY(){
+        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$PRIMARY_KEY();
+                    .$PrimaryKey();
         }
 
         /**
          * Transform to TableConstraint
          * @return TablePrimaryUniqueBuilder
          */
-        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $UNIQUE(){
+        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $Unique(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$UNIQUE();
+                    .$Unique();
         }
 
         /**
          * Transform to TableConstraint
          * @return TableForeignBuilder
          */
-        public Foreigns.TableForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+        public Foreigns.TableForeignBuilder<ParentBuilder> $ForeignKey(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$FOREIGN_KEY();
+                    .$ForeignKey();
         }
 
         /**
          * Transform to TableConstraint
          * @return CheckBuilder
          */
-        public CheckBuilder<ParentBuilder> $CHECK(){
+        public CheckBuilder<ParentBuilder> $Check(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$CHECK();
+                    .$Check();
         }
 
         /**
@@ -328,7 +373,7 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          * @param indexName indexName
          * @return TableIndexBuilder
          */
-        public TableIndexBuilder<ParentBuilder> $INDEX(String indexName){
+        public TableIndexBuilder<ParentBuilder> $Index(String indexName){
             return new TableIndexBuilder<ParentBuilder>
                     ()
                     .in(this.out())
@@ -388,9 +433,9 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
 
         /**
          * Transform to ColumnSetDefinition
-         * @return ParentBuilder
+         * @return PARENT
          */
-        public ParentBuilder $XML_COLUMN_SET_FOR_ALL_SPARSE_COLUMNS(){
+        public ParentBuilder $XmlColumnSetForAllSparseColumns(){
             return new ColumnSetDefinitionBuilder<ParentBuilder>
                     ()
                     .in(this.out())

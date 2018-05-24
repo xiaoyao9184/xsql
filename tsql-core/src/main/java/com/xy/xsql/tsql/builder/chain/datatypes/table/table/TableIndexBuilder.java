@@ -14,15 +14,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * TableIndexBuilder
  * Use
  * in --Disk-Based CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/8/18.
  * @param <ParentBuilder>
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class TableIndexBuilder<ParentBuilder>
         extends CodeTreeBuilder<TableIndexBuilder<ParentBuilder>,ParentBuilder,TableIndex> {
 
@@ -34,45 +35,85 @@ public class TableIndexBuilder<ParentBuilder>
         super(new TableIndex());
     }
 
+    /**
+     * set
+     * @param indexName index name
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withIndexName(String indexName) {
         target.setIndexName(indexName);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withClustered() {
         target.setUseClustered(true);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withNonClustered() {
         target.setUseNonClustered(true);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withColumnstore() {
         target.setUseColumnStore(true);
         return this;
     }
 
+    /**
+     * set
+     * @param columnNameList Column
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withColumnNameList(List<PrimaryUnique.Column> columnNameList) {
         target.setColumnNameList(columnNameList);
         return this;
     }
 
+    /**
+     * set
+     * @param indexOptionList IndexOption
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withIndexOptionList(List<IndexOption> indexOptionList) {
         target.setIndexOptionList(indexOptionList);
         return this;
     }
 
+    /**
+     * SET
+     * @param partition Partition
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withPartition(Partition partition) {
         target.setPartition(partition);
         return this;
     }
 
+    /**
+     * set
+     * @param partition Partition
+     * @return THIS
+     */
     public TableIndexBuilder<ParentBuilder> withFileStreamPartition(Partition partition) {
         target.setFileStreamPartition(partition);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -83,7 +124,7 @@ public class TableIndexBuilder<ParentBuilder>
      * @param indexName indexName
      * @return THIS
      */
-    public TableIndexBuilder<ParentBuilder> $INDEX(String indexName) {
+    public TableIndexBuilder<ParentBuilder> $Index(String indexName) {
         return withIndexName(indexName);
     }
 
@@ -91,7 +132,7 @@ public class TableIndexBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public TableIndexBuilder<ParentBuilder> $CLUSTERED() {
+    public TableIndexBuilder<ParentBuilder> $Clustered() {
         return withClustered();
     }
 
@@ -99,7 +140,7 @@ public class TableIndexBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public TableIndexBuilder<ParentBuilder> $NONCLUSTERED() {
+    public TableIndexBuilder<ParentBuilder> $Nonclustered() {
         return withNonClustered();
     }
 
@@ -121,7 +162,7 @@ public class TableIndexBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @param columnName columnName
      * @return PrimaryUniqueColumnBuilder
      */
@@ -138,7 +179,7 @@ public class TableIndexBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public TableIndexBuilder<ParentBuilder> $COLUMNSTORE() {
+    public TableIndexBuilder<ParentBuilder> $Columnstore() {
         return withColumnstore();
     }
 
@@ -147,7 +188,7 @@ public class TableIndexBuilder<ParentBuilder>
      * @param columnNames columnNames
      * @return THIS
      */
-    public TableIndexBuilder<ParentBuilder> $COLUMNSTORE(String... columnNames) {
+    public TableIndexBuilder<ParentBuilder> $Columnstore(String... columnNames) {
         List<PrimaryUnique.Column> columnNameList = Stream.of(columnNames)
                 .map(columnName -> {
                     PrimaryUnique.Column c = new PrimaryUnique.Column();
@@ -161,7 +202,7 @@ public class TableIndexBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return IndexOptionBuilder
      */
     public IndexOptionBuilder<TableIndexBuilder<ParentBuilder>> $With(){
@@ -173,7 +214,7 @@ public class TableIndexBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return PartitionBuilder
      */
     public PartitionBuilder<TableIndexBuilder<ParentBuilder>> $On(){
@@ -185,10 +226,10 @@ public class TableIndexBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return PartitionBuilder
      */
-    public PartitionBuilder<TableIndexBuilder<ParentBuilder>> $FileStream_On(){
+    public PartitionBuilder<TableIndexBuilder<ParentBuilder>> $FileStreamOn(){
         return new PartitionBuilder<TableIndexBuilder<ParentBuilder>>
                 (initSet(Partition::new,
                         target::getFileStreamPartition,

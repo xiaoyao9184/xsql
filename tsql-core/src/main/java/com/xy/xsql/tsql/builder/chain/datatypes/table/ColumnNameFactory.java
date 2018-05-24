@@ -9,15 +9,26 @@ import static com.xy.xsql.core.ListBuilder.reverse;
 import static com.xy.xsql.core.ListBuilder.setter;
 
 /**
- * ColumnNameFactory
+ * ColumnName Factory
  * Created by xiaoyao9184 on 2017/3/12.
  */
 public class ColumnNameFactory {
 
+    /**
+     * Quick build
+     * @param tableName TableName
+     * @param name name
+     * @return ColumnName
+     */
     public static ColumnName c(TableName tableName, String name){
         return new ColumnName(tableName,name);
     }
 
+    /**
+     * Quick build
+     * @param name name
+     * @return ColumnName
+     */
     public static ColumnName c(String name){
         return new ColumnName(name);
     }
@@ -25,7 +36,7 @@ public class ColumnNameFactory {
     /**
      * like this [Server Name,][Database Name,][Schema Name,][Table Name,]Column Name
      * @param server_db_schema_table_column Max length is 4
-     * @return
+     * @return ColumnName
      */
     @SuppressWarnings("unchecked")
     public static ColumnName c(String... server_db_schema_table_column){

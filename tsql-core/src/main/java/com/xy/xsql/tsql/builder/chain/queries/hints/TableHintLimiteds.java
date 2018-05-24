@@ -3,9 +3,10 @@ package com.xy.xsql.tsql.builder.chain.queries.hints;
 import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 
 /**
- * TableHint Factory
+ * TableHintLimited Factory
  * Created by xiaoyao9184 on 2017/7/5.
  */
+@SuppressWarnings("unused")
 public class TableHintLimiteds {
 
     /*
@@ -14,153 +15,153 @@ public class TableHintLimiteds {
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited KEEPIDENTITY(){
+    public static TableHintLimited $Keepidentity(){
         return TableHintLimited.KEEPIDENTITY;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited KEEPDEFAULTS(){
+    public static TableHintLimited $Keepdefaults(){
         return TableHintLimited.KEEPDEFAULTS;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited HOLDLOCK(){
+    public static TableHintLimited $Holdlock(){
         return TableHintLimited.HOLDLOCK;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited IGNORE_CONSTRAINTS(){
+    public static TableHintLimited $IgnoreConstraints(){
         return TableHintLimited.IGNORE_CONSTRAINTS;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited IGNORE_TRIGGERS(){
+    public static TableHintLimited $IgnoreTriggers(){
         return TableHintLimited.IGNORE_TRIGGERS;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited NOLOCK(){
+    public static TableHintLimited $Nolock(){
         return TableHintLimited.NOLOCK;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited NOWAIT(){
+    public static TableHintLimited $Nowait(){
         return TableHintLimited.NOWAIT;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited PAGLOCK(){
+    public static TableHintLimited $Paglock(){
         return TableHintLimited.PAGLOCK;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited READCOMMITTED(){
+    public static TableHintLimited $Readcommitted(){
         return TableHintLimited.READCOMMITTED;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited READCOMMITTEDLOCK(){
+    public static TableHintLimited $Readcommittedlock(){
         return TableHintLimited.READCOMMITTEDLOCK;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited READPAST(){
+    public static TableHintLimited $Readpast(){
         return TableHintLimited.READPAST;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited REPEATABLEREAD(){
+    public static TableHintLimited $Repeatableread(){
         return TableHintLimited.REPEATABLEREAD;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited ROWLOCK(){
+    public static TableHintLimited $Rowlock(){
         return TableHintLimited.ROWLOCK;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited SERIALIZABLE(){
+    public static TableHintLimited $Serializable(){
         return TableHintLimited.SERIALIZABLE;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited SNAPSHOT(){
+    public static TableHintLimited $Snapshot(){
         return TableHintLimited.SNAPSHOT;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited TABLOCK(){
+    public static TableHintLimited $Tablock(){
         return TableHintLimited.TABLOCK;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited TABLOCKX(){
+    public static TableHintLimited $Tablockx(){
         return TableHintLimited.TABLOCKX;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited UPDLOCK(){
+    public static TableHintLimited $Updlock(){
         return TableHintLimited.UPDLOCK;
     }
 
     /**
      * Quick build
-     * @return
+     * @return TableHintLimited
      */
-    public static TableHintLimited XLOCK(){
+    public static TableHintLimited $Xlock(){
         return TableHintLimited.XLOCK;
     }
 

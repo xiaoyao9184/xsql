@@ -5,11 +5,8 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * ComparisonPredicateBuilder
- *
- * @see Comparison
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
 @SuppressWarnings("Duplicates")
@@ -26,6 +23,11 @@ public class ComparisonPredicateBuilder<ParentBuilder>
 
     private int index = 0;
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public ComparisonPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         if(index == 0){
             target.setExpression(expression);
@@ -37,6 +39,11 @@ public class ComparisonPredicateBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param operator Comparison
+     * @return THIS
+     */
     public ComparisonPredicateBuilder<ParentBuilder> withOperator(com.xy.xsql.tsql.model.elements.operators.Comparison operator) {
         target.setOperator(operator);
         return this;

@@ -1,10 +1,11 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
+import com.xy.xsql.tsql.builder.chain.statements.create.CreateDataBaseBuilder;
 import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
-import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.builder.chain.statements.CreateDataBaseBuilder.CREATE_DATABASE;
+import static com.xy.xsql.tsql.builder.chain.statements.create.Creates.$CreateDatabase;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/8/4.
@@ -21,12 +22,12 @@ public class CreateDataBaseBuilderTest {
     /**
      * CREATE DATABASE mytest
      */
-    public CreateDataBase exampleA = CREATE_DATABASE("mytest");
+    public CreateDataBase exampleA = $CreateDatabase("mytest");
     // @formatter:on
 
     @Test
     public void testExampleA(){
-        Assert.assertEquals(exampleA.getDatabaseName(),"mytest");
+        assertEquals(exampleA.getDatabaseName(),"mytest");
     }
 
     // @formatter:off
@@ -54,7 +55,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleB(){
-        Assert.assertEquals(exampleB.getDatabaseName(),"Sales");
+        assertEquals(exampleB.getDatabaseName(),"Sales");
     }
 
     // @formatter:off
@@ -98,7 +99,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleC(){
-        Assert.assertEquals(exampleC.getDatabaseName(),"Archive");
+        assertEquals(exampleC.getDatabaseName(),"Archive");
     }
 
     // @formatter:off
@@ -153,7 +154,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleD(){
-        Assert.assertEquals(exampleD.getDatabaseName(),"Sales");
+        assertEquals(exampleD.getDatabaseName(),"Sales");
     }
 
     // @formatter:off
@@ -171,7 +172,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleE(){
-        Assert.assertEquals(exampleE.getDatabaseName(),"Archive");
+        assertEquals(exampleE.getDatabaseName(),"Archive");
     }
 
     // @formatter:off
@@ -194,7 +195,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleF(){
-        Assert.assertEquals(exampleF.getDatabaseName(),"sales_snapshot0600");
+        assertEquals(exampleF.getDatabaseName(),"sales_snapshot0600");
     }
 
     // @formatter:off
@@ -212,7 +213,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleG(){
-        Assert.assertEquals(exampleG.getDatabaseName(),"MyOptionsTest");
+        assertEquals(exampleG.getDatabaseName(),"MyOptionsTest");
     }
 
     // @formatter:off
@@ -232,7 +233,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleH(){
-        Assert.assertEquals(exampleH.getDatabaseName(),"AdventureWorks2012");
+        assertEquals(exampleH.getDatabaseName(),"AdventureWorks2012");
     }
 
     // @formatter:off
@@ -282,7 +283,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleI(){
-        Assert.assertEquals(exampleI.getDatabaseName(),"FileStreamDB");
+        assertEquals(exampleI.getDatabaseName(),"FileStreamDB");
     }
 
     // @formatter:off
@@ -326,7 +327,7 @@ public class CreateDataBaseBuilderTest {
 
     @Test
     public void testExampleJ(){
-        Assert.assertEquals(exampleJ.getDatabaseName(),"[BlobStore1]");
+        assertEquals(exampleJ.getDatabaseName(),"[BlobStore1]");
     }
 
 

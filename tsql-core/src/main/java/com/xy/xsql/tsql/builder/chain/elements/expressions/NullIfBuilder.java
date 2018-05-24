@@ -7,8 +7,10 @@ import com.xy.xsql.tsql.model.elements.expressions.NullIf;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * NullIfBuilder
  * Created by xiaoyao9184 on 2017/3/16.
  */
+@SuppressWarnings("unused")
 public class NullIfBuilder<ParentBuilder>
         extends CodeTreeBuilder<NullIfBuilder<ParentBuilder>,ParentBuilder,NullIf> {
 
@@ -22,6 +24,11 @@ public class NullIfBuilder<ParentBuilder>
         super(tar);
     }
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public NullIfBuilder<ParentBuilder> withExpression(Expression expression) {
         if(indexFirst){
             target.setExpressionLeft(expression);
@@ -32,6 +39,5 @@ public class NullIfBuilder<ParentBuilder>
         }
         return this;
     }
-
 
 }

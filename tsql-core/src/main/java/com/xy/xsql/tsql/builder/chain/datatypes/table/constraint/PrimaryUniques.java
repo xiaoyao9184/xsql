@@ -15,13 +15,15 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * PrimaryUnique Builders
  * Created by xiaoyao9184 on 2017/8/17.
  */
+@SuppressWarnings({"unused","WeakerAccess"})
 public class PrimaryUniques {
 
 
     /**
-     *
+     * ColumnPrimaryUniqueBuilder
      * @param <ParentBuilder>
      */
     public static class ColumnPrimaryUniqueBuilder<ParentBuilder>
@@ -35,31 +37,58 @@ public class PrimaryUniques {
             super(new PrimaryUnique());
         }
 
-
+        /**
+         * set
+         * @param usePrimaryKey primary key
+         * @return THIS
+         */
         public ColumnPrimaryUniqueBuilder<ParentBuilder> withUsePrimaryKey(boolean usePrimaryKey){
             target.setUsePrimaryKey(usePrimaryKey);
             return this;
         }
 
+        /**
+         * set
+         * @param useClustered clustered
+         * @return THIS
+         */
         public ColumnPrimaryUniqueBuilder<ParentBuilder> withUseClustered(boolean useClustered){
             target.setUseClustered(useClustered);
             return this;
         }
 
+        /**
+         * set
+         * @param fillfactor fill factor
+         * @return THIS
+         */
         public ColumnPrimaryUniqueBuilder<ParentBuilder> withFillfactor(String fillfactor){
             target.setFillfactor(fillfactor);
             return this;
         }
 
+        /**
+         * set
+         * @param indexOptions IndexOption
+         * @return THIS
+         */
         public ColumnPrimaryUniqueBuilder<ParentBuilder> withIndexOptions(List<IndexOption> indexOptions){
             target.setIndexOptions(indexOptions);
             return this;
         }
 
+        /**
+         * set
+         * @param on Partition
+         * @return THIS
+         */
         public ColumnPrimaryUniqueBuilder<ParentBuilder> withOn(Partition on){
             target.setOn(on);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -69,7 +98,7 @@ public class PrimaryUniques {
          * Quick inout set useClustered
          * @return THIS
          */
-        public ColumnPrimaryUniqueBuilder<ParentBuilder> $CLUSTERED(){
+        public ColumnPrimaryUniqueBuilder<ParentBuilder> $Clustered(){
             return withUseClustered(true);
         }
 
@@ -78,7 +107,7 @@ public class PrimaryUniques {
          * Quick inout set useClustered
          * @return THIS
          */
-        public ColumnPrimaryUniqueBuilder<ParentBuilder> $NONCLUSTERED(){
+        public ColumnPrimaryUniqueBuilder<ParentBuilder> $Nonclustered(){
             return withUseClustered(false);
         }
 
@@ -87,7 +116,7 @@ public class PrimaryUniques {
          * @param fillfactor fillfactor
          * @return THIS
          */
-        public ColumnPrimaryUniqueBuilder<ParentBuilder> $WITH_FILLFACTOR(String fillfactor){
+        public ColumnPrimaryUniqueBuilder<ParentBuilder> $WithFillfactor(String fillfactor){
             return withFillfactor(fillfactor);
         }
 
@@ -100,6 +129,10 @@ public class PrimaryUniques {
 //        return this.and();
 //    }
 
+        /**
+         * Quick in
+         * @return PartitionBuilder
+         */
         public PartitionBuilder<ColumnPrimaryUniqueBuilder> $On(){
             return new PartitionBuilder<ColumnPrimaryUniqueBuilder>
                     (initSet(Partition::new,
@@ -111,7 +144,7 @@ public class PrimaryUniques {
 
 
     /**
-     *
+     * TablePrimaryUniqueBuilder
      * @param <ParentBuilder>
      */
     public static class TablePrimaryUniqueBuilder<ParentBuilder>
@@ -121,22 +154,40 @@ public class PrimaryUniques {
             super(tar);
         }
 
-
+        /**
+         * set
+         * @param usePrimaryKey primary key
+         * @return THIS
+         */
         public TablePrimaryUniqueBuilder<ParentBuilder> withUsePrimaryKey(boolean usePrimaryKey){
             target.setUsePrimaryKey(usePrimaryKey);
             return this;
         }
 
+        /**
+         * set
+         * @param useClustered clustered
+         * @return THIS
+         */
         public TablePrimaryUniqueBuilder<ParentBuilder> withUseClustered(boolean useClustered){
             target.setUseClustered(useClustered);
             return this;
         }
 
+        /**
+         * set
+         * @param columns Column
+         * @return THIS
+         */
         public TablePrimaryUniqueBuilder<ParentBuilder> withColumn(List<PrimaryUnique.Column> columns){
             target.setColumns(columns);
             return this;
         }
 
+        /**
+         * in
+         * @return PrimaryUniqueColumnBuilder
+         */
         public PrimaryUniqueColumnBuilder<TablePrimaryUniqueBuilder> withColumn(){
             return new PrimaryUniqueColumnBuilder<TablePrimaryUniqueBuilder>
                     (initNew(PrimaryUnique.Column::new,
@@ -145,20 +196,38 @@ public class PrimaryUniques {
                     .in(this);
         }
 
+        /**
+         * set
+         * @param fillfactor fill factor
+         * @return THIS
+         */
         public TablePrimaryUniqueBuilder<ParentBuilder> withFillfactor(String fillfactor){
             target.setFillfactor(fillfactor);
             return this;
         }
 
+        /**
+         * set
+         * @param indexOptions IndexOption
+         * @return THIS
+         */
         public TablePrimaryUniqueBuilder<ParentBuilder> withIndexOptions(List<IndexOption> indexOptions){
             target.setIndexOptions(indexOptions);
             return this;
         }
 
+        /**
+         * set
+         * @param on Partition
+         * @return THIS
+         */
         public TablePrimaryUniqueBuilder<ParentBuilder> withOn(Partition on){
             target.setOn(on);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -168,7 +237,7 @@ public class PrimaryUniques {
          * Quick inout set useClustered
          * @return THIS
          */
-        public TablePrimaryUniqueBuilder $CLUSTERED(){
+        public TablePrimaryUniqueBuilder $Clustered(){
             return withUseClustered(true);
         }
 
@@ -177,7 +246,7 @@ public class PrimaryUniques {
          * Quick set useClustered
          * @return THIS
          */
-        public TablePrimaryUniqueBuilder $NONCLUSTERED(){
+        public TablePrimaryUniqueBuilder $Nonclustered(){
             return withUseClustered(false);
         }
 
@@ -205,7 +274,7 @@ public class PrimaryUniques {
          * @param fillfactor fillfactor
          * @return THIS
          */
-        public TablePrimaryUniqueBuilder $WITH_FILLFACTOR(String fillfactor){
+        public TablePrimaryUniqueBuilder $WithFillfactor(String fillfactor){
             return withFillfactor(fillfactor);
         }
 
@@ -218,6 +287,10 @@ public class PrimaryUniques {
 //        return this.and();
 //    }
 
+        /**
+         * Quick in
+         * @return PartitionBuilder
+         */
         public PartitionBuilder<TablePrimaryUniqueBuilder> $On(){
             return new PartitionBuilder<TablePrimaryUniqueBuilder>
                     (initSet(Partition::new,
@@ -230,6 +303,7 @@ public class PrimaryUniques {
 
 
     /**
+     * HashBucketCountColumnPrimaryUniqueBuilder
      * Use
      * in column_constraint --Memory optimized CREATE TABLE Syntax
      * @param <ParentBuilder>
@@ -241,21 +315,37 @@ public class PrimaryUniques {
             super(tar);
         }
 
-
+        /**
+         * set
+         * @param usePrimaryKey primary key
+         * @return THIS
+         */
         public HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> withUsePrimaryKey(boolean usePrimaryKey){
             target.setUsePrimaryKey(usePrimaryKey);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> withUseClustered(){
             target.setUseClustered(false);
             return this;
         }
 
+        /**
+         * set
+         * @param bucketCount bucket count
+         * @return THIS
+         */
         public HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> withBucketCount(Integer bucketCount){
             target.setBucketCount(bucketCount);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -265,16 +355,16 @@ public class PrimaryUniques {
          * Quick set useClustered
          * @return THIS
          */
-        public HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $NONCLUSTERED(){
+        public HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $Nonclustered(){
             return withUseClustered();
         }
 
         /**
          * Quick set bucketCount
-         * @param bucketCount bucketCount
+         * @param bucketCount bucket count
          * @return THIS
          */
-        public HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $HASH_WITH_BUCKET_COUNT(Integer bucketCount){
+        public HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $HashWithBucketCount(Integer bucketCount){
             return withUseClustered()
                     .withBucketCount(bucketCount);
         }
@@ -283,6 +373,7 @@ public class PrimaryUniques {
 
 
     /**
+     * HashBucketCountTablePrimaryUniqueBuilder
      * Use
      * in --Memory optimized CREATE TABLE Syntax
      * @param <ParentBuilder>
@@ -294,22 +385,39 @@ public class PrimaryUniques {
             super(tar);
         }
 
-
+        /**
+         * set
+         * @param usePrimaryKey primary key
+         * @return THIS
+         */
         public HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> withUsePrimaryKey(boolean usePrimaryKey){
             target.setUsePrimaryKey(usePrimaryKey);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> withUseClustered(){
             target.setUseClustered(false);
             return this;
         }
 
+        /**
+         * set
+         * @param columns Column
+         * @return THIS
+         */
         public HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> withColumn(List<PrimaryUnique.Column> columns){
             target.setColumns(columns);
             return this;
         }
 
+        /**
+         * in
+         * @return PrimaryUniqueColumnBuilder
+         */
         public PrimaryUniqueColumnBuilder<HashBucketCountTablePrimaryUniqueBuilder> withColumn(){
             return new PrimaryUniqueColumnBuilder<HashBucketCountTablePrimaryUniqueBuilder>
                     (initNew(PrimaryUnique.Column::new,
@@ -318,10 +426,18 @@ public class PrimaryUniques {
                     .in(this);
         }
 
+        /**
+         * set
+         * @param bucketCount bucket count
+         * @return THIS
+         */
         public HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> withBucketCount(Integer bucketCount){
             target.setBucketCount(bucketCount);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -336,7 +452,7 @@ public class PrimaryUniques {
         }
 
         /**
-         * Quick into
+         * Quick in
          * @return PrimaryUniqueColumnBuilder
          */
         public PrimaryUniqueColumnBuilder<HashBucketCountTablePrimaryUniqueBuilder> $(){
@@ -359,7 +475,7 @@ public class PrimaryUniques {
          * @param columns columns
          * @return THIS
          */
-        public HashBucketCountTablePrimaryUniqueBuilder $HASH(String... columns){
+        public HashBucketCountTablePrimaryUniqueBuilder $Hash(String... columns){
             initAdd(Stream.of(columns)
                             .map(PrimaryUnique.Column::new)
                             .collect(Collectors.toList()),
@@ -370,10 +486,10 @@ public class PrimaryUniques {
 
         /**
          * Quick set bucketCount
-         * @param bucketCount bucketCount
+         * @param bucketCount bucket count
          * @return THIS
          */
-        public HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> $WITH_BUCKET_COUNT(Integer bucketCount){
+        public HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> $WithBucketCount(Integer bucketCount){
             return withUseClustered()
                     .withBucketCount(bucketCount);
         }
@@ -382,6 +498,7 @@ public class PrimaryUniques {
 
 
     /**
+     * PrimaryUniqueColumnBuilder
      * Use
      * in
      * @param <ParentBuilder>
@@ -393,15 +510,28 @@ public class PrimaryUniques {
             super(column);
         }
 
+        /**
+         * set
+         * @param column column
+         * @return THIS
+         */
         public PrimaryUniqueColumnBuilder<ParentBuilder> withName(String column){
             target.setColumn(column);
             return this;
         }
 
+        /**
+         * set
+         * @param useAsc asc
+         * @return THIS
+         */
         public PrimaryUniqueColumnBuilder<ParentBuilder> withUseAsc(boolean useAsc){
             target.setUseAsc(useAsc);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -418,7 +548,7 @@ public class PrimaryUniques {
 
         /**
          * Quick set
-         * @return ParentBuilder
+         * @return PARENT
          */
         public ParentBuilder $Asc(){
             return withUseAsc(true)
@@ -427,7 +557,7 @@ public class PrimaryUniques {
 
         /**
          * Quick set
-         * @return ParentBuilder
+         * @return PARENT
          */
         public ParentBuilder $Desc(){
             return withUseAsc(false)

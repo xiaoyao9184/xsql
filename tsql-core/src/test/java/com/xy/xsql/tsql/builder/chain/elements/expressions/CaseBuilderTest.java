@@ -6,14 +6,13 @@ import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Case;
 import com.xy.xsql.tsql.model.elements.expressions.keyword.Null;
-import com.xy.xsql.tsql.model.elements.operators.Arithmetic;
-import com.xy.xsql.tsql.model.elements.operators.Comparison;
-import org.junit.Assert;
+import com.xy.xsql.tsql.model.queries.predicates.Exists;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-
+import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_exists;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -43,28 +42,28 @@ public class CaseBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(aCase.getInputExpression().toString(),"ProductLine");
-        Assert.assertTrue(aCase.getElseResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getElseResultExpression()).getString(),"Not for sale");
+        assertEquals(aCase.getInputExpression().toString(),"ProductLine");
+        assertTrue(aCase.getElseResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getElseResultExpression()).getString(),"Not for sale");
 
-        Assert.assertEquals(aCase.getWhenThenExpressionList().size(),4);
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getWhenExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getWhenExpression()).getString(),"R");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(1).getWhenExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getWhenExpression()).getString(),"M");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(2).getWhenExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getWhenExpression()).getString(),"T");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(3).getWhenExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getWhenExpression()).getString(),"S");
+        assertEquals(aCase.getWhenThenExpressionList().size(),4);
+        assertTrue(aCase.getWhenThenExpressionList().get(0).getWhenExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getWhenExpression()).getString(),"R");
+        assertTrue(aCase.getWhenThenExpressionList().get(1).getWhenExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getWhenExpression()).getString(),"M");
+        assertTrue(aCase.getWhenThenExpressionList().get(2).getWhenExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getWhenExpression()).getString(),"T");
+        assertTrue(aCase.getWhenThenExpressionList().get(3).getWhenExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getWhenExpression()).getString(),"S");
 
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getResultExpression()).getString(),"Road");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(1).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getResultExpression()).getString(),"Mountain");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(2).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getResultExpression()).getString(),"Touring");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(3).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getResultExpression()).getString(),"Other sale items");
+        assertTrue(aCase.getWhenThenExpressionList().get(0).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getResultExpression()).getString(),"Road");
+        assertTrue(aCase.getWhenThenExpressionList().get(1).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getResultExpression()).getString(),"Mountain");
+        assertTrue(aCase.getWhenThenExpressionList().get(2).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getResultExpression()).getString(),"Touring");
+        assertTrue(aCase.getWhenThenExpressionList().get(3).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getResultExpression()).getString(),"Other sale items");
     }
 
     /**
@@ -80,43 +79,57 @@ public class CaseBuilderTest {
     public void testExampleB(){
         // @formatter:off
         Case aCase = new CaseBuilder<Void>()
-                .withWhen(e_binary(e("ListPrice"),Comparison.EQUAL,e_number(0)),
+                .withWhen(
+                        e_equals(
+                                e("ListPrice"),
+                                e_number(0)),
                         e_string("Mfg item - not for resale"))
-                .withWhen(e_binary(e("ListPrice"),Comparison.LESS,e_number(50)),
+                .withWhen(
+                        e_less(
+                                e("ListPrice"),
+                                e_number(50)),
                         e_string("Under $50"))
                 .withWhen(
                         e_and(
-                            e_binary(e("ListPrice"),Comparison.GREATER_EQUAL,e_number(50)),
-                            e_binary(e("ListPrice"),Comparison.LESS,e_number(250))
+                            e_greater_equal(
+                                    e("ListPrice"),
+                                    e_number(50)),
+                            e_less(
+                                    e("ListPrice"),
+                                    e_number(250))
                         ),
                         e_string("Under $250"))
                 .withWhen(
                         e_and(
-                            e_binary(e("ListPrice"),Comparison.GREATER_EQUAL,e_number(250)),
-                            e_binary(e("ListPrice"),Comparison.LESS,e_number(1000))
+                            e_greater_equal(
+                                    e("ListPrice"),
+                                    e_number(250)),
+                            e_less(
+                                    e("ListPrice"),
+                                    e_number(1000))
                         ),
                         e_string("Under $1000"))
                 .withElse(e_string("Over $1000"))
                 .build();
         // @formatter:on
 
-        Assert.assertNull(aCase.getInputExpression());
-        Assert.assertTrue(aCase.getElseResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getElseResultExpression()).getString(),"Over $1000");
+        assertNull(aCase.getInputExpression());
+        assertTrue(aCase.getElseResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getElseResultExpression()).getString(),"Over $1000");
 
-        Assert.assertEquals(aCase.getWhenThenExpressionList().size(),4);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(1).getWhenExpression().getClass(),BinaryExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(2).getWhenExpression().getClass(),BinaryExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(3).getWhenExpression().getClass(),BinaryExpression.class);
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getResultExpression()).getString(),"Mfg item - not for resale");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(1).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getResultExpression()).getString(),"Under $50");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(2).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getResultExpression()).getString(),"Under $250");
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(3).getResultExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getResultExpression()).getString(),"Under $1000");
+        assertEquals(aCase.getWhenThenExpressionList().size(),4);
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(1).getWhenExpression().getClass(),BinaryExpression.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(2).getWhenExpression().getClass(),BinaryExpression.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(3).getWhenExpression().getClass(),BinaryExpression.class);
+        assertTrue(aCase.getWhenThenExpressionList().get(0).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(0).getResultExpression()).getString(),"Mfg item - not for resale");
+        assertTrue(aCase.getWhenThenExpressionList().get(1).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(1).getResultExpression()).getString(),"Under $50");
+        assertTrue(aCase.getWhenThenExpressionList().get(2).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(2).getResultExpression()).getString(),"Under $250");
+        assertTrue(aCase.getWhenThenExpressionList().get(3).getResultExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)aCase.getWhenThenExpressionList().get(3).getResultExpression()).getString(),"Under $1000");
     }
 
     /**
@@ -128,37 +141,36 @@ public class CaseBuilderTest {
         // @formatter:off
         Case aCase = new CaseBuilder<Void>()
                 .withInput(e("SalariedFlag"))
-                .withWhen(e_number(1),
+                .withWhen(
+                        e_number(1),
                         e("BusinessEntityID"))
                 .withElse(e("DESC"))
                 .build();
 
         Case aCase2 = new CaseBuilder<Void>()
                 .withWhen(
-                        e_binary(
+                        e_equals(
                             e("SalariedFlag"),
-                            Comparison.EQUAL,
-                            e_number(0)
-                        ),
+                            e_number(0)),
                         e("BusinessEntityID"))
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(aCase.getInputExpression().toString(),"SalariedFlag");
-        Assert.assertEquals(aCase.getElseResultExpression().toString(),"DESC");
+        assertEquals(aCase.getInputExpression().toString(),"SalariedFlag");
+        assertEquals(aCase.getElseResultExpression().toString(),"DESC");
 
-        Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);
-        Assert.assertTrue(aCase.getWhenThenExpressionList().get(0).getWhenExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)aCase.getWhenThenExpressionList().get(0).getWhenExpression()).getNumber().toString(), "1");
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().toString(),"BusinessEntityID");
+        assertEquals(aCase.getWhenThenExpressionList().size(),1);
+        assertTrue(aCase.getWhenThenExpressionList().get(0).getWhenExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)aCase.getWhenThenExpressionList().get(0).getWhenExpression()).getNumber().toString(), "1");
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().toString(),"BusinessEntityID");
 
 
-        Assert.assertNull(aCase2.getInputExpression());
-        Assert.assertNull(aCase2.getElseResultExpression());
+        assertNull(aCase2.getInputExpression());
+        assertNull(aCase2.getElseResultExpression());
 
-        Assert.assertEquals(aCase2.getWhenThenExpressionList().size(),1);
-        Assert.assertEquals(aCase2.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
-        Assert.assertEquals(aCase2.getWhenThenExpressionList().get(0).getResultExpression().toString(),"BusinessEntityID");
+        assertEquals(aCase2.getWhenThenExpressionList().size(),1);
+        assertEquals(aCase2.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
+        assertEquals(aCase2.getWhenThenExpressionList().get(0).getResultExpression().toString(),"BusinessEntityID");
     }
 
     /**
@@ -172,36 +184,27 @@ public class CaseBuilderTest {
         // @formatter:off
         Case aCase = new CaseBuilder<Void>()
                 .withWhen(
-                        e_binary(
-                                e_binary(
+                        e_less(
+                                e_subtraction(
                                         e("VacationHours"),
-                                        Arithmetic.SUBTRACTION,
-                                        e_number(10.00)
-                                ),
-                                Comparison.LESS,
-                                e_number(0)
-                        ),
-                        e_binary(
+                                        e_number(10.00)),
+                                e_number(0)),
+                        e_addition(
                                 e("VacationHours"),
-                                Arithmetic.ADDITION,
                                 e_number(40)))
                 .withElse(
-                        e_binary(
+                        e_addition(
                                 e("VacationHours"),
-                                Arithmetic.ADDITION,
-                                e_number(20.00)
-                        )
-                )
+                                e_number(20.00)))
                 .build();
         // @formatter:on
 
-        Assert.assertNull(aCase.getInputExpression());
-        Assert.assertEquals(aCase.getElseResultExpression().getClass(),BinaryExpression.class);
+        assertNull(aCase.getInputExpression());
+        assertEquals(aCase.getElseResultExpression().getClass(),BinaryExpression.class);
 
-        Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(),BinaryExpression.class);
-
+        assertEquals(aCase.getWhenThenExpressionList().size(),1);
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(),BinaryExpression.class);
     }
 
     /**
@@ -229,40 +232,35 @@ public class CaseBuilderTest {
      */
     @Test
     public void testExampleE(){
-        //TODO
-//        // @formatter:off
-//        Case aCase = new CaseBuilder<Void>()
-//                .withWhen(
-//                        e_binary(
-//                                e_binary(
-//                                        e("VacationHours"),
-//                                        Comparison.NEGATIVE,
-//                                        e_number(10.00)
-//                                ),
-//                                Comparison.LESS,
-//                                e_number(0)
-//                        ),
-//                        e_binary(
-//                                e("VacationHours"),
-//                                Comparison.PLUS,
-//                                e_number(40)))
-//                .withElse(
-//                        e_binary(
-//                                e("VacationHours"),
-//                                Comparison.PLUS,
-//                                e_number(20.00)
-//                        )
-//                )
-//                .build();
-//        // @formatter:on
-//
-//        Assert.assertNull(aCase.getInputExpression());
-//        Assert.assertEquals(aCase.getElseResultExpression().getClass(),GroupExpression.class);
-//
-//        Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);
-//        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), GroupExpression.class);
-//        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(),GroupExpression.class);
+        // @formatter:off
+        Case aCase = new CaseBuilder<Void>()
+                .withWhen(
+                        p_exists(null),
+                        e_string("Employee"))
+                .withWhen(
+                        p_exists(null),
+                        e_string("Vendor"))
+                .withWhen(
+                        p_exists(null),
+                        e_string("Store Contact"))
+                .withWhen(
+                        p_exists(null),
+                        e_string("Consumer"))
+                .build();
+        // @formatter:on
 
+        assertNull(aCase.getInputExpression());
+        assertNull(aCase.getElseResultExpression());
+
+        assertEquals(aCase.getWhenThenExpressionList().size(),4);
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), Exists.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(),StringConstant.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(1).getWhenExpression().getClass(), Exists.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(1).getResultExpression().getClass(),StringConstant.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(2).getWhenExpression().getClass(), Exists.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(2).getResultExpression().getClass(),StringConstant.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(3).getWhenExpression().getClass(), Exists.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(3).getResultExpression().getClass(),StringConstant.class);
     }
 
     /**
@@ -275,26 +273,21 @@ public class CaseBuilderTest {
         // @formatter:off
         Case aCase = new CaseBuilder<Void>()
                 .withWhen(
-                        e_binary(
+                        e_equals(
                                 e("Gender"),
-                                Comparison.EQUAL,
-                                e_string("M")
-                        ),
+                                e_string("M")),
                         c("ph1","Rate"))
-                .withElse(
-                        e_null()
-                )
+                .withElse(e_null())
                 .build();
         // @formatter:on
 
-        Assert.assertNull(aCase.getInputExpression());
-        Assert.assertEquals(aCase.getElseResultExpression().getClass(),Null.class);
-        Assert.assertEquals(aCase.getElseResultExpression().toString(),"NULL");
+        assertNull(aCase.getInputExpression());
+        assertEquals(aCase.getElseResultExpression().getClass(),Null.class);
+        assertEquals(aCase.getElseResultExpression().toString(),"NULL");
 
-        Assert.assertEquals(aCase.getWhenThenExpressionList().size(),1);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
-        Assert.assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(), ColumnName.class);
-
+        assertEquals(aCase.getWhenThenExpressionList().size(),1);
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getWhenExpression().getClass(), BinaryExpression.class);
+        assertEquals(aCase.getWhenThenExpressionList().get(0).getResultExpression().getClass(), ColumnName.class);
     }
 
 }

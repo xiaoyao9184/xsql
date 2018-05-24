@@ -3,11 +3,10 @@ package com.xy.xsql.tsql.builder.chain.elements.expressions;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Coalesce;
 import com.xy.xsql.tsql.model.elements.expressions.NullIf;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -26,16 +25,14 @@ public class NullIfBuilderTest {
                 .withExpression(
                     e_coalesce(
                             e("current_year"),
-                            e("previous_year")
-                    )
-                )
+                            e("previous_year")))
                 .withExpression(e_number(0.00))
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(nullIf.getExpressionLeft().getClass(), Coalesce.class);
-        Assert.assertTrue(nullIf.getExpressionRight() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)nullIf.getExpressionRight()).getNumber().toString(),"0.0");
+        assertEquals(nullIf.getExpressionLeft().getClass(), Coalesce.class);
+        assertTrue(nullIf.getExpressionRight() instanceof NumberConstant);
+        assertEquals(((NumberConstant)nullIf.getExpressionRight()).getNumber().toString(),"0.0");
     }
 
     /**
@@ -50,8 +47,8 @@ public class NullIfBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(nullIf.getExpressionLeft().toString(),"MakeFlag");
-        Assert.assertEquals(nullIf.getExpressionRight().toString(),"FinishedGoodsFlag");
+        assertEquals(nullIf.getExpressionLeft().toString(),"MakeFlag");
+        assertEquals(nullIf.getExpressionRight().toString(),"FinishedGoodsFlag");
     }
 
     /**
@@ -67,8 +64,8 @@ public class NullIfBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(nullIf.getExpressionLeft().toString(),"current_year");
-        Assert.assertEquals(nullIf.getExpressionRight().toString(),"previous_year");
+        assertEquals(nullIf.getExpressionLeft().toString(),"current_year");
+        assertEquals(nullIf.getExpressionRight().toString(),"previous_year");
     }
 
 }

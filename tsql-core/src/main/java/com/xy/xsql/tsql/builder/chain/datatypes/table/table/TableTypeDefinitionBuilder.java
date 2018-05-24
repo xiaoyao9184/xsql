@@ -19,8 +19,10 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * TableTypeDefinitionBuilder
  * Created by xiaoyao9184 on 2017/3/17.
  */
+@SuppressWarnings("unused")
 public class TableTypeDefinitionBuilder<ParentBuilder>
         extends CodeTreeBuilder<TableTypeDefinitionBuilder<ParentBuilder>,ParentBuilder,TableTypeDefinition> {
 
@@ -32,6 +34,10 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
         super(new TableTypeDefinition());
     }
 
+    /**
+     * in
+     * @return ColumnDefinitionBuilder
+     */
     public ColumnDefinitionBuilder<TableTypeDefinitionBuilder<ParentBuilder>> withColumnDefinition(){
         return new ColumnDefinitionBuilder<TableTypeDefinitionBuilder<ParentBuilder>>
                 ((ColumnDefinition)
@@ -41,6 +47,10 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
                 .in(this);
     }
 
+    /**
+     * in
+     * @return TableConstraintBuilder
+     */
     public TableConstraintBuilder<TableTypeDefinitionBuilder<ParentBuilder>> withTableConstraint(){
         return new TableConstraintBuilder<TableTypeDefinitionBuilder<ParentBuilder>>
                 ((TableConstraint)
@@ -50,10 +60,17 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
                 .in(this);
     }
 
+
+
+
+    /*
+    Quick
+     */
+
     /**
      * Quick set
-     * @param columnDefinitions
-     * @return
+     * @param columnDefinitions ColumnDefinition
+     * @return THIS
      */
     public TableTypeDefinitionBuilder<ParentBuilder> withColumnDefinition(ColumnDefinition... columnDefinitions){
         if(CheckUtil.isNullOrEmpty(columnDefinitions)){
@@ -68,8 +85,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
 
     /**
      * Quick set
-     * @param columnDefinitions
-     * @return
+     * @param columnDefinitions ColumnDefinition
+     * @return THIS
      */
     public TableTypeDefinitionBuilder<ParentBuilder> $_(ColumnDefinition... columnDefinitions){
         if(CheckUtil.isNullOrEmpty(columnDefinitions)){
@@ -95,7 +112,7 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
                 })
                 .collect(Collectors.toList());
         return withTableConstraint()
-                .$PRIMARY_KEY()
+                .$PrimaryKey()
                 .withColumn(columnList)
                 .and();
     }
@@ -114,7 +131,7 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
                 })
                 .collect(Collectors.toList());
         return withTableConstraint()
-                .$UNIQUE()
+                .$Unique()
                 .withColumn(columnList)
                 .and();
     }
@@ -126,7 +143,7 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
      */
     public TableTypeDefinitionBuilder<ParentBuilder> $_Check(Expression logicalExpression){
         return withTableConstraint()
-                .$CHECK()
+                .$Check()
                 .withLogicalExpression(logicalExpression)
                 .and();
     }

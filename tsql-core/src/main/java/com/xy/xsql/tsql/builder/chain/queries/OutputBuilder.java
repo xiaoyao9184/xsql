@@ -21,6 +21,7 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  * OutputBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
+@SuppressWarnings({"WeakerAccess", "UnusedReturnValue", "unused"})
 public class OutputBuilder<ParentBuilder>
         extends CodeTreeBuilder<OutputBuilder<ParentBuilder>,ParentBuilder,Output> {
 
@@ -33,6 +34,20 @@ public class OutputBuilder<ParentBuilder>
     }
 
 
+    /**
+     * set
+     * @param dmlSelectList DmlSelect
+     * @return THIS
+     */
+    public OutputBuilder<ParentBuilder> withDmlSelect(List<Output.DmlSelect> dmlSelectList){
+        this.target.setDmlSelectList(dmlSelectList);
+        return this;
+    }
+
+    /**
+     * in
+     * @return DmlSelectBuilder
+     */
     public DmlSelectBuilder<OutputBuilder<ParentBuilder>> withDmlSelect(){
         return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
                 (initNew(Output.DmlSelect::new,
@@ -41,16 +56,31 @@ public class OutputBuilder<ParentBuilder>
                 .in(this);
     }
 
+    /**
+     * set
+     * @param tableVariable table variable
+     * @return THIS
+     */
     public OutputBuilder<ParentBuilder> withTableVariable(String tableVariable){
         this.target.setTableVariable(new LocalVariable(tableVariable));
         return this;
     }
 
+    /**
+     * set
+     * @param outputTable TableName
+     * @return THIS
+     */
     public OutputBuilder<ParentBuilder> withTableName(TableName outputTable){
         this.target.setOutputTable(outputTable);
         return this;
     }
 
+    /**
+     * set
+     * @param columnNames ColumnName
+     * @return THIS
+     */
     public OutputBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
@@ -61,19 +91,11 @@ public class OutputBuilder<ParentBuilder>
         return this;
     }
 
-    public DmlSelectBuilder<OutputBuilder<ParentBuilder>> withOutputDmlSelect(){
-        return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
-                (initNew(Output.DmlSelect::new,
-                        this.target::getOutputDmlSelectList,
-                        this.target::setOutputDmlSelectList))
-                .in(this);
-    }
-
-    public OutputBuilder<ParentBuilder> withDmlSelect(List<Output.DmlSelect> dmlSelectList){
-        this.target.setDmlSelectList(dmlSelectList);
-        return this;
-    }
-
+    /**
+     * set
+     * @param columnNameList ColumnName
+     * @return THIS
+     */
     public OutputBuilder<ParentBuilder> withColumnName(List<ColumnName> columnNameList){
         if(CheckUtil.isNullOrEmpty(columnNameList)){
             return this;
@@ -84,10 +106,28 @@ public class OutputBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param dmlSelectList DmlSelect
+     * @return THIS
+     */
     public OutputBuilder<ParentBuilder> withOutputDmlSelect(List<Output.DmlSelect> dmlSelectList){
         this.target.setOutputDmlSelectList(dmlSelectList);
         return this;
     }
+
+    /**
+     * in
+     * @return DmlSelectBuilder
+     */
+    public DmlSelectBuilder<OutputBuilder<ParentBuilder>> withOutputDmlSelect(){
+        return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
+                (initNew(Output.DmlSelect::new,
+                        this.target::getOutputDmlSelectList,
+                        this.target::setOutputDmlSelectList))
+                .in(this);
+    }
+
 
 
 
@@ -97,8 +137,8 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param names
-     * @return
+     * @param names name
+     * @return THIS
      */
     @Deprecated
     public OutputBuilder<ParentBuilder> $(String... names){
@@ -117,8 +157,8 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param columnNames
-     * @return
+     * @param columnNames ColumnName
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $(Output.ColumnName... columnNames){
         if(CheckUtil.isNullOrEmpty(columnNames)){
@@ -133,6 +173,11 @@ public class OutputBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param columnNames ColumnName
+     * @return THIS
+     */
     @SuppressWarnings("Duplicates")
     public OutputBuilder<ParentBuilder> $(ColumnName... columnNames) {
         if(CheckUtil.isNullOrEmpty(columnNames)){
@@ -159,8 +204,8 @@ public class OutputBuilder<ParentBuilder>
     /**
      * Quick set DmlSelect
      * TODO maybe use Expression replace ColumnName and GroupExpression
-     * @param expressions
-     * @return
+     * @param expressions ScalarExpression
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $(ScalarExpression... expressions){
         if(CheckUtil.isNullOrEmpty(expressions)){
@@ -177,8 +222,8 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param names
-     * @return
+     * @param names name
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $Inserted(String... names){
         if(CheckUtil.isNullOrEmpty(names)){
@@ -200,8 +245,8 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set DmlSelect
-     * @param names
-     * @return
+     * @param names name
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $Deleted(String... names){
         if(CheckUtil.isNullOrEmpty(names)){
@@ -223,9 +268,9 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set tableName
-     * @param tableName
-     * @param columnNames
-     * @return
+     * @param tableName TableName
+     * @param columnNames ColumnName
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $Into(TableName tableName, ColumnName... columnNames){
         return withTableName(tableName)
@@ -234,14 +279,18 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set tableVariable
-     * @param tableVariable
-     * @return
+     * @param tableVariable table variable
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $Into(String tableVariable, ColumnName... columnNames){
         return withTableVariable(tableVariable)
                 .withColumnName(columnNames);
     }
 
+    /**
+     * int
+     * @return DmlSelectBuilder
+     */
     public DmlSelectBuilder<OutputBuilder<ParentBuilder>> $Output(){
         return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
                 (initNew(Output.DmlSelect::new,
@@ -252,8 +301,8 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set OutputDmlSelect
-     * @param names
-     * @return
+     * @param names name
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $Output(String... names){
         if(CheckUtil.isNullOrEmpty(names)){
@@ -271,8 +320,8 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set OutputDmlSelect
-     * @param columnNames
-     * @return
+     * @param columnNames ColumnName
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $Output(Output.ColumnName... columnNames){
         if(CheckUtil.isNullOrEmpty(columnNames)){
@@ -287,6 +336,11 @@ public class OutputBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param columnNames ColumnName
+     * @return THIS
+     */
     @SuppressWarnings("Duplicates")
     public OutputBuilder<ParentBuilder> $Output(ColumnName... columnNames) {
         if(CheckUtil.isNullOrEmpty(columnNames)){
@@ -311,8 +365,8 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set OutputDmlSelect
-     * @param expressions
-     * @return
+     * @param expressions ScalarExpression
+     * @return THIS
      */
     public OutputBuilder<ParentBuilder> $Output(ScalarExpression... expressions){
         if(CheckUtil.isNullOrEmpty(expressions)){
@@ -329,10 +383,10 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set OutputDmlSelect
-     * @param names
-     * @return
+     * @param names name
+     * @return THIS
      */
-    public OutputBuilder<ParentBuilder> $Output_Inserted(String... names){
+    public OutputBuilder<ParentBuilder> $OutputInserted(String... names){
         if(CheckUtil.isNullOrEmpty(names)){
             return this;
         }
@@ -352,10 +406,10 @@ public class OutputBuilder<ParentBuilder>
 
     /**
      * Quick set OutputDmlSelect
-     * @param names
-     * @return
+     * @param names name
+     * @return THIS
      */
-    public OutputBuilder<ParentBuilder> $Output_Deleted(String... names){
+    public OutputBuilder<ParentBuilder> $OutputDeleted(String... names){
         if(CheckUtil.isNullOrEmpty(names)){
             return this;
         }
@@ -374,7 +428,10 @@ public class OutputBuilder<ParentBuilder>
     }
 
 
-
+    /**
+     * DmlSelectListBuilder
+     * @param <ParentBuilder>
+     */
     public static class DmlSelectListBuilder<ParentBuilder>
             extends CodeTreeBuilder<DmlSelectListBuilder<ParentBuilder>,ParentBuilder,List<Output.DmlSelect>> {
 
@@ -386,6 +443,10 @@ public class OutputBuilder<ParentBuilder>
             super(dmlSelects);
         }
 
+        /**
+         * in
+         * @return DmlSelectBuilder
+         */
         public DmlSelectBuilder<DmlSelectListBuilder<ParentBuilder>> withItem(){
             return new DmlSelectBuilder<DmlSelectListBuilder<ParentBuilder>>
                     ()
@@ -409,7 +470,20 @@ public class OutputBuilder<ParentBuilder>
             super(dmlSelect);
         }
 
+        /**
+         * set
+         * @param columnName ColumnName
+         * @return THIS
+         */
+        public DmlSelectBuilder<ParentBuilder> withColumnName(Output.ColumnName columnName){
+            target.setColumnName(columnName);
+            return this;
+        }
 
+        /**
+         * in
+         * @return ColumnNameBuilder
+         */
         public ColumnNameBuilder<DmlSelectBuilder<ParentBuilder>> withColumnName(){
             return new ColumnNameBuilder<DmlSelectBuilder<ParentBuilder>>
                     (set(Output.ColumnName::new,
@@ -417,27 +491,46 @@ public class OutputBuilder<ParentBuilder>
                     .in(this);
         }
 
-        public DmlSelectBuilder<ParentBuilder> withColumnName(Output.ColumnName columnName){
-            target.setColumnName(columnName);
-            return this;
-        }
-
+        /**
+         * set
+         * @param scalarExpression ScalarExpression
+         * @return THIS
+         */
         public DmlSelectBuilder<ParentBuilder> withScalarExpression(ScalarExpression scalarExpression){
             this.target.setScalarExpression(scalarExpression);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public DmlSelectBuilder<ParentBuilder> withAs(){
             this.target.setUseAs(true);
             return this;
         }
 
+        /**
+         * set
+         * @param columnAliasIdentifier column alias identifier
+         * @return THIS
+         */
         public DmlSelectBuilder<ParentBuilder> withColumnAliasIdentifier(String columnAliasIdentifier){
             this.target.setColumnAliasIdentifier(columnAliasIdentifier);
             return this;
         }
 
 
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick set
+         * @param columnName column name
+         * @return THIS
+         */
         public DmlSelectBuilder<ParentBuilder> $Inserted(String columnName) {
             return withColumnName()
                     .withInserted()
@@ -445,6 +538,11 @@ public class OutputBuilder<ParentBuilder>
                     .and();
         }
 
+        /**
+         * Quick set
+         * @param columnName column name
+         * @return THIS
+         */
         public DmlSelectBuilder<ParentBuilder> $Deleted(String columnName) {
             return withColumnName()
                     .withDeleted()
@@ -452,7 +550,11 @@ public class OutputBuilder<ParentBuilder>
                     .and();
         }
 
-
+        /**
+         * Quick back
+         * @param columnAliasIdentifier column alias identifier
+         * @return PARENT
+         */
         public ParentBuilder $As(String columnAliasIdentifier){
             return withColumnAliasIdentifier(columnAliasIdentifier)
                     .and();
@@ -470,31 +572,57 @@ public class OutputBuilder<ParentBuilder>
             super(tar);
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public ColumnNameBuilder<ParentBuilder> withDeleted(){
             this.target.setUseDeleted(true);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public ColumnNameBuilder<ParentBuilder> withInserted(){
             this.target.setUseInserted(true);
             return this;
         }
 
+        /**
+         * set
+         * @param fromTableName from table name
+         * @return THIS
+         */
         public ColumnNameBuilder<ParentBuilder> withFromTableName(String fromTableName){
             this.target.setFromTableName(fromTableName);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public ColumnNameBuilder<ParentBuilder> withAll(){
             this.target.setUseAll(true);
             return this;
         }
 
+        /**
+         * set
+         * @param columnName column name
+         * @return THIS
+         */
         public ColumnNameBuilder<ParentBuilder> withColumnName(String columnName){
             this.target.setColumnName(columnName);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public ColumnNameBuilder<ParentBuilder> with$action(){
             this.target.set$action(true);
             return this;
@@ -509,8 +637,8 @@ public class OutputBuilder<ParentBuilder>
      */
 
     /**
-     * Quick into ColumnNameFactory
-     * @return
+     * Quick in ColumnNameFactory
+     * @return ColumnNameBuilder
      */
     public static ColumnNameBuilder<Output.ColumnName> column_name(){
         return new ColumnNameBuilder<>
@@ -527,8 +655,8 @@ public class OutputBuilder<ParentBuilder>
     /**
      * Quick build ColumnName
      * with inserted flag and name
-     * @param name
-     * @return
+     * @param name name
+     * @return ColumnName
      */
     public static Output.ColumnName c_inserted(String name){
         return new ColumnNameBuilder<Output.ColumnName>
@@ -540,7 +668,7 @@ public class OutputBuilder<ParentBuilder>
     /**
      * Quick build ColumnName
      * with inserted flag
-     * @return
+     * @return ColumnName
      */
     public static Output.ColumnName c_inserted(){
         return new ColumnNameBuilder<Output.ColumnName>
@@ -553,8 +681,8 @@ public class OutputBuilder<ParentBuilder>
     /**
      * Quick build ColumnName
      * with inserted flag and name
-     * @param name
-     * @return
+     * @param name name
+     * @return ColumnName
      */
     public static Output.ColumnName c_deleted(String name){
         return new ColumnNameBuilder<Output.ColumnName>
@@ -566,7 +694,7 @@ public class OutputBuilder<ParentBuilder>
     /**
      * Quick build ColumnName
      * with inserted flag
-     * @return
+     * @return ColumnName
      */
     public static Output.ColumnName c_deleted(){
         return new ColumnNameBuilder<Output.ColumnName>
@@ -579,7 +707,7 @@ public class OutputBuilder<ParentBuilder>
     /**
      * Quick build ColumnName
      * inserted flag $action
-     * @return
+     * @return ColumnName
      */
     public static Output.ColumnName c_$action(){
         Output.ColumnName c = new Output.ColumnName();

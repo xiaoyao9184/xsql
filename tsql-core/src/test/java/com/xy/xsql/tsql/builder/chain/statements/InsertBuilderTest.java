@@ -4,7 +4,6 @@ import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.tsql.model.statements.Insert;
 import com.xy.xsql.tsql.model.statements.Merge;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.*;
@@ -12,19 +11,19 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.*;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_$action;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_inserted;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.SUB_QUERY;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$SubQuery;
 import static com.xy.xsql.tsql.builder.chain.queries.UpdateBuilder.SetItemBuilder.s;
-import static com.xy.xsql.tsql.builder.chain.queries.WithBuilder.WITH;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.HASH_JOIN;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.IGNORE_TRIGGERS;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.TABLOCK;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.XLOCK;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$With;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.$HashJoin;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.$IgnoreTriggers;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.$Tablock;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.$Xlock;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.*;
-import static com.xy.xsql.tsql.builder.chain.statements.InsertBuilder.INSERT;
-import static com.xy.xsql.tsql.builder.chain.statements.MergeBuilder.MERGE;
-
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$Insert;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$Merge;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/7.
@@ -42,7 +41,7 @@ public class InsertBuilderTest {
      * INSERT INTO Production.UnitMeasure
     VALUES (N'FT', N'Feet', '20080414')
      */
-    public Insert exampleA = INSERT()
+    public Insert exampleA = $Insert()
                 .$Into()
                 .$(t("Production","UnitMeasure"))
                 .$Values()
@@ -67,10 +66,10 @@ public class InsertBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(insert.isUseInto());
-        Assert.assertEquals(insert.getTableName().toString(),"Production.UnitMeasure");
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
+        assertTrue(insert.isUseInto());
+        assertEquals(insert.getTableName().toString(),"Production.UnitMeasure");
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
     }
 
 
@@ -81,7 +80,7 @@ public class InsertBuilderTest {
     VALUES (N'FT2', N'Square Feet ', '20080923'), (N'Y', N'Yards', '20080923')
         , (N'Y3', N'Cubic Yards', '20080923')
      */
-    public Insert exampleB = INSERT()
+    public Insert exampleB = $Insert()
                 .$Into()
                 .$(t("Production","UnitMeasure"))
                 .$Values()
@@ -118,12 +117,12 @@ public class InsertBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(insert.isUseInto());
-        Assert.assertEquals(insert.getTableName().toString(),"Production.UnitMeasure");
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(1).size(),3);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(2).size(),3);
+        assertTrue(insert.isUseInto());
+        assertEquals(insert.getTableName().toString(),"Production.UnitMeasure");
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),3);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().get(1).size(),3);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().get(2).size(),3);
     }
 
 
@@ -134,7 +133,7 @@ public class InsertBuilderTest {
         ModifiedDate)
     VALUES (N'Square Yards', N'Y2', GETDATE())
      */
-    public Insert exampleC = INSERT()
+    public Insert exampleC = $Insert()
                 .$Into()
                 .$(t("Production","UnitMeasure"))
                 .$(c("Name"),c("UnitMeasureCode"),c("ModifiedDate"))
@@ -168,11 +167,11 @@ public class InsertBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(insert.isUseInto());
-        Assert.assertEquals(insert.getTableName().toString(),"Production.UnitMeasure");
-        Assert.assertEquals(insert.getColumns().size(),3);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
+        assertTrue(insert.isUseInto());
+        assertEquals(insert.getTableName().toString(),"Production.UnitMeasure");
+        assertEquals(insert.getColumns().size(),3);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),3);
     }
 
     /*
@@ -186,7 +185,7 @@ public class InsertBuilderTest {
      * INSERT INTO dbo.T1 (column_4)
         VALUES ('Explicit value')
      */
-    public Insert exampleD1 = INSERT()
+    public Insert exampleD1 = $Insert()
             .$Into()
             .$(t("dbo","T1"))
             .$(c("column_4"))
@@ -202,7 +201,7 @@ public class InsertBuilderTest {
      * IINSERT INTO dbo.T1 (column_2, column_4)
         VALUES ('Explicit value', 'Explicit value')
      */
-    public Insert exampleD2 = INSERT()
+    public Insert exampleD2 = $Insert()
             .$Into()
             .$(t("dbo","T1"))
             .$(c("column_2"),c("column_4"))
@@ -218,7 +217,7 @@ public class InsertBuilderTest {
      * INSERT INTO dbo.T1 (column_2)
         VALUES ('Explicit value')
      */
-    public Insert exampleD3 = INSERT()
+    public Insert exampleD3 = $Insert()
             .$Into()
             .$(t("dbo","T1"))
             .$(c("column_2"))
@@ -233,10 +232,10 @@ public class InsertBuilderTest {
     /**
      * INSERT INTO T1 DEFAULT VALUES
      */
-    public Insert exampleD4 = INSERT()
+    public Insert exampleD4 = $Insert()
             .$Into()
             .$(t("T1"))
-            .$Default_Values()
+            .$DefaultValues()
             .build();
     // @formatter:on
 
@@ -285,27 +284,27 @@ public class InsertBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(insert.isUseInto());
-        Assert.assertEquals(insert.getTableName().toString(),"dbo.T1");
-        Assert.assertEquals(insert.getColumns().size(),1);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
-        Assert.assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),1);
+        assertTrue(insert.isUseInto());
+        assertEquals(insert.getTableName().toString(),"dbo.T1");
+        assertEquals(insert.getColumns().size(),1);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().size(),1);
+        assertEquals(insert.getValues().getRowValueExpressionListGroup().get(0).size(),1);
 
-        Assert.assertTrue(insert1.isUseInto());
-        Assert.assertEquals(insert1.getTableName().toString(),"dbo.T1");
-        Assert.assertEquals(insert1.getColumns().size(),2);
-        Assert.assertEquals(insert1.getValues().getRowValueExpressionListGroup().size(),1);
-        Assert.assertEquals(insert1.getValues().getRowValueExpressionListGroup().get(0).size(),2);
+        assertTrue(insert1.isUseInto());
+        assertEquals(insert1.getTableName().toString(),"dbo.T1");
+        assertEquals(insert1.getColumns().size(),2);
+        assertEquals(insert1.getValues().getRowValueExpressionListGroup().size(),1);
+        assertEquals(insert1.getValues().getRowValueExpressionListGroup().get(0).size(),2);
 
-        Assert.assertTrue(insert2.isUseInto());
-        Assert.assertEquals(insert2.getTableName().toString(),"dbo.T1");
-        Assert.assertEquals(insert2.getColumns().size(),1);
-        Assert.assertEquals(insert2.getValues().getRowValueExpressionListGroup().size(),1);
-        Assert.assertEquals(insert2.getValues().getRowValueExpressionListGroup().get(0).size(),1);
+        assertTrue(insert2.isUseInto());
+        assertEquals(insert2.getTableName().toString(),"dbo.T1");
+        assertEquals(insert2.getColumns().size(),1);
+        assertEquals(insert2.getValues().getRowValueExpressionListGroup().size(),1);
+        assertEquals(insert2.getValues().getRowValueExpressionListGroup().get(0).size(),1);
 
-        Assert.assertTrue(insert3.isUseInto());
-        Assert.assertEquals(insert3.getTableName().toString(),"T1");
-        Assert.assertEquals(insert3.isUseDefaultValues(),true);
+        assertTrue(insert3.isUseInto());
+        assertEquals(insert3.getTableName().toString(),"T1");
+        assertEquals(insert3.isUseDefaultValues(),true);
     }
 
 
@@ -314,7 +313,7 @@ public class InsertBuilderTest {
     /**
      * INSERT T1 VALUES ('Row #1')
      */
-    public Insert exampleE1 = INSERT()
+    public Insert exampleE1 = $Insert()
             .$(t("T1"))
             .$Values()
                 .$(e_string("Row #1"))
@@ -327,7 +326,7 @@ public class InsertBuilderTest {
     /**
      * INSERT T1 (column_2) VALUES ('Row #2')
      */
-    public Insert exampleE2 = INSERT()
+    public Insert exampleE2 = $Insert()
             .$(t("T1"))
             .$(c("column_2"))
             .$Values()
@@ -342,7 +341,7 @@ public class InsertBuilderTest {
      * INSERT INTO T1 (column_1,column_2)
     VALUES (-99, 'Explicit identity value')
      */
-    public Insert exampleE3 = INSERT()
+    public Insert exampleE3 = $Insert()
             .$Into()
             .$(t("T1"))
             .$(c("column_1"),c("column_2"))
@@ -359,7 +358,7 @@ public class InsertBuilderTest {
      * INSERT INTO dbo.T1 (column_2)
         VALUES (NEWID())
      */
-    public Insert exampleF1 = INSERT()
+    public Insert exampleF1 = $Insert()
             .$Into()
             .$(t("dbo","T1"))
             .$(c("column_2"))
@@ -374,10 +373,10 @@ public class InsertBuilderTest {
     /**
      * INSERT INTO T1 DEFAULT VALUES
      */
-    public Insert exampleF2 = INSERT()
+    public Insert exampleF2 = $Insert()
             .$Into()
             .$(t("T1"))
-            .$Default_Values()
+            .$DefaultValues()
             .build();
     // @formatter:on
 
@@ -387,7 +386,7 @@ public class InsertBuilderTest {
     /**
      * INSERT INTO dbo.Points (PointValue) VALUES (CONVERT(Point, '3,4'))
      */
-    public Insert exampleG1 = INSERT()
+    public Insert exampleG1 = $Insert()
             .$Into()
             .$(t("dbo","Points"))
             .$(c("PointValue"))
@@ -399,7 +398,7 @@ public class InsertBuilderTest {
     /**
      * INSERT INTO dbo.Points (PointValue) VALUES (CONVERT(Point, '1,5'))
      */
-    public Insert exampleG2 = INSERT()
+    public Insert exampleG2 = $Insert()
             .$Into()
             .$(t("dbo","Points"))
             .$(c("PointValue"))
@@ -411,7 +410,7 @@ public class InsertBuilderTest {
     /**
      * INSERT INTO dbo.Points (PointValue) VALUES (CAST ('1,99' AS Point))
      */
-    public Insert exampleG3 = INSERT()
+    public Insert exampleG3 = $Insert()
             .$Into()
             .$(t("dbo","Points"))
             .$(c("PointValue"))
@@ -429,7 +428,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification derivedTableH1 = QUERY()
+    private Select.QuerySpecification derivedTableH1 = $Query()
             .$(e_string("SELECT"))
             .$(c("sp","BusinessEntityID"))
             .$(c("c","LastName"))
@@ -437,7 +436,7 @@ public class InsertBuilderTest {
             .$From()
                 .$()
                     .$(t("Sales","SalesPerson")).$As("sp")
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Person","Person")).$As("c")
                     .$On()
                         .$(p_equal(c("",""),c("","")))
@@ -461,7 +460,7 @@ public class InsertBuilderTest {
     WHERE sp.BusinessEntityID LIKE '2%'
     ORDER BY sp.BusinessEntityID, c.LastName
      */
-    public Insert exampleH1 = INSERT()
+    public Insert exampleH1 = $Insert()
             .$Into()
             .$(t("dbo","EmployeeSales"))
             //TODO derived_table
@@ -473,7 +472,7 @@ public class InsertBuilderTest {
      INSERT INTO dbo.EmployeeSales
      EXECUTE dbo.uspGetEmployeeSales
      */
-    public Insert exampleH2 = INSERT()
+    public Insert exampleH2 = $Insert()
             .$Into()
             .$(t("dbo","EmployeeSales"))
             //TODO execute_statement
@@ -493,7 +492,7 @@ public class InsertBuilderTest {
      ORDER BY sp.BusinessEntityID, c.LastName
      ')
      */
-    public Insert exampleH3 = INSERT()
+    public Insert exampleH3 = $Insert()
             .$Into()
             .$(t("dbo","EmployeeSales"))
             //TODO execute_statement
@@ -503,7 +502,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification querySpecificationI = QUERY()
+    private Select.QuerySpecification querySpecificationI = $Query()
             .$(c("e","BusinessEntityID"))
             .$(c("c","LastName"))
             .$(c("c","FirstName"))
@@ -516,35 +515,35 @@ public class InsertBuilderTest {
             .$From()
                 .$()
                     .$(t("HumanResources","Employee")).$As("e")
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Person","BusinessEntityAddress")).$As("bea")
                     .$On()
                         .$(p_equal(
                                 c("e","BusinessEntityID"),
                                 c("bea","BusinessEntityID")))
                         .and()
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Person","Address")).$As("a")
                     .$On()
                         .$(p_equal(
                                 c("bea","AddressID"),
                                 c("a","AddressID")))
                         .and()
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Person","PersonPhone")).$As("pp")
                     .$On()
                         .$(p_equal(
                                 c("e","BusinessEntityID"),
                                 c("pp","BusinessEntityID")))
                         .and()
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Person","StateProvince")).$As("sp")
                     .$On()
                         .$(p_equal(
                                 c("a","StateProvinceID"),
                                 c("sp","StateProvinceID")))
                         .and()
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Person","Person")).$As("c")
                     .$On()
                         .$(p_equal(
@@ -555,7 +554,7 @@ public class InsertBuilderTest {
                 .and()
             .build();
 
-    private With withI = WITH()
+    private With withI = $With()
             .$("EmployeeTemp")
                 .$(c("EmpID"))
                 .$(c("LastName"))
@@ -564,10 +563,10 @@ public class InsertBuilderTest {
                 .$(c("Address"))
                 .$(c("City"))
                 .$(c("StateProvince"))
-                .$As(SUB_QUERY(querySpecificationI))
+                .$As($SubQuery(querySpecificationI))
             .build();
 
-    private Select.QuerySpecification derivedTableI = QUERY()
+    private Select.QuerySpecification derivedTableI = $Query()
             .$(c("EmpID"))
             .$(c("LastName"))
             .$(c("FirstName"))
@@ -607,7 +606,7 @@ public class InsertBuilderTest {
      Address, City, StateProvince, PostalCode, CurrentFlag
      FROM EmployeeTemp
      */
-    public Insert exampleI = INSERT()
+    public Insert exampleI = $Insert()
             .$With(withI)
             .$Into()
             .$(t("HumanResources","NewEmployee"))
@@ -617,7 +616,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select derivedTableJ1 = SELECT()
+    private Select derivedTableJ1 = $Select()
             .$Select()
                 .$(c("sp","BusinessEntityID"))
                 .$(c("c","LastName"))
@@ -626,7 +625,7 @@ public class InsertBuilderTest {
                 .$From()
                     .$()
                         .$(t("Sales","SalesPerson")).$As("sp")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Person","Person")).$As("c")
                         .$On()
                             .$(p_equal(
@@ -660,7 +659,7 @@ public class InsertBuilderTest {
      WHERE sp.SalesYTD > 250000.00
      ORDER BY sp.SalesYTD DESC
      */
-    public Insert exampleJ1 = INSERT()
+    public Insert exampleJ1 = $Insert()
             .$Top()
                 .$(e_number(5))
                 .and()
@@ -678,7 +677,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select derivedTableJ2 = SELECT()
+    private Select derivedTableJ2 = $Select()
             .$Select()
                 .$Top()
                     .$(e_number(5))
@@ -690,7 +689,7 @@ public class InsertBuilderTest {
                 .$From()
                     .$()
                         .$(t("Sales","SalesPerson")).$As("sp")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Person","Person")).$As("c")
                         .$On()
                             .$(p_equal(
@@ -724,7 +723,7 @@ public class InsertBuilderTest {
      WHERE sp.SalesYTD > 250000.00
      ORDER BY sp.SalesYTD DESC
      */
-    public Insert exampleJ2 = INSERT()
+    public Insert exampleJ2 = $Insert()
             .$(t("dbo","EmployeeSales"))
             .$Output()
                 .$(c_inserted("EmployeeID"))
@@ -748,7 +747,7 @@ public class InsertBuilderTest {
      * INSERT INTO V1
      VALUES ('Row 1',1)
      */
-    public Insert exampleK = INSERT()
+    public Insert exampleK = $Insert()
             .$Into()
             .$(t("V1"))
             .$Values()
@@ -759,7 +758,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification derivedTableL = QUERY()
+    private Select.QuerySpecification derivedTableL = $Query()
             .$(c("LocationID"))
             .$(c("CostRate"))
             .$(e("GETDATE()"))
@@ -780,7 +779,7 @@ public class InsertBuilderTest {
     FROM Production.Location
     WHERE CostRate > 0
      */
-    public Insert exampleL = INSERT()
+    public Insert exampleL = $Insert()
             .$Into()
             //TODO ? table variable
 //            .$(e_variable("MyTableVar"))
@@ -806,7 +805,7 @@ public class InsertBuilderTest {
      INSERT INTO MyLinkServer.AdventureWorks2012.HumanResources.Department (Name, GroupName)
      VALUES (N'Public Relations', N'Executive General and Administration')
      */
-    public Insert exampleM = INSERT()
+    public Insert exampleM = $Insert()
             .$Into()
             .$(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
             .$(c("Name"))
@@ -826,7 +825,7 @@ public class InsertBuilderTest {
          FROM AdventureWorks2012.HumanResources.Department')
     VALUES ('Environmental Impact', 'Engineering')
      */
-    public Insert exampleN = INSERT()
+    public Insert exampleN = $Insert()
             //TODO rowset_function_limited
 //            .$Fun()
             .$Values()
@@ -848,7 +847,7 @@ public class InsertBuilderTest {
         .AdventureWorks2012.HumanResources.Department (Name, GroupName)
         VALUES (N'Standards and Methods', 'Quality Assurance')
      */
-    public Insert exampleO = INSERT()
+    public Insert exampleO = $Insert()
             .$Into()
             //TODO rowset_function_limited
 //            .$Fun()
@@ -861,7 +860,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification derivedTableP = QUERY()
+    private Select.QuerySpecification derivedTableP = $Query()
             .$(t("T"))
             .$From()
                 .$()
@@ -897,7 +896,7 @@ public class InsertBuilderTest {
     ON (T1.CustomerKey = T2.CustomerKey)
     WHERE T2.YearMeasured = 2009 and T2.Speed > 40
      */
-    public Insert exampleP = INSERT()
+    public Insert exampleP = $Insert()
             .$Into()
             .$(t("dbo","FastCustomer2009"))
             //TODO derived_table
@@ -912,7 +911,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification derivedTableQ = QUERY()
+    private Select.QuerySpecification derivedTableQ = $Query()
             .$()
             .$From()
                 .$(t("Sales","SalesOrderDetail"))
@@ -935,10 +934,10 @@ public class InsertBuilderTest {
          ModifiedDate)
      SELECT * FROM Sales.SalesOrderDetail
      */
-    public Insert exampleQ = INSERT()
+    public Insert exampleQ = $Insert()
             .$Into()
             .$(t("Sales","SalesHistory"))
-            .$With(TABLOCK())
+            .$With($Tablock())
             .$(c("SalesOrderID"))
             .$(c("SalesOrderDetailID"))
             .$(c("CarrierTrackingNumber"))
@@ -957,7 +956,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification derivedTableR = QUERY()
+    private Select.QuerySpecification derivedTableR = $Query()
             .$(c("b","Name"))
             .$(c("b","GroupName"))
             .$From()
@@ -974,10 +973,10 @@ public class InsertBuilderTest {
         FORMATFILE = 'C:SQLFilesBulkloadFormatFile.xml',
         ROWS_PER_BATCH = 15000)AS b
      */
-    public Insert exampleR = INSERT()
+    public Insert exampleR = $Insert()
             .$Into()
             .$(t("HumanResources","Department"))
-            .$With(IGNORE_TRIGGERS())
+            .$With($IgnoreTriggers())
             .$(c("Name"))
             .$(c("GroupName"))
             //TODO derived_table
@@ -997,10 +996,10 @@ public class InsertBuilderTest {
      (Name, CostRate, Availability)
      VALUES ( N'Final Inventory', 15.00, 80.00)
      */
-    public Insert exampleS = INSERT()
+    public Insert exampleS = $Insert()
             .$Into()
             .$(t("Production","Location"))
-            .$With(XLOCK())
+            .$With($Xlock())
             .$(c("Name"))
             .$(c("CostRate"))
             .$(c("Availability"))
@@ -1026,7 +1025,7 @@ public class InsertBuilderTest {
             INTO @MyTableVar
     VALUES (N'Operator error', GETDATE())
      */
-    public Insert exampleT = INSERT()
+    public Insert exampleT = $Insert()
             .$(t("Production","ScrapReason"))
             .$Output()
                 .$(c_inserted("ScrapReasonID"))
@@ -1044,7 +1043,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select derivedTableU = SELECT()
+    private Select derivedTableU = $Select()
             .$Select()
                 .$(c("c","FirstName"))
                 .$(c("c","LastName"))
@@ -1052,7 +1051,7 @@ public class InsertBuilderTest {
                 .$From()
                     .$()
                         .$(t("Sales","SalesPerson")).$As("sp")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Person","Person")).$As("c")
                         .$On()
                             .$(p_equal(
@@ -1087,7 +1086,7 @@ public class InsertBuilderTest {
         WHERE sp.BusinessEntityID LIKE '2%'
         ORDER BY c.LastName, c.FirstName
      */
-    public Insert exampleU = INSERT()
+    public Insert exampleU = $Insert()
             .$Into()
             .$(t("dbo","EmployeeSales"))
             .$(c("LastName"))
@@ -1112,16 +1111,16 @@ public class InsertBuilderTest {
 //         USING (SELECT ProductID, SUM(OrderQty) FROM Sales.SalesOrderDetail AS sod
 //         JOIN Sales.SalesOrderHeader AS soh
 //         ON sod.SalesOrderID = soh.SalesOrderID
-//         AND soh.OrderDate = '20070401'
+//         $AND soh.OrderDate = '20070401'
 //         GROUP BY ProductID) AS src (ProductID, OrderQty)
 //         ON (pi.ProductID = src.ProductID)
 
 //     WHERE Action = 'DELETE'
-    private Merge derivedTableV0 = MERGE()
+    private Merge derivedTableV0 = $Merge()
             .$(t("Production","ProductInventory"))
             .$As("pi")
             .$Using()
-                .$(QUERY()
+                .$($Query()
                         .$(c("ProductID"))
                         .$(e("SUM(OrderQty)"))
                         .$From()
@@ -1147,7 +1146,7 @@ public class InsertBuilderTest {
                         .build()
                 )
                 .$As("src","ProductID","OrderQty")
-            .$When_Matched()
+            .$WhenMatched()
                 .$And()
                     .$(p_less_equal(e_subtraction(
                             c("pi","Quantity"),
@@ -1156,8 +1155,8 @@ public class InsertBuilderTest {
                     ))
                     .and()
                 .$Then().$Delete().and()
-            .$When_Matched()
-                .$Then().$Update_Set(s(
+            .$WhenMatched()
+                .$Then().$UpdateSet(s(
                         c("pi","Quantity"),
                         e_subtraction(
                                 c("pi","Quantity"),
@@ -1166,16 +1165,16 @@ public class InsertBuilderTest {
                 )).and()
             .$OutPut()
                 .$Output(c_$action())
-                .$Output_Deleted("ProductID")
+                .$OutputDeleted("ProductID")
                 .and()
             .build();
-        //         WHEN MATCHED AND pi.Quantity - src.OrderQty <= 0
+        //         WHEN MATCHED $AND pi.Quantity - src.OrderQty <= 0
 //         THEN DELETE
 //         WHEN MATCHED
 //         THEN UPDATE SET pi.Quantity = pi.Quantity - src.OrderQty
 //         OUTPUT $action, deleted.ProductID) AS Changes (Action, ProductID)
 
-    private Select.QuerySpecification derivedTableV = QUERY()
+    private Select.QuerySpecification derivedTableV = $Query()
             .$(c("ProductID"))
             .$(e("GETDATE()"))
             .$From()
@@ -1198,17 +1197,17 @@ public class InsertBuilderTest {
          USING (SELECT ProductID, SUM(OrderQty) FROM Sales.SalesOrderDetail AS sod
          JOIN Sales.SalesOrderHeader AS soh
          ON sod.SalesOrderID = soh.SalesOrderID
-         AND soh.OrderDate = '20070401'
+         $AND soh.OrderDate = '20070401'
          GROUP BY ProductID) AS src (ProductID, OrderQty)
          ON (pi.ProductID = src.ProductID)
-         WHEN MATCHED AND pi.Quantity - src.OrderQty <= 0
+         WHEN MATCHED $AND pi.Quantity - src.OrderQty <= 0
          THEN DELETE
          WHEN MATCHED
          THEN UPDATE SET pi.Quantity = pi.Quantity - src.OrderQty
          OUTPUT $action, deleted.ProductID) AS Changes (Action, ProductID)
      WHERE Action = 'DELETE'
      */
-    public Insert exampleV = INSERT()
+    public Insert exampleV = $Insert()
             .$Into()
             .$(t("Production","ZeroInventory"))
             .$(c("DeletedProductID"))
@@ -1226,7 +1225,7 @@ public class InsertBuilderTest {
     FROM ssawPDW.dbo.DimEmployee
     WHERE EndDate IS NULL
      */
-    public Insert exampleW = INSERT()
+    public Insert exampleW = $Insert()
             .$Into()
             .$(t("EmployeeTitles"))
             //TODO derived_table
@@ -1243,7 +1242,7 @@ public class InsertBuilderTest {
     VALUES (500, N'C1', N'Currency1')
     OPTION ( LABEL = N'label1' )
      */
-    public Insert exampleX = INSERT()
+    public Insert exampleX = $Insert()
             .$Into()
             .$(t("DimCurrency"))
             .$Values()
@@ -1260,7 +1259,7 @@ public class InsertBuilderTest {
 
 
     // @formatter:off
-    private Select derivedTableY = SELECT()
+    private Select derivedTableY = $Select()
             .$Select()
                 .$(c("ProspectiveBuyerKey"))
                 .$(c("ProspectAlternateKey"))
@@ -1291,7 +1290,7 @@ public class InsertBuilderTest {
                 .and()
             .$Option()
                 .$("Add French Prospects")
-                .$(HASH_JOIN())
+                .$($HashJoin())
                 .and()
             .build();
     /**
@@ -1305,7 +1304,7 @@ public class InsertBuilderTest {
     WHERE g.CountryRegionCode = 'FR'
     OPTION ( LABEL = 'Add French Prospects', HASH JOIN)
      */
-    public Insert exampleY = INSERT()
+    public Insert exampleY = $Insert()
             .$Into()
             .$(t("DimCustomer"))
             .$(c("CustomerKey"))

@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
 
 import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.statements.InsertBuilder.INSERT;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$Insert;
 
 public class TsqlInsertSqlRender implements SqlRender<InsertParam> {
     PropertyUtilsBean propertyUtils = BeanUtilsBean.getInstance().getPropertyUtils();
@@ -54,7 +54,7 @@ public class TsqlInsertSqlRender implements SqlRender<InsertParam> {
             List<Object> params = cv.getValue();
             Expression[] values = getValues(cv.getValue().size());
 
-            Insert insert = INSERT()
+            Insert insert = $Insert()
                     .$(t(metaData.getAlias()))
                     .withColumn(cv.getKey().toArray(new ColumnName[]{}))
                     .withValues()

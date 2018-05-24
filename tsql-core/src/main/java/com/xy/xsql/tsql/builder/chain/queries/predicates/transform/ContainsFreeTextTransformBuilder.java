@@ -9,8 +9,7 @@ import com.xy.xsql.tsql.model.queries.predicates.FreeText;
 import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
 /**
- * Abstract Predicate Builder
- *
+ * Abstract ContainsFreeText Predicate Builder
  * Created by xiaoyao9184 on 2017/3/16.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})

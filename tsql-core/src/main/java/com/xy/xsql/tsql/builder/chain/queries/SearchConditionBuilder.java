@@ -54,26 +54,6 @@ public class SearchConditionBuilder<ParentBuilder>
     }
 
     /**
-     * set
-     * @return THIS
-     */
-    public SearchConditionBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
-        target.setSearchCondition(searchCondition);
-        return this;
-    }
-
-    /**
-     * set
-     * @return THIS
-     */
-    public SearchConditionBuilder<ParentBuilder> withAndOrNotItem(SearchCondition.AndOrNotItem andOrNotItem){
-        initAdd(andOrNotItem,
-                target::getAndOrList,
-                target::setAndOrList);
-        return this;
-    }
-
-    /**
      * in
      * @return PredicateBuilder
      */
@@ -81,6 +61,15 @@ public class SearchConditionBuilder<ParentBuilder>
         return new PredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 (target::setPredicate)
                 .in(this);
+    }
+
+    /**
+     * set
+     * @return THIS
+     */
+    public SearchConditionBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
+        target.setSearchCondition(searchCondition);
+        return this;
     }
 
     /**
@@ -92,6 +81,17 @@ public class SearchConditionBuilder<ParentBuilder>
                 (set(SearchCondition::new,
                         target::setSearchCondition))
                 .in(this);
+    }
+
+    /**
+     * set
+     * @return THIS
+     */
+    public SearchConditionBuilder<ParentBuilder> withAndOrNotItem(SearchCondition.AndOrNotItem andOrNotItem){
+        initAdd(andOrNotItem,
+                target::getAndOrList,
+                target::setAndOrList);
+        return this;
     }
 
     /**
@@ -244,7 +244,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $Not_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $NotContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -258,7 +258,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Not_Contains(String containsSearchCondition){
+    public SearchConditionBuilder<ParentBuilder> $NotContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -273,7 +273,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $Not_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $NotFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -287,7 +287,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Not_FreeText(String freetextString){
+    public SearchConditionBuilder<ParentBuilder> $NotFreeText(String freetextString){
         return new FreeTextPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -351,7 +351,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $And_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $AndContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -365,7 +365,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $And_Contains(String containsSearchCondition){
+    public SearchConditionBuilder<ParentBuilder> $AndContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -380,7 +380,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $And_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $AndFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -394,7 +394,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $And_FreeText(String freetextString){
+    public SearchConditionBuilder<ParentBuilder> $AndFreeText(String freetextString){
         return new FreeTextPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -409,7 +409,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $And_Exists(Select subQuery){
+    public SearchConditionBuilder<ParentBuilder> $AndExists(Select subQuery){
         return new ExistsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -438,7 +438,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate andOrNotItem.predicate
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $And_Not(Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> $AndNot(Predicate predicate) {
         return withAndOrNotItem()
                 .withAnd()
                 .withNot(true)
@@ -452,10 +452,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param expression expression
      * @return ExpressionTransformBuilder
      */
-    public ExpressionTransformBuilder<SearchConditionBuilder<ParentBuilder>> $And_Not(Expression expression){
+    public ExpressionTransformBuilder<SearchConditionBuilder<ParentBuilder>> $AndNot(Expression expression){
         return new ExpressionTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this,this::$And_Not)
+                .enter(this,this::$AndNot)
                 .withExpression(expression);
     }
 
@@ -465,10 +465,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $And_Not_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $AndNotContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withPredicate(Contains.class)
                 .withColumn(column);
     }
@@ -479,10 +479,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $And_Not_Contains(String containsSearchCondition){
+    public SearchConditionBuilder<ParentBuilder> $AndNotContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withAllColumn()
                 .withContainsSearchCondition(containsSearchCondition)
                 .back();
@@ -494,10 +494,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $And_Not_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $AndNotFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withPredicate(FreeText.class)
                 .withColumn(column);
     }
@@ -508,10 +508,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $And_Not_FreeText(String freetextString){
+    public SearchConditionBuilder<ParentBuilder> $AndNotFreeText(String freetextString){
         return new FreeTextPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withAllColumn()
                 .withFreeText(freetextString)
                 .back();
@@ -523,10 +523,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $And_Not_Exists(Select subQuery){
+    public SearchConditionBuilder<ParentBuilder> $AndNotExists(Select subQuery){
         return new ExistsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withSubQuery(subQuery)
                 .back();
     }
@@ -536,7 +536,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * And set AndOrNotItem' searchCondition
      * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $And_Not() {
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $AndNot() {
         SearchCondition searchCondition = new SearchCondition();
         withAndOrNotItem()
                 .withAnd()
@@ -580,7 +580,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $Or_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $OrContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -594,7 +594,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Or_Contains(String containsSearchCondition){
+    public SearchConditionBuilder<ParentBuilder> $OrContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -609,7 +609,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $Or_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $OrFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -623,7 +623,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Or_FreeText(String freetextString){
+    public SearchConditionBuilder<ParentBuilder> $OrFreeText(String freetextString){
         return new FreeTextPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -638,7 +638,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Or_Exists(Select subQuery){
+    public SearchConditionBuilder<ParentBuilder> $OrExists(Select subQuery){
         return new ExistsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -668,7 +668,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param predicate andOrNotItem.predicate
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Or_Not(Predicate predicate) {
+    public SearchConditionBuilder<ParentBuilder> $OrNot(Predicate predicate) {
         return withAndOrNotItem()
                 .withOr()
                 .withNot(true)
@@ -682,10 +682,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param expression expression
      * @return ExpressionTransformBuilder
      */
-    public ExpressionTransformBuilder<SearchConditionBuilder<ParentBuilder>> $Or_Not(Expression expression){
+    public ExpressionTransformBuilder<SearchConditionBuilder<ParentBuilder>> $OrNot(Expression expression){
         return new ExpressionTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this,this::$Or_Not)
+                .enter(this,this::$OrNot)
                 .withExpression(expression);
     }
 
@@ -695,10 +695,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $Or_Not_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $OrNotContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withPredicate(Contains.class)
                 .withColumn(column);
     }
@@ -709,10 +709,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Or_Not_Contains(String containsSearchCondition){
+    public SearchConditionBuilder<ParentBuilder> $OrNotContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withAllColumn()
                 .withContainsSearchCondition(containsSearchCondition)
                 .back();
@@ -724,10 +724,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $Or_Not_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>> $OrNotFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withPredicate(FreeText.class)
                 .withColumn(column);
     }
@@ -738,10 +738,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Or_Not_FreeText(String freetextString){
+    public SearchConditionBuilder<ParentBuilder> $OrNotFreeText(String freetextString){
         return new FreeTextPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withAllColumn()
                 .withFreeText(freetextString)
                 .back();
@@ -753,10 +753,10 @@ public class SearchConditionBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public SearchConditionBuilder<ParentBuilder> $Or_Not_Exists(Select subQuery){
+    public SearchConditionBuilder<ParentBuilder> $OrNotExists(Select subQuery){
         return new ExistsPredicateBuilder<SearchConditionBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withSubQuery(subQuery)
                 .back();
     }
@@ -766,7 +766,7 @@ public class SearchConditionBuilder<ParentBuilder>
      * And set AndOrNotItem' searchCondition
      * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $Or_Not() {
+    public SearchConditionBuilder<SearchConditionBuilder<ParentBuilder>> $OrNot() {
         SearchCondition searchCondition = new SearchCondition();
         withAndOrNotItem()
                 .withOr()
@@ -784,7 +784,6 @@ public class SearchConditionBuilder<ParentBuilder>
      * All Quick method move to SearchConditionBuilder
      * @param <ParentBuilder>
      */
-    @SuppressWarnings({"WeakerAccess", "SameParameterValue"})
     public static class AndOrNotItemBuilder<ParentBuilder>
             extends CodeTreeBuilder<AndOrNotItemBuilder<ParentBuilder>,ParentBuilder,SearchCondition.AndOrNotItem> {
 
@@ -797,49 +796,94 @@ public class SearchConditionBuilder<ParentBuilder>
         }
 
 
+        /**
+         * set
+         * @param useAnd and
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withAnd(boolean useAnd) {
             target.setUseAnd(useAnd);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withAnd() {
             return withAnd(true);
         }
 
+        /**
+         * set
+         * @param useOr or
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withOr(boolean useOr) {
             target.setUseAnd(!useOr);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withOr() {
             return withOr(true);
         }
 
+        /**
+         * set
+         * @param useNot not
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withNot(boolean useNot) {
             target.setUseNot(useNot);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withNot() {
             return withNot(true);
         }
 
+        /**
+         * set
+         * @param predicate Predicate
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withPredicate(Predicate predicate){
             target.setPredicate(predicate);
             return this;
         }
 
+        /**
+         * in
+         * @return PredicateBuilder
+         */
         public PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>> withPredicate(){
             return new PredicateBuilder<AndOrNotItemBuilder<ParentBuilder>>
                     (target::setPredicate)
                     .in(this);
         }
 
+        /**
+         * set
+         * @param searchCondition SearchCondition
+         * @return THIS
+         */
         public AndOrNotItemBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
             target.setSearchCondition(searchCondition);
             return this;
         }
 
+        /**
+         * in
+         * @return SearchConditionBuilder
+         */
         public SearchConditionBuilder<AndOrNotItemBuilder<ParentBuilder>> withSearchCondition(){
             return new SearchConditionBuilder<AndOrNotItemBuilder<ParentBuilder>>
                     (set(SearchCondition::new,

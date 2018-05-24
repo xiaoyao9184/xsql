@@ -4,12 +4,11 @@ import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.queries.Top;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -42,10 +41,10 @@ public class TopBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(top.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "10");
-        Assert.assertTrue(example1A.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)example1A.getExpression()).getNumber().toString(), "10");
+        assertTrue(top.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "10");
+        assertTrue(example1A.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)example1A.getExpression()).getNumber().toString(), "10");
     }
 
 
@@ -69,8 +68,8 @@ public class TopBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(top.getExpression().toString(),"@p");
-        Assert.assertEquals(example1B.getExpression().toString(),"@p");
+        assertEquals(top.getExpression().toString(),"@p");
+        assertEquals(example1B.getExpression().toString(),"@p");
     }
 
 
@@ -95,11 +94,11 @@ public class TopBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(top.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "5");
-        Assert.assertTrue(example1C.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)example1C.getExpression()).getNumber().toString(), "5");
-        Assert.assertEquals(example1C.isUsePercent(),true);
+        assertTrue(top.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "5");
+        assertTrue(example1C.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)example1C.getExpression()).getNumber().toString(), "5");
+        assertEquals(example1C.isUsePercent(),true);
     }
 
     /*
@@ -128,12 +127,12 @@ public class TopBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(top.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "10");
-        Assert.assertEquals(top.isUseTies(),true);
-        Assert.assertTrue(example2A.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)example2A.getExpression()).getNumber().toString(), "10");
-        Assert.assertEquals(example2A.isUseTies(),true);
+        assertTrue(top.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "10");
+        assertEquals(top.isUseTies(),true);
+        assertTrue(example2A.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)example2A.getExpression()).getNumber().toString(), "10");
+        assertEquals(example2A.isUseTies(),true);
     }
 
     /*
@@ -162,10 +161,10 @@ public class TopBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(top.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "20");
-        Assert.assertTrue(example3A.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)example3A.getExpression()).getNumber().toString(), "20");
+        assertTrue(top.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "20");
+        assertTrue(example3A.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)example3A.getExpression()).getNumber().toString(), "20");
     }
 
 
@@ -189,10 +188,10 @@ public class TopBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(top.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "5");
-        Assert.assertTrue(example3B.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)example3B.getExpression()).getNumber().toString(), "5");
+        assertTrue(top.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "5");
+        assertTrue(example3B.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)example3B.getExpression()).getNumber().toString(), "5");
     }
 
 
@@ -217,10 +216,10 @@ public class TopBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(top.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "10");
-        Assert.assertTrue(example3C.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)example3C.getExpression()).getNumber().toString(), "10");
+        assertTrue(top.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)top.getExpression()).getNumber().toString(), "10");
+        assertTrue(example3C.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)example3C.getExpression()).getNumber().toString(), "10");
     }
 
 }

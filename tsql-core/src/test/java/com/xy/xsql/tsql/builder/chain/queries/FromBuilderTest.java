@@ -7,18 +7,17 @@ import com.xy.xsql.tsql.model.queries.hints.JoinHint;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.SUB_QUERY;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.HOLDLOCK;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.TABLOCK;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$SubQuery;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Holdlock;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Tablock;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_equal;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -52,10 +51,10 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(option.getTableSourceList().size(),1);
-        Assert.assertEquals(option.getTableSourceList().get(0).getClass(), From.BaseTable.class);
+        assertEquals(option.getTableSourceList().size(),1);
+        assertEquals(option.getTableSourceList().get(0).getClass(), From.BaseTable.class);
         From.BaseTable tableSource = (From.BaseTable) option.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"Sales.SalesTerritory");
+        assertEquals(tableSource.getTableName().toString(),"Sales.SalesTerritory");
     }
 
 
@@ -67,7 +66,7 @@ public class FromBuilderTest {
             (FromBuilder.class,From.class)
             .$child()
                 .$(t("HumanResources","Employee"),null)
-                    .$With(TABLOCK(),HOLDLOCK())
+                    .$With($Tablock(),$Holdlock())
                     .and()
                 .and()
             .get();
@@ -79,19 +78,19 @@ public class FromBuilderTest {
         From option = new FromBuilder<From>()
                 .withItem()._Base()
                     .withTableName(t("HumanResources","Employee"))
-                    .withTableHint(TABLOCK(),HOLDLOCK())
+                    .withTableHint($Tablock(),$Holdlock())
                     .and()
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(option.getTableSourceList().size(),1);
-        Assert.assertEquals(option.getTableSourceList().get(0).getClass(), From.BaseTable.class);
+        assertEquals(option.getTableSourceList().size(),1);
+        assertEquals(option.getTableSourceList().get(0).getClass(), From.BaseTable.class);
         From.BaseTable tableSource = (From.BaseTable) option.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"HumanResources.Employee");
+        assertEquals(tableSource.getTableName().toString(),"HumanResources.Employee");
 
-        Assert.assertEquals(tableSource.getTableHintList().size(),2);
-        Assert.assertEquals(tableSource.getTableHintList().get(0).getType(), TableHint.Type.TABLOCK);
-        Assert.assertEquals(tableSource.getTableHintList().get(1).getType(), TableHint.Type.HOLDLOCK);
+        assertEquals(tableSource.getTableHintList().size(),2);
+        assertEquals(tableSource.getTableHintList().get(0).getType(), TableHint.Type.TABLOCK);
+        assertEquals(tableSource.getTableHintList().get(1).getType(), TableHint.Type.HOLDLOCK);
 
     }
 
@@ -135,24 +134,24 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-        Assert.assertEquals(tableSource1.getTableName().toString(),"HumanResources.Employee");
-        Assert.assertTrue(tableSource1.isUseAs());
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"e");
+        assertEquals(tableSource1.getTableName().toString(),"HumanResources.Employee");
+        assertTrue(tableSource1.isUseAs());
+        assertEquals(tableSource1.getTableAlias().toString(),"e");
 
-        Assert.assertEquals(tableSource.isUseCrossJoin(),true);
+        assertEquals(tableSource.isUseCrossJoin(),true);
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
-        Assert.assertEquals(tableSource2.getTableName().toString(),"HumanResources.Department");
-        Assert.assertTrue(tableSource2.isUseAs());
-        Assert.assertEquals(tableSource2.getTableAlias().toString(),"d");
+        assertEquals(tableSource2.getTableName().toString(),"HumanResources.Department");
+        assertTrue(tableSource2.isUseAs());
+        assertEquals(tableSource2.getTableAlias().toString(),"d");
     }
 
 
@@ -168,7 +167,7 @@ public class FromBuilderTest {
                     .$()
                         .$(t("Production","Product"))
                             .$As("p")
-                        .$Full_Outer_Join()
+                        .$FullOuterJoin()
                         .$(t("Sales","SalesOrderDetail"))
                             .$As("sod")
                         .$On()
@@ -209,26 +208,26 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-        Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
-        Assert.assertTrue(tableSource1.isUseAs());
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
+        assertEquals(tableSource1.getTableName().toString(),"Production.Product");
+        assertTrue(tableSource1.isUseAs());
+        assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.FULL_OUTER_JOIN);
+        assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.FULL_OUTER_JOIN);
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
-        Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
-        Assert.assertTrue(tableSource2.isUseAs());
-        Assert.assertEquals(tableSource2.getTableAlias().toString(),"sod");
+        assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
+        assertTrue(tableSource2.isUseAs());
+        assertEquals(tableSource2.getTableAlias().toString(),"sod");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 
@@ -245,7 +244,7 @@ public class FromBuilderTest {
                     .$()
                         .$(t("Production","Product"))
                         .$As("p")
-                        .$Left_Outer_Join()
+                        .$LeftOuterJoin()
                         .$(t("Sales","SalesOrderDetail"))
                         .$As("sod")
                         .$On()
@@ -285,24 +284,24 @@ public class FromBuilderTest {
 
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-        Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
+        assertEquals(tableSource1.getTableName().toString(),"Production.Product");
+        assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.LEFT_OUTER_JOIN);
+        assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.LEFT_OUTER_JOIN);
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
-        Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
-        Assert.assertEquals(tableSource2.getTableAlias().toString(),"sod");
+        assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
+        assertEquals(tableSource2.getTableAlias().toString(),"sod");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 
@@ -319,7 +318,7 @@ public class FromBuilderTest {
                     .$()
                         .$(t("Production","Product"))
                         .$As("p")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Sales","SalesOrderDetail"))
                         .$As("sod")
                         .$On()
@@ -361,26 +360,26 @@ public class FromBuilderTest {
 
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-        Assert.assertEquals(tableSource1.getTableName().toString(),"Production.Product");
-        Assert.assertTrue(tableSource1.isUseAs());
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
+        assertEquals(tableSource1.getTableName().toString(),"Production.Product");
+        assertTrue(tableSource1.isUseAs());
+        assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
+        assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
-        Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
-        Assert.assertTrue(tableSource2.isUseAs());
-        Assert.assertEquals(tableSource2.getTableAlias().toString(),"sod");
+        assertEquals(tableSource2.getTableName().toString(),"Sales.SalesOrderDetail");
+        assertTrue(tableSource2.isUseAs());
+        assertEquals(tableSource2.getTableAlias().toString(),"sod");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 
@@ -397,7 +396,7 @@ public class FromBuilderTest {
                     .$()
                         .$(t("Sales","SalesTerritory"))
                         .$As("st")
-                        .$Right_Outer_Join()
+                        .$RightOuterJoin()
                         .$(t("Sales","SalesPerson"))
                         .$As("sp")
                         .$On()
@@ -439,26 +438,26 @@ public class FromBuilderTest {
 
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-        Assert.assertEquals(tableSource1.getTableName().toString(),"Sales.SalesTerritory");
-        Assert.assertTrue(tableSource1.isUseAs());
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"st");
+        assertEquals(tableSource1.getTableName().toString(),"Sales.SalesTerritory");
+        assertTrue(tableSource1.isUseAs());
+        assertEquals(tableSource1.getTableAlias().toString(),"st");
 
-        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.RIGHT_OUTER_JOIN);
+        assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.RIGHT_OUTER_JOIN);
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
-        Assert.assertEquals(tableSource2.getTableName().toString(),"Sales.SalesPerson");
-        Assert.assertTrue(tableSource2.isUseAs());
-        Assert.assertEquals(tableSource2.getTableAlias().toString(),"sp");
+        assertEquals(tableSource2.getTableName().toString(),"Sales.SalesPerson");
+        assertTrue(tableSource2.isUseAs());
+        assertEquals(tableSource2.getTableAlias().toString(),"sp");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 
@@ -477,7 +476,7 @@ public class FromBuilderTest {
                     .$()
                         .$(t("Production","Product"))
                         .$As("p")
-                        .$Inner_Merge_Join()
+                        .$InnerMergeJoin()
                         .$(t("Purchasing","ProductVendor"))
                         .$As("pv")
                         .$On()
@@ -486,7 +485,7 @@ public class FromBuilderTest {
                                     c("pv","ProductID")
                             ))
                             .and()
-                        .$Inner_Hash_Join()
+                        .$InnerHashJoin()
                         .$(t("Purchasing","Vendor"))
                         .$As("v")
                         .$On()
@@ -543,40 +542,40 @@ public class FromBuilderTest {
 
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.JoinedTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.JoinedTable.class);
         From.JoinedTable tableSource01 = (From.JoinedTable) tableSource.getTableSource();
 
-            Assert.assertEquals(tableSource01.getTableSource().getClass(),From.BaseTable.class);
+            assertEquals(tableSource01.getTableSource().getClass(),From.BaseTable.class);
             From.BaseTable tableSource11 = (From.BaseTable) tableSource01.getTableSource();
-            Assert.assertEquals(tableSource11.getTableName().toString(),"Production.Product");
-            Assert.assertTrue(tableSource11.isUseAs());
-            Assert.assertEquals(tableSource11.getTableAlias().toString(),"p");
+            assertEquals(tableSource11.getTableName().toString(),"Production.Product");
+            assertTrue(tableSource11.isUseAs());
+            assertEquals(tableSource11.getTableAlias().toString(),"p");
 
-            Assert.assertEquals(tableSource01.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
-            Assert.assertEquals(tableSource01.getJoinType().getJoinHint(), JoinHint.MERGE);
+            assertEquals(tableSource01.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
+            assertEquals(tableSource01.getJoinType().getJoinHint(), JoinHint.MERGE);
 
-            Assert.assertEquals(tableSource01.getTableSource2().getClass(),From.BaseTable.class);
+            assertEquals(tableSource01.getTableSource2().getClass(),From.BaseTable.class);
             From.BaseTable tableSource12 = (From.BaseTable) tableSource01.getTableSource2();
-            Assert.assertEquals(tableSource12.getTableName().toString(),"Purchasing.ProductVendor");
-            Assert.assertTrue(tableSource12.isUseAs());
-            Assert.assertEquals(tableSource12.getTableAlias().toString(),"pv");
+            assertEquals(tableSource12.getTableName().toString(),"Purchasing.ProductVendor");
+            assertTrue(tableSource12.isUseAs());
+            assertEquals(tableSource12.getTableAlias().toString(),"pv");
 
 
-        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
-        Assert.assertEquals(tableSource.getJoinType().getJoinHint(), JoinHint.HASH);
+        assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
+        assertEquals(tableSource.getJoinType().getJoinHint(), JoinHint.HASH);
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource02 = (From.BaseTable) tableSource.getTableSource2();
-        Assert.assertEquals(tableSource02.getTableName().toString(),"Purchasing.Vendor");
-        Assert.assertTrue(tableSource02.isUseAs());
-        Assert.assertEquals(tableSource02.getTableAlias().toString(),"v");
+        assertEquals(tableSource02.getTableName().toString(),"Purchasing.Vendor");
+        assertTrue(tableSource02.isUseAs());
+        assertEquals(tableSource02.getTableAlias().toString(),"v");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 
@@ -589,7 +588,7 @@ public class FromBuilderTest {
                 .$()
                     .$(t("Person","Address"))
                     .$As("a")
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Person","BusinessEntityAddress"))
                     .$As("bea")
                     .$On()
@@ -618,7 +617,7 @@ public class FromBuilderTest {
                     .$()
                         .$(t("Person","Person"))
                         .$As("p")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("HumanResources","Employee"))
                         .$As("e")
                         .$On()
@@ -627,7 +626,7 @@ public class FromBuilderTest {
                                     c("e","BusinessEntityID")
                             ))
                             .and()
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(querySpecification)
                         .$As("d")
                         .$On()
@@ -667,7 +666,7 @@ public class FromBuilderTest {
                         .and()
                     .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
                     .withTableSource2()._Derived()
-                        .withSubQuery(SUB_QUERY(querySpecification))
+                        .withSubQuery($SubQuery(querySpecification))
                         .withAs()
                         .withTableAlias("d")
                         .and()
@@ -682,36 +681,36 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.JoinedTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.JoinedTable.class);
         From.JoinedTable tableSource0 = (From.JoinedTable) tableSource.getTableSource();
 
-            Assert.assertEquals(tableSource0.getTableSource().getClass(),From.BaseTable.class);
+            assertEquals(tableSource0.getTableSource().getClass(),From.BaseTable.class);
             From.BaseTable tableSource1 = (From.BaseTable) tableSource0.getTableSource();
-            Assert.assertNotNull(tableSource1.getTableName().toString(),"Person.Person");
-            Assert.assertTrue(tableSource1.isUseAs());
-            Assert.assertEquals(tableSource1.getTableAlias().toString(),"p");
+            assertNotNull(tableSource1.getTableName().toString(),"Person.Person");
+            assertTrue(tableSource1.isUseAs());
+            assertEquals(tableSource1.getTableAlias().toString(),"p");
 
-            Assert.assertEquals(tableSource0.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
+            assertEquals(tableSource0.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
 
-            Assert.assertEquals(tableSource0.getTableSource2().getClass(),From.BaseTable.class);
+            assertEquals(tableSource0.getTableSource2().getClass(),From.BaseTable.class);
             From.BaseTable tableSource2 = (From.BaseTable) tableSource0.getTableSource2();
-            Assert.assertNotNull(tableSource2.getTableName().toString(),"HumanResources.Employee");
-            Assert.assertEquals(tableSource2.getTableAlias().toString(),"e");
+            assertNotNull(tableSource2.getTableName().toString(),"HumanResources.Employee");
+            assertEquals(tableSource2.getTableAlias().toString(),"e");
 
-        Assert.assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
+        assertEquals(tableSource.getJoinType().getKeywords(), From.JoinTypeKeywords.INNER_JOIN);
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.DerivedTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.DerivedTable.class);
         From.DerivedTable tableSource3 = (From.DerivedTable) tableSource.getTableSource2();
-        Assert.assertNotNull(tableSource3.getSubQuery());
-        Assert.assertTrue(tableSource3.isUseAs());
-        Assert.assertEquals(tableSource3.getTableAlias().toString(),"d");
+        assertNotNull(tableSource3.getSubQuery());
+        assertTrue(tableSource3.isUseAs());
+        assertEquals(tableSource3.getTableAlias().toString(),"d");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 
@@ -750,15 +749,15 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.BaseTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.BaseTable.class);
         From.BaseTable tableSource = (From.BaseTable) from.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"Sales.Customer");
+        assertEquals(tableSource.getTableName().toString(),"Sales.Customer");
 
-        Assert.assertTrue(tableSource.getTableSample().isUseSystem());
-        Assert.assertEquals(tableSource.getTableSample().getSampleNumber().getNumber(),10);
-        Assert.assertTrue(tableSource.getTableSample().isUsePercent());
+        assertTrue(tableSource.getTableSample().isUseSystem());
+        assertEquals(tableSource.getTableSample().getSampleNumber().getNumber(),10);
+        assertTrue(tableSource.getTableSample().isUsePercent());
     }
 
 
@@ -800,22 +799,22 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-        Assert.assertEquals(tableSource1.getTableName().toString(),"Departments");
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"d");
+        assertEquals(tableSource1.getTableName().toString(),"Departments");
+        assertEquals(tableSource1.getTableAlias().toString(),"d");
 
-        Assert.assertTrue(tableSource.isUseCrossApply());
+        assertTrue(tableSource.isUseCrossApply());
 
-//        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.Function.class);
+//        assertEquals(tableSource.getTableSource2().getClass(),From.Function.class);
 //        From.Function tableSource2 = (From.Function) tableSource.getTableSource2();
-//        Assert.assertEquals(tableSource2.getName().toString(),"dbo.GetReports");
-//        Assert.assertEquals(tableSource2.getArgs().toString(),"d.DeptMgrID");
+//        assertEquals(tableSource2.getName().toString(),"dbo.GetReports");
+//        assertEquals(tableSource2.getArgs().toString(),"d.DeptMgrID");
 
     }
 
@@ -859,22 +858,22 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(), From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
-        Assert.assertEquals(tableSource1.getTableName().toString(),"sys.dm_exec_cached_plans");
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"cp");
+        assertEquals(tableSource1.getTableName().toString(),"sys.dm_exec_cached_plans");
+        assertEquals(tableSource1.getTableAlias().toString(),"cp");
 
-        Assert.assertTrue(tableSource.isUseCrossApply());
+        assertTrue(tableSource.isUseCrossApply());
 
-//        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.Function.class);
+//        assertEquals(tableSource.getTableSource2().getClass(),From.Function.class);
 //        From.Function tableSource2 = (From.Function) tableSource.getTableSource2();
-//        Assert.assertEquals(tableSource2.getName().toString(),"dbo.GetReports");
-//        Assert.assertEquals(tableSource2.getArgs().toString(),"d.DeptMgrID");
+//        assertEquals(tableSource2.getName().toString(),"dbo.GetReports");
+//        assertEquals(tableSource2.getArgs().toString(),"d.DeptMgrID");
 
     }
 
@@ -908,13 +907,13 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
         From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+        assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
-        Assert.assertEquals(tableSource.getSystemTime().getDateTime().getDateTimeLiteral().getString(),"2014-01-01");
+        assertEquals(tableSource.getSystemTime().getDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 
@@ -948,15 +947,15 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
         From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+        assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
-        Assert.assertTrue(tableSource.getSystemTime().isUseFrom());
-        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
-        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
+        assertTrue(tableSource.getSystemTime().isUseFrom());
+        assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
+        assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 
@@ -964,7 +963,7 @@ public class FromBuilderTest {
     // @formatter:off
     /**
      * FROM DEPARTMENT
-     FOR SYSTEM_TIME BETWEEN '2013-01-01' AND '2014-01-01'
+     FOR SYSTEM_TIME $BETWEEN '2013-01-01' $AND '2014-01-01'
      */
     public From exampleM3 = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
@@ -990,15 +989,15 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
         From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+        assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
-        Assert.assertTrue(tableSource.getSystemTime().isUseBetween());
-        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
-        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
+        assertTrue(tableSource.getSystemTime().isUseBetween());
+        assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
+        assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 
@@ -1032,15 +1031,15 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
         From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+        assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
-        Assert.assertTrue(tableSource.getSystemTime().isUseContained());
-        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
-        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
+        assertTrue(tableSource.getSystemTime().isUseContained());
+        assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeLiteral().getString(),"2013-01-01");
+        assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeLiteral().getString(),"2014-01-01");
 
     }
 
@@ -1076,15 +1075,15 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
         From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
+        assertEquals(tableSource.getTableName().toString(),"DEPARTMENT");
 
-        Assert.assertTrue(tableSource.getSystemTime().isUseFrom());
-        Assert.assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeVariable().toString(),"@AsOfFrom");
-        Assert.assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeVariable().toString(),"@AsOfTo");
+        assertTrue(tableSource.getSystemTime().isUseFrom());
+        assertEquals(tableSource.getSystemTime().getStartDateTime().getDateTimeVariable().toString(),"@AsOfFrom");
+        assertEquals(tableSource.getSystemTime().getEndDateTime().getDateTimeVariable().toString(),"@AsOfTo");
 
     }
 
@@ -1116,11 +1115,11 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
         From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
-        Assert.assertEquals(tableSource.getTableName().toString(),"DimSalesTerritory");
+        assertEquals(tableSource.getTableName().toString(),"DimSalesTerritory");
 
     }
 
@@ -1135,7 +1134,7 @@ public class FromBuilderTest {
                 .$child()
                     .$()
                         .$(t("FactInternetSales")).$As("fis")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("DimProduct")).$As("dp")
                         .$On()
                             .$(p_equal(
@@ -1175,24 +1174,24 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
 
-        Assert.assertEquals(tableSource1.getTableName().toString(),"FactInternetSales");
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"fis");
+        assertEquals(tableSource1.getTableName().toString(),"FactInternetSales");
+        assertEquals(tableSource1.getTableAlias().toString(),"fis");
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
 
-        Assert.assertEquals(tableSource2.getTableName().toString(),"DimProduct");
-        Assert.assertEquals(tableSource2.getTableAlias().toString(),"dp");
+        assertEquals(tableSource2.getTableName().toString(),"DimProduct");
+        assertEquals(tableSource2.getTableAlias().toString(),"dp");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 
@@ -1208,7 +1207,7 @@ public class FromBuilderTest {
                 .$child()
                     .$()
                         .$(t("FactInternetSales")).$As("fis")
-                        .$Left_Outer_Join()
+                        .$LeftOuterJoin()
                         .$(t("DimProduct")).$As("dp")
                         .$On()
                             .$(p_equal(
@@ -1248,24 +1247,24 @@ public class FromBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().size(),1);
 
-        Assert.assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
         From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        Assert.assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
         From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
 
-        Assert.assertEquals(tableSource1.getTableName().toString(),"FactInternetSales");
-        Assert.assertEquals(tableSource1.getTableAlias().toString(),"fis");
+        assertEquals(tableSource1.getTableName().toString(),"FactInternetSales");
+        assertEquals(tableSource1.getTableAlias().toString(),"fis");
 
-        Assert.assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
         From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
 
-        Assert.assertEquals(tableSource2.getTableName().toString(),"DimProduct");
-        Assert.assertEquals(tableSource2.getTableAlias().toString(),"dp");
+        assertEquals(tableSource2.getTableName().toString(),"DimProduct");
+        assertEquals(tableSource2.getTableAlias().toString(),"dp");
 
-        Assert.assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(),Comparison.class);
 
     }
 

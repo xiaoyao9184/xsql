@@ -25,15 +25,30 @@ import static com.xy.xsql.core.ListBuilder.initList;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * SelectBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
+@SuppressWarnings({"WeakerAccess", "unused", "UnusedReturnValue"})
 public class SelectBuilder extends CodeBuilder<Select> {
 
     public SelectBuilder(){
         super(new Select());
     }
 
+    /**
+     * set
+     * @param with With
+     * @return THIS
+     */
+    public SelectBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
 
+    /**
+     * in
+     * @return WithBuilder
+     */
     public WithBuilder<SelectBuilder> withWith(){
         return new WithBuilder<SelectBuilder>
                 (initSet(With::new,
@@ -42,25 +57,21 @@ public class SelectBuilder extends CodeBuilder<Select> {
                 .in(this);
     }
 
-    public SelectBuilder withWith(With with){
-        this.target.setWith(with);
-        return this;
-    }
-
-//    public QuerySpecificationBuilder<SelectBuilder> withQuery() {
-//        com.xy.xsql.tsql.model.queries.Select.QuerySpecification querySpecification = new com.xy.xsql.tsql.model.queries.Select.QuerySpecification();
-//        target.setQueryExpression(querySpecification);
-//        return new QuerySpecificationBuilder<SelectBuilder>
-//                (querySpecification)
-//                .in(this);
-//    }
-
-
+    /**
+     * set
+     * @param queryExpression QueryExpression
+     * @return THIS
+     */
     public SelectBuilder withQuery(Select.QueryExpression queryExpression) {
         target.setQueryExpression(queryExpression);
         return this;
     }
 
+    /**
+     * set
+     * @param querySpecification QuerySpecification
+     * @return THIS
+     */
     public SelectBuilder withQuery(Select.QuerySpecification querySpecification){
         return new QueryExpressionBuilder<SelectBuilder>
                 (initSet(Select.QueryExpression::new,
@@ -71,6 +82,18 @@ public class SelectBuilder extends CodeBuilder<Select> {
                 .and();
     }
 
+//    public QuerySpecificationBuilder<SelectBuilder> withQuery() {
+//        com.xy.xsql.tsql.model.queries.Select.QuerySpecification querySpecification = new com.xy.xsql.tsql.model.queries.Select.QuerySpecification();
+//        target.setQueryExpression(querySpecification);
+//        return new QuerySpecificationBuilder<SelectBuilder>
+//                (querySpecification)
+//                .in(this);
+//    }
+
+    /**
+     * in
+     * @return QueryExpressionBuilder
+     */
     public QueryExpressionBuilder<SelectBuilder> withQuery(){
         return new QueryExpressionBuilder<SelectBuilder>
                 (initSet(Select.QueryExpression::new,
@@ -79,6 +102,20 @@ public class SelectBuilder extends CodeBuilder<Select> {
                 .in(this);
     }
 
+    /**
+     * set
+     * @param orderBy OrderBy
+     * @return THIS
+     */
+    public SelectBuilder withOrderBy(OrderBy orderBy) {
+        target.setOrderBy(orderBy);
+        return this;
+    }
+
+    /**
+     * in
+     * @return OrderByBuilder
+     */
     public OrderByBuilder<SelectBuilder> withOrderBy() {
         return new OrderByBuilder<SelectBuilder>
                 (initSet(OrderBy::new,
@@ -87,11 +124,20 @@ public class SelectBuilder extends CodeBuilder<Select> {
                 .in(this);
     }
 
-    public SelectBuilder withOrderBy(OrderBy orderBy) {
-        target.setOrderBy(orderBy);
+    /**
+     * set
+     * @param for_ For
+     * @return THIS
+     */
+    public SelectBuilder withFor(For for_) {
+        this.target.setForClause(for_);
         return this;
     }
 
+    /**
+     * in
+     * @return ForBuilder
+     */
     public ForBuilder<SelectBuilder> withFor() {
         return new ForBuilder<SelectBuilder>
                 (initSet(For::new,
@@ -100,11 +146,20 @@ public class SelectBuilder extends CodeBuilder<Select> {
                 .in(this);
     }
 
-    public SelectBuilder withFor(For for_) {
-        this.target.setForClause(for_);
+    /**
+     * set
+     * @param option Option
+     * @return THIS
+     */
+    public SelectBuilder withOption(Option option) {
+        this.target.setOption(option);
         return this;
     }
 
+    /**
+     * in
+     * @return OptionBuilder
+     */
     public OptionBuilder<SelectBuilder> withOption() {
         return new OptionBuilder<SelectBuilder>
                 (initSet(Option::new,
@@ -113,51 +168,29 @@ public class SelectBuilder extends CodeBuilder<Select> {
                 .in(this);
     }
 
-    public SelectBuilder withOption(Option option) {
-        this.target.setOption(option);
-        return this;
-    }
-
 
 
 
     /*
-    Quick into
+    Quick
      */
 
     /**
-     * Quick into SelectBuilder
-     * @return
-     */
-    public static SelectBuilder SELECT(){
-        return new SelectBuilder();
-    }
-
-
-//    /**
-//     * Quick into
-//     * @return
-//     */
-//    public QuerySpecificationBuilder<SelectBuilder> $() {
-//        return withQuery();
-//    }
-
-    /**
-     * Quick into QueryExpressionBuilder
+     * Quick in QueryExpressionBuilder
      * And set queryExpression
-     * @return
+     * @return QueryExpressionBuilder
      */
     public QueryExpressionBuilder<SelectBuilder> $() {
         return withQuery();
     }
 
     /**
-     * Quick into QuerySpecificationBuilder
+     * Quick in QuerySpecificationBuilder
      * into QueryExpressionBuilder
      * And set queryExpression
      * into QuerySpecificationBuilder
      * And set queryExpression.querySpecification
-     * @return
+     * @return QuerySpecificationBuilder
      */
     public QuerySpecificationBuilder<SelectBuilder> $Select() {
         Select.QuerySpecification query = withQuery()
@@ -170,27 +203,27 @@ public class SelectBuilder extends CodeBuilder<Select> {
     }
 
     /**
-     * Quick into OrderByBuilder
+     * Quick in OrderByBuilder
      * And set orderBy
-     * @return
+     * @return OrderByBuilder
      */
     public OrderByBuilder<SelectBuilder> $OrderBy() {
         return withOrderBy();
     }
 
     /**
-     * Quick into ForBuilder
+     * Quick in ForBuilder
      * And set for
-     * @return
+     * @return ForBuilder
      */
     public ForBuilder<SelectBuilder> $For() {
         return withFor();
     }
 
     /**
-     * Quick into OptionBuilder
+     * Quick in OptionBuilder
      * And set option
-     * @return
+     * @return OptionBuilder
      */
     public OptionBuilder<SelectBuilder> $Option() {
         return withOption();
@@ -214,12 +247,20 @@ public class SelectBuilder extends CodeBuilder<Select> {
             super(queryExpression);
         }
 
-
+        /**
+         * set
+         * @param querySpecification QuerySpecification
+         * @return THIS
+         */
         public QueryExpressionBuilder<ParentBuilder> withQuerySpecification(Select.QuerySpecification querySpecification) {
             target.setQuerySpecification(querySpecification);
             return this;
         }
 
+        /**
+         * in
+         * @return QuerySpecificationBuilder
+         */
         public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> withQuerySpecification(){
             return new QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>>
                     (set(Select.QuerySpecification::new,
@@ -227,6 +268,10 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
+        /**
+         * in
+         * @return QueryExpressionBuilder
+         */
         public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> withQueryExpression(){
             return new QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>>
                     (set(Select.QueryExpression::new,
@@ -234,6 +279,10 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
+        /**
+         * in
+         * @return UnitItemBuilder
+         */
         public UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>> withUnitItem(){
             return new UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>>
                     (initNew(Select.UnionItem::new,
@@ -244,38 +293,44 @@ public class SelectBuilder extends CodeBuilder<Select> {
 
 
 
+
         /*
         Quick set
          */
 
         /**
-         * Quick into QuerySpecificationBuilder
+         * Quick in QuerySpecificationBuilder
          * set querySpecification
-         * @return
+         * @return QuerySpecificationBuilder
          */
         public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $Select(){
             return withQuerySpecification();
         }
 
         /**
-         * Quick into QueryExpressionBuilder
+         * Quick in QueryExpressionBuilder
          * set queryExpression
-         * @return
+         * @return QueryExpressionBuilder
          */
         public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $_(){
             return withQueryExpression();
         }
 
+        /**
+         * Quick in QueryExpressionBuilder
+         * set queryExpression
+         * @return QueryExpressionBuilder
+         */
         public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $(){
             return withQueryExpression();
         }
 
         /**
-         * Quick into QuerySpecificationBuilder
+         * Quick in QuerySpecificationBuilder
          * And set UnitItem' querySpecification
-         * @return
+         * @return QuerySpecificationBuilder
          */
-        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $Union_Select(){
+        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $UnionSelect(){
             Select.QuerySpecification query = withUnitItem()
                     .withOperatorSet(Set.UNION)
                     .withQuerySpecification()
@@ -287,11 +342,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         /**
-         * Quick into QuerySpecificationBuilder
+         * Quick in QuerySpecificationBuilder
          * And set UnitItem' querySpecification
-         * @return
+         * @return QuerySpecificationBuilder
          */
-        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $Union_All_Select(){
+        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $UnionAllSelect(){
             Select.QuerySpecification query = withUnitItem()
                     .withOperatorSet(Set.UNION_ALL)
                     .withQuerySpecification()
@@ -303,11 +358,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         /**
-         * Quick into QuerySpecificationBuilder
+         * Quick in QuerySpecificationBuilder
          * And set UnitItem' querySpecification
-         * @return
+         * @return QuerySpecificationBuilder
          */
-        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $Except_Select(){
+        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $ExceptSelect(){
             Select.QuerySpecification query = withUnitItem()
                     .withOperatorSet(Set.EXCEPT)
                     .withQuerySpecification()
@@ -319,11 +374,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         /**
-         * Quick into QuerySpecificationBuilder
+         * Quick in QuerySpecificationBuilder
          * And set UnitItem' querySpecification
-         * @return
+         * @return QuerySpecificationBuilder
          */
-        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $Intersect_Select(){
+        public QuerySpecificationBuilder<QueryExpressionBuilder<ParentBuilder>> $IntersectSelect(){
             Select.QuerySpecification query = withUnitItem()
                     .withOperatorSet(Set.INTERSECT)
                     .withQuerySpecification()
@@ -335,9 +390,9 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         /**
-         * Quick into QueryExpressionBuilder
+         * Quick in QueryExpressionBuilder
          * And set UnitItem' queryExpression
-         * @return
+         * @return QueryExpressionBuilder
          */
         public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $Union_(){
             Select.QueryExpression group = withUnitItem()
@@ -351,11 +406,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         /**
-         * Quick into QueryExpressionBuilder
+         * Quick in QueryExpressionBuilder
          * And set UnitItem' queryExpression
-         * @return
+         * @return QueryExpressionBuilder
          */
-        public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $Union_All_(){
+        public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $UnionAll_(){
             Select.QueryExpression group = withUnitItem()
                     .withOperatorSet(Set.UNION_ALL)
                     .withQueryExpression()
@@ -367,9 +422,9 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         /**
-         * Quick into QueryExpressionBuilder
+         * Quick in QueryExpressionBuilder
          * And set UnitItem' queryExpression
-         * @return
+         * @return QueryExpressionBuilder
          */
         public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $Except_(){
             Select.QueryExpression group = withUnitItem()
@@ -383,9 +438,9 @@ public class SelectBuilder extends CodeBuilder<Select> {
         }
 
         /**
-         * Quick into QueryExpressionBuilder
+         * Quick in QueryExpressionBuilder
          * And set UnitItem' queryExpression
-         * @return
+         * @return QueryExpressionBuilder
          */
         public QueryExpressionBuilder<QueryExpressionBuilder<ParentBuilder>> $Intersect_(){
             Select.QueryExpression group = withUnitItem()
@@ -412,12 +467,30 @@ public class SelectBuilder extends CodeBuilder<Select> {
             super(unionItem);
         }
 
-
+        /**
+         * set
+         * @param set Set
+         * @return THIS
+         */
         public UnitItemBuilder<ParentBuilder> withOperatorSet(Set set) {
             target.setOperatorSet(set);
             return this;
         }
 
+        /**
+         * set
+         * @param querySpecification QuerySpecification
+         * @return THIS
+         */
+        public UnitItemBuilder<ParentBuilder> withQuerySpecification(Select.QuerySpecification querySpecification){
+            this.target.setQuerySpecification(querySpecification);
+            return this;
+        }
+
+        /**
+         * in
+         * @return QuerySpecificationBuilder
+         */
         public QuerySpecificationBuilder<UnitItemBuilder<ParentBuilder>> withQuerySpecification(){
             return new QuerySpecificationBuilder<UnitItemBuilder<ParentBuilder>>
                     (set(Select.QuerySpecification::new,
@@ -425,16 +498,25 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
+        /**
+         * set
+         * @param queryExpression QueryExpression
+         * @return THIS
+         */
+        public UnitItemBuilder<ParentBuilder> withQueryExpression(Select.QueryExpression queryExpression){
+            this.target.setQueryExpression(queryExpression);
+            return this;
+        }
+
+        /**
+         * in
+         * @return QueryExpressionBuilder
+         */
         public QueryExpressionBuilder<UnitItemBuilder<ParentBuilder>> withQueryExpression(){
             return new QueryExpressionBuilder<UnitItemBuilder<ParentBuilder>>
                     (set(Select.QueryExpression::new,
                             target::setQueryExpression))
                     .in(this);
-        }
-
-        public UnitItemBuilder<ParentBuilder> withQuerySpecification(Select.QuerySpecification querySpecification){
-            this.target.setQuerySpecification(querySpecification);
-            return this;
         }
 
     }
@@ -457,17 +539,38 @@ public class SelectBuilder extends CodeBuilder<Select> {
             super(tar);
         }
 
-
+        /**
+         * set
+         * @return THIS
+         */
         public QuerySpecificationBuilder<ParentBuilder> withAll() {
             target.setUseAll(true);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public QuerySpecificationBuilder<ParentBuilder> withDistinct() {
             target.setUseDistinct(true);
             return this;
         }
 
+        /**
+         * set
+         * @param top Top
+         * @return THIS
+         */
+        public QuerySpecificationBuilder<ParentBuilder> withTop(Top top){
+            this.target.setTop(top);
+            return this;
+        }
+
+        /**
+         * in
+         * @return TopBuilder
+         */
         public TopBuilder<QuerySpecificationBuilder<ParentBuilder>> withTop(){
             Top top = new Top();
             target.setTop(top);
@@ -475,11 +578,34 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
-        public QuerySpecificationBuilder<ParentBuilder> withTop(Top top){
-            this.target.setTop(top);
+        /**
+         * set
+         * @param selectItems SelectItem
+         * @return THIS
+         */
+        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(com.xy.xsql.tsql.model.queries.select.Select.SelectItem... selectItems) {
+            initAdd(Arrays.asList(selectItems),
+                    target::getSelectList,
+                    target::setSelectList);
             return this;
         }
 
+        /**
+         * set
+         * @param selectItems SelectItem
+         * @return THIS
+         */
+        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(List<com.xy.xsql.tsql.model.queries.select.Select.SelectItem> selectItems) {
+            initAdd(selectItems,
+                    target::getSelectList,
+                    target::setSelectList);
+            return this;
+        }
+
+        /**
+         * in
+         * @return SelectItemBuilder
+         */
         public com.xy.xsql.tsql.builder.chain.queries.select.SelectBuilder.SelectItemBuilder<QuerySpecificationBuilder<ParentBuilder>> withSelectItem(){
             com.xy.xsql.tsql.model.queries.select.Select.SelectItem item = new com.xy.xsql.tsql.model.queries.select.Select.SelectItem();
             initList(target::getSelectList,
@@ -490,20 +616,11 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
-        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(com.xy.xsql.tsql.model.queries.select.Select.SelectItem... selectItems) {
-            initAdd(Arrays.asList(selectItems),
-                    target::getSelectList,
-                    target::setSelectList);
-            return this;
-        }
-
-        public QuerySpecificationBuilder<ParentBuilder> withSelectItem(List<com.xy.xsql.tsql.model.queries.select.Select.SelectItem> selectItems) {
-            initAdd(selectItems,
-                    target::getSelectList,
-                    target::setSelectList);
-            return this;
-        }
-
+        /**
+         * set
+         * @param newTable new table
+         * @return THIS
+         */
         public QuerySpecificationBuilder<ParentBuilder> withInto(String newTable) {
             return new IntoBuilder<QuerySpecificationBuilder<ParentBuilder>>
                     (initSet(Into::new,
@@ -514,6 +631,20 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .out();
         }
 
+        /**
+         * set
+         * @param from From
+         * @return THIS
+         */
+        public QuerySpecificationBuilder<ParentBuilder> withFrom(From from) {
+            this.target.setFrom(from);
+            return this;
+        }
+
+        /**
+         * in
+         * @return FromBuilder
+         */
         public FromBuilder<QuerySpecificationBuilder<ParentBuilder>> withFrom() {
             From from = new From();
             target.setFrom(from);
@@ -521,46 +652,72 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .in(this);
         }
 
-        public QuerySpecificationBuilder<ParentBuilder> withFrom(From from) {
-            this.target.setFrom(from);
-            return this;
-        }
-
+        /**
+         * set
+         * @param where Where
+         * @return THIS
+         */
         public QuerySpecificationBuilder<ParentBuilder> withWhere(Where where) {
             target.setWhere(where);
             return this;
         }
 
+        /**
+         * in
+         * @return WhereBuilder
+         */
         public WhereBuilder<QuerySpecificationBuilder<ParentBuilder>> withWhere() {
-            Where where = new Where();
-            target.setWhere(where);
-            WhereBuilder<QuerySpecificationBuilder<ParentBuilder>> whereBuilder = new WhereBuilder<>(where);
-            return whereBuilder.in(this);
+            return new WhereBuilder<QuerySpecificationBuilder<ParentBuilder>>
+                    (initSet(Where::new,
+                            target::getWhere,
+                            target::setWhere))
+                    .in(this);
         }
 
-        public GroupByBuilder<QuerySpecificationBuilder<ParentBuilder>> withGroupBy() {
-            GroupBy groupBy = new GroupBy();
-            target.setGroupBy(groupBy);
-            GroupByBuilder<QuerySpecificationBuilder<ParentBuilder>> groupByBuilder = new GroupByBuilder<>(groupBy);
-            return groupByBuilder.in(this);
-        }
-
+        /**
+         * set
+         * @param groupBy GroupBy
+         * @return THIS
+         */
         public QuerySpecificationBuilder<ParentBuilder> withGroupBy(GroupBy groupBy) {
             this.target.setGroupBy(groupBy);
             return this;
         }
 
-        public HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> withHaving() {
-            Having having = new Having();
-            target.setHaving(having);
-            HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> havingBuilder = new HavingBuilder<>(having);
-            return havingBuilder.in(this);
+        /**
+         * in
+         * @return GroupByBuilder
+         */
+        public GroupByBuilder<QuerySpecificationBuilder<ParentBuilder>> withGroupBy() {
+            return new GroupByBuilder<QuerySpecificationBuilder<ParentBuilder>>
+                    (initSet(GroupBy::new,
+                            target::getGroupBy,
+                            target::setGroupBy))
+                    .in(this);
         }
 
+        /**
+         * set
+         * @param having Having
+         * @return THIS
+         */
         public QuerySpecificationBuilder<ParentBuilder> withHaving(Having having) {
             this.target.setHaving(having);
             return this;
         }
+
+        /**
+         * in
+         * @return HavingBuilder
+         */
+        public HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> withHaving() {
+            return new HavingBuilder<QuerySpecificationBuilder<ParentBuilder>>
+                    (initSet(Having::new,
+                            target::getHaving,
+                            target::setHaving))
+                    .in(this);
+        }
+
 
 
 
@@ -571,7 +728,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
 
         /**
          * Quick set useAll
-         * @return
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $All() {
             return withAll();
@@ -579,16 +736,16 @@ public class SelectBuilder extends CodeBuilder<Select> {
 
         /**
          * Quick set useDistinct
-         * @return
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $Distinct() {
             return withDistinct();
         }
 
         /**
-         * Quick into TopBuilder
+         * Quick in TopBuilder
          * And set top
-         * @return
+         * @return TopBuilder
          */
         public TopBuilder<QuerySpecificationBuilder<ParentBuilder>> $Top(){
             return withTop();
@@ -597,7 +754,7 @@ public class SelectBuilder extends CodeBuilder<Select> {
         /**
          * Quick set selectList
          * into SelectItemBuilder get-out
-         * @return
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $() {
             return withSelectItem()
@@ -608,8 +765,8 @@ public class SelectBuilder extends CodeBuilder<Select> {
         /**
          * Quick set selectList
          * into SelectItemBuilder get-out
-         * @param tableName
-         * @return
+         * @param tableName TableName
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $(TableName tableName) {
             return withSelectItem()
@@ -620,8 +777,8 @@ public class SelectBuilder extends CodeBuilder<Select> {
         /**
          * Quick set selectList
          * into SelectItemBuilder get-out
-         * @param columnName
-         * @return
+         * @param columnName ColumnName
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $(ColumnName columnName) {
             return withSelectItem()
@@ -632,9 +789,9 @@ public class SelectBuilder extends CodeBuilder<Select> {
         /**
          * Quick set selectList
          * into SelectItemBuilder get-out
-         * @param columnName
-         * @param columnAlias
-         * @return
+         * @param columnName ColumnName
+         * @param columnAlias column alias
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $(ColumnName columnName, String columnAlias) {
             return withSelectItem()
@@ -646,9 +803,9 @@ public class SelectBuilder extends CodeBuilder<Select> {
 
         /**
          * Quick set selectList
-         * @param columnName
-         * @param expression
-         * @return
+         * @param columnName ColumnName
+         * @param expression Expression
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $(ColumnName columnName, Expression expression) {
             return withSelectItem()
@@ -660,8 +817,8 @@ public class SelectBuilder extends CodeBuilder<Select> {
         /**
          * Quick set selectList
          * into SelectItemBuilder get-out
-         * @param expression
-         * @return
+         * @param expression Expression
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $(Expression expression) {
             return withSelectItem()
@@ -672,9 +829,9 @@ public class SelectBuilder extends CodeBuilder<Select> {
         /**
          * Quick set selectList
          * into SelectItemBuilder get-out
-         * @param expression
-         * @param columnAlias
-         * @return
+         * @param expression Expression
+         * @param columnAlias column alias
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $(Expression expression, String columnAlias) {
             return withSelectItem()
@@ -684,47 +841,46 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     .and();
         }
 
-
         /**
          * Quick set newTable
-         * @param newTable
-         * @return
+         * @param newTable new table
+         * @return THIS
          */
         public QuerySpecificationBuilder<ParentBuilder> $Into(String newTable) {
             return withInto(newTable);
         }
 
         /**
-         * Quick into FromBuilder
+         * Quick in FromBuilder
          * And set from
-         * @return
+         * @return FromBuilder
          */
         public FromBuilder<QuerySpecificationBuilder<ParentBuilder>> $From() {
             return withFrom();
         }
 
         /**
-         * Quick into WhereBuilder
+         * Quick in WhereBuilder
          * And set where
-         * @return
+         * @return WhereBuilder
          */
         public WhereBuilder<QuerySpecificationBuilder<ParentBuilder>> $Where() {
             return withWhere();
         }
 
         /**
-         * Quick into GroupByBuilder
+         * Quick in GroupByBuilder
          * And set groupBy
-         * @return
+         * @return GroupByBuilder
          */
         public GroupByBuilder<QuerySpecificationBuilder<ParentBuilder>> $GroupBy() {
             return withGroupBy();
         }
 
         /**
-         * Quick into HavingBuilder
+         * Quick in HavingBuilder
          * And set having
-         * @return
+         * @return HavingBuilder
          */
         public HavingBuilder<QuerySpecificationBuilder<ParentBuilder>> $Having() {
             return withHaving();

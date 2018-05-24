@@ -16,11 +16,13 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * MemoryOptimizedTableIndexBuilder
  * Use
  * in --Memory-Based CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/9/1.
  * @param <ParentBuilder>
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
         extends CodeTreeBuilder<MemoryOptimizedTableIndexBuilder<ParentBuilder>,ParentBuilder,TableIndex> {
 
@@ -32,46 +34,86 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
         super(new TableIndex());
     }
 
+    /**
+     * set
+     * @param indexName index name
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withIndexName(String indexName) {
         target.setIndexName(indexName);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withNonClustered() {
         target.setUseNonClustered(true);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withClusteredColumnstore() {
         target.setUseClustered(true);
         target.setUseColumnStore(true);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withHash() {
         target.setUseHash(true);
         return this;
     }
 
+    /**
+     * SET
+     * @param columnNameList Column
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withColumnNameList(List<PrimaryUnique.Column> columnNameList) {
         target.setColumnNameList(columnNameList);
         return this;
     }
 
+    /**
+     * set
+     * @param bucketCount bucket count
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withBucketCount(Integer bucketCount) {
         target.setBucketCount(bucketCount);
         return this;
     }
 
+    /**
+     * set
+     * @param delay delay
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withCompressionDelay(Integer delay) {
         target.setDelay(delay);
         return this;
     }
 
+    /**
+     * set
+     * @param partition Partition
+     * @return THIS
+     */
     public MemoryOptimizedTableIndexBuilder<ParentBuilder> withPartition(Partition partition) {
         target.setPartition(partition);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -82,7 +124,7 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      * @param indexName indexName
      * @return THIS
      */
-    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $INDEX(String indexName) {
+    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $Index(String indexName) {
         return withIndexName(indexName);
     }
 
@@ -90,7 +132,7 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $NONCLUSTERED(){
+    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $Nonclustered(){
         return withNonClustered();
     }
 
@@ -99,7 +141,7 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      * @param columns columns
      * @return THIS
      */
-    public MemoryOptimizedTableIndexBuilder $HASH(String... columns){
+    public MemoryOptimizedTableIndexBuilder $Hash(String... columns){
         initAdd(Stream.of(columns)
                         .map(PrimaryUnique.Column::new)
                         .collect(Collectors.toList()),
@@ -123,7 +165,7 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return PrimaryUniqueColumnBuilder
      */
     public PrimaryUniques.PrimaryUniqueColumnBuilder<MemoryOptimizedTableIndexBuilder> $(String columnName){
@@ -137,10 +179,10 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
 
     /**
      * Quick set
-     * @param bucketCount bucketCount
+     * @param bucketCount bucket count
      * @return THIS
      */
-    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $WITH_BUCKET_COUNT(Integer bucketCount){
+    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $WithBucketCount(Integer bucketCount){
         return withBucketCount(bucketCount);
     }
 
@@ -149,11 +191,15 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      * @param delay delay
      * @return THIS
      */
-    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $WITH_COMPRESSION_DELAY(Integer delay){
+    public MemoryOptimizedTableIndexBuilder<ParentBuilder> $WithCompressionDelay(Integer delay){
         return withCompressionDelay(delay);
     }
 
-    //TODO only filegroup_name | default
+    /**
+     * TODO only filegroup_name | default
+     * Quick set
+     * @return THIS
+     */
     public PartitionBuilder<MemoryOptimizedTableIndexBuilder<ParentBuilder>> $On(){
         return new PartitionBuilder<MemoryOptimizedTableIndexBuilder<ParentBuilder>>
                 (initSet(Partition::new,

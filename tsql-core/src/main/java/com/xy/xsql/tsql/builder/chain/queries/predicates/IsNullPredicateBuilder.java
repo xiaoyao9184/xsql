@@ -5,13 +5,11 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.IsNull;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * IsNullPredicateBuilder
- *
- * @see IsNull
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
+@SuppressWarnings("WeakerAccess")
 public class IsNullPredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<IsNullPredicateBuilder<ParentBuilder>,ParentBuilder,IsNull> {
 
@@ -23,11 +21,20 @@ public class IsNullPredicateBuilder<ParentBuilder>
         super(predicate);
     }
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public IsNullPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         target.setExpression(expression);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public IsNullPredicateBuilder<ParentBuilder> withNot() {
         target.setUseNotOperator(true);
         return this;

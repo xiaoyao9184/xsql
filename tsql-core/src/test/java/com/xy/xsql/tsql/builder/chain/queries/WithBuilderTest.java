@@ -4,18 +4,17 @@ import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
 import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERYS;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Querys;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_equal;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_is_not_null;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_is_null;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -28,7 +27,7 @@ public class WithBuilderTest {
      */
 
     // @formatter:off
-    private Select selectA = SELECT()
+    private Select selectA = $Select()
                 .$Select()
                     .$(c("SalesPersonID"))
                     .$(c("SalesOrderID"))
@@ -83,18 +82,18 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
-        Assert.assertEquals(cte.getColumnName().size(),3);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"SalesOrderID");
-        Assert.assertEquals(cte.getColumnName().get(2).toString(),"SalesYear");
+        assertEquals(cte.getExpressionName(), "Sales_CTE");
+        assertEquals(cte.getColumnName().size(),3);
+        assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
+        assertEquals(cte.getColumnName().get(1).toString(),"SalesOrderID");
+        assertEquals(cte.getColumnName().get(2).toString(),"SalesYear");
     }
 
 
     // @formatter:off
-    private Select selectB = SELECT()
+    private Select selectB = $Select()
             .$Select()
                 .$(c("SalesPersonID"))
                 .$(e("COUNT(*)"))
@@ -148,17 +147,17 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
-        Assert.assertEquals(cte.getColumnName().size(),2);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"NumberOfOrders");
+        assertEquals(cte.getExpressionName(), "Sales_CTE");
+        assertEquals(cte.getColumnName().size(),2);
+        assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
+        assertEquals(cte.getColumnName().get(1).toString(),"NumberOfOrders");
     }
 
 
     // @formatter:off
-    private Select selectC1 = SELECT()
+    private Select selectC1 = $Select()
             .$Select()
                 .$(c("SalesPersonID"))
                 .$(e("SUM(TotalDue)"),"TotalSales")
@@ -178,7 +177,7 @@ public class WithBuilderTest {
             .and()
             .build();
 
-    private Select selectC2 = SELECT()
+    private Select selectC2 = $Select()
             .$Select()
                 .$(c("BusinessEntityID"))
                 .$(e("SUM(SalesQuota)"),"SalesQuota")
@@ -256,26 +255,26 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 2);
+        assertEquals(with.getCommonTableExpressionList().size(), 2);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
-        Assert.assertEquals(cte.getColumnName().size(),3);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"TotalSales");
-        Assert.assertEquals(cte.getColumnName().get(2).toString(),"SalesYear");
+        assertEquals(cte.getExpressionName(), "Sales_CTE");
+        assertEquals(cte.getColumnName().size(),3);
+        assertEquals(cte.getColumnName().get(0).toString(),"SalesPersonID");
+        assertEquals(cte.getColumnName().get(1).toString(),"TotalSales");
+        assertEquals(cte.getColumnName().get(2).toString(),"SalesYear");
 
         With.CommonTableExpression cte2 = with.getCommonTableExpressionList().get(1);
-        Assert.assertEquals(cte2.getExpressionName(), "Sales_Quota_CTE");
-        Assert.assertEquals(cte2.getColumnName().size(),3);
-        Assert.assertEquals(cte2.getColumnName().get(0).toString(),"BusinessEntityID");
-        Assert.assertEquals(cte2.getColumnName().get(1).toString(),"SalesQuota");
-        Assert.assertEquals(cte2.getColumnName().get(2).toString(),"SalesQuotaYear");
+        assertEquals(cte2.getExpressionName(), "Sales_Quota_CTE");
+        assertEquals(cte2.getColumnName().size(),3);
+        assertEquals(cte2.getColumnName().get(0).toString(),"BusinessEntityID");
+        assertEquals(cte2.getColumnName().get(1).toString(),"SalesQuota");
+        assertEquals(cte2.getColumnName().get(2).toString(),"SalesQuotaYear");
     }
 
 
     // @formatter:off
-    private Select selectD = SELECT()
+    private Select selectD = $Select()
             .withQuery()
                 .$Select()
                     .$(c("ManagerID"))
@@ -291,7 +290,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("e","ManagerID"))
                     .$(c("e","EmployeeID"))
                     .$(c("e","Title"))
@@ -299,7 +298,7 @@ public class WithBuilderTest {
                     .$From()
                         .$()
                             .$(t("dbo","MyEmployees"),"e")
-                            .$Inner_Join()
+                            .$InnerJoin()
                             .$(t("DirectReports"),"d")
                             .$On()
                                 .$(p_equal(
@@ -320,7 +319,7 @@ public class WithBuilderTest {
      SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
      FROM dbo.MyEmployees
      WHERE ManagerID IS NULL
-     UNION ALL
+     UNION $ALL
      SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
      FROM dbo.MyEmployees AS e
      INNER JOIN DirectReports AS d
@@ -357,20 +356,20 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "DirectReports");
-        Assert.assertEquals(cte.getColumnName().size(),4);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"ManagerID");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"EmployeeID");
-        Assert.assertEquals(cte.getColumnName().get(2).toString(),"Title");
-        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
+        assertEquals(cte.getExpressionName(), "DirectReports");
+        assertEquals(cte.getColumnName().size(),4);
+        assertEquals(cte.getColumnName().get(0).toString(),"ManagerID");
+        assertEquals(cte.getColumnName().get(1).toString(),"EmployeeID");
+        assertEquals(cte.getColumnName().get(2).toString(),"Title");
+        assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
     }
 
 
     // @formatter:off
-    private Select selectE = SELECT()
+    private Select selectE = $Select()
             .withQuery()
                 .$Select()
                     .$(c("ManagerID"))
@@ -386,7 +385,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("e","ManagerID"))
                     .$(c("e","EmployeeID"))
                     .$(c("e","Title"))
@@ -394,7 +393,7 @@ public class WithBuilderTest {
                     .$From()
                         .$()
                             .$(t("dbo","MyEmployees"),"e")
-                            .$Inner_Join()
+                            .$InnerJoin()
                             .$(t("DirectReports"),"d")
                             .$On()
                                 .$(p_equal(
@@ -415,7 +414,7 @@ public class WithBuilderTest {
      SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
      FROM dbo.MyEmployees
      WHERE ManagerID IS NULL
-     UNION ALL
+     UNION $ALL
      SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
      FROM dbo.MyEmployees AS e
      INNER JOIN DirectReports AS d
@@ -452,20 +451,20 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "DirectReports");
-        Assert.assertEquals(cte.getColumnName().size(),4);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"ManagerID");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"EmployeeID");
-        Assert.assertEquals(cte.getColumnName().get(2).toString(),"Title");
-        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
+        assertEquals(cte.getExpressionName(), "DirectReports");
+        assertEquals(cte.getColumnName().size(),4);
+        assertEquals(cte.getColumnName().get(0).toString(),"ManagerID");
+        assertEquals(cte.getColumnName().get(1).toString(),"EmployeeID");
+        assertEquals(cte.getColumnName().get(2).toString(),"Title");
+        assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
     }
 
 
     // @formatter:off
-    private Select selectF = SELECT()
+    private Select selectF = $Select()
             .withQuery()
                 .$Select()
                     .$(e("CONVERT(varchar(255), e.FirstName + ' ' + e.LastName)"))
@@ -483,7 +482,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_All_()
+                .$UnionAll_()
                 .$Select()
                     .$(e("CONVERT(varchar(255), REPLICATE ('|    ' , EmployeeLevel) + e.FirstName + ' ' + e.LastName)"))
                     .$(c("e","Title"))
@@ -518,7 +517,7 @@ public class WithBuilderTest {
      CONVERT(varchar(255), e.FirstName + ' ' + e.LastName)
      FROM dbo.MyEmployees AS e
      WHERE e.ManagerID IS NULL
-     UNION ALL
+     UNION $ALL
      SELECT CONVERT(varchar(255), REPLICATE ('|    ' , EmployeeLevel) +
      e.FirstName + ' ' + e.LastName),
      e.Title,
@@ -561,21 +560,21 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "DirectReports");
-        Assert.assertEquals(cte.getColumnName().size(),5);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"Name");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"Title");
-        Assert.assertEquals(cte.getColumnName().get(2).toString(),"EmployeeID");
-        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
-        Assert.assertEquals(cte.getColumnName().get(4).toString(),"Sort");
+        assertEquals(cte.getExpressionName(), "DirectReports");
+        assertEquals(cte.getColumnName().size(),5);
+        assertEquals(cte.getColumnName().get(0).toString(),"Name");
+        assertEquals(cte.getColumnName().get(1).toString(),"Title");
+        assertEquals(cte.getColumnName().get(2).toString(),"EmployeeID");
+        assertEquals(cte.getColumnName().get(3).toString(),"EmployeeLevel");
+        assertEquals(cte.getColumnName().get(4).toString(),"Sort");
     }
 
 
     // @formatter:off
-    private Select selectG = SELECT()
+    private Select selectG = $Select()
             .withQuery()
                 .$Select()
                     .$(c("EmployeeID"))
@@ -590,7 +589,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_All_()
+                .$UnionAll_()
                 .$Select()
                     .$(c("cte","EmployeeID"))
                     .$(c("cte","ManagerID"))
@@ -620,7 +619,7 @@ public class WithBuilderTest {
      SELECT EmployeeID, ManagerID, Title
      FROM dbo.MyEmployees
      WHERE ManagerID IS NOT NULL
-     UNION ALL
+     UNION $ALL
      SELECT cte.EmployeeID, cte.ManagerID, cte.Title
      FROM cte
      JOIN  dbo.MyEmployees AS e
@@ -655,19 +654,19 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "cte");
-        Assert.assertEquals(cte.getColumnName().size(),3);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"EmployeeID");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"ManagerID");
-        Assert.assertEquals(cte.getColumnName().get(2).toString(),"Title");
+        assertEquals(cte.getExpressionName(), "cte");
+        assertEquals(cte.getColumnName().size(),3);
+        assertEquals(cte.getColumnName().get(0).toString(),"EmployeeID");
+        assertEquals(cte.getColumnName().get(1).toString(),"ManagerID");
+        assertEquals(cte.getColumnName().get(2).toString(),"Title");
     }
 
 
     // @formatter:off
-    private Select selectH = SELECT()
+    private Select selectH = $Select()
             .withQuery()
                 .$Select()
                     .$(c("b","ProductAssemblyID"))
@@ -689,7 +688,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("bom","ProductAssemblyID"))
                     .$(c("bom","ComponentID"))
                     .$(c("p","PerAssemblyQty"))
@@ -698,7 +697,7 @@ public class WithBuilderTest {
                     .$From()
                         .$()
                             .$(t("Production","BillOfMaterials")).$As("bom")
-                            .$Inner_Join()
+                            .$InnerJoin()
                             .$(t("Parts")).$As("p")
                             .$On()
                                 .$(p_equal(
@@ -723,14 +722,14 @@ public class WithBuilderTest {
      b.EndDate, 0 AS ComponentLevel
      FROM Production.BillOfMaterials AS b
      WHERE b.ProductAssemblyID = 800
-     AND b.EndDate IS NULL
-     UNION ALL
+     $AND b.EndDate IS NULL
+     UNION $ALL
      SELECT bom.ProductAssemblyID, bom.ComponentID, p.PerAssemblyQty,
      bom.EndDate, ComponentLevel + 1
      FROM Production.BillOfMaterials AS bom
      INNER JOIN Parts AS p
      ON bom.ProductAssemblyID = p.ComponentID
-     AND bom.EndDate IS NULL
+     $AND bom.EndDate IS NULL
      )
      */
     public With exampleH = new MockParentBuilder<WithBuilder<MockParent<With>>,With>
@@ -764,21 +763,21 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Parts");
-        Assert.assertEquals(cte.getColumnName().size(),5);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"AssemblyID");
-        Assert.assertEquals(cte.getColumnName().get(1).toString(),"ComponentID");
-        Assert.assertEquals(cte.getColumnName().get(2).toString(),"PerAssemblyQty");
-        Assert.assertEquals(cte.getColumnName().get(3).toString(),"EndDate");
-        Assert.assertEquals(cte.getColumnName().get(4).toString(),"ComponentLevel");
+        assertEquals(cte.getExpressionName(), "Parts");
+        assertEquals(cte.getColumnName().size(),5);
+        assertEquals(cte.getColumnName().get(0).toString(),"AssemblyID");
+        assertEquals(cte.getColumnName().get(1).toString(),"ComponentID");
+        assertEquals(cte.getColumnName().get(2).toString(),"PerAssemblyQty");
+        assertEquals(cte.getColumnName().get(3).toString(),"EndDate");
+        assertEquals(cte.getColumnName().get(4).toString(),"ComponentLevel");
     }
 
 
     // @formatter:off
-    private Select selectJ = SELECT()
+    private Select selectJ = $Select()
             .$()
                 .$Select()
                     .$(c("Mother"))
@@ -792,7 +791,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_Select()
+                .$UnionSelect()
                     .$(c("Father"))
                     .$From()
                         .$(t("dbo","Person"))
@@ -804,7 +803,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("Person","Father"))
                     .$From()
                         .$(t("Generation"))
@@ -817,7 +816,7 @@ public class WithBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("Person","Mother"))
                     .$From()
                         .$(t("Generation"))
@@ -846,12 +845,12 @@ public class WithBuilderTest {
      SELECT Father
      FROM dbo.Person
      WHERE Name = 'Bonnie'
-     UNION ALL
+     UNION $ALL
      -- First recursive member returns male ancestors of the previous generation.
      SELECT Person.Father
      FROM Generation, Person
      WHERE Generation.ID=Person.ID
-     UNION ALL
+     UNION $ALL
      -- Second recursive member returns female ancestors of the previous generation.
      SELECT Person.Mother
      FROM Generation, dbo.Person
@@ -881,17 +880,17 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Generation");
-        Assert.assertEquals(cte.getColumnName().size(),1);
-        Assert.assertEquals(cte.getColumnName().get(0).toString(),"ID");
+        assertEquals(cte.getExpressionName(), "Generation");
+        assertEquals(cte.getColumnName().size(),1);
+        assertEquals(cte.getColumnName().get(0).toString(),"ID");
     }
 
 
     // @formatter:off
-    private Select selectK1 = SELECT()
+    private Select selectK1 = $Select()
             .$()
                 .$Select()
                     .$(c("itmIDComp"))
@@ -900,7 +899,7 @@ public class WithBuilderTest {
                         .$(e_variable("t1"))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("itmIDComp"))
                     .$(c("itmID"))
                     .$From()
@@ -910,7 +909,7 @@ public class WithBuilderTest {
                 .and()
             .build();
 
-    private Select selectK2 = SELECT()
+    private Select selectK2 = $Select()
             .$()
                 .$Select()
                     .$(c("t","itmID"),"itmIDComp")
@@ -918,24 +917,24 @@ public class WithBuilderTest {
                     .$(e("CAST(0 AS bigint)"),"N")
                     .$(e_number(1),"Lvl")
                     .$From()
-                        .$(QUERYS()
+                        .$($Querys()
                                 .$Select()
                                     .$(e_number(1))
                                     .and()
-                                .$Union_All_Select()
+                                .$UnionAllSelect()
                                     .$(e_number(2))
                                     .and()
-                                .$Union_All_Select()
+                                .$UnionAllSelect()
                                     .$(e_number(3))
                                     .and()
-                                .$Union_All_Select()
+                                .$UnionAllSelect()
                                     .$(e_number(4))
                                     .and()
                             .build(),"t")
                             .$As("t","itmID")
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("t","itmIDComp"))
                     .$(c("t","itmID"))
                     .$(e("ROW_NUMBER() OVER(PARTITION BY t.itmIDComp ORDER BY t.itmIDComp, t.itmID)"),"N")
@@ -965,7 +964,7 @@ public class WithBuilderTest {
      SELECT itmIDComp, itmID
      FROM @t1
 
-     UNION ALL
+     UNION $ALL
 
      SELECT itmIDComp, itmID
      FROM @t2
@@ -976,9 +975,9 @@ public class WithBuilderTest {
      , NULL AS itmID
      ,CAST(0 AS bigint) AS N
      ,1 AS Lvl
-     FROM (SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) AS t (itmID)
+     FROM (SELECT 1 UNION $ALL SELECT 2 UNION $ALL SELECT 3 UNION $ALL SELECT 4) AS t (itmID)
 
-     UNION ALL
+     UNION $ALL
 
      SELECT t.itmIDComp
      , t.itmID
@@ -1012,15 +1011,15 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 2);
+        assertEquals(with.getCommonTableExpressionList().size(), 2);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "vw");
-        Assert.assertNull(cte.getColumnName());
+        assertEquals(cte.getExpressionName(), "vw");
+        assertNull(cte.getColumnName());
 
         With.CommonTableExpression cte1 = with.getCommonTableExpressionList().get(1);
-        Assert.assertEquals(cte1.getExpressionName(), "r");
-        Assert.assertNull(cte1.getColumnName());
+        assertEquals(cte1.getExpressionName(), "r");
+        assertNull(cte1.getColumnName());
     }
 
 
@@ -1030,7 +1029,7 @@ public class WithBuilderTest {
      */
 
     // @formatter:off
-    private Select selectL = SELECT()
+    private Select selectL = $Select()
             .$Select()
                 .$(c("SalesPersonID"))
                 .$(c("SalesOrderID"))
@@ -1084,16 +1083,16 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
-        Assert.assertEquals(cte.getColumnName().size(),3);
+        assertEquals(cte.getExpressionName(), "Sales_CTE");
+        assertEquals(cte.getColumnName().size(),3);
 
     }
 
     // @formatter:off
-    private Select selectM = SELECT()
+    private Select selectM = $Select()
             .$Select()
                 .$(c("SalesPersonID"))
                 .$(e("COUNT(*)"))
@@ -1146,17 +1145,17 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
-        Assert.assertEquals(cte.getColumnName().size(),2);
+        assertEquals(cte.getExpressionName(), "Sales_CTE");
+        assertEquals(cte.getColumnName().size(),2);
 
     }
 
 
     // @formatter:off
-    private Select selectN = SELECT()
+    private Select selectN = $Select()
             .$Select()
                 .$(c("SalesPersonID"))
                 .$(c("SalesOrderID"))
@@ -1211,17 +1210,17 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
-        Assert.assertEquals(cte.getColumnName().size(),3);
+        assertEquals(cte.getExpressionName(), "Sales_CTE");
+        assertEquals(cte.getColumnName().size(),3);
 
     }
 
 
     // @formatter:off
-    private Select selectO = SELECT()
+    private Select selectO = $Select()
             .$Select()
                 .$(c("SalesPersonID"))
                 .$(c("SalesOrderID"))
@@ -1276,17 +1275,17 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 1);
+        assertEquals(with.getCommonTableExpressionList().size(), 1);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "Sales_CTE");
-        Assert.assertEquals(cte.getColumnName().size(),3);
+        assertEquals(cte.getExpressionName(), "Sales_CTE");
+        assertEquals(cte.getColumnName().size(),3);
 
     }
 
 
     // @formatter:off
-    private Select selectP1 = SELECT()
+    private Select selectP1 = $Select()
             .$Select()
                 .$(e("COUNT(datekey)"))
                 .$(e_string("DimDate"))
@@ -1296,7 +1295,7 @@ public class WithBuilderTest {
                 .and()
             .build();
 
-    private Select selectP2 = SELECT()
+    private Select selectP2 = $Select()
             .$Select()
                 .$(e("COUNT(CustomerKey)"))
                 .$(e_string("DimCustomer"))
@@ -1355,15 +1354,15 @@ public class WithBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(with.getCommonTableExpressionList().size(), 2);
+        assertEquals(with.getCommonTableExpressionList().size(), 2);
 
         With.CommonTableExpression cte = with.getCommonTableExpressionList().get(0);
-        Assert.assertEquals(cte.getExpressionName(), "CountDate");
-        Assert.assertEquals(cte.getColumnName().size(),2);
+        assertEquals(cte.getExpressionName(), "CountDate");
+        assertEquals(cte.getColumnName().size(),2);
 
         With.CommonTableExpression cte1 = with.getCommonTableExpressionList().get(1);
-        Assert.assertEquals(cte1.getExpressionName(), "CountCustomer");
-        Assert.assertEquals(cte1.getColumnName().size(),2);
+        assertEquals(cte1.getExpressionName(), "CountCustomer");
+        assertEquals(cte1.getColumnName().size(),2);
 
     }
 }

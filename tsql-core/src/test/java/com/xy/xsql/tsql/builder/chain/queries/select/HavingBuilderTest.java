@@ -5,13 +5,13 @@ import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.select.Having;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_greater;
 import static com.xy.xsql.tsql.model.elements.operators.Comparison.GREATER;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -54,11 +54,11 @@ public class HavingBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(having.getSearchCondition().getPredicate().getClass() ,Comparison.class);
+        assertEquals(having.getSearchCondition().getPredicate().getClass() ,Comparison.class);
         Comparison predicate = (Comparison) having.getSearchCondition().getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "SUM(LineTotal)");
-        Assert.assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "100000.0");
+        assertEquals(predicate.getExpression().toString(), "SUM(LineTotal)");
+        assertTrue(predicate.getOperatorExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)predicate.getOperatorExpression()).getNumber().toString(), "100000.0");
     }
 
 }

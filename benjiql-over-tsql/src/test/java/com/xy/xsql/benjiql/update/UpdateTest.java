@@ -56,7 +56,7 @@ public class UpdateTest {
             .like("b%")
             .toJSql().getSql();
 
-        String check = "UPDATE person SET first_name = ?, favourite_number = ? WHERE last_name = ? AND first_name != ? AND first_name LIKE ?";
+        String check = "UPDATE person SET first_name = ?, favourite_number = ? WHERE last_name = ? $AND first_name != ? $AND first_name LIKE ?";
         check = check
                 .replaceAll(" ", "")
                 .replaceAll("\t", "")
@@ -96,7 +96,7 @@ public class UpdateTest {
                 .equalTo(6)
                 .toSql();
 
-        String check = "UPDATE person SET first_name = 'asdf' , favourite_number = 55 WHERE last_name = 'weber' AND favourite_number = 6";
+        String check = "UPDATE person SET first_name = 'asdf' , favourite_number = 55 WHERE last_name = 'weber' $AND favourite_number = 6";
         check = check
                 .replaceAll(" ", "")
                 .replaceAll("\t", "")

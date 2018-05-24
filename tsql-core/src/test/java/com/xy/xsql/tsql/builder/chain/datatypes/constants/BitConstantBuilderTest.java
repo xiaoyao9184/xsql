@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
  */
 public class BitConstantBuilderTest {
 
-
     public BitConstant example1 = c_bit(true);
     public BitConstant example2 = c_bit(false);
 

@@ -3,10 +3,10 @@ package com.xy.xsql.tsql.builder.chain.queries.select;
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
 import com.xy.xsql.tsql.model.queries.select.Into;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/28.
@@ -40,7 +40,7 @@ public class IntoBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(into.getNewTable().toString(), "dbo.EmployeeAddresses");
+        assertEquals(into.getNewTable().toString(), "dbo.EmployeeAddresses");
     }
 
 
@@ -67,7 +67,7 @@ public class IntoBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(into.getNewTable().toString(), "[dbo].[FactResellerSalesXL]");
+        assertEquals(into.getNewTable().toString(), "[dbo].[FactResellerSalesXL]");
     }
 
 }

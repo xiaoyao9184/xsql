@@ -6,14 +6,11 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Like;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * LikePredicateBuilder
- *
- * @see Like
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
-@SuppressWarnings("Duplicates")
+@SuppressWarnings({"Duplicates", "WeakerAccess"})
 public class LikePredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<LikePredicateBuilder<ParentBuilder>,ParentBuilder,Like> {
 
@@ -27,6 +24,11 @@ public class LikePredicateBuilder<ParentBuilder>
 
     private int index = 0;
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public LikePredicateBuilder<ParentBuilder> withStringExpression(Expression expression) {
         if(index == 0){
             target.setExpression(expression);
@@ -38,11 +40,20 @@ public class LikePredicateBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public LikePredicateBuilder<ParentBuilder> withNot() {
         target.setUseNotOperator(true);
         return this;
     }
 
+    /**
+     * set
+     * @param escape escape
+     * @return THIS
+     */
     public LikePredicateBuilder<ParentBuilder> withEscape(StringConstant escape) {
         target.setEscapeCharacter(escape);
         return this;

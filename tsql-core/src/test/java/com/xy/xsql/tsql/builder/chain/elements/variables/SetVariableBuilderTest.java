@@ -8,13 +8,13 @@ import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
 import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.tsql.model.elements.variables.SetVariable;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-import static com.xy.xsql.tsql.builder.chain.elements.variables.SetVariableBuilder.SET_V;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.builder.chain.elements.variables.SetVariableBuilder.$Set;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
+import static org.junit.Assert.*;
 
 
 /**
@@ -33,9 +33,9 @@ public class SetVariableBuilderTest {
     /**
      * SET @myvar = 'This is a test'
      */
-    public SetVariable exampleA = SET_V()
+    public SetVariable exampleA = $Set()
             .$("myvar")
-                .$Assign(e_string("This is a test"))
+            .$Assign(e_string("This is a test"))
             .build();
     // @formatter:on
 
@@ -48,9 +48,9 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@myvar");
-        Assert.assertTrue(setVariable.getExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)setVariable.getExpression()).getString(),"This is a test");
+        assertEquals(setVariable.getLocalVariable().toString(),"@myvar");
+        assertTrue(setVariable.getExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)setVariable.getExpression()).getString(),"This is a test");
     }
 
 
@@ -58,9 +58,9 @@ public class SetVariableBuilderTest {
     /**
      * SET @state = N'Oregon'
      */
-    public SetVariable exampleB = SET_V()
+    public SetVariable exampleB = $Set()
             .$("state")
-                .$Assign(e_n_string("Oregon"))
+            .$Assign(e_n_string("Oregon"))
             .build();
     // @formatter:on
 
@@ -73,9 +73,9 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@state");
-        Assert.assertTrue(setVariable.getExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)setVariable.getExpression()).getString(),"Oregon");
+        assertEquals(setVariable.getLocalVariable().toString(),"@state");
+        assertTrue(setVariable.getExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)setVariable.getExpression()).getString(),"Oregon");
     }
 
 
@@ -83,7 +83,7 @@ public class SetVariableBuilderTest {
     /**
      * SET  @NewBalance  =  10
      */
-    public SetVariable exampleC1 = SET_V()
+    public SetVariable exampleC1 = $Set()
             .$("NewBalance")
                 .$Assign(e_number(10))
             .build();
@@ -94,12 +94,12 @@ public class SetVariableBuilderTest {
     /**
      * SET  @NewBalance  =  @NewBalance  *  10
      */
-    public SetVariable exampleC2 = SET_V()
+    public SetVariable exampleC2 = $Set()
             .$("NewBalance")
-                .$Assign(e_multiplication(
-                        e_variable("NewBalance"),
-                        e_number(10)
-                ))
+            .$Assign(e_multiplication(
+                    e_variable("NewBalance"),
+                    e_number(10)
+            ))
             .build();
     // @formatter:on
 
@@ -108,9 +108,9 @@ public class SetVariableBuilderTest {
     /**
      * SET @NewBalance *= 10
      */
-    public SetVariable exampleC3 = SET_V()
+    public SetVariable exampleC3 = $Set()
             .$("NewBalance")
-                .$MultiplyAssign(e_number(10))
+            .$MultiplyAssign(e_number(10))
             .build();
     // @formatter:on
 
@@ -136,17 +136,17 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@NewBalance");
-        Assert.assertTrue(setVariable.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)setVariable.getExpression()).getNumber().toString(),"10");
+        assertEquals(setVariable.getLocalVariable().toString(),"@NewBalance");
+        assertTrue(setVariable.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)setVariable.getExpression()).getNumber().toString(),"10");
 
-        Assert.assertEquals(setVariable2.getLocalVariable().toString(),"@NewBalance");
-        Assert.assertEquals(setVariable2.getExpression().getClass(), BinaryExpression.class);
+        assertEquals(setVariable2.getLocalVariable().toString(),"@NewBalance");
+        assertEquals(setVariable2.getExpression().getClass(), BinaryExpression.class);
 
-        Assert.assertEquals(setVariable3.getLocalVariable().toString(),"@NewBalance");
-        Assert.assertEquals(setVariable3.getCompound(),Compound.MULTIPLY_ASSIGNMENT);
-        Assert.assertTrue(setVariable3.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)setVariable3.getExpression()).getNumber().toString(),"10");
+        assertEquals(setVariable3.getLocalVariable().toString(),"@NewBalance");
+        assertEquals(setVariable3.getCompound(),Compound.MULTIPLY_ASSIGNMENT);
+        assertTrue(setVariable3.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)setVariable3.getExpression()).getNumber().toString(),"10");
     }
 
 
@@ -154,10 +154,10 @@ public class SetVariableBuilderTest {
     /**
      * SET @my_variable = my_cursor
      */
-    public SetVariable exampleD = SET_V()
+    public SetVariable exampleD = $Set()
             .$("my_variable")
             //TODO CURSOR
-//                .$Assign("my_cursor")
+            .$Assign(e("my_cursor"))
             .build();
     // @formatter:on
 
@@ -173,8 +173,8 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@my_variable");
-        Assert.assertEquals(setVariable.getExpression().toString(),"my_cursor");
+        assertEquals(setVariable.getLocalVariable().toString(),"@my_variable");
+        assertEquals(setVariable.getExpression().toString(),"my_cursor");
     }
 
 
@@ -182,10 +182,10 @@ public class SetVariableBuilderTest {
     /**
      * SET @CursorVar = CURSOR SCROLL DYNAMIC
      */
-    public SetVariable exampleE = SET_V()
+    public SetVariable exampleE = $Set()
             .$("my_variable")
             //TODO CURSOR
-//                .$Assign("my_cursor")
+            .$Assign(e("my_cursor"))
             .build();
     // @formatter:on
 
@@ -198,8 +198,8 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@CursorVar");
-        Assert.assertEquals(setVariable.getExpression().toString(),"CURSOR SCROLL DYNAMIC");
+        assertEquals(setVariable.getLocalVariable().toString(),"@CursorVar");
+        assertEquals(setVariable.getExpression().toString(),"CURSOR SCROLL DYNAMIC");
     }
 
 
@@ -207,16 +207,16 @@ public class SetVariableBuilderTest {
     /**
      * SET @rows = (SELECT COUNT(*) FROM Sales.Customer)
      */
-    public SetVariable exampleF = SET_V()
+    public SetVariable exampleF = $Set()
             .$("rows")
-                .$Assign(e_subquery(
-                        QUERY()
-                            .$(e("COUNT(*)"))
-                            .$From()
-                                .$(t("Sales","Customer"))
-                                .and()
-                            .build()
-                ))
+            .$Assign(e_subquery(
+                    $Query()
+                        .$(e("COUNT(*)"))
+                        .$From()
+                            .$(t("Sales","Customer"))
+                            .and()
+                        .build()
+            ))
             .build();
     // @formatter:on
 
@@ -240,8 +240,8 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@rows");
-        Assert.assertEquals(setVariable.getExpression().getClass(),GroupExpression.class);
+        assertEquals(setVariable.getLocalVariable().toString(),"@rows");
+        assertEquals(setVariable.getExpression().getClass(),GroupExpression.class);
     }
 
 
@@ -249,12 +249,12 @@ public class SetVariableBuilderTest {
     /**
      * SET @p.X = @p.X + 1.1
      */
-    public SetVariable exampleG = SET_V()
+    public SetVariable exampleG = $Set()
             .$("p.X")
-                .$Assign(e_addition(
-                        e_variable("p.X"),
-                        e_number(1.1)
-                ))
+            .$Assign(e_addition(
+                    e_variable("p.X"),
+                    e_number(1.1)
+            ))
             .build();
     // @formatter:on
 
@@ -270,8 +270,8 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@p.X");
-        Assert.assertEquals(setVariable.getExpression().getClass(),BinaryExpression.class);
+        assertEquals(setVariable.getLocalVariable().toString(),"@p.X");
+        assertEquals(setVariable.getExpression().getClass(),BinaryExpression.class);
     }
 
 
@@ -279,9 +279,9 @@ public class SetVariableBuilderTest {
     /**
      * SET @p=point.SetXY(23.5, 23.5)
      */
-    public SetVariable exampleH = SET_V()
+    public SetVariable exampleH = $Set()
             .$("p")
-                .$Assign(e("point.SetXY(23.5, 23.5)"))
+            .$Assign(e("point.SetXY(23.5, 23.5)"))
             .build();
     // @formatter:on
 
@@ -297,8 +297,8 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@p");
-        Assert.assertEquals(setVariable.getExpression().toString(),"point.SetXY(23.5, 23.5)");
+        assertEquals(setVariable.getLocalVariable().toString(),"@p");
+        assertEquals(setVariable.getExpression().toString(),"point.SetXY(23.5, 23.5)");
     }
 
 
@@ -306,8 +306,8 @@ public class SetVariableBuilderTest {
     /**
      * SET @p.SetXY(22, 23)
      */
-    public SetVariable exampleI = SET_V()
-            //TODO
+    public SetVariable exampleI = $Set()
+            //TODO local_variable property_name
             .$("@p.SetXY(22, 23)")
             .build();
     // @formatter:on
@@ -320,7 +320,7 @@ public class SetVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(setVariable.getLocalVariable().toString(),"@p.SetXY(22, 23)");
+        assertEquals(setVariable.getLocalVariable().toString(),"@p.SetXY(22, 23)");
     }
 
     /*

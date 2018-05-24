@@ -26,8 +26,10 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initList;
 
 /**
+ * MemoryOptimizedCreateTableBuilder
  * Created by xiaoyao9184 on 2017/8/18.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimizedCreateTable> {
 
     public MemoryOptimizedCreateTableBuilder(MemoryOptimizedCreateTable tar) {
@@ -38,26 +40,50 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
         super(new MemoryOptimizedCreateTable());
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public MemoryOptimizedCreateTableBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
     }
 
+    /**
+     * set
+     * @param memoryItemList MemoryOptimizedCreateTable
+     * @return THIS
+     */
     public MemoryOptimizedCreateTableBuilder withMemoryBasedColumn(List<MemoryOptimizedCreateTable.Item> memoryItemList){
         target.setItems(memoryItemList);
         return this;
     }
 
+    /**
+     * set
+     * @param systemStartTimeColumnName system start time column name
+     * @param systemEndTimeColumnName system end time column name
+     * @return THIS
+     */
     public MemoryOptimizedCreateTableBuilder withPeriodForSystemTime(String systemStartTimeColumnName, String systemEndTimeColumnName){
         target.setSystemStartTimeColumnName(systemStartTimeColumnName);
         target.setSystemEndTimeColumnName(systemEndTimeColumnName);
         return this;
     }
 
+    /**
+     * set
+     * @param tableOptionsList TableOption
+     * @return THIS
+     */
     public MemoryOptimizedCreateTableBuilder withTableOption(List<TableOption> tableOptionsList){
         target.setTableOptions(tableOptionsList);
         return this;
     }
+
+
+
 
     /*
     Quick build
@@ -101,7 +127,7 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
      * @param systemEndTimeColumnName systemEndTimeColumnName
      * @return THIS
      */
-    public MemoryOptimizedCreateTableBuilder $Period_For_System_Time(String systemStartTimeColumnName, String systemEndTimeColumnName){
+    public MemoryOptimizedCreateTableBuilder $PeriodForSystemTime(String systemStartTimeColumnName, String systemEndTimeColumnName){
         return withPeriodForSystemTime(systemStartTimeColumnName, systemEndTimeColumnName);
     }
 
@@ -129,7 +155,10 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
             super(itemSetter);
         }
 
-
+        /**
+         * Confirm type of Item
+         * @return MemoryOptimizedColumnDefinitionBuilder
+         */
         public MemoryOptimizedColumnDefinitionBuilder<ParentBuilder> _ColumnDefinition(){
             ColumnDefinition diskBasedColumn = new ColumnDefinition();
             target.set(diskBasedColumn);
@@ -138,6 +167,10 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
                     .in(out());
         }
 
+        /**
+         * Confirm type of Item
+         * @return TableConstraintBuilder
+         */
         public TableConstraintBuilder<ParentBuilder> _TableConstraint(){
             TableConstraint diskBasedColumn = new TableConstraint();
             target.set(diskBasedColumn);
@@ -146,6 +179,10 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
                     .in(out());
         }
 
+        /**
+         * Confirm type of Item
+         * @return TableIndexBuilder
+         */
         public TableIndexBuilder<ParentBuilder> _TableIndex(){
             TableIndex diskBasedColumn = new TableIndex();
             target.set(diskBasedColumn);
@@ -153,6 +190,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
                     (diskBasedColumn)
                     .in(out());
         }
+
+
 
 
         /*
@@ -173,7 +212,7 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
 
         /**
          * Transform to TableConstraint
-         * @param constraintName constraintName
+         * @param constraintName constraint name
          * @return TableConstraintBuilder
          */
         public MemoryOptimizedTableConstraintBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
@@ -191,7 +230,7 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$PRIMARY_KEY();
+                    .$PrimaryKey();
         }
 
         /**
@@ -202,7 +241,7 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$UNIQUE();
+                    .$Unique();
         }
 
         /**
@@ -213,18 +252,18 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$FOREIGN_KEY();
+                    .$ForeignKey();
         }
 
         /**
          * Transform to TableConstraint
-         * @return ParentBuilder
+         * @return PARENT
          */
         public ParentBuilder $CHECK(Expression logicalExpression){
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$CHECK(logicalExpression);
+                    .$Check(logicalExpression);
         }
 
         /**

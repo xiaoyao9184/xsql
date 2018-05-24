@@ -7,7 +7,6 @@ import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.predicates.In;
 import com.xy.xsql.tsql.model.statements.Delete;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
@@ -15,10 +14,10 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_deleted;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.*;
-import static com.xy.xsql.tsql.builder.chain.statements.DeleteBuilder.DELETE;
-
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$Delete;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/9.
@@ -35,7 +34,7 @@ public class DeleteBuilderTest {
     /**
      * DELETE FROM Sales.SalesPersonQuotaHistory
      */
-    public Delete exampleA = DELETE()
+    public Delete exampleA = $Delete()
             .$From(t("Sales","SalesPersonQuotaHistory"))
             .build();
     // @formatter:on
@@ -49,8 +48,8 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTableName().toString(),"Sales.SalesPersonQuotaHistory");
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().toString(),"Sales.SalesPersonQuotaHistory");
     }
 
     /*
@@ -65,7 +64,7 @@ public class DeleteBuilderTest {
      * DELETE FROM Production.ProductCostHistory
     WHERE StandardCost > 1000.00
      */
-    public Delete exampleB1 = DELETE()
+    public Delete exampleB1 = $Delete()
             .$From(t("Production","ProductCostHistory"))
             .$Where()
                 .$(p_greater(
@@ -92,9 +91,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTableName().toString(),"Production.ProductCostHistory");
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().toString(),"Production.ProductCostHistory");
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
 
@@ -102,10 +101,10 @@ public class DeleteBuilderTest {
     //parent+quick
     /**
      * DELETE Production.ProductCostHistory
-    WHERE StandardCost BETWEEN 12.00 AND 14.00
-          AND EndDate IS NULL
+    WHERE StandardCost $BETWEEN 12.00 $AND 14.00
+          $AND EndDate IS NULL
      */
-    public Delete exampleB2 = DELETE()
+    public Delete exampleB2 = $Delete()
             .$(t("Production","ProductCostHistory"))
             .$Where()
                 .$(p_between(
@@ -142,10 +141,10 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTableName().toString(),"Production.ProductCostHistory");
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Between.class);
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getAndOrList().size(), 1);
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().toString(),"Production.ProductCostHistory");
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Between.class);
+        assertEquals(delete.getWhere().getSearchCondition().getAndOrList().size(), 1);
     }
 
 
@@ -155,7 +154,7 @@ public class DeleteBuilderTest {
      * DELETE FROM HumanResources.EmployeePayHistory
     WHERE CURRENT OF complex_cursor
      */
-    public Delete exampleC = DELETE()
+    public Delete exampleC = $Delete()
             .$From(t("HumanResources","EmployeePayHistory"))
             .$Where()
                 //TODO support CURRENT OF
@@ -182,14 +181,14 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(delete.getFrom().getTableSourceList().size(),1);
+        assertEquals(delete.getFrom().getTableSourceList().size(),1);
         From.BaseTable baseTable = (From.BaseTable) delete.getFrom().getTableSourceList().get(0);
-        Assert.assertEquals(baseTable.getTableName().toString(),"HumanResources.EmployeePayHistory");
+        assertEquals(baseTable.getTableName().toString(),"HumanResources.EmployeePayHistory");
     }
 
 
     // @formatter:off
-    Select subQuery = SELECT()
+    Select subQuery = $Select()
             .$Select()
                 .$(c("BusinessEntityID"))
                 .$From()
@@ -213,7 +212,7 @@ public class DeleteBuilderTest {
      FROM Sales.SalesPerson
      WHERE SalesYTD > 2500000.00)
      */
-    public Delete exampleD1 = DELETE()
+    public Delete exampleD1 = $Delete()
             .$From(t("Sales","SalesPersonQuotaHistory"))
             .$Where()
                 .$(p_in(
@@ -239,9 +238,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTableName().toString(),"Sales.SalesPersonQuotaHistory");
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), In.class);
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().toString(),"Sales.SalesPersonQuotaHistory");
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), In.class);
     }
 
 
@@ -256,13 +255,13 @@ public class DeleteBuilderTest {
     ON spqh.BusinessEntityID = sp.BusinessEntityID
     WHERE sp.SalesYTD > 2500000.00
      */
-    public Delete exampleD2 = DELETE()
+    public Delete exampleD2 = $Delete()
             .$From(t("Sales","SalesPersonQuotaHistory"))
             .$From()
                 .$()
                     .$(t("Sales","SalesPersonQuotaHistory"))
                     .$As("spqh")
-                    .$Inner_Join()
+                    .$InnerJoin()
                     .$(t("Sales","SalesPerson"))
                     .$As("sp")
                     .$On()
@@ -310,10 +309,10 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTableName().toString(),"Sales.SalesPersonQuotaHistory");
-        Assert.assertEquals(delete.getFrom().getTableSourceList().size(), 1);
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().toString(),"Sales.SalesPersonQuotaHistory");
+        assertEquals(delete.getFrom().getTableSourceList().size(), 1);
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
 
@@ -329,13 +328,13 @@ public class DeleteBuilderTest {
             ON spqh.BusinessEntityID = sp.BusinessEntityID
       WHERE  sp.SalesYTD > 2500000.00
      */
-    public Delete exampleD3 = DELETE()
+    public Delete exampleD3 = $Delete()
                 .$From("spqh")
                 .$From()
                     .$()
                         .$(t("Sales","SalesPersonQuotaHistory"))
                         .$As("spqh")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Sales","SalesPerson"))
                         .$As("sp")
                         .$On()
@@ -389,9 +388,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(delete.getTableAlias().toString(),"spqh");
-        Assert.assertEquals(delete.getFrom().getTableSourceList().size(), 1);
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+        assertEquals(delete.getTableAlias().toString(),"spqh");
+        assertEquals(delete.getFrom().getTableSourceList().size(), 1);
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
 
@@ -402,7 +401,7 @@ public class DeleteBuilderTest {
     FROM Purchasing.PurchaseOrderDetail
     WHERE DueDate < '20020701'
      */
-    public Delete exampleE1 = DELETE()
+    public Delete exampleE1 = $Delete()
                 .$Top()
                     .$_(e_number(20))
                 .$From(t("Purchasing","PurchaseOrderDetail"))
@@ -434,16 +433,16 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertTrue(delete.getTop().getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)delete.getTop().getExpression()).getNumber().toString(),"20");
-        Assert.assertEquals(delete.getTableName().toString(),"Purchasing.PurchaseOrderDetail");
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+        assertTrue(delete.isUseForm());
+        assertTrue(delete.getTop().getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)delete.getTop().getExpression()).getNumber().toString(),"20");
+        assertEquals(delete.getTableName().toString(),"Purchasing.PurchaseOrderDetail");
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
 
     // @formatter:off
-    Select subQueryE2 = SELECT()
+    Select subQueryE2 = $Select()
             .$Select()
                 .$Top()
                     .$_(e_number(10))
@@ -464,7 +463,7 @@ public class DeleteBuilderTest {
          FROM Purchasing.PurchaseOrderDetail
          ORDER BY DueDate ASC)
      */
-    public Delete exampleE2 = DELETE()
+    public Delete exampleE2 = $Delete()
                 .$From(t("Purchasing","PurchaseOrderDetail"))
                 .$Where()
                     .$(p_in(
@@ -490,9 +489,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTableName().toString(),"Purchasing.PurchaseOrderDetail");
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), In.class);
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().toString(),"Purchasing.PurchaseOrderDetail");
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), In.class);
     }
 
 
@@ -511,7 +510,7 @@ public class DeleteBuilderTest {
     DELETE MyLinkServer.AdventureWorks2012.HumanResources.Department
     WHERE DepartmentID > 16
      */
-    public Delete exampleF = DELETE()
+    public Delete exampleF = $Delete()
                 .$(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
                 .$Where()
                     .$(p_greater(
@@ -538,9 +537,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertTrue(delete.isUseForm());
-        Assert.assertEquals(delete.getTableName().toString(),"MyLinkServer.AdventureWorks2012.HumanResources.Department");
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().toString(),"MyLinkServer.AdventureWorks2012.HumanResources.Department");
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
     /*
@@ -556,7 +555,7 @@ public class DeleteBuilderTest {
     FROM AdventureWorks2012.HumanResources.Department
     WHERE DepartmentID = 18')
      */
-    public Delete exampleG = DELETE()
+    public Delete exampleG = $Delete()
                 //TODO function
 
                 .build();
@@ -570,9 +569,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-//        Assert.assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
-//        Assert.assertEquals(delete.getOutput().getDmlSelectList().size(),1);
-//        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+//        assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
+//        assertEquals(delete.getOutput().getDmlSelectList().size(),1);
+//        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
 
@@ -584,7 +583,7 @@ public class DeleteBuilderTest {
         .AdventureWorks2012.HumanResources.Department
     WHERE DepartmentID = 17;'
      */
-    public Delete exampleH = DELETE()
+    public Delete exampleH = $Delete()
                 //TODO function
 
                 .build();
@@ -598,9 +597,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-//        Assert.assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
-//        Assert.assertEquals(delete.getOutput().getDmlSelectList().size(),1);
-//        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+//        assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
+//        assertEquals(delete.getOutput().getDmlSelectList().size(),1);
+//        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
     /*
@@ -615,7 +614,7 @@ public class DeleteBuilderTest {
     OUTPUT DELETED.*
     WHERE ShoppingCartID = 20621
      */
-    public Delete exampleI = DELETE()
+    public Delete exampleI = $Delete()
                 .$(t("Sales","ShoppingCartItem"))
                 .$Output()
                     .$Output(c_deleted())
@@ -651,9 +650,9 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
-        Assert.assertEquals(delete.getOutput().getDmlSelectList().size(),1);
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
+        assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
+        assertEquals(delete.getOutput().getDmlSelectList().size(),1);
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
 
@@ -669,9 +668,9 @@ public class DeleteBuilderTest {
     FROM Production.ProductProductPhoto AS ph
     JOIN Production.Product as p
         ON ph.ProductID = p.ProductID
-        WHERE p.ProductModelID BETWEEN 120 and 130
+        WHERE p.ProductModelID $BETWEEN 120 and 130
      */
-    public Delete exampleJ = DELETE()
+    public Delete exampleJ = $Delete()
                 .$(t("Production","ProductProductPhoto"))
                 .$Output()
                     .$(c_deleted("ProductID"))
@@ -767,11 +766,11 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(delete.getTableName().toString(),"Production.ProductProductPhoto");
-        Assert.assertEquals(delete.getOutput().getDmlSelectList().size(),4);
-        Assert.assertEquals(delete.getOutput().getTableVariable().toString(),"@MyTableVar");
-        Assert.assertEquals(delete.getFrom().getTableSourceList().size(),1);
-        Assert.assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Between.class);
+        assertEquals(delete.getTableName().toString(),"Production.ProductProductPhoto");
+        assertEquals(delete.getOutput().getDmlSelectList().size(),4);
+        assertEquals(delete.getOutput().getTableVariable().toString(),"@MyTableVar");
+        assertEquals(delete.getFrom().getTableSourceList().size(),1);
+        assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Between.class);
     }
 
 

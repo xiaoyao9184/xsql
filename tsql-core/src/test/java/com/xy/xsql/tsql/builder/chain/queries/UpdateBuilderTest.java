@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
+import com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
@@ -8,22 +9,22 @@ import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
 import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.tsql.model.queries.Update;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERYS;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.SUB_QUERY;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Querys;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$SubQuery;
 import static com.xy.xsql.tsql.builder.chain.queries.UpdateBuilder.SetItemBuilder.*;
-import static com.xy.xsql.tsql.builder.chain.queries.UpdateBuilder.UPDATE;
-import static com.xy.xsql.tsql.builder.chain.queries.WithBuilder.WITH;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.OPTIMIZE_FOR;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.TABLOCK;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Update;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$With;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.$OptimizeFor;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintLimiteds.$Tablock;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.*;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/7.
@@ -40,7 +41,7 @@ public class UpdateBuilderTest {
      * UPDATE Person.Address
     SET ModifiedDate = GETDATE()
      */
-    public Update example1A = UPDATE()
+    public Update example1A = $Update()
                 .$(t("Person","Address"))
                 .$Set(s(
                         c("ModifiedDate"),
@@ -61,13 +62,13 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Person.Address");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Person.Address");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "ModifiedDate");
-        Assert.assertEquals(setItem.getExpression().toString(), "GETDATE()");
+        assertEquals(setItem.getColumnName().toString(), "ModifiedDate");
+        assertEquals(setItem.getExpression().toString(), "GETDATE()");
     }
 
 
@@ -76,7 +77,7 @@ public class UpdateBuilderTest {
      * UPDATE Sales.SalesPerson
     SET Bonus = 6000, CommissionPct = .10, SalesQuota = NULL
      */
-    public Update example1B = UPDATE()
+    public Update example1B = $Update()
                 .$(t("Sales","SalesPerson"))
                 .$Set(
                         s(
@@ -114,24 +115,24 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Sales.SalesPerson");
-        Assert.assertEquals(update.getSets().size(),3);
+        assertEquals(update.getTableName().toString(),"Sales.SalesPerson");
+        assertEquals(update.getSets().size(),3);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "Bonus");
-        Assert.assertTrue(setItem.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)setItem.getExpression()).getNumber().toString(), "6000");
+        assertEquals(setItem.getColumnName().toString(), "Bonus");
+        assertTrue(setItem.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)setItem.getExpression()).getNumber().toString(), "6000");
 
-        Assert.assertEquals(update.getSets().get(1).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(1).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem1 = (Update.ColumnAssignmentSet) update.getSets().get(1);
-        Assert.assertEquals(setItem1.getColumnName().toString(), "CommissionPct");
-        Assert.assertEquals(setItem1.getExpression().toString(), ".10");
+        assertEquals(setItem1.getColumnName().toString(), "CommissionPct");
+        assertEquals(setItem1.getExpression().toString(), ".10");
 
-        Assert.assertEquals(update.getSets().get(2).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(2).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem2 = (Update.ColumnAssignmentSet) update.getSets().get(2);
-        Assert.assertEquals(setItem2.getColumnName().toString(), "SalesQuota");
-        Assert.assertTrue(setItem2.isUseNull());
+        assertEquals(setItem2.getColumnName().toString(), "SalesQuota");
+        assertTrue(setItem2.isUseNull());
     }
 
 
@@ -145,9 +146,9 @@ public class UpdateBuilderTest {
     /**
      * UPDATE Production.Product
     SET Color = N'Metallic Red'
-    WHERE Name LIKE N'Road-250%' AND Color = N'Red'
+    WHERE Name LIKE N'Road-250%' $AND Color = N'Red'
      */
-    public Update example2A = UPDATE()
+    public Update example2A = $Update()
                 .$(t("Production","Product"))
                 .$Set(
                         s(
@@ -196,21 +197,21 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Production.Product");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Production.Product");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "Color");
-        Assert.assertTrue(setItem.getExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)setItem.getExpression()).getString(), "Metallic Red");
+        assertEquals(setItem.getColumnName().toString(), "Color");
+        assertTrue(setItem.getExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)setItem.getExpression()).getString(), "Metallic Red");
     }
 
 
     //2B1 is same as 2A
 
     // @formatter:off
-    private Select select2B = SELECT()
+    private Select select2B = $Select()
             .$Select()
                 .$Top()
                     .$(e_number(10)).and()
@@ -231,7 +232,7 @@ public class UpdateBuilderTest {
      ORDER BY HireDate ASC) AS th
      WHERE HumanResources.Employee.BusinessEntityID = th.BusinessEntityID
      */
-    public Update example2B = UPDATE()
+    public Update example2B = $Update()
                 .$(t("HumanResources","Employee"))
                 .$Set(
                         s(
@@ -283,22 +284,22 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"HumanResources.Employee");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"HumanResources.Employee");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "VacationHours");
-        Assert.assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
+        assertEquals(setItem.getColumnName().toString(), "VacationHours");
+        assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
 
-        Assert.assertNotNull(update.getFrom());
-        Assert.assertNotNull(update.getWhere());
+        assertNotNull(update.getFrom());
+        assertNotNull(update.getWhere());
 
     }
 
 
     // @formatter:off
-    private Select.QueryExpression queryExpression2C = QUERYS()
+    private Select.QueryExpression queryExpression2C = $Querys()
             .$Select()
                 .$(c("b","ProductAssemblyID"))
                 .$(c("b","ComponentID"))
@@ -319,7 +320,7 @@ public class UpdateBuilderTest {
                     ))
                     .and()
                 .and()
-            .$Union_All_Select()
+            .$UnionAllSelect()
                 .$(c("bom","ProductAssemblyID"))
                 .$(c("bom","ComponentID"))
                 .$(c("p","PerAssemblyQty"))
@@ -332,7 +333,7 @@ public class UpdateBuilderTest {
                     .$()
                         .$(t("Production","BillOfMaterials"))
                         .$As("bom")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Parts"))
                         .$As("p")
                         .$On()
@@ -349,10 +350,10 @@ public class UpdateBuilderTest {
                 .and()
             .build();
 
-    private With with2C = WITH()
+    private With with2C = $With()
             .$("Parts")
                 .$("AssemblyID", "ComponentID", "PerAssemblyQty", "EndDate", "ComponentLevel")
-                .$As(SUB_QUERY(queryExpression2C))
+                .$As(Queries.$SubQuery(queryExpression2C))
             .build();
     /**
      * WITH Parts(AssemblyID, ComponentID, PerAssemblyQty, EndDate, ComponentLevel) AS
@@ -361,14 +362,14 @@ public class UpdateBuilderTest {
             b.EndDate, 0 AS ComponentLevel
         FROM Production.BillOfMaterials AS b
         WHERE b.ProductAssemblyID = 800
-              AND b.EndDate IS NULL
-        UNION ALL
+              $AND b.EndDate IS NULL
+        UNION $ALL
         SELECT bom.ProductAssemblyID, bom.ComponentID, p.PerAssemblyQty,
             bom.EndDate, ComponentLevel + 1
         FROM Production.BillOfMaterials AS bom
             INNER JOIN Parts AS p
             ON bom.ProductAssemblyID = p.ComponentID
-            AND bom.EndDate IS NULL
+            $AND bom.EndDate IS NULL
     )
     UPDATE Production.BillOfMaterials
     SET PerAssemblyQty = c.PerAssemblyQty * 2
@@ -376,7 +377,7 @@ public class UpdateBuilderTest {
     JOIN Parts AS d ON c.ProductAssemblyID = d.AssemblyID
     WHERE d.ComponentLevel = 0
      */
-    public Update example2C = UPDATE()
+    public Update example2C = $Update()
                 .$With(with2C)
                 .$(t("Production","BillOfMaterials"))
                 .$Set(
@@ -455,16 +456,16 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Production.BillOfMaterials");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Production.BillOfMaterials");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "PerAssemblyQty");
-        Assert.assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
+        assertEquals(setItem.getColumnName().toString(), "PerAssemblyQty");
+        assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
 
-        Assert.assertNotNull(update.getFrom());
-        Assert.assertNotNull(update.getWhere());
+        assertNotNull(update.getFrom());
+        assertNotNull(update.getWhere());
     }
 
 
@@ -476,7 +477,7 @@ public class UpdateBuilderTest {
     CLOSE complex_cursor;
     DEALLOCATE complex_cursor
      */
-    public Update example2D = UPDATE()
+    public Update example2D = $Update()
                 .$(t("HumanResources","EmployeePayHistory"))
                 .$Set(
                         s(
@@ -501,14 +502,14 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"HumanResources.EmployeePayHistory");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"HumanResources.EmployeePayHistory");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "PayFrequency");
-        Assert.assertTrue(setItem.getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)setItem.getExpression()).getNumber().toString(), "2");
+        assertEquals(setItem.getColumnName().toString(), "PayFrequency");
+        assertTrue(setItem.getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)setItem.getExpression()).getNumber().toString(), "2");
     }
 
 
@@ -523,7 +524,7 @@ public class UpdateBuilderTest {
      * UPDATE Production.Product
     SET ListPrice = ListPrice * 2
      */
-    public Update example3A = UPDATE()
+    public Update example3A = $Update()
                 .$(t("Production","Product"))
                 .$Set(
                         s(
@@ -553,13 +554,13 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Production.Product");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Production.Product");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "ListPrice");
-        Assert.assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
+        assertEquals(setItem.getColumnName().toString(), "ListPrice");
+        assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
     }
 
 
@@ -569,7 +570,7 @@ public class UpdateBuilderTest {
     SET ListPrice += @NewPrice
     WHERE Color = N'Red'
      */
-    public Update example3B = UPDATE()
+    public Update example3B = $Update()
                 .$(t("Production","Product"))
                 .$Set(
                         s(c("ListPrice"),
@@ -608,21 +609,21 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Production.Product");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Production.Product");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnCompoundSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnCompoundSet.class);
         Update.ColumnCompoundSet setItem = (Update.ColumnCompoundSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "ListPrice");
-        Assert.assertEquals(setItem.getCompound(),Compound.ADD_ASSIGNMENT);
-        Assert.assertEquals(setItem.getExpression().toString(),"@NewPrice");
+        assertEquals(setItem.getColumnName().toString(), "ListPrice");
+        assertEquals(setItem.getCompound(),Compound.ADD_ASSIGNMENT);
+        assertEquals(setItem.getExpression().toString(),"@NewPrice");
 
-        Assert.assertNotNull(update.getWhere());
+        assertNotNull(update.getWhere());
     }
 
 
     // @formatter:off
-    private Select subQuery3C0 = SELECT()
+    private Select subQuery3C0 = $Select()
             .$Select()
                 .$(e("MAX(OrderDate)"))
                 .$From()
@@ -638,7 +639,7 @@ public class UpdateBuilderTest {
                 .and()
             .build();
 
-    private Select subQuery3C = SELECT()
+    private Select subQuery3C = $Select()
             .$Select()
                 .$(e("SUM(so.SubTotal)"))
                 .$From()
@@ -669,10 +670,10 @@ public class UpdateBuilderTest {
      WHERE so.OrderDate = (SELECT MAX(OrderDate)
      FROM Sales.SalesOrderHeader AS so2
      WHERE so2.SalesPersonID = so.SalesPersonID)
-     AND Sales.SalesPerson.BusinessEntityID = so.SalesPersonID
+     $AND Sales.SalesPerson.BusinessEntityID = so.SalesPersonID
      GROUP BY so.SalesPersonID)
      */
-    public Update example3C = UPDATE()
+    public Update example3C = $Update()
                 .$(t("Sales","SalesPerson"))
                 .$Set(
                         s(
@@ -702,13 +703,13 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Sales.SalesPerson");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Sales.SalesPerson");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "SalesYTD");
-        Assert.assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
+        assertEquals(setItem.getColumnName().toString(), "SalesYTD");
+        assertEquals(setItem.getExpression().getClass(), BinaryExpression.class);
     }
 
 
@@ -718,7 +719,7 @@ public class UpdateBuilderTest {
     SET CostRate = DEFAULT
     WHERE CostRate > 20.00
      */
-    public Update example3D = UPDATE()
+    public Update example3D = $Update()
                 .$(t("Production","Location"))
                 .$Set(
                         s_default(c("CostRate"))
@@ -753,15 +754,15 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Production.Location");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Production.Location");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "CostRate");
-        Assert.assertEquals(setItem.getExpression().toString(), "DEFAULT");
+        assertEquals(setItem.getColumnName().toString(), "CostRate");
+        assertEquals(setItem.getExpression().toString(), "DEFAULT");
 
-        Assert.assertNotNull(update.getWhere());
+        assertNotNull(update.getWhere());
     }
 
 
@@ -776,7 +777,7 @@ public class UpdateBuilderTest {
     SET CountryRegionName = 'United States of America'
     WHERE CountryRegionName = 'United States'
      */
-    public Update example4A = UPDATE()
+    public Update example4A = $Update()
                 .$(t("Person","vStateProvinceCountryRegion"))
                 .$Set(
                         s(c("CountryRegionName"),e_string("United States of America"))
@@ -811,16 +812,16 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"Person.vStateProvinceCountryRegion");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"Person.vStateProvinceCountryRegion");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "CountryRegionName");
-        Assert.assertTrue(setItem.getExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)setItem.getExpression()).getString(), "United States of America");
+        assertEquals(setItem.getColumnName().toString(), "CountryRegionName");
+        assertTrue(setItem.getExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)setItem.getExpression()).getString(), "United States of America");
 
-        Assert.assertNotNull(update.getWhere());
+        assertNotNull(update.getWhere());
     }
 
 
@@ -831,9 +832,9 @@ public class UpdateBuilderTest {
     FROM Production.ScrapReason AS sr
     JOIN Production.WorkOrder AS wo
          ON sr.ScrapReasonID = wo.ScrapReasonID
-         AND wo.ScrappedQty > 300
+         $AND wo.ScrappedQty > 300
      */
-    public Update example4B = UPDATE()
+    public Update example4B = $Update()
                 .$(t("sr"))
                 .$Set(
                         s(
@@ -904,16 +905,16 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(update.getTableName().toString(),"sr");
-        Assert.assertEquals(update.getSets().size(),1);
+        assertEquals(update.getTableName().toString(),"sr");
+        assertEquals(update.getSets().size(),1);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnCompoundSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnCompoundSet.class);
         Update.ColumnCompoundSet setItem = (Update.ColumnCompoundSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "sr.CountryRegionName");
-        Assert.assertTrue(setItem.getExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)setItem.getExpression()).getString(), " - tool malfunction");
+        assertEquals(setItem.getColumnName().toString(), "sr.CountryRegionName");
+        assertTrue(setItem.getExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)setItem.getExpression()).getString(), " - tool malfunction");
 
-        Assert.assertNotNull(update.getFrom());
+        assertNotNull(update.getFrom());
     }
 
 
@@ -926,7 +927,7 @@ public class UpdateBuilderTest {
     FROM HumanResources.Employee AS e
     WHERE e.BusinessEntityID = EmpID
      */
-    public Update example4C = UPDATE()
+    public Update example4C = $Update()
                 //TODO support variable
 //                .$(e_variable("MyTableVar"))
                 .$Set(
@@ -983,14 +984,14 @@ public class UpdateBuilderTest {
                 .build();
         // @formatter:on
 
-//        Assert.assertEquals(update.getTableName().toString(),"Person.vStateProvinceCountryRegion");
-        Assert.assertEquals(update.getSets().size(),2);
+//        assertEquals(update.getTableName().toString(),"Person.vStateProvinceCountryRegion");
+        assertEquals(update.getSets().size(),2);
 
-        Assert.assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
+        assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
-        Assert.assertEquals(setItem.getColumnName().toString(), "NewVacationHours");
+        assertEquals(setItem.getColumnName().toString(), "NewVacationHours");
         //TODO
-//        Assert.assertEquals(setItem.getExpression().toString(), "' - tool malfunction'");
+//        assertEquals(setItem.getExpression().toString(), "' - tool malfunction'");
     }
 
     /*
@@ -1000,7 +1001,7 @@ public class UpdateBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification query5A1 = QUERY()
+    private Select.QuerySpecification query5A1 = $Query()
             .$(e("MAX(OrderDate)"))
             .$From()
                 .$(t("Sales","SalesOrderHeader"))
@@ -1018,11 +1019,11 @@ public class UpdateBuilderTest {
      FROM Sales.SalesPerson AS sp
      JOIN Sales.SalesOrderHeader AS so
      ON sp.BusinessEntityID = so.SalesPersonID
-     AND so.OrderDate = (SELECT MAX(OrderDate)
+     $AND so.OrderDate = (SELECT MAX(OrderDate)
      FROM Sales.SalesOrderHeader
      WHERE SalesPersonID = sp.BusinessEntityID)
      */
-    public Update example5A1 = UPDATE()
+    public Update example5A1 = $Update()
                 .$(t("Sales","SalesPerson"))
                 .$Set(s(
                         c("SalesYTD"),
@@ -1054,7 +1055,7 @@ public class UpdateBuilderTest {
 
 
     // @formatter:off
-    private Select.QuerySpecification query5A2_0 = QUERY()
+    private Select.QuerySpecification query5A2_0 = $Query()
             .$(e("MAX(OrderDate)"))
             .$From()
                 .$(t("Sales","SalesOrderHeader"),"so2")
@@ -1067,7 +1068,7 @@ public class UpdateBuilderTest {
                 ))
                 .and()
             .build();
-    private Select.QuerySpecification query5A2 = QUERY()
+    private Select.QuerySpecification query5A2 = $Query()
             .$(e("SUM(so.SubTotal)"))
             .$From()
                 .$(t("Sales","SalesOrderHeader"),"so")
@@ -1095,10 +1096,10 @@ public class UpdateBuilderTest {
      WHERE so.OrderDate = (SELECT MAX(OrderDate)
      FROM Sales.SalesOrderHeader AS so2
      WHERE so2.SalesPersonID = so.SalesPersonID)
-     AND Sales.SalesPerson.BusinessEntityID = so.SalesPersonID
+     $AND Sales.SalesPerson.BusinessEntityID = so.SalesPersonID
      GROUP BY so.SalesPersonID)
      */
-    public Update example5A2 = UPDATE()
+    public Update example5A2 = $Update()
                 .$(t("Sales","SalesPerson"))
                 .$Set(s(
                         c("SalesYTD"),
@@ -1125,7 +1126,7 @@ public class UpdateBuilderTest {
      SET GroupName = N'Public Relations'
      WHERE DepartmentID = 4
      */
-    public Update example6A = UPDATE()
+    public Update example6A = $Update()
                 .$(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
                 .$Set(s(
                         c("GroupName"),
@@ -1146,7 +1147,7 @@ public class UpdateBuilderTest {
      * UPDATE OPENQUERY (MyLinkServer, 'SELECT GroupName FROM HumanResources.Department WHERE DepartmentID = 4')
      SET GroupName = 'Sales and Marketing'
      */
-    public Update example6B = UPDATE()
+    public Update example6B = $Update()
             //TODO funtion
 //                .$(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
                 .$Set(s(
@@ -1162,7 +1163,7 @@ public class UpdateBuilderTest {
      * UPDATE OPENQUERY (MyLinkServer, 'SELECT GroupName FROM HumanResources.Department WHERE DepartmentID = 4')
     SET GroupName = 'Sales and Marketing'
      */
-    public Update example6C = UPDATE()
+    public Update example6C = $Update()
             //TODO funtion
 //                .$(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
                 .$Set(s(
@@ -1187,7 +1188,7 @@ public class UpdateBuilderTest {
         INTO @MyTableVar
     WHERE Title = N'Front Reflector Bracket Installation'
      */
-    public Update example7A = UPDATE()
+    public Update example7A = $Update()
                 .$(t("Production","Document"))
             //TODO method
 //                .$Set(s(
@@ -1215,7 +1216,7 @@ public class UpdateBuilderTest {
     SET DocumentSummary = N'Replacing NULL value'
     WHERE Title = N'Crank Arm and Tire Maintenance'
      */
-    public Update example7B1 = UPDATE()
+    public Update example7B1 = $Update()
                 .$(t("Production","Document"))
                 .$Set(s(
                         c("DocumentSummary"),
@@ -1236,7 +1237,7 @@ public class UpdateBuilderTest {
     SET DocumentSummary .WRITE(N'Carefully inspect and maintain the tires and crank arms.',0,NULL)
     WHERE Title = N'Crank Arm and Tire Maintenance'
      */
-    public Update example7B2 = UPDATE()
+    public Update example7B2 = $Update()
                 .$(t("Production","Document"))
             //TODO method
 //                .$Set(s(
@@ -1258,7 +1259,7 @@ public class UpdateBuilderTest {
     SET DocumentSummary .WRITE (N' Appending data to the end of the column.', NULL, 0)
     WHERE Title = N'Crank Arm and Tire Maintenance'
      */
-    public Update example7B3 = UPDATE()
+    public Update example7B3 = $Update()
                 .$(t("Production","Document"))
             //TODO method
 //                .$Set(s(
@@ -1280,7 +1281,7 @@ public class UpdateBuilderTest {
     SET DocumentSummary .WRITE (NULL, 56, 0)
     WHERE Title = N'Crank Arm and Tire Maintenance'
      */
-    public Update example7B4 = UPDATE()
+    public Update example7B4 = $Update()
                 .$(t("Production","Document"))
             //TODO method
 //                .$Set(s(
@@ -1302,7 +1303,7 @@ public class UpdateBuilderTest {
     SET DocumentSummary .WRITE ('',9, 12)
     WHERE Title = N'Crank Arm and Tire Maintenance'
      */
-    public Update example7B5 = UPDATE()
+    public Update example7B5 = $Update()
                 .$(t("Production","Document"))
             //TODO method
 //                .$Set(s(
@@ -1327,7 +1328,7 @@ public class UpdateBuilderTest {
         FROM OPENROWSET(BULK 'c:Tires.jpg', SINGLE_BLOB) AS x )
     WHERE ProductPhotoID = 1
      */
-    public Update example7C = UPDATE()
+    public Update example7C = $Update()
                 .$(t("Production","ProductPhoto"))
             //TODO OPENROWSET
 //                .$Set(s(
@@ -1350,7 +1351,7 @@ public class UpdateBuilderTest {
     SET [Chart] = CAST('Xray 1' as varbinary(max))
     WHERE [SerialNumber] = 2
      */
-    public Update example7D = UPDATE()
+    public Update example7D = $Update()
                 .$(t("Archive","dbo","Records"))
                 .$Set(s(
                         c("[Chart]"),
@@ -1377,7 +1378,7 @@ public class UpdateBuilderTest {
     SET Location = CONVERT(Point, '12.3:46.2')
     WHERE Name = 'Anchorage'
      */
-    public Update example8A = UPDATE()
+    public Update example8A = $Update()
                 .$(t("dbo","Cities"))
                 .$Set(s(
                         c("Location"),
@@ -1399,7 +1400,7 @@ public class UpdateBuilderTest {
     SET Location.SetXY(23.5, 23.5)
     WHERE Name = 'Anchorage'
      */
-    public Update example8B = UPDATE()
+    public Update example8B = $Update()
                 .$(t("dbo","Cities"))
             //TODO method
 //                .$Set(s(
@@ -1422,7 +1423,7 @@ public class UpdateBuilderTest {
     SET Location.X = 23.5
     WHERE Name = 'Anchorage'
      */
-    public Update example8C = UPDATE()
+    public Update example8C = $Update()
                 .$(t("dbo","Cities"))
                 .$Set(s(
                         c("Location","X"),
@@ -1450,9 +1451,9 @@ public class UpdateBuilderTest {
     SET ListPrice = ListPrice * 1.10
     WHERE ProductNumber LIKE 'BK-%'
      */
-    public Update example9A = UPDATE()
+    public Update example9A = $Update()
                 .$(t("Production","Product"))
-                .$With(TABLOCK())
+                .$With($Tablock())
                 .$Set(s(
                         c("ListPrice"),
                         e_multiplication(
@@ -1477,7 +1478,7 @@ public class UpdateBuilderTest {
     WHERE ProductNumber LIKE @Product
     OPTION (OPTIMIZE FOR (@Product = 'BK-%') )
      */
-    public Update example9B = UPDATE()
+    public Update example9B = $Update()
                 .$(t("Production","Product"))
                 .$Set(s(
                         c("ListPrice"),
@@ -1493,7 +1494,7 @@ public class UpdateBuilderTest {
                     ))
                     .and()
                 .$Option()
-                    .$(OPTIMIZE_FOR("Product","BK-%"))
+                    .$(QueryHintBuilder.$OptimizeFor("Product","BK-%"))
                     .and()
                 .build();
     // @formatter:on
@@ -1515,7 +1516,7 @@ public class UpdateBuilderTest {
            inserted.ModifiedDate
     INTO @MyTableVar
      */
-    public Update example10A = UPDATE()
+    public Update example10A = $Update()
                 .$Top()
                     .$(e_number(10))
                     .and()
@@ -1557,7 +1558,7 @@ public class UpdateBuilderTest {
         )
     WHERE CurrentFlag = 1
      */
-    public Update example11A = UPDATE()
+    public Update example11A = $Update()
                 .$(t("HumanResources","Employee"))
                 .$Set(s(
                         c("VacationHours"),
@@ -1586,9 +1587,9 @@ public class UpdateBuilderTest {
     /**
      * UPDATE HumanResources.Department
         SET Name = N'MyNewName'
-        WHERE DepartmentID BETWEEN 1 AND 2
+        WHERE DepartmentID $BETWEEN 1 $AND 2
      */
-    public Update example11B = UPDATE()
+    public Update example11B = $Update()
                 .$(t("HumanResources","Department"))
                 .$Set(s(
                         c("Name"),

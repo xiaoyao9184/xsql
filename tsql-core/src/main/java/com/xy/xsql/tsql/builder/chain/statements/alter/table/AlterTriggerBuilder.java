@@ -7,8 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * AlterTriggerBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterTriggerBuilder<ParentBuilder>
         extends CodeTreeBuilder<AlterTriggerBuilder<ParentBuilder>,ParentBuilder,AlterTrigger> {
 
@@ -16,38 +18,72 @@ public class AlterTriggerBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param useEnable enable
+     * @return THIS
+     */
     public AlterTriggerBuilder<ParentBuilder> withUseEnable(boolean useEnable){
         target.setUseEnable(useEnable);
         return this;
     }
 
+    /**
+     * set
+     * @param triggerNames trigger name
+     * @return THIS
+     */
     public AlterTriggerBuilder<ParentBuilder> withTriggerNames(List<String> triggerNames){
         target.setTriggerNames(triggerNames);
         return this;
     }
 
+    /**
+     * set
+     * @param triggerNames trigger name
+     * @return THIS
+     */
     public AlterTriggerBuilder<ParentBuilder> withTriggerNames(String... triggerNames){
         target.setTriggerNames(Arrays.asList(triggerNames));
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public AlterTriggerBuilder<ParentBuilder> $ENABLE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterTriggerBuilder<ParentBuilder> $Enable(){
         return withUseEnable(true);
     }
 
-    public AlterTriggerBuilder<ParentBuilder> $DISABLE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterTriggerBuilder<ParentBuilder> $Disable(){
         return withUseEnable(false);
     }
 
-    public AlterTriggerBuilder<ParentBuilder> $TRIGGER_ALL(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterTriggerBuilder<ParentBuilder> $TriggerAll(){
         return this;
     }
 
-    public AlterTriggerBuilder<ParentBuilder> $CONSTRAINT(String... triggerNames){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterTriggerBuilder<ParentBuilder> $Constraint(String... triggerNames){
         return withTriggerNames(triggerNames);
     }
 

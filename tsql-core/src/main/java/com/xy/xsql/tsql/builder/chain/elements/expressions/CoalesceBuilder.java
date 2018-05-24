@@ -10,8 +10,10 @@ import java.util.Arrays;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * CoalesceBuilder
  * Created by xiaoyao9184 on 2017/3/16.
  */
+@SuppressWarnings("unused")
 public class CoalesceBuilder<ParentBuilder>
         extends CodeTreeBuilder<CoalesceBuilder<ParentBuilder>,ParentBuilder,Coalesce> {
 
@@ -23,6 +25,11 @@ public class CoalesceBuilder<ParentBuilder>
         super(tar);
     }
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     @Deprecated
     public CoalesceBuilder<ParentBuilder> withExpression(Expression expression) {
         initAdd(expression,
@@ -31,6 +38,11 @@ public class CoalesceBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param expressions Expression
+     * @return THIS
+     */
     public CoalesceBuilder<ParentBuilder> withExpression(Expression... expressions) {
         if(CheckUtil.isNullOrEmpty(expressions)){
             return this;

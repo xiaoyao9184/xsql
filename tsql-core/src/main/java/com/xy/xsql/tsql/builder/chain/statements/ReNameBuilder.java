@@ -9,8 +9,10 @@ import java.util.Arrays;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 
 /**
+ * ReNameBuilder
  * Created by xiaoyao9184 on 2017/3/16.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ReNameBuilder extends CodeBuilder<ReName> {
 
     public ReNameBuilder(ReName tar) {
@@ -21,78 +23,34 @@ public class ReNameBuilder extends CodeBuilder<ReName> {
         super(new ReName());
     }
 
+    /**
+     * set
+     * @param dbName db name
+     * @return THIS
+     */
     public ReNameBuilder withDBName(String dbName){
         target.setDbName(dbName);
         return this;
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public ReNameBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
     }
 
+    /**
+     * set
+     * @param tableName table name
+     * @return THIS
+     */
     public ReNameBuilder withNewName(String tableName){
         target.setNewName(tableName);
         return this;
     }
 
-
-
-
-    /*
-    Quick build
-     */
-
-    /**
-     * Quick build ReName Table
-     * @param old_new the last is new name
-     * @return
-     */
-    public static ReName RENAME_TABLE(String... old_new){
-        String[] tableNames = Arrays.copyOfRange(old_new,0,old_new.length - 1);
-
-        return new ReNameBuilder()
-                .withTableName(t(tableNames))
-                .withNewName(old_new[old_new.length-1])
-                .build();
-    }
-
-    /**
-     * Quick build ReName Table
-     * @param tableName
-     * @param newName
-     * @return
-     */
-    public static ReName RENAME_TABLE(String tableName, String newName){
-        return new ReNameBuilder()
-                .withTableName(t(tableName))
-                .withNewName(newName)
-                .build();
-    }
-
-    /**
-     * Quick build ReName Table
-     * @param tableName
-     * @param newName
-     * @return
-     */
-    public static ReName RENAME_TABLE(TableName tableName, String newName){
-        return new ReNameBuilder()
-                .withTableName(tableName)
-                .withNewName(newName)
-                .build();
-    }
-
-    /**
-     * Quick build ReName DataBase
-     * @param dbName
-     * @param newName
-     * @return
-     */
-    public static ReName RENAME_DATABASE(String dbName, String newName){
-        return new ReNameBuilder()
-                .withDBName(dbName)
-                .withNewName(newName)
-                .build();
-    }
 }

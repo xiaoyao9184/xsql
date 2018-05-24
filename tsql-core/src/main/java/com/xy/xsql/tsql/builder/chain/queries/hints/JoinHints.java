@@ -3,9 +3,10 @@ package com.xy.xsql.tsql.builder.chain.queries.hints;
 import com.xy.xsql.tsql.model.queries.hints.JoinHint;
 
 /**
- * JoinHintFactory
+ * JoinHint Factory
  * Created by xiaoyao9184 on 2017/3/12.
  */
+@SuppressWarnings("unused")
 public class JoinHints {
 
     /*
@@ -14,33 +15,33 @@ public class JoinHints {
 
     /**
      * Quick build
-     * @return
+     * @return JoinHint
      */
-    public static JoinHint LOOP(){
+    public static JoinHint $Loop(){
         return JoinHint.LOOP;
     }
 
     /**
      * Quick build
-     * @return
+     * @return JoinHint
      */
-    public static JoinHint HASH(){
+    public static JoinHint $Hash(){
         return JoinHint.HASH;
     }
 
     /**
      * Quick build
-     * @return
+     * @return JoinHint
      */
-    public static JoinHint MERGE(){
+    public static JoinHint $Merge(){
         return JoinHint.MERGE;
     }
 
     /**
      * Quick build
-     * @return
+     * @return JoinHint
      */
-    public static JoinHint REMOTE(){
+    public static JoinHint $Remote(){
         return JoinHint.REMOTE;
     }
 

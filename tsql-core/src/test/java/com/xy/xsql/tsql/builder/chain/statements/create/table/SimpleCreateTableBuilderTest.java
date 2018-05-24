@@ -1,13 +1,14 @@
 package com.xy.xsql.tsql.builder.chain.statements.create.table;
 
+import com.xy.xsql.tsql.builder.chain.statements.create.Creates;
 import com.xy.xsql.tsql.model.statements.create.table.SimpleCreateTable;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnDefinitionFactory.c_int;
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes._int;
-import static com.xy.xsql.tsql.builder.chain.statements.create.table.SimpleCreateTableBuilder.CREATE_TABLE;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnDefinitions.c_int;
+import static com.xy.xsql.tsql.builder.chain.datatypes.DataTypes._int;
+import static com.xy.xsql.tsql.builder.chain.statements.create.Creates.$CreateTable;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/8/4.
@@ -18,13 +19,13 @@ public class SimpleCreateTableBuilderTest {
     /**
      * CREATE TABLE ##test ( a int, b int)
      */
-    public SimpleCreateTable example = CREATE_TABLE(t("##test"),c_int("a"),c_int("b"));
+    public SimpleCreateTable example = $CreateTable(t("##test"),c_int("a"),c_int("b"));
     // @formatter:on
 
     @Test
     public void testExample(){
-        Assert.assertEquals(example.getTableName().toString(),"##test");
-        Assert.assertEquals(example.getColumnDefinitionList().size(),2);
+        assertEquals(example.getTableName().toString(),"##test");
+        assertEquals(example.getColumnDefinitionList().size(),2);
     }
 
     /*
@@ -37,12 +38,12 @@ public class SimpleCreateTableBuilderTest {
      * CREATE TABLE dbo.Employee (EmployeeID int
     PRIMARY KEY CLUSTERED)
      */
-    public SimpleCreateTable exampleA = CREATE_TABLE()
+    public SimpleCreateTable exampleA = Creates.$CreateTable()
             .$(t("dbo","Employee"))
             .$("EmployeeID")
                 .$(_int())
-                .$PRIMARY_KEY()
-                    .$CLUSTERED()
+                .$PrimaryKey()
+                    .$Clustered()
                     .and()
                 .and()
             .build();
@@ -50,8 +51,8 @@ public class SimpleCreateTableBuilderTest {
 
     @Test
     public void testExampleA(){
-        Assert.assertEquals(exampleA.getTableName().toString(),"dbo.Employee");
-        Assert.assertEquals(exampleA.getColumnDefinitionList().size(),1);
+        assertEquals(exampleA.getTableName().toString(),"dbo.Employee");
+        assertEquals(exampleA.getColumnDefinitionList().size(),1);
     }
 
     // @formatter:off
@@ -59,11 +60,11 @@ public class SimpleCreateTableBuilderTest {
      * SalesPersonID int NULL
     REFERENCES SalesPerson(SalesPersonID)
      */
-    public SimpleCreateTable exampleB = CREATE_TABLE()
+    public SimpleCreateTable exampleB = Creates.$CreateTable()
             .$("SalesPersonID")
                 .$(_int())
-                .$NULL()
-                .$REFERENCES("SalesPerson","SalesPersonID")
+                .$Null()
+                .$References("SalesPerson","SalesPersonID")
                     .and()
                 .and()
             .build();
@@ -71,8 +72,8 @@ public class SimpleCreateTableBuilderTest {
 
     @Test
     public void testExampleB(){
-//        Assert.assertEquals(exampleB.getTableName().toString(),"SalesPersonID");
-        Assert.assertEquals(exampleB.getColumnDefinitionList().size(),1);
+//        assertEquals(exampleB.getTableName().toString(),"SalesPersonID");
+        assertEquals(exampleB.getColumnDefinitionList().size(),1);
     }
 
 }

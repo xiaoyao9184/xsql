@@ -10,13 +10,15 @@ import java.util.List;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * Foreign Builders
  * Created by xiaoyao9184 on 2017/8/17.
  */
+@SuppressWarnings({"WeakerAccess","unused"})
 public class Foreigns {
 
 
     /**
-     *
+     * ColumnForeignBuilder
      * @param <ParentBuilder>
      */
     public static class ColumnForeignBuilder<ParentBuilder>
@@ -26,40 +28,78 @@ public class Foreigns {
             super(tar);
         }
 
+        /**
+         * set
+         * @param useForeignKey foreign key
+         * @return THIS
+         */
         public ColumnForeignBuilder<ParentBuilder> withForeignKey(boolean useForeignKey){
             target.setUseForeignKey(useForeignKey);
             return this;
         }
 
+        /**
+         * set
+         * @param schemaName schema name
+         * @return THIS
+         */
         public ColumnForeignBuilder<ParentBuilder> withSchemaName(String schemaName){
             target.setSchemaName(schemaName);
             return this;
         }
 
+        /**
+         * set
+         * @param referencedTableName referenced table name
+         * @return THIS
+         */
         public ColumnForeignBuilder<ParentBuilder> withReferencedTableName(String referencedTableName){
             target.setReferencedTableName(referencedTableName);
             return this;
         }
 
+        /**
+         * set
+         * @param refColumn ref column
+         * @return THIS
+         */
         public ColumnForeignBuilder<ParentBuilder> withRefColumn(String refColumn){
             target.setRefColumns(Collections.singletonList(refColumn));
             return this;
         }
 
+        /**
+         * set
+         * @param onType OnType
+         * @return THIS
+         */
         public ColumnForeignBuilder<ParentBuilder> withOnDelete(Foreign.OnType onType){
             target.setOnDelete(onType);
             return this;
         }
 
+        /**
+         * set
+         * @param onType OnType
+         * @return THIS
+         */
         public ColumnForeignBuilder<ParentBuilder> withOnUpdate(Foreign.OnType onType){
             target.setOnUpdate(onType);
             return this;
         }
 
+        /**
+         * set
+         * @param useNotForReplication not for replication
+         * @return THIS
+         */
         public ColumnForeignBuilder<ParentBuilder> withUseNotForReplication(boolean useNotForReplication){
             target.setUseNotForReplication(useNotForReplication);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -69,7 +109,7 @@ public class Foreigns {
          * Quick set
          * @return THIS
          */
-        public ColumnForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+        public ColumnForeignBuilder<ParentBuilder> $ForeignKey(){
             return withForeignKey(true);
         }
 
@@ -77,7 +117,7 @@ public class Foreigns {
          * Quick inout set referencedTableName
          * @return THIS
          */
-        public ColumnForeignBuilder<ParentBuilder> $REFERENCES(String referencedTableName, String refColumn){
+        public ColumnForeignBuilder<ParentBuilder> $References(String referencedTableName, String refColumn){
             return withReferencedTableName(referencedTableName)
                     .withRefColumn(refColumn);
         }
@@ -86,27 +126,27 @@ public class Foreigns {
          * Quick inout set schemaName,referencedTableName
          * @return THIS
          */
-        public ColumnForeignBuilder<ParentBuilder> $REFERENCES(String schemaName, String referencedTableName, String refColumn){
+        public ColumnForeignBuilder<ParentBuilder> $References(String schemaName, String referencedTableName, String refColumn){
             return withSchemaName(schemaName)
                     .withReferencedTableName(referencedTableName)
                     .withRefColumn(refColumn);
         }
 
         /**
-         * Quick into
+         * Quick in
          * @return OnTypeBuilder
          */
-        public OnTypeBuilder<ColumnForeignBuilder> $ON_DELETE(){
+        public OnTypeBuilder<ColumnForeignBuilder> $OnDelete(){
             return new OnTypeBuilder<ColumnForeignBuilder>
                     ()
                     .enter(this, onType -> target.setOnDelete(onType));
         }
 
         /**
-         * Quick into
+         * Quick in
          * @return OnTypeBuilder
          */
-        public OnTypeBuilder<ColumnForeignBuilder> $ON_UPDATE(){
+        public OnTypeBuilder<ColumnForeignBuilder> $OnUpdate(){
             return new OnTypeBuilder<ColumnForeignBuilder>
                     ()
                     .enter(this, onType -> target.setOnUpdate(onType));
@@ -116,7 +156,7 @@ public class Foreigns {
          * Quick set useNotForReplication
          * @return THIS
          */
-        public ColumnForeignBuilder $NOT_FOR_REPLICATION(){
+        public ColumnForeignBuilder $NotForReplication(){
             return withUseNotForReplication(true);
         }
 
@@ -124,7 +164,7 @@ public class Foreigns {
 
 
     /**
-     *
+     * ComputedColumnForeignBuilder
      * @param <ParentBuilder>
      */
     public static class ComputedColumnForeignBuilder<ParentBuilder>
@@ -134,35 +174,68 @@ public class Foreigns {
             super(tar);
         }
 
+        /**
+         * set
+         * @param useForeignKey foreign key
+         * @return THIS
+         */
         public ComputedColumnForeignBuilder<ParentBuilder> withForeignKey(boolean useForeignKey){
             target.setUseForeignKey(useForeignKey);
             return this;
         }
 
+        /**
+         * set
+         * @param referencedTableName referenced table name
+         * @return THIS
+         */
         public ComputedColumnForeignBuilder<ParentBuilder> withReferencedTableName(String referencedTableName){
             target.setReferencedTableName(referencedTableName);
             return this;
         }
 
+        /**
+         * set
+         * @param refColumn ref column
+         * @return THIS
+         */
         public ComputedColumnForeignBuilder<ParentBuilder> withRefColumn(String refColumn){
             target.setRefColumns(Collections.singletonList(refColumn));
             return this;
         }
 
+        /**
+         * set
+         * @param onType OnType
+         * @return THIS
+         */
         public ComputedColumnForeignBuilder<ParentBuilder> withOnDelete(Foreign.OnType onType){
             target.setOnDelete(onType);
             return this;
         }
 
+        /**
+         * set
+         * @param onType OnType
+         * @return THIS
+         */
         public ComputedColumnForeignBuilder<ParentBuilder> withOnUpdate(Foreign.OnType onType){
             target.setOnUpdate(onType);
             return this;
         }
 
+        /**
+         * set
+         * @param useNotForReplication not for replication
+         * @return THIS
+         */
         public ComputedColumnForeignBuilder<ParentBuilder> withUseNotForReplication(boolean useNotForReplication){
             target.setUseNotForReplication(useNotForReplication);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -172,7 +245,7 @@ public class Foreigns {
          * Quick set
          * @return THIS
          */
-        public ComputedColumnForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+        public ComputedColumnForeignBuilder<ParentBuilder> $ForeignKey(){
             return withForeignKey(true);
         }
 
@@ -180,26 +253,26 @@ public class Foreigns {
          * Quick inout set referencedTableName
          * @return THIS
          */
-        public ComputedColumnForeignBuilder $REFERENCES(String referencedTableName, String refColumn){
+        public ComputedColumnForeignBuilder $References(String referencedTableName, String refColumn){
             return withReferencedTableName(referencedTableName)
                     .withRefColumn(refColumn);
         }
 
         /**
-         * Quick into
+         * Quick in
          * @return OnTypeBuilder
          */
-        public OnTypeBuilder<ComputedColumnForeignBuilder> $ON_DELETE(){
+        public OnTypeBuilder<ComputedColumnForeignBuilder> $OnDelete(){
             return new OnTypeBuilder<ComputedColumnForeignBuilder>
                     ()
                     .enter(this, onType -> target.setOnDelete(onType));
         }
 
         /**
-         * Quick into
+         * Quick in
          * @return OnTypeBuilder
          */
-        public OnTypeBuilder<ComputedColumnForeignBuilder> $ON_UPDATE(){
+        public OnTypeBuilder<ComputedColumnForeignBuilder> $OnUpdate(){
             return new OnTypeBuilder<ComputedColumnForeignBuilder>
                     ()
                     .enter(this, onType -> target.setOnUpdate(onType));
@@ -209,7 +282,7 @@ public class Foreigns {
          * Quick set useNotForReplication
          * @return THIS
          */
-        public ComputedColumnForeignBuilder $NOT_FOR_REPLICATION(){
+        public ComputedColumnForeignBuilder $NotForReplication(){
             return withUseNotForReplication(true);
         }
 
@@ -217,6 +290,7 @@ public class Foreigns {
 
 
     /**
+     * ReferencesColumnForeignBuilder
      * Use
      * in column_constraint
      * on --Memory optimized CREATE TABLE Syntax
@@ -229,26 +303,48 @@ public class Foreigns {
             super(tar);
         }
 
-
+        /**
+         * set
+         * @param useForeignKey foreign key
+         * @return THIS
+         */
         public ReferencesColumnForeignBuilder<ParentBuilder> withForeignKey(boolean useForeignKey){
             target.setUseForeignKey(useForeignKey);
             return this;
         }
 
+        /**
+         * set
+         * @param schemaName schema name
+         * @return THIS
+         */
         public ReferencesColumnForeignBuilder<ParentBuilder> withSchemaName(String schemaName){
             target.setSchemaName(schemaName);
             return this;
         }
 
+        /**
+         * set
+         * @param referencedTableName referenced table name
+         * @return THIS
+         */
         public ReferencesColumnForeignBuilder<ParentBuilder> withReferencedTableName(String referencedTableName){
             target.setReferencedTableName(referencedTableName);
             return this;
         }
 
+        /**
+         * set
+         * @param refColumn ref column
+         * @return THIS
+         */
         public ReferencesColumnForeignBuilder<ParentBuilder> withRefColumn(String refColumn){
             target.setRefColumns(Collections.singletonList(refColumn));
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -258,7 +354,7 @@ public class Foreigns {
          * Quick set
          * @return THIS
          */
-        public ReferencesColumnForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+        public ReferencesColumnForeignBuilder<ParentBuilder> $ForeignKey(){
             return withForeignKey(true);
         }
 
@@ -266,7 +362,7 @@ public class Foreigns {
          * Quick inout set referencedTableName
          * @return THIS
          */
-        public ReferencesColumnForeignBuilder $REFERENCES(String referencedTableName, String refColumn){
+        public ReferencesColumnForeignBuilder $References(String referencedTableName, String refColumn){
             return withReferencedTableName(referencedTableName)
                     .withRefColumn(refColumn);
         }
@@ -276,7 +372,7 @@ public class Foreigns {
 
 
     /**
-     *
+     * TableForeignBuilder
      * @param <ParentBuilder>
      */
     public static class TableForeignBuilder<ParentBuilder>
@@ -286,32 +382,61 @@ public class Foreigns {
             super(tar);
         }
 
-
+        /**
+         * set
+         * @param columns column
+         * @return THIS
+         */
         public TableForeignBuilder<ParentBuilder> withColumns(List<String> columns){
             target.setColumns(columns);
             return this;
         }
 
+        /**
+         * set
+         * @param referencedTableName referenced table name
+         * @return THIS
+         */
         public TableForeignBuilder<ParentBuilder> withReferencedTableName(String referencedTableName){
             target.setReferencedTableName(referencedTableName);
             return this;
         }
 
+        /**
+         * set
+         * @param refColumns ref column
+         * @return THIS
+         */
         public TableForeignBuilder<ParentBuilder> withRefColumn(List<String> refColumns){
             target.setRefColumns(refColumns);
             return this;
         }
 
+        /**
+         * set
+         * @param onType OnType
+         * @return THIS
+         */
         public TableForeignBuilder<ParentBuilder> withOnDelete(Foreign.OnType onType){
             target.setOnDelete(onType);
             return this;
         }
 
+        /**
+         * set
+         * @param onType OnType
+         * @return THIS
+         */
         public TableForeignBuilder<ParentBuilder> withOnUpdate(Foreign.OnType onType){
             target.setOnUpdate(onType);
             return this;
         }
 
+        /**
+         * set
+         * @param useNotForReplication not for replication
+         * @return THIS
+         */
         public TableForeignBuilder<ParentBuilder> withUseNotForReplication(boolean useNotForReplication){
             target.setUseNotForReplication(useNotForReplication);
             return this;
@@ -323,7 +448,7 @@ public class Foreigns {
 
         /**
          * Quick set columns
-         * @param columns
+         * @param columns column
          * @return THIS
          */
         public TableForeignBuilder $(String... columns){
@@ -333,11 +458,18 @@ public class Foreigns {
             return this;
         }
 
+
+
+
+        /*
+        Quick
+         */
+
         /**
          * Quick inout set referencedTableName, refColumn
          * @return THIS
          */
-        public TableForeignBuilder $REFERENCES(String referencedTableName, String... refColumns){
+        public TableForeignBuilder $References(String referencedTableName, String... refColumns){
             initAdd(Arrays.asList(refColumns),
                     target::getRefColumns,
                     target::setRefColumns);
@@ -345,20 +477,20 @@ public class Foreigns {
         }
 
         /**
-         * Quick into
+         * Quick in
          * @return OnTypeBuilder
          */
-        public OnTypeBuilder<TableForeignBuilder> $ON_DELETE(){
+        public OnTypeBuilder<TableForeignBuilder> $OnDelete(){
             return new OnTypeBuilder<TableForeignBuilder>
                     ()
                     .enter(this, onType -> target.setOnDelete(onType));
         }
 
         /**
-         * Quick into
+         * Quick in
          * @return OnTypeBuilder
          */
-        public OnTypeBuilder<TableForeignBuilder> $ON_UPDATE(){
+        public OnTypeBuilder<TableForeignBuilder> $OnUpdate(){
             return new OnTypeBuilder<TableForeignBuilder>
                     ()
                     .enter(this, onType -> target.setOnUpdate(onType));
@@ -368,7 +500,7 @@ public class Foreigns {
          * Quick set useNotForReplication
          * @return THIS
          */
-        public TableForeignBuilder $NOT_FOR_REPLICATION(){
+        public TableForeignBuilder $NotForReplication(){
             return withUseNotForReplication(true);
         }
 
@@ -387,26 +519,48 @@ public class Foreigns {
             super(tar);
         }
 
-
+        /**
+         * set
+         * @param columns column
+         * @return THIS
+         */
         public ReferencesTableForeignBuilder<ParentBuilder> withColumns(List<String> columns){
             target.setColumns(columns);
             return this;
         }
 
+        /**
+         * set
+         * @param schemaName schema name
+         * @return THIS
+         */
         public ReferencesTableForeignBuilder<ParentBuilder> withSchemaName(String schemaName){
             target.setSchemaName(schemaName);
             return this;
         }
 
+        /**
+         * set
+         * @param referencedTableName referenced table name
+         * @return THIS
+         */
         public ReferencesTableForeignBuilder<ParentBuilder> withReferencedTableName(String referencedTableName){
             target.setReferencedTableName(referencedTableName);
             return this;
         }
 
+        /**
+         * set
+         * @param refColumn ref column
+         * @return THIS
+         */
         public ReferencesTableForeignBuilder<ParentBuilder> withRefColumn(String refColumn){
             target.setRefColumns(Collections.singletonList(refColumn));
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -428,7 +582,7 @@ public class Foreigns {
          * Quick inout set referencedTableName
          * @return THIS
          */
-        public ReferencesTableForeignBuilder $REFERENCES(String referencedTableName, String refColumn){
+        public ReferencesTableForeignBuilder $References(String referencedTableName, String refColumn){
             return withReferencedTableName(referencedTableName)
                     .withRefColumn(refColumn);
         }
@@ -450,22 +604,38 @@ public class Foreigns {
             super(null);
         }
 
-        public ParentBuilder $NO_ACTION(){
+        /**
+         * Quick set
+         * @return PARENT
+         */
+        public ParentBuilder $NoAction(){
             target = Foreign.OnType.NO_ACTION;
             return this.back();
         }
 
-        public ParentBuilder $CASCADE(){
+        /**
+         * Quick set
+         * @return PARENT
+         */
+        public ParentBuilder $Cascade(){
             target = Foreign.OnType.CASCADE;
             return this.back();
         }
 
-        public ParentBuilder $SET_NULL(){
+        /**
+         * Quick set
+         * @return PARENT
+         */
+        public ParentBuilder $SetNull(){
             target = Foreign.OnType.SET_NULL;
             return this.back();
         }
 
-        public ParentBuilder $SET_DEFAULT(){
+        /**
+         * Quick set
+         * @return PARENT
+         */
+        public ParentBuilder $SetDefault(){
             target = Foreign.OnType.SET_DEFAULT;
             return this.back();
         }

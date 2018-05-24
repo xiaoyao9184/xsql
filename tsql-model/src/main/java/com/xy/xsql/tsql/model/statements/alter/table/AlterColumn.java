@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.statements.alter.table;
 
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 
@@ -10,7 +10,7 @@ import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 public class AlterColumn implements Item {
     private String columnName;
 
-    private DataType typeName;
+    private DataType dataType;
     private Collate collationName;
     private Boolean useNull;
     private boolean useSparse;
@@ -34,12 +34,12 @@ public class AlterColumn implements Item {
         this.columnName = columnName;
     }
 
-    public DataType getTypeName() {
-        return typeName;
+    public DataType getDataType() {
+        return dataType;
     }
 
-    public void setTypeName(DataType typeName) {
-        this.typeName = typeName;
+    public void setDataType(DataType dataType) {
+        this.dataType = dataType;
     }
 
     public Collate getCollationName() {

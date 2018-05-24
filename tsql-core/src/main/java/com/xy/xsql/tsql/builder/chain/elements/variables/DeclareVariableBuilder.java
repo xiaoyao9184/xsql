@@ -2,7 +2,7 @@ package com.xy.xsql.tsql.builder.chain.elements.variables;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.table.TableTypeDefinitionBuilder;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.variables.DeclareVariable;
@@ -70,12 +70,26 @@ public class DeclareVariableBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * in
+     * @return TableTypeDefinitionBuilder
+     */
+    public TableTypeDefinitionBuilder<DeclareVariableBuilder<ParentBuilder>> withTable(){
+        return new TableTypeDefinitionBuilder<DeclareVariableBuilder<ParentBuilder>>
+                (initSet(
+                        TableTypeDefinition::new,
+                        target::getTableTypeDefinition,
+                        target::setTableTypeDefinition
+                ))
+                .in(this);
+    }
+
 
     /*
     Quick
      */
 
-    public static DeclareVariableBuilder<Void> DECLARE(){
+    public static DeclareVariableBuilder<Void> $Declare(){
         return new DeclareVariableBuilder<>();
     }
 
@@ -193,7 +207,7 @@ public class DeclareVariableBuilder<ParentBuilder>
          * Quick end
          * @return PARENT
          */
-        public ParentBuilder $CURSOR(){
+        public ParentBuilder $Cursor(){
             return withCursor(true)
                     .and();
         }

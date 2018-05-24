@@ -1,10 +1,12 @@
 package com.xy.xsql.tsql.converter.statements.alter.table;
 
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.DataTypeConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.elements.operators.Assignment;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterColumn;
@@ -29,11 +31,13 @@ public class AlterColumnConverter
                         .and()
                     .sub()
                         .description("type/other flag")
-                        .czse(d -> d.getTypeName() != null || d.getUseNull() != null || d.getCollationName() != null)
-                            .sub()
-//                                .optional(d -> d.getTypeName() == null)
-                                .ref(AlterColumnTypeConverter.meta)
-                                .scope(d -> d.getTypeName())
+                        .czse(d -> d.getDataType() != null || d.getUseNull() != null || d.getCollationName() != null)
+                            //TODO print diff meta
+                            .sub("data_type")
+                                .optional(d -> d.getDataType() == null)
+//                                .ref(AlterColumnTypeConverter.meta)
+                                .ref(DataTypeConverter.class)
+                                .scope(d -> d.getDataType())
                                 .and()
                             .sub()
                                 .optional(d -> d.getCollationName() == null)
@@ -135,54 +139,55 @@ public class AlterColumnConverter
         return meta;
     }
 
-    public static class AlterColumnTypeConverter {
-        // @formatter:off
-        public static BlockMeta meta =
-                new BlockMetaBuilder<Void,DataType>()
-                        .description("data type")
-                        .sub("type_schema_name")
-                            .optional(d -> d.getTypeSchemaName() == null)
-                            .scope(d -> d.getTypeSchemaName())
-                            .and()
-                        .sub("type_name")
-                            .scope(d ->d.getName())
-                            .and()
-                        .sub()
-                            .description("precision and scale")
-                            .optional(d -> d.getPrecision() == null || d.isUseMax() || d.getXmlSchemaCollection() == null)
-                            .sub_keyword(Other.GROUP_START)
-                            .sub()
-                                .sub()
-                                    .czse(d -> d.getPrecision() != null)
-                                        .sub("precision")
-                                            .scope(d -> d.getPrecision())
-                                            .and()
-                                        .sub()
-                                            .optional(d -> d.getScale() == null)
-                                            .sub_keyword(Other.DELIMITER)
-                                            .sub("scale")
-                                                .scope(d -> d.getScale())
-                                                .and()
-                                            .and()
-                                        .and()
-                                    .czse(d -> d.isUseMax(),"max")
-                                        .scope(d -> "max")
-                                        .and()
-                                    .czse(d -> d.getXmlSchemaCollection() != null, "xml_schema_collection")
-                                        .scope(d -> d.getXmlSchemaCollection().toString())
-                                        .and()
-                                    .syntax_required()
-                                    .syntax_context_indentation()
-                                    .syntax_sub_line()
-                                    .and()
-//                                .syntax_line()
-                                .syntax_context_indentation()
-                                .and()
-                            .sub_keyword(Other.GROUP_END)
-                            .syntax_line()
-                            .syntax_indentation_right()
-                            .and()
-                        .build();
-    }
+//    @Deprecated
+//    public static class AlterColumnTypeConverter {
+//        // @formatter:off
+//        public static BlockMeta meta =
+//                new BlockMetaBuilder<Void,DataType>()
+//                        .description("data type")
+//                        .sub("type_schema_name")
+//                            .optional(d -> d.getTypeSchemaName() == null)
+//                            .scope(d -> d.getTypeSchemaName())
+//                            .and()
+//                        .sub("type_name")
+//                            .scope(d ->d.getName())
+//                            .and()
+//                        .sub()
+//                            .description("precision and scale")
+//                            .optional(d -> d.getPrecision() == null || d.isUseMax() || d.getXmlSchemaCollection() == null)
+//                            .sub_keyword(Other.GROUP_START)
+//                            .sub()
+//                                .sub()
+//                                    .czse(d -> d.getPrecision() != null)
+//                                        .sub("precision")
+//                                            .scope(d -> d.getPrecision())
+//                                            .and()
+//                                        .sub()
+//                                            .optional(d -> d.getScale() == null)
+//                                            .sub_keyword(Other.DELIMITER)
+//                                            .sub("scale")
+//                                                .scope(d -> d.getScale())
+//                                                .and()
+//                                            .and()
+//                                        .and()
+//                                    .czse(d -> d.isUseMax(),"max")
+//                                        .scope(d -> "max")
+//                                        .and()
+//                                    .czse(d -> d.getXmlSchemaCollection() != null, "xml_schema_collection")
+//                                        .scope(d -> d.getXmlSchemaCollection().toString())
+//                                        .and()
+//                                    .syntax_required()
+//                                    .syntax_context_indentation()
+//                                    .syntax_sub_line()
+//                                    .and()
+////                                .syntax_line()
+//                                .syntax_context_indentation()
+//                                .and()
+//                            .sub_keyword(Other.GROUP_END)
+//                            .syntax_line()
+//                            .syntax_indentation_right()
+//                            .and()
+//                        .build();
+//    }
 
 }

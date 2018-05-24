@@ -4,8 +4,10 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterTableOption;
 
 /**
+ * AlterTableOptionBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterTableOptionBuilder<ParentBuilder>
         extends CodeTreeBuilder<AlterTableOptionBuilder<ParentBuilder>,ParentBuilder,AlterTableOption> {
 
@@ -13,24 +15,44 @@ public class AlterTableOptionBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param lockEscalation LockEscalation
+     * @return THIS
+     */
     public AlterTableOptionBuilder<ParentBuilder> withLockEscalation(AlterTableOption.LockEscalation lockEscalation){
         target.setLockEscalation(lockEscalation);
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public AlterTableOptionBuilder<ParentBuilder> $SET_$LOCK_ESCALATION_$AUTO(){
+    /**
+     * set
+     * @return THIS
+     */
+    public AlterTableOptionBuilder<ParentBuilder> $Set$LockEscalation$Auto(){
         return withLockEscalation(AlterTableOption.LockEscalation.AUTO);
     }
 
-    public AlterTableOptionBuilder<ParentBuilder> $SET_$LOCK_ESCALATION_$TABLE(){
+    /**
+     * set
+     * @return THIS
+     */
+    public AlterTableOptionBuilder<ParentBuilder> $Set$LockEscalation$Table(){
         return withLockEscalation(AlterTableOption.LockEscalation.TABLE);
     }
 
-    public AlterTableOptionBuilder<ParentBuilder> $SET_$LOCK_ESCALATION_$DISABLE(){
+    /**
+     * set
+     * @return THIS
+     */
+    public AlterTableOptionBuilder<ParentBuilder> $Set$LockEscalation$Disable(){
         return withLockEscalation(AlterTableOption.LockEscalation.DISABLE);
     }
 

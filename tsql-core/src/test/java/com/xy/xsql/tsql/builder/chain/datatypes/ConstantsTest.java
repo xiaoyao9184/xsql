@@ -4,7 +4,6 @@ import com.xy.xsql.tsql.model.datatypes.constants.BinaryConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.MoneyConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -13,7 +12,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.*;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
@@ -28,9 +27,9 @@ public class ConstantsTest {
         BinaryConstant uuidConstant3 = c_bin(new byte[]{});
         // @formatter:on
 
-        Assert.assertEquals(uuidConstant.getData().length,16);
-        Assert.assertEquals(uuidConstant2.getData().length,5);
-        Assert.assertEquals(uuidConstant3.getData().length,0);
+        assertEquals(uuidConstant.getData().length,16);
+        assertEquals(uuidConstant2.getData().length,5);
+        assertEquals(uuidConstant3.getData().length,0);
     }
 
     @Test
@@ -41,10 +40,10 @@ public class ConstantsTest {
         StringConstant uuidConstant3 = c_string("6F9619FF-8B86-D011-B42D-00C04FC964FF");
         // @formatter:on
 
-        Assert.assertEquals(stringConstant.getString(),"aa");
-        Assert.assertEquals(stringConstant2.getString(),"aa");
-        Assert.assertEquals(stringConstant2.isUseNQuote(),true);
-        Assert.assertEquals(uuidConstant3.getString(),"6F9619FF-8B86-D011-B42D-00C04FC964FF");
+        assertEquals(stringConstant.getString(),"aa");
+        assertEquals(stringConstant2.getString(),"aa");
+        assertEquals(stringConstant2.isUseNQuote(),true);
+        assertEquals(uuidConstant3.getString(),"6F9619FF-8B86-D011-B42D-00C04FC964FF");
     }
 
     @Test
@@ -56,10 +55,10 @@ public class ConstantsTest {
         NumberConstant uuidConstant4 = c_number(new BigDecimal(1.234567890));
         // @formatter:on
 
-        Assert.assertEquals(uuidConstant.getNumber().toString(),"1");
-        Assert.assertEquals(uuidConstant2.getNumber().toString(),"-1");
-        Assert.assertEquals(uuidConstant3.getNumber().toString(),"1.23456789");
-        Assert.assertNotEquals(uuidConstant4.getNumber().toString(),"1.23456789");
+        assertEquals(uuidConstant.getNumber().toString(),"1");
+        assertEquals(uuidConstant2.getNumber().toString(),"-1");
+        assertEquals(uuidConstant3.getNumber().toString(),"1.23456789");
+        assertNotEquals(uuidConstant4.getNumber().toString(),"1.23456789");
     }
 
     @Test
@@ -68,8 +67,8 @@ public class ConstantsTest {
         MoneyConstant moneyConstant = c_money(999.8);
         // @formatter:on
 
-        Assert.assertEquals(moneyConstant.getNumber(),999.8);
-        Assert.assertEquals(moneyConstant.getSymbol(), Currency.getInstance(Locale.getDefault()).getSymbol());
+        assertEquals(moneyConstant.getNumber(),999.8);
+        assertEquals(moneyConstant.getSymbol(), Currency.getInstance(Locale.getDefault()).getSymbol());
     }
 
 

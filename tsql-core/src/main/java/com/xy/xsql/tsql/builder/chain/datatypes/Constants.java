@@ -11,6 +11,7 @@ import java.util.UUID;
 /**
  * Created by xiaoyao9184 on 2018/5/22.
  */
+@SuppressWarnings("unused")
 public interface Constants {
 
 
@@ -159,7 +160,7 @@ public interface Constants {
 
     /**
      * number constant
-     * @param number
+     * @param number number
      * @return NumberConstant
      */
     static NumberConstant c_number(Number number){
@@ -171,7 +172,7 @@ public interface Constants {
 
     /**
      * number constant
-     * @param number
+     * @param number number
      * @return NumberConstant
      */
     static NumberConstant c_negative_number(Number number){
@@ -183,7 +184,7 @@ public interface Constants {
 
     /**
      * number constant
-     * @param number
+     * @param number number
      * @return NumberConstant
      */
     static NumberConstant c_positive_number(Number number){
@@ -195,7 +196,7 @@ public interface Constants {
 
     /**
      * number constant
-     * @param number
+     * @param number number
      * @return NumberConstant
      */
     static NumberConstant c_unsigned_integer(Integer number){
@@ -206,7 +207,7 @@ public interface Constants {
 
     /**
      * number constant
-     * @param number
+     * @param number number
      * @return NumberConstant
      */
     static NumberConstant c_unsigned_long(Long number){
@@ -217,7 +218,7 @@ public interface Constants {
 
     /**
      * number constant
-     * @param number
+     * @param number number
      * @return NumberConstant
      */
     static NumberConstant c_unsigned_double(Double number){
@@ -228,7 +229,7 @@ public interface Constants {
 
     /**
      * number constant
-     * @param number
+     * @param number number
      * @return NumberConstant
      */
     static NumberConstant c_unsigned_float(Float number){
@@ -239,7 +240,7 @@ public interface Constants {
 
     /**
      * money constant
-     * @param number
+     * @param number number
      * @return MoneyConstant
      */
     static MoneyConstant c_money(Number number){
@@ -252,7 +253,7 @@ public interface Constants {
 
     /**
      * money constant
-     * @param number
+     * @param number number
      * @return MoneyConstant
      */
     static MoneyConstant c_negative_money(Number number){
@@ -265,7 +266,7 @@ public interface Constants {
 
     /**
      * money constant
-     * @param number
+     * @param number number
      * @return MoneyConstant
      */
     static MoneyConstant c_positive_money(Number number){
@@ -278,8 +279,8 @@ public interface Constants {
 
     /**
      * money constant
-     * @param symbol
-     * @param number
+     * @param symbol symbol
+     * @param number number
      * @return MoneyConstant
      */
     static MoneyConstant c_money(String symbol, Number number){
@@ -292,8 +293,8 @@ public interface Constants {
 
     /**
      * money constant
-     * @param symbol
-     * @param number
+     * @param symbol symbol
+     * @param number number
      * @return MoneyConstant
      */
     static MoneyConstant c_negative_money(String symbol, Number number){
@@ -306,8 +307,8 @@ public interface Constants {
 
     /**
      * money constant
-     * @param symbol
-     * @param number
+     * @param symbol symbol
+     * @param number number
      * @return MoneyConstant
      */
     static MoneyConstant c_positive_money(String symbol, Number number){

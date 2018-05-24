@@ -6,8 +6,10 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.BinaryOperator;
 
 /**
+ * BinaryExpressionBuilder
  * Created by xiaoyao9184 on 2018/5/17.
  */
+@SuppressWarnings("unused")
 public class BinaryExpressionBuilder<ParentBuilder>
         extends CodeTreeBuilder<BinaryExpressionBuilder<ParentBuilder>,ParentBuilder,BinaryExpression> {
 
@@ -15,16 +17,33 @@ public class BinaryExpressionBuilder<ParentBuilder>
         super(new BinaryExpression());
     }
 
+
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public BinaryExpressionBuilder<ParentBuilder> withExpressionLeft(Expression expression){
         target.setExpressionLeft(expression);
         return this;
     }
+
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public BinaryExpressionBuilder<ParentBuilder> withExpressionRight(Expression expression){
         target.setExpressionRight(expression);
         return this;
     }
 
-    public BinaryExpressionBuilder<ParentBuilder> withUnary(BinaryOperator binaryOperator){
+    /**
+     * set
+     * @param binaryOperator binary operator
+     * @return THIS
+     */
+    public BinaryExpressionBuilder<ParentBuilder> withBinaryOperator(BinaryOperator binaryOperator){
         target.setBinaryOperator(binaryOperator);
         return this;
     }

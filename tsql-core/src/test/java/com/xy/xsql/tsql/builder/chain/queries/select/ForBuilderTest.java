@@ -1,11 +1,10 @@
 package com.xy.xsql.tsql.builder.chain.queries.select;
 
 import com.xy.xsql.tsql.model.queries.select.For;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.queries.select.ForBuilder.XmlConfigurator.*;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -22,11 +21,11 @@ public class ForBuilderTest {
      * FOR XML AUTO, TYPE, XMLSCHEMA, ELEMENTS XSINIL;
      */
     public For exampleXML = new ForBuilder<Void>()
-            .$XML(
-                    AUTO(),
-                    TYPE(),
-                    XMLSCHEMA(),
-                    ELEMENTS_XSINIL()
+            .$Xml(
+                    $Auto(),
+                    $Type(),
+                    $Xmlschema(),
+                    $ElementsXsinil()
             )
             .build();
     // @formatter:on
@@ -42,10 +41,10 @@ public class ForBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertTrue(for1.getXml().isUseAuto());
-        Assert.assertTrue(for1.getXml().isUseType());
-        Assert.assertTrue(for1.getXml().isUseXmlSchema());
-        Assert.assertTrue(for1.getXml().isUseElementsXsinil());
+        assertTrue(for1.getXml().isUseAuto());
+        assertTrue(for1.getXml().isUseType());
+        assertTrue(for1.getXml().isUseXmlSchema());
+        assertTrue(for1.getXml().isUseElementsXsinil());
     }
 
 }

@@ -3,10 +3,10 @@ package com.xy.xsql.tsql.builder.chain.queries.select;
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
 import com.xy.xsql.tsql.model.queries.select.Over;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -27,7 +27,7 @@ public class OverBuilderTest {
                 (OverBuilder.class,Over.class)
                 .$child()
                     .$PartitionBy(e("PostalCode"))
-                    .$OrderBy_Desc(e("SalesYTD"))
+                    .$OrderByDesc(e("SalesYTD"))
                     .and()
                 .get();
     // @formatter:on
@@ -48,14 +48,14 @@ public class OverBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
-        Assert.assertEquals(over.getOrderBy().getItems().size(),1);
+        assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
+        assertEquals(over.getOrderBy().getItems().size(),1);
 
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().get(0).toString(),"PostalCode");
+        assertEquals(over.getPartitionBy().getValueExpressionList().get(0).toString(),"PostalCode");
 
-        Assert.assertEquals(over.getOrderBy().getItems().get(0).isUseAsc(),false);
-        Assert.assertEquals(over.getOrderBy().getItems().get(0).isUseDesc(),true);
-        Assert.assertEquals(over.getOrderBy().getItems().get(0).getOrderByExpression().toString(),"SalesYTD");
+        assertEquals(over.getOrderBy().getItems().get(0).isUseAsc(),false);
+        assertEquals(over.getOrderBy().getItems().get(0).isUseDesc(),true);
+        assertEquals(over.getOrderBy().getItems().get(0).getOrderByExpression().toString(),"SalesYTD");
     }
 
     // @formatter:off
@@ -81,8 +81,8 @@ public class OverBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().get(0).toString(),"SalesOrderID");
+        assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
+        assertEquals(over.getPartitionBy().getValueExpressionList().get(0).toString(),"SalesOrderID");
     }
 
     // @formatter:off
@@ -127,8 +127,8 @@ public class OverBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
-        Assert.assertEquals(over.getOrderBy().getItems().size(),1);
+        assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
+        assertEquals(over.getOrderBy().getItems().size(),1);
     }
 
     // @formatter:off
@@ -136,7 +136,7 @@ public class OverBuilderTest {
     /**
      * OVER (PARTITION BY TerritoryID
      ORDER BY DATEPART(yy,ModifiedDate)
-     ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING )
+     ROWS $BETWEEN CURRENT ROW $AND 1 FOLLOWING )
      */
     public Over exampleD1 = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
                 (OverBuilder.class,Over.class)
@@ -194,21 +194,21 @@ public class OverBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
-        Assert.assertEquals(over.getOrderBy().getItems().size(),1);
+        assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
+        assertEquals(over.getOrderBy().getItems().size(),1);
 
-        Assert.assertTrue(over.getRowRange().isUseRows());
-        Assert.assertEquals(over.getRowRange().getWindowFrameExtent().getClass(), Over.WindowFrameBetween.class);
+        assertTrue(over.getRowRange().isUseRows());
+        assertEquals(over.getRowRange().getWindowFrameExtent().getClass(), Over.WindowFrameBetween.class);
         Over.WindowFrameBetween windowFrameBetween = (Over.WindowFrameBetween) over.getRowRange().getWindowFrameExtent();
 
-        Assert.assertEquals(windowFrameBetween.getBetweenBound().getClass(), Over.WindowFramePreceding.class);
-        Assert.assertEquals(windowFrameBetween.getAndBound().getClass(), Over.WindowFrameFollowing.class);
+        assertEquals(windowFrameBetween.getBetweenBound().getClass(), Over.WindowFramePreceding.class);
+        assertEquals(windowFrameBetween.getAndBound().getClass(), Over.WindowFrameFollowing.class);
 
         Over.WindowFramePreceding windowFramePreceding = (Over.WindowFramePreceding) windowFrameBetween.getBetweenBound();
-        Assert.assertTrue(windowFramePreceding.isUseCurrent());
+        assertTrue(windowFramePreceding.isUseCurrent());
 
         Over.WindowFrameFollowing windowFrameFollowing = (Over.WindowFrameFollowing) windowFrameBetween.getAndBound();
-        Assert.assertEquals(windowFrameFollowing.getUnsignedvaluespecification().toNumberConstant().getNumber(),1);
+        assertEquals(windowFrameFollowing.getUnsignedvaluespecification().toNumberConstant().getNumber(),1);
     }
 
 
@@ -225,7 +225,7 @@ public class OverBuilderTest {
     public Over exampleE = new MockParentBuilder<OverBuilder<MockParent<Over>>,Over>
                 (OverBuilder.class,Over.class)
                 .$child()
-                    .$OrderBy_Desc(e("SUM(SalesAmountQuota)"))
+                    .$OrderByDesc(e("SUM(SalesAmountQuota)"))
                     .and()
                 .get();
     // @formatter:on
@@ -243,9 +243,9 @@ public class OverBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(over.getOrderBy().getItems().size(),1);
-        Assert.assertEquals(over.getOrderBy().getItems().get(0).isUseDesc(),true);
-        Assert.assertEquals(over.getOrderBy().getItems().get(0).getOrderByExpression().toString(),"SUM(SalesAmountQuota)");
+        assertEquals(over.getOrderBy().getItems().size(),1);
+        assertEquals(over.getOrderBy().getItems().get(0).isUseDesc(),true);
+        assertEquals(over.getOrderBy().getItems().get(0).getOrderByExpression().toString(),"SUM(SalesAmountQuota)");
     }
 
 
@@ -272,8 +272,8 @@ public class OverBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
-        Assert.assertEquals(over.getPartitionBy().getValueExpressionList().get(0).toString(),"SalesOrderNumber");
+        assertEquals(over.getPartitionBy().getValueExpressionList().size(),1);
+        assertEquals(over.getPartitionBy().getValueExpressionList().get(0).toString(),"SalesOrderNumber");
     }
 
 }

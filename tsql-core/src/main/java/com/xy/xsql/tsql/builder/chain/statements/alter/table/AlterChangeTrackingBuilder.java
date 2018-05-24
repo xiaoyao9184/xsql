@@ -4,8 +4,10 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterChangeTracking;
 
 /**
+ * AlterChangeTrackingBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterChangeTrackingBuilder<ParentBuilder>
         extends CodeTreeBuilder<AlterChangeTrackingBuilder<ParentBuilder>,ParentBuilder,AlterChangeTracking> {
 
@@ -13,33 +15,62 @@ public class AlterChangeTrackingBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param useEnable enable
+     * @return THIS
+     */
     public AlterChangeTrackingBuilder<ParentBuilder> withUseEnable(boolean useEnable){
         target.setUseEnable(useEnable);
         return this;
     }
 
+    /**
+     * set
+     * @param useTrackUpdatedOn track updated on
+     * @return THIS
+     */
     public AlterChangeTrackingBuilder<ParentBuilder> withUseTrackUpdatedOn(Boolean useTrackUpdatedOn){
         target.setUseTrackUpdatedOn(useTrackUpdatedOn);
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public AlterChangeTrackingBuilder<ParentBuilder> $ENABLE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterChangeTrackingBuilder<ParentBuilder> $Enable(){
         return withUseEnable(true);
     }
 
-    public AlterChangeTrackingBuilder<ParentBuilder> $DISABLE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterChangeTrackingBuilder<ParentBuilder> $Disable(){
         return withUseEnable(false);
     }
 
-    public AlterChangeTrackingBuilder<ParentBuilder> $CHANGE_TRACKING_$WITH_$TRACK_COLUMNS_UPDATED_$ON(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterChangeTrackingBuilder<ParentBuilder> $ChangeTracking$With$TrackColumnsUpdated$On(){
         return withUseTrackUpdatedOn(true);
     }
 
-    public AlterChangeTrackingBuilder<ParentBuilder> $CHANGE_TRACKING_$WITH_$TRACK_COLUMNS_UPDATED_$OFF(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AlterChangeTrackingBuilder<ParentBuilder> $ChangeTracking$With$TrackColumnsUpdated$Off(){
         return withUseTrackUpdatedOn(false);
     }
 

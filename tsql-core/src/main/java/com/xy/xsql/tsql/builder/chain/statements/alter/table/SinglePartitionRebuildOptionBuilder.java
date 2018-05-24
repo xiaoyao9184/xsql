@@ -10,8 +10,10 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_integer;
 
 /**
+ * SinglePartitionRebuildOptionBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class SinglePartitionRebuildOptionBuilder<ParentBuilder>
         extends CodeTreeBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>,ParentBuilder,SinglePartitionRebuildOption> {
 
@@ -19,73 +21,142 @@ public class SinglePartitionRebuildOptionBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param useSortInTempDb sort in temp db
+     * @return THIS
+     */
     public SinglePartitionRebuildOptionBuilder<ParentBuilder> withUseSortInTempDb(boolean useSortInTempDb){
         target.setUseSortInTempDb(useSortInTempDb);
         return this;
     }
 
+    /**
+     * set
+     * @param maxDegreeOfParallelism max degree of parallelism
+     * @return THIS
+     */
     public SinglePartitionRebuildOptionBuilder<ParentBuilder> withMaxDegreeOfParallelism(NumberConstant maxDegreeOfParallelism){
         target.setMaxDegreeOfParallelism(maxDegreeOfParallelism);
         return this;
     }
 
+    /**
+     * set
+     * @param dataCompression DataCompression
+     * @return THIS
+     */
     public SinglePartitionRebuildOptionBuilder<ParentBuilder> withDataCompression(IndexOption.DataCompression dataCompression){
         target.setDataCompression(dataCompression);
         return this;
     }
 
+    /**
+     * set
+     * @param useOnline online
+     * @return THIS
+     */
     public SinglePartitionRebuildOptionBuilder<ParentBuilder> withUseOnline(boolean useOnline){
         target.setUseOnline(useOnline);
         return this;
     }
 
+    /**
+     * set
+     * @param lowPriorityLockWait LowPriorityLockWait
+     * @return THIS
+     */
     public SinglePartitionRebuildOptionBuilder<ParentBuilder> withLowPriorityLockWait(LowPriorityLockWait lowPriorityLockWait){
         target.setLowPriorityLockWait(lowPriorityLockWait);
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $SORT_IN_TEMPDB_$ON(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $SortInTempdb$On(){
         return withUseOnline(true);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $SORT_IN_TEMPDB_$OFF(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $SortInTempdb$Off(){
         return withUseOnline(false);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $MAXDOP(Integer maxDegreeOfParallelism){
+    /**
+     * Quick set
+     * @param maxDegreeOfParallelism max degree of parallelism
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $Maxdop(Integer maxDegreeOfParallelism){
         return withMaxDegreeOfParallelism(
                 c_unsigned_integer(maxDegreeOfParallelism));
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DATA_COMPRESSION_$NONE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DataCompression$None(){
         return withDataCompression(IndexOption.DataCompression.NONE);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DATA_COMPRESSION_$ROW(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DataCompression$Row(){
         return withDataCompression(IndexOption.DataCompression.ROW);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DATA_COMPRESSION_$PAGE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DataCompression$Page(){
         return withDataCompression(IndexOption.DataCompression.PAGE);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DATA_COMPRESSION_$COLUMNSTORE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DataCompression$Columnstore(){
         return withDataCompression(IndexOption.DataCompression.COLUMNSTORE);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DATA_COMPRESSION_$COLUMNSTORE_ARCHIVE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $DataCompression$ColumnstoreArchive(){
         return withDataCompression(IndexOption.DataCompression.COLUMNSTORE_ARCHIVE);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $ONLINE_$ON(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $Online$On(){
         return withUseOnline(true);
     }
 
-    public LowPriorityLockWaitBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>> $ONLINE_$ON_$(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public LowPriorityLockWaitBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>> $Online$On$(){
         return new LowPriorityLockWaitBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>>
                 (initSet(LowPriorityLockWait::new,
                         target::getLowPriorityLockWait,
@@ -93,7 +164,11 @@ public class SinglePartitionRebuildOptionBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $ONLINE_$OFF(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public SinglePartitionRebuildOptionBuilder<ParentBuilder> $Online$Off(){
         return withUseOnline(false);
     }
 

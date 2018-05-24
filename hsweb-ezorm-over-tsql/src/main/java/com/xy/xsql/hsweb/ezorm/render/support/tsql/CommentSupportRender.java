@@ -261,7 +261,7 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
                 Comparison eq = new Comparison();
                 predicate = eq;
                 eq.setExpression(columnName);
-                eq.setOperator(Operators.EQUAL);
+                eq.setOperator(Operators.$Equal);
                 eq.setOperatorExpression(new JSqlPlaceholderExpression());
                 params.add(term.getValue());
                 break;
@@ -269,7 +269,7 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
                 Comparison not = new Comparison();
                 predicate = not;
                 not.setExpression(columnName);
-                not.setOperator(Operators.NOT_EQUAL);
+                not.setOperator(Operators.$NotEqual);
                 not.setOperatorExpression(new JSqlPlaceholderExpression());
                 params.add(term.getValue());
                 break;
@@ -292,7 +292,7 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
                 Comparison gt = new Comparison();
                 predicate = gt;
                 gt.setExpression(columnName);
-                gt.setOperator(Operators.GREATER);
+                gt.setOperator(Operators.$Greater);
                 gt.setOperatorExpression(new JSqlPlaceholderExpression());
                 params.add(term.getValue());
                 break;
@@ -300,7 +300,7 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
                 Comparison gte = new Comparison();
                 predicate = gte;
                 gte.setExpression(columnName);
-                gte.setOperator(Operators.GREATER_EQUAL);
+                gte.setOperator(Operators.$GreaterEqual);
                 gte.setOperatorExpression(new JSqlPlaceholderExpression());
                 params.add(term.getValue());
                 break;
@@ -308,7 +308,7 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
                 Comparison lt = new Comparison();
                 predicate = lt;
                 lt.setExpression(columnName);
-                lt.setOperator(Operators.LESS);
+                lt.setOperator(Operators.$Less);
                 lt.setOperatorExpression(new JSqlPlaceholderExpression());
                 params.add(term.getValue());
                 break;
@@ -316,7 +316,7 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
                 Comparison lte = new Comparison();
                 predicate = lte;
                 lte.setExpression(columnName);
-                lte.setOperator(Operators.LESS_EQUAL);
+                lte.setOperator(Operators.$LessEqual);
                 lte.setOperatorExpression(new JSqlPlaceholderExpression());
                 params.add(term.getValue());
                 break;
@@ -359,14 +359,14 @@ public abstract class CommentSupportRender<R extends Param> extends CommonSqlRen
                 Comparison empty = new Comparison();
                 predicate = empty;
                 empty.setExpression(columnName);
-                empty.setOperator(Operators.EQUAL);
+                empty.setOperator(Operators.$Equal);
                 empty.setOperatorExpression(new UnknownExpression("''"));
                 break;
             case TermType.nempty:
                 Comparison nempty = new Comparison();
                 predicate = nempty;
                 nempty.setExpression(columnName);
-                nempty.setOperator(Operators.NOT_EQUAL);
+                nempty.setOperator(Operators.$NotEqual);
                 nempty.setOperatorExpression(new UnknownExpression("''"));
                 break;
             case TermType.isnull:

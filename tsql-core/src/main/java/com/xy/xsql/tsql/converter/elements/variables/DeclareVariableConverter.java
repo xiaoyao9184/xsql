@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.converter.elements.variables;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.DataTypeConverter;
 import com.xy.xsql.tsql.converter.datatypes.table.table.TableTypeDefinitionConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
@@ -73,6 +74,7 @@ public class DeclareVariableConverter
                                 .keyword(Keywords.AS)
                                 .and()
                             .sub("data_type")
+                                .ref(DataTypeConverter.class)
                                 .scope(DeclareVariable.Item::getDataType)
                                 .and()
                             .sub()

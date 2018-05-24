@@ -4,8 +4,10 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.LowPriorityLockWait;
 
 /**
+ * LowPriorityLockWaitBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class LowPriorityLockWaitBuilder<ParentBuilder>
         extends CodeTreeBuilder<LowPriorityLockWaitBuilder<ParentBuilder>,ParentBuilder,LowPriorityLockWait> {
 
@@ -13,42 +15,81 @@ public class LowPriorityLockWaitBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param time time
+     * @return THIS
+     */
     public LowPriorityLockWaitBuilder<ParentBuilder> withTime(String time){
         target.setTime(time);
         return this;
     }
 
+    /**
+     * set
+     * @param useMinutes minutes
+     * @return THIS
+     */
     public LowPriorityLockWaitBuilder<ParentBuilder> withUseMinutes(boolean useMinutes){
         target.setUseMinutes(useMinutes);
         return this;
     }
 
+    /**
+     * set
+     * @param abortAfterWait AbortAfterWait
+     * @return THIS
+     */
     public LowPriorityLockWaitBuilder<ParentBuilder> withAbortAfterWait(LowPriorityLockWait.AbortAfterWait abortAfterWait){
         target.setAbortAfterWait(abortAfterWait);
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public LowPriorityLockWaitBuilder<ParentBuilder> $WAIT_AT_LOW_PRIORITY_$MAX_DURATION(String time){
+    /**
+     * Quick set
+     * @param time time
+     * @return THIS
+     */
+    public LowPriorityLockWaitBuilder<ParentBuilder> $WaitAtLowPriority$MaxDuration(String time){
         return withTime(time);
     }
 
-    public LowPriorityLockWaitBuilder<ParentBuilder> $MINUTES(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public LowPriorityLockWaitBuilder<ParentBuilder> $Minutes(){
         return withUseMinutes(true);
     }
 
-    public LowPriorityLockWaitBuilder<ParentBuilder> $ABORT_AFTER_WAIT_$NONE(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public LowPriorityLockWaitBuilder<ParentBuilder> $AbortAfterWait$None(){
         return withAbortAfterWait(LowPriorityLockWait.AbortAfterWait.NONE);
     }
 
-    public LowPriorityLockWaitBuilder<ParentBuilder> $ABORT_AFTER_WAIT_$SELF(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public LowPriorityLockWaitBuilder<ParentBuilder> $AbortAfterWait$Self(){
         return withAbortAfterWait(LowPriorityLockWait.AbortAfterWait.SELF);
     }
 
-    public LowPriorityLockWaitBuilder<ParentBuilder> $ABORT_AFTER_WAIT_$BLOCKERS(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public LowPriorityLockWaitBuilder<ParentBuilder> $AbortAfterWait$Blockers(){
         return withAbortAfterWait(LowPriorityLockWait.AbortAfterWait.BLOCKERS);
     }
 

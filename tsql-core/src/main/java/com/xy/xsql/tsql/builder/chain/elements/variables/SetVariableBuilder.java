@@ -8,6 +8,7 @@ import com.xy.xsql.tsql.model.elements.variables.SetVariable;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
 
 /**
+ * SetVariableBuilder
  * Created by xiaoyao9184 on 2017/3/16.
  */
 public class SetVariableBuilder<ParentBuilder>
@@ -42,7 +43,7 @@ public class SetVariableBuilder<ParentBuilder>
     Quick
      */
 
-    public static SetVariableBuilder<Void> SET_V(){
+    public static SetVariableBuilder<Void> $Set(){
         return new SetVariableBuilder<>();
     }
 

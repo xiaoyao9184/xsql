@@ -17,6 +17,7 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  * WithBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class WithBuilder<ParentBuilder>
         extends CodeTreeBuilder<WithBuilder<ParentBuilder>,ParentBuilder,With> {
 
@@ -28,6 +29,22 @@ public class WithBuilder<ParentBuilder>
         super(with);
     }
 
+    /**
+     * set
+     * @param commonTableExpression CommonTableExpression
+     * @return THIS
+     */
+    public WithBuilder<ParentBuilder> withItem(With.CommonTableExpression commonTableExpression){
+        initAdd(commonTableExpression,
+                this.target::getCommonTableExpressionList,
+                this.target::setCommonTableExpressionList);
+        return this;
+    }
+
+    /**
+     * in
+     * @return CommonTableExpressionBuilder
+     */
     public CommonTableExpressionBuilder<WithBuilder<ParentBuilder>> withItem(){
         return new CommonTableExpressionBuilder<WithBuilder<ParentBuilder>>
                 (initNew(With.CommonTableExpression::new,
@@ -36,18 +53,7 @@ public class WithBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public WithBuilder<ParentBuilder> withItem(With.CommonTableExpression commonTableExpression){
-        initAdd(commonTableExpression,
-                this.target::getCommonTableExpressionList,
-                this.target::setCommonTableExpressionList);
-        return this;
-    }
 
-
-
-    public static WithBuilder<Void> WITH(){
-        return new WithBuilder<>();
-    }
 
 
     /*
@@ -57,10 +63,10 @@ public class WithBuilder<ParentBuilder>
     /**
      * Quick set CommonTableExpression
      * into CommonTableExpressionBuilder get-out
-     * @param expressionName
-     * @param cteQueryDefinition
-     * @param columnNames
-     * @return
+     * @param expressionName Expression Name
+     * @param cteQueryDefinition Select
+     * @param columnNames ColumnName
+     * @return THIS
      */
     public WithBuilder<ParentBuilder> $(String expressionName, Select cteQueryDefinition, ColumnName... columnNames){
         return withItem()
@@ -70,6 +76,13 @@ public class WithBuilder<ParentBuilder>
                 .and();
     }
 
+    /**
+     * Quick set CommonTableExpression
+     * into CommonTableExpressionBuilder get-out
+     * @param expressionName Expression Name
+     * @param columnNames ColumnName
+     * @return THIS
+     */
     public CommonTableExpressionBuilder<WithBuilder<ParentBuilder>> $(String expressionName, ColumnName... columnNames){
         return withItem()
                 .withExpressionName(expressionName)
@@ -92,12 +105,21 @@ public class WithBuilder<ParentBuilder>
             super(commonTableExpression);
         }
 
-
+        /**
+         * set
+         * @param expressionName Expression Name
+         * @return THIS
+         */
         public CommonTableExpressionBuilder<ParentBuilder> withExpressionName(String expressionName){
             this.target.setExpressionName(expressionName);
             return this;
         }
 
+        /**
+         * set
+         * @param columnNames ColumnName
+         * @return THIS
+         */
         public CommonTableExpressionBuilder<ParentBuilder> withColumnName(ColumnName... columnNames){
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
@@ -108,6 +130,11 @@ public class WithBuilder<ParentBuilder>
             return this;
         }
 
+        /**
+         * set
+         * @param columnNames ColumnName
+         * @return THIS
+         */
         public CommonTableExpressionBuilder<ParentBuilder> withColumnName(List<ColumnName> columnNames){
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
@@ -118,16 +145,27 @@ public class WithBuilder<ParentBuilder>
             return this;
         }
 
+        /**
+         * set
+         * @param cteQueryDefinition Select
+         * @return THIS
+         */
         public CommonTableExpressionBuilder<ParentBuilder> withCteQueryDefinition(Select cteQueryDefinition){
             this.target.setCteQueryDefinition(cteQueryDefinition);
             return this;
         }
 
 
+
+
+        /*
+        Quick
+         */
+
         /**
          * Quick set
-         * @param columnNames
-         * @return
+         * @param columnNames ColumnName
+         * @return THIS
          */
         public CommonTableExpressionBuilder<ParentBuilder> $(ColumnName... columnNames){
             if(CheckUtil.isNullOrEmpty(columnNames)){
@@ -139,6 +177,11 @@ public class WithBuilder<ParentBuilder>
             return this;
         }
 
+        /**
+         * Quick set
+         * @param columnNames ColumnName
+         * @return THIS
+         */
         public CommonTableExpressionBuilder<ParentBuilder> $(String... columnNames){
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
@@ -154,8 +197,8 @@ public class WithBuilder<ParentBuilder>
 
         /**
          * Quick back
-         * @param cteQueryDefinition
-         * @return
+         * @param cteQueryDefinition Select
+         * @return PARENT
          */
         public ParentBuilder $As(Select cteQueryDefinition){
             this.target.setCteQueryDefinition(cteQueryDefinition);

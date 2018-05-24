@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
  */
 public class UniqueidentifierConstantBuilderTest {
 
-
     public UniqueidentifierConstant example1 = c_uniqueidentifier("6F9619FF-8B86-D011-B42D-00C04FC964FF");
     public UniqueidentifierConstant example2 = c_uniqueidentifier(UUID.fromString("6F9619FF-8B86-D011-B42D-00C04FC964FF"));
 

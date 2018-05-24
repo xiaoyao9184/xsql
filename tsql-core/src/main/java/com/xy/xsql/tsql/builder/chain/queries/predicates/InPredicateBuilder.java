@@ -11,13 +11,11 @@ import java.util.Arrays;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * InPredicateBuilder
- *
- * @see In
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
+@SuppressWarnings("WeakerAccess")
 public class InPredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<InPredicateBuilder<ParentBuilder>,ParentBuilder,In> {
 
@@ -29,16 +27,30 @@ public class InPredicateBuilder<ParentBuilder>
         super(predicate);
     }
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public InPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         target.setExpression(expression);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public InPredicateBuilder<ParentBuilder> withNot() {
         target.setUseNotOperator(true);
         return this;
     }
 
+    /**
+     * set
+     * @param expressions Expression
+     * @return THIS
+     */
     public InPredicateBuilder<ParentBuilder> withValueExpression(Expression... expressions) {
         if(CheckUtil.isNullOrEmpty(expressions)){
             return this;
@@ -49,8 +61,13 @@ public class InPredicateBuilder<ParentBuilder>
         return this;
     }
 
-    public InPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
-        target.setSubquery(subquery);
+    /**
+     * set
+     * @param subQuery Select
+     * @return THIS
+     */
+    public InPredicateBuilder<ParentBuilder> withSubQuery(Select subQuery) {
+        target.setSubquery(subQuery);
         return this;
     }
 

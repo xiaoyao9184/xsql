@@ -1,11 +1,11 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
 import com.xy.xsql.tsql.model.statements.TruncateTable;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.statements.TruncateTableBuilder.TRUNCATE_TABLE;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$TruncateTable;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -21,7 +21,7 @@ public class TruncateTableBuilderTest {
     /**
      * TRUNCATE TABLE HumanResources.JobCandidate
      */
-    public TruncateTable exampleA = TRUNCATE_TABLE(t("HumanResources","JobCandidate"));
+    public TruncateTable exampleA = $TruncateTable(t("HumanResources","JobCandidate"));
     // @formatter:on
 
     @Test
@@ -30,7 +30,7 @@ public class TruncateTableBuilderTest {
                 .withTableName(t("HumanResources","JobCandidate"))
                 .build();
 
-        Assert.assertEquals(truncateTable.getTableName().toString(),"HumanResources.JobCandidate");
+        assertEquals(truncateTable.getTableName().toString(),"HumanResources.JobCandidate");
     }
 
 
@@ -58,8 +58,8 @@ public class TruncateTableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(truncateTable.getTableName().toString(),"PartitionTable1");
-        Assert.assertEquals(truncateTable.getPartitionsList().size(),3);
+        assertEquals(truncateTable.getTableName().toString(),"PartitionTable1");
+        assertEquals(truncateTable.getPartitionsList().size(),3);
     }
 
 }

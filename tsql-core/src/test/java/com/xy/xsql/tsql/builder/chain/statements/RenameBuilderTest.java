@@ -1,12 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
 import com.xy.xsql.tsql.model.statements.ReName;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.statements.ReNameBuilder.RENAME_DATABASE;
-import static com.xy.xsql.tsql.builder.chain.statements.ReNameBuilder.RENAME_TABLE;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$RenameDatabase;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$RenameTable;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -23,7 +23,7 @@ public class RenameBuilderTest {
      * -- Rename the user defined database AdWorks
     RENAME DATABASE AdWorks to AdWorks2
      */
-    public ReName exampleA = RENAME_DATABASE("AdWorks","AdWorks2");
+    public ReName exampleA = $RenameDatabase("AdWorks","AdWorks2");
     // @formatter:on
 
     @Test
@@ -33,8 +33,8 @@ public class RenameBuilderTest {
                 .withNewName("AdWorks2")
                 .build();
 
-        Assert.assertEquals(reName.getDbName(),"AdWorks");
-        Assert.assertEquals(reName.getNewName(),"AdWorks2");
+        assertEquals(reName.getDbName(),"AdWorks");
+        assertEquals(reName.getNewName(),"AdWorks2");
     }
 
 
@@ -43,12 +43,12 @@ public class RenameBuilderTest {
      * -- Rename the customer table
     RENAME OBJECT Customer TO Customer1
      */
-    public ReName exampleB1 = RENAME_TABLE("Customer","Customer1");
+    public ReName exampleB1 = Statements.$RenameTable("Customer","Customer1");
 
     /**
      * RENAME OBJECT mydb.dbo.Customer TO Customer1
      */
-    public ReName exampleB2 = RENAME_TABLE("mydb", "dbo","Customer","Customer1");
+    public ReName exampleB2 = Statements.$RenameTable("mydb", "dbo","Customer","Customer1");
     // @formatter:on
 
     @Test
@@ -65,10 +65,10 @@ public class RenameBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(reName1.getTableName().toString(),"Customer");
-        Assert.assertEquals(reName1.getNewName(),"Customer1");
-        Assert.assertEquals(reName2.getTableName().toString(),"mydb.dbo.Customer");
-        Assert.assertEquals(reName2.getNewName(),"Customer1");
+        assertEquals(reName1.getTableName().toString(),"Customer");
+        assertEquals(reName1.getNewName(),"Customer1");
+        assertEquals(reName2.getTableName().toString(),"mydb.dbo.Customer");
+        assertEquals(reName2.getNewName(),"Customer1");
     }
 
 }

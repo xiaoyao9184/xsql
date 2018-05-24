@@ -12,10 +12,10 @@ import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 
 import java.util.Set;
 
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes._user_defined;
+import static com.xy.xsql.tsql.builder.chain.datatypes.DataTypes._user_defined;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.statements.create.table.SimpleCreateTableBuilder.CREATE_TABLE;
+import static com.xy.xsql.tsql.builder.chain.statements.create.Creates.$CreateTable;
 
 /**
  * sqlServer 表结构创建 sql渲染器,用于渲染sqlServer创建表的sql
@@ -35,7 +35,7 @@ public class TsqlMetaCreateRender implements SqlRender {
                             .withUseNotNull(column.isNotNull());
 
                     if(column.isPrimaryKey()){
-                        builder.$PRIMARY_KEY();
+                        builder.$PrimaryKey();
                     }
 
                     //TODO comment
@@ -43,7 +43,7 @@ public class TsqlMetaCreateRender implements SqlRender {
                 })
                 .toArray(ColumnDefinition[]::new);
 
-        SimpleCreateTable create = CREATE_TABLE()
+        SimpleCreateTable create = $CreateTable()
                 .$(t(table.getName()))
                 .$(cds)
                 .build();

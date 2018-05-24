@@ -12,8 +12,10 @@ import java.util.List;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * RebuildBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused","TypeParameterHidesVisibleType"})
 public class RebuildBuilder<ParentBuilder>
         extends CodeTreeBuilder<RebuildBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
 
@@ -21,55 +23,100 @@ public class RebuildBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param useAll all
+     * @return THIS
+     */
     public RebuildBuilder<ParentBuilder> withUseAll(boolean useAll){
         target.setUseAll(useAll);
         return this;
     }
 
+    /**
+     * set
+     * @param rebuildOptions IndexOption
+     * @return THIS
+     */
     public RebuildBuilder<ParentBuilder> withRebuildOptions(List<IndexOption> rebuildOptions){
         target.setRebuildOptions(rebuildOptions);
         return this;
     }
 
+    /**
+     * set
+     * @param rebuildOptions IndexOption
+     * @return THIS
+     */
     public RebuildBuilder<ParentBuilder> withRebuildOptions(IndexOption... rebuildOptions){
         target.setRebuildOptions(Arrays.asList(rebuildOptions));
         return this;
     }
 
+    /**
+     * set
+     * @param partitionNumber partition number
+     * @return THIS
+     */
     public RebuildBuilder<ParentBuilder> withPartitionNumber(Integer partitionNumber){
         target.setPartitionNumber(partitionNumber);
         return this;
     }
 
+    /**
+     * set
+     * @param singlePartitionRebuildOptions SinglePartitionRebuildOption
+     * @return THIS
+     */
     public RebuildBuilder<ParentBuilder> withSinglePartitionRebuildOptions(List<SinglePartitionRebuildOption> singlePartitionRebuildOptions){
         target.setSinglePartitionRebuildOptions(singlePartitionRebuildOptions);
         return this;
     }
 
+    /**
+     * set
+     * @param singlePartitionRebuildOptions SinglePartitionRebuildOption
+     * @return THIS
+     */
     public RebuildBuilder<ParentBuilder> withSinglePartitionRebuildOptions(SinglePartitionRebuildOption... singlePartitionRebuildOptions){
         target.setSinglePartitionRebuildOptions(Arrays.asList(singlePartitionRebuildOptions));
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public PartitionBuilder<ParentBuilder> $PARTITION_$ALL(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public PartitionBuilder<ParentBuilder> $Partition$All(){
         return new PartitionBuilder<ParentBuilder>
                 (target)
                 .in(out())
                 .withUseAll(true);
     }
 
-    public SinglePartitionBuilder<ParentBuilder> $PARTITION(Integer partitionNumber){
+    /**
+     * Quick set
+     * @param partitionNumber partition number
+     * @return THIS
+     */
+    public SinglePartitionBuilder<ParentBuilder> $Partition(Integer partitionNumber){
         return new SinglePartitionBuilder<ParentBuilder>
                 (target)
                 .in(out())
                 .withPartitionNumber(partitionNumber);
     }
 
-
+    /**
+     * PartitionBuilder
+     * @param <ParentBuilder>
+     */
     public class PartitionBuilder<ParentBuilder>
             extends CodeTreeBuilder<PartitionBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
 
@@ -77,27 +124,48 @@ public class RebuildBuilder<ParentBuilder>
             super(target);
         }
 
-
+        /**
+         * set
+         * @param useAll all
+         * @return THIS
+         */
         public PartitionBuilder<ParentBuilder> withUseAll(boolean useAll){
             target.setUseAll(useAll);
             return this;
         }
 
+        /**
+         * set
+         * @param rebuildOptions IndexOption
+         * @return THIS
+         */
         public PartitionBuilder<ParentBuilder> withRebuildOptions(List<IndexOption> rebuildOptions){
             target.setRebuildOptions(rebuildOptions);
             return this;
         }
 
+        /**
+         * set
+         * @param rebuildOptions IndexOption
+         * @return THIS
+         */
         public PartitionBuilder<ParentBuilder> withRebuildOptions(IndexOption... rebuildOptions){
             target.setRebuildOptions(Arrays.asList(rebuildOptions));
             return this;
         }
 
+
+
+
         /*
         Quick
          */
 
-        public IndexOptionBuilder<PartitionBuilder<ParentBuilder>> $WITH(){
+        /**
+         * Quick in
+         * @return IndexOptionBuilder
+         */
+        public IndexOptionBuilder<PartitionBuilder<ParentBuilder>> $With(){
             return new IndexOptionBuilder<PartitionBuilder<ParentBuilder>>
                     (initNew(IndexOption::new,
                             target::getRebuildOptions,
@@ -107,7 +175,10 @@ public class RebuildBuilder<ParentBuilder>
 
     }
 
-
+    /**
+     * SinglePartitionBuilder
+     * @param <ParentBuilder>
+     */
     public class SinglePartitionBuilder<ParentBuilder>
             extends CodeTreeBuilder<SinglePartitionBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
 
@@ -115,27 +186,48 @@ public class RebuildBuilder<ParentBuilder>
             super(target);
         }
 
-
+        /**
+         * set
+         * @param partitionNumber partition number
+         * @return THIS
+         */
         public SinglePartitionBuilder<ParentBuilder> withPartitionNumber(Integer partitionNumber){
             target.setPartitionNumber(partitionNumber);
             return this;
         }
 
+        /**
+         * set
+         * @param singlePartitionRebuildOptions SinglePartitionRebuildOption
+         * @return THIS
+         */
         public SinglePartitionBuilder<ParentBuilder> withSinglePartitionRebuildOptions(List<SinglePartitionRebuildOption> singlePartitionRebuildOptions){
             target.setSinglePartitionRebuildOptions(singlePartitionRebuildOptions);
             return this;
         }
 
+        /**
+         * set
+         * @param singlePartitionRebuildOptions SinglePartitionRebuildOption
+         * @return THIS
+         */
         public SinglePartitionBuilder<ParentBuilder> withSinglePartitionRebuildOptions(SinglePartitionRebuildOption... singlePartitionRebuildOptions){
             target.setSinglePartitionRebuildOptions(Arrays.asList(singlePartitionRebuildOptions));
             return this;
         }
 
+
+
+
         /*
         Quick
          */
 
-        public SinglePartitionRebuildOptionBuilder<SinglePartitionBuilder<ParentBuilder>> $WITH(){
+        /**
+         * Quick in
+         * @return SinglePartitionRebuildOptionBuilder
+         */
+        public SinglePartitionRebuildOptionBuilder<SinglePartitionBuilder<ParentBuilder>> $With(){
             return new SinglePartitionRebuildOptionBuilder<SinglePartitionBuilder<ParentBuilder>>
                     (initNew(SinglePartitionRebuildOption::new,
                             target::getSinglePartitionRebuildOptions,

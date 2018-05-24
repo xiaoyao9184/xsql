@@ -61,26 +61,6 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
-     * set
-     * @return THIS
-     */
-    public WhereBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
-        targetReal.setSearchCondition(searchCondition);
-        return this;
-    }
-
-    /**
-     * set
-     * @return THIS
-     */
-    public WhereBuilder<ParentBuilder> withAndOrNotItem(SearchCondition.AndOrNotItem andOrNotItem){
-        initAdd(andOrNotItem,
-                targetReal::getAndOrList,
-                targetReal::setAndOrList);
-        return this;
-    }
-
-    /**
      * in
      * @return PredicateBuilder
      */
@@ -102,6 +82,26 @@ public class WhereBuilder<ParentBuilder>
     }
 
     /**
+     * set
+     * @return THIS
+     */
+    public WhereBuilder<ParentBuilder> withSearchCondition(SearchCondition searchCondition){
+        targetReal.setSearchCondition(searchCondition);
+        return this;
+    }
+
+    /**
+     * set
+     * @return THIS
+     */
+    public WhereBuilder<ParentBuilder> withAndOrNotItem(SearchCondition.AndOrNotItem andOrNotItem){
+        initAdd(andOrNotItem,
+                targetReal::getAndOrList,
+                targetReal::setAndOrList);
+        return this;
+    }
+
+    /**
      * in
      * @return AndOrNotItemBuilder
      */
@@ -112,6 +112,8 @@ public class WhereBuilder<ParentBuilder>
                         targetReal::setAndOrList))
                 .in(this);
     }
+
+
 
 
     /*
@@ -250,7 +252,7 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $Not_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $NotContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -264,7 +266,7 @@ public class WhereBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Not_Contains(String containsSearchCondition){
+    public WhereBuilder<ParentBuilder> $NotContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -279,7 +281,7 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $Not_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $NotFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -293,7 +295,7 @@ public class WhereBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Not_FreeText(String freetextString){
+    public WhereBuilder<ParentBuilder> $NotFreeText(String freetextString){
         return new FreeTextPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -308,7 +310,7 @@ public class WhereBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Not_Exists(Select subQuery){
+    public WhereBuilder<ParentBuilder> $NotExists(Select subQuery){
         return new ExistsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Not)
@@ -357,7 +359,7 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $And_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $AndContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -371,7 +373,7 @@ public class WhereBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $And_Contains(String containsSearchCondition){
+    public WhereBuilder<ParentBuilder> $AndContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -386,7 +388,7 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $And_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $AndFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -400,7 +402,7 @@ public class WhereBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $And_FreeText(String freetextString){
+    public WhereBuilder<ParentBuilder> $AndFreeText(String freetextString){
         return new FreeTextPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -415,7 +417,7 @@ public class WhereBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $And_Exists(Select subQuery){
+    public WhereBuilder<ParentBuilder> $AndExists(Select subQuery){
         return new ExistsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$And)
@@ -444,7 +446,7 @@ public class WhereBuilder<ParentBuilder>
      * @param predicate andOrNotItem.predicate
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $And_Not(Predicate predicate) {
+    public WhereBuilder<ParentBuilder> $AndNot(Predicate predicate) {
         return withAndOrNotItem()
                 .withAnd()
                 .withNot(true)
@@ -458,10 +460,10 @@ public class WhereBuilder<ParentBuilder>
      * @param expression expression
      * @return ExpressionTransformBuilder
      */
-    public ExpressionTransformBuilder<WhereBuilder<ParentBuilder>> $And_Not(Expression expression){
+    public ExpressionTransformBuilder<WhereBuilder<ParentBuilder>> $AndNot(Expression expression){
         return new ExpressionTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this,this::$And_Not)
+                .enter(this,this::$AndNot)
                 .withExpression(expression);
     }
 
@@ -471,10 +473,10 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $And_Not_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $AndNotContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withPredicate(Contains.class)
                 .withColumn(column);
     }
@@ -485,10 +487,10 @@ public class WhereBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $And_Not_Contains(String containsSearchCondition){
+    public WhereBuilder<ParentBuilder> $AndNotContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withAllColumn()
                 .withContainsSearchCondition(containsSearchCondition)
                 .back();
@@ -500,10 +502,10 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $And_Not_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $AndNotFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withPredicate(FreeText.class)
                 .withColumn(column);
     }
@@ -514,10 +516,10 @@ public class WhereBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $And_Not_FreeText(String freetextString){
+    public WhereBuilder<ParentBuilder> $AndNotFreeText(String freetextString){
         return new FreeTextPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withAllColumn()
                 .withFreeText(freetextString)
                 .back();
@@ -529,10 +531,10 @@ public class WhereBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $And_Not_Exists(Select subQuery){
+    public WhereBuilder<ParentBuilder> $AndNotExists(Select subQuery){
         return new ExistsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$And_Not)
+                .enter(this, this::$AndNot)
                 .withSubQuery(subQuery)
                 .back();
     }
@@ -542,7 +544,7 @@ public class WhereBuilder<ParentBuilder>
      * And set AndOrNotItem' searchCondition
      * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $And_Not() {
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $AndNot() {
         SearchCondition searchCondition = new SearchCondition();
         withAndOrNotItem()
                 .withAnd()
@@ -586,7 +588,7 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $Or_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $OrContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -600,7 +602,7 @@ public class WhereBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Or_Contains(String containsSearchCondition){
+    public WhereBuilder<ParentBuilder> $OrContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -615,7 +617,7 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $Or_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $OrFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -629,7 +631,7 @@ public class WhereBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Or_FreeText(String freetextString){
+    public WhereBuilder<ParentBuilder> $OrFreeText(String freetextString){
         return new FreeTextPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -644,7 +646,7 @@ public class WhereBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Or_Exists(Select subQuery){
+    public WhereBuilder<ParentBuilder> $OrExists(Select subQuery){
         return new ExistsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
                 .enter(this, this::$Or)
@@ -674,7 +676,7 @@ public class WhereBuilder<ParentBuilder>
      * @param predicate andOrNotItem.predicate
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Or_Not(Predicate predicate) {
+    public WhereBuilder<ParentBuilder> $OrNot(Predicate predicate) {
         return withAndOrNotItem()
                 .withOr()
                 .withNot(true)
@@ -688,10 +690,10 @@ public class WhereBuilder<ParentBuilder>
      * @param expression expression
      * @return ExpressionTransformBuilder
      */
-    public ExpressionTransformBuilder<WhereBuilder<ParentBuilder>> $Or_Not(Expression expression){
+    public ExpressionTransformBuilder<WhereBuilder<ParentBuilder>> $OrNot(Expression expression){
         return new ExpressionTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this,this::$Or_Not)
+                .enter(this,this::$OrNot)
                 .withExpression(expression);
     }
 
@@ -701,10 +703,10 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $Or_Not_Contains(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $OrNotContains(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withPredicate(Contains.class)
                 .withColumn(column);
     }
@@ -715,10 +717,10 @@ public class WhereBuilder<ParentBuilder>
      * @param containsSearchCondition contains_search_condition
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Or_Not_Contains(String containsSearchCondition){
+    public WhereBuilder<ParentBuilder> $OrNotContains(String containsSearchCondition){
         return new ContainsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withAllColumn()
                 .withContainsSearchCondition(containsSearchCondition)
                 .back();
@@ -730,10 +732,10 @@ public class WhereBuilder<ParentBuilder>
      * @param column column
      * @return PredicateBuilder
      */
-    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $Or_Not_FreeText(ColumnName column){
+    public ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>> $OrNotFreeText(ColumnName column){
         return new ContainsFreeTextTransformBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withPredicate(FreeText.class)
                 .withColumn(column);
     }
@@ -744,10 +746,10 @@ public class WhereBuilder<ParentBuilder>
      * @param freetextString freetext_string
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Or_Not_FreeText(String freetextString){
+    public WhereBuilder<ParentBuilder> $OrNotFreeText(String freetextString){
         return new FreeTextPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withAllColumn()
                 .withFreeText(freetextString)
                 .back();
@@ -759,10 +761,10 @@ public class WhereBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return THIS
      */
-    public WhereBuilder<ParentBuilder> $Or_Not_Exists(Select subQuery){
+    public WhereBuilder<ParentBuilder> $OrNotExists(Select subQuery){
         return new ExistsPredicateBuilder<WhereBuilder<ParentBuilder>>
                 ()
-                .enter(this, this::$Or_Not)
+                .enter(this, this::$OrNot)
                 .withSubQuery(subQuery)
                 .back();
     }
@@ -772,7 +774,7 @@ public class WhereBuilder<ParentBuilder>
      * And set AndOrNotItem' searchCondition
      * @return SearchConditionBuilder
      */
-    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $Or_Not() {
+    public SearchConditionBuilder<WhereBuilder<ParentBuilder>> $OrNot() {
         SearchCondition searchCondition = new SearchCondition();
         withAndOrNotItem()
                 .withOr()

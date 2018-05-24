@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
  */
 public class BinaryConstantBuilderTest {
 
-
     public BinaryConstant example1 = c_bin(
             javax.xml.bind.DatatypeConverter.parseHexBinary("AE")
     );
@@ -31,7 +30,6 @@ public class BinaryConstantBuilderTest {
      */
     @Test
     public void testExample(){
-
         assertEquals(
                 javax.xml.bind.DatatypeConverter.printHexBinary(example1.getData()),
                 "AE");

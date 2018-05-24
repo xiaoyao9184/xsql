@@ -8,7 +8,6 @@ import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.sql.PlaceholderJSql;
 import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.queries.Where;
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.UnknownExpression;
@@ -289,7 +288,7 @@ public class Select<T> implements QueryChain<T> {
 //
 //        Comparison comparison = new Comparison();
 //        comparison.setExpression(columnName);
-//        comparison.setOperator(Operators.EQUAL);
+//        comparison.setOperator(Operators.$EQUAL);
 //        comparison.setOperatorExpression(TSqlConversions.expression(value));
 //
 //        return comparison;
@@ -300,7 +299,7 @@ public class Select<T> implements QueryChain<T> {
 //
 //        Comparison comparison = new Comparison();
 //        comparison.setExpression(columnName);
-//        comparison.setOperator(Operators.NOT_EQUAL_NOT_ISO);
+//        comparison.setOperator(Operators.$NOT_EQUAL_NOT_ISO);
 //        comparison.setOperatorExpression(TSqlConversions.expression(value));
 //
 //        return comparison;
@@ -330,7 +329,7 @@ public class Select<T> implements QueryChain<T> {
         static <T> Predicate equalTo(ColumnName columnName, Object value){
             Comparison comparison = new Comparison();
             comparison.setExpression(columnName);
-            comparison.setOperator(Operators.EQUAL);
+            comparison.setOperator(Operators.$Equal);
             comparison.setOperatorExpression(TSqlConversions.expression(value));
             return comparison;
         }
@@ -338,7 +337,7 @@ public class Select<T> implements QueryChain<T> {
         static <T> Predicate notEqualTo(ColumnName columnName, Object value){
             Comparison comparison = new Comparison();
             comparison.setExpression(columnName);
-            comparison.setOperator(Operators.NOT_EQUAL_NOT_ISO);
+            comparison.setOperator(Operators.$NotEqualNotIso);
             comparison.setOperatorExpression(TSqlConversions.expression(value));
             return comparison;
         }

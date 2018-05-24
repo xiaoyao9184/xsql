@@ -14,8 +14,10 @@ import static com.xy.xsql.core.ListBuilder.*;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 
 /**
+ * SimpleCreateTableBuilder
  * Created by xiaoyao9184 on 2017/8/4.
  */
+@SuppressWarnings("unused")
 public class SimpleCreateTableBuilder extends CodeBuilder<SimpleCreateTable> {
 
     public SimpleCreateTableBuilder(SimpleCreateTable tar) {
@@ -26,15 +28,28 @@ public class SimpleCreateTableBuilder extends CodeBuilder<SimpleCreateTable> {
         super(new SimpleCreateTable());
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public SimpleCreateTableBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
     }
 
+    /**
+     * set
+     * @param columnDefinitionList ColumnDefinition
+     * @return THIS
+     */
     public SimpleCreateTableBuilder withColumnDefinition(List<ColumnDefinition> columnDefinitionList){
         target.setColumnDefinitionList(columnDefinitionList);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -76,29 +91,5 @@ public class SimpleCreateTableBuilder extends CodeBuilder<SimpleCreateTable> {
                 .withColumnName(c(names));
     }
 
-    /**
-     * Quick
-     * @return THIS
-     */
-    public static SimpleCreateTableBuilder CREATE_TABLE(){
-        return new SimpleCreateTableBuilder();
-    }
-
-    /*
-    Quick build
-     */
-
-    /**
-     * Quick build Create Table
-     * @param tableName multipart table name
-     * @param columnDefinitions the last is view name
-     * @return SimpleCreateTable
-     */
-    public static SimpleCreateTable CREATE_TABLE(TableName tableName, ColumnDefinition... columnDefinitions){
-        return new SimpleCreateTableBuilder()
-                .$(tableName)
-                .$(columnDefinitions)
-                .build();
-    }
 
 }

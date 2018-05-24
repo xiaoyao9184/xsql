@@ -5,7 +5,7 @@ import com.xy.xsql.benjiql.core.RelationshipClassTableMetaBuilder;
 import com.xy.xsql.benjiql.ddl.JoinTables;
 import com.xy.xsql.benjiql.util.Conventions;
 import com.xy.xsql.block.core.BlockManager;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
@@ -19,7 +19,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes._user_defined;
+import static com.xy.xsql.tsql.builder.chain.datatypes.DataTypes._user_defined;
 
 public class CreateRelationship<T,U> {
     private final Class<T> left;

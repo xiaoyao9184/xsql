@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
 
 /**
  * Created by zhouhao on 16-5-17.
@@ -71,7 +71,7 @@ public class TsqlSelectSqlRender extends CommentSupportRender<QueryParam> {
         params.addAll(whereListParameterModel.getParam());
         Where where = whereListParameterModel.getModel();
 
-        Select.QuerySpecification query = QUERY()
+        Select.QuerySpecification query = $Query()
                 .withSelectItem(getSelectItems(selectField))
                 .withFrom()
                     .withItem(tableSource)
@@ -113,7 +113,7 @@ public class TsqlSelectSqlRender extends CommentSupportRender<QueryParam> {
             orderBy = null;
         }
 
-        Select select = SELECT()
+        Select select = $Select()
                 .withQuery(query)
                 .withOrderBy(orderBy)
                 .build();

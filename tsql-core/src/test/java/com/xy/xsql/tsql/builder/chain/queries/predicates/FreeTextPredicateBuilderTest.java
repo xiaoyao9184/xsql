@@ -1,8 +1,10 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.queries.predicates.FreeText;
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.
@@ -21,8 +23,8 @@ public class FreeTextPredicateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(freeText.getColumnName().toString(),"Document");
-        Assert.assertEquals(freeText.getFreetextString().getString(),"vital safety components");
+        assertEquals(freeText.getColumnName().toString(),"Document");
+        assertEquals(freeText.getFreetextString().getString(),"vital safety components");
     }
 
     /**
@@ -33,13 +35,13 @@ public class FreeTextPredicateBuilderTest {
         // @formatter:off
         FreeText freeText = new FreeTextPredicateBuilder<Void>()
                 .withColumnName("Document")
-                //TODO
-//                .withFreeText(e_variable("SearchWord"))
+                //TODO string variables
+//                .withFreeText("SearchWord")
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(freeText.getColumnName().toString(),"Document");
-//        Assert.assertEquals(freeText.getFreetextString().toString(),"@SearchWord");
+        assertEquals(freeText.getColumnName().toString(),"Document");
+//        assertEquals(freeText.getFreetextString().getString(),"@SearchWord");
     }
 
 }

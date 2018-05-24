@@ -1,10 +1,10 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
 import com.xy.xsql.tsql.model.queries.predicates.IsNull;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/16.
@@ -22,7 +22,7 @@ public class IsNullPredicateBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(isNull.getExpression().toString(),"Color");
+        assertEquals(isNull.getExpression().toString(),"Color");
     }
 
 }

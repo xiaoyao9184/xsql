@@ -15,8 +15,10 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * DeleteBuilder
  * Created by xiaoyao9184 on 2017/1/9.
  */
+@SuppressWarnings("unused")
 public class DeleteBuilder extends CodeBuilder<Delete> {
 
     public DeleteBuilder(Delete tar) {
@@ -29,8 +31,18 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
 
 
     /**
-     *
-     * @return
+     * set
+     * @param with With
+     * @return THIS
+     */
+    public DeleteBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
+
+    /**
+     * in
+     * @return WithBuilder
      */
     public WithBuilder<DeleteBuilder> withWith(){
         return new WithBuilder<DeleteBuilder>
@@ -40,14 +52,19 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
-    public DeleteBuilder withWith(With with){
-        this.target.setWith(with);
+    /**
+     * set
+     * @param top Top
+     * @return THIS
+     */
+    public DeleteBuilder withTop(Top top){
+        this.target.setTop(top);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return TopBuilder
      */
     public TopBuilder<DeleteBuilder> withTop(){
         return new TopBuilder<DeleteBuilder>
@@ -57,15 +74,10 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
-    public DeleteBuilder withTop(Top top){
-        this.target.setTop(top);
-        return this;
-    }
-
     /**
-     *
-     * @param useForm
-     * @return
+     * set
+     * @param useForm form
+     * @return THIS
      */
     public DeleteBuilder withFrom(boolean useForm){
         target.setUseForm(useForm);
@@ -73,9 +85,9 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     }
 
     /**
-     *
-     * @param tableAlias
-     * @return
+     * set
+     * @param tableAlias table alias
+     * @return THIS
      */
     public DeleteBuilder withTableAlias(String tableAlias){
         target.setTableAlias(new Alias<>(tableAlias));
@@ -83,9 +95,9 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     }
 
     /**
-     *
-     * @param tableName
-     * @return
+     * set
+     * @param tableName TableName
+     * @return THIS
      */
     public DeleteBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
@@ -93,9 +105,9 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     }
 
     /**
-     *
-     * @param tableName
-     * @return
+     * set
+     * @param tableName table name
+     * @return THIS
      */
     public DeleteBuilder withTableName(String tableName){
         target.setTableName(new TableName(tableName));
@@ -114,6 +126,11 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
         return this;
     }
 
+    /**
+     * set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
     public DeleteBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
         initAdd(tableHintLimiteds,
                 target::getTableHintLimitedList,
@@ -122,8 +139,18 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     }
 
     /**
-     *
-     * @return
+     * set
+     * @param output Output
+     * @return THIS
+     */
+    public DeleteBuilder withOutput(Output output) {
+        this.target.setOutput(output);
+        return this;
+    }
+
+    /**
+     * in
+     * @return OutputBuilder
      */
     public OutputBuilder<DeleteBuilder> withOutput() {
         return new OutputBuilder<DeleteBuilder>
@@ -133,14 +160,19 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
-    public DeleteBuilder withOutput(Output output) {
-        this.target.setOutput(output);
+    /**
+     * set
+     * @param from From
+     * @return THIS
+     */
+    public DeleteBuilder withFrom(From from) {
+        this.target.setFrom(from);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return FromBuilder
      */
     public FromBuilder<DeleteBuilder> withFrom() {
         return new FromBuilder<DeleteBuilder>
@@ -150,14 +182,19 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
-    public DeleteBuilder withFrom(From from) {
-        this.target.setFrom(from);
+    /**
+     * set
+     * @param where Where
+     * @return THIS
+     */
+    public DeleteBuilder withWhere(Where where) {
+        this.target.setWhere(where);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return WhereBuilder
      */
     public WhereBuilder<DeleteBuilder> withWhere() {
         return new WhereBuilder<DeleteBuilder>
@@ -167,14 +204,19 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
-    public DeleteBuilder withWhere(Where where) {
-        this.target.setWhere(where);
+    /**
+     * set
+     * @param option Option
+     * @return THIS
+     */
+    public DeleteBuilder withOption(Option option) {
+        this.target.setOption(option);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return OptionBuilder
      */
     public OptionBuilder<DeleteBuilder> withOption() {
         return new OptionBuilder<DeleteBuilder>
@@ -184,11 +226,6 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
                 .in(this);
     }
 
-    public DeleteBuilder withOption(Option option) {
-        this.target.setOption(option);
-        return this;
-    }
-
 
 
 
@@ -196,14 +233,10 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     Quick
      */
 
-    public static DeleteBuilder DELETE(){
-        return new DeleteBuilder();
-    }
-
     /**
      * Quick set
      * @param with With
-     * @return This
+     * @return THIS
      */
     public DeleteBuilder $With(With with){
         target.setWith(with);
@@ -229,7 +262,7 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
     /**
      * Quick set
      * @param tableName TableName
-     * @return This
+     * @return THIS
      */
     public DeleteBuilder $(TableName tableName) {
         return withTableName(tableName);
@@ -237,8 +270,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
 
     /**
      * Quick set
-     * @param alias
-     * @return This
+     * @param alias alias
+     * @return THIS
      */
     public DeleteBuilder $From(String alias) {
         return withTableAlias(alias);
@@ -246,8 +279,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
 
     /**
      * Quick set
-     * @param tableName
-     * @return This
+     * @param tableName TableName
+     * @return THIS
      */
     public DeleteBuilder $From(TableName tableName) {
         return withFrom(true)

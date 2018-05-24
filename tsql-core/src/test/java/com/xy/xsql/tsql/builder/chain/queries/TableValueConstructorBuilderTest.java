@@ -6,13 +6,12 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -48,7 +47,7 @@ public class TableValueConstructorBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(TableValueConstructor.getRowValueExpressionListGroup().size(),2);
+        assertEquals(TableValueConstructor.getRowValueExpressionListGroup().size(),2);
     }
 
     /**
@@ -150,7 +149,7 @@ public class TableValueConstructorBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(TableValueConstructor.getRowValueExpressionListGroup().size(),3);
+        assertEquals(TableValueConstructor.getRowValueExpressionListGroup().size(),3);
 
 
     }
@@ -204,18 +203,18 @@ public class TableValueConstructorBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"FT2");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Square Feet ");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(2)).getString(),"20080923");
+        assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"FT2");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Square Feet ");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(2)).getString(),"20080923");
 
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Y");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1)).getString(),"Yards");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(2)).getString(),"20080923");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Y");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1)).getString(),"Yards");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(2)).getString(),"20080923");
 
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"Y3");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Cubic Yards");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(2)).getString(),"20080923");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"Y3");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Cubic Yards");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(2)).getString(),"20080923");
 
     }
 
@@ -257,15 +256,15 @@ public class TableValueConstructorBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Recommendation");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Other");
+        assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Recommendation");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Other");
 
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Advertisement");
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1).toString(),"DEFAULT");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Advertisement");
+        assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1).toString(),"DEFAULT");
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"NULL");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Promotion");
+        assertEquals(tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0).toString(),"NULL");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Promotion");
     }
 
 
@@ -300,12 +299,12 @@ public class TableValueConstructorBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Blade");
+        assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Blade");
 
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Crown Race");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Crown Race");
 
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"AWC Logo Cap");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"AWC Logo Cap");
     }
 
 
@@ -343,15 +342,15 @@ public class TableValueConstructorBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Recommendation");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Other");
+        assertEquals(tableValueConstructor.getRowValueExpressionListGroup().size(),3);
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(0)).getString(),"Recommendation");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(0).get(1)).getString(),"Other");
 
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Review");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1)).getString(),"Marketing");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(0)).getString(),"Review");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(1).get(1)).getString(),"Marketing");
 
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"Internet");
-        Assert.assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Promotion");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(0)).getString(),"Internet");
+        assertEquals(((StringConstant)tableValueConstructor.getRowValueExpressionListGroup().get(2).get(1)).getString(),"Promotion");
     }
 
 }

@@ -3,7 +3,6 @@ package com.xy.xsql.tsql.builder.chain.queries;
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
 import com.xy.xsql.tsql.model.queries.Output;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
@@ -13,7 +12,7 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_$action;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_deleted;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_inserted;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -66,17 +65,17 @@ public class OutputBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(Output.getDmlSelectList().size(),3);
-        Assert.assertEquals(Output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
-        Assert.assertEquals(Output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
-        Assert.assertEquals(Output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ModifiedDate");
-        Assert.assertEquals(Output.getOutputTable().toString(),"MyTable");
-        Assert.assertEquals(Output.getColumnList().get(0).toString(),"NewScrapReasonID");
-        Assert.assertEquals(Output.getColumnList().get(1).toString(),"Name");
-        Assert.assertEquals(Output.getColumnList().get(2).toString(),"ModifiedDate");
+        assertEquals(Output.getDmlSelectList().size(),3);
+        assertEquals(Output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(Output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
+        assertEquals(Output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ModifiedDate");
+        assertEquals(Output.getOutputTable().toString(),"MyTable");
+        assertEquals(Output.getColumnList().get(0).toString(),"NewScrapReasonID");
+        assertEquals(Output.getColumnList().get(1).toString(),"Name");
+        assertEquals(Output.getColumnList().get(2).toString(),"ModifiedDate");
     }
 
 
@@ -119,11 +118,10 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),3);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-
+        assertEquals(output.getDmlSelectList().size(),3);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
     }
 
 
@@ -160,9 +158,9 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getOutputDmlSelectList().size(),1);
-        Assert.assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseAll(),true);
+        assertEquals(output.getOutputDmlSelectList().size(),1);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseAll(),true);
 
     }
 
@@ -205,11 +203,11 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),4);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().size(),4);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseInserted(),true);
 
     }
 
@@ -263,16 +261,16 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),5);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"BusinessEntityID");
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"VacationHours");
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"VacationHours");
-        Assert.assertNotNull(output.getDmlSelectList().get(3).getScalarExpression());
-        Assert.assertEquals(output.getDmlSelectList().get(4).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(4).getColumnName().getColumnName(),"ModifiedDate");
+        assertEquals(output.getDmlSelectList().size(),5);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"BusinessEntityID");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"VacationHours");
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"VacationHours");
+        assertNotNull(output.getDmlSelectList().get(3).getScalarExpression());
+        assertEquals(output.getDmlSelectList().get(4).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(4).getColumnName().getColumnName(),"ModifiedDate");
 
 
         // @formatter:off
@@ -312,17 +310,17 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(Output.getDmlSelectList().size(),5);
-        Assert.assertEquals(Output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(0).getColumnName().getColumnName(),"BusinessEntityID");
-        Assert.assertEquals(Output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(1).getColumnName().getColumnName(),"VacationHours");
-        Assert.assertEquals(Output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(2).getColumnName().getColumnName(),"VacationHours");
-        Assert.assertNotNull(Output.getDmlSelectList().get(3).getScalarExpression());
-        Assert.assertEquals(Output.getDmlSelectList().get(4).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(4).getColumnName().getColumnName(),"ModifiedDate");
-        Assert.assertEquals(Output.getTableVariable().toString(),"@MyTableVar");
+        assertEquals(Output.getDmlSelectList().size(),5);
+        assertEquals(Output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(0).getColumnName().getColumnName(),"BusinessEntityID");
+        assertEquals(Output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(Output.getDmlSelectList().get(1).getColumnName().getColumnName(),"VacationHours");
+        assertEquals(Output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(2).getColumnName().getColumnName(),"VacationHours");
+        assertNotNull(Output.getDmlSelectList().get(3).getScalarExpression());
+        assertEquals(Output.getDmlSelectList().get(4).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(4).getColumnName().getColumnName(),"ModifiedDate");
+        assertEquals(Output.getTableVariable().toString(),"@MyTableVar");
 
     }
 
@@ -376,17 +374,17 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),5);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"ScrapReasonID");
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"WorkOrderID");
-        Assert.assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductID");
-        Assert.assertEquals(output.getDmlSelectList().get(4).getColumnName().getColumnName(),"Name");
-        Assert.assertEquals(output.getTableVariable().toString(),"@MyTestVar");
+        assertEquals(output.getDmlSelectList().size(),5);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"WorkOrderID");
+        assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductID");
+        assertEquals(output.getDmlSelectList().get(4).getColumnName().getColumnName(),"Name");
+        assertEquals(output.getTableVariable().toString(),"@MyTestVar");
 
         // @formatter:off
         Output Output = new OutputBuilder<Output>()
@@ -424,17 +422,17 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(Output.getDmlSelectList().size(),5);
-        Assert.assertEquals(Output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
-        Assert.assertEquals(Output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(1).getColumnName().getColumnName(),"ScrapReasonID");
-        Assert.assertEquals(Output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(2).getColumnName().getColumnName(),"WorkOrderID");
-        Assert.assertEquals(Output.getDmlSelectList().get(3).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(Output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductID");
-        Assert.assertEquals(Output.getDmlSelectList().get(4).getColumnName().getColumnName(),"Name");
-        Assert.assertEquals(Output.getTableVariable().toString(),"@MyTestVar");
+        assertEquals(Output.getDmlSelectList().size(),5);
+        assertEquals(Output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
+        assertEquals(Output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(Output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(1).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(Output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(2).getColumnName().getColumnName(),"WorkOrderID");
+        assertEquals(Output.getDmlSelectList().get(3).getColumnName().isUseInserted(),true);
+        assertEquals(Output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductID");
+        assertEquals(Output.getDmlSelectList().get(4).getColumnName().getColumnName(),"Name");
+        assertEquals(Output.getTableVariable().toString(),"@MyTestVar");
     }
 
 
@@ -485,18 +483,18 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),4);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ProductID");
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),false);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),false);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseDeleted(),false);
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),false);
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ProductModelID");
-        Assert.assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductPhotoID");
-        Assert.assertEquals(output.getTableVariable().toString(),"@MyTestVar");
+        assertEquals(output.getDmlSelectList().size(),4);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ProductID");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),false);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),false);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseDeleted(),false);
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),false);
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ProductModelID");
+        assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductPhotoID");
+        assertEquals(output.getTableVariable().toString(),"@MyTestVar");
 
     }
 
@@ -532,12 +530,12 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),2);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
-        Assert.assertEquals(output.getTableVariable().toString(),"@MyTableVar");
+        assertEquals(output.getDmlSelectList().size(),2);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
+        assertEquals(output.getTableVariable().toString(),"@MyTableVar");
     }
 
 
@@ -573,13 +571,13 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),3);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ModifiedDate");
+        assertEquals(output.getDmlSelectList().size(),3);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ModifiedDate");
     }
 
 
@@ -616,13 +614,13 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),3);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"LastName");
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"FirstName");
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"CurrentSales");
+        assertEquals(output.getDmlSelectList().size(),3);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"LastName");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"FirstName");
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"CurrentSales");
     }
 
 
@@ -694,21 +692,21 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),4);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ProductID");
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
-        Assert.assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ProductModelID");
-        Assert.assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductPhotoID");
-        Assert.assertEquals(output.getTableVariable().toString(),"@MyTableVar");
+        assertEquals(output.getDmlSelectList().size(),4);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ProductID");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
+        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ProductModelID");
+        assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductPhotoID");
+        assertEquals(output.getTableVariable().toString(),"@MyTableVar");
 
-        Assert.assertEquals(output.getOutputDmlSelectList().size(),3);
-        Assert.assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().getColumnName(),"ProductID");
-        Assert.assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().getColumnName(),"ProductPhotoID");
-        Assert.assertEquals(output.getOutputDmlSelectList().get(2).getColumnAliasIdentifier(),"DeletedDate");
+        assertEquals(output.getOutputDmlSelectList().size(),3);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().getColumnName(),"ProductID");
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().getColumnName(),"ProductPhotoID");
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnAliasIdentifier(),"DeletedDate");
     }
 
 
@@ -741,10 +739,10 @@ public class OutputBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(output.getDmlSelectList().size(),2);
-        Assert.assertEquals(output.getDmlSelectList().get(0).getColumnName().is$action(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        Assert.assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"ProductID");
+        assertEquals(output.getDmlSelectList().size(),2);
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().is$action(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"ProductID");
 
     }
 

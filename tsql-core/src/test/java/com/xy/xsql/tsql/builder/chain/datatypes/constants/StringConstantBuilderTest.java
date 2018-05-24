@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
  */
 public class StringConstantBuilderTest {
 
-
     public StringConstant example1 = c_string("Cincinnati");
     public StringConstant example2 = c_string("O''Brien");
     public StringConstant example3 = c_string("Process X is 50% complete.");

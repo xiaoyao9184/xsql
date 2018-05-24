@@ -6,14 +6,14 @@ import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_equal;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/22.
@@ -49,11 +49,11 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
+        assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
         OrderBy.Item item = orderBy.getItems().get(0);
-        Assert.assertEquals(item.getOrderByExpression().toString(),"ProductID");
+        assertEquals(item.getOrderByExpression().toString(),"ProductID");
     }
 
 
@@ -80,11 +80,11 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
+        assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
         OrderBy.Item item = orderBy.getItems().get(0);
-        Assert.assertEquals(item.getOrderByExpression().toString(),"DATEPART(year, HireDate)");
+        assertEquals(item.getOrderByExpression().toString(),"DATEPART(year, HireDate)");
     }
 
     /*
@@ -117,12 +117,12 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
+        assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
         OrderBy.Item item = orderBy.getItems().get(0);
-        Assert.assertEquals(item.getOrderByExpression().toString(),"ProductID");
-        Assert.assertTrue(item.isUseDesc());
+        assertEquals(item.getOrderByExpression().toString(),"ProductID");
+        assertTrue(item.isUseDesc());
     }
 
 
@@ -151,12 +151,12 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
+        assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
         OrderBy.Item item = orderBy.getItems().get(0);
-        Assert.assertEquals(item.getOrderByExpression().toString(),"Name");
-        Assert.assertTrue(item.isUseAsc());
+        assertEquals(item.getOrderByExpression().toString(),"Name");
+        assertTrue(item.isUseAsc());
     }
 
 
@@ -191,17 +191,17 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),2);
+        assertEquals(orderBy.getItems().size(),2);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
+        assertEquals(orderBy.getItems().get(0).getClass(), OrderBy.Item.class);
         OrderBy.Item item = orderBy.getItems().get(0);
-        Assert.assertEquals(item.getOrderByExpression().toString(),"FirstName");
-        Assert.assertTrue(item.isUseAsc());
+        assertEquals(item.getOrderByExpression().toString(),"FirstName");
+        assertTrue(item.isUseAsc());
 
-        Assert.assertEquals(orderBy.getItems().get(1).getClass(), OrderBy.Item.class);
+        assertEquals(orderBy.getItems().get(1).getClass(), OrderBy.Item.class);
         OrderBy.Item item1 = orderBy.getItems().get(1);
-        Assert.assertEquals(item1.getOrderByExpression().toString(),"LastName");
-        Assert.assertTrue(item1.isUseDesc());
+        assertEquals(item1.getOrderByExpression().toString(),"LastName");
+        assertTrue(item1.isUseDesc());
     }
 
 
@@ -315,7 +315,7 @@ public class OrderByBuilderTest {
                 .$child()
                     .$(c("DepartmentID"))
                     .$Offset(0).$Rows()
-                    .$Fetch_Next(e_number(10)).$Rows()
+                    .$FetchNext(e_number(10)).$Rows()
                     .and()
                 .get();
     // @formatter:on
@@ -349,18 +349,18 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
-        Assert.assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
-        Assert.assertEquals(orderBy.getOffsetFetch().getIntegerConstant().toString(),"5");
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
+        assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
+        assertEquals(orderBy.getOffsetFetch().getIntegerConstant().toString(),"5");
+        assertTrue(orderBy.getOffsetFetch().isUseRows());
 
 
-        Assert.assertEquals(orderBy1.getItems().size(),1);
-        Assert.assertEquals(orderBy1.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
-        Assert.assertEquals(orderBy1.getOffsetFetch().getIntegerConstant().toString(),"0");
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
-        Assert.assertEquals(orderBy1.getOffsetFetch().getFetchIntegerConstant().toString(),"10");
-        Assert.assertTrue(orderBy1.getOffsetFetch().isUseFetchRows());
+        assertEquals(orderBy1.getItems().size(),1);
+        assertEquals(orderBy1.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
+        assertEquals(orderBy1.getOffsetFetch().getIntegerConstant().toString(),"0");
+        assertTrue(orderBy.getOffsetFetch().isUseRows());
+        assertEquals(orderBy1.getOffsetFetch().getFetchIntegerConstant().toString(),"10");
+        assertTrue(orderBy1.getOffsetFetch().isUseFetchRows());
     }
 
 
@@ -376,7 +376,7 @@ public class OrderByBuilderTest {
                 .$child()
                     .$(c("DepartmentID")).$Asc()
                     .$Offset(e_variable("StartingRowNumber")).$Rows()
-                    .$Fetch_Next(e_variable("FetchRows")).$Rows()
+                    .$FetchNext(e_variable("FetchRows")).$Rows()
                     .and()
                 .get();
     // @formatter:on
@@ -399,16 +399,16 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
-        Assert.assertTrue(orderBy.getItems().get(0).isUseAsc());
+        assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
+        assertTrue(orderBy.getItems().get(0).isUseAsc());
 
-        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().toString(),"@StartingRowNumber");
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
-        Assert.assertTrue(!orderBy.getOffsetFetch().isUseFetchFirst());
-        Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(),"@FetchRows");
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
+        assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().toString(),"@StartingRowNumber");
+        assertTrue(orderBy.getOffsetFetch().isUseRows());
+        assertTrue(!orderBy.getOffsetFetch().isUseFetchFirst());
+        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(),"@FetchRows");
+        assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
 
@@ -427,7 +427,7 @@ public class OrderByBuilderTest {
                     .$Offset(e_subtraction(
                                     e_variable("StartingRowNumber"),
                                     e_number(1))).$Rows()
-                    .$Fetch_Next(e_addition(
+                    .$FetchNext(e_addition(
                                     e_subtraction(
                                         e_variable("EndingRowNumber"),
                                         e_variable("StartingRowNumber")),
@@ -464,21 +464,21 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
-        Assert.assertTrue(orderBy.getItems().get(0).isUseAsc());
+        assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
+        assertTrue(orderBy.getItems().get(0).isUseAsc());
 
-        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
-        Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), BinaryExpression.class);
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
+        assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
+        assertTrue(orderBy.getOffsetFetch().isUseRows());
+        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), BinaryExpression.class);
+        assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
 
     // @formatter:off
     //parent+quick
-    private Select.QuerySpecification querySpecification = QUERY()
+    private Select.QuerySpecification querySpecification = $Query()
             .$(c("PageSize"))
             .$From()
                 .$(t("dbo","AppSettings"))
@@ -502,7 +502,7 @@ public class OrderByBuilderTest {
                     .$(c("DepartmentID"))
                     .$Asc()
                     .$Offset(e_variable("StartingRowNumber")).$Rows()
-                    .$Fetch_Next(e_subquery(querySpecification)).$Rows()
+                    .$FetchNext(e_subquery(querySpecification)).$Rows()
                     .and()
                 .get();
     // @formatter:on
@@ -528,15 +528,15 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
-        Assert.assertTrue(orderBy.getItems().get(0).isUseAsc());
+        assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
+        assertTrue(orderBy.getItems().get(0).isUseAsc());
 
-        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().toString(), "@StartingRowNumber");
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
-        Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), GroupExpression.class);
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
+        assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().toString(), "@StartingRowNumber");
+        assertTrue(orderBy.getOffsetFetch().isUseRows());
+        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), GroupExpression.class);
+        assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
 
@@ -556,7 +556,7 @@ public class OrderByBuilderTest {
                             e_subtraction(
                                     e_variable("StartingRowNumber"),
                                     e_number(1))).$Rows()
-                    .$Fetch_Next(e_variable("RowCountPerPage")).$Rows()
+                    .$FetchNext(e_variable("RowCountPerPage")).$Rows()
                     .and()
                 .get();
     // @formatter:on
@@ -582,15 +582,15 @@ public class OrderByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(orderBy.getItems().size(),1);
+        assertEquals(orderBy.getItems().size(),1);
 
-        Assert.assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
-        Assert.assertTrue(orderBy.getItems().get(0).isUseAsc());
+        assertEquals(orderBy.getItems().get(0).getOrderByExpression().toString(),"DepartmentID");
+        assertTrue(orderBy.getItems().get(0).isUseAsc());
 
-        Assert.assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseRows());
-        Assert.assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(), "@RowCountPerPage");
-        Assert.assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
+        assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
+        assertTrue(orderBy.getOffsetFetch().isUseRows());
+        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(), "@RowCountPerPage");
+        assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
 

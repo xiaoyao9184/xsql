@@ -11,7 +11,6 @@ import com.xy.xsql.tsql.model.queries.Select;
 
 /**
  * Abstract Predicate Builder
- *
  * Created by xiaoyao9184 on 2017/3/16.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
@@ -222,7 +221,7 @@ public class PredicateBuilder<ParentBuilder>
     public ParentBuilder $Equal(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.EQUAL)
+                .withOperator(Operators.$Equal)
                 .withExpression(expression)
                 .and();
     }
@@ -233,10 +232,10 @@ public class PredicateBuilder<ParentBuilder>
      * @param expression expression
      * @return PARENT
      */
-    public ParentBuilder $Not_Equal(Expression expression) {
+    public ParentBuilder $NotEqual(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL_NOT_ISO)
+                .withOperator(Operators.$NotEqualNotIso)
                 .withExpression(expression)
                 .and();
     }
@@ -247,10 +246,10 @@ public class PredicateBuilder<ParentBuilder>
      * @param expression expression
      * @return PARENT
      */
-    public ParentBuilder $ISO_Not_Equal(Expression expression) {
+    public ParentBuilder $ISONotEqual(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL)
+                .withOperator(Operators.$NotEqual)
                 .withExpression(expression)
                 .and();
     }
@@ -264,7 +263,7 @@ public class PredicateBuilder<ParentBuilder>
     public ParentBuilder $Greater(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER)
+                .withOperator(Operators.$Greater)
                 .withExpression(expression)
                 .and();
     }
@@ -278,7 +277,7 @@ public class PredicateBuilder<ParentBuilder>
     public ParentBuilder $GreaterEqual(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER_EQUAL)
+                .withOperator(Operators.$GreaterEqual)
                 .withExpression(expression)
                 .and();
     }
@@ -292,7 +291,7 @@ public class PredicateBuilder<ParentBuilder>
     public ParentBuilder $NotGreater(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_GREATER_NOT_ISO)
+                .withOperator(Operators.$NotGreaterNotIso)
                 .withExpression(expression)
                 .and();
     }
@@ -306,7 +305,7 @@ public class PredicateBuilder<ParentBuilder>
     public ParentBuilder $Less(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS)
+                .withOperator(Operators.$Less)
                 .withExpression(expression)
                 .and();
     }
@@ -320,7 +319,7 @@ public class PredicateBuilder<ParentBuilder>
     public ParentBuilder $LessEqual(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS_EQUAL)
+                .withOperator(Operators.$LessEqual)
                 .withExpression(expression)
                 .and();
     }
@@ -334,7 +333,7 @@ public class PredicateBuilder<ParentBuilder>
     public ParentBuilder $NotLess(Expression expression) {
         return _Comparison()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_LESS_NOT_ISO)
+                .withOperator(Operators.$NotLessNotIso)
                 .withExpression(expression)
                 .and();
     }
@@ -361,7 +360,7 @@ public class PredicateBuilder<ParentBuilder>
      * Like Predicate
      * @return PARENT
      */
-    public ParentBuilder $Not_Like(Expression stringExpression) {
+    public ParentBuilder $NotLike(Expression stringExpression) {
         return _Like()
                 .withNot()
                 .withStringExpression(this.expression)
@@ -387,7 +386,7 @@ public class PredicateBuilder<ParentBuilder>
      * Like Predicate
      * @return PARENT
      */
-    public ParentBuilder $Not_Like(Expression stringExpression, StringConstant escape) {
+    public ParentBuilder $NotLike(Expression stringExpression, StringConstant escape) {
         return _Like()
                 .withNot()
                 .withStringExpression(this.expression)
@@ -419,7 +418,7 @@ public class PredicateBuilder<ParentBuilder>
      * Between Predicate
      * @return PARENT
      */
-    public ParentBuilder $Not_Between(Expression expression1,Expression expression2) {
+    public ParentBuilder $NotBetween(Expression expression1, Expression expression2) {
         return _Between()
                 .withNot()
                 .withExpression(this.expression)
@@ -438,7 +437,7 @@ public class PredicateBuilder<ParentBuilder>
      * IsNull Predicate
      * @return PARENT
      */
-    public ParentBuilder $Is_Null() {
+    public ParentBuilder $IsNull() {
         return _IsNull()
                 .withExpression(this.expression)
                 .and();
@@ -449,7 +448,7 @@ public class PredicateBuilder<ParentBuilder>
      * IsNull Predicate
      * @return PARENT
      */
-    public ParentBuilder $Is_Not_Null() {
+    public ParentBuilder $IsNotNull() {
         return _IsNull()
                 .withNot()
                 .withExpression(this.expression)
@@ -493,7 +492,7 @@ public class PredicateBuilder<ParentBuilder>
      * @param expressions expression
      * @return PARENT
      */
-    public ParentBuilder $Not_In(Expression... expressions) {
+    public ParentBuilder $NotIn(Expression... expressions) {
         return _In()
                 .withNot()
                 .withExpression(this.expression)
@@ -507,7 +506,7 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Not_In(Select subQuery) {
+    public ParentBuilder $NotIn(Select subQuery) {
         return _In()
                 .withNot()
                 .withExpression(this.expression)
@@ -526,11 +525,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Equal_ALL(Select subQuery) {
+    public ParentBuilder $EqualAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$Equal)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -541,11 +540,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotEqual_ALL(Select subQuery) {
+    public ParentBuilder $NotEqualAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$NotEqualNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -556,11 +555,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $ISONotEqual_ALL(Select subQuery) {
+    public ParentBuilder $ISONotEqualAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$NotEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -571,11 +570,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Greater_ALL(Select subQuery) {
+    public ParentBuilder $GreaterAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$Greater)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -586,11 +585,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $GreaterEqual_ALL(Select subQuery) {
+    public ParentBuilder $GreaterEqualAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$GreaterEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -601,11 +600,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotGreater_ALL(Select subQuery) {
+    public ParentBuilder $NotGreaterAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_GREATER_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$NotGreaterNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -616,11 +615,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Less_ALL(Select subQuery) {
+    public ParentBuilder $LessAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$Less)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -631,11 +630,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $LessEqual_ALL(Select subQuery) {
+    public ParentBuilder $LessEqualAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$LessEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -646,11 +645,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotLess_ALL(Select subQuery) {
+    public ParentBuilder $NotLessAll(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_LESS_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                .withOperator(Operators.$NotLessNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -661,11 +660,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Equal_SOME(Select subQuery) {
+    public ParentBuilder $EqualSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$Equal)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -676,11 +675,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotEqual_SOME(Select subQuery) {
+    public ParentBuilder $NotEqualSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$NotEqualNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -691,11 +690,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $ISONotEqual_SOME(Select subQuery) {
+    public ParentBuilder $ISONotEqualSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$NotEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -706,11 +705,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Greater_SOME(Select subQuery) {
+    public ParentBuilder $GreaterSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$Greater)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -721,11 +720,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $GreaterEqual_SOME(Select subQuery) {
+    public ParentBuilder $GreaterEqualSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$GreaterEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -736,11 +735,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotGreater_SOME(Select subQuery) {
+    public ParentBuilder $NotGreaterSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_GREATER_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$NotGreaterNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -751,11 +750,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Less_SOME(Select subQuery) {
+    public ParentBuilder $LessSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$Less)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -766,11 +765,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $LessEqual_SOME(Select subQuery) {
+    public ParentBuilder $LessEqualSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$LessEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -781,11 +780,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotLess_SOME(Select subQuery) {
+    public ParentBuilder $NotLessSome(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_LESS_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.SOME)
+                .withOperator(Operators.$NotLessNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.SOME)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -796,11 +795,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Equal_ANY(Select subQuery) {
+    public ParentBuilder $EqualAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$Equal)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -811,11 +810,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotEqual_ANY(Select subQuery) {
+    public ParentBuilder $NotEqualAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$NotEqualNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -826,11 +825,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $ISONotEqual_ANY(Select subQuery) {
+    public ParentBuilder $ISONotEqualAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$NotEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -841,11 +840,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Greater_ANY(Select subQuery) {
+    public ParentBuilder $GreaterANY(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$Greater)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -856,11 +855,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $GreaterEqual_ANY(Select subQuery) {
+    public ParentBuilder $GreaterEqualAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.GREATER_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$GreaterEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -871,11 +870,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotGreater_ANY(Select subQuery) {
+    public ParentBuilder $NotGreaterAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_GREATER_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$NotGreaterNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -886,11 +885,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $Less_ANY(Select subQuery) {
+    public ParentBuilder $LessAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$Less)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -901,11 +900,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $LessEqual_ANY(Select subQuery) {
+    public ParentBuilder $LessEqualAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.LESS_EQUAL)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$LessEqual)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }
@@ -916,11 +915,11 @@ public class PredicateBuilder<ParentBuilder>
      * @param subQuery subquery
      * @return PARENT
      */
-    public ParentBuilder $NotLess_ANY(Select subQuery) {
+    public ParentBuilder $NotLessAny(Select subQuery) {
         return _ComparisonSubQuery()
                 .withExpression(this.expression)
-                .withOperator(Operators.NOT_LESS_NOT_ISO)
-                .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ANY)
+                .withOperator(Operators.$NotLessNotIso)
+                .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ANY)
                 .withSubQuery(subQuery)
                 .and();
     }

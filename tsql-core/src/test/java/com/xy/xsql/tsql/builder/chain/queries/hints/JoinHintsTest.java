@@ -1,12 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.queries.hints;
 
 import com.xy.xsql.tsql.model.queries.hints.JoinHint;
-import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.builder.chain.queries.hints.JoinHints.HASH;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.JoinHints.LOOP;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.JoinHints.MERGE;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.JoinHints.$Hash;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.JoinHints.$Loop;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.JoinHints.$Merge;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
@@ -18,9 +18,9 @@ public class JoinHintsTest {
      */
     @Test
     public void testExampleA() {
-        JoinHint joinHint = HASH();
+        JoinHint joinHint = $Hash();
 
-        Assert.assertEquals(joinHint,JoinHint.HASH);
+        assertEquals(joinHint,JoinHint.HASH);
     }
 
 
@@ -29,9 +29,9 @@ public class JoinHintsTest {
      */
     @Test
     public void testExampleB() {
-        JoinHint joinHint = LOOP();
+        JoinHint joinHint = $Loop();
 
-        Assert.assertEquals(joinHint,JoinHint.LOOP);
+        assertEquals(joinHint,JoinHint.LOOP);
     }
 
     /**
@@ -39,9 +39,9 @@ public class JoinHintsTest {
      */
     @Test
     public void testExampleC() {
-        JoinHint joinHint = MERGE();
+        JoinHint joinHint = $Merge();
 
-        Assert.assertEquals(joinHint,JoinHint.MERGE);
+        assertEquals(joinHint,JoinHint.MERGE);
     }
 
 }

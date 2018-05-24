@@ -7,13 +7,11 @@ import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.queries.Select;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * ComparisonSubQueryPredicateBuilder
- *
- * @see ComparisonSubQuery
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
+@SuppressWarnings("WeakerAccess")
 public class ComparisonSubQueryPredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<ComparisonSubQueryPredicateBuilder<ParentBuilder>,ParentBuilder,ComparisonSubQuery> {
 
@@ -25,23 +23,43 @@ public class ComparisonSubQueryPredicateBuilder<ParentBuilder>
         super(predicate);
     }
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         target.setExpression(expression);
         return this;
     }
 
+    /**
+     * set
+     * @param operator Comparison
+     * @return THIS
+     */
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> withOperator(Comparison operator) {
         target.setOperator(operator);
         return this;
     }
 
-    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY oneOf) {
+    /**
+     * set
+     * @param oneOf ALL_SOME_ANY
+     * @return THIS
+     */
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY oneOf) {
         target.setAll_some_any(oneOf);
         return this;
     }
 
-    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
-        target.setSubquery(subquery);
+    /**
+     * set
+     * @param subQuery Select
+     * @return THIS
+     */
+    public ComparisonSubQueryPredicateBuilder<ParentBuilder> withSubQuery(Select subQuery) {
+        target.setSubquery(subQuery);
         return this;
     }
 

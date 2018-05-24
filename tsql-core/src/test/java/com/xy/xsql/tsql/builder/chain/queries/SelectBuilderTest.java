@@ -1,23 +1,24 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
+import com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_money;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.FAST;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.HASH_GROUP;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.MERGE_UNION;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.INDEX;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.$Fast;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.$HashGroup;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.$MergeUnion;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Index;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.*;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2016/12/28.
@@ -40,12 +41,12 @@ public class SelectBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
-        Assert.assertEquals(select.getSelectList().size(),1);
+        assertEquals(select.getFrom().getTableSourceList().size(),1);
+        assertEquals(select.getSelectList().size(),1);
     }
 
     /**
-     * SELECT ALL * FROM table
+     * SELECT $ALL * FROM table
      */
     @Test
     public void testAllBuild(){
@@ -53,7 +54,7 @@ public class SelectBuilderTest {
                 .withAll()
                 .build();
 
-        Assert.assertTrue(select.isUseAll());
+        assertTrue(select.isUseAll());
     }
 
     /**
@@ -65,7 +66,7 @@ public class SelectBuilderTest {
                 .withDistinct()
                 .build();
 
-        Assert.assertTrue(select.isUseDistinct());
+        assertTrue(select.isUseDistinct());
     }
 
     /**
@@ -80,8 +81,8 @@ public class SelectBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertTrue(select.getTop().getExpression() instanceof NumberConstant);
-        Assert.assertEquals(((NumberConstant)select.getTop().getExpression()).getNumber().toString(), "50");
+        assertTrue(select.getTop().getExpression() instanceof NumberConstant);
+        assertEquals(((NumberConstant)select.getTop().getExpression()).getNumber().toString(), "50");
 
         select = new SelectBuilder.QuerySpecificationBuilder<Void>()
                 .withTop()
@@ -90,7 +91,7 @@ public class SelectBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertTrue(select.getTop().isUsePercent());
+        assertTrue(select.getTop().isUsePercent());
     }
 
     /**
@@ -112,7 +113,7 @@ public class SelectBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(select.getFrom().getTableSourceList().size(),2);
+        assertEquals(select.getFrom().getTableSourceList().size(),2);
     }
 
     /**
@@ -137,7 +138,7 @@ public class SelectBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(select.getFrom().getTableSourceList().size(),1);
+        assertEquals(select.getFrom().getTableSourceList().size(),1);
     }
 
     /**
@@ -179,7 +180,7 @@ public class SelectBuilderTest {
     FROM Production.Product
     ORDER BY Name ASC
      */
-    public Select exampleA1 = SELECT()
+    public Select exampleA1 = $Select()
                 .$Select()
                     .$()
                     .$From()
@@ -200,7 +201,7 @@ public class SelectBuilderTest {
     FROM Production.Product AS p
     ORDER BY Name ASC
      */
-    public Select exampleA2 = SELECT()
+    public Select exampleA2 = $Select()
             .$Select()
                 .$(t("p"))
                 .$From()
@@ -224,7 +225,7 @@ public class SelectBuilderTest {
     FROM Production.Product
     ORDER BY Name ASC
      */
-    public Select exampleA3 = SELECT()
+    public Select exampleA3 = $Select()
             .$Select()
                 .$(c("Name"))
                 .$(c("ProductNumber"))
@@ -244,7 +245,7 @@ public class SelectBuilderTest {
 //    SELECT Name, ProductNumber, ListPrice AS Price
 //    FROM Production.Product
 //    WHERE ProductLine = 'R'
-//    AND DaysToManufacture < 4
+//    $AND DaysToManufacture < 4
 //    ORDER BY Name ASC;
 //    GO
     // @formatter:off
@@ -252,10 +253,10 @@ public class SelectBuilderTest {
      * SELECT Name, ProductNumber, ListPrice AS Price
     FROM Production.Product
     WHERE ProductLine = 'R'
-    AND DaysToManufacture < 4
+    $AND DaysToManufacture < 4
     ORDER BY Name ASC
      */
-    public Select exampleA4 = SELECT()
+    public Select exampleA4 = $Select()
             .$Select()
                 .$(c("Name"))
                 .$(c("ProductNumber"))
@@ -323,12 +324,12 @@ public class SelectBuilderTest {
         // @formatter:on
 
         Select.QuerySpecification query = select.getQueryExpression().getQuerySpecification();
-        Assert.assertEquals(query.getSelectList().size(),1);
-//        Assert.assertTrue(select.getList().get(0).isUseAll());
+        assertEquals(query.getSelectList().size(),1);
+//        assertTrue(select.getList().get(0).isUseAll());
 //
-//        Assert.assertEquals(select1.getList().size(),1);
-//        Assert.assertEquals(select1.getList().get(0).getTableViewName().toString(),"p");
-//        Assert.assertTrue(select1.getList().get(0).isUseTableAll());
+//        assertEquals(select1.getList().size(),1);
+//        assertEquals(select1.getList().get(0).getTableViewName().toString(),"p");
+//        assertTrue(select1.getList().get(0).isUseTableAll());
     }
 
 
@@ -342,7 +343,7 @@ public class SelectBuilderTest {
     ON p.ProductID = sod.ProductID
     ORDER BY ProductName DESC
      */
-    public Select exampleB1 = SELECT()
+    public Select exampleB1 = $Select()
                 .$Select()
                     .$(c("p","Name"),"ProductName")
                     .$(e_assignment(
@@ -365,7 +366,7 @@ public class SelectBuilderTest {
                         .$()
                             .$(t("Production","Product"))
                             .$As("p")
-                            .$Inner_Join()
+                            .$InnerJoin()
                             .$(t("Sales","SalesOrderDetail"))
                             .$As("sod")
                             .$On()
@@ -393,7 +394,7 @@ public class SelectBuilderTest {
     ON p.ProductID = sod.ProductID
     ORDER BY ProductName ASC
      */
-    public Select exampleB2 = SELECT()
+    public Select exampleB2 = $Select()
             .$Select()
                 .$(e_string("Total income is"))
                 .$(e(e_multiplication(
@@ -412,7 +413,7 @@ public class SelectBuilderTest {
                     .$()
                         .$(t("Production","Product"))
                         .$As("p")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Sales","SalesOrderDetail"))
                         .$As("sod")
                         .$On()
@@ -438,7 +439,7 @@ public class SelectBuilderTest {
      FROM HumanResources.Employee
      ORDER BY JobTitle
      */
-    public Select exampleC = SELECT()
+    public Select exampleC = $Select()
             .$Select()
                 .$Distinct()
                 .$(c("JobTitle"))
@@ -460,7 +461,7 @@ public class SelectBuilderTest {
      FROM AdventureWorks2012.Production.Product
      WHERE ProductNumber LIKE 'BK%'
      */
-    public Select exampleD1 = SELECT()
+    public Select exampleD1 = $Select()
             .$Select()
                 .$()
                 .$Into("#Bicycles")
@@ -483,9 +484,9 @@ public class SelectBuilderTest {
      * SELECT * INTO dbo.NewProducts
      FROM Production.Product
      WHERE ListPrice > $25
-     AND ListPrice < $100
+     $AND ListPrice < $100
      */
-    public Select exampleD2 = SELECT()
+    public Select exampleD2 = $Select()
             .$Select()
                 .$()
                 .$Into("dbo.NewProducts")
@@ -515,9 +516,9 @@ public class SelectBuilderTest {
          (SELECT *
          FROM Production.ProductModel AS pm
          WHERE p.ProductModelID = pm.ProductModelID
-            AND pm.Name LIKE 'Long-Sleeve Logo Jersey%')
+            $AND pm.Name LIKE 'Long-Sleeve Logo Jersey%')
      */
-    public Select exampleE1 = SELECT()
+    public Select exampleE1 = $Select()
             .$Select()
                 .$Distinct()
                 .$(c("Name"))
@@ -527,7 +528,7 @@ public class SelectBuilderTest {
                     .and()
                 .$Where()
                     .$(p_exists(
-                            SELECT()
+                            $Select()
                                 .$Select()
                                     .$()
                                     .$From()
@@ -562,7 +563,7 @@ public class SelectBuilderTest {
          FROM Production.ProductModel
          WHERE Name LIKE 'Long-Sleeve Logo Jersey%')
      */
-    public Select exampleE2 = SELECT()
+    public Select exampleE2 = $Select()
             .$Select()
                 .$Distinct()
                 .$(c("Name"))
@@ -571,7 +572,7 @@ public class SelectBuilderTest {
                     .and()
                 .$Where()
                     .$(p_in(c("ProductModelID"),
-                            SELECT()
+                            $Select()
                             .$Select()
                                 .$(c("ProductModelID"))
                                 .$From()
@@ -602,7 +603,7 @@ public class SelectBuilderTest {
          FROM Sales.SalesPerson AS sp
          WHERE e.BusinessEntityID = sp.BusinessEntityID)
      */
-    public Select exampleE3 = SELECT()
+    public Select exampleE3 = $Select()
             .$Select()
                 .$Distinct()
                 .$(c("p","LastName"))
@@ -625,7 +626,7 @@ public class SelectBuilderTest {
                 .$Where()
                     .$(p_in(
                             e_number(5000.00),
-                            SELECT()
+                            $Select()
                                 .$Select()
                                     .$(c("Bonus"))
                                     .$From()
@@ -651,12 +652,12 @@ public class SelectBuilderTest {
      * SELECT p1.ProductModelID
      FROM Production.Product AS p1
      GROUP BY p1.ProductModelID
-     HAVING MAX(p1.ListPrice) >= ALL
+     HAVING MAX(p1.ListPrice) >= $ALL
          (SELECT AVG(p2.ListPrice)
          FROM Production.Product AS p2
          WHERE p1.ProductModelID = p2.ProductModelID)
      */
-    public Select exampleE4 = SELECT()
+    public Select exampleE4 = $Select()
             .$Select()
                 .$(c("p1","ProductModelID"))
                 .$From()
@@ -670,7 +671,7 @@ public class SelectBuilderTest {
                     .$(p_greater_equal(
                             e("MAX(p1.ListPrice)"),
                             ComparisonSubQuery.ALL_SOME_ANY.ALL,
-                            SELECT()
+                            $Select()
                                 .$Select()
                                     .$(e("AVG(p2.ListPrice)"))
                                     .$From()
@@ -707,7 +708,7 @@ public class SelectBuilderTest {
      FROM Production.Product p
      WHERE ProductNumber = 'BK-M68B-42')))
      */
-    public Select exampleE5 = SELECT()
+    public Select exampleE5 = $Select()
             .$Select()
                 .$Distinct()
                 .$(c("pp","LastName"))
@@ -728,7 +729,7 @@ public class SelectBuilderTest {
                 .$Where()
                     .$(p_in(
                             c("pp","BusinessEntityID"),
-                            SELECT()
+                            $Select()
                                 .$Select()
                                     .$(c("SalesPersonID"))
                                     .$From()
@@ -737,7 +738,7 @@ public class SelectBuilderTest {
                                     .$Where()
                                         .$(p_in(
                                                 c("SalesOrderID"),
-                                                SELECT().$Select()
+                                                $Select().$Select()
                                                     .$(c("SalesOrderID"))
                                                     .$From()
                                                         .$(t("Sales","SalesOrderDetail"))
@@ -745,7 +746,7 @@ public class SelectBuilderTest {
                                                     .$Where()
                                                         .$(p_in(
                                                                 c("ProductID"),
-                                                                SELECT().$Select()
+                                                                $Select().$Select()
                                                                     .$(c("ProductID"))
                                                                     .$From()
                                                                         .$(t("Production","Product"),"p")
@@ -781,7 +782,7 @@ public class SelectBuilderTest {
     GROUP BY SalesOrderID
     ORDER BY SalesOrderID
      */
-    public Select exampleF = SELECT()
+    public Select exampleF = $Select()
                 .$Select()
                     .$(c("SalesOrderID"))
                     .$(e("SUM(LineTotal)"),"SubTotal")
@@ -807,7 +808,7 @@ public class SelectBuilderTest {
     GROUP BY ProductID, SpecialOfferID
     ORDER BY ProductID
      */
-    public Select exampleG = SELECT()
+    public Select exampleG = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$(c("SpecialOfferID"))
@@ -836,7 +837,7 @@ public class SelectBuilderTest {
     GROUP BY ProductModelID
     ORDER BY ProductModelID
      */
-    public Select exampleH = SELECT()
+    public Select exampleH = $Select()
                 .$Select()
                     .$(c("ProductModelID"))
                     .$(e("AVG(ListPrice)"),"[Average List Price]")
@@ -868,7 +869,7 @@ public class SelectBuilderTest {
     GROUP BY (OrderQty * UnitPrice)
     ORDER BY (OrderQty * UnitPrice) DESC
      */
-    public Select exampleI = SELECT()
+    public Select exampleI = $Select()
                 .$Select()
                     .$(e("AVG(OrderQty)"),"[Average Quantity]")
                     .$(e_assignment(
@@ -905,7 +906,7 @@ public class SelectBuilderTest {
     GROUP BY ProductID
     ORDER BY AVG(UnitPrice)
      */
-    public Select exampleJ = SELECT()
+    public Select exampleJ = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$(e("AVG(UnitPrice)"),"[Average Price]")
@@ -937,7 +938,7 @@ public class SelectBuilderTest {
     HAVING AVG(OrderQty) > 5
     ORDER BY ProductID
      */
-    public Select exampleK1 = SELECT()
+    public Select exampleK1 = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$From()
@@ -968,7 +969,7 @@ public class SelectBuilderTest {
     HAVING CarrierTrackingNumber LIKE '4BD%'
     ORDER BY SalesOrderID
      */
-    public Select exampleK2 = SELECT()
+    public Select exampleK2 = $Select()
                 .$Select()
                     .$(c("SalesOrderID"))
                     .$(c("CarrierTrackingNumber"))
@@ -1002,7 +1003,7 @@ public class SelectBuilderTest {
     HAVING AVG(OrderQty) > 5
     ORDER BY ProductID
      */
-    public Select exampleL = SELECT()
+    public Select exampleL = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$From()
@@ -1037,9 +1038,9 @@ public class SelectBuilderTest {
     FROM Sales.SalesOrderDetail
     GROUP BY ProductID
     HAVING SUM(LineTotal) > $1000000.00
-    AND AVG(OrderQty) < 3
+    $AND AVG(OrderQty) < 3
      */
-    public Select exampleM1 = SELECT()
+    public Select exampleM1 = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$(e("AVG(OrderQty)"),"AverageQuantity")
@@ -1072,7 +1073,7 @@ public class SelectBuilderTest {
     GROUP BY ProductID
     HAVING SUM(LineTotal) > $2000000.00
      */
-    public Select exampleM2 = SELECT()
+    public Select exampleM2 = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$(e_assignment(c("Total"),e("SUM(LineTotal)")))
@@ -1100,7 +1101,7 @@ public class SelectBuilderTest {
     GROUP BY ProductID
     HAVING COUNT(*) > 1500
      */
-    public Select exampleM3 = SELECT()
+    public Select exampleM3 = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$(e("SUM(LineTotal)"),"Total")
@@ -1128,7 +1129,7 @@ public class SelectBuilderTest {
     JOIN Person.Person AS pp on e.BusinessEntityID = pp.BusinessEntityID
     WHERE LastName = 'Johnson'
      */
-    public Select exampleN1 = SELECT()
+    public Select exampleN1 = $Select()
                 .$Select()
                     .$(c("pp","FirstName"))
                     .$(c("pp","LastName"))
@@ -1136,7 +1137,7 @@ public class SelectBuilderTest {
                     .$From()
                         .$()
                             .$(t("HumanResources","Employee"))
-                                .$With(INDEX("AK_Employee_NationalIDNumber"))
+                                .$With($Index("AK_Employee_NationalIDNumber"))
                                 .$As("e")
                             .$Join()
                             .$(t("Person","Person"))
@@ -1167,7 +1168,7 @@ public class SelectBuilderTest {
     ON e.BusinessEntityID = pp.BusinessEntityID
     WHERE LastName = 'Johnson'
      */
-    public Select exampleN2 = SELECT()
+    public Select exampleN2 = $Select()
                 .$Select()
                     .$(c("pp","LastName"))
                     .$(c("pp","FirstName"))
@@ -1175,7 +1176,7 @@ public class SelectBuilderTest {
                     .$From()
                         .$()
                             .$(t("HumanResources","Employee"))
-                                .$With(INDEX().$EQUAL("0").build())
+                                .$With(TableHintBuilder.$Index().$Equal("0").build())
                                 .$As("e")
                             .$Join()
                             .$(t("Person","Person"))
@@ -1208,7 +1209,7 @@ public class SelectBuilderTest {
     ORDER BY ProductID, OrderQty
     OPTION (HASH GROUP, FAST 10)
      */
-    public Select exampleM = SELECT()
+    public Select exampleM = $Select()
                 .$Select()
                     .$(c("ProductID"))
                     .$(c("OrderQty"))
@@ -1232,7 +1233,7 @@ public class SelectBuilderTest {
                     .$(c("OrderQty"))
                     .and()
                 .$Option()
-                    .$(HASH_GROUP(),FAST(10))
+                    .$($HashGroup(),$Fast(10))
                     .and()
                 .build();
     // @formatter:on
@@ -1247,7 +1248,7 @@ public class SelectBuilderTest {
     FROM HumanResources.Employee AS e2
     OPTION (MERGE UNION)
      */
-    public Select exampleO = SELECT()
+    public Select exampleO = $Select()
                 .$()
                     .$Select()
                         .$(c("BusinessEntityID"))
@@ -1260,7 +1261,7 @@ public class SelectBuilderTest {
                                 .$As("e1")
                             .and()
                         .and()
-                    .$Union_Select()
+                    .$UnionSelect()
                         .$(c("BusinessEntityID"))
                         .$(c("JobTitle"))
                         .$(c("HireDate"))
@@ -1273,7 +1274,7 @@ public class SelectBuilderTest {
                         .and()
                     .and()
                 .$Option()
-                    .$(MERGE_UNION())
+                    .$($MergeUnion())
                     .and()
                 .build();
     // @formatter:on
@@ -1286,7 +1287,7 @@ public class SelectBuilderTest {
     FROM Production.ProductModel
     WHERE ProductModelID IN (3, 4)
      */
-    public Select exampleP1 = SELECT()
+    public Select exampleP1 = $Select()
                 .$Select()
                     .$(c("ProductModelID"))
                     .$(c("Name"))
@@ -1315,7 +1316,7 @@ public class SelectBuilderTest {
     FROM dbo.Gloves
     ORDER BY Name
      */
-    public Select exampleP2 = SELECT()
+    public Select exampleP2 = $Select()
                 .$()
                     .$Select()
                         .$(c("ProductModelID"))
@@ -1331,7 +1332,7 @@ public class SelectBuilderTest {
                             ))
                             .and()
                         .and()
-                    .$Union_Select()
+                    .$UnionSelect()
                         .$(c("ProductModelID"))
                         .$(c("Name"))
                         .$From()
@@ -1354,7 +1355,7 @@ public class SelectBuilderTest {
     FROM Production.ProductModel
     WHERE ProductModelID IN (3, 4)
      */
-    public Select exampleQ1 = SELECT()
+    public Select exampleQ1 = $Select()
                 .$Select()
                     .$(c("ProductModelID"))
                     .$(c("Name"))
@@ -1384,7 +1385,7 @@ public class SelectBuilderTest {
     SELECT ProductModelID, Name
     FROM dbo.Gloves
      */
-    public Select exampleQ2 = SELECT()
+    public Select exampleQ2 = $Select()
                 .$()
                     .$Select()
                         .$(c("ProductModelID"))
@@ -1401,7 +1402,7 @@ public class SelectBuilderTest {
                             ))
                             .and()
                         .and()
-                    .$Union_Select()
+                    .$UnionSelect()
                         .$(c("ProductModelID"))
                         .$(c("Name"))
                         .$From()
@@ -1418,7 +1419,7 @@ public class SelectBuilderTest {
      * SELECT ProductModelID, Name
     FROM dbo.ProductResults
      */
-    public Select exampleQ3 = SELECT()
+    public Select exampleQ3 = $Select()
                 .$Select()
                     .$(c("ProductModelID"))
                     .$(c("Name"))
@@ -1438,7 +1439,7 @@ public class SelectBuilderTest {
     FROM Production.ProductModel
     WHERE ProductModelID IN (3, 4)
      */
-    public Select exampleR1 = SELECT()
+    public Select exampleR1 = $Select()
                 .$Select()
                     .$(c("ProductModelID"))
                     .$(c("Name"))
@@ -1470,7 +1471,7 @@ public class SelectBuilderTest {
 //    FROM dbo.Gloves;
 //    GO
     // @formatter:off
-    public Select exampleR2_INCORRECT = SELECT()
+    public Select exampleR2_INCORRECT = $Select()
             .$()
                 .$Select()
                     .$(c("ProductModelID"))
@@ -1490,7 +1491,7 @@ public class SelectBuilderTest {
 //                        .$(c("Name"))
 //                        .and()
                     .and()
-                .$Union_Select()
+                .$UnionSelect()
                     .$(c("ProductModelID"))
                     .$(c("Name"))
                     .$From()
@@ -1512,7 +1513,7 @@ public class SelectBuilderTest {
     FROM dbo.Gloves
     ORDER BY Name
      */
-    public Select exampleR3 = SELECT()
+    public Select exampleR3 = $Select()
             .$()
                 .$Select()
                     .$(c("ProductModelID"))
@@ -1528,7 +1529,7 @@ public class SelectBuilderTest {
                         ))
                         .and()
                     .and()
-                .$Union_Select()
+                .$UnionSelect()
                     .$(c("ProductModelID"))
                     .$(c("Name"))
                     .$From()
@@ -1551,7 +1552,7 @@ public class SelectBuilderTest {
     ON e.BusinessEntityID = pp.BusinessEntityID
     WHERE LastName = 'Johnson'
      */
-    public Select exampleS1 = SELECT()
+    public Select exampleS1 = $Select()
                 .$Select()
                     .$(c("pp","LastName"))
                     .$(c("pp","FirstName"))
@@ -1587,14 +1588,14 @@ public class SelectBuilderTest {
     /**
      * SELECT LastName, FirstName, JobTitle
     FROM dbo.EmployeeOne
-    UNION ALL
+    UNION $ALL
     SELECT LastName, FirstName ,JobTitle
     FROM dbo.EmployeeTwo
-    UNION ALL
+    UNION $ALL
     SELECT LastName, FirstName,JobTitle
     FROM dbo.EmployeeThree
      */
-    public Select exampleS4 = SELECT()
+    public Select exampleS4 = $Select()
             .$()
                 .$Select()
                     .$(c("LastName"))
@@ -1604,7 +1605,7 @@ public class SelectBuilderTest {
                         .$(t("dbo","EmployeeOne"))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("LastName"))
                     .$(c("FirstName"))
                     .$(c("JobTitle"))
@@ -1612,7 +1613,7 @@ public class SelectBuilderTest {
                         .$(t("dbo","EmployeeTwo"))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("LastName"))
                     .$(c("FirstName"))
                     .$(c("JobTitle"))
@@ -1636,7 +1637,7 @@ public class SelectBuilderTest {
     SELECT LastName, FirstName, JobTitle
     FROM dbo.EmployeeThree
      */
-    public Select exampleS5 = SELECT()
+    public Select exampleS5 = $Select()
             .$()
                 .$Select()
                     .$(c("LastName"))
@@ -1646,7 +1647,7 @@ public class SelectBuilderTest {
                         .$(t("dbo","EmployeeOne"))
                         .and()
                     .and()
-                .$Union_Select()
+                .$UnionSelect()
                     .$(c("LastName"))
                     .$(c("FirstName"))
                     .$(c("JobTitle"))
@@ -1654,7 +1655,7 @@ public class SelectBuilderTest {
                         .$(t("dbo","EmployeeTwo"))
                         .and()
                     .and()
-                .$Union_Select()
+                .$UnionSelect()
                     .$(c("LastName"))
                     .$(c("FirstName"))
                     .$(c("JobTitle"))
@@ -1671,7 +1672,7 @@ public class SelectBuilderTest {
     /**
      * SELECT LastName, FirstName,JobTitle
     FROM dbo.EmployeeOne
-    UNION ALL
+    UNION $ALL
     (
     SELECT LastName, FirstName, JobTitle
     FROM dbo.EmployeeTwo
@@ -1680,7 +1681,7 @@ public class SelectBuilderTest {
     FROM dbo.EmployeeThree
     )
      */
-    public Select exampleS6 = SELECT()
+    public Select exampleS6 = $Select()
             .$()
                 .$Select()
                     .$(c("LastName"))
@@ -1690,7 +1691,7 @@ public class SelectBuilderTest {
                         .$(t("dbo","EmployeeOne"))
                         .and()
                     .and()
-                .$Union_All_()
+                .$UnionAll_()
                     .$Select()
                         .$(c("LastName"))
                         .$(c("FirstName"))
@@ -1699,7 +1700,7 @@ public class SelectBuilderTest {
                             .$(t("dbo","EmployeeTwo"))
                             .and()
                         .and()
-                    .$Union_Select()
+                    .$UnionSelect()
                         .$(c("LastName"))
                         .$(c("FirstName"))
                         .$(c("JobTitle"))

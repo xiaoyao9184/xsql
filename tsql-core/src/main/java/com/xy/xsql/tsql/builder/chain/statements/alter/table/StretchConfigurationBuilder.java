@@ -11,8 +11,10 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * StretchConfigurationBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class StretchConfigurationBuilder<ParentBuilder>
         extends CodeTreeBuilder<StretchConfigurationBuilder<ParentBuilder>,ParentBuilder,StretchConfiguration> {
 
@@ -25,21 +27,38 @@ public class StretchConfigurationBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param tableStretchOptions TableStretchOptions
+     * @return THIS
+     */
     public StretchConfigurationBuilder<ParentBuilder> withTableStretchOptions(TableStretchOptions tableStretchOptions){
         target.setTableStretchOptions(tableStretchOptions);
         return this;
     }
 
+    /**
+     * set
+     * @param tableStretchOptionsList TableStretchOptions
+     * @return THIS
+     */
     public StretchConfigurationBuilder<ParentBuilder> withTableStretchOptionsList(List<TableStretchOptions> tableStretchOptionsList){
         target.setTableStretchOptionsList(tableStretchOptionsList);
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>> $ON(){
+    /**
+     * Quick in
+     * @return TableStretchOptionsBuilder
+     */
+    public TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>> $On(){
         withUseOn(true);
         return new TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>>
                 (initSet(TableStretchOptions::new,
@@ -48,10 +67,18 @@ public class StretchConfigurationBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public StretchConfigurationBuilder<ParentBuilder> $OFF_WITHOUT_DATA_RECOVERY_$MIGRATION_STATE_$PAUSED(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public StretchConfigurationBuilder<ParentBuilder> $OffWithoutDataRecovery$MigrationState$Paused(){
         return withUseOn(false);
     }
 
+    /**
+     * Quick in
+     * @return TableStretchOptionsBuilder
+     */
     public TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>> $(){
         return new TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>>
                 (initNew(TableStretchOptions::new,

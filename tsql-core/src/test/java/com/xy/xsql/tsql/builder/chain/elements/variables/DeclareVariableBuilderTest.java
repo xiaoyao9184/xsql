@@ -1,14 +1,20 @@
 package com.xy.xsql.tsql.builder.chain.elements.variables;
 
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.numeric.Money;
+import com.xy.xsql.tsql.model.datatypes.string.VarChar;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.elements.variables.DeclareVariable;
-import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes.*;
+import static com.xy.xsql.tsql.builder.chain.datatypes.DataTypes.*;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
+import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnDefinitions.*;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
-import static com.xy.xsql.tsql.builder.chain.elements.variables.DeclareVariableBuilder.DECLARE;
+import static com.xy.xsql.tsql.builder.chain.elements.variables.DeclareVariableBuilder.$Declare;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
@@ -24,7 +30,7 @@ public class DeclareVariableBuilderTest {
     /**
      * DECLARE @find varchar(30)
      */
-    public DeclareVariable exampleA1 = DECLARE()
+    public DeclareVariable exampleA1 = $Declare()
             .$("find")
                 .$(_varchar(30))
                 .and()
@@ -36,7 +42,7 @@ public class DeclareVariableBuilderTest {
     /**
      * DECLARE @find varchar(30) = 'Man%'
      */
-    public DeclareVariable exampleA2 = DECLARE()
+    public DeclareVariable exampleA2 = $Declare()
             .$("find")
                 .$(_varchar(30))
                 .$(e_string("Man%"))
@@ -62,12 +68,13 @@ public class DeclareVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(declareVariable.getItems().get(0).getLocalVariable().toString(),"@find");
-        Assert.assertEquals(declareVariable.getItems().get(0).getDataType().toString(),"varchar(30)");
+        assertEquals(declareVariable.getItems().get(0).getLocalVariable().toString(),"@find");
+        assertTrue(declareVariable.getItems().get(0).getDataType() instanceof VarChar);
+        assertEquals(((VarChar)declareVariable.getItems().get(0).getDataType()).length(),30);
 
-        Assert.assertEquals(declareVariable2.getItems().get(0).getLocalVariable().toString(),"@find");
-        Assert.assertTrue(declareVariable2.getItems().get(0).getValue() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)declareVariable2.getItems().get(0).getValue()).getString(),"Man%");
+        assertEquals(declareVariable2.getItems().get(0).getLocalVariable().toString(),"@find");
+        assertTrue(declareVariable2.getItems().get(0).getValue() instanceof StringConstant);
+        assertEquals(((StringConstant)declareVariable2.getItems().get(0).getValue()).getString(),"Man%");
     }
 
 
@@ -75,7 +82,7 @@ public class DeclareVariableBuilderTest {
     /**
      * DECLARE @Group nvarchar(50), @Sales money
      */
-    public DeclareVariable exampleB = DECLARE()
+    public DeclareVariable exampleB = $Declare()
             .$("Group")
                 .$(_nvarchar(50))
                 .and()
@@ -100,10 +107,11 @@ public class DeclareVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(declareVariable.getItems().get(0).getLocalVariable().toString(),"@Group");
-        Assert.assertEquals(declareVariable.getItems().get(0).getDataType().toString(),"varchar(50)");
-        Assert.assertEquals(declareVariable.getItems().get(1).getLocalVariable().toString(),"@Sales");
-        Assert.assertEquals(declareVariable.getItems().get(1).getDataType().toString(),"money");
+        assertEquals(declareVariable.getItems().get(0).getLocalVariable().toString(),"@Group");
+        assertTrue(declareVariable.getItems().get(0).getDataType() instanceof VarChar);
+        assertEquals(((VarChar)declareVariable.getItems().get(0).getDataType()).length(),50);
+        assertEquals(declareVariable.getItems().get(1).getLocalVariable().toString(),"@Sales");
+        assertTrue(declareVariable.getItems().get(1).getDataType() instanceof Money);
     }
 
 
@@ -115,27 +123,64 @@ public class DeclareVariableBuilderTest {
      NewVacationHours int,
      ModifiedDate datetime)
      */
-    public DeclareVariable exampleC = DECLARE()
+    public DeclareVariable exampleC = $Declare()
             .$("MyTableVar")
-            //TODO table_type_definition
             .$Table()
+                .$_(
+                        c_not_null(c_int("EmpID")),
+                        c_int("OldVacationHours"),
+                        c_int("NewVacationHours"),
+                        c_datetime("ModifiedDate")
+                )
                 .and()
             .build();
     // @formatter:on
 
     @Test
     public void testExampleC(){
-//        // @formatter:off
-//        DeclareVariable declareVariable = new DeclareVariableBuilder<Void>()
-//                .withTableVariable("MyTableVar")
-//                .withDateType(_varchar(50))
-//                .build();
-//        // @formatter:on
-//
-//        Assert.assertEquals(declareVariable.getItems().get(0).getLocalVariable().toString(),"@Group");
-//        Assert.assertEquals(declareVariable.getItems().get(0).getDataType().toString(),"varchar(50)");
-//        Assert.assertEquals(declareVariable.getItems().get(1).getLocalVariable().toString(),"@Sales");
-//        Assert.assertEquals(declareVariable.getItems().get(1).getDataType().toString(),"money");
+        // @formatter:off
+        DeclareVariable declareVariable = new DeclareVariableBuilder<Void>()
+                .withTableVariableName(e_variable("MyTableVar"))
+                .withTable()
+                    .withColumnDefinition()
+                        .withColumnName(c("EmpID"))
+                        .withDataType(_int())
+                        .withUseNotNull(true)
+                        .and()
+                    .withColumnDefinition()
+                        .withColumnName(c("OldVacationHours"))
+                        .withDataType(_int())
+                        .and()
+                    .withColumnDefinition()
+                        .withColumnName(c("NewVacationHours"))
+                        .withDataType(_int())
+                        .and()
+                    .withColumnDefinition()
+                        .withColumnName(c("ModifiedDate"))
+                        .withDataType(_datetime())
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        assertNull(declareVariable.getItems());
+        assertEquals(declareVariable.getTableTypeDefinition().getList().size(),4);
+        assertTrue(declareVariable.getTableTypeDefinition().getList().get(0) instanceof ColumnDefinition);
+        ColumnDefinition cd = (ColumnDefinition) declareVariable.getTableTypeDefinition().getList().get(0);
+        assertEquals(cd.getFullName(),"EmpID");
+        assertEquals(cd.getDataType().name(),_int().name());
+        assertTrue(declareVariable.getTableTypeDefinition().getList().get(1) instanceof ColumnDefinition);
+        ColumnDefinition cd1 = (ColumnDefinition) declareVariable.getTableTypeDefinition().getList().get(1);
+        assertEquals(cd1.getFullName(),"OldVacationHours");
+        assertEquals(cd1.getDataType().name(),_int().name());
+        assertTrue(declareVariable.getTableTypeDefinition().getList().get(2) instanceof ColumnDefinition);
+        ColumnDefinition cd2 = (ColumnDefinition) declareVariable.getTableTypeDefinition().getList().get(2);
+        assertEquals(cd2.getFullName(),"NewVacationHours");
+        assertEquals(cd2.getDataType().name(),_int().name());
+        assertTrue(declareVariable.getTableTypeDefinition().getList().get(3) instanceof ColumnDefinition);
+        ColumnDefinition cd3 = (ColumnDefinition) declareVariable.getTableTypeDefinition().getList().get(3);
+        assertEquals(cd3.getFullName(),"ModifiedDate");
+        assertEquals(cd3.getDataType().name(),_datetime().name());
     }
 
 
@@ -144,7 +189,7 @@ public class DeclareVariableBuilderTest {
      * DECLARE @LocationTVP
      AS LocationTableType
      */
-    public DeclareVariable exampleD = DECLARE()
+    public DeclareVariable exampleD = $Declare()
             .$("LocationTVP")
                 .$As()
                 .$(_user_defined("LocationTableType"))
@@ -165,8 +210,9 @@ public class DeclareVariableBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(declareVariable.getItems().get(0).getLocalVariable().toString(),"@LocationTVP");
-        Assert.assertEquals(declareVariable.getItems().get(0).getDataType().toString(),"LocationTableType");
+        assertEquals(declareVariable.getItems().get(0).getLocalVariable().toString(),"@LocationTVP");
+        assertTrue(declareVariable.getItems().get(0).getDataType() instanceof DataType.SimpleDataType);
+        assertEquals(declareVariable.getItems().get(0).getDataType().name(),"LocationTableType");
     }
 
 
@@ -180,7 +226,7 @@ public class DeclareVariableBuilderTest {
     /**
      * DECLARE @find varchar(30)
      */
-    public DeclareVariable exampleE1 = DECLARE()
+    public DeclareVariable exampleE1 = $Declare()
             .$("find")
                 .$(_varchar(30))
                 .and()
@@ -192,7 +238,7 @@ public class DeclareVariableBuilderTest {
     /**
      * DECLARE @find varchar(30) = 'Man%'
      */
-    public DeclareVariable exampleE2 = DECLARE()
+    public DeclareVariable exampleE2 = $Declare()
             .$("find")
                 .$(_varchar(30))
                 .$(e_string("Man%"))
@@ -204,7 +250,7 @@ public class DeclareVariableBuilderTest {
     /**
      * DECLARE @lastName varchar(30), @firstName varchar(30)
      */
-    public DeclareVariable exampleF = DECLARE()
+    public DeclareVariable exampleF = $Declare()
             .$("lastName")
                 .$(_varchar(30))
                 .and()

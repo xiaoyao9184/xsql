@@ -3,13 +3,13 @@ package com.xy.xsql.tsql.builder.chain.queries.select;
 import com.xy.xsql.tsql.builder.chain.MockParent;
 import com.xy.xsql.tsql.builder.chain.MockParentBuilder;
 import com.xy.xsql.tsql.model.queries.select.GroupBy;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_multiplication;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/18.
@@ -40,15 +40,15 @@ public class GroupByBuilderTest {
                     .and();
         // @formatter:on
 
-        Assert.assertEquals(groupBy.getItems().size(),2);
+        assertEquals(groupBy.getItems().size(),2);
 
-        Assert.assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
+        assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
-        Assert.assertEquals(item.getExpression().toString(),"c1");
+        assertEquals(item.getExpression().toString(),"c1");
 
-        Assert.assertEquals(groupBy.getItems().get(1).getClass(), GroupBy.BaseItem.class);
+        assertEquals(groupBy.getItems().get(1).getClass(), GroupBy.BaseItem.class);
         GroupBy.BaseItem item2 = (GroupBy.BaseItem) groupBy.getItems().get(1);
-        Assert.assertEquals(item2.getExpression().toString(),"c2");
+        assertEquals(item2.getExpression().toString(),"c2");
     }
 
     /**
@@ -120,7 +120,7 @@ public class GroupByBuilderTest {
                     .$Cube()
                         .$(c("c5"))
                         .and()
-                    .$Grouping_Sets()
+                    .$GroupingSets()
                         //grouping_set:()
                         .$()
                             .$_()
@@ -146,24 +146,23 @@ public class GroupByBuilderTest {
                     .and();
         // @formatter:on
 
+        assertEquals(groupBy.getItems().size(),4);
 
-        Assert.assertEquals(groupBy.getItems().size(),4);
-
-        Assert.assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
+        assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
-        Assert.assertEquals(item.getExpression().toString(),"c1");
+        assertEquals(item.getExpression().toString(),"c1");
 
-        Assert.assertEquals(groupBy.getItems().get(1).getClass(), GroupBy.RollupItem.class);
+        assertEquals(groupBy.getItems().get(1).getClass(), GroupBy.RollupItem.class);
         GroupBy.RollupItem item1 = (GroupBy.RollupItem) groupBy.getItems().get(1);
-        Assert.assertEquals(item1.getGroupByExpressionList().size(),2);
+        assertEquals(item1.getGroupByExpressionList().size(),2);
 
-        Assert.assertEquals(groupBy.getItems().get(2).getClass(), GroupBy.CubeItem.class);
+        assertEquals(groupBy.getItems().get(2).getClass(), GroupBy.CubeItem.class);
         GroupBy.CubeItem item2 = (GroupBy.CubeItem) groupBy.getItems().get(2);
-        Assert.assertEquals(item2.getGroupByExpressionList().size(),1);
+        assertEquals(item2.getGroupByExpressionList().size(),1);
 
-        Assert.assertEquals(groupBy.getItems().get(3).getClass(), GroupBy.GroupingSetsItem.class);
+        assertEquals(groupBy.getItems().get(3).getClass(), GroupBy.GroupingSetsItem.class);
         GroupBy.GroupingSetsItem item3 = (GroupBy.GroupingSetsItem) groupBy.getItems().get(3);
-        Assert.assertEquals(item3.getGroupingSetItemList().size(),4);
+        assertEquals(item3.getGroupingSetItemList().size(),4);
     }
 
 
@@ -196,11 +195,11 @@ public class GroupByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(groupBy.getItems().size(),1);
+        assertEquals(groupBy.getItems().size(),1);
 
-        Assert.assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
+        assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
-        Assert.assertEquals(item.getExpression().toString(),"SalesOrderID");
+        assertEquals(item.getExpression().toString(),"SalesOrderID");
     }
 
 
@@ -227,11 +226,11 @@ public class GroupByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(groupBy.getItems().size(),1);
+        assertEquals(groupBy.getItems().size(),1);
 
-        Assert.assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
+        assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
-        Assert.assertEquals(item.getExpression().toString(),"a.City");
+        assertEquals(item.getExpression().toString(),"a.City");
     }
 
 
@@ -259,11 +258,11 @@ public class GroupByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(groupBy.getItems().size(),1);
+        assertEquals(groupBy.getItems().size(),1);
 
-        Assert.assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
+        assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
-        Assert.assertEquals(item.getExpression().toString(),"DATEPART(yyyy,OrderDate)");
+        assertEquals(item.getExpression().toString(),"DATEPART(yyyy,OrderDate)");
     }
 
 
@@ -291,11 +290,11 @@ public class GroupByBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(groupBy.getItems().size(),1);
+        assertEquals(groupBy.getItems().size(),1);
 
-        Assert.assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
+        assertEquals(groupBy.getItems().get(0).getClass(), GroupBy.BaseItem.class);
         GroupBy.BaseItem item = (GroupBy.BaseItem) groupBy.getItems().get(0);
-        Assert.assertEquals(item.getExpression().toString(),"DATEPART(yyyy,OrderDate)");
+        assertEquals(item.getExpression().toString(),"DATEPART(yyyy,OrderDate)");
     }
 
 

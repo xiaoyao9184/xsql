@@ -22,8 +22,10 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * InsertBuilder
  * Created by xiaoyao9184 on 2017/1/9.
  */
+@SuppressWarnings("unused")
 public class InsertBuilder extends CodeBuilder<Insert> {
 
     public InsertBuilder(Insert tar) {
@@ -34,7 +36,20 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         super(new Insert());
     }
 
+    /**
+     * set
+     * @param with With
+     * @return THIS
+     */
+    public InsertBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
 
+    /**
+     * in
+     * @return WithBuilder
+     */
     public WithBuilder<InsertBuilder> withWith(){
         return new WithBuilder<InsertBuilder>
                 (initSet(With::new,
@@ -43,11 +58,20 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-    public InsertBuilder withWith(With with){
-        this.target.setWith(with);
+    /**
+     * set
+     * @param top Top
+     * @return THIS
+     */
+    public InsertBuilder withTop(Top top){
+        this.target.setTop(top);
         return this;
     }
 
+    /**
+     * in
+     * @return TopBuilder
+     */
     public TopBuilder<InsertBuilder> withTop(){
         return new TopBuilder<InsertBuilder>
                 (initSet(Top::new,
@@ -56,21 +80,30 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-    public InsertBuilder withTop(Top top){
-        this.target.setTop(top);
-        return this;
-    }
-
+    /**
+     * set
+     * @return THIS
+     */
     public InsertBuilder withInto(){
         target.setUseInto(true);
         return this;
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public InsertBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
     }
 
+    /**
+     * set
+     * @param tableName table name
+     * @return THIS
+     */
     public InsertBuilder withTableName(String tableName){
         target.setTableName(new TableName(tableName));
         return this;
@@ -88,6 +121,11 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return this;
     }
 
+    /**
+     * set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
     public InsertBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
         initAdd(tableHintLimiteds,
                 target::getTableHintLimitedList,
@@ -95,6 +133,11 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return this;
     }
 
+    /**
+     * set
+     * @param columnNames columnName
+     * @return THIS
+     */
     public InsertBuilder withColumn(ColumnName... columnNames){
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
@@ -105,6 +148,11 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return this;
     }
 
+    /**
+     * set
+     * @param columnNames columnName
+     * @return THIS
+     */
     public InsertBuilder withColumn(List<ColumnName> columnNames){
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
@@ -115,6 +163,20 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         return this;
     }
 
+    /**
+     * set
+     * @param output Output
+     * @return THIS
+     */
+    public InsertBuilder withOutput(Output output) {
+        this.target.setOutput(output);
+        return this;
+    }
+
+    /**
+     * in
+     * @return OutputBuilder
+     */
     public OutputBuilder<InsertBuilder> withOutput() {
         return new OutputBuilder<InsertBuilder>
                 (initSet(Output::new,
@@ -123,11 +185,20 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-    public InsertBuilder withOutput(Output output) {
-        this.target.setOutput(output);
+    /**
+     * set
+     * @param values TableValueConstructor
+     * @return THIS
+     */
+    public InsertBuilder withValues(TableValueConstructor values){
+        this.target.setValues(values);
         return this;
     }
 
+    /**
+     * in
+     * @return TableValueConstructorBuilder
+     */
     public TableValueConstructorBuilder<InsertBuilder> withValues(){
         return new TableValueConstructorBuilder<InsertBuilder>
                 (initSet(TableValueConstructor::new,
@@ -136,11 +207,10 @@ public class InsertBuilder extends CodeBuilder<Insert> {
                 .in(this);
     }
 
-    public InsertBuilder withValues(TableValueConstructor values){
-        this.target.setValues(values);
-        return this;
-    }
-
+    /**
+     * set
+     * @return THIS
+     */
     public InsertBuilder withDefaultValues() {
         target.setUseDefaultValues(true);
         return this;
@@ -148,52 +218,93 @@ public class InsertBuilder extends CodeBuilder<Insert> {
 
 
 
+
     /*
     Quick
      */
 
-    public static InsertBuilder INSERT(){
-        return new InsertBuilder();
-    }
-
+    /**
+     * set
+     * @param with With
+     * @return THIS
+     */
     public InsertBuilder $With(With with){
         target.setWith(with);
         return this;
     }
 
+    /**
+     * in
+     * @return WithBuilder
+     */
     public WithBuilder<InsertBuilder> $With() {
         return withWith();
     }
 
+    /**
+     * in
+     * @return TopBuilder
+     */
     public TopBuilder<InsertBuilder> $Top() {
         return withTop();
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public InsertBuilder $Into() {
         return withInto();
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public InsertBuilder $(TableName tableName) {
         return withTableName(tableName);
     }
 
+    /**
+     * set
+     * @param columnNames columnName
+     * @return THIS
+     */
     public InsertBuilder $(ColumnName... columnNames) {
         return withColumn(columnNames);
     }
 
+    /**
+     * set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
     public InsertBuilder $With(TableHintLimited... tableHintLimiteds) {
         return withTableHint(tableHintLimiteds);
     }
 
+    /**
+     * in
+     * @return OutputBuilder
+     */
     public OutputBuilder<InsertBuilder> $Output() {
         return withOutput();
     }
 
+    /**
+     * in
+     * @return TableValueConstructorBuilder
+     */
     public TableValueConstructorBuilder<InsertBuilder> $Values() {
         return withValues();
     }
 
-    public InsertBuilder $Default_Values() {
+    /**
+     * set
+     * @return THIS
+     */
+    public InsertBuilder $DefaultValues() {
         return withDefaultValues();
     }
 

@@ -1,12 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.queries.hints;
 
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
-import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.FORCESCAN;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.FORCESEEK;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.TABLOCK;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Forcescan;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Forceseek;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Tablock;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
@@ -17,7 +17,7 @@ public class TableHintBuilderTest {
     /**
      * TABLOCK
      */
-    public TableHint exampleA = TABLOCK();
+    public TableHint exampleA = $Tablock();
     // @formatter:on
 
     @Test
@@ -26,7 +26,7 @@ public class TableHintBuilderTest {
                 .withType(TableHint.Type.TABLOCK)
                 .build();
 
-        Assert.assertEquals(queryHint.getType(),TableHint.Type.TABLOCK);
+        assertEquals(queryHint.getType(),TableHint.Type.TABLOCK);
     }
 
 
@@ -34,20 +34,20 @@ public class TableHintBuilderTest {
     /**
      * FORCESEEK
      */
-    public TableHint exampleB1 = FORCESEEK();
+    public TableHint exampleB1 = $Forceseek();
 
     /**
      * FORCESEEK (PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID (SalesOrderID))
      */
-    public TableHint exampleB2 = FORCESEEK("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID","SalesOrderID");
+    public TableHint exampleB2 = TableHintBuilder.$Forceseek("PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID","SalesOrderID");
     // @formatter:on
 
     @Test
     public void testExampleB() {
-        Assert.assertEquals(exampleB1.getType(),TableHint.Type.FORCESEEK);
-        Assert.assertEquals(exampleB2.getType(),TableHint.Type.FORCESEEK);
-        Assert.assertEquals(exampleB2.getIndex_value().get(0).toString(),"PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID");
-        Assert.assertEquals(exampleB2.getIndex_column_name().get(0).toString(),"SalesOrderID");
+        assertEquals(exampleB1.getType(),TableHint.Type.FORCESEEK);
+        assertEquals(exampleB2.getType(),TableHint.Type.FORCESEEK);
+        assertEquals(exampleB2.getIndex_value().get(0).toString(),"PK_SalesOrderDetail_SalesOrderID_SalesOrderDetailID");
+        assertEquals(exampleB2.getIndex_column_name().get(0).toString(),"SalesOrderID");
     }
 
 
@@ -55,12 +55,12 @@ public class TableHintBuilderTest {
     /**
      * FORCESCAN
      */
-    public TableHint exampleC = FORCESCAN();
+    public TableHint exampleC = $Forcescan();
     // @formatter:on
 
     @Test
     public void testExampleC() {
-        Assert.assertEquals(exampleC.getType(),TableHint.Type.FORCESCAN);
+        assertEquals(exampleC.getType(),TableHint.Type.FORCESCAN);
     }
 
 }

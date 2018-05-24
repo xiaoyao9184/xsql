@@ -1,13 +1,18 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.*;
 
+import static com.xy.xsql.core.FiledBuilder.initSet;
+
 /**
+ * ItemBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ItemBuilder<ParentBuilder>
         extends CodeTreeBuilder<ItemBuilder<ParentBuilder>,ParentBuilder,Setter<Item>> {
 
@@ -15,101 +20,151 @@ public class ItemBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * Confirm type of Item
+     * @return AlterColumnBuilder
+     */
     public AlterColumnBuilder<ParentBuilder> _AlterColumn(){
-        AlterColumn item = new AlterColumn();
-        target.set(item);
         return new AlterColumnBuilder<ParentBuilder>
-                (item)
+                (initSet(AlterColumn::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return AddBuilder
+     */
     public AddBuilder<ParentBuilder> _Add(){
-        Add item = new Add();
-        target.set(item);
         return new AddBuilder<ParentBuilder>
-                (item)
+                (initSet(Add::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return DropBuilder
+     */
     public DropBuilder<ParentBuilder> _Drop(){
-        Drop item = new Drop();
-        target.set(item);
         return new DropBuilder<ParentBuilder>
-                (item)
+                (initSet(Drop::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return AlterConstraintBuilder
+     */
     public AlterConstraintBuilder<ParentBuilder> _Constraint(){
-        AlterConstraint item = new AlterConstraint();
-        target.set(item);
         return new AlterConstraintBuilder<ParentBuilder>
-                (item)
+                (initSet(AlterConstraint::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return AlterTriggerBuilder
+     */
     public AlterTriggerBuilder<ParentBuilder> _Trigger(){
-        AlterTrigger item = new AlterTrigger();
-        target.set(item);
         return new AlterTriggerBuilder<ParentBuilder>
-                (item)
+                (initSet(AlterTrigger::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return THIS
+     */
     public AlterChangeTrackingBuilder<ParentBuilder> _ChangeTracking(){
-        AlterChangeTracking item = new AlterChangeTracking();
-        target.set(item);
         return new AlterChangeTrackingBuilder<ParentBuilder>
-                (item)
+                (initSet(AlterChangeTracking::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return AlterPartitionBuilder
+     */
     public AlterPartitionBuilder<ParentBuilder> _Partition(){
-        AlterPartition item = new AlterPartition();
-        target.set(item);
         return new AlterPartitionBuilder<ParentBuilder>
-                (item)
+                (initSet(AlterPartition::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return SetBuilder
+     */
     public SetBuilder<ParentBuilder> _Set(){
-        Set item = new Set();
-        target.set(item);
         return new SetBuilder<ParentBuilder>
-                (item)
+                (initSet(Set::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return RebuildBuilder
+     */
     public RebuildBuilder<ParentBuilder> _Rebuild(){
-        Rebuild item = new Rebuild();
-        target.set(item);
         return new RebuildBuilder<ParentBuilder>
-                (item)
+                (initSet(Rebuild::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return AlterTableOptionBuilder
+     */
     public AlterTableOptionBuilder<ParentBuilder> _TableOption(){
-        AlterTableOption item = new AlterTableOption();
-        target.set(item);
         return new AlterTableOptionBuilder<ParentBuilder>
-                (item)
+                (initSet(AlterTableOption::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return AlterFiletableOptionBuilder
+     */
     public AlterFiletableOptionBuilder<ParentBuilder> _FiletableOption(){
-        AlterFiletableOption item = new AlterFiletableOption();
-        target.set(item);
         return new AlterFiletableOptionBuilder<ParentBuilder>
-                (item)
+                (initSet(AlterFiletableOption::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
 
+    /**
+     * Confirm type of Item
+     * @return StretchConfigurationBuilder
+     */
     public StretchConfigurationBuilder<ParentBuilder> _StretchConfiguration(){
-        StretchConfiguration item = new StretchConfiguration();
-        target.set(item);
         return new StretchConfigurationBuilder<ParentBuilder>
-                (item)
+                (initSet(StretchConfiguration::new,
+                        Getter.empty(),
+                        target::set))
                 .in(out());
     }
+
+
 
 
     /*
@@ -121,7 +176,7 @@ public class ItemBuilder<ParentBuilder>
      * @param columnName columnName
      * @return AlterColumnBuilder
      */
-    public AlterColumnBuilder<ParentBuilder> $ALTER_COLUMN(String columnName){
+    public AlterColumnBuilder<ParentBuilder> $AlterColumn(String columnName){
         return _AlterColumn()
                 .withColumnName(columnName);
     }
@@ -130,7 +185,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to AlterColumn
      * @return AddBuilder
      */
-    public AddBuilder<ParentBuilder> $ADD(){
+    public AddBuilder<ParentBuilder> $Add(){
         return _Add();
     }
 
@@ -138,7 +193,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to AlterColumn
      * @return DropBuilder
      */
-    public DropBuilder<ParentBuilder> $DROP(){
+    public DropBuilder<ParentBuilder> $Drop(){
         return _Drop();
     }
 
@@ -148,7 +203,7 @@ public class ItemBuilder<ParentBuilder>
      * Temp
      * @return THIS
      */
-    public ItemBuilder<ParentBuilder> $WITH(){
+    public ItemBuilder<ParentBuilder> $With(){
         useWith = true;
         return this;
     }
@@ -157,7 +212,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to AlterColumn
      * @return AlterConstraintBuilder
      */
-    public AlterConstraintBuilder<ParentBuilder> $CHECK(){
+    public AlterConstraintBuilder<ParentBuilder> $Check(){
         return _Constraint()
                 .withUseWith(useWith);
     }
@@ -166,7 +221,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to AlterColumn
      * @return AlterConstraintBuilder
      */
-    public AlterConstraintBuilder<ParentBuilder> $NOCHECK(){
+    public AlterConstraintBuilder<ParentBuilder> $Nocheck(){
         return _Constraint();
     }
 
@@ -174,7 +229,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to AlterPartition
      * @return AlterPartitionBuilder
      */
-    public AlterPartitionBuilder<ParentBuilder> $SWITCH(){
+    public AlterPartitionBuilder<ParentBuilder> $Switch(){
         return _Partition();
     }
 
@@ -182,7 +237,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to Rebuild
      * @return RebuildBuilder
      */
-    public RebuildBuilder<ParentBuilder> $REBUILD(){
+    public RebuildBuilder<ParentBuilder> $Rebuild(){
         return _Rebuild();
     }
 
@@ -190,7 +245,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to ?
      * @return EnableTransformBuilder
      */
-    public EnableTransformBuilder<ParentBuilder> $ENABLE(){
+    public EnableTransformBuilder<ParentBuilder> $Enable(){
         return new EnableTransformBuilder<ParentBuilder>
                 (target)
                 .in(out())
@@ -201,7 +256,7 @@ public class ItemBuilder<ParentBuilder>
      * Transform to ?
      * @return EnableTransformBuilder
      */
-    public EnableTransformBuilder<ParentBuilder> $DISABLE(){
+    public EnableTransformBuilder<ParentBuilder> $Disable(){
         return new EnableTransformBuilder<ParentBuilder>
                 (target)
                 .in(out())
@@ -212,12 +267,11 @@ public class ItemBuilder<ParentBuilder>
      * Transform to ?
      * @return SetTransformBuilder
      */
-    public SetTransformBuilder<ParentBuilder> $SET(){
+    public SetTransformBuilder<ParentBuilder> $Set(){
         return new SetTransformBuilder<ParentBuilder>
                 (target)
                 .in(out());
     }
-
 
 
     /**
@@ -233,34 +287,54 @@ public class ItemBuilder<ParentBuilder>
             super(setter);
         }
 
+        /**
+         * set
+         * @param useEnable enable
+         * @return THIS
+         */
         public EnableTransformBuilder<ParentBuilder> withUseEnable(boolean useEnable) {
             this.useEnable = useEnable;
             return this;
         }
 
+        /**
+         * Confirm type of Item
+         * @return AlterTriggerBuilder
+         */
         public AlterTriggerBuilder<ParentBuilder> _Trigger(){
-            AlterTrigger item = new AlterTrigger();
-            target.set(item);
             return new AlterTriggerBuilder<ParentBuilder>
-                    (item)
+                    (initSet(AlterTrigger::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
 
+        /**
+         * Confirm type of Item
+         * @return AlterChangeTrackingBuilder
+         */
         public AlterChangeTrackingBuilder<ParentBuilder> _ChangeTracking(){
-            AlterChangeTracking item = new AlterChangeTracking();
-            target.set(item);
             return new AlterChangeTrackingBuilder<ParentBuilder>
-                    (item)
+                    (initSet(AlterChangeTracking::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
 
+        /**
+         * Confirm type of Item
+         * @return AlterFiletableOptionBuilder
+         */
         public AlterFiletableOptionBuilder<ParentBuilder> _AlterFiletableOption(){
-            AlterFiletableOption item = new AlterFiletableOption();
-            target.set(item);
             return new AlterFiletableOptionBuilder<ParentBuilder>
-                    (item)
+                    (initSet(AlterFiletableOption::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
+
+
+
 
         /*
         Transform
@@ -268,9 +342,9 @@ public class ItemBuilder<ParentBuilder>
 
         /**
          * Transform to AlterTrigger
-         * @return ParentBuilder
+         * @return PARENT
          */
-        public ParentBuilder $TRIGGER_$ALL(){
+        public ParentBuilder $Trigger$All(){
             return _Trigger()
                     .withUseEnable(useEnable)
                     .out();
@@ -281,7 +355,7 @@ public class ItemBuilder<ParentBuilder>
          * @param triggerNames triggerNames
          * @return AlterTriggerBuilder
          */
-        public AlterTriggerBuilder<ParentBuilder> $TRIGGER(String... triggerNames){
+        public AlterTriggerBuilder<ParentBuilder> $Trigger(String... triggerNames){
             return _Trigger()
                     .withUseEnable(useEnable)
                     .withTriggerNames(triggerNames);
@@ -291,7 +365,7 @@ public class ItemBuilder<ParentBuilder>
          * Transform to AlterChangeTracking
          * @return AlterChangeTrackingBuilder
          */
-        public AlterChangeTrackingBuilder<ParentBuilder> $CHANGE_TRACKING(){
+        public AlterChangeTrackingBuilder<ParentBuilder> $ChangeTracking(){
             return _ChangeTracking()
                     .withUseEnable(useEnable);
         }
@@ -300,7 +374,7 @@ public class ItemBuilder<ParentBuilder>
          * Transform to AlterChangeTracking
          * @return AlterChangeTrackingBuilder
          */
-        public AlterChangeTrackingBuilder<ParentBuilder> $CHANGE_TRACKING_$WITH_$TRACK_COLUMNS_UPDATED_$ON(){
+        public AlterChangeTrackingBuilder<ParentBuilder> $ChangeTracking$With$TrackColumnsUpdated$On(){
             return _ChangeTracking()
                     .withUseEnable(useEnable)
                     .withUseTrackUpdatedOn(true);
@@ -310,7 +384,7 @@ public class ItemBuilder<ParentBuilder>
          * Transform to AlterChangeTracking
          * @return AlterChangeTrackingBuilder
          */
-        public AlterChangeTrackingBuilder<ParentBuilder> $CHANGE_TRACKING_$WITH_$TRACK_COLUMNS_UPDATED_$OFF(){
+        public AlterChangeTrackingBuilder<ParentBuilder> $CHANGETRACKING$WITH$TRACKCOLUMNSUPDATED$OFF(){
             return _ChangeTracking()
                     .withUseEnable(useEnable)
                     .withUseTrackUpdatedOn(false);
@@ -320,11 +394,12 @@ public class ItemBuilder<ParentBuilder>
          * Transform to AlterFiletableOption
          * @return AlterFiletableOptionBuilder
          */
-        public AlterFiletableOptionBuilder<ParentBuilder> $FILETABLE_NAMESPACE(){
+        public AlterFiletableOptionBuilder<ParentBuilder> $FiletableNamespace(){
             return _AlterFiletableOption()
                     .withUseEnableFileTableNamespace(true);
         }
     }
+
 
     /**
      * SetTransformBuilder
@@ -332,7 +407,6 @@ public class ItemBuilder<ParentBuilder>
      */
     public static class SetTransformBuilder<ParentBuilder>
             extends CodeTreeBuilder<SetTransformBuilder<ParentBuilder>,ParentBuilder,Setter<Item>> {
-
 
         public SetTransformBuilder(Setter<Item> setter) {
             super(setter);
@@ -346,29 +420,44 @@ public class ItemBuilder<ParentBuilder>
                     .in(out());
         }
 
+        /**
+         * Confirm type of Item
+         * @return AlterTableOptionBuilder
+         */
         public AlterTableOptionBuilder<ParentBuilder> _TableOption(){
-            AlterTableOption item = new AlterTableOption();
-            target.set(item);
             return new AlterTableOptionBuilder<ParentBuilder>
-                    (item)
+                    (initSet(AlterTableOption::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
 
+        /**
+         * Confirm type of Item
+         * @return AlterFiletableOptionBuilder
+         */
         public AlterFiletableOptionBuilder<ParentBuilder> _FiletableOption(){
-            AlterFiletableOption item = new AlterFiletableOption();
-            target.set(item);
             return new AlterFiletableOptionBuilder<ParentBuilder>
-                    (item)
+                    (initSet(AlterFiletableOption::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
 
+        /**
+         * Confirm type of Item
+         * @return StretchConfigurationBuilder
+         */
         public StretchConfigurationBuilder<ParentBuilder> _StretchConfiguration(){
-            StretchConfiguration item = new StretchConfiguration();
-            target.set(item);
             return new StretchConfigurationBuilder<ParentBuilder>
-                    (item)
+                    (initSet(StretchConfiguration::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
+
+
+
 
         /*
         Transform
@@ -376,27 +465,27 @@ public class ItemBuilder<ParentBuilder>
 
         /**
          * Transform to Set
-         * @return ParentBuilder
+         * @return PARENT
          */
-        public PartitionBuilder<SetBuilder<ParentBuilder>> $FILESTREAM_ON(){
+        public PartitionBuilder<SetBuilder<ParentBuilder>> $FilestreamOn(){
             return _Set()
-                    .$FILESTREAM_ON();
+                    .$FilestreamOn();
         }
 
         /**
          * Transform to Set
          * @return SetBuilder
          */
-        public SetBuilder<ParentBuilder> $SYSTEM_VERSIONING(){
+        public SetBuilder<ParentBuilder> $SystemVersioning(){
             return _Set()
-                    .$SYSTEM_VERSIONING();
+                    .$SystemVersioning();
         }
 
         /**
          * Transform to AlterTableOption
          * @return AlterTableOptionBuilder
          */
-        public AlterTableOptionBuilder<ParentBuilder> $LOCK_ESCALATION(){
+        public AlterTableOptionBuilder<ParentBuilder> $LockEscalation(){
             return _TableOption();
         }
 
@@ -404,7 +493,7 @@ public class ItemBuilder<ParentBuilder>
          * Transform to AlterFiletableOption
          * @return AlterFiletableOptionBuilder
          */
-        public AlterFiletableOptionBuilder<ParentBuilder> $FILETABLE_DIRECTORY(){
+        public AlterFiletableOptionBuilder<ParentBuilder> $FiletableDirectory(){
             return _FiletableOption();
         }
 
@@ -412,7 +501,7 @@ public class ItemBuilder<ParentBuilder>
          * Transform to StretchConfiguration
          * @return StretchConfigurationBuilder
          */
-        public StretchConfigurationBuilder<ParentBuilder> $REMOTE_DATA_ARCHIVE(){
+        public StretchConfigurationBuilder<ParentBuilder> $RemoteDataArchive(){
             return _StretchConfiguration();
         }
 

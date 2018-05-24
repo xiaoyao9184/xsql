@@ -1,21 +1,15 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-/**
- * Created by xiaoyao9184 on 2017/3/16.
- */
-
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Between;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * BetweenPredicateBuilder
- *
- * @see Between
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
+@SuppressWarnings("WeakerAccess")
 public class BetweenPredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<BetweenPredicateBuilder<ParentBuilder>,ParentBuilder,Between> {
 
@@ -29,6 +23,11 @@ public class BetweenPredicateBuilder<ParentBuilder>
 
     private int index = 0;
 
+    /**
+     * set
+     * @param expression Expression
+     * @return THIS
+     */
     public BetweenPredicateBuilder<ParentBuilder> withExpression(Expression expression) {
         if(index == 0){
             target.setExpression(expression);
@@ -43,6 +42,10 @@ public class BetweenPredicateBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public BetweenPredicateBuilder<ParentBuilder> withNot() {
         target.setUseNotOperator(true);
         return this;

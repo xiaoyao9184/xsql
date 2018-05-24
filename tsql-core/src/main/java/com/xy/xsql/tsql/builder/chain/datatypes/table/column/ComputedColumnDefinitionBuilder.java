@@ -13,10 +13,12 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * ComputedColumnDefinitionBuilder
  * Use
  * in --Disk-Based CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/3/12.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ComputedColumnDefinitionBuilder<ParentBuilder>
         extends CodeTreeBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ComputedColumnDefinition> {
 
@@ -28,25 +30,48 @@ public class ComputedColumnDefinitionBuilder<ParentBuilder>
         super(new ComputedColumnDefinition());
     }
 
+    /**
+     * set
+     * @param columnName ColumnName
+     * @return THIS
+     */
     public ComputedColumnDefinitionBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
         target.setName(columnName.getName());
         return this;
     }
 
+    /**
+     * set
+     * @param computedColumnExpression Expression
+     * @return THIS
+     */
     public ComputedColumnDefinitionBuilder<ParentBuilder> withComputedColumnExpression(Expression computedColumnExpression) {
         target.setComputedColumnExpression(computedColumnExpression);
         return this;
     }
 
+    /**
+     * set
+     * @param persistedNotNull persisted not null
+     * @return THIS
+     */
     public ComputedColumnDefinitionBuilder<ParentBuilder> withPersistedNotNull(Boolean persistedNotNull) {
         target.setPersistedNotNull(persistedNotNull);
         return this;
     }
 
+    /**
+     * set
+     * @param columnConstraint ColumnConstraint
+     * @return THIS
+     */
     public ComputedColumnDefinitionBuilder<ParentBuilder> withColumnConstraint(ColumnConstraint columnConstraint) {
         target.setConstraint(columnConstraint);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -54,7 +79,7 @@ public class ComputedColumnDefinitionBuilder<ParentBuilder>
 
     /**
      * Quick set
-     * @param computedColumnExpression computedColumnExpression
+     * @param computedColumnExpression Expression
      * @return THIS
      */
     public ComputedColumnDefinitionBuilder<ParentBuilder> $(Expression computedColumnExpression){
@@ -65,7 +90,7 @@ public class ComputedColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ComputedColumnDefinitionBuilder<ParentBuilder> $PERSISTED_NOT_NULL(){
+    public ComputedColumnDefinitionBuilder<ParentBuilder> $PersistedNotNull(){
         return withPersistedNotNull(true);
     }
 
@@ -73,16 +98,16 @@ public class ComputedColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ComputedColumnDefinitionBuilder<ParentBuilder> $PERSISTED(){
+    public ComputedColumnDefinitionBuilder<ParentBuilder> $Persisted(){
         return withPersistedNotNull(false);
     }
 
     /**
-     * Quick into
-     * @param constraintName constraintName
+     * Quick in
+     * @param constraintName constraint name
      * @return ColumnConstraintBuilder
      */
-    public ColumnConstraintBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $CONSTRAINT(String constraintName){
+    public ColumnConstraintBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $Constraint(String constraintName){
         return new ColumnConstraintBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>>
                 (initSet(ColumnConstraint::new,
                         target::getConstraint,
@@ -92,39 +117,40 @@ public class ComputedColumnDefinitionBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $PRIMARY_KEY(){
-        return $CONSTRAINT(null)
-                .$PRIMARY_KEY();
+    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $PrimaryKey(){
+        return $Constraint(null)
+                .$PrimaryKey();
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $UNIQUE(){
-        return $CONSTRAINT(null)
-                .$UNIQUE();
+    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $Unique(){
+        return $Constraint(null)
+                .$Unique();
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnForeignBuilder
      */
-    public Foreigns.ColumnForeignBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $FOREIGN_KEY(){
-        return $CONSTRAINT(null)
-                .$FOREIGN_KEY();
+    public Foreigns.ColumnForeignBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $ForeignKey(){
+        return $Constraint(null)
+                .$ForeignKey();
     }
 
     /**
      * Quick inout set referencedTableName
      * @return ColumnForeignBuilder
      */
-    public Foreigns.ColumnForeignBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $REFERENCES(String referencedTableName, String refColumn){
-        return $CONSTRAINT(null)
-                .$FOREIGN_KEY()
+    public Foreigns.ColumnForeignBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $References(
+            String referencedTableName, String refColumn){
+        return $Constraint(null)
+                .$ForeignKey()
                 .withReferencedTableName(referencedTableName)
                 .withRefColumn(refColumn);
     }
@@ -133,21 +159,22 @@ public class ComputedColumnDefinitionBuilder<ParentBuilder>
      * Quick inout set schemaName,referencedTableName
      * @return ColumnForeignBuilder
      */
-    public Foreigns.ColumnForeignBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $REFERENCES(String schemaName, String referencedTableName, String refColumn){
-        return $CONSTRAINT(null)
-                .$FOREIGN_KEY()
+    public Foreigns.ColumnForeignBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $References(
+            String schemaName, String referencedTableName, String refColumn){
+        return $Constraint(null)
+                .$ForeignKey()
                 .withSchemaName(schemaName)
                 .withReferencedTableName(referencedTableName)
                 .withRefColumn(refColumn);
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return CheckBuilder
      */
-    public CheckBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $CHECK(){
-        return $CONSTRAINT(null)
-                .$CHECK();
+    public CheckBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $Check(){
+        return $Constraint(null)
+                .$Check();
     }
 
 }

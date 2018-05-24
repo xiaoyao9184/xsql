@@ -42,7 +42,7 @@ public class SelectVariableBuilder<ParentBuilder>
     Quick
      */
 
-    public static SelectVariableBuilder<Void> SELECT_V(){
+    public static SelectVariableBuilder<Void> $Select(){
         return new SelectVariableBuilder<>();
     }
 

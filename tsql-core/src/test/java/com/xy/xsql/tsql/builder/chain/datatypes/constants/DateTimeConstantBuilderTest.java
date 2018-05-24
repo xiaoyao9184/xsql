@@ -17,7 +17,6 @@ import static org.junit.Assert.*;
  */
 public class DateTimeConstantBuilderTest {
 
-
     public DatetimeConstant example1 = c_datetime(
             LocalDate.parse("December 5, 1985",
                     DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.US))

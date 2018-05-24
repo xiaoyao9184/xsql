@@ -2,13 +2,11 @@ package com.xy.xsql.tsql.builder.chain.elements.expressions;
 
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Coalesce;
-import com.xy.xsql.tsql.model.elements.operators.Arithmetic;
-import org.junit.Assert;
 import org.junit.Test;
 
-import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
-import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_binary;
-import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_multiplication;
+import static org.junit.Assert.*;
 
 
 /**
@@ -24,16 +22,17 @@ public class CoalesceBuilderTest {
     public void testExampleA(){
         // @formatter:off
         Coalesce coalesce = new CoalesceBuilder<Void>()
-                .withExpression(e("Class"))
-                .withExpression(e("Color"))
-                .withExpression(e("ProductNumber"))
+                .withExpression(
+                        e("Class"),
+                        e("Color"),
+                        e("ProductNumber"))
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(coalesce.getExpressionList().size(),3);
-        Assert.assertEquals(coalesce.getExpressionList().get(0).toString(),"Class");
-        Assert.assertEquals(coalesce.getExpressionList().get(1).toString(),"Color");
-        Assert.assertEquals(coalesce.getExpressionList().get(2).toString(),"ProductNumber");
+        assertEquals(coalesce.getExpressionList().size(),3);
+        assertEquals(coalesce.getExpressionList().get(0).toString(),"Class");
+        assertEquals(coalesce.getExpressionList().get(1).toString(),"Color");
+        assertEquals(coalesce.getExpressionList().get(2).toString(),"ProductNumber");
     }
 
     /**
@@ -46,26 +45,22 @@ public class CoalesceBuilderTest {
         // @formatter:off
         Coalesce coalesce = new CoalesceBuilder<Void>()
                 .withExpression(
-                        e_binary(
+                        e_multiplication(
                                 e("hourly_wage"),
-                                Arithmetic.MULTIPLICATION,
-                                e_number(40),
-                                e_number(52)
-                        )
-                        ,e("salary")
-                        ,e_binary(
+                                e_multiplication(
+                                        e_number(40),
+                                        e_number(52))),
+                        e("salary"),
+                        e_multiplication(
                                 e("commission"),
-                                Arithmetic.MULTIPLICATION,
-                                e("num_sales")
-                        )
-                )
+                                e("num_sales")))
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(coalesce.getExpressionList().size(),3);
-        Assert.assertEquals(coalesce.getExpressionList().get(0).getClass(), BinaryExpression.class);
-        Assert.assertEquals(coalesce.getExpressionList().get(1).toString(),"salary");
-        Assert.assertEquals(coalesce.getExpressionList().get(2).getClass(),BinaryExpression.class);
+        assertEquals(coalesce.getExpressionList().size(),3);
+        assertEquals(coalesce.getExpressionList().get(0).getClass(), BinaryExpression.class);
+        assertEquals(coalesce.getExpressionList().get(1).toString(),"salary");
+        assertEquals(coalesce.getExpressionList().get(2).getClass(),BinaryExpression.class);
     }
 
 

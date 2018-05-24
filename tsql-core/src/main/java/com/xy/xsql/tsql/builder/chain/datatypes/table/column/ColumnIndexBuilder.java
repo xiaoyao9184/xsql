@@ -10,15 +10,16 @@ import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 import java.util.List;
 
 import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * ColumnIndexBuilder
  * Use
  * in --Disk-Based CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/8/18.
  * @param <ParentBuilder>
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ColumnIndexBuilder<ParentBuilder>
         extends CodeTreeBuilder<ColumnIndexBuilder<ParentBuilder>,ParentBuilder,ColumnIndex> {
 
@@ -30,51 +31,94 @@ public class ColumnIndexBuilder<ParentBuilder>
         super(new ColumnIndex());
     }
 
+    /**
+     * set
+     * @param indexName index name
+     * @return THIS
+     */
     public ColumnIndexBuilder<ParentBuilder> withIndexName(String indexName) {
         target.setIndexName(indexName);
         return this;
     }
 
+    /**
+     * set
+     * @param useClustered clustered
+     * @return THIS
+     */
     public ColumnIndexBuilder<ParentBuilder> withUseClustered(Boolean useClustered) {
         target.setUseClustered(useClustered);
         return this;
     }
 
+    /**
+     * set
+     * @param indexOptionList IndexOption
+     * @return THIS
+     */
     public ColumnIndexBuilder<ParentBuilder> withIndexOptionList(List<IndexOption> indexOptionList) {
         target.setIndexOptionList(indexOptionList);
         return this;
     }
 
+    /**
+     * set
+     * @param partition Partition
+     * @return THIS
+     */
     public ColumnIndexBuilder<ParentBuilder> withPartition(Partition partition) {
         target.setPartition(partition);
         return this;
     }
 
-    //TODO not same
+    /**
+     * TODO not same
+     * set
+     * @param fileStreamPartition file stream partition
+     * @return THIS
+     */
     public ColumnIndexBuilder<ParentBuilder> withFileStreamPartition(Partition fileStreamPartition) {
         target.setFileStreamPartition(fileStreamPartition);
         return this;
     }
 
 
+
+
     /*
     Quick
      */
 
-
-    public ColumnIndexBuilder<ParentBuilder> $INDEX(String indexName){
+    /**
+     * Quick set
+     * @param indexName index name
+     * @return THIS
+     */
+    public ColumnIndexBuilder<ParentBuilder> $Index(String indexName){
         return withIndexName(indexName);
     }
 
-    public ColumnIndexBuilder<ParentBuilder> $CLUSTERED(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public ColumnIndexBuilder<ParentBuilder> $Clustered(){
         return withUseClustered(true);
     }
 
-    public ColumnIndexBuilder<ParentBuilder> $NONCLUSTERED(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public ColumnIndexBuilder<ParentBuilder> $Nonclustered(){
         return withUseClustered(false);
     }
 
-    public IndexOptionBuilder<ColumnIndexBuilder<ParentBuilder>> $WITH(){
+    /**
+     * Quick in
+     * @return IndexOptionBuilder
+     */
+    public IndexOptionBuilder<ColumnIndexBuilder<ParentBuilder>> $With(){
         return new IndexOptionBuilder<ColumnIndexBuilder<ParentBuilder>>
                 (initNew(
                         IndexOption::new,
@@ -83,7 +127,11 @@ public class ColumnIndexBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public PartitionBuilder<ColumnIndexBuilder<ParentBuilder>> $ON(){
+    /**
+     * Quick in
+     * @return PartitionBuilder
+     */
+    public PartitionBuilder<ColumnIndexBuilder<ParentBuilder>> $On(){
         return new PartitionBuilder<ColumnIndexBuilder<ParentBuilder>>
                 (initSet(Partition::new,
                         target::getPartition,
@@ -91,7 +139,11 @@ public class ColumnIndexBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public PartitionBuilder<ColumnIndexBuilder<ParentBuilder>> $FILESTREAM_ON(){
+    /**
+     * Quick in
+     * @return PartitionBuilder
+     */
+    public PartitionBuilder<ColumnIndexBuilder<ParentBuilder>> $FilestreamOn(){
         return new PartitionBuilder<ColumnIndexBuilder<ParentBuilder>>
                 (initSet(Partition::new,
                         target::getFileStreamPartition,

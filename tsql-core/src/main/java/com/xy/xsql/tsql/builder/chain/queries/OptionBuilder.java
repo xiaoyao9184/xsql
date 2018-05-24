@@ -16,6 +16,7 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
  * OptionBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
+@SuppressWarnings("WeakerAccess")
 public class OptionBuilder<ParentBuilder>
         extends CodeTreeBuilder<OptionBuilder<ParentBuilder>,ParentBuilder,Option> {
 
@@ -28,6 +29,22 @@ public class OptionBuilder<ParentBuilder>
     }
 
 
+    /**
+     * set
+     * @param queryOption QueryOption
+     * @return THIS
+     */
+    public OptionBuilder<ParentBuilder> withItem(Option.QueryOption queryOption){
+        initAdd(queryOption,
+                this.target::getQueryOption,
+                this.target::setQueryOption);
+        return this;
+    }
+
+    /**
+     * in
+     * @return QueryOptionBuilder
+     */
     public QueryOptionBuilder<OptionBuilder<ParentBuilder>> withItem(){
         initList(this.target::getQueryOption,
                 this.target::setQueryOption);
@@ -36,19 +53,18 @@ public class OptionBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public OptionBuilder<ParentBuilder> withItem(Option.QueryOption queryOption){
-        initAdd(queryOption,
-                this.target::getQueryOption,
-                this.target::setQueryOption);
-        return this;
-    }
 
+
+
+    /*
+    Quick
+     */
 
     /**
      * Quick set QueryOption:QueryHint
      * into QueryOptionBuilder and get-out
-     * @param queryHint
-     * @return
+     * @param queryHint QueryHint
+     * @return THIS
      */
     public OptionBuilder<ParentBuilder> $(QueryHint... queryHint){
         return withItem()
@@ -59,8 +75,8 @@ public class OptionBuilder<ParentBuilder>
     /**
      * Quick set QueryOption:LabelQueryOption
      * into QueryOptionBuilder and get-out
-     * @param labelName
-     * @return
+     * @param labelName label name
+     * @return THIS
      */
     public OptionBuilder<ParentBuilder> $(String labelName){
         return withItem()
@@ -68,6 +84,12 @@ public class OptionBuilder<ParentBuilder>
                 .and();
     }
 
+    /**
+     * uick set QueryOption:LabelQueryOption
+     * into QueryOptionBuilder and get-out
+     * @param labelName label name
+     * @return THIS
+     */
     public OptionBuilder $(StringConstant labelName) {
         return withItem()
                 ._LabelName(labelName)
@@ -89,14 +111,19 @@ public class OptionBuilder<ParentBuilder>
         /**
          * Confirm type of QueryOption
          * And build LabelQueryOption
-         * @param labelName
-         * @return
+         * @param labelName label name
+         * @return THIS
          */
         public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
             target.set(new Option.LabelQueryOption(c_string(labelName)));
             return this;
         }
 
+        /**
+         * set
+         * @param labelName label name
+         * @return THIS
+         */
         public QueryOptionBuilder<ParentBuilder> _LabelName(StringConstant labelName) {
             target.set(new Option.LabelQueryOption(labelName));
             return this;
@@ -105,8 +132,8 @@ public class OptionBuilder<ParentBuilder>
         /**
          * Confirm type of QueryOption
          * And build multiple QueryHint
-         * @param queryHints
-         * @return
+         * @param queryHints QueryHint
+         * @return THIS
          */
         public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
             Arrays.asList(queryHints)

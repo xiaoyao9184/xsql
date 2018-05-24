@@ -6,8 +6,10 @@ import com.xy.xsql.tsql.model.statements.alter.table.AlterTable;
 import com.xy.xsql.tsql.model.statements.alter.table.Item;
 
 /**
+ * AlterTableBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings("unused")
 public class AlterTableBuilder extends CodeBuilder<AlterTable> {
 
     public AlterTableBuilder(AlterTable target) {
@@ -18,28 +20,55 @@ public class AlterTableBuilder extends CodeBuilder<AlterTable> {
         super(new AlterTable());
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public AlterTableBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
         return this;
     }
 
+    /**
+     * set
+     * @param item Item
+     * @return THIS
+     */
     public AlterTableBuilder withItem(Item item){
         target.setItem(item);
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
+    /**
+     * Quick set
+     * @param tableName TableName
+     * @return THIS
+     */
     public AlterTableBuilder $(TableName tableName){
         return withTableName(tableName);
     }
 
+    /**
+     * Quick set
+     * @param item Item
+     * @return THIS
+     */
     public AlterTableBuilder $(Item item){
         return withItem(item);
     }
 
+    /**
+     * Quick set
+     * @return THIS
+     */
     public ItemBuilder<AlterTableBuilder> $(){
         return new ItemBuilder<AlterTableBuilder>
                 (target::setItem)
@@ -48,10 +77,10 @@ public class AlterTableBuilder extends CodeBuilder<AlterTable> {
 
     /**
      * Quick in AlterColumn
-     * @param columnName columnName
+     * @param columnName column name
      * @return AlterColumnBuilder
      */
-    public AlterColumnBuilder<AlterTableBuilder> $ALTER_COLUMN(String columnName){
+    public AlterColumnBuilder<AlterTableBuilder> $AlterColumn(String columnName){
         return $()
                 ._AlterColumn()
                 .withColumnName(columnName);
@@ -61,90 +90,90 @@ public class AlterTableBuilder extends CodeBuilder<AlterTable> {
      * Quick in AlterColumn
      * @return AddBuilder
      */
-    public AddBuilder<AlterTableBuilder> $ADD(){
+    public AddBuilder<AlterTableBuilder> $Add(){
         return $()
-                .$ADD();
+                .$Add();
     }
 
     /**
      * Quick in AlterColumn
      * @return DropBuilder
      */
-    public DropBuilder<AlterTableBuilder> $DROP(){
+    public DropBuilder<AlterTableBuilder> $Drop(){
         return $()
-                .$DROP();
+                .$Drop();
     }
     
     /**
-     * Temp
-     * @return THIS
+     * Quick in Item
+     * @return ItemBuilder
      */
-    public ItemBuilder<AlterTableBuilder> $WITH(){
+    public ItemBuilder<AlterTableBuilder> $With(){
         return $()
-                .$WITH();
+                .$With();
     }
 
     /**
      * Quick in AlterColumn
      * @return AlterConstraintBuilder
      */
-    public AlterConstraintBuilder<AlterTableBuilder> $CHECK(){
+    public AlterConstraintBuilder<AlterTableBuilder> $Check(){
         return $()
-                .$CHECK();
+                .$Check();
     }
 
     /**
      * Quick in AlterColumn
      * @return AlterConstraintBuilder
      */
-    public AlterConstraintBuilder<AlterTableBuilder> $NOCHECK(){
+    public AlterConstraintBuilder<AlterTableBuilder> $Nocheck(){
         return $()
-                .$NOCHECK();
+                .$Nocheck();
     }
 
     /**
      * Quick in AlterPartition
      * @return AlterPartitionBuilder
      */
-    public AlterPartitionBuilder<AlterTableBuilder> $SWITCH(){
+    public AlterPartitionBuilder<AlterTableBuilder> $Switch(){
         return $()
-                .$SWITCH();
+                .$Switch();
     }
 
     /**
      * Quick in Rebuild
      * @return RebuildBuilder
      */
-    public RebuildBuilder<AlterTableBuilder> $REBUILD(){
+    public RebuildBuilder<AlterTableBuilder> $Rebuild(){
         return $()
-                .$REBUILD();
+                .$Rebuild();
     }
 
     /**
      * Quick in ?
      * @return EnableTransformBuilder
      */
-    public ItemBuilder.EnableTransformBuilder<AlterTableBuilder> $ENABLE(){
+    public ItemBuilder.EnableTransformBuilder<AlterTableBuilder> $Enable(){
         return $()
-                .$ENABLE();
+                .$Enable();
     }
 
     /**
      * Quick in ?
      * @return EnableTransformBuilder
      */
-    public ItemBuilder.EnableTransformBuilder<AlterTableBuilder> $DISABLE(){
+    public ItemBuilder.EnableTransformBuilder<AlterTableBuilder> $Disable(){
         return $()
-                .$DISABLE();
+                .$Disable();
     }
 
     /**
      * Quick in ?
      * @return SetTransformBuilder
      */
-    public ItemBuilder.SetTransformBuilder<AlterTableBuilder> $SET(){
+    public ItemBuilder.SetTransformBuilder<AlterTableBuilder> $Set(){
         return $()
-                .$SET();
+                .$Set();
     }
     
 }

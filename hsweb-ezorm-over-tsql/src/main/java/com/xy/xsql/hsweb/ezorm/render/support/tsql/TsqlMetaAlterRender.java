@@ -19,10 +19,10 @@ import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes._user_defined;
+import static com.xy.xsql.tsql.builder.chain.datatypes.DataTypes._user_defined;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.StatementBuilderFactory.ALTER_TABLE;
+import static com.xy.xsql.tsql.builder.chain.statements.alter.Alters.$AlterTable;
 
 public class TsqlMetaAlterRender implements SqlRender<Boolean> {
 
@@ -119,7 +119,7 @@ public class TsqlMetaAlterRender implements SqlRender<Boolean> {
                             .withUseNotNull(column.isNotNull());
 
                     if (column.isPrimaryKey()) {
-                        builder.$PRIMARY_KEY();
+                        builder.$PrimaryKey();
                     }
 
                     return builder.build();
@@ -130,9 +130,9 @@ public class TsqlMetaAlterRender implements SqlRender<Boolean> {
             return;
         }
 
-        AlterTable alterTable = ALTER_TABLE()
+        AlterTable alterTable = $AlterTable()
                 .$(t(table.getName()))
-                .$ADD()
+                .$Add()
                     .withItems(cds)
                     .and()
                 .build();
@@ -157,9 +157,9 @@ public class TsqlMetaAlterRender implements SqlRender<Boolean> {
             return;
         }
 
-        AlterTable alterTableDrop = ALTER_TABLE()
+        AlterTable alterTableDrop = $AlterTable()
                 .$(t(table.getName()))
-                .$DROP()
+                .$Drop()
                 .withItems(dds)
                 .and()
                 .build();
@@ -204,7 +204,7 @@ public class TsqlMetaAlterRender implements SqlRender<Boolean> {
                         }
                     }
 
-                    return ALTER_TABLE()
+                    return $AlterTable()
                             .$(t(table.getName()))
                             .withItem(builder.build())
                             .build();

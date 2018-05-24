@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.queries.select;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.queries.select.Over;
@@ -18,6 +19,7 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  * OverBuilder
  * Created by xiaoyao9184 on 2017/1/17.
  */
+@SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
 public class OverBuilder<ParentBuilder>
         extends CodeTreeBuilder<OverBuilder<ParentBuilder>,ParentBuilder,Over> {
 
@@ -30,6 +32,20 @@ public class OverBuilder<ParentBuilder>
     }
 
 
+    /**
+     * set
+     * @param partitionBy PartitionBy
+     * @return THIS
+     */
+    public OverBuilder<ParentBuilder> withPartitionBy(Over.PartitionBy partitionBy){
+        this.target.setPartitionBy(partitionBy);
+        return this;
+    }
+
+    /**
+     * in
+     * @return PartitionByBuilder
+     */
     public PartitionByBuilder<OverBuilder<ParentBuilder>> withPartitionBy(){
         return new PartitionByBuilder<OverBuilder<ParentBuilder>>
                 (initSet(Over.PartitionBy::new,
@@ -38,6 +54,20 @@ public class OverBuilder<ParentBuilder>
                 .in(this);
     }
 
+    /**
+     * set
+     * @param orderBy OrderBy
+     * @return THIS
+     */
+    public OverBuilder<ParentBuilder> withOrderBy(Over.OrderBy orderBy){
+        this.target.setOrderBy(orderBy);
+        return this;
+    }
+
+    /**
+     * in
+     * @return OrderByBuilder
+     */
     public OrderByBuilder<OverBuilder<ParentBuilder>> withOrderBy(){
         return new OrderByBuilder<OverBuilder<ParentBuilder>>
                 (initSet(Over.OrderBy::new,
@@ -46,6 +76,20 @@ public class OverBuilder<ParentBuilder>
                 .in(this);
     }
 
+    /**
+     * set
+     * @param rowRange RowRange
+     * @return THIS
+     */
+    public OverBuilder<ParentBuilder> withRowRange(Over.RowRange rowRange){
+        this.target.setRowRange(rowRange);
+        return this;
+    }
+
+    /**
+     * in
+     * @return RowRangeBuilder
+     */
     public RowRangeBuilder<OverBuilder<ParentBuilder>> withRowRange(){
         return new RowRangeBuilder<OverBuilder<ParentBuilder>>
                 (initSet(Over.RowRange::new,
@@ -54,15 +98,6 @@ public class OverBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public OverBuilder<ParentBuilder> withPartitionBy(Over.PartitionBy partitionBy){
-        this.target.setPartitionBy(partitionBy);
-        return this;
-    }
-
-    public OverBuilder<ParentBuilder> withRowRange(Over.RowRange rowRange){
-        this.target.setRowRange(rowRange);
-        return this;
-    }
 
 
 
@@ -85,8 +120,8 @@ public class OverBuilder<ParentBuilder>
     /**
      * Quick set orderBy
      * into OrderByBuilder get-out
-     * @param expressions
-     * @return
+     * @param expressions Expression
+     * @return THIS
      */
     public OverBuilder<ParentBuilder> $OrderBy(Expression... expressions){
         OrderBy.Item[] array = Arrays.stream(expressions)
@@ -100,10 +135,10 @@ public class OverBuilder<ParentBuilder>
     /**
      * Quick set orderBy
      * into OrderByBuilder get-out
-     * @param expressions
-     * @return
+     * @param expressions Expression
+     * @return THIS
      */
-    public OverBuilder<ParentBuilder> $OrderBy_Desc(Expression... expressions){
+    public OverBuilder<ParentBuilder> $OrderByDesc(Expression... expressions){
         OrderBy.Item[] array = Arrays.stream(expressions)
                 .map((expression -> {
                     OrderBy.Item orderByItem = new OrderBy.Item();
@@ -117,10 +152,18 @@ public class OverBuilder<ParentBuilder>
                 .and();
     }
 
+    /**
+     * Quick in
+     * @return RowRangeBuilder
+     */
     public RowRangeBuilder<OverBuilder<ParentBuilder>> $Rows() {
         return withRowRange().withRows();
     }
 
+    /**
+     * Quick in
+     * @return RowRangeBuilder
+     */
     public RowRangeBuilder<OverBuilder<ParentBuilder>> $Range() {
         return withRowRange().withRange();
     }
@@ -137,6 +180,11 @@ public class OverBuilder<ParentBuilder>
             super(partitionBy);
         }
 
+        /**
+         * set
+         * @param expressions Expression
+         * @return THIS
+         */
         public PartitionByBuilder<ParentBuilder> withExpression(Expression... expressions){
             if(CheckUtil.isNullOrEmpty(expressions)){
                 return this;
@@ -159,24 +207,26 @@ public class OverBuilder<ParentBuilder>
             super(orderBy);
         }
 
-        public com.xy.xsql.tsql.builder.chain.queries.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItems(){
-            return new com.xy.xsql.tsql.builder.chain.queries.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
-                    (initNew(OrderBy.Item::new,
-                            target::getItems,
-                            target::setItems))
-                    .in(this);
-        }
-
+        /**
+         * sert
+         * @param orderByItems Item
+         * @return THIS
+         */
         public OrderByBuilder<ParentBuilder> withItems(OrderBy.Item... orderByItems){
             if(CheckUtil.isNullOrEmpty(orderByItems)){
                 return this;
             }
             initAdd(Arrays.asList(orderByItems),
-                            target::getItems,
-                            target::setItems);
+                    target::getItems,
+                    target::setItems);
             return this;
         }
 
+        /**
+         * set
+         * @param orderByItems Item
+         * @return THIS
+         */
         public OrderByBuilder<ParentBuilder> withItems(List<OrderBy.Item> orderByItems) {
             if(CheckUtil.isNullOrEmpty(orderByItems)){
                 return this;
@@ -185,6 +235,18 @@ public class OverBuilder<ParentBuilder>
                     target::getItems,
                     target::setItems);
             return this;
+        }
+
+        /**
+         * in
+         * @return OrderByItemBuilder
+         */
+        public com.xy.xsql.tsql.builder.chain.queries.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItems(){
+            return new com.xy.xsql.tsql.builder.chain.queries.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
+                    (initNew(OrderBy.Item::new,
+                            target::getItems,
+                            target::setItems))
+                    .in(this);
         }
     }
 
@@ -199,16 +261,28 @@ public class OverBuilder<ParentBuilder>
             super(rowRange);
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public RowRangeBuilder<ParentBuilder> withRows(){
             target.setUseRows(true);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public RowRangeBuilder<ParentBuilder> withRange(){
             target.setUseRows(false);
             return this;
         }
 
+        /**
+         * in
+         * @return WindowFrameExtentBuilder
+         */
         public WindowFrameExtentBuilder<RowRangeBuilder<ParentBuilder>> withWindowFrameExtent(){
             return new WindowFrameExtentBuilder<RowRangeBuilder<ParentBuilder>>
                     (target::setWindowFrameExtent)
@@ -217,7 +291,7 @@ public class OverBuilder<ParentBuilder>
 
         /**
          * Quick set Preceding WindowFrameExtent
-         * @return
+         * @return PARENT
          */
         public ParentBuilder $UnboundedPreceding() {
             return withWindowFrameExtent()
@@ -229,7 +303,7 @@ public class OverBuilder<ParentBuilder>
 
         /**
          * Quick set Preceding WindowFrameExtent
-         * @return
+         * @return PARENT
          */
         public ParentBuilder $Preceding(Integer unsignedValueSpecification) {
             return withWindowFrameExtent()
@@ -241,7 +315,7 @@ public class OverBuilder<ParentBuilder>
 
         /**
          * Quick set Preceding WindowFrameExtent
-         * @return
+         * @return PARENT
          */
         public ParentBuilder $CurrentRow() {
             return withWindowFrameExtent()
@@ -251,10 +325,9 @@ public class OverBuilder<ParentBuilder>
                     .and();
         }
 
-
         /**
          * Quick set Between WindowFrameExtent
-         * @return
+         * @return WindowFrameBoundBuilder
          */
         public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<RowRangeBuilder<ParentBuilder>>> $Between() {
             return withWindowFrameExtent()
@@ -276,7 +349,7 @@ public class OverBuilder<ParentBuilder>
 
         /**
          * Confirm type of WindowFrameExtent
-         * @return
+         * @return THIS
          */
         public WindowFramePrecedingBuilder<ParentBuilder> _Preceding() {
             Over.WindowFramePreceding preceding = new Over.WindowFramePreceding();
@@ -288,7 +361,7 @@ public class OverBuilder<ParentBuilder>
 
         /**
          * Confirm type of WindowFrameExtent
-         * @return
+         * @return THIS
          */
         public WindowFrameBetweenBuilder<ParentBuilder> _Between() {
             Over.WindowFrameBetween between = new Over.WindowFrameBetween();
@@ -310,12 +383,20 @@ public class OverBuilder<ParentBuilder>
             super(windowFrameBetween);
         }
 
+        /**
+         * in
+         * @return WindowFrameBoundBuilder
+         */
         public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>> withBetweenBound(){
             return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>
                     (target::setBetweenBound)
                     .in(this);
         }
 
+        /**
+         * in
+         * @return WindowFrameBoundBuilder
+         */
         public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>> withAndBound(){
             return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>
                     (target::setAndBound)
@@ -324,8 +405,8 @@ public class OverBuilder<ParentBuilder>
 
 
         /**
-         * Quick set
-         * @return
+         * Quick in
+         * @return WindowFrameBoundBuilder
          */
         public WindowFrameBoundBuilder<ParentBuilder> $And(){
             return new WindowFrameBoundBuilder<ParentBuilder>
@@ -348,52 +429,81 @@ public class OverBuilder<ParentBuilder>
 
         /**
          * Confirm type of WindowFrameBound
-         * @return
+         * @return WindowFramePrecedingBuilder
          */
         public WindowFramePrecedingBuilder<ParentBuilder> _Preceding() {
-            Over.WindowFramePreceding preceding = new Over.WindowFramePreceding();
-            target.set(preceding);
             return new WindowFramePrecedingBuilder<ParentBuilder>
-                    (preceding)
+                    (initSet(Over.WindowFramePreceding::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
 
         /**
          * Confirm type of WindowFrameBound
-         * @return
+         * @return WindowFrameFollowingBuilder
          */
         public WindowFrameFollowingBuilder<ParentBuilder> _Following() {
-            Over.WindowFrameFollowing following = new Over.WindowFrameFollowing();
-            target.set(following);
             return new WindowFrameFollowingBuilder<ParentBuilder>
-                    (following)
+                    (initSet(Over.WindowFrameFollowing::new,
+                            Getter.empty(),
+                            target::set))
                     .in(out());
         }
 
+
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick set
+         * @return PARENT
+         */
         public ParentBuilder $CurrentRow() {
             return _Preceding()
                     .withCurrent()
                     .and();
         }
-        
+
+        /**
+         * Quick set
+         * @return PARENT
+         */
         public ParentBuilder $UnboundedPreceding() {
             return _Preceding()
                     .withUnbounded()
                     .and();
         }
 
+        /**
+         * Quick set
+         * @param unsignedValueSpecification  unsigned value specification
+         * @return PARENT
+         */
         public ParentBuilder $Preceding(Integer unsignedValueSpecification) {
             return _Preceding()
                     .withUnsignedValueSpecification(unsignedValueSpecification)
                     .and();
         }
-        
+
+        /**
+         * Quick set
+         * @return PARENT
+         */
         public ParentBuilder $UnboundedFollowing() {
             return _Following()
                     .withUnbounded()
                     .and();
         }
 
+        /**
+         * Quick set
+         * @param unsignedValueSpecification  unsigned value specification
+         * @return PARENT
+         */
         public ParentBuilder $Following(Integer unsignedValueSpecification) {
             return _Following()
                     .withUnsignedvaluespecification(unsignedValueSpecification)
@@ -413,16 +523,29 @@ public class OverBuilder<ParentBuilder>
             super(windowFramePreceding);
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public WindowFramePrecedingBuilder<ParentBuilder> withUnbounded(){
             target.setUseUnbounded(true);
             return this;
         }
 
+        /**
+         * set
+         * @param unsignedValueSpecification unsigned value specification
+         * @return THIS
+         */
         public WindowFramePrecedingBuilder<ParentBuilder> withUnsignedValueSpecification(Integer unsignedValueSpecification){
             target.setUnsignedvaluespecification(new Over.UnsignedValueSpecification(unsignedValueSpecification));
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public WindowFramePrecedingBuilder<ParentBuilder> withCurrent(){
             target.setUseCurrent(true);
             return this;
@@ -440,16 +563,29 @@ public class OverBuilder<ParentBuilder>
             super(windowFrameFollowing);
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public WindowFrameFollowingBuilder<ParentBuilder> withUnbounded(){
             target.setUseUnbounded(true);
             return this;
         }
 
+        /**
+         * set
+         * @param unsignedValueSpecification unsigned value specification
+         * @return THIS
+         */
         public WindowFrameFollowingBuilder<ParentBuilder> withUnsignedvaluespecification(Integer unsignedValueSpecification){
             target.setUnsignedvaluespecification(new Over.UnsignedValueSpecification(unsignedValueSpecification));
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public WindowFrameFollowingBuilder<ParentBuilder> withCurrent(){
             target.setUseCurrent(false);
             return this;

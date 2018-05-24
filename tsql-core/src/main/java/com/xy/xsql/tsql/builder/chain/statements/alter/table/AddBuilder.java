@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.CheckBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.Foreigns;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.table.TableConstraintBuilder;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
@@ -24,8 +24,10 @@ import java.util.List;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * AddBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused","TypeParameterHidesVisibleType"})
 public class AddBuilder<ParentBuilder>
         extends CodeTreeBuilder<AddBuilder<ParentBuilder>,ParentBuilder,Add> {
 
@@ -33,86 +35,167 @@ public class AddBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param items AddItem
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withItems(List<Add.AddItem> items){
         target.setItems(items);
         return this;
     }
 
+    /**
+     * set
+     * @param items AddItem
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withItems(Add.AddItem... items){
         target.setItems(Arrays.asList(items));
         return this;
     }
 
+    /**
+     * set
+     * @param systemStartTimeColumnName system start time column name
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withSystemStartTimeColumnName(String systemStartTimeColumnName){
         target.setSystemStartTimeColumnName(systemStartTimeColumnName);
         return this;
     }
 
+    /**
+     * set
+     * @param useHidden4StartTime hidden
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withUseHidden4StartTime(boolean useHidden4StartTime){
         target.setUseHidden4StartTime(useHidden4StartTime);
         return this;
     }
 
+    /**
+     * set
+     * @param useNotNull4StartTime not null
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withUseNotNull4StartTime(boolean useNotNull4StartTime){
         target.setUseNotNull4StartTime(useNotNull4StartTime);
         return this;
     }
 
+    /**
+     * set
+     * @param constraintName4StartTime constraint name
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withConstraintName4StartTime(String constraintName4StartTime){
         target.setConstraintName4StartTime(constraintName4StartTime);
         return this;
     }
 
+    /**
+     * set
+     * @param constantExpression4StartTime constant expression
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withConstantExpression4StartTime(Expression constantExpression4StartTime){
         target.setConstantExpression4StartTime(constantExpression4StartTime);
         return this;
     }
 
+    /**
+     * set
+     * @param useWithValues4StartTime with values
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withUseWithValues4StartTime(boolean useWithValues4StartTime){
         target.setUseWithValues4StartTime(useWithValues4StartTime);
         return this;
     }
 
-
+    /**
+     * set
+     * @param systemEndTimeColumnName system end time column name
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withSystemEndTimeColumnName(String systemEndTimeColumnName){
         target.setSystemEndTimeColumnName(systemEndTimeColumnName);
         return this;
     }
 
+    /**
+     * set
+     * @param useHidden4EndTime hidden
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withUseHidden4EndTime(boolean useHidden4EndTime){
         target.setUseHidden4EndTime(useHidden4EndTime);
         return this;
     }
 
+    /**
+     * set
+     * @param useNotNull4EndTime not null
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withUseNotNull4EndTime(boolean useNotNull4EndTime){
         target.setUseNotNull4EndTime(useNotNull4EndTime);
         return this;
     }
 
+    /**
+     * set
+     * @param constraintName4EndTime constraint name
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withConstraintName4EndTime(String constraintName4EndTime){
         target.setConstraintName4EndTime(constraintName4EndTime);
         return this;
     }
 
+    /**
+     * set
+     * @param constantExpression4EndTime constant expression
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withConstantExpression4EndTime(Expression constantExpression4EndTime){
         target.setConstantExpression4EndTime(constantExpression4EndTime);
         return this;
     }
 
+    /**
+     * set
+     * @param useWithValues4EndTime with values
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withUseWithValues4EndTime(boolean useWithValues4EndTime){
         target.setUseWithValues4EndTime(useWithValues4EndTime);
         return this;
     }
 
+    /**
+     * set
+     * @param systemStartTimeColumnName system start time column name
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withSystemStartTimeColumnName4Period(String systemStartTimeColumnName){
         target.setSystemStartTimeColumnName4Period(systemStartTimeColumnName);
         return this;
     }
 
+    /**
+     * set
+     * @param systemEndTimeColumnName system end time column name
+     * @return THIS
+     */
     public AddBuilder<ParentBuilder> withSystemEndTimeColumnName4Period(String systemEndTimeColumnName){
         target.setSystemEndTimeColumnName4Period(systemEndTimeColumnName);
         return this;
     }
+
+
 
 
     /*
@@ -121,7 +204,10 @@ public class AddBuilder<ParentBuilder>
 
     private boolean tempFlagStartEnd;
 
-
+    /**
+     * Quick in
+     * @return AddItemBuilder
+     */
     public AddItemBuilder<AddBuilder<ParentBuilder>> $(){
         return new AddItemBuilder<AddBuilder<ParentBuilder>>
                 ((addItem) -> initAdd(addItem,
@@ -130,17 +216,31 @@ public class AddBuilder<ParentBuilder>
                 .in(this);
     }
 
-    public AddBuilder<ParentBuilder> $GENERATED_ALWAYS_AS_ROW_START(String systemStartTimeColumnName){
+    /**
+     * Quick set
+     * @param systemStartTimeColumnName system start time column name
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $GeneratedAlwaysAsRowStart(String systemStartTimeColumnName){
         tempFlagStartEnd = true;
         return withSystemStartTimeColumnName(systemStartTimeColumnName);
     }
 
-    public AddBuilder<ParentBuilder> $GENERATED_ALWAYS_AS_ROW_END(String systemEndTimeColumnName){
+    /**
+     * Quick set
+     * @param systemEndTimeColumnName system end time column name
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $GeneratedAlwaysAsRowEnd(String systemEndTimeColumnName){
         tempFlagStartEnd = false;
         return withSystemEndTimeColumnName(systemEndTimeColumnName);
     }
 
-    public AddBuilder<ParentBuilder> $HIDDEN(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $Hidden(){
         if(tempFlagStartEnd){
             return withUseHidden4StartTime(true);
         }else{
@@ -148,7 +248,11 @@ public class AddBuilder<ParentBuilder>
         }
     }
 
-    public AddBuilder<ParentBuilder> $NOT_NULL(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $NotNull(){
         if(tempFlagStartEnd){
             return withUseNotNull4StartTime(true);
         }else{
@@ -156,7 +260,12 @@ public class AddBuilder<ParentBuilder>
         }
     }
 
-    public AddBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
+    /**
+     * Quick set
+     * @param constraintName constraint name
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $Constraint(String constraintName){
         if(tempFlagStartEnd){
             return withConstraintName4StartTime(constraintName);
         }else{
@@ -164,7 +273,12 @@ public class AddBuilder<ParentBuilder>
         }
     }
 
-    public AddBuilder<ParentBuilder> $DEFAULT(Expression constantExpression){
+    /**
+     * Quick set
+     * @param constantExpression constant expression
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $Default(Expression constantExpression){
         if(tempFlagStartEnd){
             return withConstantExpression4StartTime(constantExpression);
         }else{
@@ -172,7 +286,11 @@ public class AddBuilder<ParentBuilder>
         }
     }
 
-    public AddBuilder<ParentBuilder> $WITH_VALUES(){
+    /**
+     * Quick set
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $WithValues(){
         if(tempFlagStartEnd){
             return withUseWithValues4StartTime(true);
         }else{
@@ -180,13 +298,22 @@ public class AddBuilder<ParentBuilder>
         }
     }
 
-    public AddBuilder<ParentBuilder> $PERIOD_FOR_SYSTEM_TIME(String systemStartTimeColumnName, String systemEndTimeColumnName){
+    /**
+     * Quick set
+     * @param systemStartTimeColumnName system start time column name
+     * @param systemEndTimeColumnName system end time column name
+     * @return THIS
+     */
+    public AddBuilder<ParentBuilder> $PeriodForSystemTime(String systemStartTimeColumnName, String systemEndTimeColumnName){
         return withSystemStartTimeColumnName4Period(systemStartTimeColumnName)
                 .withSystemEndTimeColumnName4Period(systemEndTimeColumnName);
     }
 
 
-
+    /**
+     * AddItemBuilder
+     * @param <ParentBuilder>
+     */
     public class AddItemBuilder<ParentBuilder>
             extends CodeTreeBuilder<AddItemBuilder<ParentBuilder>,ParentBuilder,Setter<Add.AddItem>> {
 
@@ -194,6 +321,10 @@ public class AddBuilder<ParentBuilder>
             super(target);
         }
 
+        /**
+         * Confirm type of AddItem
+         * @return ColumnDefinitionBuilder
+         */
         public ColumnDefinitionBuilder<ParentBuilder> _ColumnDefinition(){
             ColumnDefinition columnDefinition = new ColumnDefinition();
             target.set(columnDefinition);
@@ -202,6 +333,10 @@ public class AddBuilder<ParentBuilder>
                     .in(out());
         }
 
+        /**
+         * Confirm type of AddItem
+         * @return ComputedColumnDefinitionBuilder
+         */
         public ComputedColumnDefinitionBuilder<ParentBuilder> _ComputedColumnDefinition(){
             ComputedColumnDefinition computedColumnDefinition = new ComputedColumnDefinition();
             target.set(computedColumnDefinition);
@@ -210,6 +345,10 @@ public class AddBuilder<ParentBuilder>
                     .in(out());
         }
 
+        /**
+         * Confirm type of AddItem
+         * @return ColumnSetDefinitionBuilder
+         */
         public ColumnSetDefinitionBuilder<ParentBuilder> _ColumnSetDefinition(){
             ColumnSetDefinition columnSetDefinition = new ColumnSetDefinition();
             target.set(columnSetDefinition);
@@ -218,6 +357,10 @@ public class AddBuilder<ParentBuilder>
                     .in(out());
         }
 
+        /**
+         * Confirm type of AddItem
+         * @return TableConstraintBuilder
+         */
         public TableConstraintBuilder<ParentBuilder> _TableConstraint(){
             TableConstraint tableConstraint = new TableConstraint();
             target.set(tableConstraint);
@@ -225,6 +368,8 @@ public class AddBuilder<ParentBuilder>
                     (tableConstraint)
                     .in(out());
         }
+
+
 
 
         /*
@@ -245,10 +390,10 @@ public class AddBuilder<ParentBuilder>
 
         /**
          * Transform to TableConstraint
-         * @param constraintName constraintName
+         * @param constraintName constraint name
          * @return TableConstraintBuilder
          */
-        public TableConstraintBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
+        public TableConstraintBuilder<ParentBuilder> $Constraint(String constraintName){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
@@ -259,44 +404,44 @@ public class AddBuilder<ParentBuilder>
          * Transform to TableConstraint
          * @return TablePrimaryUniqueBuilder
          */
-        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $PRIMARY_KEY(){
+        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$PRIMARY_KEY();
+                    .$PrimaryKey();
         }
 
         /**
          * Transform to TableConstraint
          * @return TablePrimaryUniqueBuilder
          */
-        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $UNIQUE(){
+        public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $Unique(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$UNIQUE();
+                    .$Unique();
         }
 
         /**
          * Transform to TableConstraint
          * @return TableForeignBuilder
          */
-        public Foreigns.TableForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+        public Foreigns.TableForeignBuilder<ParentBuilder> $ForeignKey(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$FOREIGN_KEY();
+                    .$ForeignKey();
         }
 
         /**
          * Transform to TableConstraint
          * @return CheckBuilder
          */
-        public CheckBuilder<ParentBuilder> $CHECK(){
+        public CheckBuilder<ParentBuilder> $Check(){
             return new TableConstraintBuilder<ParentBuilder>
                     ()
                     .enter(this.out(),cd -> target.set(cd))
-                    .$CHECK();
+                    .$Check();
         }
 
     }
@@ -315,10 +460,18 @@ public class AddBuilder<ParentBuilder>
             super(addItemSetter);
         }
 
+        /**
+         * set
+         * @param columnName ColumnName
+         * @return THIS
+         */
         public ColumnTransformBuilder<ParentBuilder> withColumn(ColumnName columnName) {
             this.columnName = columnName;
             return this;
         }
+
+
+
 
         /*
         Transform
@@ -352,9 +505,9 @@ public class AddBuilder<ParentBuilder>
 
         /**
          * Transform to ColumnSetDefinition
-         * @return ParentBuilder
+         * @return PARENT
          */
-        public ParentBuilder $XML_COLUMN_SET_FOR_ALL_SPARSE_COLUMNS(){
+        public ParentBuilder $XmlColumnSetForAllSparseColumns(){
             return new ColumnSetDefinitionBuilder<ParentBuilder>
                     ()
                     .in(this.out())

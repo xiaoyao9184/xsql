@@ -315,7 +315,7 @@ public enum Keywords {
 
 
         /**
-         * @see com.xy.xsql.tsql.model.datatypes.table.column.DataType
+         * @see com.xy.xsql.tsql.model.datatypes.DataType
          */
         CONTENT, DOCUMENT,
 

@@ -16,6 +16,7 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
  * TableHintBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
+@SuppressWarnings({"WeakerAccess","unused"})
 public class TableHintBuilder<ParentBuilder>
         extends CodeTreeBuilder<TableHintBuilder<ParentBuilder>,ParentBuilder,TableHint> {
 
@@ -28,16 +29,30 @@ public class TableHintBuilder<ParentBuilder>
     }
 
 
+    /**
+     * set
+     * @return THIS
+     */
     public TableHintBuilder<ParentBuilder> withNOEXPAND(){
         target.setUseNOEXPAND(true);
         return this;
     }
 
+    /**
+     * set
+     * @param type Type
+     * @return THIS
+     */
     public TableHintBuilder<ParentBuilder> withType(TableHint.Type type){
         target.setType(type);
         return this;
     }
 
+    /**
+     * set
+     * @param indexValues index value
+     * @return THIS
+     */
     public TableHintBuilder<ParentBuilder> withIndexValue(String... indexValues){
         target.setIndex_value(
                 Arrays.stream(indexValues)
@@ -46,6 +61,11 @@ public class TableHintBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param indexColumnNames index column name
+     * @return THIS
+     */
     public TableHintBuilder<ParentBuilder> withPercent(String... indexColumnNames){
         target.setIndex_column_name(
                 Arrays.stream(indexColumnNames)
@@ -54,6 +74,11 @@ public class TableHintBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param integer integer
+     * @return THIS
+     */
     public TableHintBuilder<ParentBuilder> withInteger(Integer integer){
         target.setInteger(integer);
         return this;
@@ -61,24 +86,25 @@ public class TableHintBuilder<ParentBuilder>
 
 
 
-    /**
-     * Quick in
-     * @return
-     */
-    public static TableHintIndexBuilder<Void> INDEX(){
-        return new TableHintIndexBuilder<>();
-    }
-
 
     /*
     Quick build
+    Quick in
      */
 
     /**
-     * Quick build
-     * @return
+     * Quick in
+     * @return TableHintIndexBuilder
      */
-    public static TableHintBuilder NOEXPAND(){
+    public static TableHintIndexBuilder<Void> $Index(){
+        return new TableHintIndexBuilder<>();
+    }
+
+    /**
+     * Quick in
+     * @return TableHintIndexBuilder
+     */
+    public static TableHintBuilder $Noexpand(){
         return new TableHintBuilder<Void>()
                 .withNOEXPAND();
     }
@@ -88,10 +114,10 @@ public class TableHintBuilder<ParentBuilder>
      * By default an element will NOT enable ONE index_value mode(increase equal(=) symbol),
      * If you want to enable ONE index_value mode(add equal symbol(=)), you can pass a 'null' parameter at position 2
      * like this {@code INDEX('IX_Employee_ManagerID',null)}
-     * Or use {@link #INDEX} like this {@code INDEX().$EQUAL('IX_Employee_ManagerID')}
-     * @return
+     * Or use {@link #$Index} like this {@code INDEX().$EQUAL('IX_Employee_ManagerID')}
+     * @return TableHint
      */
-    public static TableHint INDEX(String... indexValues){
+    public static TableHint $Index(String... indexValues){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.INDEX);
         tableHint.setIndex_value(
@@ -110,9 +136,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint FORCESEEK(String index_value, String... indexColumnNames){
+    public static TableHint $Forceseek(String index_value, String... indexColumnNames){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.FORCESEEK);
         tableHint.setIndex_value(
@@ -126,9 +152,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint FORCESCAN(){
+    public static TableHint $Forcescan(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.FORCESCAN);
         return tableHint;
@@ -136,9 +162,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint FORCESEEK(){
+    public static TableHint $Forceseek(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.FORCESEEK);
         return tableHint;
@@ -146,9 +172,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint HOLDLOCK(){
+    public static TableHint $Holdlock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.HOLDLOCK);
         return tableHint;
@@ -156,9 +182,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint NOLOCK(){
+    public static TableHint $Nolock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.NOLOCK);
         return tableHint;
@@ -166,9 +192,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint NOWAIT(){
+    public static TableHint $Nowait(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.NOWAIT);
         return tableHint;
@@ -176,9 +202,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint PAGLOCK(){
+    public static TableHint $Paglock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.PAGLOCK);
         return tableHint;
@@ -186,9 +212,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint READCOMMITTED(){
+    public static TableHint $Readcommitted(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.READCOMMITTED);
         return tableHint;
@@ -196,9 +222,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint READCOMMITTEDLOCK(){
+    public static TableHint $Readcommittedlock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.READCOMMITTEDLOCK);
         return tableHint;
@@ -206,9 +232,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint READPAST(){
+    public static TableHint $Readpast(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.READPAST);
         return tableHint;
@@ -216,9 +242,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint READUNCOMMITTED(){
+    public static TableHint $Readuncommitted(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.READUNCOMMITTED);
         return tableHint;
@@ -226,9 +252,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint REPEATABLEREAD(){
+    public static TableHint $Repeatableread(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.REPEATABLEREAD);
         return tableHint;
@@ -236,9 +262,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint ROWLOCK(){
+    public static TableHint $Rowlock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.ROWLOCK);
         return tableHint;
@@ -246,9 +272,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint SERIALIZABLE(){
+    public static TableHint $Serializable(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.SERIALIZABLE);
         return tableHint;
@@ -256,9 +282,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint SNAPSHOT(){
+    public static TableHint $Snapshot(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.SNAPSHOT);
         return tableHint;
@@ -266,9 +292,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint SPATIAL_WINDOW_MAX_CELLS(Integer integer){
+    public static TableHint $SpatialWindowMaxCells(Integer integer){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.SPATIAL_WINDOW_MAX_CELLS);
         tableHint.setInteger(integer);
@@ -277,9 +303,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint TABLOCK(){
+    public static TableHint $Tablock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.TABLOCK);
         return tableHint;
@@ -287,9 +313,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint TABLOCKX(){
+    public static TableHint $Tablockx(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.TABLOCKX);
         return tableHint;
@@ -297,9 +323,9 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint UPDLOCK(){
+    public static TableHint $Updlock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.UPDLOCK);
         return tableHint;
@@ -307,16 +333,19 @@ public class TableHintBuilder<ParentBuilder>
 
     /**
      * Quick build
-     * @return
+     * @return TableHint
      */
-    public static TableHint XLOCK(){
+    public static TableHint $Xlock(){
         TableHint tableHint = new TableHint();
         tableHint.setType(TableHint.Type.XLOCK);
         return tableHint;
     }
 
 
-
+    /**
+     * TableHintIndexBuilder
+     * @param <ParentBuilder>
+     */
     public static class TableHintIndexBuilder<ParentBuilder>
             extends CodeTreeBuilder<TableHintIndexBuilder<ParentBuilder>,ParentBuilder,TableHint> {
 
@@ -330,6 +359,11 @@ public class TableHintBuilder<ParentBuilder>
             target.setType(TableHint.Type.INDEX);
         }
 
+        /**
+         * set
+         * @param indexValues index value
+         * @return THIS
+         */
         public TableHintIndexBuilder<ParentBuilder> withIndex_value(String... indexValues){
             target.setIndex_value(
                     Arrays.stream(indexValues)
@@ -339,16 +373,37 @@ public class TableHintBuilder<ParentBuilder>
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public TableHintIndexBuilder<ParentBuilder> withUseOneIndexValue(){
             target.setUseOneIndexValue(true);
             return this;
         }
 
-        public TableHintIndexBuilder<ParentBuilder> $EQUAL(String indexValue){
+        /**
+         * set
+         * @param indexValue index value
+         * @return THIS
+         */
+        public TableHintIndexBuilder<ParentBuilder> $Equal(String indexValue){
             return withUseOneIndexValue()
                     .withIndex_value(indexValue);
         }
 
+
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick build
+         * @param indexValues index value
+         * @return TableHint
+         */
         public TableHint $(String... indexValues){
             return withIndex_value(indexValues)
                     .build();

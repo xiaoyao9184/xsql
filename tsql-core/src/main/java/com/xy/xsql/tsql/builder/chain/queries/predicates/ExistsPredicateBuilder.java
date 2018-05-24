@@ -5,13 +5,11 @@ import com.xy.xsql.tsql.model.queries.predicates.Exists;
 import com.xy.xsql.tsql.model.queries.Select;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * ExistsPredicateBuilder
- *
- * @see Exists
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
+@SuppressWarnings("WeakerAccess")
 public class ExistsPredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<ExistsPredicateBuilder<ParentBuilder>,ParentBuilder,Exists> {
 
@@ -23,8 +21,13 @@ public class ExistsPredicateBuilder<ParentBuilder>
         super(predicate);
     }
 
-    public ExistsPredicateBuilder<ParentBuilder> withSubQuery(Select subquery) {
-        target.setSubquery(subquery);
+    /**
+     * set
+     * @param subQuery Select
+     * @return THIS
+     */
+    public ExistsPredicateBuilder<ParentBuilder> withSubQuery(Select subQuery) {
+        target.setSubquery(subQuery);
         return this;
     }
 

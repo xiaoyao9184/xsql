@@ -1,19 +1,20 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
+import com.xy.xsql.tsql.builder.chain.statements.create.CreateViewBuilder;
 import com.xy.xsql.tsql.model.statements.create.CreateView;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
-import static com.xy.xsql.tsql.builder.chain.queries.SelectBuilder.SELECT;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_equal;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_greater;
-import static com.xy.xsql.tsql.builder.chain.statements.CreateViewBuilder.CREATE_VIEW;
-import static com.xy.xsql.tsql.builder.chain.statements.CreateViewBuilder.ENCRYPTION;
-import static com.xy.xsql.tsql.builder.chain.statements.CreateViewBuilder.SCHEMABINDING;
+import static com.xy.xsql.tsql.builder.chain.statements.create.Creates.$CreateView;
+import static com.xy.xsql.tsql.builder.chain.statements.create.Creates.$Encryption;
+import static com.xy.xsql.tsql.builder.chain.statements.create.Creates.$Schemabinding;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/8/4.
@@ -33,7 +34,7 @@ public class CreateViewBuilderTest {
     FROM HumanResources.Employee e
     JOIN Person.Person AS p ON e.BusinessEntityID = p.BusinessEntityID
      */
-    public Select selectA = SELECT()
+    public Select selectA = $Select()
             .$Select()
                 .$(c("p","FirstName"))
                 .$(c("p","LastName"))
@@ -54,13 +55,13 @@ public class CreateViewBuilderTest {
                 .and()
             .build();
 
-    public CreateView exampleA = CREATE_VIEW(selectA,"hiredate_view");
+    public CreateView exampleA = $CreateView(selectA,"hiredate_view");
     // @formatter:on
 
     @Test
     public void testExampleA(){
-        Assert.assertEquals(exampleA.getViewName(),"hiredate_view");
-        Assert.assertEquals(exampleA.getSelectStatement(),selectA);
+        assertEquals(exampleA.getViewName(),"hiredate_view");
+        assertEquals(exampleA.getSelectStatement(),selectA);
     }
 
     // @formatter:off
@@ -72,9 +73,9 @@ public class CreateViewBuilderTest {
         RejectedQty / ReceivedQty AS RejectRatio, DueDate
     FROM Purchasing.PurchaseOrderDetail
     WHERE RejectedQty / ReceivedQty > 0
-    AND DueDate > CONVERT(DATETIME,'20010630',101)
+    $AND DueDate > CONVERT(DATETIME,'20010630',101)
      */
-    public Select selectB = SELECT()
+    public Select selectB = $Select()
             .$Select()
                 .$(c("PurchaseOrderID"))
                 .$(c("ReceivedQty"))
@@ -100,15 +101,15 @@ public class CreateViewBuilderTest {
     public CreateView exampleB = new CreateViewBuilder()
             .$View("Purchasing","PurchaseOrderReject")
             .$As(selectB)
-            .$With(ENCRYPTION())
+            .$With($Encryption())
             .build();
     // @formatter:on
 
     @Test
     public void testExampleB(){
-        Assert.assertEquals(exampleB.getSchemaName(),"Purchasing");
-        Assert.assertEquals(exampleB.getViewName(),"PurchaseOrderReject");
-        Assert.assertEquals(exampleB.getSelectStatement(),selectB);
+        assertEquals(exampleB.getSchemaName(),"Purchasing");
+        assertEquals(exampleB.getViewName(),"PurchaseOrderReject");
+        assertEquals(exampleB.getSelectStatement(),selectB);
     }
 
     // @formatter:off
@@ -128,7 +129,7 @@ public class CreateViewBuilderTest {
     WHERE a.City = 'Seattle'
     WITH CHECK OPTION
      */
-    public Select selectC = SELECT()
+    public Select selectC = $Select()
             .$Select()
                 .$(c("p","LastName"))
                 .$(c("p","FirstName"))
@@ -138,7 +139,7 @@ public class CreateViewBuilderTest {
                 .$From()
                     .$()
                         .$(t("HumanResources","Employee"),"e")
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Person","Person"),"p")
                         .$On()
                             .$(p_equal(
@@ -146,7 +147,7 @@ public class CreateViewBuilderTest {
                                     c("e","BusinessEntityID")
                             ))
                             .and()
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Person","BusinessEntityAddress"),"bea")
                         .$On()
                             .$(p_equal(
@@ -154,7 +155,7 @@ public class CreateViewBuilderTest {
                                     c("e","BusinessEntityID")
                             ))
                             .and()
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Person","Address"),"a")
                         .$On()
                             .$(p_equal(
@@ -162,7 +163,7 @@ public class CreateViewBuilderTest {
                                     c("bea","AddressID")
                             ))
                             .and()
-                        .$Inner_Join()
+                        .$InnerJoin()
                         .$(t("Person","StateProvince"),"sp")
                         .$On()
                             .$(p_equal(
@@ -184,16 +185,16 @@ public class CreateViewBuilderTest {
     public CreateView exampleC = new CreateViewBuilder()
             .$View("dbo","SeattleOnly")
             .$As(selectC)
-            .$With_Check_Option()
+            .$WithCheckOption()
             .build();
     // @formatter:on
 
     @Test
     public void testExampleC(){
-        Assert.assertEquals(exampleC.getSchemaName(),"dbo");
-        Assert.assertEquals(exampleC.getViewName(),"SeattleOnly");
-        Assert.assertEquals(exampleC.getSelectStatement(),selectC);
-        Assert.assertEquals(exampleC.isUseCheckOption(),true);
+        assertEquals(exampleC.getSchemaName(),"dbo");
+        assertEquals(exampleC.getViewName(),"SeattleOnly");
+        assertEquals(exampleC.getSelectStatement(),selectC);
+        assertEquals(exampleC.isUseCheckOption(),true);
     }
 
     // @formatter:off
@@ -205,7 +206,7 @@ public class CreateViewBuilderTest {
     WHERE OrderDate > CONVERT(DATETIME,'20001231',101)
     GROUP BY SalesPersonID
      */
-    public Select selectD = SELECT()
+    public Select selectD = $Select()
             .$Select()
                 .$Top()
                     .$(e_number(100))
@@ -235,9 +236,9 @@ public class CreateViewBuilderTest {
 
     @Test
     public void testExampleD(){
-        Assert.assertEquals(exampleD.getSchemaName(),"Sales");
-        Assert.assertEquals(exampleD.getViewName(),"SalesPersonPerform");
-        Assert.assertEquals(exampleD.getSelectStatement(),selectD);
+        assertEquals(exampleD.getSchemaName(),"Sales");
+        assertEquals(exampleD.getViewName(),"SalesPersonPerform");
+        assertEquals(exampleD.getSelectStatement(),selectD);
     }
 
     // @formatter:off
@@ -257,7 +258,7 @@ public class CreateViewBuilderTest {
     SELECT supplyID, supplier
       FROM dbo.SUPPLY4
      */
-    public Select selectE = SELECT()
+    public Select selectE = $Select()
             .$()
                 .$Select()
                     .$(c("supplyID"))
@@ -266,21 +267,21 @@ public class CreateViewBuilderTest {
                         .$(t("dbo","SUPPLY1"))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("supplyID"))
                     .$(c("supplier"))
                     .$From()
                         .$(t("dbo","SUPPLY2"))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("supplyID"))
                     .$(c("supplier"))
                     .$From()
                         .$(t("dbo","SUPPLY3"))
                         .and()
                     .and()
-                .$Union_All_Select()
+                .$UnionAllSelect()
                     .$(c("supplyID"))
                     .$(c("supplier"))
                     .$From()
@@ -292,16 +293,16 @@ public class CreateViewBuilderTest {
 
     public CreateView exampleE = new CreateViewBuilder()
             .$View("dbo","all_supplier_view")
-            .$With(SCHEMABINDING())
+            .$With($Schemabinding())
             .$As(selectE)
             .build();
     // @formatter:on
 
     @Test
     public void testExampleE(){
-        Assert.assertEquals(exampleE.getSchemaName(),"dbo");
-        Assert.assertEquals(exampleE.getViewName(),"all_supplier_view");
-        Assert.assertEquals(exampleE.getSelectStatement(),selectE);
+        assertEquals(exampleE.getSchemaName(),"dbo");
+        assertEquals(exampleE.getViewName(),"all_supplier_view");
+        assertEquals(exampleE.getSelectStatement(),selectE);
     }
 
 }

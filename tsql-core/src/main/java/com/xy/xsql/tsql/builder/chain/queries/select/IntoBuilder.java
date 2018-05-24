@@ -10,6 +10,7 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
  * IntoBuilder
  * Created by xiaoyao9184 on 2017/6/21.
  */
+@SuppressWarnings("WeakerAccess")
 public class IntoBuilder<ParentBuilder>
         extends CodeTreeBuilder<IntoBuilder<ParentBuilder>,ParentBuilder,Into> {
 
@@ -21,11 +22,21 @@ public class IntoBuilder<ParentBuilder>
         super(into);
     }
 
+    /**
+     * set
+     * @param tableName TableName
+     * @return THIS
+     */
     public IntoBuilder<ParentBuilder> withNewTable(TableName tableName){
         target.setNewTable(tableName);
         return this;
     }
 
+    /**
+     * set
+     * @param fileGroup file group
+     * @return THIS
+     */
     public IntoBuilder<ParentBuilder> withFileGroup(String fileGroup){
         target.setFileGroup(e(fileGroup));
         return this;

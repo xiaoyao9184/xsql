@@ -8,8 +8,8 @@ import com.xy.xsql.tsql.converter.datatypes.table.column.ColumnSetDefinitionConv
 import com.xy.xsql.tsql.converter.datatypes.table.column.ComputedColumnDefinitionConverter;
 import com.xy.xsql.tsql.converter.datatypes.table.table.TableConstraintConverters;
 import com.xy.xsql.tsql.model.elements.Keywords;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
 import com.xy.xsql.tsql.model.elements.Other;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
 import com.xy.xsql.tsql.model.datatypes.table.column.ComputedColumnDefinition;
@@ -47,7 +47,7 @@ public class AddConverter
                                     .sub("system_start_time_column_name")
                                         .scope(d -> d.getSystemStartTimeColumnName())
                                         .and()
-                                    .sub_keyword(DataType.Synonyms._datetime2)
+                                    .sub_keyword(DataType.Keywords.datetime2)
                                     .sub_keyword(Keywords.Key.GENERATED)
                                     .sub_keyword(Keywords.Key.ALWAYS)
                                     .sub_keyword(Keywords.AS)
@@ -95,7 +95,7 @@ public class AddConverter
                                     .sub("system_end_time_column_name")
                                         .scope(d -> d.getSystemEndTimeColumnName())
                                         .and()
-                                    .sub_keyword(DataType.Synonyms._datetime2)
+                                    .sub_keyword(DataType.Keywords.datetime2)
                                     .sub_keyword(Keywords.Key.GENERATED)
                                     .sub_keyword(Keywords.Key.ALWAYS)
                                     .sub_keyword(Keywords.AS)

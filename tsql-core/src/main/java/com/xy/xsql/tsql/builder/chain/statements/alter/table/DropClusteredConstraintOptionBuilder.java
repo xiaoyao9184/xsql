@@ -11,8 +11,10 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_integer;
 
 /**
+ * DropClusteredConstraintOptionBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class DropClusteredConstraintOptionBuilder<ParentBuilder>
         extends CodeTreeBuilder<DropClusteredConstraintOptionBuilder<ParentBuilder>,ParentBuilder,DropClusteredConstraintOption> {
 
@@ -20,42 +22,77 @@ public class DropClusteredConstraintOptionBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param maxDegreeOfParallelism max degree of parallelism
+     * @return THIS
+     */
     public DropClusteredConstraintOptionBuilder<ParentBuilder> withMaxDegreeOfParallelism(NumberConstant maxDegreeOfParallelism){
         target.setMaxDegreeOfParallelism(maxDegreeOfParallelism);
         return this;
     }
 
+    /**
+     * set
+     * @param online OnOff
+     * @return THIS
+     */
     public DropClusteredConstraintOptionBuilder<ParentBuilder> withOnline(OnOff online){
         target.setOnline(online);
         return this;
     }
 
+    /**
+     * set
+     * @param moveTo Partition
+     * @return THIS
+     */
     public DropClusteredConstraintOptionBuilder<ParentBuilder> withMoveTo(Partition moveTo){
         target.setMoveTo(moveTo);
         return this;
     }
 
+
+
+
     /*
     Quick
      */
 
-    public ParentBuilder $MAXDOP(Integer maxDegreeOfParallelism){
+    /**
+     * Quick set
+     * @param maxDegreeOfParallelism max degree of parallelism
+     * @return PARENT
+     */
+    public ParentBuilder $Maxdop(Integer maxDegreeOfParallelism){
         return withMaxDegreeOfParallelism(
                 c_unsigned_integer(maxDegreeOfParallelism))
                 .out();
     }
 
-    public ParentBuilder $ONLINE_ON(){
+    /**
+     * Quick set
+     * @return PARENT
+     */
+    public ParentBuilder $OnlineOn(){
         return withOnline(OnOff.ON)
                 .out();
     }
 
-    public ParentBuilder $ONLINE_OFF(){
+    /**
+     * Quick set
+     * @return PARENT
+     */
+    public ParentBuilder $OnlineOff(){
         return withOnline(OnOff.OFF)
                 .out();
     }
 
-    public PartitionBuilder<ParentBuilder> $MOVE_TO(){
+    /**
+     * Quick set
+     * @return PARENT
+     */
+    public PartitionBuilder<ParentBuilder> $MoveTo(){
         return new PartitionBuilder<ParentBuilder>
                 (initSet(Partition::new,
                         target::getMoveTo,

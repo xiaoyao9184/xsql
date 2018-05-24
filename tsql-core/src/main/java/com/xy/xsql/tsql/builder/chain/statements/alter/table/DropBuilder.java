@@ -10,8 +10,10 @@ import java.util.*;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * DropBuilder
  * Created by xiaoyao9184 on 2017/9/16.
  */
+@SuppressWarnings({"WeakerAccess", "unused","TypeParameterHidesVisibleType"})
 public class DropBuilder<ParentBuilder>
         extends CodeTreeBuilder<DropBuilder<ParentBuilder>,ParentBuilder,Drop> {
 
@@ -19,22 +21,37 @@ public class DropBuilder<ParentBuilder>
         super(target);
     }
 
+    /**
+     * set
+     * @param items DropItem
+     * @return THIS
+     */
     public DropBuilder<ParentBuilder> withItems(List<Drop.DropItem> items){
         target.setItems(items);
         return this;
     }
 
+    /**
+     * set
+     * @param items DropItem
+     * @return THIS
+     */
     public DropBuilder<ParentBuilder> withItems(Drop.DropItem... items){
         target.setItems(Arrays.asList(items));
         return this;
     }
 
 
+
+
     /*
     Quick
      */
 
-
+    /**
+     * Quick in
+     * @return DropItemBuilder
+     */
     public DropItemBuilder<DropBuilder<ParentBuilder>> $(){
         return new DropItemBuilder<DropBuilder<ParentBuilder>>
                 ((dropItem) -> initAdd(dropItem,
@@ -45,7 +62,7 @@ public class DropBuilder<ParentBuilder>
 
 
     /**
-     * DropItemBuilder
+     * Abstract DropItemBuilder
      * @param <ParentBuilder>
      */
     public class DropItemBuilder<ParentBuilder>
@@ -55,6 +72,10 @@ public class DropBuilder<ParentBuilder>
             super(target);
         }
 
+        /**
+         * Confirm type of DropItem
+         * @return DropConstraintBuilder
+         */
         public DropConstraintBuilder<ParentBuilder> _DropConstraint(){
             Drop.DropConstraint item = new Drop.DropConstraint();
             target.set(item);
@@ -63,6 +84,10 @@ public class DropBuilder<ParentBuilder>
                     .in(out());
         }
 
+        /**
+         * Confirm type of DropItem
+         * @return DropColumnBuilder
+         */
         public DropColumnBuilder<ParentBuilder> _DropColumn(){
             Drop.DropColumn item = new Drop.DropColumn();
             target.set(item);
@@ -71,11 +96,17 @@ public class DropBuilder<ParentBuilder>
                     .in(out());
         }
 
+        /**
+         * Confirm type of PeriodSystemTime
+         * @return PARENT
+         */
         public ParentBuilder _PeriodSystemTime(){
             Drop.PeriodSystemTime item = new Drop.PeriodSystemTime();
             target.set(item);
             return out();
         }
+
+
 
 
         /*
@@ -86,7 +117,7 @@ public class DropBuilder<ParentBuilder>
          * Transform to DropConstraint
          * @return DropConstraintBuilder
          */
-        public DropConstraintBuilder<ParentBuilder> $CONSTRAINT(){
+        public DropConstraintBuilder<ParentBuilder> $Constraint(){
             return _DropConstraint();
         }
 
@@ -94,16 +125,15 @@ public class DropBuilder<ParentBuilder>
          * Transform to DropColumn
          * @return DropColumnBuilder
          */
-        public DropColumnBuilder<ParentBuilder> $COLUMN(){
+        public DropColumnBuilder<ParentBuilder> $Column(){
             return _DropColumn();
         }
 
-
         /**
          * Transform to PeriodSystemTime
-         * @return ParentBuilder
+         * @return PARENT
          */
-        public ParentBuilder $PERIOD_FOR_SYSTEM_TIME(){
+        public ParentBuilder $PeriodForSystemTime(){
             return _PeriodSystemTime();
         }
 
@@ -117,25 +147,42 @@ public class DropBuilder<ParentBuilder>
     public static class DropConstraintBuilder<ParentBuilder>
             extends CodeTreeBuilder<DropConstraintBuilder<ParentBuilder>,ParentBuilder,Drop.DropConstraint> {
 
-
         public DropConstraintBuilder(Drop.DropConstraint tar) {
             super(tar);
         }
 
+        /**
+         * set
+         * @param useConstraint constraint
+         * @return THIS
+         */
         public DropConstraintBuilder<ParentBuilder> withUseConstraint(boolean useConstraint) {
             target.setUseConstraint(useConstraint);
             return this;
         }
 
+        /**
+         * set
+         * @param useIfExists if exists
+         * @return THIS
+         */
         public DropConstraintBuilder<ParentBuilder> withUseIfExists(boolean useIfExists) {
             target.setUseIfExists(useIfExists);
             return this;
         }
 
+        /**
+         * set
+         * @param constraintNameWithOptionList DropClusteredConstraintOption
+         * @return THIS
+         */
         public DropConstraintBuilder<ParentBuilder> withConstraintNameWithOptionList(List<Map.Entry<String,List<DropClusteredConstraintOption>>> constraintNameWithOptionList) {
             target.setConstraintNameWithOptionList(constraintNameWithOptionList);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -145,7 +192,7 @@ public class DropBuilder<ParentBuilder>
          * Quick set
          * @return THIS
          */
-        public DropConstraintBuilder<ParentBuilder> $CONSTRAINT() {
+        public DropConstraintBuilder<ParentBuilder> $Constraint() {
             return withUseConstraint(true);
         }
 
@@ -153,13 +200,13 @@ public class DropBuilder<ParentBuilder>
          * Quick set
          * @return THIS
          */
-        public DropConstraintBuilder<ParentBuilder> $IF_EXISTS() {
+        public DropConstraintBuilder<ParentBuilder> $IfExists() {
             return withUseIfExists(true);
         }
 
         /**
          * Quick in
-         * @param constraintName constraintName
+         * @param constraintName constraint name
          * @return THIS
          */
         public ConstraintNameWithOptionOptionBuilder<DropConstraintBuilder<ParentBuilder>> $(String constraintName){
@@ -180,7 +227,6 @@ public class DropBuilder<ParentBuilder>
     public static class DropColumnBuilder<ParentBuilder>
             extends CodeTreeBuilder<DropColumnBuilder<ParentBuilder>,ParentBuilder,Drop.DropColumn> {
 
-
         public DropColumnBuilder(Drop.DropColumn tar) {
             super(tar);
         }
@@ -189,20 +235,38 @@ public class DropBuilder<ParentBuilder>
             super(new Drop.DropColumn());
         }
 
+        /**
+         * set
+         * @param useIfExists if exists
+         * @return THIS
+         */
         public DropColumnBuilder<ParentBuilder> withUseIfExists(boolean useIfExists) {
             target.setUseIfExists(useIfExists);
             return this;
         }
 
+        /**
+         * set
+         * @param names name
+         * @return THIS
+         */
         public DropColumnBuilder<ParentBuilder> withItems(List<String> names){
             target.setColumnNames(names);
             return this;
         }
 
+        /**
+         * set
+         * @param names name
+         * @return THIS
+         */
         public DropColumnBuilder<ParentBuilder> withItems(String... names){
             target.setColumnNames(Arrays.asList(names));
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -212,7 +276,7 @@ public class DropBuilder<ParentBuilder>
          * Quick set
          * @return THIS
          */
-        public DropColumnBuilder<ParentBuilder> $IF_EXISTS() {
+        public DropColumnBuilder<ParentBuilder> $IfExists() {
             return withUseIfExists(true);
         }
 
@@ -242,15 +306,28 @@ public class DropBuilder<ParentBuilder>
             super(new AbstractMap.SimpleEntry<>(constraintName, new LinkedList<>()));
         }
 
+        /**
+         * set
+         * @param dropClusteredConstraintOptions DropClusteredConstraintOption
+         * @return THIS
+         */
         public ConstraintNameWithOptionOptionBuilder<ParentBuilder> with(DropClusteredConstraintOption... dropClusteredConstraintOptions) {
             target.setValue(Arrays.asList(dropClusteredConstraintOptions));
             return this;
         }
 
+        /**
+         * set
+         * @param dropClusteredConstraintOptionList DropClusteredConstraintOption
+         * @return THIS
+         */
         public ConstraintNameWithOptionOptionBuilder<ParentBuilder> with(List<DropClusteredConstraintOption> dropClusteredConstraintOptionList) {
             target.setValue(dropClusteredConstraintOptionList);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -260,7 +337,7 @@ public class DropBuilder<ParentBuilder>
          * Quick set
          * @return THIS
          */
-        public DropClusteredConstraintOptionBuilder<ConstraintNameWithOptionOptionBuilder<ParentBuilder>> $WITH() {
+        public DropClusteredConstraintOptionBuilder<ConstraintNameWithOptionOptionBuilder<ParentBuilder>> $With() {
             return new DropClusteredConstraintOptionBuilder<ConstraintNameWithOptionOptionBuilder<ParentBuilder>>
                     (initAdd(new DropClusteredConstraintOption(),
                             target::getValue,

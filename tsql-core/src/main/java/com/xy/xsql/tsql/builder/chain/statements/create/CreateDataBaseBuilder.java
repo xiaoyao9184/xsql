@@ -1,11 +1,13 @@
-package com.xy.xsql.tsql.builder.chain.statements;
+package com.xy.xsql.tsql.builder.chain.statements.create;
 
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
 
 /**
+ * CreateDataBaseBuilder
  * Created by xiaoyao9184 on 2017/8/3.
  */
+@SuppressWarnings("unused")
 public class CreateDataBaseBuilder extends CodeBuilder<CreateDataBase> {
 
     public CreateDataBaseBuilder(CreateDataBase tar) {
@@ -16,16 +18,29 @@ public class CreateDataBaseBuilder extends CodeBuilder<CreateDataBase> {
         super(new CreateDataBase());
     }
 
+    /**
+     * set
+     * @param dbName db name
+     * @return THIS
+     */
     public CreateDataBaseBuilder withDBName(String dbName){
         target.setDatabaseName(dbName);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public CreateDataBaseBuilder withContainmentNone(){
         target.setUseContainmentNone(true);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public CreateDataBaseBuilder withContainmentPartial(){
         target.setUseContainmentPartial(true);
         return this;
@@ -33,22 +48,18 @@ public class CreateDataBaseBuilder extends CodeBuilder<CreateDataBase> {
 
 
 
+
+    /*
+    Quick
+     */
+
+    /**
+     * Quick set
+     * @param name name
+     * @return THIS
+     */
     public CreateDataBaseBuilder $(String name) {
         return withDBName(name);
     }
 
-    /*
-    Quick build
-     */
-
-    /**
-     * Quick build Create DataBase
-     * @param name the last is new name
-     * @return
-     */
-    public static CreateDataBase CREATE_DATABASE(String name){
-        return new CreateDataBaseBuilder()
-                .withDBName(name)
-                .build();
-    }
 }

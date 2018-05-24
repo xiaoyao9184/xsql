@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.queries.predicates.FreeText;
 
@@ -12,13 +13,11 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 
 /**
- * Created by xiaoyao9184 on 2017/3/16.
- *
  * FreeTextPredicateBuilder
- *
- * @see FreeText
+ * Created by xiaoyao9184 on 2017/3/16.
  * @param <ParentBuilder>
  */
+@SuppressWarnings("WeakerAccess")
 public class FreeTextPredicateBuilder<ParentBuilder>
         extends CodeTreeBuilder<FreeTextPredicateBuilder<ParentBuilder>,ParentBuilder,FreeText> {
 
@@ -30,16 +29,31 @@ public class FreeTextPredicateBuilder<ParentBuilder>
         super(predicate);
     }
 
+    /**
+     * set
+     * @param columnName column name
+     * @return THIS
+     */
     public FreeTextPredicateBuilder<ParentBuilder> withColumnName(String columnName) {
         target.setColumnName(c(columnName));
         return this;
     }
 
+    /**
+     * set
+     * @param columnName ColumnName
+     * @return THIS
+     */
     public FreeTextPredicateBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
         target.setColumnName(columnName);
         return this;
     }
 
+    /**
+     * set
+     * @param columnNames column name
+     * @return THIS
+     */
     public FreeTextPredicateBuilder<ParentBuilder> withColumn(String... columnNames) {
         target.setColumnList(
                 Arrays.stream(columnNames)
@@ -48,18 +62,42 @@ public class FreeTextPredicateBuilder<ParentBuilder>
         return this;
     }
 
+    /**
+     * set
+     * @param columnNames ColumnName
+     * @return THIS
+     */
     public FreeTextPredicateBuilder<ParentBuilder> withColumn(List<ColumnName> columnNames) {
         target.setColumnList(columnNames);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public FreeTextPredicateBuilder<ParentBuilder> withAllColumn() {
         target.setUseAllColumn(true);
         return this;
     }
 
+    /**
+     * set
+     * @param freetextString freetext string
+     * @return THIS
+     */
     public FreeTextPredicateBuilder<ParentBuilder> withFreeText(String freetextString) {
         target.setFreetextString(e_string(freetextString));
+        return this;
+    }
+
+    /**
+     * set
+     * @param freetextString freetext string
+     * @return THIS
+     */
+    public FreeTextPredicateBuilder<ParentBuilder> withFreeText(StringConstant freetextString) {
+        target.setFreetextString(freetextString);
         return this;
     }
 

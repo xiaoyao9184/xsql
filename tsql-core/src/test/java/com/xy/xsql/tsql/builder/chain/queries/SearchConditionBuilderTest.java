@@ -9,13 +9,12 @@ import com.xy.xsql.tsql.model.queries.predicates.Like;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.*;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -25,8 +24,8 @@ public class SearchConditionBuilderTest {
     // @formatter:off
     /**
      * WHERE
-        ( Name > '1' AND Name > '2')
-        AND ( Name = '3' AND Name = '4' )
+        ( Name > '1' $AND Name > '2')
+        $AND ( Name = '3' $AND Name = '4' )
      */
     public SearchCondition useGroupTransform = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
@@ -61,21 +60,21 @@ public class SearchConditionBuilderTest {
     /**
      * WHERE
         CONTAINS ( A , 'aaa' )
-        AND FREETEXT ( A , 'aaa' )
+        $AND FREETEXT ( A , 'aaa' )
      */
     public SearchCondition useTransform = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
                 .$child()
                     .$Contains(c("A"))
                         .$("aaa")
-                    .$And_FreeText(c("A"))
+                    .$AndFreeText(c("A"))
                         .$("aaa")
                     .and()
                 .get();
     // @formatter:on
 
     /**
-     * WHERE CountryRegionCode == ALL ( subquery ) ;
+     * WHERE CountryRegionCode == $ALL ( subquery ) ;
      */
     @Test
     public void testALLSOMEANY(){
@@ -89,14 +88,14 @@ public class SearchConditionBuilderTest {
                 ))
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
+        assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
         ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
+        assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
     }
 
     /**
-     * WHERE CountryRegionCode == ALL ( subquery ) AND CountryRegionCode = 20;
+     * WHERE CountryRegionCode == $ALL ( subquery ) $AND CountryRegionCode = 20;
      */
     @Test
     public void testAnd(){
@@ -114,19 +113,19 @@ public class SearchConditionBuilderTest {
                 ))
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
+        assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
         ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
+        assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
 
-        Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
+        assertEquals(searchCondition.getAndOrList().size(), 1);
         Comparison predicate1 = (Comparison) searchCondition.getAndOrList().get(0).getPredicate();
-        Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate1.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
+        assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
+        assertEquals(predicate1.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
     }
 
     /**
-     * WHERE CountryRegionCode == ALL ( subquery ) AND NOT ( CountryRegionCode > 20 AND CountryRegionCode < 50);
+     * WHERE CountryRegionCode == $ALL ( subquery ) $AND NOT ( CountryRegionCode > 20 $AND CountryRegionCode < 50);
      */
     @Test
     public void testAndAnd(){
@@ -136,7 +135,7 @@ public class SearchConditionBuilderTest {
                 .withPredicate()._ComparisonSubQuery()
                     .withExpression(e("CountryRegionCode"))
                     .withOperator(com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL)
-                    .withALL_SOME_ANY(ComparisonSubQuery.ALL_SOME_ANY.ALL)
+                    .withAllSomeAny(ComparisonSubQuery.ALL_SOME_ANY.ALL)
                     .withSubQuery(select)
                     .and()
                 .withAndOrNotItem()
@@ -174,21 +173,21 @@ public class SearchConditionBuilderTest {
 //                    .and()
                 .build();
         // @formatter:on
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
+        assertEquals(searchCondition.getPredicate().getClass(), ComparisonSubQuery.class);
         ComparisonSubQuery predicate = (ComparisonSubQuery) searchCondition.getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
+        assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        assertEquals(predicate.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL);
 
 
-        Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
+        assertEquals(searchCondition.getAndOrList().size(), 1);
         Comparison predicate1 = (Comparison) searchCondition.getAndOrList().get(0).getSearchCondition().getPredicate();
-        Assert.assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate1.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.GREATER);
+        assertEquals(predicate1.getExpression().toString(), "CountryRegionCode");
+        assertEquals(predicate1.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.GREATER);
 
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().size(), 1);
+        assertEquals(searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().size(), 1);
         Comparison predicate2 = (Comparison) searchCondition.getAndOrList().get(0).getSearchCondition().getAndOrList().get(0).getPredicate();
-        Assert.assertEquals(predicate2.getExpression().toString(), "CountryRegionCode");
-        Assert.assertEquals(predicate2.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.LESS);
+        assertEquals(predicate2.getExpression().toString(), "CountryRegionCode");
+        assertEquals(predicate2.getOperator(), com.xy.xsql.tsql.model.elements.operators.Comparison.LESS);
 
     }
 
@@ -227,19 +226,19 @@ public class SearchConditionBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
+        assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "LargePhotoFileName");
-        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%greena_%");
-        Assert.assertEquals(predicate.getEscapeCharacter().getString(), "a");
+        assertEquals(predicate.getExpression().toString(), "LargePhotoFileName");
+        assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%greena_%");
+        assertEquals(predicate.getEscapeCharacter().getString(), "a");
 
-        Assert.assertEquals(exampleA.getPredicate().getClass(), Like.class);
+        assertEquals(exampleA.getPredicate().getClass(), Like.class);
         Like predicate2 = (Like) exampleA.getPredicate();
-        Assert.assertEquals(predicate2.getExpression().toString(), "LargePhotoFileName");
-        Assert.assertTrue(predicate2.getLikeExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)predicate2.getLikeExpression()).getString(), "%greena_%");
-        Assert.assertEquals(predicate2.getEscapeCharacter().getString(), "a");
+        assertEquals(predicate2.getExpression().toString(), "LargePhotoFileName");
+        assertTrue(predicate2.getLikeExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)predicate2.getLikeExpression()).getString(), "%greena_%");
+        assertEquals(predicate2.getEscapeCharacter().getString(), "a");
     }
 
 
@@ -247,7 +246,7 @@ public class SearchConditionBuilderTest {
     //parent+quick
     /**
      * CountryRegionCode NOT IN ('US')
-     AND City LIKE N'Pa%' ;
+     $AND City LIKE N'Pa%' ;
      */
     public SearchCondition exampleB = new MockParentBuilder<SearchConditionBuilder<MockParent<SearchCondition>>,SearchCondition>
                 (SearchConditionBuilder.class,SearchCondition.class)
@@ -290,18 +289,18 @@ public class SearchConditionBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), In.class);
+        assertEquals(searchCondition.getPredicate().getClass(), In.class);
         In predicate = (In) searchCondition.getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
-        Assert.assertTrue(predicate.getExpressionList().get(0) instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)predicate.getExpressionList().get(0)).getString(), "US");
+        assertEquals(predicate.getExpression().toString(), "CountryRegionCode");
+        assertTrue(predicate.getExpressionList().get(0) instanceof StringConstant);
+        assertEquals(((StringConstant)predicate.getExpressionList().get(0)).getString(), "US");
 
-        Assert.assertEquals(searchCondition.getAndOrList().size(), 1);
-        Assert.assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getClass(), Like.class);
+        assertEquals(searchCondition.getAndOrList().size(), 1);
+        assertEquals(searchCondition.getAndOrList().get(0).getPredicate().getClass(), Like.class);
         Like predicate1 = (Like) searchCondition.getAndOrList().get(0).getPredicate();
-        Assert.assertEquals(predicate1.getExpression().toString(), "City");
-        Assert.assertTrue(predicate1.getLikeExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)predicate1.getLikeExpression()).getString(), "Pa%");
+        assertEquals(predicate1.getExpression().toString(), "City");
+        assertTrue(predicate1.getLikeExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)predicate1.getLikeExpression()).getString(), "Pa%");
     }
 
 
@@ -337,11 +336,11 @@ public class SearchConditionBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
+        assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%and%");
+        assertEquals(predicate.getExpression().toString(), "LastName");
+        assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%and%");
     }
 
 
@@ -372,11 +371,11 @@ public class SearchConditionBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(searchCondition.getPredicate().getClass(), Like.class);
+        assertEquals(searchCondition.getPredicate().getClass(), Like.class);
         Like predicate = (Like) searchCondition.getPredicate();
-        Assert.assertEquals(predicate.getExpression().toString(), "LastName");
-        Assert.assertTrue(predicate.getLikeExpression() instanceof StringConstant);
-        Assert.assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%and%");
+        assertEquals(predicate.getExpression().toString(), "LastName");
+        assertTrue(predicate.getLikeExpression() instanceof StringConstant);
+        assertEquals(((StringConstant)predicate.getLikeExpression()).getString(), "%and%");
     }
 
 }

@@ -4,11 +4,13 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
 
 /**
+ * HashBucketCountColumnIndexBuilder
  * Use
  * in --Memory optimized CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/8/18.
  * @param <ParentBuilder>
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class HashBucketCountColumnIndexBuilder<ParentBuilder>
         extends CodeTreeBuilder<HashBucketCountColumnIndexBuilder<ParentBuilder>,ParentBuilder,ColumnIndex> {
 
@@ -20,20 +22,36 @@ public class HashBucketCountColumnIndexBuilder<ParentBuilder>
         super(new ColumnIndex());
     }
 
+    /**
+     * set
+     * @param indexName index name
+     * @return THIS
+     */
     public HashBucketCountColumnIndexBuilder<ParentBuilder> withIndexName(String indexName) {
         target.setIndexName(indexName);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public HashBucketCountColumnIndexBuilder<ParentBuilder> withUseClustered() {
         target.setUseClustered(false);
         return this;
     }
 
+    /**
+     * set
+     * @param bucketCount bucket count
+     * @return THIS
+     */
     public HashBucketCountColumnIndexBuilder<ParentBuilder> withBucketCount(Integer bucketCount) {
         target.setBucketCount(bucketCount);
         return this;
     }
+
+
 
 
     /*
@@ -45,7 +63,7 @@ public class HashBucketCountColumnIndexBuilder<ParentBuilder>
      * @param indexName indexName
      * @return THIS
      */
-    public HashBucketCountColumnIndexBuilder<ParentBuilder> $INDEX(String indexName){
+    public HashBucketCountColumnIndexBuilder<ParentBuilder> $Index(String indexName){
         return withIndexName(indexName);
     }
 
@@ -53,16 +71,16 @@ public class HashBucketCountColumnIndexBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public HashBucketCountColumnIndexBuilder<ParentBuilder> $NONCLUSTERED(){
+    public HashBucketCountColumnIndexBuilder<ParentBuilder> $Nonclustered(){
         return withUseClustered();
     }
 
     /**
      * Quick set
-     * @param bucketCount bucketCount
+     * @param bucketCount bucket count
      * @return THIS
      */
-    public HashBucketCountColumnIndexBuilder<ParentBuilder> $HASH_WITH_BUCKET_COUNT(Integer bucketCount){
+    public HashBucketCountColumnIndexBuilder<ParentBuilder> $HashWithBucketCount(Integer bucketCount){
         return withBucketCount(bucketCount);
     }
 

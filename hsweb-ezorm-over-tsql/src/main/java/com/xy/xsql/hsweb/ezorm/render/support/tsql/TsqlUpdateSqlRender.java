@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 import static com.xy.xsql.jdbc.PlaceholderExpressionFactory.placeholder;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.queries.UpdateBuilder.UPDATE;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Update;
 
 /**
  * Created by xiaoyao9184 on 2017/9/14.
@@ -33,7 +33,7 @@ public class TsqlUpdateSqlRender extends CommentSupportRender<UpdateParam> {
         List<Object> params = cv.getValue();
         Update.SetItem[] values = getValues(cv.getKey());
 
-        Update update = UPDATE()
+        Update update = $Update()
                 .$(t(metaData.getName()))
                 .$(metaData.getAlias())
                 .$Set(values)

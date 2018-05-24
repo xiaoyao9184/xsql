@@ -8,6 +8,7 @@ import com.xy.xsql.tsql.model.queries.Top;
  * TopBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
+@SuppressWarnings("WeakerAccess")
 public class TopBuilder<ParentBuilder>
         extends CodeTreeBuilder<TopBuilder<ParentBuilder>,ParentBuilder,Top> {
 
@@ -20,16 +21,29 @@ public class TopBuilder<ParentBuilder>
     }
 
 
+    /**
+     * set
+     * @param countExpression Count Expression
+     * @return THIS
+     */
     public TopBuilder<ParentBuilder> withExpression(Expression countExpression){
         target.setExpression(countExpression);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public TopBuilder<ParentBuilder> withPercent(){
         target.setUsePercent(true);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public TopBuilder<ParentBuilder> withTies(){
         target.setUseTies(true);
         return this;
@@ -44,9 +58,9 @@ public class TopBuilder<ParentBuilder>
 
     /**
      * Quick set countExpression,percent,ties
-     * @param countExpression
-     * @param percent_ties
-     * @return
+     * @param countExpression Count Expression
+     * @param percent_ties percent and ties
+     * @return THIS
      */
     public TopBuilder<ParentBuilder> $(Expression countExpression, boolean... percent_ties){
         target.setExpression(countExpression);
@@ -69,9 +83,9 @@ public class TopBuilder<ParentBuilder>
     /**
      * Quick build
      * And get-out
-     * @param countExpression
-     * @param percent_ties
-     * @return
+     * @param countExpression Count Expression
+     * @param percent_ties percent and ties
+     * @return PARENT
      */
     public ParentBuilder $_(Expression countExpression, boolean... percent_ties){
         return $(countExpression,percent_ties)

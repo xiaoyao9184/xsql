@@ -97,7 +97,7 @@ public class DataTypeConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DataType.FractionalSecondsPrecisionDataType>()
-                        .description("type[ (fractional seconds precision) ]")
+                        .description("type_name[ (fractional seconds precision) ]")
                         .sub()
                             .description("type name")
                             .scope(d -> d.name())
@@ -127,7 +127,7 @@ public class DataTypeConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DataType.FractionalSecondsScaleDataType>()
-                        .description("type[ (fractional seconds scale) ]")
+                        .description("type_name[ (fractional seconds scale) ]")
                         .sub()
                             .description("type name")
                             .scope(d -> d.name())
@@ -157,7 +157,7 @@ public class DataTypeConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DataType.PrecisionScaleDataType>()
-                        .description("type[ (p[ ,s] )]")
+                        .description("type_name[ (p[ ,s] )]")
                         .sub()
                             .description("type name")
                             .scope(d -> d.name())
@@ -194,7 +194,7 @@ public class DataTypeConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DataType.FixedLengthDataType>()
-                        .description("type[ ( n ) ]")
+                        .description("type_name[ ( n ) ]")
                         .sub()
                             .description("type name")
                             .scope(d -> d.name())
@@ -224,7 +224,7 @@ public class DataTypeConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DataType.MaxFixedLengthDataType>()
-                        .description("type[ ( n | max) ]")
+                        .description("type_name[ ( n | max) ]")
                         .sub()
                             .description("type name")
                             .scope(d -> d.name())

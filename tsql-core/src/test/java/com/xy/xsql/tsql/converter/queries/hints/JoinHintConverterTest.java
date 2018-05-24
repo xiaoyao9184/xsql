@@ -38,15 +38,15 @@ public class JoinHintConverterTest {
         model2StringMap = new LinkedHashMap<>();
 
         model2StringMap.put(
-                HASH(),
+                $Hash(),
                 "HASH");
 
         model2StringMap.put(
-                LOOP(),
+                $Loop(),
                 "LOOP");
 
         model2StringMap.put(
-                MERGE(),
+                $Merge(),
                 "MERGE");
 
     }

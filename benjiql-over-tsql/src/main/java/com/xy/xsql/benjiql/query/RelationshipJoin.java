@@ -110,7 +110,7 @@ public class RelationshipJoin<T,U>
 
                     Comparison comparison = new Comparison();
                     comparison.setExpression(fromColumnName);
-                    comparison.setOperator(Operators.EQUAL);
+                    comparison.setOperator(Operators.$Equal);
                     comparison.setOperatorExpression(toColumnName);
                     return comparison;
                 })

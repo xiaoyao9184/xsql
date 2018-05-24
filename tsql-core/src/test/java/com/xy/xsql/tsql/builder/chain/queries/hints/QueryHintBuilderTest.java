@@ -2,12 +2,12 @@ package com.xy.xsql.tsql.builder.chain.queries.hints;
 
 import com.xy.xsql.tsql.model.queries.hints.QueryHint;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.*;
 import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.OptimizeForBuilder.*;
 import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.*;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/12.
@@ -18,7 +18,7 @@ public class QueryHintBuilderTest {
     /**
      * MERGE JOIN
      */
-    public QueryHint exampleA = MERGE_JOIN();
+    public QueryHint exampleA = $MergeJoin();
     // @formatter:on
 
     @Test
@@ -27,7 +27,7 @@ public class QueryHintBuilderTest {
                 .withType(QueryHint.Type.MERGE_JOIN)
                 .build();
 
-        Assert.assertEquals(queryHint.getType(),QueryHint.Type.MERGE_JOIN);
+        assertEquals(queryHint.getType(),QueryHint.Type.MERGE_JOIN);
     }
 
 
@@ -35,15 +35,15 @@ public class QueryHintBuilderTest {
     /**
      * OPTIMIZE FOR (@city_name = 'Seattle', @postal_code UNKNOWN)
      */
-    public QueryHint exampleB = OPTIMIZE_FOR(
-                OPTIMIZE_FOR_Item("city_name",false,"Seattle"),
-                OPTIMIZE_FOR_Item("postal_code",true,null));
+    public QueryHint exampleB = $OptimizeFor(
+                $OptimizeForItem("city_name",false,"Seattle"),
+                $OptimizeForItem("postal_code",true,null));
     // @formatter:on
 
     @Test
     public void testExampleB() {
-        Assert.assertEquals(exampleB.getType(),QueryHint.Type.OPTIMIZE_FOR);
-        Assert.assertEquals(exampleB.getOptimizeFor().size(),2);
+        assertEquals(exampleB.getType(),QueryHint.Type.OPTIMIZE_FOR);
+        assertEquals(exampleB.getOptimizeFor().size(),2);
     }
 
 
@@ -51,13 +51,13 @@ public class QueryHintBuilderTest {
     /**
      * MAXRECURSION 2
      */
-    public QueryHint exampleC = MAXRECURSION(2);
+    public QueryHint exampleC = $Maxrecursion(2);
     // @formatter:on
 
     @Test
     public void testExampleC() {
-        Assert.assertEquals(exampleC.getType(),QueryHint.Type.MAXRECURSION);
-        Assert.assertEquals(exampleC.getNumber().intValue(),2);
+        assertEquals(exampleC.getType(),QueryHint.Type.MAXRECURSION);
+        assertEquals(exampleC.getNumber().intValue(),2);
     }
 
 
@@ -65,12 +65,12 @@ public class QueryHintBuilderTest {
     /**
      * MERGE UNION
      */
-    public QueryHint exampleD = MERGE_UNION();
+    public QueryHint exampleD = $MergeUnion();
     // @formatter:on
 
     @Test
     public void testExampleD() {
-        Assert.assertEquals(exampleD.getType(),QueryHint.Type.MERGE_UNION);
+        assertEquals(exampleD.getType(),QueryHint.Type.MERGE_UNION);
     }
 
 
@@ -78,19 +78,19 @@ public class QueryHintBuilderTest {
     /**
      * HASH GROUP
      */
-    public QueryHint exampleE1 = HASH_GROUP();
+    public QueryHint exampleE1 = $HashGroup();
 
     /**
      * FAST 10
      */
-    public QueryHint exampleE2 = FAST(10);
+    public QueryHint exampleE2 = $Fast(10);
     // @formatter:on
 
     @Test
     public void testExampleE() {
-        Assert.assertEquals(exampleE1.getType(),QueryHint.Type.HASH_GROUP);
-        Assert.assertEquals(exampleE2.getType(),QueryHint.Type.FAST);
-        Assert.assertEquals(exampleE2.getNumberRows().intValue(),10);
+        assertEquals(exampleE1.getType(),QueryHint.Type.HASH_GROUP);
+        assertEquals(exampleE2.getType(),QueryHint.Type.FAST);
+        assertEquals(exampleE2.getNumberRows().intValue(),10);
     }
 
 
@@ -98,13 +98,13 @@ public class QueryHintBuilderTest {
     /**
      * MAXDOP 2
      */
-    public QueryHint exampleF = MAXDOP(2);
+    public QueryHint exampleF = $Maxdop(2);
     // @formatter:on
 
     @Test
     public void testExampleF() {
-        Assert.assertEquals(exampleF.getType(),QueryHint.Type.MAXDOP);
-        Assert.assertEquals(exampleF.getNumberOfProcessors().intValue(),2);
+        assertEquals(exampleF.getType(),QueryHint.Type.MAXDOP);
+        assertEquals(exampleF.getNumberOfProcessors().intValue(),2);
     }
 
 
@@ -112,28 +112,28 @@ public class QueryHintBuilderTest {
     /**
      * TABLE HINT(e, INDEX (IX_Employee_ManagerID))
      */
-    public QueryHint exampleG1 = TABLE_HINT(
+    public QueryHint exampleG1 = $TableHint(
                 "e",
-                INDEX("IX_Employee_ManagerID"));
+                $Index("IX_Employee_ManagerID"));
 
     /**
      * TABLE HINT(e, INDEX(PK_Employee_EmployeeID, IX_Employee_ManagerID))
      */
-    public QueryHint exampleG2 = TABLE_HINT(
+    public QueryHint exampleG2 = $TableHint(
             "e",
-            INDEX("PK_Employee_EmployeeID","IX_Employee_ManagerID"));
+            $Index("PK_Employee_EmployeeID","IX_Employee_ManagerID"));
     // @formatter:on
 
     @Test
     public void testExampleG() {
-        Assert.assertEquals(exampleG1.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleG1.getTableHintList().size(),1);
-        Assert.assertEquals(exampleG1.getTableHintList().get(0).getIndex_value().get(0).toString(),"IX_Employee_ManagerID");
+        assertEquals(exampleG1.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleG1.getTableHintList().size(),1);
+        assertEquals(exampleG1.getTableHintList().get(0).getIndex_value().get(0).toString(),"IX_Employee_ManagerID");
 
-        Assert.assertEquals(exampleG2.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleG2.getTableHintList().size(),1);
-        Assert.assertEquals(exampleG2.getTableHintList().get(0).getIndex_value().get(0).toString(),"PK_Employee_EmployeeID");
-        Assert.assertEquals(exampleG2.getTableHintList().get(0).getIndex_value().get(1).toString(),"IX_Employee_ManagerID");
+        assertEquals(exampleG2.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleG2.getTableHintList().size(),1);
+        assertEquals(exampleG2.getTableHintList().get(0).getIndex_value().get(0).toString(),"PK_Employee_EmployeeID");
+        assertEquals(exampleG2.getTableHintList().get(0).getIndex_value().get(1).toString(),"IX_Employee_ManagerID");
     }
 
 
@@ -141,16 +141,16 @@ public class QueryHintBuilderTest {
     /**
      * TABLE HINT( HumanResources.Employee, FORCESEEK)
      */
-    public QueryHint exampleH = TABLE_HINT(
+    public QueryHint exampleH = $TableHint(
                 "HumanResources.Employee",
-                FORCESEEK());
+                $Forceseek());
     // @formatter:on
 
     @Test
     public void testExampleH() {
-        Assert.assertEquals(exampleH.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleH.getTableHintList().size(),1);
-        Assert.assertEquals(exampleH.getTableHintList().get(0).getType(), TableHint.Type.FORCESEEK);
+        assertEquals(exampleH.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleH.getTableHintList().size(),1);
+        assertEquals(exampleH.getTableHintList().get(0).getType(), TableHint.Type.FORCESEEK);
     }
 
 
@@ -158,96 +158,96 @@ public class QueryHintBuilderTest {
     /**
      * TABLE HINT (e, INDEX( IX_Employee_ManagerID))
      */
-    public QueryHint exampleI1 = TABLE_HINT(
+    public QueryHint exampleI1 = $TableHint(
                 "e",
-                INDEX("IX_Employee_ManagerID"));
+                $Index("IX_Employee_ManagerID"));
 
     /**
      * TABLE HINT (c, FORCESEEK)
      */
-    public QueryHint exampleI2 = TABLE_HINT(
+    public QueryHint exampleI2 = $TableHint(
             "c",
-            FORCESEEK());
+            $Forceseek());
     // @formatter:on
 
     @Test
     public void testExampleI() {
-        Assert.assertEquals(exampleI1.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleI1.getTableHintList().size(),1);
-        Assert.assertEquals(exampleI1.getTableHintList().get(0).getType(), TableHint.Type.INDEX);
-        Assert.assertEquals(exampleI1.getTableHintList().get(0).getIndex_value().get(0).toString(),"IX_Employee_ManagerID");
+        assertEquals(exampleI1.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleI1.getTableHintList().size(),1);
+        assertEquals(exampleI1.getTableHintList().get(0).getType(), TableHint.Type.INDEX);
+        assertEquals(exampleI1.getTableHintList().get(0).getIndex_value().get(0).toString(),"IX_Employee_ManagerID");
 
-        Assert.assertEquals(exampleI2.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleI2.getTableHintList().size(),1);
-        Assert.assertEquals(exampleI2.getTableHintList().get(0).getType(), TableHint.Type.FORCESEEK);
+        assertEquals(exampleI2.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleI2.getTableHintList().size(),1);
+        assertEquals(exampleI2.getTableHintList().get(0).getType(), TableHint.Type.FORCESEEK);
     }
 
     // @formatter:off
     /**
      * TABLE HINT(e)
      */
-    public QueryHint exampleJ = TABLE_HINT("e");
+    public QueryHint exampleJ = $TableHint("e");
     // @formatter:on
 
     @Test
     public void testExampleJ() {
-        Assert.assertEquals(exampleJ.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleJ.getExposedObjectName(),"e");
-        Assert.assertNull(exampleJ.getTableHintList());
+        assertEquals(exampleJ.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleJ.getExposedObjectName(),"e");
+        assertNull(exampleJ.getTableHintList());
     }
 
     // @formatter:off
     /**
      * TABLE HINT (e, INDEX(IX_Employee_ManagerID), NOLOCK, FORCESEEK)
      */
-    public QueryHint exampleK1 = TABLE_HINT(
+    public QueryHint exampleK1 = $TableHint(
                 "e",
-                INDEX("IX_Employee_ManagerID"),
-                NOLOCK(),
-                FORCESEEK());
+                $Index("IX_Employee_ManagerID"),
+                $Nolock(),
+                $Forceseek());
 
     /**
      * TABLE HINT (e, NOLOCK)
      */
-    public QueryHint exampleK2 = TABLE_HINT(
+    public QueryHint exampleK2 = $TableHint(
             "e",
-            NOLOCK());
+            $Nolock());
     // @formatter:on
 
     @Test
     public void testExampleK() {
-        Assert.assertEquals(exampleK1.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleK1.getExposedObjectName(),"e");
-        Assert.assertEquals(exampleK1.getTableHintList().size(),3);
-        Assert.assertEquals(exampleK1.getTableHintList().get(0).getType(), TableHint.Type.INDEX);
-        Assert.assertEquals(exampleK1.getTableHintList().get(1).getType(), TableHint.Type.NOLOCK);
-        Assert.assertEquals(exampleK1.getTableHintList().get(2).getType(), TableHint.Type.FORCESEEK);
+        assertEquals(exampleK1.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleK1.getExposedObjectName(),"e");
+        assertEquals(exampleK1.getTableHintList().size(),3);
+        assertEquals(exampleK1.getTableHintList().get(0).getType(), TableHint.Type.INDEX);
+        assertEquals(exampleK1.getTableHintList().get(1).getType(), TableHint.Type.NOLOCK);
+        assertEquals(exampleK1.getTableHintList().get(2).getType(), TableHint.Type.FORCESEEK);
 
-        Assert.assertEquals(exampleK2.getType(),QueryHint.Type.TABLE_HINT);
-        Assert.assertEquals(exampleK2.getExposedObjectName(),"e");
-        Assert.assertEquals(exampleK2.getTableHintList().size(),1);
-        Assert.assertEquals(exampleK2.getTableHintList().get(0).getType(), TableHint.Type.NOLOCK);
+        assertEquals(exampleK2.getType(),QueryHint.Type.TABLE_HINT);
+        assertEquals(exampleK2.getExposedObjectName(),"e");
+        assertEquals(exampleK2.getTableHintList().size(),1);
+        assertEquals(exampleK2.getTableHintList().get(0).getType(), TableHint.Type.NOLOCK);
     }
 
     // @formatter:off
     /**
      * RECOMPILE
      */
-    public QueryHint exampleL1 = RECOMPILE();
+    public QueryHint exampleL1 = $Recompile();
 
     /**
      * USE HINT ('ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES', 'DISABLE_PARAMETER_SNIFFING')
      */
-    public QueryHint exampleL2 = USE_HINT("ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES", "DISABLE_PARAMETER_SNIFFING");
+    public QueryHint exampleL2 = $UseHint("ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES", "DISABLE_PARAMETER_SNIFFING");
     // @formatter:on
 
     @Test
     public void testExampleL() {
-        Assert.assertEquals(exampleL1.getType(),QueryHint.Type.RECOMPILE);
-        Assert.assertEquals(exampleL2.getType(),QueryHint.Type.USE_HINT);
-        Assert.assertEquals(exampleL2.getHintNameList().size(),2);
-        Assert.assertEquals(exampleL2.getHintNameList().get(0).getString(),"ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES");
-        Assert.assertEquals(exampleL2.getHintNameList().get(1).getString(),"DISABLE_PARAMETER_SNIFFING");
+        assertEquals(exampleL1.getType(),QueryHint.Type.RECOMPILE);
+        assertEquals(exampleL2.getType(),QueryHint.Type.USE_HINT);
+        assertEquals(exampleL2.getHintNameList().size(),2);
+        assertEquals(exampleL2.getHintNameList().get(0).getString(),"ASSUME_MIN_SELECTIVITY_FOR_FILTER_ESTIMATES");
+        assertEquals(exampleL2.getHintNameList().get(1).getString(),"DISABLE_PARAMETER_SNIFFING");
     }
 
 }

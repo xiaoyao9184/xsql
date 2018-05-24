@@ -4,7 +4,6 @@ import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.statements.Merge;
 import com.xy.xsql.tsql.model.queries.Select;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
@@ -13,11 +12,12 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_$action;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_deleted;
 import static com.xy.xsql.tsql.builder.chain.queries.OutputBuilder.c_inserted;
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
-import static com.xy.xsql.tsql.builder.chain.queries.TableValueConstructorBuilder.VALUES;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Values;
 import static com.xy.xsql.tsql.builder.chain.queries.UpdateBuilder.SetItemBuilder.s;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.*;
-import static com.xy.xsql.tsql.builder.chain.statements.MergeBuilder.MERGE;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$Merge;
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/1/11.
@@ -76,7 +76,7 @@ public class MergeBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(merge.getTargetTable().toString(),"table");
+        assertEquals(merge.getTargetTable().toString(),"table");
     }
     /**
      * MERGE INTO table AS t USING table2
@@ -118,7 +118,7 @@ public class MergeBuilderTest {
                     .and()
                 .build();
 
-        Assert.assertEquals(merge.getTableAlias().toString(),"t");
+        assertEquals(merge.getTableAlias().toString(),"t");
     }
 
 
@@ -128,7 +128,7 @@ public class MergeBuilderTest {
      */
 
     // @formatter:off
-    private Select.QuerySpecification queryA = QUERY()
+    private Select.QuerySpecification queryA = $Query()
             .$(c("@UnitMeasureCode"))
             .$(c("@Name"))
             .build();
@@ -145,7 +145,7 @@ public class MergeBuilderTest {
      VALUES (source.UnitMeasureCode, source.Name)
      OUTPUT deleted.*, $action, inserted.* INTO #MyTempTable
      */
-    public Merge exampleA = MERGE()
+    public Merge exampleA = $Merge()
                 .$(t("Production","UnitMeasure"))
                 .$As("target")
                 .$Using()
@@ -157,14 +157,14 @@ public class MergeBuilderTest {
                             c("source","UnitMeasureCode")
                     ))
                     .and()
-                .$When_Matched()
+                .$WhenMatched()
                     .$Then()
-                        .$Update_Set(
+                        .$UpdateSet(
                                 s(c("Name"),
                                         c("source","Name"))
                         )
                     .and()
-                .$When_Not_Matched()
+                .$WhenNotMatched()
                     .$Then()
                         .$Insert(c("UnitMeasureCode"),c("Name"))
                         .$Values()
@@ -186,15 +186,15 @@ public class MergeBuilderTest {
 
     @Test
     public void testExampleA(){
-        Assert.assertEquals(exampleA.getTargetTable().toString(),"Production.UnitMeasure");
-        Assert.assertEquals(exampleA.getTableAlias().toString(),"target");
-        Assert.assertEquals(exampleA.getMatchedWhenThenList().size(),1);
-        Assert.assertNotNull(exampleA.getNotMatchedWhenThenTarget());
+        assertEquals(exampleA.getTargetTable().toString(),"Production.UnitMeasure");
+        assertEquals(exampleA.getTableAlias().toString(),"target");
+        assertEquals(exampleA.getMatchedWhenThenList().size(),1);
+        assertNotNull(exampleA.getNotMatchedWhenThenTarget());
     }
 
 
     // @formatter:off
-    private Select.QuerySpecification queryB = QUERY()
+    private Select.QuerySpecification queryB = $Query()
             .$(c("ProductID"))
             .$(c("SUM(OrderQty)"))
             .$From()
@@ -224,10 +224,10 @@ public class MergeBuilderTest {
      USING (SELECT ProductID, SUM(OrderQty) FROM Sales.SalesOrderDetail AS sod
      JOIN Sales.SalesOrderHeader AS soh
      ON sod.SalesOrderID = soh.SalesOrderID
-     AND soh.OrderDate = @OrderDate
+     $AND soh.OrderDate = @OrderDate
      GROUP BY ProductID) AS source (ProductID, OrderQty)
      ON (target.ProductID = source.ProductID)
-     WHEN MATCHED AND target.Quantity - source.OrderQty <= 0
+     WHEN MATCHED $AND target.Quantity - source.OrderQty <= 0
      THEN DELETE
      WHEN MATCHED
      THEN UPDATE SET target.Quantity = target.Quantity - source.OrderQty,
@@ -236,7 +236,7 @@ public class MergeBuilderTest {
      Inserted.ModifiedDate, Deleted.ProductID,
      Deleted.Quantity, Deleted.ModifiedDate
      */
-    public Merge exampleB = MERGE()
+    public Merge exampleB = $Merge()
             .$(t("Production","ProductInventory"))
             .$As("target")
             .$Using()
@@ -248,7 +248,7 @@ public class MergeBuilderTest {
                         c("source","ProductID")
                 ))
                 .and()
-            .$When_Matched()
+            .$WhenMatched()
                 .$And()
                     .$(p_less_equal(
                             e_subtraction(c("target","Quantity"),
@@ -259,9 +259,9 @@ public class MergeBuilderTest {
                 .$Then()
                     .$Delete()
                 .and()
-            .$When_Matched()
+            .$WhenMatched()
                 .$Then()
-                    .$Update_Set(
+                    .$UpdateSet(
                             s(c("target","Quantity"),
                                    e_subtraction(
                                 c("target","Quantity"),
@@ -284,15 +284,15 @@ public class MergeBuilderTest {
 
     @Test
     public void testExampleB(){
-        Assert.assertEquals(exampleB.getTargetTable().toString(),"Production.ProductInventory");
-        Assert.assertEquals(exampleB.getTableAlias().toString(),"target");
-        Assert.assertEquals(exampleB.getMatchedWhenThenList().size(),2);
-        Assert.assertNull(exampleB.getNotMatchedWhenThenTarget());
+        assertEquals(exampleB.getTargetTable().toString(),"Production.ProductInventory");
+        assertEquals(exampleB.getTableAlias().toString(),"target");
+        assertEquals(exampleB.getMatchedWhenThenList().size(),2);
+        assertNull(exampleB.getNotMatchedWhenThenTarget());
     }
 
 
     // @formatter:off
-    private TableValueConstructor valueC = VALUES()
+    private TableValueConstructor valueC = $Values()
             .$(e_string("Recommendation"),e_string("Other"))
             .$(e_string("Review"),e_string("Marketing"))
             .$(e_string("Internet"),e_string("Promotion"))
@@ -311,7 +311,7 @@ public class MergeBuilderTest {
      INSERT (Name, ReasonType) VALUES (NewName, NewReasonType)
      OUTPUT $action INTO @SummaryOfChanges
      */
-    public Merge exampleC = MERGE()
+    public Merge exampleC = $Merge()
             .$Into(t("Sales","SalesReason"))
             .$As("Target")
             .$Using()
@@ -323,14 +323,14 @@ public class MergeBuilderTest {
                         c("Source","NewName")
                 ))
                 .and()
-            .$When_Matched()
+            .$WhenMatched()
                 .$Then()
-                    .$Update_Set(s(
+                    .$UpdateSet(s(
                         c("ReasonType"),
                         c("Source","NewReasonType")
                     ))
                 .and()
-            .$When_Not_Matched_By_Target()
+            .$WhenNotMatchedByTarget()
                 .$Then()
                     .$Insert(c("Name"),c("ReasonType"))
                     .$Values()
@@ -347,15 +347,15 @@ public class MergeBuilderTest {
 
     @Test
     public void testExampleC(){
-        Assert.assertEquals(exampleC.getTargetTable().toString(),"Sales.SalesReason");
-        Assert.assertEquals(exampleC.getTableAlias().toString(),"Target");
-        Assert.assertEquals(exampleC.getMatchedWhenThenList().size(),1);
-        Assert.assertNotNull(exampleC.getNotMatchedWhenThenTarget());
+        assertEquals(exampleC.getTargetTable().toString(),"Sales.SalesReason");
+        assertEquals(exampleC.getTableAlias().toString(),"Target");
+        assertEquals(exampleC.getMatchedWhenThenList().size(),1);
+        assertNotNull(exampleC.getNotMatchedWhenThenTarget());
     }
 
 
     // @formatter:off
-    private Select.QuerySpecification queryD = QUERY()
+    private Select.QuerySpecification queryD = $Query()
             .$(c("ProductID"))
             .$(c("SUM(OrderQty)"))
             .$From()
@@ -387,17 +387,17 @@ public class MergeBuilderTest {
      FROM Sales.SalesOrderDetail AS sod
      JOIN Sales.SalesOrderHeader AS soh
      ON sod.SalesOrderID = soh.SalesOrderID
-     AND soh.OrderDate BETWEEN '20030701' AND '20030731'
+     $AND soh.OrderDate $BETWEEN '20030701' $AND '20030731'
      GROUP BY ProductID) AS src (ProductID, OrderQty)
      ON pi.ProductID = src.ProductID
-     WHEN MATCHED AND pi.Quantity - src.OrderQty >= 0
+     WHEN MATCHED $AND pi.Quantity - src.OrderQty >= 0
      THEN UPDATE SET pi.Quantity = pi.Quantity - src.OrderQty
-     WHEN MATCHED AND pi.Quantity - src.OrderQty <= 0
+     WHEN MATCHED $AND pi.Quantity - src.OrderQty <= 0
      THEN DELETE
      OUTPUT $action, Inserted.ProductID, Inserted.LocationID,
      Inserted.Quantity AS NewQty, Deleted.Quantity AS PreviousQty
      */
-    public Merge exampleD = MERGE()
+    public Merge exampleD = $Merge()
             .$(t("Production","ProductInventory"))
             .$As("pi")
             .$Using()
@@ -409,7 +409,7 @@ public class MergeBuilderTest {
                         c("src","ProductID")
                 ))
                 .and()
-            .$When_Matched()
+            .$WhenMatched()
                 .$And()
                     .$(p_greater_equal(
                             e_subtraction(
@@ -419,14 +419,14 @@ public class MergeBuilderTest {
                     ))
                     .and()
                 .$Then()
-                    .$Update_Set(s(
+                    .$UpdateSet(s(
                         c("pi","Quantity"),
                             e_subtraction(
                                 c("pi","Quantity"),
                                 c("src","OrderQty"))
                     ))
                 .and()
-            .$When_Matched()
+            .$WhenMatched()
                 .$And()
                     .$(p_less_equal(
                             e_subtraction(
@@ -440,7 +440,7 @@ public class MergeBuilderTest {
                 .and()
             .$OutPut()
                 .$Output(c_$action())
-                .$Output_Inserted("ProductID","LocationID")
+                .$OutputInserted("ProductID","LocationID")
                 .$Output()
                     .$Inserted("Quantity")
                     .$As("NewQty")
@@ -453,10 +453,10 @@ public class MergeBuilderTest {
 
     @Test
     public void testExampleD(){
-        Assert.assertEquals(exampleD.getTargetTable().toString(),"Production.ProductInventory");
-        Assert.assertEquals(exampleD.getTableAlias().toString(),"pi");
-        Assert.assertEquals(exampleD.getMatchedWhenThenList().size(),2);
-        Assert.assertNull(exampleD.getNotMatchedWhenThenTarget());
+        assertEquals(exampleD.getTargetTable().toString(),"Production.ProductInventory");
+        assertEquals(exampleD.getTableAlias().toString(),"pi");
+        assertEquals(exampleD.getMatchedWhenThenList().size(),2);
+        assertNull(exampleD.getNotMatchedWhenThenTarget());
     }
 
 }

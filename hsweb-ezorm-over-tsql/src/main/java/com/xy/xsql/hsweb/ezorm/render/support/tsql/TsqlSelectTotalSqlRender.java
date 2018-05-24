@@ -13,7 +13,7 @@ import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 
 import java.util.List;
 
-import static com.xy.xsql.tsql.builder.chain.queries.SubQueryBuilder.QUERY;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
 
 /**
  * Created by zhouhao on 16-5-17.
@@ -37,7 +37,7 @@ public class TsqlSelectTotalSqlRender extends CommentSupportRender<QueryParam> {
         params.addAll(whereListParameterModel.getParam());
         Where where = whereListParameterModel.getModel();
 
-        Select.QuerySpecification query = QUERY()
+        Select.QuerySpecification query = $Query()
                 .$(new UnknownExpression("count(0)"),"total")
                 .$From()
                     .withItem(tableSource)

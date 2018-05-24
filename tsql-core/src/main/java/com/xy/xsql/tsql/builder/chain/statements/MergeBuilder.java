@@ -24,8 +24,10 @@ import static com.xy.xsql.core.ListBuilder.initList;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * MergeBuilder
  * Created by xiaoyao9184 on 2017/1/10.
  */
+@SuppressWarnings({"unused","WeakerAccess"})
 public class MergeBuilder extends CodeBuilder<Merge> {
 
     public MergeBuilder(Merge tar) {
@@ -38,8 +40,18 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
 
     /**
-     *
-     * @return
+     * set
+     * @param with With
+     * @return THIS
+     */
+    public MergeBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
+
+    /**
+     * in
+     * @return WithBuilder
      */
     public WithBuilder<MergeBuilder> withWith(){
         return new WithBuilder<MergeBuilder>
@@ -49,14 +61,19 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withWith(With with){
-        this.target.setWith(with);
+    /**
+     * set
+     * @param top Top
+     * @return THIS
+     */
+    public MergeBuilder withTop(Top top){
+        this.target.setTop(top);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return TopBuilder
      */
     public TopBuilder<MergeBuilder> withTop(){
         return new TopBuilder<MergeBuilder>
@@ -66,30 +83,29 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withTop(Top top){
-        this.target.setTop(top);
-        return this;
-    }
-
     /**
-     *
-     * @param useInto
-     * @return
+     * set
+     * @param useInto into
+     * @return THIS
      */
     public MergeBuilder withInto(boolean useInto){
         target.setUseInto(useInto);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public MergeBuilder withInto(){
         target.setUseInto(true);
         return this;
     }
 
     /**
-     *
-     * @param tableName
-     * @return
+     * set
+     * @param tableName table name
+     * @return THIS
      */
     public MergeBuilder withTargetTable(TableName tableName){
         target.setTargetTable(tableName);
@@ -97,9 +113,9 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
-     * @param tableName
-     * @return
+     * set
+     * @param tableName table name
+     * @return THIS
      */
     public MergeBuilder withTargetTable(String tableName){
         target.setTargetTable(new TableName(tableName));
@@ -107,8 +123,18 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
-     * @return
+     * set
+     * @param mergeHint MergeHint
+     * @return THIS
+     */
+    public MergeBuilder withMergeHint(Merge.MergeHint mergeHint){
+        this.target.setMergeHint(mergeHint);
+        return this;
+    }
+
+    /**
+     * in
+     * @return MergeHintBuilder
      */
     public MergeHintBuilder<MergeBuilder> withMergeHint(){
         return new MergeHintBuilder<MergeBuilder>
@@ -118,30 +144,29 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withMergeHint(Merge.MergeHint mergeHint){
-        this.target.setMergeHint(mergeHint);
-        return this;
-    }
-
     /**
-     *
-     * @param useAs
-     * @return
+     * set
+     * @param useAs as
+     * @return THIS
      */
     public MergeBuilder withAs(boolean useAs){
         target.setUseAs(useAs);
         return this;
     }
 
+    /**
+     * set
+     * @return THIS
+     */
     public MergeBuilder withAs(){
         target.setUseAs(true);
         return this;
     }
 
     /**
-     *
-     * @param tableAlias
-     * @return
+     * set
+     * @param tableAlias table alias
+     * @return THIS
      */
     public MergeBuilder withTableAlias(String tableAlias){
         target.setTableAlias(new Alias<>(tableAlias));
@@ -149,8 +174,18 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
-     * @return
+     * set
+     * @param tableSource TableSource
+     * @return THIS
+     */
+    public MergeBuilder withTableSource(From.TableSource tableSource) {
+        this.target.setTableSource(tableSource);
+        return this;
+    }
+
+    /**
+     * in
+     * @return TableSourceBuilder
      */
     public FromBuilder.TableSourceBuilder<MergeBuilder> withTableSource() {
         return new FromBuilder.TableSourceBuilder<MergeBuilder>
@@ -158,14 +193,19 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withTableSource(From.TableSource tableSource) {
-        this.target.setTableSource(tableSource);
+    /**
+     * set
+     * @param searchCondition SearchCondition
+     * @return THIS
+     */
+    public MergeBuilder withMergeSearchCondition(SearchCondition searchCondition) {
+        this.target.setMergeSearchCondition(searchCondition);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return SearchConditionBuilder
      */
     public SearchConditionBuilder<MergeBuilder> withMergeSearchCondition() {
         return new SearchConditionBuilder<MergeBuilder>
@@ -175,14 +215,21 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withMergeSearchCondition(SearchCondition searchCondition) {
-        this.target.setMergeSearchCondition(searchCondition);
+    /**
+     * set
+     * @param whenMatchedThens MatchedWhenThen
+     * @return THIS
+     */
+    public MergeBuilder withWhenMatchedThen(List<Merge.MatchedWhenThen> whenMatchedThens) {
+        initAdd(whenMatchedThens,
+                target::getMatchedWhenThenList,
+                target::setMatchedWhenThenList);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return WhenMatchedThenBuilder
      */
     public WhenMatchedThenBuilder<MergeBuilder> withWhenMatchedThen() {
         return new WhenMatchedThenBuilder<MergeBuilder>
@@ -192,16 +239,19 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withWhenMatchedThen(List<Merge.MatchedWhenThen> whenMatchedThens) {
-        initAdd(whenMatchedThens,
-                target::getMatchedWhenThenList,
-                target::setMatchedWhenThenList);
+    /**
+     * set
+     * @param whenNotMatchedThen NotMatchedWhenThen
+     * @return THIS
+     */
+    public MergeBuilder withWhenNotMatchedTargetThen(Merge.NotMatchedWhenThen whenNotMatchedThen) {
+        this.target.setNotMatchedWhenThenTarget(whenNotMatchedThen);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return WhenNotMatchedTargetThenBuilder
      */
     public WhenNotMatchedTargetThenBuilder<MergeBuilder> withWhenNotMatchedTargetThen() {
         return new WhenNotMatchedTargetThenBuilder<MergeBuilder>
@@ -211,14 +261,21 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withWhenNotMatchedTargetThen(Merge.NotMatchedWhenThen whenNotMatchedThen) {
-        this.target.setNotMatchedWhenThenTarget(whenNotMatchedThen);
+    /**
+     * set
+     * @param whenNotMatchedThens MatchedWhenThen
+     * @return THIS
+     */
+    public MergeBuilder withWhenNotMatchedSourceThen(List<Merge.MatchedWhenThen> whenNotMatchedThens) {
+        initAdd(whenNotMatchedThens,
+                target::getNotMatchedWhenThenSourceList,
+                target::setNotMatchedWhenThenSourceList);
         return this;
     }
 
     /**
-     *
-     * @return
+     * in
+     * @return WhenNotMatchedSourceThenBuilder
      */
     public WhenNotMatchedSourceThenBuilder<MergeBuilder> withWhenNotMatchedSourceThen() {
         return new WhenNotMatchedSourceThenBuilder<MergeBuilder>
@@ -228,18 +285,19 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withWhenNotMatchedSourceThen(List<Merge.MatchedWhenThen> whenNotMatchedThens) {
-        initAdd(whenNotMatchedThens,
-                target::getNotMatchedWhenThenSourceList,
-                target::setNotMatchedWhenThenSourceList);
+    /**
+     * set
+     * @param output Output
+     * @return THIS
+     */
+    public MergeBuilder withOutput(Output output) {
+        this.target.setOutput(output);
         return this;
     }
 
-
-
     /**
-     *
-     * @return
+     * in
+     * @return OutputBuilder
      */
     public OutputBuilder<MergeBuilder> withOutput() {
         return new OutputBuilder<MergeBuilder>
@@ -249,14 +307,19 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withOutput(Output output) {
-        this.target.setOutput(output);
+    /**
+     * in
+     * @param option OptionBuilder
+     * @return THIS
+     */
+    public MergeBuilder withOption(Option option) {
+        this.target.setOption(option);
         return this;
     }
 
     /**
-     *
-     * @return
+     * set
+     * @return OptionBuilder
      */
     public OptionBuilder<MergeBuilder> withOption() {
         return new OptionBuilder<MergeBuilder>
@@ -266,23 +329,17 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                 .in(this);
     }
 
-    public MergeBuilder withOption(Option option) {
-        this.target.setOption(option);
-        return this;
-    }
 
 
-    /**
-     *
-     * @return
+
+    /*
+    Quick
      */
-    public static MergeBuilder MERGE(){
-        return new MergeBuilder();
-    }
 
     /**
      * Quick set
-     * @return
+     * @param with With
+     * @return THIS
      */
     public MergeBuilder $With(With with){
         target.setWith(with);
@@ -291,7 +348,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick in
-     * @return
+     * @return WithBuilder
      */
     public WithBuilder<MergeBuilder> $With(){
         return withWith();
@@ -299,7 +356,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick in
-     * @return
+     * @return TopBuilder
      */
     public TopBuilder<MergeBuilder> $Top(){
         return withTop();
@@ -308,8 +365,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick set
-     * @param tableName
-     * @return
+     * @param tableName table name
+     * @return THIS
      */
     public MergeBuilder $(TableName tableName){
         return withTargetTable(tableName);
@@ -317,8 +374,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick set
-     * @param tableName
-     * @return
+     * @param tableName TableName
+     * @return THIS
      */
     public MergeBuilder $Into(TableName tableName){
         return withInto(true).withTargetTable(tableName);
@@ -326,8 +383,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick set
-     * @param mergeHints
-     * @return
+     * @param mergeHints TableHintLimited
+     * @return THIS
      */
     public MergeBuilder $With(TableHintLimited... mergeHints){
         return withMergeHint()
@@ -338,8 +395,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     /**
      * Quick set
      * merge_hint
-     * @param indexValues
-     * @return
+     * @param indexValues index value
+     * @return THIS
      */
     public MergeBuilder $With(String... indexValues){
         return withMergeHint()
@@ -349,8 +406,8 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick set
-     * @param tableAlias
-     * @return
+     * @param tableAlias table alias
+     * @return THIS
      */
     public MergeBuilder $As(String tableAlias){
         return withAs(true).withTableAlias(tableAlias);
@@ -358,7 +415,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick in
-     * @return
+     * @return TableSourceBuilder
      */
     public FromBuilder.TableSourceBuilder<MergeBuilder> $Using(){
         return withTableSource();
@@ -366,7 +423,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick in
-     * @return
+     * @return SearchConditionBuilder
      */
     public SearchConditionBuilder<MergeBuilder> $On(){
         return withMergeSearchCondition();
@@ -374,40 +431,40 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick in
-     * @return
+     * @return WhenMatchedThenBuilder
      */
-    public WhenMatchedThenBuilder<MergeBuilder> $When_Matched(){
+    public WhenMatchedThenBuilder<MergeBuilder> $WhenMatched(){
         return withWhenMatchedThen();
     }
 
     /**
      * Quick in
-     * @return
+     * @return WhenNotMatchedTargetThenBuilder
      */
-    public WhenNotMatchedTargetThenBuilder<MergeBuilder> $When_Not_Matched(){
+    public WhenNotMatchedTargetThenBuilder<MergeBuilder> $WhenNotMatched(){
         return withWhenNotMatchedTargetThen();
     }
 
     /**
      * Quick in
-     * @return
+     * @return WhenNotMatchedTargetThenBuilder
      */
-    public WhenNotMatchedTargetThenBuilder<MergeBuilder> $When_Not_Matched_By_Target(){
+    public WhenNotMatchedTargetThenBuilder<MergeBuilder> $WhenNotMatchedByTarget(){
         return withWhenNotMatchedTargetThen()
                 .withByTarget(true);
     }
 
     /**
      * Quick in
-     * @return
+     * @return WhenNotMatchedSourceThenBuilder
      */
-    public WhenNotMatchedSourceThenBuilder<MergeBuilder> $When_Not_Matched_By_Source(){
+    public WhenNotMatchedSourceThenBuilder<MergeBuilder> $WhenNotMatchedBySource(){
         return withWhenNotMatchedSourceThen();
     }
 
     /**
      * Quick in
-     * @return
+     * @return OutputBuilder
      */
     public OutputBuilder<MergeBuilder> $OutPut(){
         return withOutput();
@@ -415,17 +472,15 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
     /**
      * Quick in
-     * @return
+     * @return OptionBuilder
      */
     public OptionBuilder<MergeBuilder> $Option(){
         return withOption();
     }
 
 
-
-
     /**
-     *
+     * MergeHintBuilder
      * @param <ParentBuilder>
      */
     public static class MergeHintBuilder<ParentBuilder>
@@ -435,7 +490,11 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             super(mergeHint);
         }
 
-
+        /**
+         * set
+         * @param tableHintLimited TableHintLimited
+         * @return THIS
+         */
         public MergeHintBuilder<ParentBuilder> withTableHintLimited(TableHintLimited... tableHintLimited){
             if(CheckUtil.isNullOrEmpty(tableHintLimited)){
                 return this;
@@ -446,6 +505,11 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             return this;
         }
 
+        /**
+         * set
+         * @param indexValues index value
+         * @return THIS
+         */
         public MergeHintBuilder<ParentBuilder> withIndexValues(String... indexValues){
             if(CheckUtil.isNullOrEmpty(indexValues)){
                 return this;
@@ -464,7 +528,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
+     * WhenMatchedThenBuilder
      * @param <ParentBuilder>
      */
     public static class WhenMatchedThenBuilder<ParentBuilder>
@@ -474,7 +538,20 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             super(matchedWhenThen);
         }
 
+        /**
+         * set
+         * @param searchCondition SearchCondition
+         * @return THIS
+         */
+        public WhenMatchedThenBuilder<ParentBuilder> withClauseSearchCondition(SearchCondition searchCondition) {
+            this.target.setClauseSearchCondition(searchCondition);
+            return this;
+        }
 
+        /**
+         * in
+         * @return SearchConditionBuilder
+         */
         public SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>> withClauseSearchCondition() {
             return new SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>>
                     (initSet(SearchCondition::new,
@@ -483,11 +560,20 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
-        public WhenMatchedThenBuilder<ParentBuilder> withClauseSearchCondition(SearchCondition searchCondition) {
-            this.target.setClauseSearchCondition(searchCondition);
+        /**
+         * set
+         * @param mergeMatched MergeMatched
+         * @return THIS
+         */
+        public WhenMatchedThenBuilder<ParentBuilder> withMergeMatched(Merge.MergeMatched mergeMatched) {
+            this.target.setMergeMatched(mergeMatched);
             return this;
         }
 
+        /**
+         * in
+         * @return MergeMatchedBuilder
+         */
         public MergeMatchedBuilder<WhenMatchedThenBuilder<ParentBuilder>> withMergeMatched() {
             return new MergeMatchedBuilder<WhenMatchedThenBuilder<ParentBuilder>>
                     (initSet(Merge.MergeMatched::new,
@@ -496,10 +582,6 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
-        public WhenMatchedThenBuilder<ParentBuilder> withMergeMatched(Merge.MergeMatched mergeMatched) {
-            this.target.setMergeMatched(mergeMatched);
-            return this;
-        }
 
 
 
@@ -508,16 +590,16 @@ public class MergeBuilder extends CodeBuilder<Merge> {
          */
 
         /**
-         * Quick into
-         * @return
+         * Quick in
+         * @return SearchConditionBuilder
          */
         public SearchConditionBuilder<WhenMatchedThenBuilder<ParentBuilder>> $And() {
             return withClauseSearchCondition();
         }
 
         /**
-         * Quick into
-         * @return
+         * Quick in
+         * @return MergeMatchedBuilder
          */
         public MergeMatchedBuilder<WhenMatchedThenBuilder<ParentBuilder>> $Then() {
             return withMergeMatched();
@@ -526,7 +608,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
+     * WhenNotMatchedTargetThenBuilder
      * @param <ParentBuilder>
      */
     public static class WhenNotMatchedTargetThenBuilder<ParentBuilder>
@@ -536,17 +618,30 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             super(notMatchedWhenThen);
         }
 
-
+        /**
+         * set
+         * @param useByTarget by target
+         * @return THIS
+         */
         public WhenNotMatchedTargetThenBuilder<ParentBuilder> withByTarget(boolean useByTarget){
             target.setUseByTarget(useByTarget);
             return this;
         }
 
+        /**
+         * set
+         * @param searchCondition SearchCondition
+         * @return THIS
+         */
         public WhenNotMatchedTargetThenBuilder<ParentBuilder> withClauseSearchCondition(SearchCondition searchCondition) {
             this.target.setClauseSearchCondition(searchCondition);
             return this;
         }
 
+        /**
+         * in
+         * @return SearchConditionBuilder
+         */
         public SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> withClauseSearchCondition() {
             return new SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>>
                     (initSet(SearchCondition::new,
@@ -555,17 +650,26 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
+        /**
+         * set
+         * @param mergeNotMatched MergeNotMatched
+         * @return THIS
+         */
+        public WhenNotMatchedTargetThenBuilder<ParentBuilder> withMergeNotMatched(Merge.MergeNotMatched mergeNotMatched) {
+            this.target.setMergeNotMatched(mergeNotMatched);
+            return this;
+        }
+
+        /**
+         * in
+         * @return MergeNotMatchedBuilder
+         */
         public MergeNotMatchedBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> withMergeNotMatched() {
             return new MergeNotMatchedBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>>
                     (initSet(Merge.MergeNotMatched::new,
                             target::getMergeNotMatched,
                             target::setMergeNotMatched))
                     .in(this);
-        }
-
-        public WhenNotMatchedTargetThenBuilder<ParentBuilder> withMergeNotMatched(Merge.MergeNotMatched mergeNotMatched) {
-            this.target.setMergeNotMatched(mergeNotMatched);
-            return this;
         }
 
 
@@ -576,16 +680,16 @@ public class MergeBuilder extends CodeBuilder<Merge> {
          */
 
         /**
-         * Quick into
-         * @return
+         * Quick in
+         * @return SearchConditionBuilder
          */
         public SearchConditionBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> $And() {
             return withClauseSearchCondition();
         }
 
         /**
-         * Quick into
-         * @return
+         * Quick in
+         * @return MergeNotMatchedBuilder
          */
         public MergeNotMatchedBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>> $Then() {
             return withMergeNotMatched();
@@ -594,7 +698,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
+     * WhenNotMatchedSourceThenBuilder
      * @param <ParentBuilder>
      */
     public static class WhenNotMatchedSourceThenBuilder<ParentBuilder>
@@ -604,7 +708,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             super(matchedWhenThen);
         }
 
-
+        /**
+         * in
+         * @return SearchConditionBuilder
+         */
         public SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> withClauseSearchCondition() {
             return new SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>>
                     (initSet(SearchCondition::new,
@@ -613,6 +720,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
+        /**
+         * in
+         * @return MergeNotMatchedBuilder
+         */
         public MergeNotMatchedBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> withMergeNotMatched() {
             return new MergeNotMatchedBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>>
                     (initSet(Merge.MergeNotMatched::new,
@@ -629,16 +740,16 @@ public class MergeBuilder extends CodeBuilder<Merge> {
          */
 
         /**
-         * Quick into
-         * @return
+         * Quick in
+         * @return SearchConditionBuilder
          */
         public SearchConditionBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> $And() {
             return withClauseSearchCondition();
         }
 
         /**
-         * Quick into
-         * @return
+         * Quick in
+         * @return MergeNotMatchedBuilder
          */
         public MergeNotMatchedBuilder<WhenNotMatchedSourceThenBuilder<ParentBuilder>> $Then() {
             return withMergeNotMatched();
@@ -647,23 +758,40 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
+     * MergeMatchedBuilder
      * @param <ParentBuilder>
      */
     public static class MergeMatchedBuilder<ParentBuilder>
             extends CodeTreeBuilder<MergeMatchedBuilder<ParentBuilder>,ParentBuilder,Merge.MergeMatched> {
 
-
         public MergeMatchedBuilder(Merge.MergeMatched mergeMatched) {
             super(mergeMatched);
         }
 
-
+        /**
+         * set
+         * @param useSet set
+         * @return THIS
+         */
         public MergeMatchedBuilder<ParentBuilder> withSet(boolean useSet){
             target.setUseSet(useSet);
             return this;
         }
 
+        /**
+         * set
+         * @param setItems SetItem
+         * @return THIS
+         */
+        public MergeMatchedBuilder<ParentBuilder> withSetItem(List<Update.SetItem> setItems){
+            this.target.setSets(setItems);
+            return this;
+        }
+
+        /**
+         * in
+         * @return SetItemBuilder
+         */
         public UpdateBuilder.SetItemBuilder<MergeMatchedBuilder<ParentBuilder>> withSetItem(){
             withSet(true);
             initList(target::getSets,
@@ -673,10 +801,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
-        public MergeMatchedBuilder<ParentBuilder> withSetItem(List<Update.SetItem> setItems){
-            this.target.setSets(setItems);
-            return this;
-        }
+
 
         
         /*
@@ -685,7 +810,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
         /**
          * Quick set
-         * @return
+         * @return PARENT
          */
         public ParentBuilder $Delete() {
             return withSet(false)
@@ -694,10 +819,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
         /**
          * Quick set
-         * @param items
-         * @return
+         * @param items SetItem
+         * @return PARENT
          */
-        public ParentBuilder $Update_Set(Update.SetItem... items) {
+        public ParentBuilder $UpdateSet(Update.SetItem... items) {
             if(CheckUtil.isNullOrEmpty(items)){
                 return and();
             }
@@ -710,18 +835,21 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     }
 
     /**
-     *
+     * MergeNotMatchedBuilder
      * @param <ParentBuilder>
      */
     public static class MergeNotMatchedBuilder<ParentBuilder>
             extends CodeTreeBuilder<MergeNotMatchedBuilder<ParentBuilder>,ParentBuilder,Merge.MergeNotMatched> {
 
-
         public MergeNotMatchedBuilder(Merge.MergeNotMatched mergeNotMatched) {
             super(mergeNotMatched);
         }
 
-
+        /**
+         * set
+         * @param columnNames ColumnName
+         * @return THIS
+         */
         public MergeNotMatchedBuilder<ParentBuilder> withColumn(ColumnName... columnNames){
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
@@ -732,6 +860,11 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             return this;
         }
 
+        /**
+         * set
+         * @param columnNames ColumnName
+         * @return THIS
+         */
         public MergeNotMatchedBuilder<ParentBuilder> withColumn(List<ColumnName> columnNames){
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
@@ -742,6 +875,20 @@ public class MergeBuilder extends CodeBuilder<Merge> {
             return this;
         }
 
+        /**
+         * set
+         * @param values TableValueConstructor
+         * @return THIS
+         */
+        public MergeNotMatchedBuilder<ParentBuilder> withValues(TableValueConstructor values){
+            this.target.setValues(values);
+            return this;
+        }
+
+        /**
+         * in
+         * @return TableValueConstructorBuilder
+         */
         public TableValueConstructorBuilder<MergeNotMatchedBuilder<ParentBuilder>> withValues(){
             return new TableValueConstructorBuilder<MergeNotMatchedBuilder<ParentBuilder>>
                     (initSet(TableValueConstructor::new,
@@ -750,16 +897,20 @@ public class MergeBuilder extends CodeBuilder<Merge> {
                     .in(this);
         }
 
-        public MergeNotMatchedBuilder<ParentBuilder> withValues(TableValueConstructor values){
-            this.target.setValues(values);
-            return this;
-        }
-
+        /**
+         * set
+         * @return THIS
+         */
         public MergeNotMatchedBuilder<ParentBuilder> withDefaultValues(){
             this.target.setUseDefaultValues(true);
             return this;
         }
 
+        /**
+         * set
+         * @param useDefaultValues default values
+         * @return THIS
+         */
         public MergeNotMatchedBuilder<ParentBuilder> withDefaultValues(boolean useDefaultValues){
             this.target.setUseDefaultValues(useDefaultValues);
             return this;
@@ -774,16 +925,16 @@ public class MergeBuilder extends CodeBuilder<Merge> {
 
         /**
          * Quick set columnNames
-         * @param columnNames
-         * @return
+         * @param columnNames ColumnName
+         * @return THIS
          */
         public MergeNotMatchedBuilder<ParentBuilder> $Insert(ColumnName... columnNames){
             return withColumn(columnNames);
         }
 
         /**
-         * Quick set
-         * @return
+         * Quick in
+         * @return TableValueConstructorBuilder
          */
         public TableValueConstructorBuilder<MergeNotMatchedBuilder<ParentBuilder>> $Values() {
             return withValues();

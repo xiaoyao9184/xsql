@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 import static com.xy.xsql.core.ListBuilder.initAdd;
 import static com.xy.xsql.core.ListBuilder.initNew;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
-import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.OptimizeForBuilder.OPTIMIZE_FOR_Item;
+import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.OptimizeForBuilder.$OptimizeForItem;
 
 /**
  * QueryHintBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
-@SuppressWarnings({"unused", "SameParameterValue", "WeakerAccess"})
+@SuppressWarnings({"unused", "SameParameterValue", "WeakerAccess","UnusedReturnValue"})
 public class QueryHintBuilder<ParentBuilder>
         extends CodeTreeBuilder<QueryHintBuilder<ParentBuilder>,ParentBuilder,QueryHint> {
 
@@ -107,6 +107,16 @@ public class QueryHintBuilder<ParentBuilder>
 
     /**
      * set
+     * @param optimizeFors OptimizeFors
+     * @return THIS
+     */
+    public QueryHintBuilder<ParentBuilder> withOptimizeFor(List<QueryHint.OptimizeFor> optimizeFors){
+        target.setOptimizeFor(optimizeFors);
+        return this;
+    }
+
+    /**
+     * set
      * @param hintNames HintNames
      * @return THIS
      */
@@ -171,7 +181,6 @@ public class QueryHintBuilder<ParentBuilder>
      * OptimizeForBuilder
      * @param <ParentBuilder>
      */
-    @SuppressWarnings("WeakerAccess")
     public static class OptimizeForBuilder<ParentBuilder>
         extends CodeTreeBuilder<OptimizeForBuilder<ParentBuilder>,ParentBuilder,QueryHint.OptimizeFor> {
 
@@ -214,6 +223,8 @@ public class QueryHintBuilder<ParentBuilder>
         }
 
 
+
+
         /*
         Quick
          */
@@ -225,7 +236,7 @@ public class QueryHintBuilder<ParentBuilder>
          * @param literalConstant LiteralConstant
          * @return OptimizeFor
          */
-        public static QueryHint.OptimizeFor OPTIMIZE_FOR_Item(
+        public static QueryHint.OptimizeFor $OptimizeForItem(
                 String variableName,
                 boolean useUnknown,
                 String literalConstant){
@@ -265,7 +276,6 @@ public class QueryHintBuilder<ParentBuilder>
      * List ListBuilder
      * @param <ParentBuilder>
      */
-    @SuppressWarnings("WeakerAccess")
     public static class OptimizeForListBuilder<ParentBuilder>
             extends CodeTreeBuilder<OptimizeForListBuilder<ParentBuilder>,ParentBuilder,List<QueryHint.OptimizeFor>> {
 
@@ -302,6 +312,7 @@ public class QueryHintBuilder<ParentBuilder>
 
 
 
+
         /*
         Quick
          */
@@ -330,10 +341,6 @@ public class QueryHintBuilder<ParentBuilder>
                     .and();
         }
 
-        public ParentBuilder done(){
-            return back();
-        }
-
     }
 
 
@@ -347,7 +354,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint HASH_GROUP(){
+    public static QueryHint $HashGroup(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.HASH_GROUP)
                 .build();
@@ -357,7 +364,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint ORDER_GROUP(){
+    public static QueryHint $OrderGroup(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.ORDER_GROUP)
                 .build();
@@ -367,7 +374,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint CONCAT_UNION(){
+    public static QueryHint $ConcatUnion(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.CONCAT_UNION)
                 .build();
@@ -377,7 +384,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint HASH_UNION(){
+    public static QueryHint $HashUnion(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.HASH_UNION)
                 .build();
@@ -387,7 +394,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint MERGE_UNION(){
+    public static QueryHint $MergeUnion(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MERGE_UNION)
                 .build();
@@ -397,7 +404,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint LOOP_JOIN(){
+    public static QueryHint $LoopJoin(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.LOOP_JOIN)
                 .build();
@@ -407,7 +414,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint MERGE_JOIN(){
+    public static QueryHint $MergeJoin(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MERGE_JOIN)
                 .build();
@@ -417,7 +424,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint HASH_JOIN(){
+    public static QueryHint $HashJoin(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.HASH_JOIN)
                 .build();
@@ -427,7 +434,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint EXPAND_VIEWS(){
+    public static QueryHint $ExpandViews(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.EXPAND_VIEWS)
                 .build();
@@ -437,7 +444,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint FAST(Integer numberRows){
+    public static QueryHint $Fast(Integer numberRows){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.FAST)
                 .withNumberRows(numberRows)
@@ -448,7 +455,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint FORCE_ORDER(){
+    public static QueryHint $ForceOrder(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.FORCE_ORDER)
                 .build();
@@ -458,7 +465,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint FORCE_EXTERNALPUSHDOWN(){
+    public static QueryHint $ForceExternalpushdown(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.FORCE_EXTERNALPUSHDOWN)
                 .build();
@@ -468,7 +475,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint DISABLE_EXTERNALPUSHDOWN(){
+    public static QueryHint $DisableExternalpushdown(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.DISABLE_EXTERNALPUSHDOWN)
                 .build();
@@ -478,7 +485,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint IGNORE_NONCLUSTERED_COLUMNSTORE_INDEX(){
+    public static QueryHint $IgnoreNonclusteredColumnstoreIndex(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.IGNORE_NONCLUSTERED_COLUMNSTORE_INDEX)
                 .build();
@@ -488,7 +495,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint KEEP_PLAN(){
+    public static QueryHint $KeepPlan(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.KEEP_PLAN)
                 .build();
@@ -498,7 +505,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint KEEPFIXED_PLAN(){
+    public static QueryHint $KeepfixedPlan(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.KEEPFIXED_PLAN)
                 .build();
@@ -508,7 +515,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint MAX_GRANT_PERCENT(Integer percent){
+    public static QueryHint $MaxGrantPercent(Integer percent){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MAX_GRANT_PERCENT)
                 .withPercent(percent)
@@ -519,7 +526,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint MIN_GRANT_PERCENT(Integer percent){
+    public static QueryHint $MinGrantPercent(Integer percent){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MIN_GRANT_PERCENT)
                 .withPercent(percent)
@@ -530,7 +537,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint MAXDOP(Integer numberOfProcessors){
+    public static QueryHint $Maxdop(Integer numberOfProcessors){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MAXDOP)
                 .withNumberOfProcessors(numberOfProcessors)
@@ -541,7 +548,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint MAXRECURSION(Integer number){
+    public static QueryHint $Maxrecursion(Integer number){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.MAXRECURSION)
                 .withNumber(number)
@@ -552,7 +559,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint NO_PERFORMANCE_SPOOL(){
+    public static QueryHint $NoPerformanceSpool(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.NO_PERFORMANCE_SPOOL)
                 .build();
@@ -562,7 +569,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick in
      * @return OptimizeForListBuilder
      */
-    public static OptimizeForListBuilder<QueryHint> OPTIMIZE_FOR(){
+    public static OptimizeForListBuilder<QueryHint> $OptimizeFor(){
         QueryHint queryHint = new QueryHintBuilder<QueryHint>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR)
                 .build();
@@ -575,7 +582,19 @@ public class QueryHintBuilder<ParentBuilder>
      * @param optimizeFors OptimizeFor
      * @return QueryHint with array OptimizeFor
      */
-    public static QueryHint OPTIMIZE_FOR(QueryHint.OptimizeFor... optimizeFors){
+    public static QueryHint $OptimizeFor(QueryHint.OptimizeFor... optimizeFors){
+        return new QueryHintBuilder<Void>()
+                .withType(QueryHint.Type.OPTIMIZE_FOR)
+                .withOptimizeFor(optimizeFors)
+                .build();
+    }
+
+    /**
+     * Quick build
+     * @param optimizeFors OptimizeFor
+     * @return QueryHint with array OptimizeFor
+     */
+    public static QueryHint $OptimizeFor(List<QueryHint.OptimizeFor> optimizeFors){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR)
                 .withOptimizeFor(optimizeFors)
@@ -588,10 +607,10 @@ public class QueryHintBuilder<ParentBuilder>
      * @param literalConstant LiteralConstant
      * @return QueryHint with one OptimizeFor
      */
-    public static QueryHint OPTIMIZE_FOR(String variableName, String literalConstant) {
+    public static QueryHint $OptimizeFor(String variableName, String literalConstant) {
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR)
-                .withOptimizeFor(OPTIMIZE_FOR_Item(variableName,false,literalConstant))
+                .withOptimizeFor($OptimizeForItem(variableName,false,literalConstant))
                 .build();
     }
 
@@ -600,10 +619,10 @@ public class QueryHintBuilder<ParentBuilder>
      * @param variableName VariableName
      * @return QueryHint with one OptimizeFor
      */
-    public static QueryHint OPTIMIZE_FOR(String variableName) {
+    public static QueryHint $OptimizeFor(String variableName) {
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR)
-                .withOptimizeFor(OPTIMIZE_FOR_Item(variableName,true,null))
+                .withOptimizeFor($OptimizeForItem(variableName,true,null))
                 .build();
     }
 
@@ -611,7 +630,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint OPTIMIZE_FOR_UNKNOWN(){
+    public static QueryHint $OptimizeForUnknown(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR_UNKNOWN)
                 .build();
@@ -621,7 +640,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint PARAMETERIZATION_SIMPLE(){
+    public static QueryHint $ParameterizationSimple(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.PARAMETERIZATION_SIMPLE)
                 .build();
@@ -631,7 +650,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint PARAMETERIZATION_FORCED(){
+    public static QueryHint $ParameterizationForced(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.PARAMETERIZATION_FORCED)
                 .build();
@@ -641,7 +660,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint RECOMPILE(){
+    public static QueryHint $Recompile(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.RECOMPILE)
                 .build();
@@ -651,7 +670,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint ROBUST_PLAN(){
+    public static QueryHint $RobustPlan(){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.ROBUST_PLAN)
                 .build();
@@ -661,7 +680,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint USE_HINT(String... hintName){
+    public static QueryHint $UseHint(String... hintName){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.USE_HINT)
                 .withHintName(hintName)
@@ -672,7 +691,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint USE_PLAN(String xml_plan){
+    public static QueryHint $UsePlan(String xml_plan){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.USE_PLAN)
                 .withXmlPlan(xml_plan)
@@ -683,7 +702,7 @@ public class QueryHintBuilder<ParentBuilder>
      * Quick build
      * @return QueryHint
      */
-    public static QueryHint TABLE_HINT(String exposedObjectName,TableHint... tableHints){
+    public static QueryHint $TableHint(String exposedObjectName, TableHint... tableHints){
         return new QueryHintBuilder<Void>()
                 .withType(QueryHint.Type.TABLE_HINT)
                 .withExposedObjectName(exposedObjectName)

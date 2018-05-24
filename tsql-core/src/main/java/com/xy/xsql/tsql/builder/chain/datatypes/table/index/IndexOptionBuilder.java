@@ -4,6 +4,7 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
 
 /**
+ * IndexOptionBuilder
  * Created by xiaoyao9184 on 2017/8/17.
  * @param <ParentBuilder>
  */

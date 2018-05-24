@@ -12,52 +12,95 @@ import static com.xy.xsql.tsql.builder.chain.statements.TruncateTableBuilder.e_p
 import static com.xy.xsql.tsql.builder.chain.statements.TruncateTableBuilder.e_range;
 
 /**
+ * TableOptionFactory
  * Created by xiaoyao9184 on 2017/9/1.
  */
+@SuppressWarnings({"unused","WeakerAccess"})
 public class TableOptionFactory {
 
-    public TableOption DATA_COMPRESSION(TableOption.DataCompressionType type) {
+    /**
+     * Quick build
+     * @param type DataCompressionType
+     * @return TableOption
+     */
+    public TableOption $DataCompression(TableOption.DataCompressionType type) {
         TableOption.DataCompression DataCompression = new TableOption.DataCompression();
         DataCompression.setType(type);
         return DataCompression;
     }
 
-    public DataCompressionBuilder<Void> DATA_COMPRESSION() {
-        return new DataCompressionBuilder<Void>
-                ( new TableOption.DataCompression());
+    /**
+     * Quick in
+     * @return TableOption
+     */
+    public DataCompressionBuilder<Void> $DataCompression() {
+        return new DataCompressionBuilder<>
+                (new TableOption.DataCompression());
     }
 
-    public TableOption FILETABLE_DIRECTORY(String directoryName) {
+    /**
+     * Quick build
+     * @param directoryName directory name
+     * @return TableOption
+     */
+    public TableOption $FiletableDirectory(String directoryName) {
         TableOption.FileTableDirectory fileTableDirectory = new TableOption.FileTableDirectory();
         fileTableDirectory.setDirectoryName(directoryName);
         return fileTableDirectory;
     }
 
-    public TableOption FILETABLE_COLLATE_FILENAME(Collate collationName) {
+    /**
+     * Quick build
+     * @param collationName collation name
+     * @return TableOption
+     */
+    public TableOption $FiletableCollateFilename(Collate collationName) {
         TableOption.FileTableCollateFilename fileTableCollateFilename = new TableOption.FileTableCollateFilename();
         fileTableCollateFilename.setCollationName(collationName);
         return fileTableCollateFilename;
     }
 
-    public TableOption FILETABLE_PRIMARY_KEY_CONSTRAINT_NAME(Collate collationName) {
+    /**
+     * Quick build
+     * @param collationName collation name
+     * @return TableOption
+     */
+    public TableOption $FiletablePrimaryKeyConstraintName(Collate collationName) {
         TableOption.FileTablePrimaryKeyConstraintName fileTablePrimaryKeyConstraintName = new TableOption.FileTablePrimaryKeyConstraintName();
         fileTablePrimaryKeyConstraintName.setCollationName(collationName);
         return fileTablePrimaryKeyConstraintName;
     }
 
-    public TableOption FILETABLE_STREAMID_UNIQUE_CONSTRAINT_NAME(Collate collationName) {
+    /**
+     * Quick build
+     * @param collationName collation name
+     * @return TableOption
+     */
+    public TableOption $FiletableStreamidUniqueConstraintName(Collate collationName) {
         TableOption.FileTableStreamIdUniqueConstraintName fileTableStreamIdUniqueConstraintName = new TableOption.FileTableStreamIdUniqueConstraintName();
         fileTableStreamIdUniqueConstraintName.setCollationName(collationName);
         return fileTableStreamIdUniqueConstraintName;
     }
 
-    public TableOption FILETABLE_FULLPATH_UNIQUE_CONSTRAINT_NAME(Collate collationName) {
+    /**
+     * Quick build
+     * @param collationName collation name
+     * @return TableOption
+     */
+    public TableOption $FiletableFullpathUniqueConstraintName(Collate collationName) {
         TableOption.FileTableFullPathUniqueConstraintName fileTableFullPathUniqueConstraintName = new TableOption.FileTableFullPathUniqueConstraintName();
         fileTableFullPathUniqueConstraintName.setCollationName(collationName);
         return fileTableFullPathUniqueConstraintName;
     }
 
-    public TableOption SYSTEM_VERSIONING(String schemaName, String historyTableName, Boolean useDataConsistencyCheck) {
+    /**
+     * Quick build
+     * @param schemaName schema name
+     * @param historyTableName history table name
+     * @param useDataConsistencyCheck  data consistency check
+     * @return TableOption
+     */
+    public TableOption $SystemVersioning(String schemaName, String historyTableName, Boolean useDataConsistencyCheck) {
         TableOption.SystemVersioning systemVersioning = new TableOption.SystemVersioning();
         systemVersioning.setSchemaName(schemaName);
         systemVersioning.setHistoryTableName(historyTableName);
@@ -65,20 +108,27 @@ public class TableOptionFactory {
         return systemVersioning;
     }
 
-//    public TableOption REMOTE_DATA_ARCHIVE(String schemaName, String historyTableName, Boolean useOff) {
+//    public TableOption $REMOTE_DATA_ARCHIVE(String schemaName, String historyTableName, Boolean useOff) {
 //        TableOption.RemoteDataArchive remoteDataArchive = new TableOption.RemoteDataArchive();
 //        remoteDataArchive.setUseOff(useOff);
 //        remoteDataArchive.setTableStretchOptionsList(historyTableName);
 //        return remoteDataArchive;
 //    }
 
-    public TableOption REMOTE_DATA_ARCHIVE_OFF() {
+    /**
+     * Quick build
+     * @return TableOption
+     */
+    public TableOption $RemoteDataArchiveOff() {
         TableOption.RemoteDataArchive remoteDataArchive = new TableOption.RemoteDataArchive();
         remoteDataArchive.setUseOff(true);
         return remoteDataArchive;
     }
 
-
+    /**
+     * DataCompressionBuilder
+     * @param <ParentBuilder>
+     */
     public static class DataCompressionBuilder<ParentBuilder>
             extends CodeTreeBuilder<DataCompressionBuilder<ParentBuilder>,ParentBuilder,TableOption.DataCompression> {
 
@@ -86,22 +136,46 @@ public class TableOptionFactory {
             super(dataCompression);
         }
 
-        public DataCompressionBuilder<ParentBuilder> NONE(){
+
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick set
+         * @return THIS
+         */
+        public DataCompressionBuilder<ParentBuilder> $None(){
             target.setType(TableOption.DataCompressionType.NONE);
             return this;
         }
 
-        public DataCompressionBuilder<ParentBuilder> ROW(){
+        /**
+         * Quick set
+         * @return THIS
+         */
+        public DataCompressionBuilder<ParentBuilder> $Row(){
             target.setType(TableOption.DataCompressionType.ROW);
             return this;
         }
 
-        public DataCompressionBuilder<ParentBuilder> PAGE(){
+        /**
+         * Quick set
+         * @return THIS
+         */
+        public DataCompressionBuilder<ParentBuilder> $Page(){
             target.setType(TableOption.DataCompressionType.PAGE);
             return this;
         }
 
-        public DataCompressionBuilder<ParentBuilder> ON_PARTITIONS(Number... partitionNumbers){
+        /**
+         * Quick set
+         * @param partitionNumbers partition number
+         * @return THIS
+         */
+        public DataCompressionBuilder<ParentBuilder> $OnPartitions(Number... partitionNumbers){
             if(partitionNumbers.length == 1){
                 initAdd(e_pn(partitionNumbers[0]),
                         target::getPartitionsList,
@@ -114,13 +188,21 @@ public class TableOptionFactory {
             return this;
         }
 
-        public PartitionsListBuilder<DataCompressionBuilder<ParentBuilder>> ON_PARTITIONS(){
+        /**
+         * Quick in
+         * @return PartitionsListBuilder
+         */
+        public PartitionsListBuilder<DataCompressionBuilder<ParentBuilder>> $OnPartitions(){
             return new PartitionsListBuilder<DataCompressionBuilder<ParentBuilder>>
                     ()
                     .enter(this,partitionsList -> target.setPartitionsList(partitionsList));
         }
     }
 
+    /**
+     * PartitionsListBuilder
+     * @param <ParentBuilder>
+     */
     public static class PartitionsListBuilder<ParentBuilder>
             extends CodeTreeBuilder<PartitionsListBuilder<ParentBuilder>,ParentBuilder,List<TruncateTable.Partitions>> {
 
@@ -144,12 +226,22 @@ public class TableOptionFactory {
 //            return this;
 //        }
 
+        /**
+         * Quick set
+         * @param partitionNumber partition number
+         * @return THIS
+         */
         public PartitionsListBuilder<ParentBuilder> $(Number partitionNumber){
             current = e_pn(partitionNumber);
             target.add(current);
             return this;
         }
 
+        /**
+         * Quick set
+         * @param partitionNumber partition number
+         * @return THIS
+         */
         public PartitionsListBuilder<ParentBuilder> $To(Number partitionNumber){
             target.remove(current);
             target.add(e_range(current.getNumber(),partitionNumber));
@@ -160,17 +252,29 @@ public class TableOptionFactory {
 
 
 
-    public TableOption MEMORY_OPTIMIZED() {
+    /**
+     * Quick build
+     * @return TableOption
+     */
+    public TableOption $MemoryOptimized() {
         return new TableOption.MemoryOptimized();
     }
 
-    public TableOption DURABILITY_SCHEMA_ONLY() {
+    /**
+     * Quick build
+     * @return TableOption
+     */
+    public TableOption $DurabilitySchemaOnly() {
         TableOption.Durability durability = new TableOption.Durability();
         durability.setSchemaAndData(false);
         return durability;
     }
 
-    public TableOption DURABILITY_SCHEMA_AND_DATA() {
+    /**
+     * Quick build
+     * @return TableOption
+     */
+    public TableOption $DurabilitySchemaAndData() {
         TableOption.Durability durability = new TableOption.Durability();
         durability.setSchemaAndData(true);
         return durability;

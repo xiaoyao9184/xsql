@@ -39,6 +39,16 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
 
     /**
+     * set
+     * @param with With
+     * @return THIS
+     */
+    public UpdateBuilder withWith(With with){
+        this.target.setWith(with);
+        return this;
+    }
+
+    /**
      * in
      * @return WithBuilder
      */
@@ -50,8 +60,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
-    public UpdateBuilder withWith(With with){
-        this.target.setWith(with);
+    /**
+     * set
+     * @param top Top
+     * @return THIS
+     */
+    public UpdateBuilder withTop(Top top){
+        this.target.setTop(top);
         return this;
     }
 
@@ -65,11 +80,6 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                         target::getTop,
                         target::setTop))
                 .in(this);
-    }
-
-    public UpdateBuilder withTop(Top top){
-        this.target.setTop(top);
-        return this;
     }
 
     /**
@@ -114,10 +124,27 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         return this;
     }
 
+    /**
+     * set
+     * @param tableHintLimiteds TableHintLimited
+     * @return THIS
+     */
     public UpdateBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
         initAdd(tableHintLimiteds,
                 target::getTableHintLimitedList,
                 target::setTableHintLimitedList);
+        return this;
+    }
+
+    /**
+     * set
+     * @param setItems SetItem
+     * @return THIS
+     */
+    public UpdateBuilder withSetItem(List<Update.SetItem> setItems){
+        initAdd(setItems,
+                target::getSets,
+                target::setSets);
         return this;
     }
 
@@ -133,10 +160,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
-    public UpdateBuilder withSetItem(List<Update.SetItem> setItems){
-        initAdd(setItems,
-                target::getSets,
-                target::setSets);
+    /**
+     * set
+     * @param output Output
+     * @return THIS
+     */
+    public UpdateBuilder withOutput(Output output) {
+        this.target.setOutput(output);
         return this;
     }
 
@@ -152,8 +182,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
-    public UpdateBuilder withOutput(Output output) {
-        this.target.setOutput(output);
+    /**
+     * set
+     * @param from From
+     * @return THIS
+     */
+    public UpdateBuilder withFrom(From from) {
+        this.target.setFrom(from);
         return this;
     }
 
@@ -169,8 +204,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
-    public UpdateBuilder withFrom(From from) {
-        this.target.setFrom(from);
+    /**
+     * set
+     * @param where Where
+     * @return THIS
+     */
+    public UpdateBuilder withWhere(Where where) {
+        this.target.setWhere(where);
         return this;
     }
 
@@ -186,8 +226,13 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
-    public UpdateBuilder withWhere(Where where) {
-        this.target.setWhere(where);
+    /**
+     * set
+     * @param option Option
+     * @return THIS
+     */
+    public UpdateBuilder withOption(Option option) {
+        this.target.setOption(option);
         return this;
     }
 
@@ -203,24 +248,12 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                 .in(this);
     }
 
-    public UpdateBuilder withOption(Option option) {
-        this.target.setOption(option);
-        return this;
-    }
 
 
 
     /*
     Quick
      */
-
-    /**
-     * Quick
-     * @return UpdateBuilder
-     */
-    public static UpdateBuilder UPDATE(){
-        return new UpdateBuilder();
-    }
 
     /**
      * Quick set
@@ -331,7 +364,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
     }
 
 
-
+    /**
+     * SetListBuilder
+     * @param <ParentBuilder>
+     */
     public static class SetListBuilder<ParentBuilder>
             extends CodeTreeBuilder<SetListBuilder<ParentBuilder>,ParentBuilder,List<Update.SetItem>> {
 
@@ -339,6 +375,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
             super(new ArrayList<>());
         }
 
+        /**
+         * in
+         * @return SetItemBuilder
+         */
         public SetItemBuilder<SetListBuilder<ParentBuilder>> withItem(){
             return new SetItemBuilder<SetListBuilder<ParentBuilder>>
                     (item -> this.target.add(item))
@@ -348,7 +388,6 @@ public class UpdateBuilder extends CodeBuilder<Update> {
 
     /**
      * Abstract SetItem Builder
-     *
      * @param <ParentBuilder>
      */
     public static class SetItemBuilder<ParentBuilder>
@@ -357,7 +396,6 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         public SetItemBuilder(Setter<Update.SetItem> tar) {
             super(tar);
         }
-
 
         /**
          * select in
@@ -431,6 +469,12 @@ public class UpdateBuilder extends CodeBuilder<Update> {
                     .in(out());
         }
 
+
+
+
+        /*
+        Quick
+         */
 
         /**
          * Quick build
@@ -545,7 +589,6 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         }
 
     }
-
 
     /**
      * ColumnAssignmentSetBuilder

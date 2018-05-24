@@ -148,6 +148,7 @@ public class OrderBy implements Clause {
         //]
         private boolean useFetch;
         private boolean useFetchFirst;
+        //TODO use Constant
         private Integer fetchIntegerConstant;
         private Expression fetchOffsetRowCountExpression;
         private boolean useFetchRows;

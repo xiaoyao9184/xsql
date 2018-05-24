@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.converter.datatypes.table.column;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.DataTypeConverter;
 import com.xy.xsql.tsql.converter.datatypes.table.constraint.CheckConverters;
 import com.xy.xsql.tsql.converter.datatypes.table.constraint.NullOrNotNullConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
@@ -26,7 +27,9 @@ public class ColumnTypeDefinitionConverter
                         .scope(d -> d.getName())
                         .and()
                     .sub("scalar_data_type")
+                        .ref(DataTypeConverter.class)
                         .scope(d -> d.getDataType())
+                        .syntax_reference_remove()
                         .and()
                     .sub()
                         .optional(d -> d.getCollationName() == null)

@@ -11,13 +11,14 @@ import com.xy.xsql.tsql.model.datatypes.table.constraint.Foreign;
 import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 
 import static com.xy.xsql.core.FiledBuilder.initSet2;
-import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
+ * ColumnConstraintBuilder
  * Use
  * in --Disk-Based CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/8/4.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ColumnConstraintBuilder<ParentBuilder>
         extends CodeTreeBuilder<ColumnConstraintBuilder<ParentBuilder>,ParentBuilder,ColumnConstraint> {
 
@@ -29,16 +30,28 @@ public class ColumnConstraintBuilder<ParentBuilder>
         super(new ColumnConstraint());
     }
 
-
+    /**
+     * set
+     * @param constraintName constraint name
+     * @return THIS
+     */
     public ColumnConstraintBuilder<ParentBuilder> withConstraintName(String constraintName) {
         target.setConstraintName(constraintName);
         return this;
     }
 
+    /**
+     * set
+     * @param constraint Constraint
+     * @return THIS
+     */
     public ColumnConstraintBuilder<ParentBuilder> withConstraint(Constraint constraint) {
         target.setConstraint(constraint);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -46,18 +59,18 @@ public class ColumnConstraintBuilder<ParentBuilder>
 
     /**
      * Quick set
-     * @param constraintName constraintName
+     * @param constraintName constraint name
      * @return THIS
      */
-    public ColumnConstraintBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
+    public ColumnConstraintBuilder<ParentBuilder> $Constraint(String constraintName){
         return withConstraintName(constraintName);
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ParentBuilder> $PRIMARY_KEY(){
+    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
         return new PrimaryUniques.ColumnPrimaryUniqueBuilder<ParentBuilder>
                 (initSet2(
                         PrimaryUnique::new,
@@ -68,10 +81,10 @@ public class ColumnConstraintBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ParentBuilder> $UNIQUE(){
+    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ParentBuilder> $Unique(){
         return new PrimaryUniques.ColumnPrimaryUniqueBuilder<ParentBuilder>
                 (initSet2(
                         PrimaryUnique::new,
@@ -82,10 +95,10 @@ public class ColumnConstraintBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnForeignBuilder
      */
-    public Foreigns.ColumnForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+    public Foreigns.ColumnForeignBuilder<ParentBuilder> $ForeignKey(){
         return new Foreigns.ColumnForeignBuilder<ParentBuilder>
                 (initSet2(
                         Foreign::new,
@@ -95,10 +108,10 @@ public class ColumnConstraintBuilder<ParentBuilder>
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return CheckBuilder
      */
-    public CheckBuilder<ParentBuilder> $CHECK(){
+    public CheckBuilder<ParentBuilder> $Check(){
         return new CheckBuilder<ParentBuilder>
                 (initSet2(
                         Check::new,

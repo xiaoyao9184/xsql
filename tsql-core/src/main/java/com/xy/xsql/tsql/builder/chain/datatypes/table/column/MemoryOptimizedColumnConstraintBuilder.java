@@ -14,10 +14,12 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import static com.xy.xsql.core.FiledBuilder.initSet2;
 
 /**
+ * MemoryOptimizedColumnConstraintBuilder
  * Use
  * in --Memory optimized CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/8/4.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
         extends CodeTreeBuilder<MemoryOptimizedColumnConstraintBuilder<ParentBuilder>,ParentBuilder,ColumnConstraint> {
 
@@ -29,16 +31,28 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
         super(new ColumnConstraint());
     }
 
-
+    /**
+     * set
+     * @param constraintName constraint name
+     * @return THIS
+     */
     public MemoryOptimizedColumnConstraintBuilder<ParentBuilder> withConstraintName(String constraintName) {
         target.setConstraintName(constraintName);
         return this;
     }
 
+    /**
+     * set
+     * @param constraint Constraint
+     * @return THIS
+     */
     public MemoryOptimizedColumnConstraintBuilder<ParentBuilder> withConstraint(Constraint constraint) {
         target.setConstraint(constraint);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -46,10 +60,10 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
 
     /**
      * Quick set
-     * @param constraintName constraintName
+     * @param constraintName constraint name
      * @return THIS
      */
-    public MemoryOptimizedColumnConstraintBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
+    public MemoryOptimizedColumnConstraintBuilder<ParentBuilder> $Constraint(String constraintName){
         return withConstraintName(constraintName);
     }
 
@@ -57,7 +71,7 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
      * Quick in
      * @return HashBucketCountColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $PRIMARY_KEY(){
+    public PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
         return new PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder>
                 (initSet2(
                         PrimaryUnique::new,
@@ -71,7 +85,7 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
      * Quick in
      * @return HashBucketCountColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $UNIQUE(){
+    public PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $Unique(){
         return new PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder>
                 (initSet2(
                         PrimaryUnique::new,
@@ -85,7 +99,7 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
      * Quick in
      * @return ReferencesColumnForeignBuilder
      */
-    public Foreigns.ReferencesColumnForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+    public Foreigns.ReferencesColumnForeignBuilder<ParentBuilder> $ForeignKey(){
         return new Foreigns.ReferencesColumnForeignBuilder<ParentBuilder>
                 (initSet2(
                         Foreign::new,
@@ -97,9 +111,9 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
     /**
      * Quick out
      * @param logicalExpression logicalExpression
-     * @return ParentBuilder
+     * @return PARENT
      */
-    public ParentBuilder $CHECK(Expression logicalExpression){
+    public ParentBuilder $Check(Expression logicalExpression){
         return new CheckBuilder<ParentBuilder>
                 (initSet2(
                         Check::new,

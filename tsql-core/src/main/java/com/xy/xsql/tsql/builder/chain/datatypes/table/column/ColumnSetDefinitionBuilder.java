@@ -5,6 +5,7 @@ import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnSetDefinition;
 
 /**
+ * ColumnSetDefinitionBuilder
  * Use
  * in --Disk-Based CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/3/12.
@@ -20,6 +21,11 @@ public class ColumnSetDefinitionBuilder<ParentBuilder>
         super(new ColumnSetDefinition());
     }
 
+    /**
+     * set
+     * @param columnName ColumnName
+     * @return THIS
+     */
     public ColumnSetDefinitionBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
         target.setColumnSetName(columnName.getName());
         return this;

@@ -1,12 +1,12 @@
-package com.xy.xsql.tsql.builder.chain.datatypes.table.table;
+package com.xy.xsql.tsql.builder.chain.datatypes;
 
-import com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
-import org.junit.Assert;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
@@ -30,14 +30,14 @@ public class DataTypesTest {
                             DataType dataType = (DataType) method.invoke(
                                     null,
                                     "TEST");
-                            Assert.assertTrue(dataType.toString().equals("TEST"));
+                            assertTrue(dataType.toString().equals("TEST"));
                             return;
                         }
 
                         DataType dataType = (DataType) method.invoke(
                                 null,
                                 Arrays.copyOf(params,method.getParameterCount()));
-                        Assert.assertTrue(dataType.toString().startsWith(name));
+                        assertTrue(dataType.toString().startsWith(name));
                     }catch (Exception e) {
                         e.printStackTrace();
                     }

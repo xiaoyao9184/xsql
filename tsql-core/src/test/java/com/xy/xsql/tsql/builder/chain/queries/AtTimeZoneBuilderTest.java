@@ -1,11 +1,10 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
 import com.xy.xsql.tsql.model.queries.AtTimeZone;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
-
+import static org.junit.Assert.*;
 
 /**
  * Created by xiaoyao9184 on 2017/3/11.
@@ -27,8 +26,8 @@ public class AtTimeZoneBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(atTimeZone.getInputExpression().toString(),"OrderDate");
-        Assert.assertEquals(atTimeZone.getTimezone().getString(),"Pacific Standard Time");
+        assertEquals(atTimeZone.getInputExpression().toString(),"OrderDate");
+        assertEquals(atTimeZone.getTimezone().getString(),"Pacific Standard Time");
     }
 
     /**
@@ -53,11 +52,11 @@ public class AtTimeZoneBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(atTimeZone.getInputExpression().getClass(),AtTimeZone.class);
-        Assert.assertEquals(atTimeZone.getTimezone().getString(),"Central European Standard Time");
+        assertEquals(atTimeZone.getInputExpression().getClass(),AtTimeZone.class);
+        assertEquals(atTimeZone.getTimezone().getString(),"Central European Standard Time");
 
-        Assert.assertEquals(atTimeZone0.getInputExpression().toString(),"OrderDate");
-        Assert.assertEquals(atTimeZone0.getTimezone().getString(),"Pacific Standard Time");
+        assertEquals(atTimeZone0.getInputExpression().toString(),"OrderDate");
+        assertEquals(atTimeZone0.getTimezone().getString(),"Pacific Standard Time");
     }
 
     /**
@@ -82,11 +81,11 @@ public class AtTimeZoneBuilderTest {
                 .build();
         // @formatter:on
 
-        Assert.assertEquals(atTimeZone.getInputExpression().toString(),"ValidFrom");
-        Assert.assertEquals(atTimeZone.getTimezone().getString(),"Pacific Standard Time");
+        assertEquals(atTimeZone.getInputExpression().toString(),"ValidFrom");
+        assertEquals(atTimeZone.getTimezone().getString(),"Pacific Standard Time");
 
-        Assert.assertEquals(atTimeZone0.getInputExpression().toString(),"DATEADD (month, -1, GETDATE())");
-        Assert.assertEquals(atTimeZone0.getTimezone().getString(),"UTC");
+        assertEquals(atTimeZone0.getInputExpression().toString(),"DATEADD (month, -1, GETDATE())");
+        assertEquals(atTimeZone0.getTimezone().getString(),"UTC");
     }
 
 }

@@ -12,7 +12,7 @@ import org.hsweb.ezorm.rdb.render.support.simple.SimpleSQL;
 import java.util.List;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
-import static com.xy.xsql.tsql.builder.chain.statements.DeleteBuilder.DELETE;
+import static com.xy.xsql.tsql.builder.chain.statements.Statements.$Delete;
 
 /**
  * Created by xiaoyao9184 on 2017/9/14.
@@ -27,7 +27,7 @@ public class TsqlDeleteSqlRender extends CommentSupportRender<Param> {
         List params = whereListParameterModel.getParam();
         Where where = whereListParameterModel.getModel();
 
-        Delete delete = DELETE()
+        Delete delete = $Delete()
                 .$(t(metaData.getAlias()))
                 .$From(getTableName())
                 .build();

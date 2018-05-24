@@ -3,7 +3,7 @@ package com.xy.xsql.tsql.builder.chain.statements;
 import com.xy.xsql.core.builder.CodeBuilder;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.core.configurator.BaseConfigurator;
-import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
@@ -22,8 +22,10 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 
 /**
+ * BulkInsertBuilder
  * Created by xiaoyao9184 on 2017/1/9.
  */
+@SuppressWarnings({"unused","WeakerAccess"})
 public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
     public BulkInsertBuilder(BulkInsert tar) {
@@ -36,8 +38,9 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
 
     /**
+     * set
      * [ database_name . [ schema_name ] . | schema_name . ] [ table_name | view_name ]
-     * @return This
+     * @return THIS
      */
     public BulkInsertBuilder withTableViewName(TableName tableViewName){
         target.setTableOrView(tableViewName);
@@ -45,9 +48,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * FROM 'data_file'
-     * @param dataFile
-     * @return This
+     * @param dataFile data file
+     * @return THIS
      */
     public BulkInsertBuilder withFrom(String dataFile){
         target.setFormDataFile(e_string(dataFile));
@@ -55,9 +59,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] BATCHSIZE = batch_size ]
-     * @param batchSize
-     * @return This
+     * @param batchSize batch size
+     * @return THIS
      */
     public BulkInsertBuilder withBatchSize(Integer batchSize){
         target.setBatchSize(e_number(batchSize));
@@ -65,8 +70,9 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] CHECK_CONSTRAINTS ]
-     * @return This
+     * @return THIS
      */
     public BulkInsertBuilder withCheckConstraints(){
         target.setCheckConstraints(true);
@@ -74,9 +80,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] CODEPAGE = { 'ACP' | 'OEM' | 'RAW' | 'code_page' } ]
-     * @param codePage
-     * @return This
+     * @param codePage code page
+     * @return THIS
      */
     public BulkInsertBuilder withCodePage(String codePage){
         target.setCodePage(e_string(codePage));
@@ -84,9 +91,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] CODEPAGE = { 'ACP' | 'OEM' | 'RAW' | 'code_page' } ]
-     * @param codePage
-     * @return This
+     * @param codePage code page
+     * @return THIS
      */
     public BulkInsertBuilder withCodePage(CodePage codePage){
         target.setCodePage(codePage);
@@ -94,11 +102,12 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] DATAFILETYPE =
      * { 'char' | 'native'| 'widechar' | 'widenative' } ]
      * @deprecated can't set other value
-     * @param dataFileType
-     * @return This
+     * @param dataFileType data file type
+     * @return THIS
      */
     @Deprecated
     public BulkInsertBuilder withDataFileType(StringConstant dataFileType){
@@ -107,10 +116,11 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] DATAFILETYPE =
      * { 'char' | 'native'| 'widechar' | 'widenative' } ]
-     * @param dataFileType
-     * @return
+     * @param dataFileType data file type
+     * @return THIS
      */
     public BulkInsertBuilder withDataFileType(DataFileType dataFileType){
         target.setDataFileType(dataFileType);
@@ -118,9 +128,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] DATASOURCE = 'data_source_name' ]
-     * @param dataSourceName
-     * @return This
+     * @param dataSourceName data source name
+     * @return THIS
      */
     public BulkInsertBuilder withDataSource(String dataSourceName){
         target.setDataSource(e_string(dataSourceName));
@@ -128,9 +139,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] ERRORFILE = 'file_name' ]
-     * @param fileName
-     * @return This
+     * @param fileName file name
+     * @return THIS
      */
     public BulkInsertBuilder withErrorFile(String fileName){
         target.setErrorFile(e_string(fileName));
@@ -138,9 +150,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] ERRORFILE_DATASOURCE = 'data_source_name' ]
-     * @param dataSourceName
-     * @return This
+     * @param dataSourceName data source name
+     * @return THIS
      */
     public BulkInsertBuilder withErrorFileDataSource(String dataSourceName){
         target.setErrorFileDataSource(e_string(dataSourceName));
@@ -148,9 +161,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] FIRSTROW = first_row ]
-     * @param firstRow
-     * @return This
+     * @param firstRow first row
+     * @return THIS
      */
     public BulkInsertBuilder withFirstRow(Integer firstRow){
         target.setFirstRow(e_number(firstRow));
@@ -158,8 +172,9 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] FIRE_TRIGGERS ]
-     * @return This
+     * @return THIS
      */
     public BulkInsertBuilder withFireTriggers(){
         target.setFireTriggers(true);
@@ -167,9 +182,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] FORMATFILE_DATASOURCE = 'data_source_name' ]
-     * @param dataSourceName
-     * @return This
+     * @param dataSourceName data source name
+     * @return THIS
      */
     public BulkInsertBuilder withFireTriggers(String dataSourceName){
         target.setFormatFileDataSource(e_string(dataSourceName));
@@ -177,8 +193,9 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] KEEPIDENTITY ]
-     * @return This
+     * @return THIS
      */
     public BulkInsertBuilder withKeepIdentity(){
         target.setKeepIdentity(true);
@@ -186,8 +203,9 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] KEEPNULLS ]
-     * @return This
+     * @return THIS
      */
     public BulkInsertBuilder withKeepNulls(){
         target.setKeepNulls(true);
@@ -195,9 +213,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] KILOBYTES_PER_BATCH = kilobytes_per_batch ]
-     * @param kilobytesPerBatch
-     * @return This
+     * @param kilobytesPerBatch kilobytes per batch
+     * @return THIS
      */
     public BulkInsertBuilder withKilobytesPerBatch(Integer kilobytesPerBatch){
         target.setKilobytesPerBatch(e_number(kilobytesPerBatch));
@@ -205,9 +224,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] LASTROW = last_row ]
-     * @param lastRow
-     * @return This
+     * @param lastRow last row
+     * @return THIS
      */
     public BulkInsertBuilder withLastRow(Integer lastRow){
         target.setLastRow(e_number(lastRow));
@@ -215,9 +235,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] MAXERRORS = max_errors ]
-     * @param maxErrors
-     * @return This
+     * @param maxErrors max errors
+     * @return THIS
      */
     public BulkInsertBuilder withMaxErrors(Integer maxErrors){
         target.setMaxErrors(e_number(maxErrors));
@@ -225,9 +246,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] ORDER ( { column [ ASC | DESC ] } [ ,...n ] ) ]
-     * @param orderList
-     * @return This
+     * @param orderList column
+     * @return THIS
      */
     public BulkInsertBuilder withOrderList(List<BulkInsert.OrderColumn> orderList){
         target.setOrderList(orderList);
@@ -235,9 +257,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] ROWS_PER_BATCH = rows_per_batch ]
-     * @param rowsPerBatch
-     * @return This
+     * @param rowsPerBatch rows per batch
+     * @return THIS
      */
     public BulkInsertBuilder withRowsPerBatch(Integer rowsPerBatch){
         target.setRowsPerBatch(e_number(rowsPerBatch));
@@ -245,17 +268,20 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] ROWTERMINATOR = 'row_terminator' ]
-     * @param rowTerminator
-     * @return This
+     * @param rowTerminator row terminator
+     * @return THIS
      */
     public BulkInsertBuilder withRowTerminator(String rowTerminator){
         target.setRowTerminator(e_string(rowTerminator));
         return this;
     }
+
     /**
+     * set
      * [ [ , ] TABLOCK ]
-     * @return This
+     * @return THIS
      */
     public BulkInsertBuilder withTabLock(){
         target.setTabLock(true);
@@ -264,9 +290,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
     //-- input file format options
     /**
+     * set
      * [ [ , ] FORMAT = 'CSV' ]
-     * @param format
-     * @return This
+     * @param format format
+     * @return THIS
      */
     public BulkInsertBuilder withFormat(String format){
         target.setFormat(e_string(format));
@@ -274,9 +301,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] FIELDQUOTE = 'quote_characters']
-     * @param quoteCharacters
-     * @return This
+     * @param quoteCharacters quote characters
+     * @return THIS
      */
     public BulkInsertBuilder withFieldQuote(String quoteCharacters){
         target.setFieldQuote(e_string(quoteCharacters));
@@ -284,9 +312,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] FORMATFILE = 'format_file_path' ]
-     * @param formatFilePath
-     * @return This
+     * @param formatFilePath format file path
+     * @return THIS
      */
     public BulkInsertBuilder withFormatFile(String formatFilePath){
         target.setFormatFile(e_string(formatFilePath));
@@ -294,9 +323,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
+     * set
      * [ [ , ] FIELDTERMINATOR = 'field_terminator' ]
-     * @param fieldTerminator
-     * @return This
+     * @param fieldTerminator field terminator
+     * @return THIS
      */
     public BulkInsertBuilder withFieldTerminator(String fieldTerminator){
         target.setFieldTerminator(e_string(fieldTerminator));
@@ -315,18 +345,16 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 //    }
 
 
-    /**
-     * Quick set
-     * @return
+
+
+    /*
+    Quick
      */
-    public static BulkInsertBuilder BULK_INSERT(){
-        return new BulkInsertBuilder();
-    }
 
     /**
      * Quick set
-     * @param tableName
-     * @return
+     * @param tableName TableName
+     * @return THIS
      */
     public BulkInsertBuilder $(TableName tableName){
         return withTableViewName(tableName);
@@ -334,8 +362,8 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
     /**
      * Quick set
-     * @param dataFile
-     * @return
+     * @param dataFile data file
+     * @return THIS
      */
     public BulkInsertBuilder $From(String dataFile){
         return withFrom(dataFile);
@@ -343,8 +371,8 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
     /**
      * Quick set
-     * @param items
-     * @return
+     * @param items WithSetter
+     * @return THIS
      */
     public BulkInsertBuilder $With(WithSetter... items){
         Arrays.stream(items)
@@ -353,7 +381,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
 
-
+    /**
+     * OrderColumnBuilder
+     * @param <ParentBuilder>
+     */
     public static class OrderColumnBuilder<ParentBuilder>
             extends CodeTreeBuilder<OrderColumnBuilder<ParentBuilder>,ParentBuilder,BulkInsert.OrderColumn> {
 
@@ -362,28 +393,51 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
             super(orderColumn);
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public OrderColumnBuilder<ParentBuilder> withAsc(){
             target.setUseAsc(true);
             return this;
         }
 
+        /**
+         * set
+         * @param useAsc asc
+         * @return THIS
+         */
         @Deprecated
         public OrderColumnBuilder<ParentBuilder> withAsc(boolean useAsc){
             target.setUseAsc(useAsc);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public OrderColumnBuilder<ParentBuilder> withDesc(){
             target.setUseDesc(true);
             return this;
         }
 
+        /**
+         * set
+         * @param useDesc desc
+         * @return THIS
+         */
         @Deprecated
         public OrderColumnBuilder<ParentBuilder> withDesc(boolean useDesc){
             target.setUseDesc(useDesc);
             return this;
         }
 
+        /**
+         * set
+         * @param columnName ColumnName
+         * @return THIS
+         */
         public OrderColumnBuilder<ParentBuilder> withColumnName(ColumnName columnName){
             target.setColumn(columnName);
             return this;
@@ -391,8 +445,12 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
     }
 
-    public static class OrderBuilder
-            extends CodeBuilder<List<BulkInsert.OrderColumn>>
+    /**
+     * OrderBuilder
+     * @param <ParentBuilder>
+     */
+    public static class OrderBuilder<ParentBuilder>
+            extends CodeTreeBuilder<OrderBuilder<ParentBuilder>,ParentBuilder,List<BulkInsert.OrderColumn>>
             implements WithSetter {
 
         public OrderBuilder(){
@@ -410,21 +468,40 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
                     bulkInsert::setOrderList);
         }
 
-        public OrderColumnBuilder<OrderBuilder> withItem(){
-            return new OrderColumnBuilder<OrderBuilder>
+        /**
+         * in
+         * @return OrderColumnBuilder
+         */
+        public OrderColumnBuilder<OrderBuilder<ParentBuilder>> withItem(){
+            return new OrderColumnBuilder<OrderBuilder<ParentBuilder>>
                     (initSet(BulkInsert.OrderColumn::new,
-                            () -> null,
+                            Getter.empty(),
                             (i) -> target.add(i)))
                     .in(this);
         }
 
 
+
+
+        /*
+        Quick
+         */
+
+        /**
+         * Quick set
+         * @param columnName ColumnName
+         * @return THIS
+         */
         public OrderBuilder $(ColumnName columnName) {
             return withItem()
                     .withColumnName(columnName)
                     .and();
         }
 
+        /**
+         * Quick set
+         * @return THIS
+         */
         public OrderBuilder $Aes(){
             BulkInsert.OrderColumn last = getLastItem(target);
             return new OrderColumnBuilder<OrderBuilder>
@@ -434,6 +511,10 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
                     .and();
         }
 
+        /**
+         * Quick set
+         * @return THIS
+         */
         public OrderBuilder $Desc(){
             BulkInsert.OrderColumn last = getLastItem(target);
             return new OrderColumnBuilder<OrderBuilder>
@@ -473,32 +554,70 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     public interface WithSetter
             extends BaseConfigurator<BulkInsert> {
 
-        static WithSetter BATCHSIZE(Integer batchSize){
+        /**
+         * Quick build
+         * @param batchSize batch size
+         * @return WithSetter
+         */
+        static WithSetter $BATCHSIZE(Integer batchSize){
             return bulkInsert -> bulkInsert.setBatchSize(c_number(batchSize));
         }
 
-        static WithSetter CHECK_CONSTRAINTS(){
+        /**
+         * Quick build
+         * @return WithSetter
+         */
+        static WithSetter $CHECK_CONSTRAINTS(){
             return bulkInsert -> bulkInsert.setCheckConstraints(true);
         }
 
-        static WithSetter CODEPAGE(String codePage){
+        /**
+         * Quick build
+         * @param codePage code page
+         * @return WithSetter
+         */
+        static WithSetter $CODEPAGE(String codePage){
             return bulkInsert -> bulkInsert.setCodePage(c_string(codePage));
         }
 
-        static WithSetter CODEPAGE(CodePage codePage){
+        /**
+         * Quick build
+         * @param codePage code page
+         * @return WithSetter
+         */
+        static WithSetter $CODEPAGE(CodePage codePage){
             return bulkInsert -> bulkInsert.setCodePage(codePage);
         }
 
-        static WithSetter DATAFILETYPE(DataFileType dataFileType){
+        /**
+         * Quick build
+         * @param dataFileType data file type
+         * @return WithSetter
+         */
+        static WithSetter $DATAFILETYPE(DataFileType dataFileType){
             return bulkInsert -> bulkInsert.setDataFileType(dataFileType);
         }
 
+        /**
+         * Quick build
+         * @return CodePage
+         */
         static CodePage ACP(){
             return ACP;
         }
+
+        /**
+         * Quick build
+         * @return CodePage
+         */
         static CodePage OEM(){
             return OEM;
         }
+
+        /**
+         * Quick build
+         * @return CodePage
+         */
         static CodePage RAW(){
             return RAW;
         }
@@ -506,15 +625,34 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         CodePage OEM = new CodePage("OEM");
         CodePage RAW = new CodePage("RAW");
 
+        /**
+         * Quick build
+         * @return DataFileType
+         */
         static DataFileType char_(){
             return char_;
         }
+
+        /**
+         * Quick build
+         * @return DataFileType
+         */
         static DataFileType native_(){
             return native_;
         }
+
+        /**
+         * Quick build
+         * @return DataFileType
+         */
         static DataFileType widechar_(){
             return widechar_;
         }
+
+        /**
+         * Quick build
+         * @return DataFileType
+         */
         static DataFileType widenative_(){
             return widenative_;
         }
@@ -524,81 +662,172 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
         DataFileType widenative_ = new DataFileType("widenative");
 
 
+        /**
+         * Quick build
+         * @param dataSource data source
+         * @return WithSetter
+         */
         static WithSetter DATASOURCE(String dataSource){
             return bulkInsert -> bulkInsert.setDataSource(c_string(dataSource));
         }
 
+        /**
+         * Quick build
+         * @param errorFile error file
+         * @return WithSetter
+         */
         static WithSetter ERRORFILE(String errorFile){
             return bulkInsert -> bulkInsert.setErrorFile(c_string(errorFile));
         }
 
+        /**
+         * Quick build
+         * @param errorFileDataSource error file data source
+         * @return WithSetter
+         */
         static WithSetter ERRORFILE_DATASOURCE(String errorFileDataSource){
             return bulkInsert -> bulkInsert.setErrorFileDataSource(c_string(errorFileDataSource));
         }
 
+        /**
+         * Quick build
+         * @param firstRow first row
+         * @return WithSetter
+         */
         static WithSetter FIRSTROW(Integer firstRow){
             return bulkInsert -> bulkInsert.setFirstRow(c_number(firstRow));
         }
 
+        /**
+         * Quick build
+         * @return WithSetter
+         */
         static WithSetter FIRE_TRIGGERS(){
             return bulkInsert -> bulkInsert.setFireTriggers(true);
         }
 
+        /**
+         * Quick build
+         * @param dataSourceName data source name
+         * @return WithSetter
+         */
         static WithSetter FORMATFILE_DATASOURCE(String dataSourceName){
             return bulkInsert -> bulkInsert.setFormatFile(c_string(dataSourceName));
         }
 
+        /**
+         * Quick build
+         * @return WithSetter
+         */
         static WithSetter KEEPIDENTITY(){
             return bulkInsert -> bulkInsert.setKeepIdentity(true);
         }
 
+        /**
+         * Quick build
+         * @return WithSetter
+         */
         static WithSetter KEEPNULLS(){
             return bulkInsert -> bulkInsert.setKeepNulls(true);
         }
 
+        /**
+         * Quick build
+         * @param kilobytesPerBatch kilobytes per batch
+         * @return WithSetter
+         */
         static WithSetter KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
             return bulkInsert -> bulkInsert.setKilobytesPerBatch(c_number(kilobytesPerBatch));
         }
 
+        /**
+         * Quick build
+         * @param lastRow last row
+         * @return WithSetter
+         */
         static WithSetter LASTROW(Integer lastRow){
             return bulkInsert -> bulkInsert.setLastRow(c_number(lastRow));
         }
 
+        /**
+         * Quick build
+         * @param maxErrors max errors
+         * @return WithSetter
+         */
         static WithSetter MAXERRORS(Integer maxErrors){
             return bulkInsert -> bulkInsert.setMaxErrors(c_number(maxErrors));
         }
 
+        /**
+         * Quick build
+         * @return WithSetter
+         */
         static OrderBuilder ORDER(){
             return new OrderBuilder();
         }
 
+        /**
+         * Quick build
+         * @param rowsPerBatch rows per batch
+         * @return WithSetter
+         */
         static WithSetter ROWS_PER_BATCH(Integer rowsPerBatch){
             return bulkInsert -> bulkInsert.setRowsPerBatch(c_number(rowsPerBatch));
         }
 
+        /**
+         * Quick build
+         * @param rowTerminator row terminator
+         * @return WithSetter
+         */
         static WithSetter ROWTERMINATOR(String rowTerminator){
             return bulkInsert -> bulkInsert.setRowTerminator(c_string(rowTerminator));
         }
 
+        /**
+         * Quick build
+         * @return WithSetter
+         */
         static WithSetter TABLOCK (){
             return bulkInsert -> bulkInsert.setTabLock(true);
         }
 
+        /**
+         * Quick build
+         * @param format format
+         * @return WithSetter
+         */
         static WithSetter FORMAT(String format){
             return bulkInsert -> bulkInsert.setFormat(c_string(format));
         }
 
+        /**
+         * Quick build
+         * @param fieldQuote field quote
+         * @return WithSetter
+         */
         static WithSetter FIELDQUOTE(String fieldQuote){
             return bulkInsert -> bulkInsert.setFieldQuote(c_string(fieldQuote));
         }
 
+        /**
+         * Quick build
+         * @param formatFile format file
+         * @return WithSetter
+         */
         static WithSetter FORMATFILE(String formatFile){
             return bulkInsert -> bulkInsert.setFormatFile(c_string(formatFile));
         }
 
+        /**
+         * Quick build
+         * @param fieldTerminator field terminator
+         * @return WithSetter
+         */
         static WithSetter FIELDTERMINATOR(String fieldTerminator){
             return bulkInsert -> bulkInsert.setFieldTerminator(c_string(fieldTerminator));
         }
+
     }
 
 }

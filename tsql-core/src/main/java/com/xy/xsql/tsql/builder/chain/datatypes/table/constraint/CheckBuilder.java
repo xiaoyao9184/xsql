@@ -5,8 +5,10 @@ import com.xy.xsql.tsql.model.datatypes.table.constraint.Check;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 /**
+ * CheckBuilder
  * Created by xiaoyao9184 on 2017/8/17.
  */
+@SuppressWarnings("unused")
 public class CheckBuilder<ParentBuilder>
         extends CodeTreeBuilder<CheckBuilder<ParentBuilder>,ParentBuilder,Check> {
 
@@ -15,15 +17,28 @@ public class CheckBuilder<ParentBuilder>
     }
 
 
+    /**
+     * set
+     * @param useNotForReplication not for replication
+     * @return THIS
+     */
     public CheckBuilder<ParentBuilder> withUseNotForReplication(boolean useNotForReplication){
         target.setUseNotForReplication(useNotForReplication);
         return this;
     }
 
+    /**
+     * set
+     * @param logicalExpression Expression
+     * @return THIS
+     */
     public CheckBuilder<ParentBuilder> withLogicalExpression(Expression logicalExpression){
         target.setLogicalExpression(logicalExpression);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -33,7 +48,7 @@ public class CheckBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public CheckBuilder<ParentBuilder> $NOT_FOR_REPLICATION(){
+    public CheckBuilder<ParentBuilder> $NotForReplication(){
         target.setUseNotForReplication(true);
         return this;
     }

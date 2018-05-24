@@ -7,40 +7,64 @@ import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 
 import java.util.Collections;
 
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.column.DataTypes.*;
+import static com.xy.xsql.tsql.builder.chain.datatypes.DataTypes.*;
 
 /**
- * ColumnDefinitionFactory
+ * ColumnDefinition Factory
  * Created by xiaoyao9184 on 2017/3/23.
  */
-public class ColumnDefinitionFactory {
+@SuppressWarnings("unused")
+public class ColumnDefinitions {
 
-
+    /**
+     * Quick build
+     * @param name name
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_int(String name){
         ColumnDefinition columnDefinition = new ColumnDefinition(name);
         columnDefinition.setDataType(_int());
         return columnDefinition;
     }
 
+    /**
+     * Quick build
+     * @param name name
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_smallint(String name){
         ColumnDefinition columnDefinition = new ColumnDefinition(name);
         columnDefinition.setDataType(_smallint());
         return columnDefinition;
     }
 
+    /**
+     * Quick build
+     * @param name name
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_varchar(String name,Integer len){
         ColumnDefinition columnDefinition = new ColumnDefinition(name);
         columnDefinition.setDataType(_varchar(len));
         return columnDefinition;
     }
 
+    /**
+     * Quick build
+     * @param name name
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_datetime(String name){
         ColumnDefinition columnDefinition = new ColumnDefinition(name);
         columnDefinition.setDataType(_datetime());
         return columnDefinition;
     }
 
-
+    /**
+     * Quick build
+     * @param columnDefinition ColumnDefinition
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_null(ColumnDefinition columnDefinition){
         ColumnConstraint cc = new ColumnConstraint();
         cc.setConstraint(new NullOrNotNull(true));
@@ -49,6 +73,11 @@ public class ColumnDefinitionFactory {
                 .build();
     }
 
+    /**
+     * Quick build
+     * @param columnDefinition ColumnDefinition
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_not_null(ColumnDefinition columnDefinition){
         ColumnConstraint cc = new ColumnConstraint();
         cc.setConstraint(new NullOrNotNull(false));
@@ -57,6 +86,11 @@ public class ColumnDefinitionFactory {
                 .build();
     }
 
+    /**
+     * Quick build
+     * @param columnDefinition ColumnDefinition
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_primary_key(ColumnDefinition columnDefinition){
         ColumnConstraint cc = new ColumnConstraint();
         cc.setConstraint(new PrimaryUnique(true));
@@ -65,6 +99,11 @@ public class ColumnDefinitionFactory {
                 .build();
     }
 
+    /**
+     * Quick build
+     * @param columnDefinition ColumnDefinition
+     * @return ColumnDefinition
+     */
     public static ColumnDefinition c_unique(ColumnDefinition columnDefinition){
         ColumnConstraint cc = new ColumnConstraint();
         cc.setConstraint(new PrimaryUnique(false));
@@ -72,7 +111,5 @@ public class ColumnDefinitionFactory {
                 .withColumnConstraint(Collections.singletonList(cc))
                 .build();
     }
-
-
 
 }

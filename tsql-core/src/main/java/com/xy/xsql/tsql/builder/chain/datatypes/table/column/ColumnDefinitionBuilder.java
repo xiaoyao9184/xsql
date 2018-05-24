@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.datatypes.table.column.DataType;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
@@ -19,10 +19,12 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.initNew;
 
 /**
+ * ColumnDefinitionBuilder
  * Use
  * in --Disk-Based CREATE TABLE Syntax
  * Created by xiaoyao9184 on 2017/3/12.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class ColumnDefinitionBuilder<ParentBuilder>
         extends CodeTreeBuilder<ColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ColumnDefinition> {
 
@@ -34,112 +36,221 @@ public class ColumnDefinitionBuilder<ParentBuilder>
         super(new ColumnDefinition());
     }
 
+    /**
+     * set
+     * @param columnName ColumnName
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withColumnName(ColumnName columnName) {
         target.setTable(columnName.getTable());
         target.setName(columnName.getName());
         return this;
     }
 
+    /**
+     * set
+     * @param dataType DataType
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withDataType(DataType dataType) {
         target.setDataType(dataType);
         return this;
     }
 
+    /**
+     * set
+     * @param useFilestream filestream
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseFilestream(boolean useFilestream) {
         target.setUseFilestream(useFilestream);
         return this;
     }
 
+    /**
+     * set
+     * @param collationName collation name
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withCollate(Collate collationName) {
         target.setCollationName(collationName);
         return this;
     }
 
+    /**
+     * set
+     * @param useSparse sparse
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseSparse(boolean useSparse) {
         target.setUseSparse(useSparse);
         return this;
     }
 
+    /**
+     * set
+     * @param maskFunction mask function
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withMaskFunction(StringConstant maskFunction) {
         target.setMaskFunction(maskFunction);
         return this;
     }
 
+    /**
+     * set
+     * @param constraintName constraint name
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withConstraintName(String constraintName) {
         target.setConstraintName(constraintName);
         return this;
     }
 
+    /**
+     * set
+     * @param constantExpression Expression
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withConstantExpression(Expression constantExpression) {
         target.setConstantExpression(constantExpression);
         return this;
     }
 
+    /**
+     * set
+     * @param seed seed
+     * @param increment increment
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withIdentity(Integer seed, Integer increment) {
         target.setSeed(seed);
         target.setIncrement(increment);
         return this;
     }
 
+    /**
+     * set
+     * @param useNotForReplication not for replication
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseNotForReplication(boolean useNotForReplication) {
         target.setUseNotForReplication(useNotForReplication);
         return this;
     }
 
+    /**
+     * set
+     * @param useGeneratedAlwaysStart generated always start
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseGeneratedAlwaysStart(boolean useGeneratedAlwaysStart) {
         target.setUseGeneratedAlwaysStart(useGeneratedAlwaysStart);
         return this;
     }
 
+    /**
+     * set
+     * @param useGeneratedAlwaysEnd generated always end
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseGeneratedAlwaysEnd(boolean useGeneratedAlwaysEnd) {
         target.setUseGeneratedAlwaysEnd(useGeneratedAlwaysEnd);
         return this;
     }
 
+    /**
+     * set
+     * @param useHidden hidden
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseHidden(boolean useHidden) {
         target.setUseHidden(useHidden);
         return this;
     }
 
+    /**
+     * set
+     * @param useNull null
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseNull(boolean useNull) {
         target.setUseNull(useNull);
         return this;
     }
 
+    /**
+     * set
+     * @param useNotNull not null
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseNotNull(boolean useNotNull) {
         target.setUseNotNull(useNotNull);
         return this;
     }
 
+    /**
+     * set
+     * @param useRowGuidCol row guid col
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withUseRowGuidCol(boolean useRowGuidCol) {
         target.setUseRowGuidCol(useRowGuidCol);
         return this;
     }
 
+    /**
+     * set
+     * @param columnEncryptionKey column encryption key
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withColumnEncryptionKey(String columnEncryptionKey) {
         target.setColumnEncryptionKey(columnEncryptionKey);
         return this;
     }
 
+    /**
+     * set
+     * @param randomizedEncryptionType randomized encryption type
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withRandomizedEncryptionType(boolean randomizedEncryptionType) {
         target.setRandomizedEncryptionType(randomizedEncryptionType);
         return this;
     }
 
+    /**
+     * set
+     * @param algorithm algorithm
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withAlgorithm(StringConstant algorithm) {
         target.setAlgorithm(algorithm);
         return this;
     }
 
+    /**
+     * set
+     * @param columnConstraintList ColumnConstraint
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withColumnConstraint(List<ColumnConstraint> columnConstraintList) {
         target.setColumnConstraint(columnConstraintList);
         return this;
     }
 
+    /**
+     * set
+     * @param columnIndex ColumnIndex
+     * @return THIS
+     */
     public ColumnDefinitionBuilder<ParentBuilder> withColumnIndex(ColumnIndex columnIndex) {
         target.setColumnIndex(columnIndex);
         return this;
     }
+
+
+
 
     /*
     Quick
@@ -158,7 +269,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $FILESTREAM(){
+    public ColumnDefinitionBuilder<ParentBuilder> $Filestream(){
         return withUseFilestream(true);
     }
 
@@ -167,7 +278,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * @param collationName collationName
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $COLLATE(Collate collationName){
+    public ColumnDefinitionBuilder<ParentBuilder> $Collate(Collate collationName){
         return withCollate(collationName);
     }
 
@@ -175,7 +286,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $SPARSE(){
+    public ColumnDefinitionBuilder<ParentBuilder> $Sparse(){
         return withUseSparse(true);
     }
 
@@ -184,26 +295,27 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * @param maskFunction maskFunction
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $MASKED_WITH_FUNCTION(StringConstant maskFunction){
+    public ColumnDefinitionBuilder<ParentBuilder> $MaskedWithFunction(StringConstant maskFunction){
         return withMaskFunction(maskFunction);
     }
 
     /**
+     * TODO handle repeat
+     * @see #$$Constraint(String)
      * Quick set
-     * @param constraintName constraintName
+     * @param constraintName constraint name
      * @return THIS
      */
-    //TODO
-    public ColumnDefinitionBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
+    public ColumnDefinitionBuilder<ParentBuilder> $Constraint(String constraintName){
         return withConstraintName(constraintName);
     }
 
     /**
      * Quick set
-     * @param constantExpression constantExpression
+     * @param constantExpression Expression
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $DEFAULT(Expression constantExpression){
+    public ColumnDefinitionBuilder<ParentBuilder> $Default(Expression constantExpression){
         return withConstantExpression(constantExpression);
     }
 
@@ -213,7 +325,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * @param increment increment
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $IDENTITY(Integer seed, Integer increment){
+    public ColumnDefinitionBuilder<ParentBuilder> $Identity(Integer seed, Integer increment){
         return withIdentity(seed, increment);
     }
 
@@ -221,7 +333,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $NOT_FOR_REPLICATION(){
+    public ColumnDefinitionBuilder<ParentBuilder> $NotForReplication(){
         return withUseNotForReplication(true);
     }
 
@@ -229,7 +341,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $GENERATED_ALWAYS_AS_ROW_START(){
+    public ColumnDefinitionBuilder<ParentBuilder> $GeneratedAlwaysAsRowStart(){
         return withUseGeneratedAlwaysStart(true);
     }
 
@@ -237,7 +349,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $GENERATED_ALWAYS_AS_ROW_END(){
+    public ColumnDefinitionBuilder<ParentBuilder> $GeneratedAlwaysAsRowEnd(){
         return withUseGeneratedAlwaysEnd(true);
     }
 
@@ -245,7 +357,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $HIDDEN(){
+    public ColumnDefinitionBuilder<ParentBuilder> $Hidden(){
         return withUseHidden(true);
     }
 
@@ -253,7 +365,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $NULL(){
+    public ColumnDefinitionBuilder<ParentBuilder> $Null(){
         return withUseNull(true);
     }
 
@@ -261,7 +373,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $NOT_NULL(){
+    public ColumnDefinitionBuilder<ParentBuilder> $NotNull(){
         return withUseNotNull(true);
     }
 
@@ -269,7 +381,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $ROWGUIDCOL(){
+    public ColumnDefinitionBuilder<ParentBuilder> $Rowguidcol(){
         return withUseRowGuidCol(true);
     }
 
@@ -278,7 +390,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * @param columnEncryptionKey columnEncryptionKey
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $COLUMN_ENCRYPTION_KEY(String columnEncryptionKey){
+    public ColumnDefinitionBuilder<ParentBuilder> $ColumnEncryptionKey(String columnEncryptionKey){
         return withColumnEncryptionKey(columnEncryptionKey);
     }
 
@@ -286,7 +398,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $ENCRYPTION_TYPE_DETERMINISTIC(){
+    public ColumnDefinitionBuilder<ParentBuilder> $EncryptionTypeDeterministic(){
         return withRandomizedEncryptionType(false);
     }
 
@@ -294,7 +406,7 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick set
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $ENCRYPTION_TYPE_RANDOMIZED(){
+    public ColumnDefinitionBuilder<ParentBuilder> $EncryptionTypeRandomized(){
         return withRandomizedEncryptionType(true);
     }
 
@@ -303,13 +415,13 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * @param algorithm algorithm
      * @return THIS
      */
-    public ColumnDefinitionBuilder<ParentBuilder> $ALGORITHM(StringConstant algorithm){
+    public ColumnDefinitionBuilder<ParentBuilder> $Algorithm(StringConstant algorithm){
         return withAlgorithm(algorithm);
     }
 
     /**
-     * Quick into
-     * @param constraintName constraintName
+     * Quick in
+     * @param constraintName constraint name
      * @return ColumnConstraintBuilder
      */
     public ColumnConstraintBuilder<ColumnDefinitionBuilder<ParentBuilder>> $$Constraint(String constraintName){
@@ -322,30 +434,30 @@ public class ColumnDefinitionBuilder<ParentBuilder>
     }
     
     /**
-     * Quick into
+     * Quick in
      * @return ColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ColumnDefinitionBuilder<ParentBuilder>> $PRIMARY_KEY(){
+    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ColumnDefinitionBuilder<ParentBuilder>> $PrimaryKey(){
         return $$Constraint(null)
-                .$PRIMARY_KEY();
+                .$PrimaryKey();
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnPrimaryUniqueBuilder
      */
-    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ColumnDefinitionBuilder<ParentBuilder>> $UNIQUE(){
+    public PrimaryUniques.ColumnPrimaryUniqueBuilder<ColumnDefinitionBuilder<ParentBuilder>> $Unique(){
         return $$Constraint(null)
-                .$UNIQUE();
+                .$Unique();
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnForeignBuilder
      */
-    public Foreigns.ColumnForeignBuilder<ColumnDefinitionBuilder<ParentBuilder>> $FOREIGN_KEY(){
+    public Foreigns.ColumnForeignBuilder<ColumnDefinitionBuilder<ParentBuilder>> $ForeignKey(){
         return $$Constraint(null)
-                .$FOREIGN_KEY()
+                .$ForeignKey()
                 .withForeignKey(true);
     }
 
@@ -353,9 +465,10 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick inout set referencedTableName
      * @return ColumnForeignBuilder
      */
-    public Foreigns.ColumnForeignBuilder<ColumnDefinitionBuilder<ParentBuilder>> $REFERENCES(String referencedTableName, String refColumn){
+    public Foreigns.ColumnForeignBuilder<ColumnDefinitionBuilder<ParentBuilder>> $References(
+            String referencedTableName, String refColumn){
         return $$Constraint(null)
-                .$FOREIGN_KEY()
+                .$ForeignKey()
                 .withReferencedTableName(referencedTableName)
                 .withRefColumn(refColumn);
     }
@@ -364,28 +477,29 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      * Quick inout set schemaName,referencedTableName
      * @return ColumnForeignBuilder
      */
-    public Foreigns.ColumnForeignBuilder<ColumnDefinitionBuilder<ParentBuilder>> $REFERENCES(String schemaName, String referencedTableName, String refColumn){
+    public Foreigns.ColumnForeignBuilder<ColumnDefinitionBuilder<ParentBuilder>> $References(
+            String schemaName, String referencedTableName, String refColumn){
         return $$Constraint(null)
-                .$FOREIGN_KEY()
+                .$ForeignKey()
                 .withSchemaName(schemaName)
                 .withReferencedTableName(referencedTableName)
                 .withRefColumn(refColumn);
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return CheckBuilder
      */
-    public CheckBuilder<ColumnDefinitionBuilder<ParentBuilder>> $CHECK(){
+    public CheckBuilder<ColumnDefinitionBuilder<ParentBuilder>> $Check(){
         return $$Constraint(null)
-                .$CHECK();
+                .$Check();
     }
 
     /**
-     * Quick into
+     * Quick in
      * @return ColumnIndexBuilder
      */
-    public ColumnIndexBuilder<ColumnDefinitionBuilder<ParentBuilder>> $INDEX(){
+    public ColumnIndexBuilder<ColumnDefinitionBuilder<ParentBuilder>> $Index(){
         return new ColumnIndexBuilder<ColumnDefinitionBuilder<ParentBuilder>>
                 (initSet(ColumnIndex::new,
                         target::getColumnIndex,
