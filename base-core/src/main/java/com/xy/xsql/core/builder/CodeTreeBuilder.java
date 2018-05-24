@@ -11,7 +11,8 @@ import java.util.function.Consumer;
  * @param <Target>
  */
 public abstract class CodeTreeBuilder<This, Parent, Target>
-        extends TreeBuilder<This, Parent, Void, Target> {
+        extends TreeBuilder<This, Parent, Void, Target>
+        implements SimpleBuilder<Target> {
 
     protected Target target;
     protected Consumer<Target> backHandleFunction;
@@ -35,6 +36,7 @@ public abstract class CodeTreeBuilder<This, Parent, Target>
      * @see #build(Void)
      * @return
      */
+    @Override
     public Target build() {
         return target;
     }
