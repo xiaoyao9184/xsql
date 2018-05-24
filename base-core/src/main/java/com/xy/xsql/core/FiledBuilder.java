@@ -33,16 +33,21 @@ public class FiledBuilder {
      * @return
      */
     public static <T> T initSet(final Supplier<? extends T> supplier, final Getter<T> getter, final Setter<T> setter) {
-        if(getter.get() == null){
-            setter.set(supplier.get());
+        T t = getter.get();
+        if(t == null){
+            t = supplier.get();
+            setter.set(t);
         }
-        return getter.get();
+        return t;
     }
 
     public static <T,R extends T> R initSet2(final Supplier<R> supplier, final Getter<T> getter, final Setter<T> setter) {
-        if(getter.get() == null){
-            setter.set(supplier.get());
+        T t = getter.get();
+        if(t == null){
+            R r = supplier.get();
+            setter.set(r);
+            return r;
         }
-        return (R) getter.get();
+        return (R)t;
     }
 }
