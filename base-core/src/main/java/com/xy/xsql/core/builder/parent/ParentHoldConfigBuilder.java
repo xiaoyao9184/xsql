@@ -3,9 +3,8 @@ package com.xy.xsql.core.builder.parent;
 import com.xy.xsql.core.builder.SimpleBuilder;
 import com.xy.xsql.core.configurator.BaseConfigurator;
 import com.xy.xsql.core.holder.ParentHolder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.core.lambda.Setter;
-
-import java.util.function.Consumer;
 
 /**
  * ParentHoldConfigBuilder
@@ -29,6 +28,14 @@ public abstract class ParentHoldConfigBuilder<This, Parent, Target>
     public ParentHoldConfigBuilder(){}
 
     public ParentHoldConfigBuilder(Target target){
+        this.init(target);
+    }
+
+    /**
+     * init
+     * @param target Target
+     */
+    public void init(Target target){
         this.target = target;
     }
 
@@ -57,14 +64,28 @@ public abstract class ParentHoldConfigBuilder<This, Parent, Target>
 
     /**
      * alias
-     * @see #in(Object)
-     * @see ParentHoldConfigBuilder
+     * @see #init(Target)
+     * @see #in(Parent)
      * @param parent Parent
      * @param target Target
      * @return This
      */
+    @Deprecated
     public This enter(Parent parent, Target target) {
-        this.target = target;
+        this.init(target);
+        return in(parent);
+    }
+
+    /**
+     * alias
+     * @see #init(Target)
+     * @see #in(Parent)
+     * @param parent Parent
+     * @param getter Target Getter
+     * @return This
+     */
+    public This enter(Parent parent, Getter<Target> getter) {
+        this.init(getter.get());
         return in(parent);
     }
 

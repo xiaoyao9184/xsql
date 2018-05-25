@@ -3,6 +3,7 @@ package com.xy.xsql.core.builder.parent;
 import com.xy.xsql.core.builder.SimpleBuilder;
 import com.xy.xsql.core.configurator.BaseConfigurator;
 import com.xy.xsql.core.holder.ParentHolder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.core.lambda.Setter;
 
 /**
@@ -29,6 +30,14 @@ public abstract class ParentHoldLazyConfigSuperBuilder<This, Parent, Target exte
     public ParentHoldLazyConfigSuperBuilder(){}
 
     public ParentHoldLazyConfigSuperBuilder(Target target){
+        this.init(target);
+    }
+
+    /**
+     * init
+     * @param target Target
+     */
+    public void init(Target target){
         this.target = target;
     }
 
@@ -60,16 +69,32 @@ public abstract class ParentHoldLazyConfigSuperBuilder<This, Parent, Target exte
 
     /**
      * alias
-     * @see #in(Object)
-     * @see ParentHoldLazyConfigSuperBuilder
+     * @see #init(Target)
      * @see #config(Setter)
+     * @see #in(Parent)
      * @param parent Parent
      * @param target Target
      * @param setter SuperTarget Setter
      * @return This
      */
+    @Deprecated
     public This enter(Parent parent, Target target, Setter<SuperTarget> setter) {
-        this.target = target;
+        this.init(target);
+        this.config(setter);
+        return in(parent);
+    }
+
+    /**
+     * alias
+     * @see #init(Target)
+     * @see #config(Setter)
+     * @see #in(Parent)
+     * @param parent Parent
+     * @param getter Target Getter
+     * @return This
+     */
+    public This enter(Parent parent, Getter<Target> getter, Setter<SuperTarget> setter) {
+        this.init(getter.get());
         this.config(setter);
         return in(parent);
     }
