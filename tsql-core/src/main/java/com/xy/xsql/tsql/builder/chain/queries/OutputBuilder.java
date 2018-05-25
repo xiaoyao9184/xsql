@@ -568,6 +568,10 @@ public class OutputBuilder<ParentBuilder>
     public static class ColumnNameBuilder<ParentBuilder>
             extends CodeTreeBuilder<ColumnNameBuilder<ParentBuilder>,ParentBuilder,Output.ColumnName> {
 
+        public ColumnNameBuilder() {
+            super(new Output.ColumnName());
+        }
+
         public ColumnNameBuilder(Output.ColumnName tar) {
             super(tar);
         }

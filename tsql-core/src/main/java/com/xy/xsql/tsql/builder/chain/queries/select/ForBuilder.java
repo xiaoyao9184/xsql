@@ -121,6 +121,10 @@ public class ForBuilder<ParentBuilder>
     public static class XmlBuilder<ParentBuilder>
             extends CodeTreeBuilder<XmlBuilder<ParentBuilder>,ParentBuilder,For.Xml> {
 
+        public XmlBuilder() {
+            super(new For.Xml());
+        }
+
         public XmlBuilder(For.Xml tar) {
             super(tar);
         }
@@ -311,6 +315,10 @@ public class ForBuilder<ParentBuilder>
      */
     public static class JsonBuilder<ParentBuilder>
             extends CodeTreeBuilder<JsonBuilder<ParentBuilder>,ParentBuilder,For.Json> {
+
+        public JsonBuilder() {
+            super(new For.Json());
+        }
 
         public JsonBuilder(For.Json tar) {
             super(tar);

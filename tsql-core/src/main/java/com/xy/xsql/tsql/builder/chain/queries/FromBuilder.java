@@ -1124,6 +1124,10 @@ public class FromBuilder<ParentBuilder>
     public static class BaseTableBuilder<ParentBuilder>
             extends CodeTreeLazyConfigBuilder<BaseTableBuilder<ParentBuilder>, ParentBuilder, From.BaseTable, From.TableSource> {
 
+        public BaseTableBuilder() {
+            super(new From.BaseTable());
+        }
+
         public BaseTableBuilder(From.BaseTable target) {
             super(target);
         }
@@ -1497,6 +1501,10 @@ public class FromBuilder<ParentBuilder>
     public static class JoinedTableBuilder<ParentBuilder>
             extends CodeTreeLazyConfigBuilder<JoinedTableBuilder<ParentBuilder>, ParentBuilder, From.JoinedTable, From.TableSource> {
 
+        public JoinedTableBuilder() {
+            super(new From.JoinedTable());
+        }
+
         public JoinedTableBuilder(From.JoinedTable target) {
             super(target);
         }
@@ -1829,6 +1837,10 @@ public class FromBuilder<ParentBuilder>
     public static class BaseWithTimeTableBuilder<ParentBuilder>
             extends CodeTreeLazyConfigBuilder<BaseWithTimeTableBuilder<ParentBuilder>, ParentBuilder, From.BaseWithTimeTable, From.TableSource> {
 
+        public BaseWithTimeTableBuilder() {
+            super(new From.BaseWithTimeTable());
+        }
+
         public BaseWithTimeTableBuilder(From.BaseWithTimeTable target) {
             super(target);
         }
@@ -1888,6 +1900,10 @@ public class FromBuilder<ParentBuilder>
      */
     public static class TableSampleBuilder<ParentBuilder>
             extends CodeTreeBuilder<TableSampleBuilder<ParentBuilder>, ParentBuilder, From.TableSample> {
+
+        public TableSampleBuilder() {
+            super(new From.TableSample());
+        }
 
         public TableSampleBuilder(From.TableSample tableSample) {
             super(tableSample);
@@ -1994,6 +2010,10 @@ public class FromBuilder<ParentBuilder>
      */
     public static class SystemTimeBuilder<ParentBuilder>
             extends CodeTreeBuilder<SystemTimeBuilder<ParentBuilder>, ParentBuilder, From.SystemTime> {
+
+        public SystemTimeBuilder() {
+            super(new From.SystemTime());
+        }
 
         public SystemTimeBuilder(From.SystemTime systemTime) {
             super(systemTime);

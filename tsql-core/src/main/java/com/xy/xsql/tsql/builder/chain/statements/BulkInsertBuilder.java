@@ -559,7 +559,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param batchSize batch size
          * @return WithSetter
          */
-        static WithSetter $BATCHSIZE(Integer batchSize){
+        static WithSetter $Batchsize(Integer batchSize){
             return bulkInsert -> bulkInsert.setBatchSize(c_number(batchSize));
         }
 
@@ -567,7 +567,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return WithSetter
          */
-        static WithSetter $CHECK_CONSTRAINTS(){
+        static WithSetter $CheckConstraints(){
             return bulkInsert -> bulkInsert.setCheckConstraints(true);
         }
 
@@ -576,7 +576,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param codePage code page
          * @return WithSetter
          */
-        static WithSetter $CODEPAGE(String codePage){
+        static WithSetter $Codepage(String codePage){
             return bulkInsert -> bulkInsert.setCodePage(c_string(codePage));
         }
 
@@ -585,7 +585,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param codePage code page
          * @return WithSetter
          */
-        static WithSetter $CODEPAGE(CodePage codePage){
+        static WithSetter $Codepage(CodePage codePage){
             return bulkInsert -> bulkInsert.setCodePage(codePage);
         }
 
@@ -594,7 +594,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param dataFileType data file type
          * @return WithSetter
          */
-        static WithSetter $DATAFILETYPE(DataFileType dataFileType){
+        static WithSetter $Datafiletype(DataFileType dataFileType){
             return bulkInsert -> bulkInsert.setDataFileType(dataFileType);
         }
 
@@ -602,7 +602,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return CodePage
          */
-        static CodePage ACP(){
+        static CodePage $ACP(){
             return ACP;
         }
 
@@ -610,7 +610,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return CodePage
          */
-        static CodePage OEM(){
+        static CodePage $OEM(){
             return OEM;
         }
 
@@ -618,7 +618,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return CodePage
          */
-        static CodePage RAW(){
+        static CodePage $RAW(){
             return RAW;
         }
         CodePage ACP = new CodePage("ACP");
@@ -629,7 +629,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return DataFileType
          */
-        static DataFileType char_(){
+        static DataFileType $char(){
             return char_;
         }
 
@@ -637,7 +637,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return DataFileType
          */
-        static DataFileType native_(){
+        static DataFileType $native(){
             return native_;
         }
 
@@ -645,7 +645,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return DataFileType
          */
-        static DataFileType widechar_(){
+        static DataFileType $widechar(){
             return widechar_;
         }
 
@@ -653,7 +653,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return DataFileType
          */
-        static DataFileType widenative_(){
+        static DataFileType $widenative(){
             return widenative_;
         }
         DataFileType char_ = new DataFileType("char");
@@ -667,7 +667,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param dataSource data source
          * @return WithSetter
          */
-        static WithSetter DATASOURCE(String dataSource){
+        static WithSetter $Datasource(String dataSource){
             return bulkInsert -> bulkInsert.setDataSource(c_string(dataSource));
         }
 
@@ -676,7 +676,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param errorFile error file
          * @return WithSetter
          */
-        static WithSetter ERRORFILE(String errorFile){
+        static WithSetter $Errorfile(String errorFile){
             return bulkInsert -> bulkInsert.setErrorFile(c_string(errorFile));
         }
 
@@ -685,7 +685,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param errorFileDataSource error file data source
          * @return WithSetter
          */
-        static WithSetter ERRORFILE_DATASOURCE(String errorFileDataSource){
+        static WithSetter $ErrorfileDatasource(String errorFileDataSource){
             return bulkInsert -> bulkInsert.setErrorFileDataSource(c_string(errorFileDataSource));
         }
 
@@ -694,7 +694,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param firstRow first row
          * @return WithSetter
          */
-        static WithSetter FIRSTROW(Integer firstRow){
+        static WithSetter $Firstrow(Integer firstRow){
             return bulkInsert -> bulkInsert.setFirstRow(c_number(firstRow));
         }
 
@@ -702,7 +702,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return WithSetter
          */
-        static WithSetter FIRE_TRIGGERS(){
+        static WithSetter $FireTriggers(){
             return bulkInsert -> bulkInsert.setFireTriggers(true);
         }
 
@@ -711,7 +711,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param dataSourceName data source name
          * @return WithSetter
          */
-        static WithSetter FORMATFILE_DATASOURCE(String dataSourceName){
+        static WithSetter $FormatfileDatasource(String dataSourceName){
             return bulkInsert -> bulkInsert.setFormatFile(c_string(dataSourceName));
         }
 
@@ -719,7 +719,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return WithSetter
          */
-        static WithSetter KEEPIDENTITY(){
+        static WithSetter $Keepidentity(){
             return bulkInsert -> bulkInsert.setKeepIdentity(true);
         }
 
@@ -727,7 +727,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return WithSetter
          */
-        static WithSetter KEEPNULLS(){
+        static WithSetter $Keepnulls(){
             return bulkInsert -> bulkInsert.setKeepNulls(true);
         }
 
@@ -736,7 +736,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param kilobytesPerBatch kilobytes per batch
          * @return WithSetter
          */
-        static WithSetter KILOBYTES_PER_BATCH(Integer kilobytesPerBatch){
+        static WithSetter $KilobytesPerBatch(Integer kilobytesPerBatch){
             return bulkInsert -> bulkInsert.setKilobytesPerBatch(c_number(kilobytesPerBatch));
         }
 
@@ -745,7 +745,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param lastRow last row
          * @return WithSetter
          */
-        static WithSetter LASTROW(Integer lastRow){
+        static WithSetter $Lastrow(Integer lastRow){
             return bulkInsert -> bulkInsert.setLastRow(c_number(lastRow));
         }
 
@@ -754,7 +754,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param maxErrors max errors
          * @return WithSetter
          */
-        static WithSetter MAXERRORS(Integer maxErrors){
+        static WithSetter $Maxerrors(Integer maxErrors){
             return bulkInsert -> bulkInsert.setMaxErrors(c_number(maxErrors));
         }
 
@@ -762,7 +762,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return WithSetter
          */
-        static OrderBuilder ORDER(){
+        static OrderBuilder $Order(){
             return new OrderBuilder();
         }
 
@@ -771,7 +771,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param rowsPerBatch rows per batch
          * @return WithSetter
          */
-        static WithSetter ROWS_PER_BATCH(Integer rowsPerBatch){
+        static WithSetter $RowsPerBatch(Integer rowsPerBatch){
             return bulkInsert -> bulkInsert.setRowsPerBatch(c_number(rowsPerBatch));
         }
 
@@ -780,7 +780,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param rowTerminator row terminator
          * @return WithSetter
          */
-        static WithSetter ROWTERMINATOR(String rowTerminator){
+        static WithSetter $Rowterminator(String rowTerminator){
             return bulkInsert -> bulkInsert.setRowTerminator(c_string(rowTerminator));
         }
 
@@ -788,7 +788,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return WithSetter
          */
-        static WithSetter TABLOCK (){
+        static WithSetter $Tablock(){
             return bulkInsert -> bulkInsert.setTabLock(true);
         }
 
@@ -797,7 +797,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param format format
          * @return WithSetter
          */
-        static WithSetter FORMAT(String format){
+        static WithSetter $Format(String format){
             return bulkInsert -> bulkInsert.setFormat(c_string(format));
         }
 
@@ -806,7 +806,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param fieldQuote field quote
          * @return WithSetter
          */
-        static WithSetter FIELDQUOTE(String fieldQuote){
+        static WithSetter $Fieldquote(String fieldQuote){
             return bulkInsert -> bulkInsert.setFieldQuote(c_string(fieldQuote));
         }
 
@@ -815,7 +815,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param formatFile format file
          * @return WithSetter
          */
-        static WithSetter FORMATFILE(String formatFile){
+        static WithSetter $Formatfile(String formatFile){
             return bulkInsert -> bulkInsert.setFormatFile(c_string(formatFile));
         }
 
@@ -824,7 +824,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param fieldTerminator field terminator
          * @return WithSetter
          */
-        static WithSetter FIELDTERMINATOR(String fieldTerminator){
+        static WithSetter $Fieldterminator(String fieldTerminator){
             return bulkInsert -> bulkInsert.setFieldTerminator(c_string(fieldTerminator));
         }
 

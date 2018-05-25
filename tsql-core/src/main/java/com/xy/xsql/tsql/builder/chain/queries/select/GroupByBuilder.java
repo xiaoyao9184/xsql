@@ -236,6 +236,10 @@ public class GroupByBuilder<ParentBuilder>
     public static class RollupItemBuilder<ParentBuilder>
             extends CodeTreeLazyConfigBuilder<RollupItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.RollupItem, GroupBy.RollupItem> {
 
+        public RollupItemBuilder() {
+            super(new GroupBy.RollupItem());
+        }
+
         public RollupItemBuilder(GroupBy.RollupItem item) {
             super(item);
         }
@@ -293,6 +297,10 @@ public class GroupByBuilder<ParentBuilder>
     public static class CubeItemBuilder<ParentBuilder>
             extends CodeTreeLazyConfigBuilder<CubeItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.CubeItem, GroupBy.CubeItem> {
 
+        public CubeItemBuilder() {
+            super(new GroupBy.CubeItem());
+        }
+
         public CubeItemBuilder(GroupBy.CubeItem item) {
             super(item);
         }
@@ -349,6 +357,10 @@ public class GroupByBuilder<ParentBuilder>
     public static class TotalItemBuilder<ParentBuilder>
             extends CodeTreeLazyConfigBuilder<TotalItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.TotalItem, GroupBy.TotalItem> {
 
+        public TotalItemBuilder() {
+            super(new GroupBy.TotalItem());
+        }
+
         public TotalItemBuilder(GroupBy.TotalItem item) {
             super(item);
         }
@@ -365,6 +377,10 @@ public class GroupByBuilder<ParentBuilder>
      */
     public static class GroupingSetsItemBuilder<ParentBuilder>
             extends CodeTreeLazyConfigBuilder<GroupingSetsItemBuilder<ParentBuilder>, ParentBuilder, GroupBy.GroupingSetsItem, GroupBy.GroupingSetsItem> {
+
+        public GroupingSetsItemBuilder() {
+            super(new GroupBy.GroupingSetsItem());
+        }
 
         public GroupingSetsItemBuilder(GroupBy.GroupingSetsItem item) {
             super(item);
@@ -468,6 +484,10 @@ public class GroupByBuilder<ParentBuilder>
      */
     public static class GroupingSetBuilder<ParentBuilder>
             extends CodeTreeBuilder<GroupingSetBuilder<ParentBuilder>,ParentBuilder,GroupBy.GroupingSet> {
+
+        public GroupingSetBuilder() {
+            super(new GroupBy.GroupingSet());
+        }
 
         public GroupingSetBuilder(GroupBy.GroupingSet groupingSet) {
             super(groupingSet);

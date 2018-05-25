@@ -239,6 +239,9 @@ public class OrderByBuilder<ParentBuilder>
     public static class OffsetFetchBuilder<ParentBuilder>
             extends CodeTreeBuilder<OffsetFetchBuilder<ParentBuilder>,ParentBuilder,OrderBy.OffsetFetch> {
 
+        public OffsetFetchBuilder() {
+            super(new OrderBy.OffsetFetch());
+        }
 
         public OffsetFetchBuilder(OrderBy.OffsetFetch offsetFetch) {
             super(offsetFetch);

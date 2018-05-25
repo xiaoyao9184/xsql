@@ -486,6 +486,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
     public static class MergeHintBuilder<ParentBuilder>
             extends CodeTreeBuilder<MergeHintBuilder<ParentBuilder>,ParentBuilder,Merge.MergeHint> {
 
+        public MergeHintBuilder() {
+            super(new Merge.MergeHint());
+        }
+
         public MergeHintBuilder(Merge.MergeHint mergeHint) {
             super(mergeHint);
         }
@@ -613,6 +617,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      */
     public static class WhenNotMatchedTargetThenBuilder<ParentBuilder>
             extends CodeTreeBuilder<WhenNotMatchedTargetThenBuilder<ParentBuilder>,ParentBuilder,Merge.NotMatchedWhenThen> {
+
+        public WhenNotMatchedTargetThenBuilder() {
+            super(new Merge.NotMatchedWhenThen());
+        }
 
         public WhenNotMatchedTargetThenBuilder(Merge.NotMatchedWhenThen notMatchedWhenThen) {
             super(notMatchedWhenThen);
@@ -763,6 +771,10 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      */
     public static class MergeMatchedBuilder<ParentBuilder>
             extends CodeTreeBuilder<MergeMatchedBuilder<ParentBuilder>,ParentBuilder,Merge.MergeMatched> {
+
+        public MergeMatchedBuilder() {
+            super(new Merge.MergeMatched());
+        }
 
         public MergeMatchedBuilder(Merge.MergeMatched mergeMatched) {
             super(mergeMatched);

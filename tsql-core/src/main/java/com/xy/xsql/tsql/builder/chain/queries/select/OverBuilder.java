@@ -176,6 +176,10 @@ public class OverBuilder<ParentBuilder>
     public static class PartitionByBuilder<ParentBuilder>
             extends CodeTreeBuilder<PartitionByBuilder<ParentBuilder>,ParentBuilder,Over.PartitionBy> {
 
+        public PartitionByBuilder() {
+            super(new Over.PartitionBy());
+        }
+
         public PartitionByBuilder(Over.PartitionBy partitionBy) {
             super(partitionBy);
         }
@@ -202,6 +206,10 @@ public class OverBuilder<ParentBuilder>
      */
     public static class OrderByBuilder<ParentBuilder>
             extends CodeTreeBuilder<OrderByBuilder<ParentBuilder>,ParentBuilder,Over.OrderBy> {
+
+        public OrderByBuilder() {
+            super(new Over.OrderBy());
+        }
 
         public OrderByBuilder(Over.OrderBy orderBy) {
             super(orderBy);
@@ -256,6 +264,10 @@ public class OverBuilder<ParentBuilder>
      */
     public static class RowRangeBuilder<ParentBuilder>
             extends CodeTreeBuilder<RowRangeBuilder<ParentBuilder>,ParentBuilder,Over.RowRange> {
+
+        public RowRangeBuilder() {
+            super(new Over.RowRange());
+        }
 
         public RowRangeBuilder(Over.RowRange rowRange) {
             super(rowRange);

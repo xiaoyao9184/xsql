@@ -33,8 +33,8 @@ public class BulkInsertBuilderTest {
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
             .$From("f:\\orders\\lineitem.tbl")
             .$With(
-                    FIELDTERMINATOR(" |"),
-                    ROWTERMINATOR(" |\\n")
+                    $Fieldterminator(" |"),
+                    $Rowterminator(" |\\n")
             )
             .build();
     // @formatter:on
@@ -73,9 +73,9 @@ public class BulkInsertBuilderTest {
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
             .$From("f:\\orders\\lineitem.tbl")
             .$With(
-                    FIELDTERMINATOR(" |"),
-                    ROWTERMINATOR(" :\\n"),
-                    FIRE_TRIGGERS()
+                    $Fieldterminator(" |"),
+                    $Rowterminator(" :\\n"),
+                    $FireTriggers()
             )
             .build();
     // @formatter:on
@@ -111,7 +111,7 @@ public class BulkInsertBuilderTest {
             .$(t("AdventureWorks2012","Sales","SalesOrderDetail"))
             .$From("'<drive>:\\<path>\\<filename>'")
             .$With(
-                    ROWTERMINATOR("''+CHAR(10)+''")
+                    $Rowterminator("''+CHAR(10)+''")
             )
             .build();
     // @formatter:on
@@ -147,9 +147,9 @@ public class BulkInsertBuilderTest {
             .$(t("MyTable"))
             .$From("D:\\data.csv")
             .$With(
-                    $CODEPAGE("65001"),
-                    $DATAFILETYPE(char_()),
-                    FIELDTERMINATOR(",")
+                    $Codepage("65001"),
+                    $Datafiletype($char()),
+                    $Fieldterminator(",")
             )
             .build();
     // @formatter:on
@@ -160,7 +160,7 @@ public class BulkInsertBuilderTest {
         BulkInsert bulkInsert = new BulkInsertBuilder()
                 .withTableViewName(t("MyTable"))
                 .withCodePage("65001")
-                .withDataFileType(char_())
+                .withDataFileType($char())
                 .withFieldTerminator(",")
                 .build();
         // @formatter:on
@@ -183,7 +183,7 @@ public class BulkInsertBuilderTest {
             .$(t("Sales","Invoices"))
             .$From("\\\\share\\invoices\\inv-2016-07-25.csv")
             .$With(
-                    FORMAT("CSV")
+                    $Format("CSV")
             )
             .build();
     // @formatter:on
@@ -216,8 +216,8 @@ public class BulkInsertBuilderTest {
             .$(t("Sales","Invoices"))
             .$From("inv-2017-01-19.csv")
             .$With(
-                    FORMAT("CSV"),
-                    DATASOURCE("MyAzureInvoices")
+                    $Format("CSV"),
+                    $Datasource("MyAzureInvoices")
             )
             .build();
     // @formatter:on

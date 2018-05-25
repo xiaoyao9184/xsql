@@ -24,14 +24,15 @@ public class AlterTableConverterTest {
                         "{\n" +
                         "\tALTER COLUMN column_name\n" +
                         "\t{\n" +
-                        "\t\t[ type_schema_name ] type_name\n" +
-                        "\t\t\t[ ( \n" +
-                        "\t\t\t\t{\n" +
-                        "\t\t\t\t\tprecision [ , scale ]\n" +
-                        "\t\t\t\t\t| max\n" +
-                        "\t\t\t\t\t| xml_schema_collection\n" +
-                        "\t\t\t\t}\n" +
-                        "\t\t\t ) ]\n" +
+                        "\t\t[ <data_type> ]\n" +
+//                        "\t\t[ type_schema_name ] type_name\n" +
+//                        "\t\t\t[ ( \n" +
+//                        "\t\t\t\t{\n" +
+//                        "\t\t\t\t\tprecision [ , scale ]\n" +
+//                        "\t\t\t\t\t| max\n" +
+//                        "\t\t\t\t\t| xml_schema_collection\n" +
+//                        "\t\t\t\t}\n" +
+//                        "\t\t\t ) ]\n" +
                         "\t\t[ COLLATE collation_name ]\n" +
                         "\t\t[ NULL | NULL ] [ SPARSE ]\n" +
                         "\t\t| { ADD | DROP } { ROWGUIDCOL | PERSISTED | [ NOT FOR REPLICATION ] | SPARSE | HIDDEN }\n" +

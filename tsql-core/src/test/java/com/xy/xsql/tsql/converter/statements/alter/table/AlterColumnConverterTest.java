@@ -22,14 +22,15 @@ public class AlterColumnConverterTest {
         Assert.assertEquals(writer.toString(),
                 "ALTER COLUMN column_name\n" +
                         "{\n" +
-                        "\t[ type_schema_name ] type_name\n" +
-                        "\t\t[ ( \n" +
-                        "\t\t\t{\n" +
-                        "\t\t\t\tprecision [ , scale ]\n" +
-                        "\t\t\t\t| max\n" +
-                        "\t\t\t\t| xml_schema_collection\n" +
-                        "\t\t\t}\n" +
-                        "\t\t ) ]\n" +
+                        "\t[ <data_type> ]\n" +
+//                        "\t[ type_schema_name ] type_name\n" +
+//                        "\t\t[ ( \n" +
+//                        "\t\t\t{\n" +
+//                        "\t\t\t\tprecision [ , scale ]\n" +
+//                        "\t\t\t\t| max\n" +
+//                        "\t\t\t\t| xml_schema_collection\n" +
+//                        "\t\t\t}\n" +
+//                        "\t\t ) ]\n" +
                         "\t[ COLLATE collation_name ]\n" +
                         "\t[ NULL | NULL ] [ SPARSE ]\n" +
                         "\t| { ADD | DROP } { ROWGUIDCOL | PERSISTED | [ NOT FOR REPLICATION ] | SPARSE | HIDDEN }\n" +
