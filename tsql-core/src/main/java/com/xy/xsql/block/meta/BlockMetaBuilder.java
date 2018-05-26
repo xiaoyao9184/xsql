@@ -13,7 +13,6 @@ import static com.xy.xsql.block.model.BlockMeta.BlockConvention.LINE;
 import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREFIX_COMMA;
 import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREFIX_ONE_OF;
 import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
-import static com.xy.xsql.core.handler.list.ListHandler.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -249,7 +248,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
         return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
                 (this.cloneMeta())
                 .enter(this,
-                        meta -> list(target::getSub, target::setSub).add(meta));
+                        meta -> ListHandler.list(target::getSub, target::setSub).add(meta));
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub(String name) {
@@ -311,7 +310,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
      */
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse(Predicate<Scope> predicate) {
-        list(target::getExclusivePredicate, target::setExclusivePredicate).add(predicate);
+        ListHandler.list(target::getExclusivePredicate, target::setExclusivePredicate).add(predicate);
         return sub();
 //        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
 //                (initListWithChildSupplierItem(this::cloneMeta,
