@@ -1,5 +1,6 @@
 package com.xy.xsql.core.builder.parent;
 
+import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.core.builder.SimpleBuilder;
 import com.xy.xsql.core.configurator.BaseConfigurator;
 import com.xy.xsql.core.holder.ParentHolder;
@@ -20,6 +21,7 @@ public abstract class ParentHoldLazyConfigBuilder<This, Parent, Target>
         implements
         ParentHolder<This, Parent>,
         SimpleBuilder<Target>,
+        BaseBuilder<Target,Target>,
         BaseConfigurator<Setter<Target>> {
 
     private Parent parent;
@@ -62,6 +64,13 @@ public abstract class ParentHoldLazyConfigBuilder<This, Parent, Target>
         if(this.setter != null){
             this.setter.set(target);
         }
+        return target;
+    }
+
+    @Override
+    public Target build(Target target) {
+        this.init(target);
+        this.build();
         return target;
     }
 
