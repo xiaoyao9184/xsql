@@ -1,27 +1,26 @@
 package com.xy.xsql.tsql.builder.chain.elements.expressions;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Case;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * Created by xiaoyao9184 on 2017/3/10.
  */
-@SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
+@SuppressWarnings({"WeakerAccess", "UnusedReturnValue","unused"})
 public class CaseBuilder<ParentBuilder>
-        extends CodeTreeBuilder<CaseBuilder<ParentBuilder>,ParentBuilder,Case> {
+        extends ParentHoldBuilder<CaseBuilder<ParentBuilder>,ParentBuilder,Case> {
 
     public CaseBuilder() {
         super(new Case());
     }
 
-    public CaseBuilder(Case tar) {
-        super(tar);
+    public CaseBuilder(Case target) {
+        super(target);
     }
 
     /**
@@ -44,9 +43,8 @@ public class CaseBuilder<ParentBuilder>
         Case.WhenThenExpression whenThenExpression = new Case.WhenThenExpression()
                 .withWhenExpression(whenExpression)
                 .withThenExpression(resulExpression);
-        initAdd(whenThenExpression,
-                target::getWhenThenExpressionList,
-                target::setWhenThenExpressionList);
+        list(target::getWhenThenExpressionList, target::setWhenThenExpressionList)
+                .add(whenThenExpression);
         return this;
     }
 
@@ -56,9 +54,8 @@ public class CaseBuilder<ParentBuilder>
      * @return THIS
      */
     public CaseBuilder<ParentBuilder> withWhen(List<Case.WhenThenExpression> whenThenExpressionList) {
-        initAdd(whenThenExpressionList,
-                target::getWhenThenExpressionList,
-                target::setWhenThenExpressionList);
+        list(target::getWhenThenExpressionList, target::setWhenThenExpressionList)
+                .addAll(whenThenExpressionList);
         return this;
     }
 
@@ -86,9 +83,8 @@ public class CaseBuilder<ParentBuilder>
      */
     public WhenThenExpressionBuilder<CaseBuilder<ParentBuilder>> $When(Expression expression){
         return new WhenThenExpressionBuilder<CaseBuilder<ParentBuilder>>
-                (initNew(Case.WhenThenExpression::new,
-                        target::getWhenThenExpressionList,
-                        target::setWhenThenExpressionList))
+                (list(target::getWhenThenExpressionList, target::setWhenThenExpressionList)
+                        .addNew(Case.WhenThenExpression::new))
                 .in(this)
                 .withWhen(expression);
     }
@@ -104,14 +100,18 @@ public class CaseBuilder<ParentBuilder>
 
 
     /**
-     * v
+     * WhenThenExpressionBuilder
      * @param <ParentBuilder>
      */
     public static class WhenThenExpressionBuilder<ParentBuilder>
-            extends CodeTreeBuilder<WhenThenExpressionBuilder<ParentBuilder>,ParentBuilder,Case.WhenThenExpression> {
+            extends ParentHoldBuilder<WhenThenExpressionBuilder<ParentBuilder>,ParentBuilder,Case.WhenThenExpression> {
 
-        public WhenThenExpressionBuilder(Case.WhenThenExpression whenThenExpression) {
-            super(whenThenExpression);
+        public WhenThenExpressionBuilder() {
+            super(new Case.WhenThenExpression());
+        }
+
+        public WhenThenExpressionBuilder(Case.WhenThenExpression target) {
+            super(target);
         }
 
         /**

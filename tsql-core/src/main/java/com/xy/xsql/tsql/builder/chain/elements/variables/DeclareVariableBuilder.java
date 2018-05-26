@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.elements.variables;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.table.TableTypeDefinitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
@@ -8,24 +8,24 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.variables.DeclareVariable;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
 
 /**
  * DeclareVariableBuilder
  * Created by xiaoyao9184 on 2017/3/16.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "SameParameterValue", "TypeParameterHidesVisibleType", "unused"})
 public class DeclareVariableBuilder<ParentBuilder>
-        extends CodeTreeBuilder<DeclareVariableBuilder<ParentBuilder>,ParentBuilder,DeclareVariable> {
+        extends ParentHoldBuilder<DeclareVariableBuilder<ParentBuilder>,ParentBuilder,DeclareVariable> {
 
     public DeclareVariableBuilder() {
         super(new DeclareVariable());
     }
 
-    public DeclareVariableBuilder(DeclareVariable tar) {
-        super(tar);
+    public DeclareVariableBuilder(DeclareVariable target) {
+        super(target);
     }
 
     /**
@@ -34,9 +34,8 @@ public class DeclareVariableBuilder<ParentBuilder>
      */
     public DeclareVariableItemBuilder<DeclareVariableBuilder<ParentBuilder>> withItem(){
         return new DeclareVariableItemBuilder<DeclareVariableBuilder<ParentBuilder>>
-                (initNew(DeclareVariable.Item::new,
-                        target::getItems,
-                        target::setItems))
+                (list(target::getItems, target::setItems)
+                        .addNew(DeclareVariable.Item::new))
                 .in(this);
     }
 
@@ -76,13 +75,12 @@ public class DeclareVariableBuilder<ParentBuilder>
      */
     public TableTypeDefinitionBuilder<DeclareVariableBuilder<ParentBuilder>> withTable(){
         return new TableTypeDefinitionBuilder<DeclareVariableBuilder<ParentBuilder>>
-                (initSet(
-                        TableTypeDefinition::new,
-                        target::getTableTypeDefinition,
-                        target::setTableTypeDefinition
-                ))
+                (object(target::getTableTypeDefinition, target::setTableTypeDefinition)
+                        .init(TableTypeDefinition::new))
                 .in(this);
     }
+
+
 
 
     /*
@@ -120,47 +118,78 @@ public class DeclareVariableBuilder<ParentBuilder>
      * DeclareVariableItemBuilder
      * @param <ParentBuilder>
      */
-    @SuppressWarnings({"WeakerAccess", "SameParameterValue", "TypeParameterHidesVisibleType", "unused"})
     public class DeclareVariableItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DeclareVariableItemBuilder<ParentBuilder>,ParentBuilder,DeclareVariable.Item> {
+            extends ParentHoldBuilder<DeclareVariableItemBuilder<ParentBuilder>,ParentBuilder,DeclareVariable.Item> {
 
-        public DeclareVariableItemBuilder(DeclareVariable.Item tar) {
-            super(tar);
+        public DeclareVariableItemBuilder(DeclareVariable.Item target) {
+            super(target);
         }
 
         public DeclareVariableItemBuilder() {
             super(new DeclareVariable.Item());
         }
 
+        /**
+         * set
+         * @param local_cursor LocalVariable
+         * @return THIS
+         */
         public DeclareVariableItemBuilder<ParentBuilder> withLocalVariable(LocalVariable local_cursor){
             target.setLocalVariable(local_cursor);
             return this;
         }
 
+        /**
+         * set
+         * @param useAs as
+         * @return THIS
+         */
         public DeclareVariableItemBuilder<ParentBuilder> withAs(boolean useAs) {
             target.setUseAs(useAs);
             return this;
         }
 
+        /**
+         * set
+         * @return THIS
+         */
         public DeclareVariableItemBuilder<ParentBuilder> withAs() {
             target.setUseAs(true);
             return this;
         }
 
+        /**
+         * set
+         * @param value Expression
+         * @return THIS
+         */
         public DeclareVariableItemBuilder<ParentBuilder> withValue(Expression value){
             target.setValue(value);
             return this;
         }
 
+        /**
+         * set
+         * @param dateType DateType
+         * @return THIS
+         */
         public DeclareVariableItemBuilder<ParentBuilder> withDateType(DataType dateType){
             target.setDataType(dateType);
             return this;
         }
 
+        /**
+         * set
+         * @param useCursor cursor
+         * @return THIS
+         */
         public DeclareVariableItemBuilder<ParentBuilder> withCursor(boolean useCursor){
             target.setUseCursor(useCursor);
             return this;
         }
+
+
+
 
         /*
         Quick
@@ -218,12 +247,15 @@ public class DeclareVariableBuilder<ParentBuilder>
      * TransformBuilder
      * @param <ParentBuilder>
      */
-    @SuppressWarnings({"WeakerAccess", "SameParameterValue", "TypeParameterHidesVisibleType", "unused"})
     public class TransformBuilder<ParentBuilder>
-            extends CodeTreeBuilder<TransformBuilder<ParentBuilder>,ParentBuilder,DeclareVariable> {
+            extends ParentHoldBuilder<TransformBuilder<ParentBuilder>,ParentBuilder,DeclareVariable> {
 
-        public TransformBuilder(DeclareVariable declareVariable) {
-            super(declareVariable);
+        public TransformBuilder() {
+            super(new DeclareVariable());
+        }
+
+        public TransformBuilder(DeclareVariable target) {
+            super(target);
         }
 
         private LocalVariable localVariable;
@@ -255,10 +287,9 @@ public class DeclareVariableBuilder<ParentBuilder>
          */
         public DeclareVariableItemBuilder<ParentBuilder> withDataType(DataType dataType) {
             return new DeclareVariableItemBuilder<ParentBuilder>
-                    (initNew(DeclareVariable.Item::new,
-                            target::getItems,
-                            target::setItems))
-                    .in(and())
+                    (list(target::getItems, target::setItems)
+                            .addNew(DeclareVariable.Item::new))
+                    .in(this.and())
                     .withLocalVariable(this.localVariable)
                     .withAs(this.useAs)
                     .withDateType(dataType);
@@ -270,10 +301,9 @@ public class DeclareVariableBuilder<ParentBuilder>
          */
         public DeclareVariableItemBuilder<ParentBuilder> withCursor() {
             return new DeclareVariableItemBuilder<ParentBuilder>
-                    (initNew(DeclareVariable.Item::new,
-                            target::getItems,
-                            target::setItems))
-                    .in(and())
+                    (list(target::getItems, target::setItems)
+                            .addNew(DeclareVariable.Item::new))
+                    .in(this.and())
                     .withLocalVariable(this.localVariable)
                     .withAs(this.useAs)
                     .withCursor(true);
@@ -290,6 +320,8 @@ public class DeclareVariableBuilder<ParentBuilder>
             target.setTableTypeDefinition(tableTypeDefinition);
             return and();
         }
+
+
 
 
         /*
@@ -335,12 +367,11 @@ public class DeclareVariableBuilder<ParentBuilder>
          * @return TableTypeDefinitionBuilder
          */
         public TableTypeDefinitionBuilder<ParentBuilder> $Table() {
-            withTable(initSet(TableTypeDefinition::new,
-                    target::getTableTypeDefinition,
-                    target::setTableTypeDefinition));
+            withTable(object(target::getTableTypeDefinition, target::setTableTypeDefinition)
+                    .init(TableTypeDefinition::new));
             return new TableTypeDefinitionBuilder<ParentBuilder>
                     (target.getTableTypeDefinition())
-                    .in(and());
+                    .in(this.and());
         }
     }
 }

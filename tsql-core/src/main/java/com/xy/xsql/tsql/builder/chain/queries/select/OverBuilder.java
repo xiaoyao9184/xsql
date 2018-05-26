@@ -1,19 +1,19 @@
 package com.xy.xsql.tsql.builder.chain.queries.select;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
 import com.xy.xsql.core.lambda.Getter;
-import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.select.OrderBy;
 import com.xy.xsql.tsql.model.queries.select.Over;
-import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * OverBuilder
@@ -21,14 +21,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"unused", "WeakerAccess", "UnusedReturnValue"})
 public class OverBuilder<ParentBuilder>
-        extends CodeTreeBuilder<OverBuilder<ParentBuilder>,ParentBuilder,Over> {
+        extends ParentHoldBuilder<OverBuilder<ParentBuilder>,ParentBuilder,Over> {
 
     public OverBuilder() {
         super(new Over());
     }
 
-    public OverBuilder(Over over) {
-        super(over);
+    public OverBuilder(Over target) {
+        super(target);
     }
 
 
@@ -48,9 +48,8 @@ public class OverBuilder<ParentBuilder>
      */
     public PartitionByBuilder<OverBuilder<ParentBuilder>> withPartitionBy(){
         return new PartitionByBuilder<OverBuilder<ParentBuilder>>
-                (initSet(Over.PartitionBy::new,
-                        target::getPartitionBy,
-                        target::setPartitionBy))
+                (object(target::getPartitionBy, target::setPartitionBy)
+                        .init(Over.PartitionBy::new))
                 .in(this);
     }
 
@@ -70,9 +69,8 @@ public class OverBuilder<ParentBuilder>
      */
     public OrderByBuilder<OverBuilder<ParentBuilder>> withOrderBy(){
         return new OrderByBuilder<OverBuilder<ParentBuilder>>
-                (initSet(Over.OrderBy::new,
-                        target::getOrderBy,
-                        target::setOrderBy))
+                (object(target::getOrderBy, target::setOrderBy)
+                        .init(Over.OrderBy::new))
                 .in(this);
     }
 
@@ -92,9 +90,8 @@ public class OverBuilder<ParentBuilder>
      */
     public RowRangeBuilder<OverBuilder<ParentBuilder>> withRowRange(){
         return new RowRangeBuilder<OverBuilder<ParentBuilder>>
-                (initSet(Over.RowRange::new,
-                        target::getRowRange,
-                        target::setRowRange))
+                (object(target::getRowRange, target::setRowRange)
+                        .init(Over.RowRange::new))
                 .in(this);
     }
 
@@ -108,8 +105,8 @@ public class OverBuilder<ParentBuilder>
     /**
      * Quick set partitionBy
      * into PartitionByBuilder get-out
-     * @param expressions
-     * @return
+     * @param expressions Expression
+     * @return THIS
      */
     public OverBuilder<ParentBuilder> $PartitionBy(Expression... expressions){
         return withPartitionBy()
@@ -174,14 +171,14 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class PartitionByBuilder<ParentBuilder>
-            extends CodeTreeBuilder<PartitionByBuilder<ParentBuilder>,ParentBuilder,Over.PartitionBy> {
+            extends ParentHoldBuilder<PartitionByBuilder<ParentBuilder>,ParentBuilder,Over.PartitionBy> {
 
         public PartitionByBuilder() {
             super(new Over.PartitionBy());
         }
 
-        public PartitionByBuilder(Over.PartitionBy partitionBy) {
-            super(partitionBy);
+        public PartitionByBuilder(Over.PartitionBy target) {
+            super(target);
         }
 
         /**
@@ -193,9 +190,8 @@ public class OverBuilder<ParentBuilder>
             if(CheckUtil.isNullOrEmpty(expressions)){
                 return this;
             }
-            initAdd(Arrays.asList(expressions),
-                    target::getValueExpressionList,
-                    target::setValueExpressionList);
+            list(target::getValueExpressionList, target::setValueExpressionList)
+                    .addAll(expressions);
             return this;
         }
     }
@@ -205,14 +201,14 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class OrderByBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OrderByBuilder<ParentBuilder>,ParentBuilder,Over.OrderBy> {
+            extends ParentHoldBuilder<OrderByBuilder<ParentBuilder>,ParentBuilder,Over.OrderBy> {
 
         public OrderByBuilder() {
             super(new Over.OrderBy());
         }
 
-        public OrderByBuilder(Over.OrderBy orderBy) {
-            super(orderBy);
+        public OrderByBuilder(Over.OrderBy target) {
+            super(target);
         }
 
         /**
@@ -224,9 +220,8 @@ public class OverBuilder<ParentBuilder>
             if(CheckUtil.isNullOrEmpty(orderByItems)){
                 return this;
             }
-            initAdd(Arrays.asList(orderByItems),
-                    target::getItems,
-                    target::setItems);
+            list(target::getItems, target::setItems)
+                    .addAll(orderByItems);
             return this;
         }
 
@@ -239,9 +234,8 @@ public class OverBuilder<ParentBuilder>
             if(CheckUtil.isNullOrEmpty(orderByItems)){
                 return this;
             }
-            initAdd(orderByItems,
-                    target::getItems,
-                    target::setItems);
+            list(target::getItems, target::setItems)
+                    .addAll(orderByItems);
             return this;
         }
 
@@ -251,9 +245,8 @@ public class OverBuilder<ParentBuilder>
          */
         public com.xy.xsql.tsql.builder.chain.queries.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItems(){
             return new com.xy.xsql.tsql.builder.chain.queries.select.OrderByBuilder.OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
-                    (initNew(OrderBy.Item::new,
-                            target::getItems,
-                            target::setItems))
+                    (list(target::getItems, target::setItems)
+                            .addNew(OrderBy.Item::new))
                     .in(this);
         }
     }
@@ -263,14 +256,14 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class RowRangeBuilder<ParentBuilder>
-            extends CodeTreeBuilder<RowRangeBuilder<ParentBuilder>,ParentBuilder,Over.RowRange> {
+            extends ParentHoldBuilder<RowRangeBuilder<ParentBuilder>,ParentBuilder,Over.RowRange> {
 
         public RowRangeBuilder() {
             super(new Over.RowRange());
         }
 
-        public RowRangeBuilder(Over.RowRange rowRange) {
-            super(rowRange);
+        public RowRangeBuilder(Over.RowRange target) {
+            super(target);
         }
 
         /**
@@ -296,9 +289,8 @@ public class OverBuilder<ParentBuilder>
          * @return WindowFrameExtentBuilder
          */
         public WindowFrameExtentBuilder<RowRangeBuilder<ParentBuilder>> withWindowFrameExtent(){
-            return new WindowFrameExtentBuilder<RowRangeBuilder<ParentBuilder>>
-                    (target::setWindowFrameExtent)
-                    .in(this);
+            return new WindowFrameExtentBuilder<RowRangeBuilder<ParentBuilder>>()
+                    .enter(this, Getter.empty(), target::setWindowFrameExtent);
         }
 
         /**
@@ -353,22 +345,18 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class WindowFrameExtentBuilder<ParentBuilder>
-            extends CodeTreeBuilder<WindowFrameExtentBuilder<ParentBuilder>, ParentBuilder, Setter<Over.WindowFrameExtent>> {
+            extends ParentHoldLazyConfigBuilder<WindowFrameExtentBuilder<ParentBuilder>, ParentBuilder, Over.WindowFrameExtent> {
 
-        public WindowFrameExtentBuilder(Setter<Over.WindowFrameExtent> setter) {
-            super(setter);
-        }
+        public WindowFrameExtentBuilder() {}
 
         /**
          * Confirm type of WindowFrameExtent
          * @return THIS
          */
         public WindowFramePrecedingBuilder<ParentBuilder> _Preceding() {
-            Over.WindowFramePreceding preceding = new Over.WindowFramePreceding();
-            target.set(preceding);
             return new WindowFramePrecedingBuilder<ParentBuilder>
-                    (preceding)
-                    .in(out());
+                    (object(Over.WindowFramePreceding::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -376,11 +364,9 @@ public class OverBuilder<ParentBuilder>
          * @return THIS
          */
         public WindowFrameBetweenBuilder<ParentBuilder> _Between() {
-            Over.WindowFrameBetween between = new Over.WindowFrameBetween();
-            target.set(between);
             return new WindowFrameBetweenBuilder<ParentBuilder>
-                    (between)
-                    .in(out());
+                    (object(Over.WindowFrameBetween::new).set(this::init))
+                    .in(this.and());
         }
     }
 
@@ -389,10 +375,10 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class WindowFrameBetweenBuilder<ParentBuilder>
-            extends CodeTreeBuilder<WindowFrameBetweenBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameBetween> {
+            extends ParentHoldBuilder<WindowFrameBetweenBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameBetween> {
 
-        public WindowFrameBetweenBuilder(Over.WindowFrameBetween windowFrameBetween) {
-            super(windowFrameBetween);
+        public WindowFrameBetweenBuilder(Over.WindowFrameBetween target) {
+            super(target);
         }
 
         /**
@@ -400,9 +386,8 @@ public class OverBuilder<ParentBuilder>
          * @return WindowFrameBoundBuilder
          */
         public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>> withBetweenBound(){
-            return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>
-                    (target::setBetweenBound)
-                    .in(this);
+            return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>()
+                    .enter(this, Getter.empty(), target::setBetweenBound);
         }
 
         /**
@@ -410,9 +395,8 @@ public class OverBuilder<ParentBuilder>
          * @return WindowFrameBoundBuilder
          */
         public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>> withAndBound(){
-            return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>
-                    (target::setAndBound)
-                    .in(this);
+            return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>()
+                    .enter(this, Getter.empty(), target::setAndBound);
         }
 
 
@@ -421,9 +405,8 @@ public class OverBuilder<ParentBuilder>
          * @return WindowFrameBoundBuilder
          */
         public WindowFrameBoundBuilder<ParentBuilder> $And(){
-            return new WindowFrameBoundBuilder<ParentBuilder>
-                    (target::setAndBound)
-                    .in(this.and());
+            return new WindowFrameBoundBuilder<ParentBuilder>()
+                    .enter(this.out(), Getter.empty(), target::setAndBound);
         }
 
     }
@@ -433,11 +416,9 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class WindowFrameBoundBuilder<ParentBuilder>
-            extends CodeTreeBuilder<WindowFrameBoundBuilder<ParentBuilder>, ParentBuilder, Setter<Over.WindowFrameBound>> {
+            extends ParentHoldLazyConfigBuilder<WindowFrameBoundBuilder<ParentBuilder>, ParentBuilder, Over.WindowFrameBound> {
 
-        public WindowFrameBoundBuilder(Setter<Over.WindowFrameBound> setter) {
-            super(setter);
-        }
+        public WindowFrameBoundBuilder() {}
 
         /**
          * Confirm type of WindowFrameBound
@@ -445,10 +426,8 @@ public class OverBuilder<ParentBuilder>
          */
         public WindowFramePrecedingBuilder<ParentBuilder> _Preceding() {
             return new WindowFramePrecedingBuilder<ParentBuilder>
-                    (initSet(Over.WindowFramePreceding::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(Over.WindowFramePreceding::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -457,10 +436,8 @@ public class OverBuilder<ParentBuilder>
          */
         public WindowFrameFollowingBuilder<ParentBuilder> _Following() {
             return new WindowFrameFollowingBuilder<ParentBuilder>
-                    (initSet(Over.WindowFrameFollowing::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(Over.WindowFrameFollowing::new).set(this::init))
+                    .in(this.and());
         }
 
 
@@ -529,10 +506,10 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class WindowFramePrecedingBuilder<ParentBuilder>
-            extends CodeTreeBuilder<WindowFramePrecedingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFramePreceding> {
+            extends ParentHoldBuilder<WindowFramePrecedingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFramePreceding> {
 
-        public WindowFramePrecedingBuilder(Over.WindowFramePreceding windowFramePreceding) {
-            super(windowFramePreceding);
+        public WindowFramePrecedingBuilder(Over.WindowFramePreceding target) {
+            super(target);
         }
 
         /**
@@ -569,10 +546,10 @@ public class OverBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class WindowFrameFollowingBuilder<ParentBuilder>
-            extends CodeTreeBuilder<WindowFrameFollowingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameFollowing> {
+            extends ParentHoldBuilder<WindowFrameFollowingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameFollowing> {
 
-        public WindowFrameFollowingBuilder(Over.WindowFrameFollowing windowFrameFollowing) {
-            super(windowFrameFollowing);
+        public WindowFrameFollowingBuilder(Over.WindowFrameFollowing target) {
+            super(target);
         }
 
         /**

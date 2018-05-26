@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.column;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
@@ -11,8 +11,8 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.Collections;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * MemoryOptimizedColumnDefinitionBuilder
@@ -22,14 +22,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ColumnDefinition> {
-
-    public MemoryOptimizedColumnDefinitionBuilder(ColumnDefinition tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ColumnDefinition> {
 
     public MemoryOptimizedColumnDefinitionBuilder() {
         super(new ColumnDefinition());
+    }
+
+    public MemoryOptimizedColumnDefinitionBuilder(ColumnDefinition target) {
+        super(target);
     }
 
     /**
@@ -252,9 +252,8 @@ public class MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>
     public MemoryOptimizedColumnConstraintBuilder<MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>> $Constraint(
             String constraintName){
         return new MemoryOptimizedColumnConstraintBuilder<MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>>
-                (initNew(ColumnConstraint::new,
-                        target::getColumnConstraint,
-                        target::setColumnConstraint))
+                (list(target::getColumnConstraint, target::setColumnConstraint)
+                        .addNew(ColumnConstraint::new))
                 .in(this)
                 .withConstraintName(constraintName);
     }
@@ -267,9 +266,8 @@ public class MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>
     public HashBucketCountColumnIndexBuilder<MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>> $Index(
             String indexName){
         return new HashBucketCountColumnIndexBuilder<MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>>
-                (initSet(ColumnIndex::new,
-                        target::getColumnIndex,
-                        target::setColumnIndex))
+                (object(target::getColumnIndex, target::setColumnIndex)
+                        .init(ColumnIndex::new))
                 .in(this)
                 .withIndexName(indexName);
     }

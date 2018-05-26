@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.elements.expressions;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.BinaryOperator;
@@ -11,10 +11,14 @@ import com.xy.xsql.tsql.model.elements.operators.BinaryOperator;
  */
 @SuppressWarnings("unused")
 public class BinaryExpressionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<BinaryExpressionBuilder<ParentBuilder>,ParentBuilder,BinaryExpression> {
+        extends ParentHoldBuilder<BinaryExpressionBuilder<ParentBuilder>,ParentBuilder,BinaryExpression> {
 
     public BinaryExpressionBuilder() {
         super(new BinaryExpression());
+    }
+
+    public BinaryExpressionBuilder(BinaryExpression target) {
+        super(target);
     }
 
 

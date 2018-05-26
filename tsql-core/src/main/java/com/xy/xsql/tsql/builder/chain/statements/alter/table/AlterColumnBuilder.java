@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
@@ -14,7 +14,7 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterColumnBuilder<ParentBuilder>
-        extends CodeTreeBuilder<AlterColumnBuilder<ParentBuilder>,ParentBuilder,AlterColumn> {
+        extends ParentHoldBuilder<AlterColumnBuilder<ParentBuilder>,ParentBuilder,AlterColumn> {
 
     public AlterColumnBuilder(AlterColumn target) {
         super(target);

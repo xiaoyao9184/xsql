@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.column;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
 
 /**
@@ -12,14 +12,14 @@ import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class HashBucketCountColumnIndexBuilder<ParentBuilder>
-        extends CodeTreeBuilder<HashBucketCountColumnIndexBuilder<ParentBuilder>,ParentBuilder,ColumnIndex> {
-
-    public HashBucketCountColumnIndexBuilder(ColumnIndex columnIndex) {
-        super(columnIndex);
-    }
+        extends ParentHoldBuilder<HashBucketCountColumnIndexBuilder<ParentBuilder>,ParentBuilder,ColumnIndex> {
 
     public HashBucketCountColumnIndexBuilder() {
         super(new ColumnIndex());
+    }
+
+    public HashBucketCountColumnIndexBuilder(ColumnIndex target) {
+        super(target);
     }
 
     /**

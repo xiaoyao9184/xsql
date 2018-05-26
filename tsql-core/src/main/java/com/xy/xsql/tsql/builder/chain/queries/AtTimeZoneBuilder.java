@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.queries.AtTimeZone;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
@@ -12,7 +12,7 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AtTimeZoneBuilder<ParentBuilder>
-        extends CodeTreeBuilder<AtTimeZoneBuilder<ParentBuilder>,ParentBuilder,AtTimeZone> {
+        extends ParentHoldBuilder<AtTimeZoneBuilder<ParentBuilder>,ParentBuilder,AtTimeZone> {
 
     private boolean indexFirst = true;
 
@@ -20,8 +20,8 @@ public class AtTimeZoneBuilder<ParentBuilder>
         super(new AtTimeZone());
     }
 
-    public AtTimeZoneBuilder(AtTimeZone tar) {
-        super(tar);
+    public AtTimeZoneBuilder(AtTimeZone target) {
+        super(target);
     }
 
     /**

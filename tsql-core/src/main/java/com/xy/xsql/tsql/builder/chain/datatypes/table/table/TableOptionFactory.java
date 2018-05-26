@@ -1,13 +1,17 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableOption;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableStretchOptions;
 import com.xy.xsql.tsql.model.statements.TruncateTable;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 import static com.xy.xsql.tsql.builder.chain.statements.TruncateTableBuilder.e_pn;
 import static com.xy.xsql.tsql.builder.chain.statements.TruncateTableBuilder.e_range;
 
@@ -108,12 +112,26 @@ public class TableOptionFactory {
         return systemVersioning;
     }
 
-//    public TableOption $REMOTE_DATA_ARCHIVE(String schemaName, String historyTableName, Boolean useOff) {
-//        TableOption.RemoteDataArchive remoteDataArchive = new TableOption.RemoteDataArchive();
-//        remoteDataArchive.setUseOff(useOff);
-//        remoteDataArchive.setTableStretchOptionsList(historyTableName);
-//        return remoteDataArchive;
-//    }
+    /**
+     * Quick in
+     * @return TableStretchOptionsListBuilder
+     */
+    public TableStretchOptionsBuilder.TableStretchOptionsListBuilder<TableOption> $RemoteDataArchive() {
+        TableOption.RemoteDataArchive remoteDataArchive = new TableOption.RemoteDataArchive();
+        return new TableStretchOptionsBuilder.TableStretchOptionsListBuilder<TableOption>
+                (object(ArrayList<TableStretchOptions>::new).set(remoteDataArchive::setTableStretchOptionsList))
+                .in(remoteDataArchive);
+    }
+
+    /**
+     * Quick build
+     * @return TableOption
+     */
+    public TableOption $RemoteDataArchive(List<TableStretchOptions> tableStretchOptionsList) {
+        TableOption.RemoteDataArchive remoteDataArchive = new TableOption.RemoteDataArchive();
+        remoteDataArchive.setTableStretchOptionsList(tableStretchOptionsList);
+        return remoteDataArchive;
+    }
 
     /**
      * Quick build
@@ -130,10 +148,14 @@ public class TableOptionFactory {
      * @param <ParentBuilder>
      */
     public static class DataCompressionBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DataCompressionBuilder<ParentBuilder>,ParentBuilder,TableOption.DataCompression> {
+            extends ParentHoldBuilder<DataCompressionBuilder<ParentBuilder>,ParentBuilder,TableOption.DataCompression> {
 
-        public DataCompressionBuilder(TableOption.DataCompression dataCompression) {
-            super(dataCompression);
+        public DataCompressionBuilder() {
+            super(new TableOption.DataCompression());
+        }
+
+        public DataCompressionBuilder(TableOption.DataCompression target) {
+            super(target);
         }
 
 
@@ -177,13 +199,11 @@ public class TableOptionFactory {
          */
         public DataCompressionBuilder<ParentBuilder> $OnPartitions(Number... partitionNumbers){
             if(partitionNumbers.length == 1){
-                initAdd(e_pn(partitionNumbers[0]),
-                        target::getPartitionsList,
-                        target::setPartitionsList);
+                list(target::getPartitionsList, target::setPartitionsList)
+                        .add(e_pn(partitionNumbers[0]));
             }else if(partitionNumbers.length >= 2){
-                initAdd(e_range(partitionNumbers[0],partitionNumbers[1]),
-                        target::getPartitionsList,
-                        target::setPartitionsList);
+                list(target::getPartitionsList, target::setPartitionsList)
+                        .add(e_range(partitionNumbers[0],partitionNumbers[1]));
             }
             return this;
         }
@@ -194,8 +214,9 @@ public class TableOptionFactory {
          */
         public PartitionsListBuilder<DataCompressionBuilder<ParentBuilder>> $OnPartitions(){
             return new PartitionsListBuilder<DataCompressionBuilder<ParentBuilder>>
-                    ()
-                    .enter(this,partitionsList -> target.setPartitionsList(partitionsList));
+                    (object(target::getPartitionsList, target::setPartitionsList)
+                            .init(ArrayList::new))
+                    .in(this);
         }
     }
 
@@ -204,14 +225,14 @@ public class TableOptionFactory {
      * @param <ParentBuilder>
      */
     public static class PartitionsListBuilder<ParentBuilder>
-            extends CodeTreeBuilder<PartitionsListBuilder<ParentBuilder>,ParentBuilder,List<TruncateTable.Partitions>> {
-
-        public PartitionsListBuilder(List<TruncateTable.Partitions> partitionsList) {
-            super(partitionsList);
-        }
+            extends ParentHoldBuilder<PartitionsListBuilder<ParentBuilder>,ParentBuilder,List<TruncateTable.Partitions>> {
 
         public PartitionsListBuilder() {
-            super(null);
+            super(new ArrayList<>());
+        }
+
+        public PartitionsListBuilder(List<TruncateTable.Partitions> target) {
+            super(target);
         }
 
         private TruncateTable.PartitionNumberExpression current;

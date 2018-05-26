@@ -1,13 +1,14 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.constraint;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.model.datatypes.table.constraint.Foreign;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * Foreign Builders
@@ -22,10 +23,14 @@ public class Foreigns {
      * @param <ParentBuilder>
      */
     public static class ColumnForeignBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ColumnForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
+            extends ParentHoldBuilder<ColumnForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
 
-        public ColumnForeignBuilder(Foreign tar) {
-            super(tar);
+        public ColumnForeignBuilder() {
+            super(new Foreign());
+        }
+
+        public ColumnForeignBuilder(Foreign target) {
+            super(target);
         }
 
         /**
@@ -137,9 +142,8 @@ public class Foreigns {
          * @return OnTypeBuilder
          */
         public OnTypeBuilder<ColumnForeignBuilder> $OnDelete(){
-            return new OnTypeBuilder<ColumnForeignBuilder>
-                    ()
-                    .enter(this, onType -> target.setOnDelete(onType));
+            return new OnTypeBuilder<ColumnForeignBuilder>()
+                    .enter(this, Getter.empty(), onType -> target.setOnDelete(onType));
         }
 
         /**
@@ -147,9 +151,8 @@ public class Foreigns {
          * @return OnTypeBuilder
          */
         public OnTypeBuilder<ColumnForeignBuilder> $OnUpdate(){
-            return new OnTypeBuilder<ColumnForeignBuilder>
-                    ()
-                    .enter(this, onType -> target.setOnUpdate(onType));
+            return new OnTypeBuilder<ColumnForeignBuilder>()
+                    .enter(this, Getter.empty(), onType -> target.setOnUpdate(onType));
         }
 
         /**
@@ -168,10 +171,14 @@ public class Foreigns {
      * @param <ParentBuilder>
      */
     public static class ComputedColumnForeignBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ColumnForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
+            extends ParentHoldBuilder<ColumnForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
 
-        public ComputedColumnForeignBuilder(Foreign tar) {
-            super(tar);
+        public ComputedColumnForeignBuilder() {
+            super(new Foreign());
+        }
+
+        public ComputedColumnForeignBuilder(Foreign target) {
+            super(target);
         }
 
         /**
@@ -263,9 +270,8 @@ public class Foreigns {
          * @return OnTypeBuilder
          */
         public OnTypeBuilder<ComputedColumnForeignBuilder> $OnDelete(){
-            return new OnTypeBuilder<ComputedColumnForeignBuilder>
-                    ()
-                    .enter(this, onType -> target.setOnDelete(onType));
+            return new OnTypeBuilder<ComputedColumnForeignBuilder>()
+                    .enter(this, Getter.empty(), onType -> target.setOnDelete(onType));
         }
 
         /**
@@ -273,9 +279,8 @@ public class Foreigns {
          * @return OnTypeBuilder
          */
         public OnTypeBuilder<ComputedColumnForeignBuilder> $OnUpdate(){
-            return new OnTypeBuilder<ComputedColumnForeignBuilder>
-                    ()
-                    .enter(this, onType -> target.setOnUpdate(onType));
+            return new OnTypeBuilder<ComputedColumnForeignBuilder>()
+                    .enter(this, Getter.empty(), onType -> target.setOnUpdate(onType));
         }
 
         /**
@@ -297,10 +302,14 @@ public class Foreigns {
      * @param <ParentBuilder>
      */
     public static class ReferencesColumnForeignBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ReferencesColumnForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
+            extends ParentHoldBuilder<ReferencesColumnForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
 
-        public ReferencesColumnForeignBuilder(Foreign tar) {
-            super(tar);
+        public ReferencesColumnForeignBuilder() {
+            super(new Foreign());
+        }
+
+        public ReferencesColumnForeignBuilder(Foreign target) {
+            super(target);
         }
 
         /**
@@ -376,10 +385,14 @@ public class Foreigns {
      * @param <ParentBuilder>
      */
     public static class TableForeignBuilder<ParentBuilder>
-            extends CodeTreeBuilder<TableForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
+            extends ParentHoldBuilder<TableForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
 
-        public TableForeignBuilder(Foreign tar) {
-            super(tar);
+        public TableForeignBuilder() {
+            super(new Foreign());
+        }
+
+        public TableForeignBuilder(Foreign target) {
+            super(target);
         }
 
         /**
@@ -452,9 +465,7 @@ public class Foreigns {
          * @return THIS
          */
         public TableForeignBuilder $(String... columns){
-            initAdd(Arrays.asList(columns),
-                    target::getColumns,
-                    target::setColumns);
+            list(target::getColumns, target::setColumns).addAll(columns);
             return this;
         }
 
@@ -470,9 +481,7 @@ public class Foreigns {
          * @return THIS
          */
         public TableForeignBuilder $References(String referencedTableName, String... refColumns){
-            initAdd(Arrays.asList(refColumns),
-                    target::getRefColumns,
-                    target::setRefColumns);
+            list(target::getRefColumns, target::setRefColumns).addAll(refColumns);
             return withReferencedTableName(referencedTableName);
         }
 
@@ -481,9 +490,8 @@ public class Foreigns {
          * @return OnTypeBuilder
          */
         public OnTypeBuilder<TableForeignBuilder> $OnDelete(){
-            return new OnTypeBuilder<TableForeignBuilder>
-                    ()
-                    .enter(this, onType -> target.setOnDelete(onType));
+            return new OnTypeBuilder<TableForeignBuilder>()
+                    .enter(this, Getter.empty(), onType -> target.setOnDelete(onType));
         }
 
         /**
@@ -491,9 +499,8 @@ public class Foreigns {
          * @return OnTypeBuilder
          */
         public OnTypeBuilder<TableForeignBuilder> $OnUpdate(){
-            return new OnTypeBuilder<TableForeignBuilder>
-                    ()
-                    .enter(this, onType -> target.setOnUpdate(onType));
+            return new OnTypeBuilder<TableForeignBuilder>()
+                    .enter(this, Getter.empty(), onType -> target.setOnUpdate(onType));
         }
 
         /**
@@ -513,10 +520,14 @@ public class Foreigns {
      * @param <ParentBuilder>
      */
     public static class ReferencesTableForeignBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ReferencesTableForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
+            extends ParentHoldBuilder<ReferencesTableForeignBuilder<ParentBuilder>,ParentBuilder,Foreign> {
 
-        public ReferencesTableForeignBuilder(Foreign tar) {
-            super(tar);
+        public ReferencesTableForeignBuilder() {
+            super(new Foreign());
+        }
+
+        public ReferencesTableForeignBuilder(Foreign target) {
+            super(target);
         }
 
         /**
@@ -572,9 +583,7 @@ public class Foreigns {
          * @return THIS
          */
         public ReferencesTableForeignBuilder $(String... columns){
-            initAdd(Arrays.asList(columns),
-                    target::getColumns,
-                    target::setColumns);
+            list(target::getColumns, target::setColumns).addAll(columns);
             return this;
         }
 
@@ -590,19 +599,13 @@ public class Foreigns {
     }
 
     /**
-     *
+     * Abstract OnTypeBuilder
      * @param <ParentBuilder>
      */
     public static class OnTypeBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OnTypeBuilder<ParentBuilder>,ParentBuilder,Foreign.OnType> {
+            extends ParentHoldLazyConfigBuilder<OnTypeBuilder<ParentBuilder>,ParentBuilder,Foreign.OnType> {
 
-        public OnTypeBuilder(Foreign.OnType onType) {
-            super(onType);
-        }
-
-        public OnTypeBuilder() {
-            super(null);
-        }
+        public OnTypeBuilder() {}
 
         /**
          * Quick set
@@ -610,7 +613,7 @@ public class Foreigns {
          */
         public ParentBuilder $NoAction(){
             target = Foreign.OnType.NO_ACTION;
-            return this.back();
+            return this.and();
         }
 
         /**
@@ -619,7 +622,7 @@ public class Foreigns {
          */
         public ParentBuilder $Cascade(){
             target = Foreign.OnType.CASCADE;
-            return this.back();
+            return this.and();
         }
 
         /**
@@ -628,7 +631,7 @@ public class Foreigns {
          */
         public ParentBuilder $SetNull(){
             target = Foreign.OnType.SET_NULL;
-            return this.back();
+            return this.and();
         }
 
         /**
@@ -637,7 +640,7 @@ public class Foreigns {
          */
         public ParentBuilder $SetDefault(){
             target = Foreign.OnType.SET_DEFAULT;
-            return this.back();
+            return this.and();
         }
 
     }

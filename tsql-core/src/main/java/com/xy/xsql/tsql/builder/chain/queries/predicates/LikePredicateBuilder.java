@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Like;
@@ -12,14 +12,14 @@ import com.xy.xsql.tsql.model.queries.predicates.Like;
  */
 @SuppressWarnings({"Duplicates", "WeakerAccess"})
 public class LikePredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<LikePredicateBuilder<ParentBuilder>,ParentBuilder,Like> {
+        extends ParentHoldBuilder<LikePredicateBuilder<ParentBuilder>,ParentBuilder,Like> {
 
     public LikePredicateBuilder() {
         super(new Like());
     }
 
-    public LikePredicateBuilder(Like predicate) {
-        super(predicate);
+    public LikePredicateBuilder(Like target) {
+        super(target);
     }
 
     private int index = 0;

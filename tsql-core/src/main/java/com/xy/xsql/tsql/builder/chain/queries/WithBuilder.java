@@ -1,17 +1,15 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.queries.With;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.queries.Select;
+import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * WithBuilder
@@ -19,14 +17,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class WithBuilder<ParentBuilder>
-        extends CodeTreeBuilder<WithBuilder<ParentBuilder>,ParentBuilder,With> {
+        extends ParentHoldBuilder<WithBuilder<ParentBuilder>,ParentBuilder,With> {
 
     public WithBuilder() {
         super(new With());
     }
 
-    public WithBuilder(With with) {
-        super(with);
+    public WithBuilder(With target) {
+        super(target);
     }
 
     /**
@@ -35,9 +33,8 @@ public class WithBuilder<ParentBuilder>
      * @return THIS
      */
     public WithBuilder<ParentBuilder> withItem(With.CommonTableExpression commonTableExpression){
-        initAdd(commonTableExpression,
-                this.target::getCommonTableExpressionList,
-                this.target::setCommonTableExpressionList);
+        list(target::getCommonTableExpressionList, target::setCommonTableExpressionList)
+                .add(commonTableExpression);
         return this;
     }
 
@@ -47,9 +44,8 @@ public class WithBuilder<ParentBuilder>
      */
     public CommonTableExpressionBuilder<WithBuilder<ParentBuilder>> withItem(){
         return new CommonTableExpressionBuilder<WithBuilder<ParentBuilder>>
-                (initNew(With.CommonTableExpression::new,
-                        this.target::getCommonTableExpressionList,
-                        this.target::setCommonTableExpressionList))
+                (list(target::getCommonTableExpressionList, target::setCommonTableExpressionList)
+                        .addNew(With.CommonTableExpression::new))
                 .in(this);
     }
 
@@ -95,14 +91,14 @@ public class WithBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class CommonTableExpressionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<CommonTableExpressionBuilder<ParentBuilder>,ParentBuilder,With.CommonTableExpression> {
+        extends ParentHoldBuilder<CommonTableExpressionBuilder<ParentBuilder>,ParentBuilder,With.CommonTableExpression> {
 
         public CommonTableExpressionBuilder() {
             super(new With.CommonTableExpression());
         }
 
-        public CommonTableExpressionBuilder(With.CommonTableExpression commonTableExpression) {
-            super(commonTableExpression);
+        public CommonTableExpressionBuilder(With.CommonTableExpression target) {
+            super(target);
         }
 
         /**
@@ -124,9 +120,8 @@ public class WithBuilder<ParentBuilder>
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
             }
-            initAdd(Arrays.asList(columnNames),
-                     this.target::getColumnName,
-                    this.target::setColumnName);
+            list(target::getColumnName, target::setColumnName)
+                    .addAll(columnNames);
             return this;
         }
 
@@ -139,9 +134,8 @@ public class WithBuilder<ParentBuilder>
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
             }
-            initAdd(columnNames,
-                    this.target::getColumnName,
-                    this.target::setColumnName);
+            list(target::getColumnName, target::setColumnName)
+                    .addAll(columnNames);
             return this;
         }
 
@@ -171,9 +165,8 @@ public class WithBuilder<ParentBuilder>
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
             }
-            initAdd(Arrays.asList(columnNames),
-                    this.target::getColumnName,
-                    this.target::setColumnName);
+            list(target::getColumnName, target::setColumnName)
+                    .addAll(columnNames);
             return this;
         }
 
@@ -186,12 +179,8 @@ public class WithBuilder<ParentBuilder>
             if(CheckUtil.isNullOrEmpty(columnNames)){
                 return this;
             }
-            initAdd(Arrays
-                        .stream(columnNames)
-                        .map(ColumnName::new)
-                        .collect(Collectors.toList()),
-                    this.target::getColumnName,
-                    this.target::setColumnName);
+            list(target::getColumnName, target::setColumnName)
+                    .addAll(Arrays.stream(columnNames).map(ColumnName::new));
             return this;
         }
 

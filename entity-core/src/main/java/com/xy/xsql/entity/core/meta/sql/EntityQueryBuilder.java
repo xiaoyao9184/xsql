@@ -24,8 +24,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.core.FiledBuilder.initSet2;
-import static com.xy.xsql.core.ListBuilder.*;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * Created by xiaoyao9184 on 2017/10/19.
@@ -174,9 +174,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
     public EntityQueryBuilder<Entity> column(Integer index, String returnName){
         ColumnMeta columnMeta = columnNumberIndexer.column(index)
                 .orElseThrow(NoColumnMethodDefFoundError::new);
-        initAdd(new ColumnReturn(columnMeta,returnName),
-                this::getColumnReturns,
-                this::setColumnReturns);
+        list(target::getColumnReturns, target::setColumnReturns)
+                .add(new ColumnReturn(columnMeta,returnName));
         return this;
     }
 
@@ -198,9 +197,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
     public EntityQueryBuilder<Entity> column(String name, String returnName){
         ColumnMeta columnMeta = columnNameIndexer.column(name)
                 .orElseThrow(NoColumnMethodDefFoundError::new);
-        initAdd(new ColumnReturn(columnMeta,returnName),
-                this::getColumnReturns,
-                this::setColumnReturns);
+        list(this::getColumnReturns, this::setColumnReturns)
+                .add(new ColumnReturn(columnMeta,returnName));
         return this;
     }
 
@@ -222,9 +220,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
     public EntityQueryBuilder<Entity> column(Function<Entity,?> getter, String returnName){
         columnMethodIndexer.column(recorder.record(getter).getMethod())
                 .ifPresent(columnMeta ->
-                        initAdd(new ColumnReturn(columnMeta,returnName),
-                                this::getColumnReturns,
-                                this::setColumnReturns)
+                                list(this::getColumnReturns, this::setColumnReturns)
+                                        .add(new ColumnReturn(columnMeta,returnName))
                 );
         return this;
     }
@@ -242,7 +239,9 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
 
         return new EntityJoinBuilder<>
                 (joinEntityClass, this::columnMetaByGetter)
-                .enter(this,tableJoin -> initAdd(tableJoin,this::getTableJoins,this::setTableJoins))
+                .enter(this,tableJoin ->
+                        list(this::getTableJoins, this::setTableJoins)
+                                .add(tableJoin))
                 .join(JoinType.base)
                 .table(joinTableMete);
     }
@@ -259,7 +258,7 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
 //
 //        return new EntityJoinBuilder<Entity,JoinEntity>
 //                (joinEntityRelationshipClass, this::columnMetaByGetter, this::columnMetaByName)
-//                .enter(this,tableJoin -> initAdd(tableJoin,this::getTableJoins,this::setTableJoins))
+//                .enter(this,tableJoin -> initListWithCollection(tableJoin,this::getTableJoins,this::setTableJoins))
 //                .join(JoinType.base)
 //                .table(joinTableMete)
 //                .columnGetter(this::columnMetaByGetter,this::columnMetaByName);
@@ -276,9 +275,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
         ColumnMeta columnMeta = columnMetaByGetter(getter);
 
         return new ColumnConditionBuilder<Entity,EntityQueryBuilder<Entity>>
-                (initNew2(ColumnCondition::new,
-                        this::getEntityConditions,
-                        this::setEntityConditions))
+                (list(this::getEntityConditions, this::setEntityConditions)
+                        .addNew(ColumnCondition::new))
                 .in(this)
                 .withColumnMeta(columnMeta);
     }
@@ -314,7 +312,9 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
     public GroupConditionBuilder<Entity,EntityQueryBuilder<Entity>> where(){
         return new GroupConditionBuilder<Entity,EntityQueryBuilder<Entity>>
                 (new GroupCondition(),this::columnMetaByGetter)
-                .enter(this,ec -> initAdd(ec,this::getEntityConditions,this::setEntityConditions));
+                .enter(this,ec ->
+                        list(this::getEntityConditions, this::setEntityConditions)
+                                .add(ec));
     }
 
     /**
@@ -343,9 +343,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
      */
     public <ANY> EntityQueryBuilder<Entity> order(Function<Entity,ANY> getter) {
         ColumnMeta columnMeta = columnMetaByGetter(getter);
-        initAdd(new ColumnOrder(columnMeta),
-                this::getColumnOrders,
-                this::setColumnOrders);
+        list(this::getColumnOrders, this::setColumnOrders)
+                .add(new ColumnOrder(columnMeta));
         return this;
     }
 
@@ -357,9 +356,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
      */
     public <ANY> EntityQueryBuilder<Entity> ase(Function<Entity,ANY> getter) {
         ColumnMeta columnMeta = columnMetaByGetter(getter);
-        initAdd(new ColumnOrder(columnMeta,true),
-                this::getColumnOrders,
-                this::setColumnOrders);
+        list(this::getColumnOrders, this::setColumnOrders)
+                .add(new ColumnOrder(columnMeta,true));
         return this;
     }
 
@@ -371,9 +369,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
      */
     public <ANY> EntityQueryBuilder<Entity> desc(Function<Entity,ANY> getter) {
         ColumnMeta columnMeta = columnMetaByGetter(getter);
-        initAdd(new ColumnOrder(columnMeta,false),
-                this::getColumnOrders,
-                this::setColumnOrders);
+        list(this::getColumnOrders, this::setColumnOrders)
+                .add(new ColumnOrder(columnMeta,false));
         return this;
     }
 
@@ -382,16 +379,20 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
     public EntityQuery build() {
         afterColumnCondition.ifPresent(Runnable::run);
 
-        initSet2(() -> this.tableClassIndexer.table(entity)
-                .orElseThrow(NoTableClassDefFoundError::new),
-                target::getTableMain,
-                target::setTableMain);
 
-        initAdd(this.columnReturns,target::getColumnReturns,target::setColumnReturns);
-        initAdd(this.entityConditions,target::getEntityConditions,target::setEntityConditions);
-        initAdd(this.columnOrders,target::getColumnOrders,target::setColumnOrders);
+        object(target::getTableMain, target::setTableMain)
+                .init(() -> this.tableClassIndexer.table(entity)
+                        .orElseThrow(NoTableClassDefFoundError::new));
 
-        initAdd(this.tableJoins,target::getTableJoins,target::setTableJoins);
+        list(target::getColumnReturns, target::setColumnReturns)
+                .addAll(columnReturns);
+        list(target::getEntityConditions, target::setEntityConditions)
+                .addAll(entityConditions);
+        list(target::getColumnOrders, target::setColumnOrders)
+                .addAll(columnOrders);
+
+        list(target::getTableJoins, target::setTableJoins)
+                .addAll(tableJoins);
 
         return super.build();
     }
@@ -405,10 +406,8 @@ public class EntityQueryBuilder<Entity> extends CodeBuilder<EntityQuery> {
                 .map(cc -> new ColumnReturn(cc.getColumnMeta()))
                 .collect(Collectors.toList());
 
-        initAdd2(
-                this::getColumnReturns,
-                this::setColumnReturns,
-                columnReturns);
+        list(this::getColumnReturns, this::setColumnReturns)
+                .addAll(columnReturns);
     }
 
     /**

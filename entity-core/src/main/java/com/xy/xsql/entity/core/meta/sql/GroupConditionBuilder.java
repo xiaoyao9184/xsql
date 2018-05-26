@@ -4,12 +4,11 @@ import com.xy.xsql.core.builder.CodeTreeBuilder;
 import com.xy.xsql.entity.api.meta.ColumnMeta;
 import com.xy.xsql.entity.model.sql.ColumnCondition;
 import com.xy.xsql.entity.model.sql.GroupCondition;
-import com.xy.xsql.entity.model.sql.PredicateType;
 
 import java.util.Objects;
 import java.util.function.Function;
 
-import static com.xy.xsql.core.ListBuilder.initNew2;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * Created by xiaoyao9184 on 2017/10/19
@@ -41,9 +40,8 @@ public class GroupConditionBuilder<Entity,P>
         ColumnMeta columnMeta = getterColumnMetaFunction.apply(getter);
 
         return new ColumnConditionBuilder<Entity,GroupConditionBuilder<Entity,P>>
-                (initNew2(ColumnCondition::new,
-                        target::getInternal,
-                        target::setInternal))
+                (list(target::getInternal, target::setInternal)
+                        .addNew(ColumnCondition::new))
                 .in(this)
                 .withColumnMeta(columnMeta);
     }

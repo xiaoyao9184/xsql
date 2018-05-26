@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.LowPriorityLockWait;
 
 /**
@@ -9,7 +9,11 @@ import com.xy.xsql.tsql.model.statements.alter.table.LowPriorityLockWait;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class LowPriorityLockWaitBuilder<ParentBuilder>
-        extends CodeTreeBuilder<LowPriorityLockWaitBuilder<ParentBuilder>,ParentBuilder,LowPriorityLockWait> {
+        extends ParentHoldBuilder<LowPriorityLockWaitBuilder<ParentBuilder>,ParentBuilder,LowPriorityLockWait> {
+
+    public LowPriorityLockWaitBuilder() {
+        super(new LowPriorityLockWait());
+    }
 
     public LowPriorityLockWaitBuilder(LowPriorityLockWait target) {
         super(target);

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates.transform;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.predicates.ContainsPredicateBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.predicates.FreeTextPredicateBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
@@ -8,21 +8,17 @@ import com.xy.xsql.tsql.model.queries.predicates.Contains;
 import com.xy.xsql.tsql.model.queries.predicates.FreeText;
 import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
+
 /**
  * Abstract ContainsFreeText Predicate Builder
  * Created by xiaoyao9184 on 2017/3/16.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class ContainsFreeTextTransformBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ContainsFreeTextTransformBuilder<ParentBuilder>,ParentBuilder,Predicate> {
+        extends ParentHoldLazyConfigBuilder<ContainsFreeTextTransformBuilder<ParentBuilder>,ParentBuilder,Predicate> {
 
-    public ContainsFreeTextTransformBuilder(Predicate predicate) {
-        super(predicate);
-    }
-
-    public ContainsFreeTextTransformBuilder() {
-        super(null);
-    }
+    public ContainsFreeTextTransformBuilder() {}
 
     private ColumnName column;
     private Class<? extends Predicate> predicateClass;
@@ -54,11 +50,9 @@ public class ContainsFreeTextTransformBuilder<ParentBuilder>
      * @return ContainsPredicateBuilder
      */
     public ContainsPredicateBuilder<ParentBuilder> _Contains() {
-        return new ContainsPredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new ContainsPredicateBuilder<ParentBuilder>
+                (object(Contains::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -66,11 +60,9 @@ public class ContainsFreeTextTransformBuilder<ParentBuilder>
      * @return FreeTextPredicateBuilder
      */
     public FreeTextPredicateBuilder<ParentBuilder> _FreeText() {
-        return new FreeTextPredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new FreeTextPredicateBuilder<ParentBuilder>
+                (object(FreeText::new).set(this::init))
+                .in(this.and());
     }
 
     /*
@@ -89,24 +81,24 @@ public class ContainsFreeTextTransformBuilder<ParentBuilder>
                 return _Contains()
                         .withContainsSearchCondition(containsSearchCondition_freetextString)
                         .withAllColumn()
-                        .back();
+                        .and();
             }else{
                 return _Contains()
                         .withContainsSearchCondition(containsSearchCondition_freetextString)
                         .withColumnName(column)
-                        .back();
+                        .and();
             }
         }else if(FreeText.class.equals(predicateClass)){
             if(column == null){
                 return _FreeText()
                         .withFreeText(containsSearchCondition_freetextString)
                         .withAllColumn()
-                        .back();
+                        .and();
             }else{
                 return _FreeText()
                         .withFreeText(containsSearchCondition_freetextString)
                         .withColumnName(column)
-                        .back();
+                        .and();
             }
         }
         return and();

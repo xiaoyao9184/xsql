@@ -1,13 +1,14 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates.transform;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.predicates.*;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
-import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
-import com.xy.xsql.tsql.model.queries.predicates.Predicate;
 import com.xy.xsql.tsql.model.queries.Select;
+import com.xy.xsql.tsql.model.queries.predicates.*;
+
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * Abstract Expression Predicate Builder
@@ -15,15 +16,9 @@ import com.xy.xsql.tsql.model.queries.Select;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class ExpressionTransformBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ExpressionTransformBuilder<ParentBuilder>,ParentBuilder,Predicate> {
+        extends ParentHoldLazyConfigBuilder<ExpressionTransformBuilder<ParentBuilder>,ParentBuilder,Predicate> {
 
-    public ExpressionTransformBuilder(Predicate predicate) {
-        super(predicate);
-    }
-
-    public ExpressionTransformBuilder() {
-        super(null);
-    }
+    public ExpressionTransformBuilder() {}
 
     private Expression expression;
 
@@ -43,11 +38,9 @@ public class ExpressionTransformBuilder<ParentBuilder>
      * @return ComparisonPredicateBuilder
      */
     public ComparisonPredicateBuilder<ParentBuilder> _Comparison() {
-        return new ComparisonPredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new ComparisonPredicateBuilder<ParentBuilder>
+                (object(com.xy.xsql.tsql.model.queries.predicates.Comparison::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -55,11 +48,9 @@ public class ExpressionTransformBuilder<ParentBuilder>
      * @return LikePredicateBuilder
      */
     public LikePredicateBuilder<ParentBuilder> _Like() {
-        return new LikePredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new LikePredicateBuilder<ParentBuilder>
+                (object(Like::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -67,11 +58,9 @@ public class ExpressionTransformBuilder<ParentBuilder>
      * @return BetweenPredicateBuilder
      */
     public BetweenPredicateBuilder<ParentBuilder> _Between() {
-        return new BetweenPredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new BetweenPredicateBuilder<ParentBuilder>
+                (object(Between::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -79,11 +68,9 @@ public class ExpressionTransformBuilder<ParentBuilder>
      * @return IsNullPredicateBuilder
      */
     public IsNullPredicateBuilder<ParentBuilder> _IsNull() {
-        return new IsNullPredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new IsNullPredicateBuilder<ParentBuilder>
+                (object(IsNull::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -91,11 +78,9 @@ public class ExpressionTransformBuilder<ParentBuilder>
      * @return BetweenPredicateBuilder
      */
     public InPredicateBuilder<ParentBuilder> _In() {
-        return new InPredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new InPredicateBuilder<ParentBuilder>
+                (object(In::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -103,11 +88,9 @@ public class ExpressionTransformBuilder<ParentBuilder>
      * @return ComparisonSubQueryPredicateBuilder
      */
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> _All_Some_Any() {
-        return new ComparisonSubQueryPredicateBuilder<ParentBuilder>()
-                .enter(out(),p -> {
-                    target = p;
-                    back();
-                });
+        return new ComparisonSubQueryPredicateBuilder<ParentBuilder>
+                (object(ComparisonSubQuery::new).set(this::init))
+                .in(this.and());
     }
 
 

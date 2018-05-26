@@ -2,14 +2,14 @@ package com.xy.xsql.hsweb.ezorm.render.support.tsql;
 
 import com.xy.xsql.block.core.BlockManager;
 import com.xy.xsql.model.param.ListParameterModel;
-import com.xy.xsql.tsql.model.queries.From;
-import com.xy.xsql.tsql.model.queries.Where;
-import com.xy.xsql.tsql.model.queries.select.OrderBy;
-import com.xy.xsql.tsql.model.queries.select.Select.SelectItem;
 import com.xy.xsql.tsql.model.datatypes.table.Alias;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
+import com.xy.xsql.tsql.model.queries.From;
 import com.xy.xsql.tsql.model.queries.Select;
+import com.xy.xsql.tsql.model.queries.Where;
+import com.xy.xsql.tsql.model.queries.select.OrderBy;
+import com.xy.xsql.tsql.model.queries.select.Select.SelectItem;
 import com.xy.xsql.util.CheckUtil;
 import org.hsweb.commons.StringUtils;
 import org.hsweb.ezorm.core.param.QueryParam;
@@ -24,11 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
+import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
 import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Select;
 
 /**
@@ -105,9 +105,7 @@ public class TsqlSelectSqlRender extends CommentSupportRender<QueryParam> {
                 }
                 OrderBy.Item item = new OrderBy.Item();
                 item.setOrderByExpression(e(uniqueColumn));
-                initAdd(item,
-                        orderBy::getItems,
-                        orderBy::setItems);
+                list(orderBy::getItems, orderBy::setItems).add(item);
             }
         }else if(CheckUtil.isNullOrEmpty(orderBy.getItems())){
             orderBy = null;
@@ -176,14 +174,10 @@ public class TsqlSelectSqlRender extends CommentSupportRender<QueryParam> {
                             return orderBy;
                         },
                         (orderBy, item) -> {
-                            initAdd(item,
-                                    orderBy::getItems,
-                                    orderBy::setItems);
+                            list(orderBy::getItems, orderBy::setItems).add(item);
                         },
                         (orderBy, orderBy2) -> {
-                            initAdd(orderBy2.getItems(),
-                                    orderBy::getItems,
-                                    orderBy::setItems);
+                            list(orderBy::getItems, orderBy::setItems).addAll(orderBy2.getItems());
                             throw new UnsupportedOperationException("OrderBy not support merge!");
                         }
                 );

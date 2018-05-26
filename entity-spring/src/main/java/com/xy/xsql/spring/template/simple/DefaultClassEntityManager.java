@@ -30,8 +30,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-
 /**
  * Created by xiaoyao9184 on 2017/9/22.
  */

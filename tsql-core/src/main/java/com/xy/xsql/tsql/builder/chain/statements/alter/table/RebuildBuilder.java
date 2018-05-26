@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.IndexOptionBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
 import com.xy.xsql.tsql.model.statements.alter.table.Rebuild;
@@ -9,7 +9,7 @@ import com.xy.xsql.tsql.model.statements.alter.table.SinglePartitionRebuildOptio
 import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * RebuildBuilder
@@ -17,7 +17,11 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "unused","TypeParameterHidesVisibleType"})
 public class RebuildBuilder<ParentBuilder>
-        extends CodeTreeBuilder<RebuildBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
+        extends ParentHoldBuilder<RebuildBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
+
+    public RebuildBuilder() {
+        super(new Rebuild());
+    }
 
     public RebuildBuilder(Rebuild target) {
         super(target);
@@ -97,7 +101,7 @@ public class RebuildBuilder<ParentBuilder>
     public PartitionBuilder<ParentBuilder> $Partition$All(){
         return new PartitionBuilder<ParentBuilder>
                 (target)
-                .in(out())
+                .in(this.and())
                 .withUseAll(true);
     }
 
@@ -109,7 +113,7 @@ public class RebuildBuilder<ParentBuilder>
     public SinglePartitionBuilder<ParentBuilder> $Partition(Integer partitionNumber){
         return new SinglePartitionBuilder<ParentBuilder>
                 (target)
-                .in(out())
+                .in(this.and())
                 .withPartitionNumber(partitionNumber);
     }
 
@@ -118,7 +122,11 @@ public class RebuildBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public class PartitionBuilder<ParentBuilder>
-            extends CodeTreeBuilder<PartitionBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
+            extends ParentHoldBuilder<PartitionBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
+
+        public PartitionBuilder() {
+            super(new Rebuild());
+        }
 
         public PartitionBuilder(Rebuild target) {
             super(target);
@@ -167,9 +175,8 @@ public class RebuildBuilder<ParentBuilder>
          */
         public IndexOptionBuilder<PartitionBuilder<ParentBuilder>> $With(){
             return new IndexOptionBuilder<PartitionBuilder<ParentBuilder>>
-                    (initNew(IndexOption::new,
-                            target::getRebuildOptions,
-                            target::setRebuildOptions))
+                    (list(target::getRebuildOptions, target::setRebuildOptions)
+                            .addNew(IndexOption::new))
                     .in(this);
         }
 
@@ -180,7 +187,11 @@ public class RebuildBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public class SinglePartitionBuilder<ParentBuilder>
-            extends CodeTreeBuilder<SinglePartitionBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
+            extends ParentHoldBuilder<SinglePartitionBuilder<ParentBuilder>,ParentBuilder,Rebuild> {
+
+        public SinglePartitionBuilder() {
+            super(new Rebuild());
+        }
 
         public SinglePartitionBuilder(Rebuild target) {
             super(target);
@@ -229,9 +240,8 @@ public class RebuildBuilder<ParentBuilder>
          */
         public SinglePartitionRebuildOptionBuilder<SinglePartitionBuilder<ParentBuilder>> $With(){
             return new SinglePartitionRebuildOptionBuilder<SinglePartitionBuilder<ParentBuilder>>
-                    (initNew(SinglePartitionRebuildOption::new,
-                            target::getSinglePartitionRebuildOptions,
-                            target::setSinglePartitionRebuildOptions))
+                    (list(target::getSinglePartitionRebuildOptions, target::setSinglePartitionRebuildOptions)
+                            .addNew(SinglePartitionRebuildOption::new))
                     .in(this);
         }
 

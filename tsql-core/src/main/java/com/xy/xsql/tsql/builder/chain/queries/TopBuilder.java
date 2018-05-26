@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.Top;
 
@@ -10,14 +10,14 @@ import com.xy.xsql.tsql.model.queries.Top;
  */
 @SuppressWarnings("WeakerAccess")
 public class TopBuilder<ParentBuilder>
-        extends CodeTreeBuilder<TopBuilder<ParentBuilder>,ParentBuilder,Top> {
+        extends ParentHoldBuilder<TopBuilder<ParentBuilder>,ParentBuilder,Top> {
 
     public TopBuilder() {
         super(new Top());
     }
 
-    public TopBuilder(Top top) {
-        super(top);
+    public TopBuilder(Top target) {
+        super(target);
     }
 
 

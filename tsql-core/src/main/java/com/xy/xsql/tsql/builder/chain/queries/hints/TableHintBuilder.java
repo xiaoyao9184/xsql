@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.hints;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.Constants;
 import com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
@@ -18,14 +18,14 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
  */
 @SuppressWarnings({"WeakerAccess","unused"})
 public class TableHintBuilder<ParentBuilder>
-        extends CodeTreeBuilder<TableHintBuilder<ParentBuilder>,ParentBuilder,TableHint> {
+        extends ParentHoldBuilder<TableHintBuilder<ParentBuilder>,ParentBuilder,TableHint> {
 
     public TableHintBuilder() {
         super(new TableHint());
     }
 
-    public TableHintBuilder(TableHint tableHint) {
-        super(tableHint);
+    public TableHintBuilder(TableHint target) {
+        super(target);
     }
 
 
@@ -347,16 +347,16 @@ public class TableHintBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class TableHintIndexBuilder<ParentBuilder>
-            extends CodeTreeBuilder<TableHintIndexBuilder<ParentBuilder>,ParentBuilder,TableHint> {
+            extends ParentHoldBuilder<TableHintIndexBuilder<ParentBuilder>,ParentBuilder,TableHint> {
 
         public TableHintIndexBuilder() {
             super(new TableHint());
             target.setType(TableHint.Type.INDEX);
         }
 
-        public TableHintIndexBuilder(TableHint tableHint) {
-            super(tableHint);
-            target.setType(TableHint.Type.INDEX);
+        public TableHintIndexBuilder(TableHint target) {
+            super(target);
+            this.target.setType(TableHint.Type.INDEX);
         }
 
         /**

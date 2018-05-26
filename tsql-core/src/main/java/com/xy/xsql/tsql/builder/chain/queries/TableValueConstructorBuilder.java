@@ -1,29 +1,30 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
+import com.xy.xsql.tsql.model.queries.With;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * TableValueConstructorBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess","unused"})
 public class TableValueConstructorBuilder<ParentBuilder>
-        extends CodeTreeBuilder<TableValueConstructorBuilder<ParentBuilder>,ParentBuilder,TableValueConstructor> {
+        extends ParentHoldBuilder<TableValueConstructorBuilder<ParentBuilder>,ParentBuilder,TableValueConstructor> {
 
     public TableValueConstructorBuilder() {
         super(new TableValueConstructor());
     }
 
-    public TableValueConstructorBuilder(TableValueConstructor tableValueConstructor) {
-        super(tableValueConstructor);
+    public TableValueConstructorBuilder(TableValueConstructor target) {
+        super(target);
     }
 
     /**
@@ -32,9 +33,8 @@ public class TableValueConstructorBuilder<ParentBuilder>
      */
     public RowValuesBuilder<TableValueConstructorBuilder<ParentBuilder>> withItem(){
         return new RowValuesBuilder<TableValueConstructorBuilder<ParentBuilder>>
-                (initNew(ArrayList::new,
-                        target::getRowValueExpressionListGroup,
-                        target::setRowValueExpressionListGroup))
+                (list(target::getRowValueExpressionListGroup, target::setRowValueExpressionListGroup)
+                        .addNew(ArrayList::new))
                 .in(this);
     }
 
@@ -64,10 +64,14 @@ public class TableValueConstructorBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class RowValuesBuilder<ParentBuilder>
-            extends CodeTreeBuilder<RowValuesBuilder<ParentBuilder>,ParentBuilder,List<Expression>> {
+            extends ParentHoldBuilder<RowValuesBuilder<ParentBuilder>,ParentBuilder,List<Expression>> {
 
-        public RowValuesBuilder(List<Expression> tar) {
-            super(tar);
+        public RowValuesBuilder() {
+            super(new ArrayList<>());
+        }
+
+        public RowValuesBuilder(List<Expression> target) {
+            super(target);
         }
 
         /**

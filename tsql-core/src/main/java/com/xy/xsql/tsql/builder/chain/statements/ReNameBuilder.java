@@ -1,12 +1,8 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.ReName;
-
-import java.util.Arrays;
-
-import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 
 /**
  * ReNameBuilder
@@ -15,8 +11,8 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class ReNameBuilder extends CodeBuilder<ReName> {
 
-    public ReNameBuilder(ReName tar) {
-        super(tar);
+    public ReNameBuilder(ReName target) {
+        super(target);
     }
 
     public ReNameBuilder() {

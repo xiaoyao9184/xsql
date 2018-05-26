@@ -1,11 +1,11 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.queries.Output;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
+import com.xy.xsql.tsql.model.queries.Output;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.ArrayList;
@@ -13,9 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.xy.xsql.core.FiledBuilder.set;
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * OutputBuilder
@@ -23,14 +22,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue", "unused"})
 public class OutputBuilder<ParentBuilder>
-        extends CodeTreeBuilder<OutputBuilder<ParentBuilder>,ParentBuilder,Output> {
+        extends ParentHoldBuilder<OutputBuilder<ParentBuilder>,ParentBuilder,Output> {
 
     public OutputBuilder() {
         super(new Output());
     }
 
-    public OutputBuilder(Output output) {
-        super(output);
+    public OutputBuilder(Output target) {
+        super(target);
     }
 
 
@@ -50,9 +49,8 @@ public class OutputBuilder<ParentBuilder>
      */
     public DmlSelectBuilder<OutputBuilder<ParentBuilder>> withDmlSelect(){
         return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
-                (initNew(Output.DmlSelect::new,
-                        this.target::getDmlSelectList,
-                        this.target::setDmlSelectList))
+                (list(target::getDmlSelectList, target::setDmlSelectList)
+                        .addNew(Output.DmlSelect::new))
                 .in(this);
     }
 
@@ -85,9 +83,8 @@ public class OutputBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
         }
-        initAdd(Arrays.asList(columnNames),
-                target::getColumnList,
-                target::setColumnList);
+        list(target::getColumnList, target::setColumnList)
+                .addAll(columnNames);
         return this;
     }
 
@@ -100,9 +97,8 @@ public class OutputBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(columnNameList)){
             return this;
         }
-        initAdd(columnNameList,
-                target::getColumnList,
-                target::setColumnList);
+        list(target::getColumnList, target::setColumnList)
+                .addAll(columnNameList);
         return this;
     }
 
@@ -122,9 +118,8 @@ public class OutputBuilder<ParentBuilder>
      */
     public DmlSelectBuilder<OutputBuilder<ParentBuilder>> withOutputDmlSelect(){
         return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
-                (initNew(Output.DmlSelect::new,
-                        this.target::getOutputDmlSelectList,
-                        this.target::setOutputDmlSelectList))
+                (list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                        .addNew(Output.DmlSelect::new))
                 .in(this);
     }
 
@@ -145,13 +140,10 @@ public class OutputBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(names)){
             return this;
         }
-        List<Output.DmlSelect> list = Arrays.stream(names)
-                .map((Output.ColumnName::new))
-                .map(Output.DmlSelect::new)
-                .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+        list(target::getDmlSelectList, target::setDmlSelectList)
+                .addAll(Arrays.stream(names)
+                        .map((Output.ColumnName::new))
+                        .map(Output.DmlSelect::new));
         return this;
     }
 
@@ -164,12 +156,8 @@ public class OutputBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
         }
-        List<Output.DmlSelect> list = Arrays.stream(columnNames)
-                .map(Output.DmlSelect::new)
-                .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+        list(target::getDmlSelectList, target::setDmlSelectList)
+                .addAll(Arrays.stream(columnNames).map(Output.DmlSelect::new));
         return this;
     }
 
@@ -194,9 +182,8 @@ public class OutputBuilder<ParentBuilder>
                 })
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+        list(target::getDmlSelectList, target::setDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -211,12 +198,8 @@ public class OutputBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(expressions)){
             return this;
         }
-        List<Output.DmlSelect> list = Arrays.stream(expressions)
-                .map(Output.DmlSelect::new)
-                .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+        list(target::getDmlSelectList, target::setDmlSelectList)
+                .addAll(Arrays.stream(expressions).map(Output.DmlSelect::new));
         return this;
     }
 
@@ -237,9 +220,8 @@ public class OutputBuilder<ParentBuilder>
                 }))
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+        list(target::getDmlSelectList, target::setDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -260,9 +242,8 @@ public class OutputBuilder<ParentBuilder>
                 }))
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getDmlSelectList,
-                this.target::setDmlSelectList);
+        list(target::getDmlSelectList, target::setDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -293,9 +274,8 @@ public class OutputBuilder<ParentBuilder>
      */
     public DmlSelectBuilder<OutputBuilder<ParentBuilder>> $Output(){
         return new DmlSelectBuilder<OutputBuilder<ParentBuilder>>
-                (initNew(Output.DmlSelect::new,
-                        target::getOutputDmlSelectList,
-                        target::setOutputDmlSelectList))
+                (list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                        .addNew(Output.DmlSelect::new))
                 .in(this);
     }
 
@@ -312,9 +292,8 @@ public class OutputBuilder<ParentBuilder>
                 .map((Output.ColumnName::new))
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getOutputDmlSelectList,
-                this.target::setOutputDmlSelectList);
+        list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -330,9 +309,8 @@ public class OutputBuilder<ParentBuilder>
         List<Output.DmlSelect> list = Arrays.stream(columnNames)
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getOutputDmlSelectList,
-                this.target::setOutputDmlSelectList);
+        list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -357,9 +335,8 @@ public class OutputBuilder<ParentBuilder>
                 })
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getOutputDmlSelectList,
-                this.target::setOutputDmlSelectList);
+        list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -375,9 +352,8 @@ public class OutputBuilder<ParentBuilder>
         List<Output.DmlSelect> list = Arrays.stream(expressions)
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getOutputDmlSelectList,
-                this.target::setOutputDmlSelectList);
+        list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -398,9 +374,8 @@ public class OutputBuilder<ParentBuilder>
                 }))
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getOutputDmlSelectList,
-                this.target::setOutputDmlSelectList);
+        list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -421,9 +396,8 @@ public class OutputBuilder<ParentBuilder>
                 }))
                 .map(Output.DmlSelect::new)
                 .collect(Collectors.toList());
-        initAdd(list,
-                this.target::getOutputDmlSelectList,
-                this.target::setOutputDmlSelectList);
+        list(target::getOutputDmlSelectList, target::setOutputDmlSelectList)
+                .addAll(list);
         return this;
     }
 
@@ -433,14 +407,14 @@ public class OutputBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class DmlSelectListBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DmlSelectListBuilder<ParentBuilder>,ParentBuilder,List<Output.DmlSelect>> {
+            extends ParentHoldBuilder<DmlSelectListBuilder<ParentBuilder>,ParentBuilder,List<Output.DmlSelect>> {
 
         public DmlSelectListBuilder() {
             super(new ArrayList<>());
         }
 
-        public DmlSelectListBuilder(List<Output.DmlSelect> dmlSelects) {
-            super(dmlSelects);
+        public DmlSelectListBuilder(List<Output.DmlSelect> target) {
+            super(target);
         }
 
         /**
@@ -449,8 +423,12 @@ public class OutputBuilder<ParentBuilder>
          */
         public DmlSelectBuilder<DmlSelectListBuilder<ParentBuilder>> withItem(){
             return new DmlSelectBuilder<DmlSelectListBuilder<ParentBuilder>>
-                    ()
-                    .enter(this, dmlSelect -> this.target.add(dmlSelect));
+                    (list(target).addNew(Output.DmlSelect::new))
+//                    (object(target::add)
+//                            .init(Output.DmlSelect::new))
+//                    (set(Output.DmlSelect::new,
+//                            target::add))
+                    .in(this);
         }
 
     }
@@ -460,14 +438,14 @@ public class OutputBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class DmlSelectBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DmlSelectBuilder<ParentBuilder>,ParentBuilder,Output.DmlSelect> {
+            extends ParentHoldBuilder<DmlSelectBuilder<ParentBuilder>,ParentBuilder,Output.DmlSelect> {
 
         public DmlSelectBuilder() {
             super(new Output.DmlSelect());
         }
 
-        public DmlSelectBuilder(Output.DmlSelect dmlSelect) {
-            super(dmlSelect);
+        public DmlSelectBuilder(Output.DmlSelect target) {
+            super(target);
         }
 
         /**
@@ -486,8 +464,8 @@ public class OutputBuilder<ParentBuilder>
          */
         public ColumnNameBuilder<DmlSelectBuilder<ParentBuilder>> withColumnName(){
             return new ColumnNameBuilder<DmlSelectBuilder<ParentBuilder>>
-                    (set(Output.ColumnName::new,
-                            this.target::setColumnName))
+                    (object(target::getColumnName, target::setColumnName)
+                            .init(Output.ColumnName::new))
                     .in(this);
         }
 
@@ -566,14 +544,14 @@ public class OutputBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class ColumnNameBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ColumnNameBuilder<ParentBuilder>,ParentBuilder,Output.ColumnName> {
+            extends ParentHoldBuilder<ColumnNameBuilder<ParentBuilder>,ParentBuilder,Output.ColumnName> {
 
         public ColumnNameBuilder() {
             super(new Output.ColumnName());
         }
 
-        public ColumnNameBuilder(Output.ColumnName tar) {
-            super(tar);
+        public ColumnNameBuilder(Output.ColumnName target) {
+            super(target);
         }
 
         /**

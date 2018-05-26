@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.queries.predicates.FreeText;
@@ -19,14 +19,14 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_
  */
 @SuppressWarnings("WeakerAccess")
 public class FreeTextPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<FreeTextPredicateBuilder<ParentBuilder>,ParentBuilder,FreeText> {
+        extends ParentHoldBuilder<FreeTextPredicateBuilder<ParentBuilder>,ParentBuilder,FreeText> {
 
     public FreeTextPredicateBuilder() {
         super(new FreeText());
     }
 
-    public FreeTextPredicateBuilder(FreeText predicate) {
-        super(predicate);
+    public FreeTextPredicateBuilder(FreeText target) {
+        super(target);
     }
 
     /**

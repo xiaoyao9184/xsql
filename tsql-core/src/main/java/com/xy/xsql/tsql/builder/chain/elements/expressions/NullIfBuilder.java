@@ -1,10 +1,8 @@
 package com.xy.xsql.tsql.builder.chain.elements.expressions;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.NullIf;
-
-import static com.xy.xsql.core.ListBuilder.initAdd;
 
 /**
  * NullIfBuilder
@@ -12,7 +10,7 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
  */
 @SuppressWarnings("unused")
 public class NullIfBuilder<ParentBuilder>
-        extends CodeTreeBuilder<NullIfBuilder<ParentBuilder>,ParentBuilder,NullIf> {
+        extends ParentHoldBuilder<NullIfBuilder<ParentBuilder>,ParentBuilder,NullIf> {
 
     private boolean indexFirst = true;
 
@@ -20,8 +18,8 @@ public class NullIfBuilder<ParentBuilder>
         super(new NullIf());
     }
 
-    public NullIfBuilder(NullIf tar) {
-        super(tar);
+    public NullIfBuilder(NullIf target) {
+        super(target);
     }
 
     /**

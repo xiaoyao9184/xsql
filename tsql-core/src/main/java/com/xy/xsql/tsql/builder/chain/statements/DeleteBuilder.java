@@ -1,18 +1,17 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.*;
-import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.datatypes.table.Alias;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.queries.*;
+import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.tsql.model.statements.Delete;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * DeleteBuilder
@@ -21,8 +20,8 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 @SuppressWarnings("unused")
 public class DeleteBuilder extends CodeBuilder<Delete> {
 
-    public DeleteBuilder(Delete tar) {
-        super(tar);
+    public DeleteBuilder(Delete target) {
+        super(target);
     }
 
     public DeleteBuilder(){
@@ -46,9 +45,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      */
     public WithBuilder<DeleteBuilder> withWith(){
         return new WithBuilder<DeleteBuilder>
-                (initSet(With::new,
-                        target::getWith,
-                        target::setWith))
+                (object(target::getWith, target::setWith)
+                        .init(With::new))
                 .in(this);
     }
 
@@ -68,9 +66,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      */
     public TopBuilder<DeleteBuilder> withTop(){
         return new TopBuilder<DeleteBuilder>
-                (initSet(Top::new,
-                        target::getTop,
-                        target::setTop))
+                (object(target::getTop, target::setTop)
+                        .init(Top::new))
                 .in(this);
     }
 
@@ -120,9 +117,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @return THIS
      */
     public DeleteBuilder withTableHint(TableHintLimited... tableHintLimiteds){
-        initAdd(Arrays.asList(tableHintLimiteds),
-                target::getTableHintLimitedList,
-                target::setTableHintLimitedList);
+        list(target::getTableHintLimitedList, target::setTableHintLimitedList)
+                .addAll(tableHintLimiteds);
         return this;
     }
 
@@ -132,9 +128,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @return THIS
      */
     public DeleteBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
-        initAdd(tableHintLimiteds,
-                target::getTableHintLimitedList,
-                target::setTableHintLimitedList);
+        list(target::getTableHintLimitedList, target::setTableHintLimitedList)
+                .addAll(tableHintLimiteds);
         return this;
     }
 
@@ -154,9 +149,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      */
     public OutputBuilder<DeleteBuilder> withOutput() {
         return new OutputBuilder<DeleteBuilder>
-                (initSet(Output::new,
-                        target::getOutput,
-                        target::setOutput))
+                (object(target::getOutput, target::setOutput)
+                        .init(Output::new))
                 .in(this);
     }
 
@@ -176,9 +170,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      */
     public FromBuilder<DeleteBuilder> withFrom() {
         return new FromBuilder<DeleteBuilder>
-                (initSet(From::new,
-                        target::getFrom,
-                        target::setFrom))
+                (object(target::getFrom, target::setFrom)
+                        .init(From::new))
                 .in(this);
     }
 
@@ -198,9 +191,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      */
     public WhereBuilder<DeleteBuilder> withWhere() {
         return new WhereBuilder<DeleteBuilder>
-                (initSet(Where::new,
-                        target::getWhere,
-                        target::setWhere))
+                (object(target::getWhere, target::setWhere)
+                        .init(Where::new))
                 .in(this);
     }
 
@@ -220,9 +212,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      */
     public OptionBuilder<DeleteBuilder> withOption() {
         return new OptionBuilder<DeleteBuilder>
-                (initSet(Option::new,
-                        target::getOption,
-                        target::setOption))
+                (object(target::getOption, target::setOption)
+                        .init(Option::new))
                 .in(this);
     }
 
@@ -261,6 +252,15 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
 
     /**
      * Quick set
+     * @param alias alias
+     * @return THIS
+     */
+    public DeleteBuilder $(String alias) {
+        return withTableAlias(alias);
+    }
+
+    /**
+     * Quick set
      * @param tableName TableName
      * @return THIS
      */
@@ -274,7 +274,8 @@ public class DeleteBuilder extends CodeBuilder<Delete> {
      * @return THIS
      */
     public DeleteBuilder $From(String alias) {
-        return withTableAlias(alias);
+        return withFrom(true)
+                .withTableAlias(alias);
     }
 
     /**

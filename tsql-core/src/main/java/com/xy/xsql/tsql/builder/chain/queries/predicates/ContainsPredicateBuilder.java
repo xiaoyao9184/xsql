@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.queries.predicates.Contains;
@@ -19,14 +19,14 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_
  */
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"})
 public class ContainsPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ContainsPredicateBuilder<ParentBuilder>,ParentBuilder,Contains> {
+        extends ParentHoldBuilder<ContainsPredicateBuilder<ParentBuilder>,ParentBuilder,Contains> {
 
     public ContainsPredicateBuilder() {
         super(new Contains());
     }
 
-    public ContainsPredicateBuilder(Contains predicate) {
-        super(predicate);
+    public ContainsPredicateBuilder(Contains target) {
+        super(target);
     }
 
 

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.constants;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 
 /**
@@ -12,8 +12,8 @@ public class NumberConstantBuilder extends CodeBuilder<NumberConstant> {
         super(new NumberConstant());
     }
 
-    public NumberConstantBuilder(NumberConstant tar) {
-        super(tar);
+    public NumberConstantBuilder(NumberConstant target) {
+        super(target);
     }
 
     public NumberConstantBuilder withNumber(Number number) {

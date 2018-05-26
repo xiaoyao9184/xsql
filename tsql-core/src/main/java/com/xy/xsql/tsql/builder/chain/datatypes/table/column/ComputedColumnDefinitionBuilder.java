@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.column;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.CheckBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.Foreigns;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
@@ -9,8 +9,7 @@ import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
 import com.xy.xsql.tsql.model.datatypes.table.column.ComputedColumnDefinition;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * ComputedColumnDefinitionBuilder
@@ -20,14 +19,14 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ComputedColumnDefinitionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ComputedColumnDefinition> {
-
-    public ComputedColumnDefinitionBuilder(ComputedColumnDefinition tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ComputedColumnDefinition> {
 
     public ComputedColumnDefinitionBuilder() {
         super(new ComputedColumnDefinition());
+    }
+
+    public ComputedColumnDefinitionBuilder(ComputedColumnDefinition target) {
+        super(target);
     }
 
     /**
@@ -109,9 +108,8 @@ public class ComputedColumnDefinitionBuilder<ParentBuilder>
      */
     public ColumnConstraintBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>> $Constraint(String constraintName){
         return new ColumnConstraintBuilder<ComputedColumnDefinitionBuilder<ParentBuilder>>
-                (initSet(ColumnConstraint::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(ColumnConstraint::new))
                 .in(this)
                 .withConstraintName(constraintName);
     }

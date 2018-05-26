@@ -1,7 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableStretchOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * TableStretchOptionsBuilder
@@ -9,7 +14,11 @@ import com.xy.xsql.tsql.model.datatypes.table.table.TableStretchOptions;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class TableStretchOptionsBuilder<ParentBuilder>
-        extends CodeTreeBuilder<TableStretchOptionsBuilder<ParentBuilder>,ParentBuilder,TableStretchOptions> {
+        extends ParentHoldBuilder<TableStretchOptionsBuilder<ParentBuilder>,ParentBuilder,TableStretchOptions> {
+
+    public TableStretchOptionsBuilder() {
+        super(new TableStretchOptions());
+    }
 
     public TableStretchOptionsBuilder(TableStretchOptions target) {
         super(target);
@@ -94,4 +103,31 @@ public class TableStretchOptionsBuilder<ParentBuilder>
         return withMigrationState(TableStretchOptions.MigrationState.PAUSED);
     }
 
+
+    /**
+     * TableStretchOptionsListBuilder
+     * @param <ParentBuilder>
+     */
+    public static class TableStretchOptionsListBuilder<ParentBuilder>
+            extends ParentHoldBuilder<TableStretchOptionsListBuilder<ParentBuilder>,ParentBuilder,List<TableStretchOptions>> {
+
+        public TableStretchOptionsListBuilder() {
+            super(new ArrayList<>());
+        }
+
+        public TableStretchOptionsListBuilder(List<TableStretchOptions> target) {
+            super(target);
+        }
+
+        /**
+         * in
+         * @return TableStretchOptionsBuilder
+         */
+        public TableStretchOptionsBuilder<TableStretchOptionsListBuilder<ParentBuilder>> withItem(){
+            return new TableStretchOptionsBuilder<TableStretchOptionsListBuilder<ParentBuilder>>
+                    (object(TableStretchOptions::new).set(target::add))
+                    .in(this);
+        }
+
+    }
 }

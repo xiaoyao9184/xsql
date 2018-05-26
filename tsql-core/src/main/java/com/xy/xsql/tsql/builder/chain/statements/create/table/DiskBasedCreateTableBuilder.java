@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.builder.chain.statements.create.table;
 
-import com.xy.xsql.core.builder.CodeBuilder;
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnDefinitionBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnSetDefinitionBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ComputedColumnDefinitionBuilder;
@@ -25,14 +25,11 @@ import com.xy.xsql.tsql.model.datatypes.table.table.TableOption;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statements.create.table.DiskBasedCreateTable;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * DiskBasedCreateTableBuilder
@@ -41,8 +38,8 @@ import static com.xy.xsql.core.ListBuilder.initList;
 @SuppressWarnings({"unused","WeakerAccess"})
 public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTable> {
 
-    public DiskBasedCreateTableBuilder(DiskBasedCreateTable createDiskTable) {
-        super(createDiskTable);
+    public DiskBasedCreateTableBuilder(DiskBasedCreateTable target) {
+        super(target);
     }
 
     public DiskBasedCreateTableBuilder() {
@@ -162,10 +159,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * @return THIS
      */
     public DiskBasedCreateTableBuilder $(DiskBasedCreateTable.Item... diskItems) {
-        initAdd(Stream.of(diskItems)
-                        .collect(Collectors.toList()),
-                this.target::getItems,
-                this.target::setItems);
+        list(target::getItems, target::setItems)
+                .addAll(diskItems);
         return this;
     }
 
@@ -174,10 +169,9 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * @return ItemBuilder
      */
     public ItemBuilder<DiskBasedCreateTableBuilder> $(){
-        initList(target::getItems,target::setItems);
-        return new ItemBuilder<DiskBasedCreateTableBuilder>
-                (target.getItems()::add)
-                .in(this);
+        list(target::getItems,target::setItems).init();
+        return new ItemBuilder<DiskBasedCreateTableBuilder>()
+                .enter(this, Getter.empty(), target.getItems()::add);
     }
 
     /**
@@ -198,9 +192,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      */
     public PartitionBuilder<DiskBasedCreateTableBuilder> $On(){
         return new PartitionBuilder<DiskBasedCreateTableBuilder>
-                (initSet(Partition::new,
-                        target::getOn,
-                        target::setOn))
+                (object(target::getOn, target::setOn)
+                        .init(Partition::new))
                 .in(this);
     }
 
@@ -210,9 +203,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      */
     public PartitionBuilder<DiskBasedCreateTableBuilder> $TextImageOn(){
         return new PartitionBuilder<DiskBasedCreateTableBuilder>
-                (initSet(Partition::new,
-                        target::getTextImageOn,
-                        target::setTextImageOn))
+                (object(target::getTextImageOn, target::setTextImageOn)
+                        .init(Partition::new))
                 .in(this);
     }
 
@@ -222,9 +214,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      */
     public PartitionBuilder<DiskBasedCreateTableBuilder> $FileStreamOn(){
         return new PartitionBuilder<DiskBasedCreateTableBuilder>
-                (initSet(Partition::new,
-                        target::getFileStreamOn,
-                        target::setFileStreamOn))
+                (object(target::getFileStreamOn, target::setFileStreamOn)
+                        .init(Partition::new))
                 .in(this);
     }
 
@@ -234,9 +225,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * @return THIS
      */
     public DiskBasedCreateTableBuilder $With(TableOption... tableOptions){
-        initAdd(Arrays.asList(tableOptions),
-                target::getTableOptions,
-                target::setTableOptions);
+        list(target::getTableOptions, target::setTableOptions)
+                .addAll(tableOptions);
         return this;
     }
 
@@ -246,51 +236,58 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * @param <ParentBuilder>
      */
     public static class ItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ItemBuilder<ParentBuilder>,ParentBuilder,Setter<DiskBasedCreateTable.Item>> {
+            extends ParentHoldLazyConfigBuilder<ItemBuilder<ParentBuilder>,ParentBuilder,DiskBasedCreateTable.Item> {
 
-        public ItemBuilder(Setter<DiskBasedCreateTable.Item> itemSetter) {
-            super(itemSetter);
-        }
+        public ItemBuilder() {}
 
-
+        /**
+         * Confirm type of Item
+         * @return ColumnDefinitionBuilder
+         */
         public ColumnDefinitionBuilder<ParentBuilder> _ColumnDefinition(){
-            ColumnDefinition diskBasedColumn = new ColumnDefinition();
-            target.set(diskBasedColumn);
             return new ColumnDefinitionBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(ColumnDefinition::new).set(this::init))
+                    .in(this.and());
         }
 
+        /**
+         * Confirm type of Item
+         * @return ComputedColumnDefinitionBuilder
+         */
         public ComputedColumnDefinitionBuilder<ParentBuilder> _ComputedColumnDefinition(){
-            ComputedColumnDefinition diskBasedColumn = new ComputedColumnDefinition();
-            target.set(diskBasedColumn);
             return new ComputedColumnDefinitionBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(ComputedColumnDefinition::new).set(this::init))
+                    .in(this.and());
         }
 
+        /**
+         * Confirm type of Item
+         * @return ColumnSetDefinitionBuilder
+         */
         public ColumnSetDefinitionBuilder<ParentBuilder> _ColumnSetDefinition(){
-            ColumnSetDefinition diskBasedColumn = new ColumnSetDefinition();
-            target.set(diskBasedColumn);
             return new ColumnSetDefinitionBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(ColumnSetDefinition::new).set(this::init))
+                    .in(this.and());
         }
 
+        /**
+         * Confirm type of Item
+         * @return TableConstraintBuilder
+         */
         public TableConstraintBuilder<ParentBuilder> _TableConstraint(){
-            TableConstraint diskBasedColumn = new TableConstraint();
-            target.set(diskBasedColumn);
             return new TableConstraintBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and());
         }
 
+        /**
+         * Confirm type of Item
+         * @return TableIndexBuilder
+         */
         public TableIndexBuilder<ParentBuilder> _TableIndex(){
-            TableIndex diskBasedColumn = new TableIndex();
-            target.set(diskBasedColumn);
             return new TableIndexBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(TableIndex::new).set(this::init))
+                    .in(this.and());
         }
 
 
@@ -306,9 +303,9 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          * @return DiskItemColumnTransformBuilder
          */
         public DiskItemColumnTransformBuilder<ParentBuilder> $(ColumnName columnName){
-            return new DiskItemColumnTransformBuilder<ParentBuilder>
-                    (target)
-                    .in(this.out())
+            return new DiskItemColumnTransformBuilder<ParentBuilder>()
+                    //TODO this build cant set to Parent
+                    .enter(this.out(), Getter.empty(), this::build)
                     .withColumn(columnName);
         }
 
@@ -319,8 +316,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public TableConstraintBuilder<ParentBuilder> $Constraint(String constraintName){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .withConstraintName(constraintName);
         }
 
@@ -330,8 +327,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$PrimaryKey();
         }
 
@@ -341,8 +338,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $Unique(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$Unique();
         }
 
@@ -352,8 +349,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public Foreigns.TableForeignBuilder<ParentBuilder> $ForeignKey(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$ForeignKey();
         }
 
@@ -363,8 +360,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public CheckBuilder<ParentBuilder> $Check(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$Check();
         }
 
@@ -376,7 +373,7 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
         public TableIndexBuilder<ParentBuilder> $Index(String indexName){
             return new TableIndexBuilder<ParentBuilder>
                     ()
-                    .in(this.out())
+                    .in(this.and())
                     .withIndexName(indexName);
         }
 
@@ -388,19 +385,25 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
      * @param <ParentBuilder>
      */
     public static class DiskItemColumnTransformBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DiskItemColumnTransformBuilder<ParentBuilder>,ParentBuilder,Setter<DiskBasedCreateTable.Item>> {
+            extends ParentHoldLazyConfigBuilder<DiskItemColumnTransformBuilder<ParentBuilder>,ParentBuilder,DiskBasedCreateTable.Item> {
 
         private ColumnName columnName;
 
-        public DiskItemColumnTransformBuilder(Setter<DiskBasedCreateTable.Item> diskBasedColumnSetter) {
-            super(diskBasedColumnSetter);
-        }
+        public DiskItemColumnTransformBuilder() {}
 
+        /**
+         * set
+         * @param columnName ColumnName
+         * @return THIS
+         */
         public DiskItemColumnTransformBuilder<ParentBuilder> withColumn(ColumnName columnName) {
             this.columnName = columnName;
             return this;
         }
 
+        
+        
+        
         /*
         Transform
          */
@@ -412,8 +415,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public ColumnDefinitionBuilder<ParentBuilder> $(DataType dataType){
             return new ColumnDefinitionBuilder<ParentBuilder>
-                    ()
-                    .in(this.out())
+                    (object(ColumnDefinition::new).set(this::init))
+                    .in(this.and())
                     .withColumnName(columnName)
                     .withDataType(dataType);
         }
@@ -425,8 +428,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public ComputedColumnDefinitionBuilder<ParentBuilder> $As(Expression computedColumnExpression){
             return new ComputedColumnDefinitionBuilder<ParentBuilder>
-                    ()
-                    .in(this.out())
+                    (object(ComputedColumnDefinition::new).set(this::init))
+                    .in(this.and())
                     .withColumnName(columnName)
                     .withComputedColumnExpression(computedColumnExpression);
         }
@@ -437,8 +440,8 @@ public class DiskBasedCreateTableBuilder extends CodeBuilder<DiskBasedCreateTabl
          */
         public ParentBuilder $XmlColumnSetForAllSparseColumns(){
             return new ColumnSetDefinitionBuilder<ParentBuilder>
-                    ()
-                    .in(this.out())
+                    (object(ColumnSetDefinition::new).set(this::init))
+                    .in(this.and())
                     .withColumnName(columnName)
                     .and();
         }

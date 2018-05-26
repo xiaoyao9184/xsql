@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterTrigger;
 
 import java.util.Arrays;
@@ -12,7 +12,11 @@ import java.util.List;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterTriggerBuilder<ParentBuilder>
-        extends CodeTreeBuilder<AlterTriggerBuilder<ParentBuilder>,ParentBuilder,AlterTrigger> {
+        extends ParentHoldBuilder<AlterTriggerBuilder<ParentBuilder>,ParentBuilder,AlterTrigger> {
+
+    public AlterTriggerBuilder() {
+        super(new AlterTrigger());
+    }
 
     public AlterTriggerBuilder(AlterTrigger target) {
         super(target);

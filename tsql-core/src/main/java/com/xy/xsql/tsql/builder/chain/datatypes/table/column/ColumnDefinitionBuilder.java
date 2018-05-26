@@ -1,22 +1,22 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.column;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.CheckBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.Foreigns;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.collation.Collate;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnConstraint;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.datatypes.DataType;
-import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * ColumnDefinitionBuilder
@@ -26,14 +26,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ColumnDefinitionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ColumnDefinition> {
-
-    public ColumnDefinitionBuilder(ColumnDefinition tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<ColumnDefinitionBuilder<ParentBuilder>,ParentBuilder,ColumnDefinition> {
 
     public ColumnDefinitionBuilder() {
         super(new ColumnDefinition());
+    }
+
+    public ColumnDefinitionBuilder(ColumnDefinition target) {
+        super(target);
     }
 
     /**
@@ -426,9 +426,8 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      */
     public ColumnConstraintBuilder<ColumnDefinitionBuilder<ParentBuilder>> $$Constraint(String constraintName){
         return new ColumnConstraintBuilder<ColumnDefinitionBuilder<ParentBuilder>>
-                (initNew(ColumnConstraint::new,
-                        target::getColumnConstraint,
-                        target::setColumnConstraint))
+                (list(target::getColumnConstraint, target::setColumnConstraint)
+                        .addNew(ColumnConstraint::new))
                 .in(this)
                 .withConstraintName(constraintName);
     }
@@ -501,9 +500,8 @@ public class ColumnDefinitionBuilder<ParentBuilder>
      */
     public ColumnIndexBuilder<ColumnDefinitionBuilder<ParentBuilder>> $Index(){
         return new ColumnIndexBuilder<ColumnDefinitionBuilder<ParentBuilder>>
-                (initSet(ColumnIndex::new,
-                        target::getColumnIndex,
-                        target::setColumnIndex))
+                (object(target::getColumnIndex, target::setColumnIndex)
+                        .init(ColumnIndex::new))
                 .in(this);
     }
 }

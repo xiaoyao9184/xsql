@@ -1,14 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.model.queries.predicates.In;
 import com.xy.xsql.tsql.model.queries.Select;
+import com.xy.xsql.tsql.model.queries.predicates.In;
 import com.xy.xsql.util.CheckUtil;
 
-import java.util.Arrays;
-
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * InPredicateBuilder
@@ -17,14 +15,14 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
  */
 @SuppressWarnings("WeakerAccess")
 public class InPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<InPredicateBuilder<ParentBuilder>,ParentBuilder,In> {
+        extends ParentHoldBuilder<InPredicateBuilder<ParentBuilder>,ParentBuilder,In> {
 
     public InPredicateBuilder() {
         super(new In());
     }
 
-    public InPredicateBuilder(In predicate) {
-        super(predicate);
+    public InPredicateBuilder(In target) {
+        super(target);
     }
 
     /**
@@ -55,9 +53,8 @@ public class InPredicateBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(expressions)){
             return this;
         }
-        initAdd(Arrays.asList(expressions),
-                target::getExpressionList,
-                target::setExpressionList);
+        list(target::getExpressionList, target::setExpressionList)
+                .addAll(expressions);
         return this;
     }
 

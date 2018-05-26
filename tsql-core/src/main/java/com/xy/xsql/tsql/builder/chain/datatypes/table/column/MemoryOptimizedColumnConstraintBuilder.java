@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.column;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.CheckBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.Foreigns;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
@@ -11,7 +11,7 @@ import com.xy.xsql.tsql.model.datatypes.table.constraint.Foreign;
 import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
-import static com.xy.xsql.core.FiledBuilder.initSet2;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * MemoryOptimizedColumnConstraintBuilder
@@ -21,14 +21,14 @@ import static com.xy.xsql.core.FiledBuilder.initSet2;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
-        extends CodeTreeBuilder<MemoryOptimizedColumnConstraintBuilder<ParentBuilder>,ParentBuilder,ColumnConstraint> {
-
-    public MemoryOptimizedColumnConstraintBuilder(ColumnConstraint tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<MemoryOptimizedColumnConstraintBuilder<ParentBuilder>,ParentBuilder,ColumnConstraint> {
 
     public MemoryOptimizedColumnConstraintBuilder() {
         super(new ColumnConstraint());
+    }
+
+    public MemoryOptimizedColumnConstraintBuilder(ColumnConstraint target) {
+        super(target);
     }
 
     /**
@@ -73,10 +73,8 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
      */
     public PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
         return new PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder>
-                (initSet2(
-                        PrimaryUnique::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(PrimaryUnique::new))
                 .in(this.and())
                 .withUsePrimaryKey(true);
     }
@@ -87,10 +85,8 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
      */
     public PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder> $Unique(){
         return new PrimaryUniques.HashBucketCountColumnPrimaryUniqueBuilder<ParentBuilder>
-                (initSet2(
-                        PrimaryUnique::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(PrimaryUnique::new))
                 .in(this.and())
                 .withUsePrimaryKey(false);
     }
@@ -101,10 +97,8 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
      */
     public Foreigns.ReferencesColumnForeignBuilder<ParentBuilder> $ForeignKey(){
         return new Foreigns.ReferencesColumnForeignBuilder<ParentBuilder>
-                (initSet2(
-                        Foreign::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(Foreign::new))
                 .in(this.and());
     }
 
@@ -115,10 +109,8 @@ public class MemoryOptimizedColumnConstraintBuilder<ParentBuilder>
      */
     public ParentBuilder $Check(Expression logicalExpression){
         return new CheckBuilder<ParentBuilder>
-                (initSet2(
-                        Check::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(Check::new))
                 .in(this.and())
                 .withLogicalExpression(logicalExpression)
                 .and();

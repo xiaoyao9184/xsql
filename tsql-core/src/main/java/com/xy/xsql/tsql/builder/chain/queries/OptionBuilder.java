@@ -1,31 +1,32 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.queries.Option;
 import com.xy.xsql.tsql.model.queries.hints.QueryHint;
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 /**
  * OptionBuilder
  * Created by xiaoyao9184 on 2016/12/28.
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess","unused"})
 public class OptionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<OptionBuilder<ParentBuilder>,ParentBuilder,Option> {
+        extends ParentHoldBuilder<OptionBuilder<ParentBuilder>,ParentBuilder,Option> {
 
     public OptionBuilder() {
         super(new Option());
     }
 
-    public OptionBuilder(Option option) {
-        super(option);
+    public OptionBuilder(Option target) {
+        super(target);
     }
 
 
@@ -35,9 +36,8 @@ public class OptionBuilder<ParentBuilder>
      * @return THIS
      */
     public OptionBuilder<ParentBuilder> withItem(Option.QueryOption queryOption){
-        initAdd(queryOption,
-                this.target::getQueryOption,
-                this.target::setQueryOption);
+        list(target::getQueryOption, target::setQueryOption)
+                .add(queryOption);
         return this;
     }
 
@@ -46,10 +46,9 @@ public class OptionBuilder<ParentBuilder>
      * @return QueryOptionBuilder
      */
     public QueryOptionBuilder<OptionBuilder<ParentBuilder>> withItem(){
-        initList(this.target::getQueryOption,
-                this.target::setQueryOption);
+        list(this.target::getQueryOption, this.target::setQueryOption).init();
         return new QueryOptionBuilder<OptionBuilder<ParentBuilder>>
-                (target.getQueryOption()::add)
+                (target.getQueryOption())
                 .in(this);
     }
 
@@ -102,10 +101,14 @@ public class OptionBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class QueryOptionBuilder<ParentBuilder>
-            extends CodeTreeBuilder<QueryOptionBuilder<ParentBuilder>,ParentBuilder,Setter<Option.QueryOption>> {
+            extends ParentHoldBuilder<QueryOptionBuilder<ParentBuilder>,ParentBuilder,List<Option.QueryOption>> {
 
-        public QueryOptionBuilder(Setter<Option.QueryOption> tar) {
-            super(tar);
+        public QueryOptionBuilder() {
+            super(new ArrayList<>());
+        }
+
+        public QueryOptionBuilder(List<Option.QueryOption> target) {
+            super(target);
         }
 
         /**
@@ -115,7 +118,7 @@ public class OptionBuilder<ParentBuilder>
          * @return THIS
          */
         public QueryOptionBuilder<ParentBuilder> _LabelName(String labelName){
-            target.set(new Option.LabelQueryOption(c_string(labelName)));
+            target.add(new Option.LabelQueryOption(c_string(labelName)));
             return this;
         }
 
@@ -125,7 +128,7 @@ public class OptionBuilder<ParentBuilder>
          * @return THIS
          */
         public QueryOptionBuilder<ParentBuilder> _LabelName(StringConstant labelName) {
-            target.set(new Option.LabelQueryOption(labelName));
+            target.add(new Option.LabelQueryOption(labelName));
             return this;
         }
 
@@ -136,8 +139,7 @@ public class OptionBuilder<ParentBuilder>
          * @return THIS
          */
         public QueryOptionBuilder<ParentBuilder> _QueryHint(QueryHint... queryHints){
-            Arrays.asList(queryHints)
-                    .forEach((queryHint)-> target.set(queryHint));
+            target.addAll(Arrays.asList(queryHints));
             return this;
         }
     }

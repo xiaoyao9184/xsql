@@ -1,8 +1,8 @@
 package com.xy.xsql.tsql.builder.chain.statements.create.table;
 
-import com.xy.xsql.core.builder.CodeBuilder;
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.MemoryOptimizedColumnDefinitionBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.Foreigns;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
@@ -19,11 +19,10 @@ import com.xy.xsql.tsql.model.datatypes.table.table.TableOption;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.statements.create.table.MemoryOptimizedCreateTable;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * MemoryOptimizedCreateTableBuilder
@@ -32,8 +31,8 @@ import static com.xy.xsql.core.ListBuilder.initList;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimizedCreateTable> {
 
-    public MemoryOptimizedCreateTableBuilder(MemoryOptimizedCreateTable tar) {
-        super(tar);
+    public MemoryOptimizedCreateTableBuilder(MemoryOptimizedCreateTable target) {
+        super(target);
     }
 
     public MemoryOptimizedCreateTableBuilder() {
@@ -104,9 +103,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
      * @return THIS
      */
     public MemoryOptimizedCreateTableBuilder $(MemoryOptimizedCreateTable.Item... memoryItems) {
-        initAdd(Arrays.asList(memoryItems),
-                this.target::getItems,
-                this.target::setItems);
+        list(target::getItems, target::setItems)
+                .addAll(memoryItems);
         return this;
     }
 
@@ -115,10 +113,9 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
      * @return ItemBuilder
      */
     public MemoryItemBuilder<MemoryOptimizedCreateTableBuilder> $(){
-        initList(target::getItems,target::setItems);
-        return new MemoryItemBuilder<MemoryOptimizedCreateTableBuilder>
-                (target.getItems()::add)
-                .in(this);
+        list(target::getItems,target::setItems).init();
+        return new MemoryItemBuilder<MemoryOptimizedCreateTableBuilder>()
+                .enter(this, Getter.empty(), target.getItems()::add);
     }
 
     /**
@@ -137,9 +134,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
      * @return THIS
      */
     public MemoryOptimizedCreateTableBuilder $With(TableOption... tableOptions){
-        initAdd(Arrays.asList(tableOptions),
-                target::getTableOptions,
-                target::setTableOptions);
+        list(target::getTableOptions, target::setTableOptions)
+                .addAll(tableOptions);
         return this;
     }
 
@@ -149,22 +145,18 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
      * @param <ParentBuilder>
      */
     public class MemoryItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<MemoryItemBuilder<ParentBuilder>,ParentBuilder,Setter<MemoryOptimizedCreateTable.Item>> {
+            extends ParentHoldLazyConfigBuilder<MemoryItemBuilder<ParentBuilder>,ParentBuilder,MemoryOptimizedCreateTable.Item> {
 
-        public MemoryItemBuilder(Setter<MemoryOptimizedCreateTable.Item> itemSetter) {
-            super(itemSetter);
-        }
+        public MemoryItemBuilder() {}
 
         /**
          * Confirm type of Item
          * @return MemoryOptimizedColumnDefinitionBuilder
          */
         public MemoryOptimizedColumnDefinitionBuilder<ParentBuilder> _ColumnDefinition(){
-            ColumnDefinition diskBasedColumn = new ColumnDefinition();
-            target.set(diskBasedColumn);
             return new MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(ColumnDefinition::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -172,11 +164,9 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          * @return TableConstraintBuilder
          */
         public TableConstraintBuilder<ParentBuilder> _TableConstraint(){
-            TableConstraint diskBasedColumn = new TableConstraint();
-            target.set(diskBasedColumn);
             return new TableConstraintBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -184,11 +174,9 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          * @return TableIndexBuilder
          */
         public TableIndexBuilder<ParentBuilder> _TableIndex(){
-            TableIndex diskBasedColumn = new TableIndex();
-            target.set(diskBasedColumn);
             return new TableIndexBuilder<ParentBuilder>
-                    (diskBasedColumn)
-                    .in(out());
+                    (object(TableIndex::new).set(this::init))
+                    .in(this.and());
         }
 
 
@@ -205,8 +193,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          */
         public MemoryOptimizedColumnDefinitionBuilder<ParentBuilder> $(ColumnName columnName){
             return new MemoryOptimizedColumnDefinitionBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(ColumnDefinition::new).set(this::init))
+                    .in(this.and())
                     .withColumnName(columnName);
         }
 
@@ -217,8 +205,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          */
         public MemoryOptimizedTableConstraintBuilder<ParentBuilder> $CONSTRAINT(String constraintName){
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .withConstraintName(constraintName);
         }
 
@@ -226,10 +214,10 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          * Transform to TableConstraint
          * @return HashBucketCountTablePrimaryUniqueBuilder
          */
-        public PrimaryUniques.HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> $PRIMARY_KEY(){
+        public PrimaryUniques.HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$PrimaryKey();
         }
 
@@ -239,8 +227,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          */
         public PrimaryUniques.HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> $UNIQUE(){
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$Unique();
         }
 
@@ -248,10 +236,10 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          * Transform to TableConstraint
          * @return ReferencesTableForeignBuilder
          */
-        public Foreigns.ReferencesTableForeignBuilder<ParentBuilder> $FOREIGN_KEY(){
+        public Foreigns.ReferencesTableForeignBuilder<ParentBuilder> $ForeignKey(){
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$ForeignKey();
         }
 
@@ -261,8 +249,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          */
         public ParentBuilder $CHECK(Expression logicalExpression){
             return new MemoryOptimizedTableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$Check(logicalExpression);
         }
 
@@ -273,8 +261,8 @@ public class MemoryOptimizedCreateTableBuilder extends CodeBuilder<MemoryOptimiz
          */
         public MemoryOptimizedTableIndexBuilder<ParentBuilder> $INDEX(String indexName){
             return new MemoryOptimizedTableIndexBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableIndex::new).set(this::init))
+                    .in(this.and())
                     .withIndexName(indexName);
         }
 

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.constants;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.BinaryConstant;
 
 import java.nio.ByteBuffer;
@@ -16,8 +16,8 @@ public class BinaryConstantBuilder extends CodeBuilder<BinaryConstant> {
         super(new BinaryConstant());
     }
 
-    public BinaryConstantBuilder(BinaryConstant tar) {
-        super(tar);
+    public BinaryConstantBuilder(BinaryConstant target) {
+        super(target);
     }
 
     public BinaryConstantBuilder withData(byte[] data) {

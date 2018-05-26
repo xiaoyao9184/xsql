@@ -1,12 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.table.index.IndexOption;
 import com.xy.xsql.tsql.model.statements.alter.table.LowPriorityLockWait;
 import com.xy.xsql.tsql.model.statements.alter.table.SinglePartitionRebuildOption;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_integer;
 
 /**
@@ -15,7 +15,11 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_inte
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class SinglePartitionRebuildOptionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>,ParentBuilder,SinglePartitionRebuildOption> {
+        extends ParentHoldBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>,ParentBuilder,SinglePartitionRebuildOption> {
+
+    public SinglePartitionRebuildOptionBuilder() {
+        super(new SinglePartitionRebuildOption());
+    }
 
     public SinglePartitionRebuildOptionBuilder(SinglePartitionRebuildOption target) {
         super(target);
@@ -158,9 +162,8 @@ public class SinglePartitionRebuildOptionBuilder<ParentBuilder>
      */
     public LowPriorityLockWaitBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>> $Online$On$(){
         return new LowPriorityLockWaitBuilder<SinglePartitionRebuildOptionBuilder<ParentBuilder>>
-                (initSet(LowPriorityLockWait::new,
-                        target::getLowPriorityLockWait,
-                        target::setLowPriorityLockWait))
+                (object(target::getLowPriorityLockWait, target::setLowPriorityLockWait)
+                        .init(LowPriorityLockWait::new))
                 .in(this);
     }
 

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.CheckBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.Foreigns;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
@@ -10,7 +10,7 @@ import com.xy.xsql.tsql.model.datatypes.table.constraint.Foreign;
 import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
 
-import static com.xy.xsql.core.FiledBuilder.initSet2;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * TableConstraintBuilder
@@ -21,16 +21,15 @@ import static com.xy.xsql.core.FiledBuilder.initSet2;
  */
 @SuppressWarnings("unused")
 public class TableConstraintBuilder<ParentBuilder>
-        extends CodeTreeBuilder<TableConstraintBuilder<ParentBuilder>,ParentBuilder,TableConstraint> {
-
-    public TableConstraintBuilder(TableConstraint tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<TableConstraintBuilder<ParentBuilder>,ParentBuilder,TableConstraint> {
 
     public TableConstraintBuilder() {
         super(new TableConstraint());
     }
 
+    public TableConstraintBuilder(TableConstraint target) {
+        super(target);
+    }
 
     /**
      * set
@@ -74,10 +73,8 @@ public class TableConstraintBuilder<ParentBuilder>
      */
     public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
         return new PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder>
-                (initSet2(
-                        PrimaryUnique::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(PrimaryUnique::new))
                 .in(this.and())
                 .withUsePrimaryKey(true);
     }
@@ -88,10 +85,8 @@ public class TableConstraintBuilder<ParentBuilder>
      */
     public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $Unique(){
         return new PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder>
-                (initSet2(
-                        PrimaryUnique::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(PrimaryUnique::new))
                 .in(this.and())
                 .withUsePrimaryKey(false);
     }
@@ -102,10 +97,8 @@ public class TableConstraintBuilder<ParentBuilder>
      */
     public Foreigns.TableForeignBuilder<ParentBuilder> $ForeignKey(){
         return new Foreigns.TableForeignBuilder<ParentBuilder>
-                (initSet2(
-                        Foreign::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(Foreign::new))
                 .in(this.and());
     }
 
@@ -115,10 +108,8 @@ public class TableConstraintBuilder<ParentBuilder>
      */
     public CheckBuilder<ParentBuilder> $Check(){
         return new CheckBuilder<ParentBuilder>
-                (initSet2(
-                        Check::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(Check::new))
                 .in(this.and());
     }
 

@@ -3,6 +3,7 @@ package com.xy.xsql.block.meta;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.handler.list.ListHandler;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -11,8 +12,8 @@ import static com.xy.xsql.block.model.BlockMeta.BlockConvention.EMPTY;
 import static com.xy.xsql.block.model.BlockMeta.BlockConvention.LINE;
 import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREFIX_COMMA;
 import static com.xy.xsql.block.model.BlockMeta.BlockDelimiterConvention.NO_PREFIX_ONE_OF;
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
+import static com.xy.xsql.core.handler.list.ListHandler.*;
 
 /**
  * Created by xiaoyao9184 on 2017/6/5.
@@ -248,9 +249,7 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
         return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
                 (this.cloneMeta())
                 .enter(this,
-                        meta -> initAdd(meta,
-                                target::getSub,
-                                target::setSub));
+                        meta -> list(target::getSub, target::setSub).add(meta));
     }
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> sub(String name) {
@@ -312,12 +311,10 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
      */
 
     public BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope> czse(Predicate<Scope> predicate) {
-        initAdd(predicate,
-                target::getExclusivePredicate,
-                target::setExclusivePredicate);
+        list(target::getExclusivePredicate, target::setExclusivePredicate).add(predicate);
         return sub();
 //        return new BlockMetaBuilder<BlockMetaBuilder<ParentBuilder, Scope>, Scope>
-//                (initNew2(this::cloneMeta,
+//                (initListWithChildSupplierItem(this::cloneMeta,
 //                        target::getSub,
 //                        target::setSub))
 //                .in(this);
@@ -383,17 +380,15 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
 
     public FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> format() {
         return new FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
-                (initSet(BlockMeta.Format::new,
-                        target::getFormat,
-                        target::setFormat))
+                (object(target::getFormat, target::setFormat)
+                        .init(BlockMeta.Format::new))
                 .in(this);
     }
 
     public FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> sub_format() {
         return new FormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
-                (initSet(BlockMeta.Format::new,
-                        target::getSubFormat,
-                        target::setSubFormat))
+                (object(target::getSubFormat, target::setSubFormat)
+                        .init(BlockMeta.Format::new))
                 .in(this);
     }
 
@@ -549,17 +544,15 @@ public class BlockMetaBuilder<ParentBuilder, Scope>
 
     public SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> syntax() {
         return new SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
-                (initSet(BlockMeta.SyntaxFormat::new,
-                        target::getSyntaxFormat,
-                        target::setSyntaxFormat))
+                (object(target::getSyntaxFormat, target::setSyntaxFormat)
+                        .init(BlockMeta.SyntaxFormat::new))
                 .in(this);
     }
 
     public SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>> sub_syntax() {
         return new SyntaxFormatBuilder<BlockMetaBuilder<ParentBuilder, Scope>>
-                (initSet(BlockMeta.SyntaxFormat::new,
-                        target::getSubSyntaxFormat,
-                        target::setSubSyntaxFormat))
+                (object(target::getSubSyntaxFormat, target::setSubSyntaxFormat)
+                        .init(BlockMeta.SyntaxFormat::new))
                 .in(this);
     }
 

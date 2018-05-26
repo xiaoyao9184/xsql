@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.constants;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 /**
@@ -12,8 +12,8 @@ public class StringConstantBuilder extends CodeBuilder<StringConstant> {
         super(new StringConstant());
     }
 
-    public StringConstantBuilder(StringConstant tar) {
-        super(tar);
+    public StringConstantBuilder(StringConstant target) {
+        super(target);
     }
 
     public StringConstantBuilder withString(String string) {

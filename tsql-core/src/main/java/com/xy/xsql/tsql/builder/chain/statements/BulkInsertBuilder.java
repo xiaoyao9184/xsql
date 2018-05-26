@@ -1,9 +1,8 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
-import com.xy.xsql.core.builder.CodeBuilder;
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.core.configurator.BaseConfigurator;
-import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
@@ -13,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.getLastItem;
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_number;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_number;
@@ -28,8 +27,8 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_
 @SuppressWarnings({"unused","WeakerAccess"})
 public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
 
-    public BulkInsertBuilder(BulkInsert tar) {
-        super(tar);
+    public BulkInsertBuilder(BulkInsert target) {
+        super(target);
     }
 
     public BulkInsertBuilder(){
@@ -386,11 +385,14 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
      * @param <ParentBuilder>
      */
     public static class OrderColumnBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OrderColumnBuilder<ParentBuilder>,ParentBuilder,BulkInsert.OrderColumn> {
+            extends ParentHoldBuilder<OrderColumnBuilder<ParentBuilder>,ParentBuilder,BulkInsert.OrderColumn> {
 
+        public OrderColumnBuilder() {
+            super(new BulkInsert.OrderColumn());
+        }
 
-        public OrderColumnBuilder(BulkInsert.OrderColumn orderColumn) {
-            super(orderColumn);
+        public OrderColumnBuilder(BulkInsert.OrderColumn target) {
+            super(target);
         }
 
         /**
@@ -446,37 +448,34 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
     }
 
     /**
-     * OrderBuilder
+     * OrderColumnListBuilder
      * @param <ParentBuilder>
      */
-    public static class OrderBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OrderBuilder<ParentBuilder>,ParentBuilder,List<BulkInsert.OrderColumn>>
+    public static class OrderColumnListBuilder<ParentBuilder>
+            extends ParentHoldBuilder<OrderColumnListBuilder<ParentBuilder>,ParentBuilder,List<BulkInsert.OrderColumn>>
             implements WithSetter {
 
-        public OrderBuilder(){
+        public OrderColumnListBuilder(){
             super(new ArrayList<>());
         }
 
-        public OrderBuilder(BulkInsert.OrderColumn... columns){
+        public OrderColumnListBuilder(BulkInsert.OrderColumn... columns){
             super(Arrays.asList(columns));
         }
 
         @Override
         public void config(BulkInsert bulkInsert) {
-            initAdd(target,
-                    bulkInsert::getOrderList,
-                    bulkInsert::setOrderList);
+            list(bulkInsert::getOrderList, bulkInsert::setOrderList)
+                    .addAll(target);
         }
 
         /**
          * in
          * @return OrderColumnBuilder
          */
-        public OrderColumnBuilder<OrderBuilder<ParentBuilder>> withItem(){
-            return new OrderColumnBuilder<OrderBuilder<ParentBuilder>>
-                    (initSet(BulkInsert.OrderColumn::new,
-                            Getter.empty(),
-                            (i) -> target.add(i)))
+        public OrderColumnBuilder<OrderColumnListBuilder<ParentBuilder>> withItem(){
+            return new OrderColumnBuilder<OrderColumnListBuilder<ParentBuilder>>
+                    (object(BulkInsert.OrderColumn::new).set(target::add))
                     .in(this);
         }
 
@@ -492,7 +491,7 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * @param columnName ColumnName
          * @return THIS
          */
-        public OrderBuilder $(ColumnName columnName) {
+        public OrderColumnListBuilder<ParentBuilder> $(ColumnName columnName) {
             return withItem()
                     .withColumnName(columnName)
                     .and();
@@ -502,9 +501,9 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick set
          * @return THIS
          */
-        public OrderBuilder $Aes(){
+        public OrderColumnListBuilder<ParentBuilder> $Aes(){
             BulkInsert.OrderColumn last = getLastItem(target);
-            return new OrderColumnBuilder<OrderBuilder>
+            return new OrderColumnBuilder<OrderColumnListBuilder<ParentBuilder>>
                     (last)
                     .in(this)
                     .withAsc()
@@ -515,9 +514,9 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick set
          * @return THIS
          */
-        public OrderBuilder $Desc(){
+        public OrderColumnListBuilder<ParentBuilder> $Desc(){
             BulkInsert.OrderColumn last = getLastItem(target);
-            return new OrderColumnBuilder<OrderBuilder>
+            return new OrderColumnBuilder<OrderColumnListBuilder<ParentBuilder>>
                     (last)
                     .in(this)
                     .withDesc()
@@ -762,8 +761,8 @@ public class BulkInsertBuilder extends CodeBuilder<BulkInsert> {
          * Quick build
          * @return WithSetter
          */
-        static OrderBuilder $Order(){
-            return new OrderBuilder();
+        static OrderColumnListBuilder<Void> $Order(){
+            return new OrderColumnListBuilder<>();
         }
 
         /**

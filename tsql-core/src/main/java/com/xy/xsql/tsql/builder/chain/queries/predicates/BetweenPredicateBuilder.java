@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Between;
 
@@ -11,14 +11,14 @@ import com.xy.xsql.tsql.model.queries.predicates.Between;
  */
 @SuppressWarnings("WeakerAccess")
 public class BetweenPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<BetweenPredicateBuilder<ParentBuilder>,ParentBuilder,Between> {
+        extends ParentHoldBuilder<BetweenPredicateBuilder<ParentBuilder>,ParentBuilder,Between> {
 
     public BetweenPredicateBuilder() {
         super(new Between());
     }
 
-    public BetweenPredicateBuilder(Between predicate) {
-        super(predicate);
+    public BetweenPredicateBuilder(Between target) {
+        super(target);
     }
 
     private int index = 0;

@@ -1,22 +1,20 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnDefinitionBuilder;
-import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
-import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.column.ColumnDefinition;
 import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
+import com.xy.xsql.tsql.model.datatypes.table.table.TableTypeDefinition;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.util.CheckUtil;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * TableTypeDefinitionBuilder
@@ -24,14 +22,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings("unused")
 public class TableTypeDefinitionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<TableTypeDefinitionBuilder<ParentBuilder>,ParentBuilder,TableTypeDefinition> {
-
-    public TableTypeDefinitionBuilder(TableTypeDefinition tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<TableTypeDefinitionBuilder<ParentBuilder>,ParentBuilder,TableTypeDefinition> {
 
     public TableTypeDefinitionBuilder() {
         super(new TableTypeDefinition());
+    }
+
+    public TableTypeDefinitionBuilder(TableTypeDefinition target) {
+        super(target);
     }
 
     /**
@@ -40,10 +38,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
      */
     public ColumnDefinitionBuilder<TableTypeDefinitionBuilder<ParentBuilder>> withColumnDefinition(){
         return new ColumnDefinitionBuilder<TableTypeDefinitionBuilder<ParentBuilder>>
-                ((ColumnDefinition)
-                        initNew(ColumnDefinition::new,
-                                target::getList,
-                                target::setList))
+                (list(target::getList, target::setList)
+                        .addNew(ColumnDefinition::new))
                 .in(this);
     }
 
@@ -53,10 +49,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
      */
     public TableConstraintBuilder<TableTypeDefinitionBuilder<ParentBuilder>> withTableConstraint(){
         return new TableConstraintBuilder<TableTypeDefinitionBuilder<ParentBuilder>>
-                ((TableConstraint)
-                        initNew(TableConstraint::new,
-                                target::getList,
-                                target::setList))
+                (list(target::getList, target::setList)
+                        .addNew(TableConstraint::new))
                 .in(this);
     }
 
@@ -76,9 +70,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(columnDefinitions)){
             return this;
         }
-        initAdd(Arrays.asList(columnDefinitions),
-                target::getList,
-                target::setList);
+        list(target::getList, target::setList)
+                .addAll(columnDefinitions);
         return this;
     }
 
@@ -92,9 +85,8 @@ public class TableTypeDefinitionBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(columnDefinitions)){
             return this;
         }
-        initAdd(Arrays.asList(columnDefinitions),
-                target::getList,
-                target::setList);
+        list(target::getList, target::setList)
+                .addAll(columnDefinitions);
         return this;
     }
 

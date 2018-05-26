@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.queries.predicates.ComparisonSubQuery;
@@ -13,14 +13,14 @@ import com.xy.xsql.tsql.model.queries.Select;
  */
 @SuppressWarnings("WeakerAccess")
 public class ComparisonSubQueryPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ComparisonSubQueryPredicateBuilder<ParentBuilder>,ParentBuilder,ComparisonSubQuery> {
+        extends ParentHoldBuilder<ComparisonSubQueryPredicateBuilder<ParentBuilder>,ParentBuilder,ComparisonSubQuery> {
 
     public ComparisonSubQueryPredicateBuilder() {
         super(new ComparisonSubQuery());
     }
 
-    public ComparisonSubQueryPredicateBuilder(ComparisonSubQuery predicate) {
-        super(predicate);
+    public ComparisonSubQueryPredicateBuilder(ComparisonSubQuery target) {
+        super(target);
     }
 
     /**

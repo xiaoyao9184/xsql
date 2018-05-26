@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.constants;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.MoneyConstant;
 
 import java.util.Currency;
@@ -17,8 +17,8 @@ public class MoneyConstantBuilder extends CodeBuilder<MoneyConstant> {
         super(new MoneyConstant());
     }
 
-    public MoneyConstantBuilder(MoneyConstant tar) {
-        super(tar);
+    public MoneyConstantBuilder(MoneyConstant target) {
+        super(target);
     }
 
     public MoneyConstantBuilder withSymbol() {

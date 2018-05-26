@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.constants;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.DatetimeConstant;
 
 import java.time.ZoneId;
@@ -17,8 +17,8 @@ public class DateTimeConstantBuilder extends CodeBuilder<DatetimeConstant> {
         super(new DatetimeConstant());
     }
 
-    public DateTimeConstantBuilder(DatetimeConstant tar) {
-        super(tar);
+    public DateTimeConstantBuilder(DatetimeConstant target) {
+        super(target);
     }
 
     public DateTimeConstantBuilder withDateTime() {

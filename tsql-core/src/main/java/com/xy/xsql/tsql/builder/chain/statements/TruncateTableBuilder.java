@@ -1,10 +1,10 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.TruncateTable;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * TruncateTableBuilder
@@ -13,8 +13,8 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
 
-    public TruncateTableBuilder(TruncateTable tar) {
-        super(tar);
+    public TruncateTableBuilder(TruncateTable target) {
+        super(target);
     }
 
     public TruncateTableBuilder() {
@@ -37,11 +37,8 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
      * @return THIS
      */
     public TruncateTableBuilder withNumber(Integer number){
-        initAdd(
-                e_pn(number),
-                target::getPartitionsList,
-                target::setPartitionsList
-        );
+        list(target::getPartitionsList, target::setPartitionsList)
+                .add(e_pn(number));
         return this;
     }
 
@@ -52,11 +49,8 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
      * @return THIS
      */
     public TruncateTableBuilder withRange(Integer range,Integer range2){
-        initAdd(
-                e_range(range,range2),
-                target::getPartitionsList,
-                target::setPartitionsList
-        );
+        list(target::getPartitionsList, target::setPartitionsList)
+                .add(e_range(range,range2));
         return this;
     }
 

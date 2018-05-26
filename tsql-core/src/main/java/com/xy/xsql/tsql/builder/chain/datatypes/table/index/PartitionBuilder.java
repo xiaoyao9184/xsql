@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.index;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 
 /**
@@ -10,10 +10,14 @@ import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class PartitionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<PartitionBuilder<ParentBuilder>,ParentBuilder,Partition> {
+        extends ParentHoldBuilder<PartitionBuilder<ParentBuilder>,ParentBuilder,Partition> {
 
-    public PartitionBuilder(Partition tar) {
-        super(tar);
+    public PartitionBuilder() {
+        super(new Partition());
+    }
+
+    public PartitionBuilder(Partition target) {
+        super(target);
     }
 
     /**

@@ -1,12 +1,11 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
 import com.xy.xsql.core.lambda.Getter;
-import com.xy.xsql.core.lambda.Setter;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.*;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * ItemBuilder
@@ -14,11 +13,9 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class ItemBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ItemBuilder<ParentBuilder>,ParentBuilder,Setter<Item>> {
+        extends ParentHoldLazyConfigBuilder<ItemBuilder<ParentBuilder>,ParentBuilder,Item> {
 
-    public ItemBuilder(Setter<Item> target) {
-        super(target);
-    }
+    public ItemBuilder() {}
 
     /**
      * Confirm type of Item
@@ -26,10 +23,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AlterColumnBuilder<ParentBuilder> _AlterColumn(){
         return new AlterColumnBuilder<ParentBuilder>
-                (initSet(AlterColumn::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(AlterColumn::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -38,10 +33,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AddBuilder<ParentBuilder> _Add(){
         return new AddBuilder<ParentBuilder>
-                (initSet(Add::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(Add::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -50,10 +43,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public DropBuilder<ParentBuilder> _Drop(){
         return new DropBuilder<ParentBuilder>
-                (initSet(Drop::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(Drop::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -62,10 +53,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AlterConstraintBuilder<ParentBuilder> _Constraint(){
         return new AlterConstraintBuilder<ParentBuilder>
-                (initSet(AlterConstraint::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(AlterConstraint::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -74,10 +63,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AlterTriggerBuilder<ParentBuilder> _Trigger(){
         return new AlterTriggerBuilder<ParentBuilder>
-                (initSet(AlterTrigger::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(AlterTrigger::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -86,10 +73,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AlterChangeTrackingBuilder<ParentBuilder> _ChangeTracking(){
         return new AlterChangeTrackingBuilder<ParentBuilder>
-                (initSet(AlterChangeTracking::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(AlterChangeTracking::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -98,10 +83,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AlterPartitionBuilder<ParentBuilder> _Partition(){
         return new AlterPartitionBuilder<ParentBuilder>
-                (initSet(AlterPartition::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(AlterPartition::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -110,10 +93,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public SetBuilder<ParentBuilder> _Set(){
         return new SetBuilder<ParentBuilder>
-                (initSet(Set::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(Set::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -122,10 +103,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public RebuildBuilder<ParentBuilder> _Rebuild(){
         return new RebuildBuilder<ParentBuilder>
-                (initSet(Rebuild::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(Rebuild::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -134,10 +113,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AlterTableOptionBuilder<ParentBuilder> _TableOption(){
         return new AlterTableOptionBuilder<ParentBuilder>
-                (initSet(AlterTableOption::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(AlterTableOption::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -146,10 +123,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public AlterFiletableOptionBuilder<ParentBuilder> _FiletableOption(){
         return new AlterFiletableOptionBuilder<ParentBuilder>
-                (initSet(AlterFiletableOption::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(AlterFiletableOption::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -158,10 +133,8 @@ public class ItemBuilder<ParentBuilder>
      */
     public StretchConfigurationBuilder<ParentBuilder> _StretchConfiguration(){
         return new StretchConfigurationBuilder<ParentBuilder>
-                (initSet(StretchConfiguration::new,
-                        Getter.empty(),
-                        target::set))
-                .in(out());
+                (object(StretchConfiguration::new).set(this::init))
+                .in(this.and());
     }
 
 
@@ -246,9 +219,9 @@ public class ItemBuilder<ParentBuilder>
      * @return EnableTransformBuilder
      */
     public EnableTransformBuilder<ParentBuilder> $Enable(){
-        return new EnableTransformBuilder<ParentBuilder>
-                (target)
-                .in(out())
+        return new EnableTransformBuilder<ParentBuilder>()
+                //TODO this build cant set to Parent
+                .enter(this.out(), Getter.empty(), this::build)
                 .withUseEnable(true);
     }
 
@@ -257,9 +230,9 @@ public class ItemBuilder<ParentBuilder>
      * @return EnableTransformBuilder
      */
     public EnableTransformBuilder<ParentBuilder> $Disable(){
-        return new EnableTransformBuilder<ParentBuilder>
-                (target)
-                .in(out())
+        return new EnableTransformBuilder<ParentBuilder>()
+                //TODO this build cant set to Parent
+                .enter(this.out(), Getter.empty(), this::build)
                 .withUseEnable(false);
     }
 
@@ -268,9 +241,9 @@ public class ItemBuilder<ParentBuilder>
      * @return SetTransformBuilder
      */
     public SetTransformBuilder<ParentBuilder> $Set(){
-        return new SetTransformBuilder<ParentBuilder>
-                (target)
-                .in(out());
+        return new SetTransformBuilder<ParentBuilder>()
+                //TODO this build cant set to Parent
+                .enter(this.out(), Getter.empty(), this::build);
     }
 
 
@@ -279,13 +252,11 @@ public class ItemBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class EnableTransformBuilder<ParentBuilder>
-            extends CodeTreeBuilder<EnableTransformBuilder<ParentBuilder>,ParentBuilder,Setter<Item>> {
+            extends ParentHoldLazyConfigBuilder<EnableTransformBuilder<ParentBuilder>,ParentBuilder,Item> {
 
         private boolean useEnable;
 
-        public EnableTransformBuilder(Setter<Item> setter) {
-            super(setter);
-        }
+        public EnableTransformBuilder() {}
 
         /**
          * set
@@ -303,10 +274,8 @@ public class ItemBuilder<ParentBuilder>
          */
         public AlterTriggerBuilder<ParentBuilder> _Trigger(){
             return new AlterTriggerBuilder<ParentBuilder>
-                    (initSet(AlterTrigger::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(AlterTrigger::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -315,10 +284,8 @@ public class ItemBuilder<ParentBuilder>
          */
         public AlterChangeTrackingBuilder<ParentBuilder> _ChangeTracking(){
             return new AlterChangeTrackingBuilder<ParentBuilder>
-                    (initSet(AlterChangeTracking::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(AlterChangeTracking::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -327,10 +294,8 @@ public class ItemBuilder<ParentBuilder>
          */
         public AlterFiletableOptionBuilder<ParentBuilder> _AlterFiletableOption(){
             return new AlterFiletableOptionBuilder<ParentBuilder>
-                    (initSet(AlterFiletableOption::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(AlterFiletableOption::new).set(this::init))
+                    .in(this.and());
         }
 
 
@@ -347,7 +312,7 @@ public class ItemBuilder<ParentBuilder>
         public ParentBuilder $Trigger$All(){
             return _Trigger()
                     .withUseEnable(useEnable)
-                    .out();
+                    .and();
         }
 
         /**
@@ -406,18 +371,14 @@ public class ItemBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class SetTransformBuilder<ParentBuilder>
-            extends CodeTreeBuilder<SetTransformBuilder<ParentBuilder>,ParentBuilder,Setter<Item>> {
+            extends ParentHoldLazyConfigBuilder<SetTransformBuilder<ParentBuilder>,ParentBuilder,Item> {
 
-        public SetTransformBuilder(Setter<Item> setter) {
-            super(setter);
-        }
+        public SetTransformBuilder() {}
 
         public SetBuilder<ParentBuilder> _Set(){
-            Set item = new Set();
-            target.set(item);
             return new SetBuilder<ParentBuilder>
-                    (item)
-                    .in(out());
+                    (object(Set::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -426,10 +387,8 @@ public class ItemBuilder<ParentBuilder>
          */
         public AlterTableOptionBuilder<ParentBuilder> _TableOption(){
             return new AlterTableOptionBuilder<ParentBuilder>
-                    (initSet(AlterTableOption::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(AlterTableOption::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -438,10 +397,8 @@ public class ItemBuilder<ParentBuilder>
          */
         public AlterFiletableOptionBuilder<ParentBuilder> _FiletableOption(){
             return new AlterFiletableOptionBuilder<ParentBuilder>
-                    (initSet(AlterFiletableOption::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(AlterFiletableOption::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -450,10 +407,8 @@ public class ItemBuilder<ParentBuilder>
          */
         public StretchConfigurationBuilder<ParentBuilder> _StretchConfiguration(){
             return new StretchConfigurationBuilder<ParentBuilder>
-                    (initSet(StretchConfiguration::new,
-                            Getter.empty(),
-                            target::set))
-                    .in(out());
+                    (object(StretchConfiguration::new).set(this::init))
+                    .in(this.and());
         }
 
 

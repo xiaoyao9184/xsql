@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterConstraint;
 
 import java.util.Arrays;
@@ -12,7 +12,11 @@ import java.util.List;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterConstraintBuilder<ParentBuilder>
-        extends CodeTreeBuilder<AlterConstraintBuilder<ParentBuilder>,ParentBuilder,AlterConstraint> {
+        extends ParentHoldBuilder<AlterConstraintBuilder<ParentBuilder>,ParentBuilder,AlterConstraint> {
+
+    public AlterConstraintBuilder() {
+        super(new AlterConstraint());
+    }
 
     public AlterConstraintBuilder(AlterConstraint target) {
         super(target);

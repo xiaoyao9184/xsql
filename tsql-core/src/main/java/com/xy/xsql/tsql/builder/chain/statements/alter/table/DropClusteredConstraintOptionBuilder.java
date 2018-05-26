@@ -1,13 +1,13 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.other.OnOff;
 import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_integer;
 
 /**
@@ -16,7 +16,11 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_unsigned_inte
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class DropClusteredConstraintOptionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<DropClusteredConstraintOptionBuilder<ParentBuilder>,ParentBuilder,DropClusteredConstraintOption> {
+        extends ParentHoldBuilder<DropClusteredConstraintOptionBuilder<ParentBuilder>,ParentBuilder,DropClusteredConstraintOption> {
+
+    public DropClusteredConstraintOptionBuilder() {
+        super(new DropClusteredConstraintOption());
+    }
 
     public DropClusteredConstraintOptionBuilder(DropClusteredConstraintOption target) {
         super(target);
@@ -67,7 +71,7 @@ public class DropClusteredConstraintOptionBuilder<ParentBuilder>
     public ParentBuilder $Maxdop(Integer maxDegreeOfParallelism){
         return withMaxDegreeOfParallelism(
                 c_unsigned_integer(maxDegreeOfParallelism))
-                .out();
+                .and();
     }
 
     /**
@@ -76,7 +80,7 @@ public class DropClusteredConstraintOptionBuilder<ParentBuilder>
      */
     public ParentBuilder $OnlineOn(){
         return withOnline(OnOff.ON)
-                .out();
+                .and();
     }
 
     /**
@@ -85,7 +89,7 @@ public class DropClusteredConstraintOptionBuilder<ParentBuilder>
      */
     public ParentBuilder $OnlineOff(){
         return withOnline(OnOff.OFF)
-                .out();
+                .and();
     }
 
     /**
@@ -94,10 +98,9 @@ public class DropClusteredConstraintOptionBuilder<ParentBuilder>
      */
     public PartitionBuilder<ParentBuilder> $MoveTo(){
         return new PartitionBuilder<ParentBuilder>
-                (initSet(Partition::new,
-                        target::getMoveTo,
-                        target::setMoveTo))
-                .in(out());
+                (object(target::getMoveTo, target::setMoveTo)
+                        .init(Partition::new))
+                .in(this.and());
     }
 
 }

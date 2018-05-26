@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterTable;
 import com.xy.xsql.tsql.model.statements.alter.table.Item;
@@ -70,9 +71,8 @@ public class AlterTableBuilder extends CodeBuilder<AlterTable> {
      * @return THIS
      */
     public ItemBuilder<AlterTableBuilder> $(){
-        return new ItemBuilder<AlterTableBuilder>
-                (target::setItem)
-                .in(this);
+        return new ItemBuilder<AlterTableBuilder>()
+                .enter(this, Getter.empty(), target::setItem);
     }
 
     /**

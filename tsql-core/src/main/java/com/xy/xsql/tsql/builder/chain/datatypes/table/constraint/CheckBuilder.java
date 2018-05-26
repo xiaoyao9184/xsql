@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.constraint;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.constraint.Check;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
@@ -10,10 +10,14 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
  */
 @SuppressWarnings("unused")
 public class CheckBuilder<ParentBuilder>
-        extends CodeTreeBuilder<CheckBuilder<ParentBuilder>,ParentBuilder,Check> {
+        extends ParentHoldBuilder<CheckBuilder<ParentBuilder>,ParentBuilder,Check> {
 
-    public CheckBuilder(Check check) {
-        super(check);
+    public CheckBuilder() {
+        super(new Check());
+    }
+
+    public CheckBuilder(Check target) {
+        super(target);
     }
 
 

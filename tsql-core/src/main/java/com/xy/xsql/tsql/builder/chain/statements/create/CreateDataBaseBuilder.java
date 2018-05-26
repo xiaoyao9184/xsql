@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.create;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
 
 /**
@@ -10,8 +10,8 @@ import com.xy.xsql.tsql.model.statements.create.CreateDataBase;
 @SuppressWarnings("unused")
 public class CreateDataBaseBuilder extends CodeBuilder<CreateDataBase> {
 
-    public CreateDataBaseBuilder(CreateDataBase tar) {
-        super(tar);
+    public CreateDataBaseBuilder(CreateDataBase target) {
+        super(target);
     }
 
     public CreateDataBaseBuilder() {

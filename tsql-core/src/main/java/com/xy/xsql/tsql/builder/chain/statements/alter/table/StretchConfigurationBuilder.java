@@ -1,14 +1,14 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.table.TableStretchOptionsBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableStretchOptions;
 import com.xy.xsql.tsql.model.statements.alter.table.StretchConfiguration;
 
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * StretchConfigurationBuilder
@@ -16,7 +16,11 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class StretchConfigurationBuilder<ParentBuilder>
-        extends CodeTreeBuilder<StretchConfigurationBuilder<ParentBuilder>,ParentBuilder,StretchConfiguration> {
+        extends ParentHoldBuilder<StretchConfigurationBuilder<ParentBuilder>,ParentBuilder,StretchConfiguration> {
+
+    public StretchConfigurationBuilder() {
+        super(new StretchConfiguration());
+    }
 
     public StretchConfigurationBuilder(StretchConfiguration target) {
         super(target);
@@ -61,9 +65,8 @@ public class StretchConfigurationBuilder<ParentBuilder>
     public TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>> $On(){
         withUseOn(true);
         return new TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>>
-                (initSet(TableStretchOptions::new,
-                        target::getTableStretchOptions,
-                        target::setTableStretchOptions))
+                (object(target::getTableStretchOptions, target::setTableStretchOptions)
+                        .init(TableStretchOptions::new))
                 .in(this);
     }
 
@@ -81,9 +84,8 @@ public class StretchConfigurationBuilder<ParentBuilder>
      */
     public TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>> $(){
         return new TableStretchOptionsBuilder<StretchConfigurationBuilder<ParentBuilder>>
-                (initNew(TableStretchOptions::new,
-                        target::getTableStretchOptionsList,
-                        target::setTableStretchOptionsList))
+                (list(target::getTableStretchOptionsList, target::setTableStretchOptionsList)
+                        .addNew(TableStretchOptions::new))
                 .in(this);
     }
 

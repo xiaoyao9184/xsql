@@ -1,24 +1,24 @@
 package com.xy.xsql.tsql.builder.chain.elements.variables;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.tsql.model.elements.variables.SelectVariable;
 
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
 
 /**
  * SelectVariableBuilder
  * Created by xiaoyao9184 on 2017/3/16.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "TypeParameterHidesVisibleType", "unused","DeprecatedIsStillUsed"})
 public class SelectVariableBuilder<ParentBuilder>
-        extends CodeTreeBuilder<SelectVariableBuilder<ParentBuilder>,ParentBuilder,SelectVariable> {
+        extends ParentHoldBuilder<SelectVariableBuilder<ParentBuilder>,ParentBuilder,SelectVariable> {
 
-    public SelectVariableBuilder(SelectVariable tar) {
-        super(tar);
+    public SelectVariableBuilder(SelectVariable target) {
+        super(target);
     }
 
     public SelectVariableBuilder() {
@@ -31,9 +31,8 @@ public class SelectVariableBuilder<ParentBuilder>
      */
     public SelectVariableItemBuilder<SelectVariableBuilder<ParentBuilder>> withItem(){
         return new SelectVariableItemBuilder<SelectVariableBuilder<ParentBuilder>>
-                (initNew(SelectVariable.Item::new,
-                        target::getItems,
-                        target::setItems))
+                (list(target::getItems, target::setItems)
+                        .addNew(SelectVariable.Item::new))
                 .in(this);
     }
 
@@ -53,7 +52,7 @@ public class SelectVariableBuilder<ParentBuilder>
      */
     public SelectVariableItemBuilder<SelectVariableBuilder<ParentBuilder>> $(String localVariable) {
         return withItem()
-                .withLocalVariable(localVariable);
+                .withLocalVariable(e_variable(localVariable));
     }
 
 
@@ -61,34 +60,59 @@ public class SelectVariableBuilder<ParentBuilder>
      * SelectVariableItemBuilder
      * @param <ParentBuilder>
      */
-    @SuppressWarnings({"WeakerAccess", "TypeParameterHidesVisibleType", "unused"})
     public class SelectVariableItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<SelectVariableItemBuilder<ParentBuilder>,ParentBuilder,SelectVariable.Item> {
+            extends ParentHoldBuilder<SelectVariableItemBuilder<ParentBuilder>,ParentBuilder,SelectVariable.Item> {
 
-        public SelectVariableItemBuilder(SelectVariable.Item tar) {
-            super(tar);
+        public SelectVariableItemBuilder() {
+            super(new SelectVariable.Item());
         }
 
+        public SelectVariableItemBuilder(SelectVariable.Item target) {
+            super(target);
+        }
+
+        /**
+         * set
+         * @param variable variable
+         * @return THIS
+         */
         @Deprecated
         public SelectVariableItemBuilder<ParentBuilder> withLocalVariable(String variable){
             target.setLocalVariable(e_variable(variable));
             return this;
         }
 
+        /**
+         * set
+         * @param variable LocalVariable
+         * @return THIS
+         */
         public SelectVariableItemBuilder<ParentBuilder> withLocalVariable(LocalVariable variable){
             target.setLocalVariable(variable);
             return this;
         }
 
+        /**
+         * set
+         * @param compound Compound
+         * @return THIS
+         */
         public SelectVariableItemBuilder<ParentBuilder> withCompound(Compound compound){
             target.setCompound(compound);
             return this;
         }
 
+        /**
+         * set
+         * @param expression Expression
+         * @return THIS
+         */
         public SelectVariableItemBuilder<ParentBuilder> withExpression(Expression expression){
             target.setExpression(expression);
             return this;
         }
+
+
 
 
         /*
@@ -101,7 +125,7 @@ public class SelectVariableBuilder<ParentBuilder>
          * @return THIS
          */
         public SelectVariableItemBuilder<ParentBuilder> $(String localVariable){
-            return withLocalVariable(localVariable);
+            return withLocalVariable(e_variable(localVariable));
         }
 
         /**

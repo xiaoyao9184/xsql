@@ -1,19 +1,17 @@
 package com.xy.xsql.tsql.builder.chain.queries.hints;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.Constants;
+import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.tsql.model.queries.hints.QueryHint;
 import com.xy.xsql.tsql.model.queries.hints.TableHint;
-import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.OptimizeForBuilder.$OptimizeForItem;
 
@@ -23,14 +21,14 @@ import static com.xy.xsql.tsql.builder.chain.queries.hints.QueryHintBuilder.Opti
  */
 @SuppressWarnings({"unused", "SameParameterValue", "WeakerAccess","UnusedReturnValue"})
 public class QueryHintBuilder<ParentBuilder>
-        extends CodeTreeBuilder<QueryHintBuilder<ParentBuilder>,ParentBuilder,QueryHint> {
+        extends ParentHoldBuilder<QueryHintBuilder<ParentBuilder>,ParentBuilder,QueryHint> {
 
     public QueryHintBuilder() {
         super(new QueryHint());
     }
 
-    public QueryHintBuilder(QueryHint queryHint) {
-        super(queryHint);
+    public QueryHintBuilder(QueryHint target) {
+        super(target);
     }
 
     /**
@@ -89,10 +87,9 @@ public class QueryHintBuilder<ParentBuilder>
      */
     public OptimizeForBuilder<QueryHintBuilder<ParentBuilder>> withOptimizeFor(){
         return new OptimizeForBuilder<QueryHintBuilder<ParentBuilder>>
-                (initNew(QueryHint.OptimizeFor::new,
-                target::getOptimizeFor,
-                target::setOptimizeFor))
-            .in(this);
+                (list(target::getOptimizeFor, target::setOptimizeFor)
+                        .addNew(QueryHint.OptimizeFor::new))
+                .in(this);
     }
 
     /**
@@ -124,11 +121,8 @@ public class QueryHintBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(hintNames)){
             return this;
         }
-        initAdd(Arrays.stream(hintNames)
-                .map(Constants::c_string)
-                .collect(Collectors.toList()),
-                target::getHintNameList,
-                target::setHintNameList);
+        list(target::getHintNameList, target::setHintNameList)
+                .addAll(Arrays.stream(hintNames).map(Constants::c_string));
         return this;
     }
 
@@ -161,9 +155,8 @@ public class QueryHintBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(tableHints)){
             return this;
         }
-        initAdd(Arrays.asList(tableHints),
-                target::getTableHintList,
-                target::setTableHintList);
+        list(target::getTableHintList, target::setTableHintList)
+                .addAll(tableHints);
         return this;
     }
 
@@ -182,14 +175,14 @@ public class QueryHintBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class OptimizeForBuilder<ParentBuilder>
-        extends CodeTreeBuilder<OptimizeForBuilder<ParentBuilder>,ParentBuilder,QueryHint.OptimizeFor> {
+        extends ParentHoldBuilder<OptimizeForBuilder<ParentBuilder>,ParentBuilder,QueryHint.OptimizeFor> {
 
         public OptimizeForBuilder() {
             super(new QueryHint.OptimizeFor());
         }
 
-        public OptimizeForBuilder(QueryHint.OptimizeFor tar) {
-            super(tar);
+        public OptimizeForBuilder(QueryHint.OptimizeFor target) {
+            super(target);
         }
 
 
@@ -277,14 +270,14 @@ public class QueryHintBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class OptimizeForListBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OptimizeForListBuilder<ParentBuilder>,ParentBuilder,List<QueryHint.OptimizeFor>> {
+            extends ParentHoldBuilder<OptimizeForListBuilder<ParentBuilder>,ParentBuilder,List<QueryHint.OptimizeFor>> {
 
         public OptimizeForListBuilder() {
             super(new ArrayList<>());
         }
 
-        public OptimizeForListBuilder(List<QueryHint.OptimizeFor> tar) {
-            super(tar);
+        public OptimizeForListBuilder(List<QueryHint.OptimizeFor> target) {
+            super(target);
         }
 
 
@@ -572,9 +565,11 @@ public class QueryHintBuilder<ParentBuilder>
     public static OptimizeForListBuilder<QueryHint> $OptimizeFor(){
         QueryHint queryHint = new QueryHintBuilder<QueryHint>()
                 .withType(QueryHint.Type.OPTIMIZE_FOR)
+                .withOptimizeFor(new ArrayList<>())
                 .build();
-        return new OptimizeForListBuilder<QueryHint>()
-                .enter(queryHint, queryHint::setOptimizeFor);
+        return new OptimizeForListBuilder<QueryHint>
+                (queryHint.getOptimizeFor())
+                .in(queryHint);
     }
 
     /**

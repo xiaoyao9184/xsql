@@ -1,13 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.queries.select;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.core.lambda.Configurator;
 import com.xy.xsql.tsql.model.queries.select.For;
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 
 import java.util.Arrays;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 /**
@@ -16,14 +15,14 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
  */
 @SuppressWarnings({"WeakerAccess","UnusedReturnValue"})
 public class ForBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ForBuilder<ParentBuilder>,ParentBuilder,For> {
+        extends ParentHoldBuilder<ForBuilder<ParentBuilder>,ParentBuilder,For> {
 
     public ForBuilder() {
         super(new For());
     }
 
-    public ForBuilder(For forClause) {
-        super(forClause);
+    public ForBuilder(For target) {
+        super(target);
     }
 
 
@@ -52,9 +51,8 @@ public class ForBuilder<ParentBuilder>
      */
     public XmlBuilder<ForBuilder<ParentBuilder>> withXml(){
         return new XmlBuilder<ForBuilder<ParentBuilder>>
-                (initSet(For.Xml::new,
-                        target::getXml,
-                        target::setXml))
+                (object(target::getXml, target::setXml)
+                        .init(For.Xml::new))
                 .in(this);
     }
 
@@ -74,9 +72,8 @@ public class ForBuilder<ParentBuilder>
      */
     public JsonBuilder<ForBuilder<ParentBuilder>> withJson(){
         return new JsonBuilder<ForBuilder<ParentBuilder>>
-                (initSet(For.Json::new,
-                        target::getJson,
-                        target::setJson))
+                (object(target::getJson, target::setJson)
+                        .init(For.Json::new))
                 .in(this);
     }
 
@@ -119,14 +116,14 @@ public class ForBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class XmlBuilder<ParentBuilder>
-            extends CodeTreeBuilder<XmlBuilder<ParentBuilder>,ParentBuilder,For.Xml> {
+            extends ParentHoldBuilder<XmlBuilder<ParentBuilder>,ParentBuilder,For.Xml> {
 
         public XmlBuilder() {
             super(new For.Xml());
         }
 
-        public XmlBuilder(For.Xml tar) {
-            super(tar);
+        public XmlBuilder(For.Xml target) {
+            super(target);
         }
 
         /**
@@ -314,14 +311,14 @@ public class ForBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class JsonBuilder<ParentBuilder>
-            extends CodeTreeBuilder<JsonBuilder<ParentBuilder>,ParentBuilder,For.Json> {
+            extends ParentHoldBuilder<JsonBuilder<ParentBuilder>,ParentBuilder,For.Json> {
 
         public JsonBuilder() {
             super(new For.Json());
         }
 
-        public JsonBuilder(For.Json tar) {
-            super(tar);
+        public JsonBuilder(For.Json target) {
+            super(target);
         }
 
         /**

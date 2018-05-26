@@ -1,26 +1,25 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeBuilder;
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.core.lambda.Setter;
-import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.model.datatypes.table.Alias;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
-import com.xy.xsql.tsql.model.queries.*;
-import com.xy.xsql.tsql.model.queries.Update;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
+import com.xy.xsql.tsql.model.queries.*;
+import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
 import com.xy.xsql.util.CheckUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initList;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * UpdateBuilder
@@ -29,8 +28,8 @@ import static com.xy.xsql.core.ListBuilder.initList;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class UpdateBuilder extends CodeBuilder<Update> {
 
-    public UpdateBuilder(Update tar) {
-        super(tar);
+    public UpdateBuilder(Update target) {
+        super(target);
     }
 
     public UpdateBuilder(){
@@ -54,9 +53,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     public WithBuilder<UpdateBuilder> withWith(){
         return new WithBuilder<UpdateBuilder>
-                (initSet(With::new,
-                        target::getWith,
-                        target::setWith))
+                (object(target::getWith, target::setWith)
+                        .init(With::new))
                 .in(this);
     }
 
@@ -76,9 +74,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     public TopBuilder<UpdateBuilder> withTop(){
         return new TopBuilder<UpdateBuilder>
-                (initSet(Top::new,
-                        target::getTop,
-                        target::setTop))
+                (object(target::getTop, target::setTop)
+                        .init(Top::new))
                 .in(this);
     }
 
@@ -118,9 +115,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return THIS
      */
     public UpdateBuilder withTableHint(TableHintLimited... tableHintLimiteds){
-        initAdd(Arrays.asList(tableHintLimiteds),
-                target::getTableHintLimitedList,
-                target::setTableHintLimitedList);
+        list(target::getTableHintLimitedList, target::setTableHintLimitedList)
+                .addAll(tableHintLimiteds);
         return this;
     }
 
@@ -130,9 +126,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return THIS
      */
     public UpdateBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
-        initAdd(tableHintLimiteds,
-                target::getTableHintLimitedList,
-                target::setTableHintLimitedList);
+        list(target::getTableHintLimitedList, target::setTableHintLimitedList)
+                .addAll(tableHintLimiteds);
         return this;
     }
 
@@ -142,9 +137,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return THIS
      */
     public UpdateBuilder withSetItem(List<Update.SetItem> setItems){
-        initAdd(setItems,
-                target::getSets,
-                target::setSets);
+        list(target::getSets, target::setSets)
+                .addAll(setItems);
         return this;
     }
 
@@ -153,11 +147,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @return SetItemBuilder
      */
     public SetItemBuilder<UpdateBuilder> withSetItem(){
-        initList(target::getSets,
-                target::setSets);
-        return new SetItemBuilder<UpdateBuilder>
-                (target.getSets()::add)
-                .in(this);
+        list(target::getSets, target::setSets).init();
+        return new SetItemBuilder<UpdateBuilder>()
+                .enter(this, Getter.empty(), target.getSets()::add);
     }
 
     /**
@@ -176,9 +168,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     public OutputBuilder<UpdateBuilder> withOutput() {
         return new OutputBuilder<UpdateBuilder>
-                (initSet(Output::new,
-                        target::getOutput,
-                        target::setOutput))
+                (object(target::getOutput, target::setOutput)
+                        .init(Output::new))
                 .in(this);
     }
 
@@ -198,9 +189,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     public FromBuilder<UpdateBuilder> withFrom() {
         return new FromBuilder<UpdateBuilder>
-                (initSet(From::new,
-                        target::getFrom,
-                        target::setFrom))
+                (object(target::getFrom, target::setFrom)
+                        .init(From::new))
                 .in(this);
     }
 
@@ -220,9 +210,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     public WhereBuilder<UpdateBuilder> withWhere() {
         return new WhereBuilder<UpdateBuilder>
-                (initSet(Where::new,
-                        target::getWhere,
-                        target::setWhere))
+                (object(target::getWhere, target::setWhere)
+                        .init(Where::new))
                 .in(this);
     }
 
@@ -242,9 +231,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     public OptionBuilder<UpdateBuilder> withOption() {
         return new OptionBuilder<UpdateBuilder>
-                (initSet(Option::new,
-                        target::getOption,
-                        target::setOption))
+                (object(target::getOption, target::setOption)
+                        .init(Option::new))
                 .in(this);
     }
 
@@ -325,9 +313,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
         if(CheckUtil.isNullOrEmpty(items)){
             return this;
         }
-        initAdd(Arrays.asList(items),
-                target::getSets,
-                target::setSets);
+        list(target::getSets, target::setSets)
+                .addAll(items);
         return this;
     }
 
@@ -369,10 +356,14 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @param <ParentBuilder>
      */
     public static class SetListBuilder<ParentBuilder>
-            extends CodeTreeBuilder<SetListBuilder<ParentBuilder>,ParentBuilder,List<Update.SetItem>> {
+            extends ParentHoldBuilder<SetListBuilder<ParentBuilder>,ParentBuilder,List<Update.SetItem>> {
 
         public SetListBuilder() {
             super(new ArrayList<>());
+        }
+
+        public SetListBuilder(List<Update.SetItem> target) {
+            super(target);
         }
 
         /**
@@ -380,9 +371,8 @@ public class UpdateBuilder extends CodeBuilder<Update> {
          * @return SetItemBuilder
          */
         public SetItemBuilder<SetListBuilder<ParentBuilder>> withItem(){
-            return new SetItemBuilder<SetListBuilder<ParentBuilder>>
-                    (item -> this.target.add(item))
-                    .in(this);
+            return new SetItemBuilder<SetListBuilder<ParentBuilder>>()
+                    .enter(this, Getter.empty(), target::add);
         }
     }
 
@@ -391,22 +381,18 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      * @param <ParentBuilder>
      */
     public static class SetItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<SetItemBuilder<ParentBuilder>,ParentBuilder,Setter<Update.SetItem>> {
+            extends ParentHoldLazyConfigBuilder<SetItemBuilder<ParentBuilder>,ParentBuilder,Update.SetItem> {
 
-        public SetItemBuilder(Setter<Update.SetItem> tar) {
-            super(tar);
-        }
+        public SetItemBuilder() {}
 
         /**
          * select in
          * @return ColumnAssignmentSetBuilder
          */
         public ColumnAssignmentSetBuilder<ParentBuilder> _ColumnAssignment(){
-            Update.ColumnAssignmentSet setItem = new Update.ColumnAssignmentSet();
-            target.set(setItem);
             return new ColumnAssignmentSetBuilder<ParentBuilder>
-                    (setItem)
-                    .in(out());
+                    (object(Update.ColumnAssignmentSet::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -414,11 +400,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
          * @return VariableAssignmentSetBuilder
          */
         public VariableAssignmentSetBuilder<ParentBuilder> _VariableAssignment(){
-            Update.VariableAssignmentSet setItem = new Update.VariableAssignmentSet();
-            target.set(setItem);
             return new VariableAssignmentSetBuilder<ParentBuilder>
-                    (setItem)
-                    .in(out());
+                    (object(Update.VariableAssignmentSet::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -426,11 +410,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
          * @return VariableColumnAssignmentSetBuilder
          */
         public VariableColumnAssignmentSetBuilder<ParentBuilder> _VariableColumnAssignment(){
-            Update.VariableColumnAssignmentSet setItem = new Update.VariableColumnAssignmentSet();
-            target.set(setItem);
             return new VariableColumnAssignmentSetBuilder<ParentBuilder>
-                    (setItem)
-                    .in(out());
+                    (object(Update.VariableColumnAssignmentSet::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -438,11 +420,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
          * @return ColumnCompoundSetBuilder
          */
         public ColumnCompoundSetBuilder<ParentBuilder> _ColumnCompound(){
-            Update.ColumnCompoundSet setItem = new Update.ColumnCompoundSet();
-            target.set(setItem);
             return new ColumnCompoundSetBuilder<ParentBuilder>
-                    (setItem)
-                    .in(out());
+                    (object(Update.ColumnCompoundSet::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -450,11 +430,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
          * @return VariableCompoundSetBuilder
          */
         public VariableCompoundSetBuilder<ParentBuilder> _VariableCompound(){
-            Update.VariableCompoundSet setItem = new Update.VariableCompoundSet();
-            target.set(setItem);
             return new VariableCompoundSetBuilder<ParentBuilder>
-                    (setItem)
-                    .in(out());
+                    (object(Update.VariableCompoundSet::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -462,11 +440,9 @@ public class UpdateBuilder extends CodeBuilder<Update> {
          * @return VariableColumnCompoundSetBuilder
          */
         public VariableColumnCompoundSetBuilder<ParentBuilder> _VariableColumnCompound(){
-            Update.VariableColumnCompoundSet setItem = new Update.VariableColumnCompoundSet();
-            target.set(setItem);
             return new VariableColumnCompoundSetBuilder<ParentBuilder>
-                    (setItem)
-                    .in(out());
+                    (object(Update.VariableColumnCompoundSet::new).set(this::init))
+                    .in(this.and());
         }
 
 
@@ -596,10 +572,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class ColumnAssignmentSetBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ColumnAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.ColumnAssignmentSet> {
+            extends ParentHoldBuilder<ColumnAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.ColumnAssignmentSet> {
 
-        public ColumnAssignmentSetBuilder(Update.ColumnAssignmentSet set) {
-            super(set);
+        public ColumnAssignmentSetBuilder(Update.ColumnAssignmentSet target) {
+            super(target);
         }
 
         public ColumnAssignmentSetBuilder() {
@@ -658,10 +634,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableAssignmentSetBuilder<ParentBuilder>
-            extends CodeTreeBuilder<VariableAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableAssignmentSet> {
+            extends ParentHoldBuilder<VariableAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableAssignmentSet> {
 
-        public VariableAssignmentSetBuilder(Update.VariableAssignmentSet set) {
-            super(set);
+        public VariableAssignmentSetBuilder(Update.VariableAssignmentSet target) {
+            super(target);
         }
 
         public VariableAssignmentSetBuilder() {
@@ -701,10 +677,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableColumnAssignmentSetBuilder<ParentBuilder>
-            extends CodeTreeBuilder<VariableColumnAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableColumnAssignmentSet> {
+            extends ParentHoldBuilder<VariableColumnAssignmentSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableColumnAssignmentSet> {
 
-        public VariableColumnAssignmentSetBuilder(Update.VariableColumnAssignmentSet set) {
-            super(set);
+        public VariableColumnAssignmentSetBuilder(Update.VariableColumnAssignmentSet target) {
+            super(target);
         }
 
         public VariableColumnAssignmentSetBuilder() {
@@ -754,10 +730,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class ColumnCompoundSetBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ColumnCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.ColumnCompoundSet> {
+            extends ParentHoldBuilder<ColumnCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.ColumnCompoundSet> {
 
-        public ColumnCompoundSetBuilder(Update.ColumnCompoundSet set) {
-            super(set);
+        public ColumnCompoundSetBuilder(Update.ColumnCompoundSet target) {
+            super(target);
         }
 
         public ColumnCompoundSetBuilder() {
@@ -807,10 +783,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableCompoundSetBuilder<ParentBuilder>
-            extends CodeTreeBuilder<VariableCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableCompoundSet> {
+            extends ParentHoldBuilder<VariableCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableCompoundSet> {
 
-        public VariableCompoundSetBuilder(Update.VariableCompoundSet set) {
-            super(set);
+        public VariableCompoundSetBuilder(Update.VariableCompoundSet target) {
+            super(target);
         }
 
         public VariableCompoundSetBuilder() {
@@ -860,10 +836,10 @@ public class UpdateBuilder extends CodeBuilder<Update> {
      */
     @SuppressWarnings({"SameParameterValue", "DanglingJavadoc"})
     public static class VariableColumnCompoundSetBuilder<ParentBuilder>
-            extends CodeTreeBuilder<VariableColumnCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableColumnCompoundSet> {
+            extends ParentHoldBuilder<VariableColumnCompoundSetBuilder<ParentBuilder>,ParentBuilder,Update.VariableColumnCompoundSet> {
 
-        public VariableColumnCompoundSetBuilder(Update.VariableColumnCompoundSet set) {
-            super(set);
+        public VariableColumnCompoundSetBuilder(Update.VariableColumnCompoundSet target) {
+            super(target);
         }
 
         public VariableColumnCompoundSetBuilder() {

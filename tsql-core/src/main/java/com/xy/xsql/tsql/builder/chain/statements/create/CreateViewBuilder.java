@@ -1,14 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.statements.create;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.queries.Select;
 import com.xy.xsql.tsql.model.statements.create.CreateView;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * CreateViewBuilder
@@ -17,8 +15,8 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class CreateViewBuilder extends CodeBuilder<CreateView> {
 
-    public CreateViewBuilder(CreateView tar) {
-        super(tar);
+    public CreateViewBuilder(CreateView target) {
+        super(target);
     }
 
     public CreateViewBuilder() {
@@ -129,10 +127,8 @@ public class CreateViewBuilder extends CodeBuilder<CreateView> {
      * @return THIS
      */
     public CreateViewBuilder $(String... columns) {
-        initAdd(Stream.of(columns)
-                .collect(Collectors.toList()),
-                this.target::getColumn,
-                this.target::setColumn);
+        list(target::getColumn, target::setColumn)
+                .addAll(columns);
         return this;
     }
 
@@ -142,10 +138,8 @@ public class CreateViewBuilder extends CodeBuilder<CreateView> {
      * @return THIS
      */
     public CreateViewBuilder $With(CreateView.ViewAttribute... viewAttribute) {
-        initAdd(Stream.of(viewAttribute)
-                        .collect(Collectors.toList()),
-                this.target::getViewAttributes,
-                this.target::setViewAttributes);
+        list(target::getViewAttributes, target::setViewAttributes)
+                .addAll(viewAttribute);
         return this;
     }
 

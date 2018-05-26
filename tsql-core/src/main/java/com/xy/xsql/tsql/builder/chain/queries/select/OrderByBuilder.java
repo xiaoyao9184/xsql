@@ -1,12 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.queries.select;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.tsql.model.queries.select.OrderBy;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
+import com.xy.xsql.tsql.model.queries.select.OrderBy;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
 import static com.xy.xsql.core.ListBuilder.getLastItem;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * OrderByBuilder
@@ -14,10 +14,10 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "UnusedReturnValue","unused"})
 public class OrderByBuilder<ParentBuilder>
-        extends CodeTreeBuilder<OrderByBuilder<ParentBuilder>,ParentBuilder,OrderBy> {
+        extends ParentHoldBuilder<OrderByBuilder<ParentBuilder>,ParentBuilder,OrderBy> {
 
-    public OrderByBuilder(OrderBy orderBy) {
-        super(orderBy);
+    public OrderByBuilder(OrderBy target) {
+        super(target);
     }
 
     public OrderByBuilder() {
@@ -31,9 +31,8 @@ public class OrderByBuilder<ParentBuilder>
      */
     public OrderByItemBuilder<OrderByBuilder<ParentBuilder>> withItem(){
         return new OrderByItemBuilder<OrderByBuilder<ParentBuilder>>
-                (initNew(OrderBy.Item::new,
-                        target::getItems,
-                        target::setItems))
+                (list(target::getItems, target::setItems)
+                        .addNew(OrderBy.Item::new))
                 .in(this);
     }
 
@@ -53,9 +52,8 @@ public class OrderByBuilder<ParentBuilder>
      */
     public OffsetFetchBuilder<OrderByBuilder<ParentBuilder>> withOffsetFetch(){
         return new OffsetFetchBuilder<OrderByBuilder<ParentBuilder>>
-                (initSet(OrderBy.OffsetFetch::new,
-                        target::getOffsetFetch,
-                        target::setOffsetFetch))
+                (object(target::getOffsetFetch, target::setOffsetFetch)
+                        .init(OrderBy.OffsetFetch::new))
                 .in(this);
     }
 
@@ -173,11 +171,14 @@ public class OrderByBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class OrderByItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OrderByItemBuilder<ParentBuilder>,ParentBuilder,OrderBy.Item> {
+            extends ParentHoldBuilder<OrderByItemBuilder<ParentBuilder>,ParentBuilder,OrderBy.Item> {
 
+        public OrderByItemBuilder() {
+            super(new OrderBy.Item());
+        }
 
-        public OrderByItemBuilder(OrderBy.Item orderByItem) {
-            super(orderByItem);
+        public OrderByItemBuilder(OrderBy.Item target) {
+            super(target);
         }
 
         /**
@@ -237,14 +238,14 @@ public class OrderByBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class OffsetFetchBuilder<ParentBuilder>
-            extends CodeTreeBuilder<OffsetFetchBuilder<ParentBuilder>,ParentBuilder,OrderBy.OffsetFetch> {
+            extends ParentHoldBuilder<OffsetFetchBuilder<ParentBuilder>,ParentBuilder,OrderBy.OffsetFetch> {
 
         public OffsetFetchBuilder() {
             super(new OrderBy.OffsetFetch());
         }
 
-        public OffsetFetchBuilder(OrderBy.OffsetFetch offsetFetch) {
-            super(offsetFetch);
+        public OffsetFetchBuilder(OrderBy.OffsetFetch target) {
+            super(target);
         }
 
 

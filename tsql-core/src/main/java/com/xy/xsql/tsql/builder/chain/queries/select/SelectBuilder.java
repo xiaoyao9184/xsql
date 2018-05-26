@@ -1,19 +1,20 @@
 package com.xy.xsql.tsql.builder.chain.queries.select;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.TopBuilder;
-import com.xy.xsql.tsql.model.queries.Top;
-import com.xy.xsql.tsql.model.queries.select.Select;
 import com.xy.xsql.tsql.model.datatypes.table.Alias;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
+import com.xy.xsql.tsql.model.queries.Top;
+import com.xy.xsql.tsql.model.queries.select.Select;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * SelectBuilder
@@ -21,10 +22,10 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class SelectBuilder<ParentBuilder>
-        extends CodeTreeBuilder<SelectBuilder<ParentBuilder>,ParentBuilder,Select> {
+        extends ParentHoldBuilder<SelectBuilder<ParentBuilder>,ParentBuilder,Select> {
     
-    public SelectBuilder(Select selectList) {
-        super(selectList);
+    public SelectBuilder(Select target) {
+        super(target);
     }
 
     public SelectBuilder() {
@@ -65,9 +66,8 @@ public class SelectBuilder<ParentBuilder>
      */
     public TopBuilder<SelectBuilder<ParentBuilder>> withTop() {
         return new TopBuilder<SelectBuilder<ParentBuilder>>
-                (initSet(Top::new,
-                        target::getTop,
-                        target::setTop))
+                (object(target::getTop, target::setTop)
+                        .init(Top::new))
                 .in(this);
     }
 
@@ -77,9 +77,8 @@ public class SelectBuilder<ParentBuilder>
      */
     public SelectItemBuilder<SelectBuilder<ParentBuilder>> withSelectItem(){
         return new SelectItemBuilder<SelectBuilder<ParentBuilder>>
-                (initNew(Select.SelectItem::new,
-                        target::getSelectList,
-                        target::setSelectList))
+                (list(target::getSelectList, target::setSelectList)
+                        .addNew(Select.SelectItem::new))
                 .in(this);
     }
 
@@ -213,10 +212,14 @@ public class SelectBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class SelectListBuilder<ParentBuilder>
-            extends CodeTreeBuilder<SelectListBuilder<ParentBuilder>,ParentBuilder,List<Select.SelectItem>> {
+            extends ParentHoldBuilder<SelectListBuilder<ParentBuilder>,ParentBuilder,List<Select.SelectItem>> {
 
         public SelectListBuilder() {
             super(new ArrayList<>());
+        }
+
+        public SelectListBuilder(List<Select.SelectItem> target) {
+            super(target);
         }
 
         /**
@@ -225,8 +228,8 @@ public class SelectBuilder<ParentBuilder>
          */
         public SelectItemBuilder<SelectListBuilder<ParentBuilder>> withItem(){
             return new SelectItemBuilder<SelectListBuilder<ParentBuilder>>
-                    ()
-                    .enter(this, item -> this.target.add(item));
+                    (object(Select.SelectItem::new).set(target::add))
+                    .in(this);
         }
     }
 
@@ -235,14 +238,14 @@ public class SelectBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class SelectItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<SelectItemBuilder<ParentBuilder>,ParentBuilder,Select.SelectItem> {
+            extends ParentHoldBuilder<SelectItemBuilder<ParentBuilder>,ParentBuilder,Select.SelectItem> {
 
         public SelectItemBuilder() {
             super(new Select.SelectItem());
         }
 
-        public SelectItemBuilder(Select.SelectItem selectItem) {
-            super(selectItem);
+        public SelectItemBuilder(Select.SelectItem target) {
+            super(target);
         }
 
         /**

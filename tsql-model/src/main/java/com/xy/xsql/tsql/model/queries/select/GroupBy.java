@@ -205,7 +205,7 @@ public class GroupBy implements Clause {
      */
     public static class ColumnNameItem implements Item {
         private ColumnName columnName;
-        private boolean useWithDISTRIBUTED_AGG;
+        private boolean useWithDistributedAgg;
 
         public ColumnName getColumnName() {
             return columnName;
@@ -215,12 +215,12 @@ public class GroupBy implements Clause {
             this.columnName = columnName;
         }
 
-        public boolean isUseWithDISTRIBUTED_AGG() {
-            return useWithDISTRIBUTED_AGG;
+        public boolean isUseWithDistributedAgg() {
+            return useWithDistributedAgg;
         }
 
-        public void setUseWithDISTRIBUTED_AGG(boolean useWithDISTRIBUTED_AGG) {
-            this.useWithDISTRIBUTED_AGG = useWithDISTRIBUTED_AGG;
+        public void setUseWithDistributedAgg(boolean useWithDistributedAgg) {
+            this.useWithDistributedAgg = useWithDistributedAgg;
         }
     }
 

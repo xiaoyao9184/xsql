@@ -43,7 +43,7 @@ public class OverBuilderTest {
                     .withItems()
                         .withExpression(e("SalesYTD"))
                         .withDesc()
-                        .out()
+                        .and()
                     .and()
                 .build();
         // @formatter:on
@@ -122,7 +122,7 @@ public class OverBuilderTest {
                 .withOrderBy()
                     .withItems()
                         .withExpression(e("DATEPART(yy,ModifiedDate) "))
-                        .out()
+                        .and()
                     .and()
                 .build();
         // @formatter:on
@@ -178,7 +178,7 @@ public class OverBuilderTest {
                 .withOrderBy()
                     .withItems()
                         .withExpression(e("DATEPART(yy,ModifiedDate) "))
-                        .out()
+                        .and()
                     .and()
                 .withRowRange()
                     .withRows()

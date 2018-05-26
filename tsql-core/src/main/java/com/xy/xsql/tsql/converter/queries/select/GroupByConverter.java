@@ -185,7 +185,7 @@ public class GroupByConverter
                             .and()
                         .sub()
                             .description("with DISTRIBUTED_AGG")
-                            .optional(d -> !d.isUseWithDISTRIBUTED_AGG())
+                            .optional(d -> !d.isUseWithDistributedAgg())
                             .sub_keyword(Keywords.WITH)
                             .sub_keyword(Other.GROUP_START)
                             .sub_keyword(Keywords.Key.DISTRIBUTED_AGG)

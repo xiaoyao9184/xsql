@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.select;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.queries.select.Into;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
@@ -12,14 +12,14 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
  */
 @SuppressWarnings("WeakerAccess")
 public class IntoBuilder<ParentBuilder>
-        extends CodeTreeBuilder<IntoBuilder<ParentBuilder>,ParentBuilder,Into> {
+        extends ParentHoldBuilder<IntoBuilder<ParentBuilder>,ParentBuilder,Into> {
 
     public IntoBuilder() {
         super(new Into());
     }
 
-    public IntoBuilder(Into into) {
-        super(into);
+    public IntoBuilder(Into target) {
+        super(target);
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterTableOption;
 
 /**
@@ -9,7 +9,11 @@ import com.xy.xsql.tsql.model.statements.alter.table.AlterTableOption;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterTableOptionBuilder<ParentBuilder>
-        extends CodeTreeBuilder<AlterTableOptionBuilder<ParentBuilder>,ParentBuilder,AlterTableOption> {
+        extends ParentHoldBuilder<AlterTableOptionBuilder<ParentBuilder>,ParentBuilder,AlterTableOption> {
+
+    public AlterTableOptionBuilder() {
+        super(new AlterTableOption());
+    }
 
     public AlterTableOptionBuilder(AlterTableOption target) {
         super(target);

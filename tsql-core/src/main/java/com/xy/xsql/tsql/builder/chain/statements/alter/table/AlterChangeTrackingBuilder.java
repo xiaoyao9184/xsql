@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.statements.alter.table.AlterChangeTracking;
 
 /**
@@ -9,7 +9,11 @@ import com.xy.xsql.tsql.model.statements.alter.table.AlterChangeTracking;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class AlterChangeTrackingBuilder<ParentBuilder>
-        extends CodeTreeBuilder<AlterChangeTrackingBuilder<ParentBuilder>,ParentBuilder,AlterChangeTracking> {
+        extends ParentHoldBuilder<AlterChangeTrackingBuilder<ParentBuilder>,ParentBuilder,AlterChangeTracking> {
+
+    public AlterChangeTrackingBuilder() {
+        super(new AlterChangeTracking());
+    }
 
     public AlterChangeTrackingBuilder(AlterChangeTracking target) {
         super(target);

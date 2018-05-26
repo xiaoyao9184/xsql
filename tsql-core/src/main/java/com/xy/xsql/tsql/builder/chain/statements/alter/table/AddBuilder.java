@@ -1,7 +1,8 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnDefinitionBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ColumnSetDefinitionBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.column.ComputedColumnDefinitionBuilder;
@@ -21,7 +22,8 @@ import com.xy.xsql.tsql.model.statements.alter.table.Add;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * AddBuilder
@@ -29,7 +31,11 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
  */
 @SuppressWarnings({"WeakerAccess", "unused","TypeParameterHidesVisibleType"})
 public class AddBuilder<ParentBuilder>
-        extends CodeTreeBuilder<AddBuilder<ParentBuilder>,ParentBuilder,Add> {
+        extends ParentHoldBuilder<AddBuilder<ParentBuilder>,ParentBuilder,Add> {
+
+    public AddBuilder() {
+        super(new Add());
+    }
 
     public AddBuilder(Add target) {
         super(target);
@@ -209,11 +215,9 @@ public class AddBuilder<ParentBuilder>
      * @return AddItemBuilder
      */
     public AddItemBuilder<AddBuilder<ParentBuilder>> $(){
-        return new AddItemBuilder<AddBuilder<ParentBuilder>>
-                ((addItem) -> initAdd(addItem,
-                        target::getItems,
-                        target::setItems))
-                .in(this);
+        list(target::getItems, target::setItems).init();
+        return new AddItemBuilder<AddBuilder<ParentBuilder>>()
+                .enter(this, Getter.empty(), target.getItems()::add);
     }
 
     /**
@@ -315,22 +319,18 @@ public class AddBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public class AddItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<AddItemBuilder<ParentBuilder>,ParentBuilder,Setter<Add.AddItem>> {
+            extends ParentHoldLazyConfigBuilder<AddItemBuilder<ParentBuilder>,ParentBuilder,Add.AddItem> {
 
-        public AddItemBuilder(Setter<Add.AddItem> target) {
-            super(target);
-        }
+        public AddItemBuilder() {}
 
         /**
          * Confirm type of AddItem
          * @return ColumnDefinitionBuilder
          */
         public ColumnDefinitionBuilder<ParentBuilder> _ColumnDefinition(){
-            ColumnDefinition columnDefinition = new ColumnDefinition();
-            target.set(columnDefinition);
             return new ColumnDefinitionBuilder<ParentBuilder>
-                    (columnDefinition)
-                    .in(out());
+                    (object(ColumnDefinition::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -338,11 +338,9 @@ public class AddBuilder<ParentBuilder>
          * @return ComputedColumnDefinitionBuilder
          */
         public ComputedColumnDefinitionBuilder<ParentBuilder> _ComputedColumnDefinition(){
-            ComputedColumnDefinition computedColumnDefinition = new ComputedColumnDefinition();
-            target.set(computedColumnDefinition);
             return new ComputedColumnDefinitionBuilder<ParentBuilder>
-                    (computedColumnDefinition)
-                    .in(out());
+                    (object(ComputedColumnDefinition::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -350,11 +348,9 @@ public class AddBuilder<ParentBuilder>
          * @return ColumnSetDefinitionBuilder
          */
         public ColumnSetDefinitionBuilder<ParentBuilder> _ColumnSetDefinition(){
-            ColumnSetDefinition columnSetDefinition = new ColumnSetDefinition();
-            target.set(columnSetDefinition);
             return new ColumnSetDefinitionBuilder<ParentBuilder>
-                    (columnSetDefinition)
-                    .in(out());
+                    (object(ColumnSetDefinition::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -362,11 +358,9 @@ public class AddBuilder<ParentBuilder>
          * @return TableConstraintBuilder
          */
         public TableConstraintBuilder<ParentBuilder> _TableConstraint(){
-            TableConstraint tableConstraint = new TableConstraint();
-            target.set(tableConstraint);
             return new TableConstraintBuilder<ParentBuilder>
-                    (tableConstraint)
-                    .in(out());
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and());
         }
 
 
@@ -382,9 +376,9 @@ public class AddBuilder<ParentBuilder>
          * @return DiskItemColumnTransformBuilder
          */
         public ColumnTransformBuilder<ParentBuilder> $(ColumnName columnName){
-            return new ColumnTransformBuilder<ParentBuilder>
-                    (target)
-                    .in(this.out())
+            return new ColumnTransformBuilder<ParentBuilder>()
+                    //TODO this build cant set to Parent
+                    .enter(this.out(), Getter.empty(), this::build)
                     .withColumn(columnName);
         }
 
@@ -395,8 +389,8 @@ public class AddBuilder<ParentBuilder>
          */
         public TableConstraintBuilder<ParentBuilder> $Constraint(String constraintName){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .withConstraintName(constraintName);
         }
 
@@ -406,8 +400,8 @@ public class AddBuilder<ParentBuilder>
          */
         public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$PrimaryKey();
         }
 
@@ -417,8 +411,8 @@ public class AddBuilder<ParentBuilder>
          */
         public PrimaryUniques.TablePrimaryUniqueBuilder<ParentBuilder> $Unique(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$Unique();
         }
 
@@ -428,8 +422,8 @@ public class AddBuilder<ParentBuilder>
          */
         public Foreigns.TableForeignBuilder<ParentBuilder> $ForeignKey(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$ForeignKey();
         }
 
@@ -439,8 +433,8 @@ public class AddBuilder<ParentBuilder>
          */
         public CheckBuilder<ParentBuilder> $Check(){
             return new TableConstraintBuilder<ParentBuilder>
-                    ()
-                    .enter(this.out(),cd -> target.set(cd))
+                    (object(TableConstraint::new).set(this::init))
+                    .in(this.and())
                     .$Check();
         }
 
@@ -452,13 +446,11 @@ public class AddBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class ColumnTransformBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ColumnTransformBuilder<ParentBuilder>,ParentBuilder,Setter<Add.AddItem>> {
+            extends ParentHoldLazyConfigBuilder<ColumnTransformBuilder<ParentBuilder>,ParentBuilder,Add.AddItem> {
 
         private ColumnName columnName;
 
-        public ColumnTransformBuilder(Setter<Add.AddItem> addItemSetter) {
-            super(addItemSetter);
-        }
+        public ColumnTransformBuilder() {}
 
         /**
          * set
@@ -484,8 +476,8 @@ public class AddBuilder<ParentBuilder>
          */
         public ColumnDefinitionBuilder<ParentBuilder> $(DataType dataType){
             return new ColumnDefinitionBuilder<ParentBuilder>
-                    ()
-                    .in(this.out())
+                    (object(ColumnDefinition::new).set(this::init))
+                    .in(this.and())
                     .withColumnName(columnName)
                     .withDataType(dataType);
         }
@@ -497,8 +489,8 @@ public class AddBuilder<ParentBuilder>
          */
         public ComputedColumnDefinitionBuilder<ParentBuilder> $As(Expression computedColumnExpression){
             return new ComputedColumnDefinitionBuilder<ParentBuilder>
-                    ()
-                    .in(this.out())
+                    (object(ComputedColumnDefinition::new).set(this::init))
+                    .in(this.and())
                     .withColumnName(columnName)
                     .withComputedColumnExpression(computedColumnExpression);
         }
@@ -509,8 +501,8 @@ public class AddBuilder<ParentBuilder>
          */
         public ParentBuilder $XmlColumnSetForAllSparseColumns(){
             return new ColumnSetDefinitionBuilder<ParentBuilder>
-                    ()
-                    .in(this.out())
+                    (object(ColumnSetDefinition::new).set(this::init))
+                    .in(this.and())
                     .withColumnName(columnName)
                     .and();
         }

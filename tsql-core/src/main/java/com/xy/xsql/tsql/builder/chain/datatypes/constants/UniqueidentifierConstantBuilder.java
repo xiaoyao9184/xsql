@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.constants;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.UniqueidentifierConstant;
 
 import java.util.UUID;
@@ -14,8 +14,8 @@ public class UniqueidentifierConstantBuilder extends CodeBuilder<Uniqueidentifie
         super(new UniqueidentifierConstant());
     }
 
-    public UniqueidentifierConstantBuilder(UniqueidentifierConstant tar) {
-        super(tar);
+    public UniqueidentifierConstantBuilder(UniqueidentifierConstant target) {
+        super(target);
     }
 
     public UniqueidentifierConstantBuilder withUUID() {

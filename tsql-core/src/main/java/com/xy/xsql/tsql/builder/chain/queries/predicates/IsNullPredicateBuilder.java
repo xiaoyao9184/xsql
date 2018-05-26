@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.IsNull;
 
@@ -11,14 +11,14 @@ import com.xy.xsql.tsql.model.queries.predicates.IsNull;
  */
 @SuppressWarnings("WeakerAccess")
 public class IsNullPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<IsNullPredicateBuilder<ParentBuilder>,ParentBuilder,IsNull> {
+        extends ParentHoldBuilder<IsNullPredicateBuilder<ParentBuilder>,ParentBuilder,IsNull> {
 
     public IsNullPredicateBuilder() {
         super(new IsNull());
     }
 
-    public IsNullPredicateBuilder(IsNull predicate) {
-        super(predicate);
+    public IsNullPredicateBuilder(IsNull target) {
+        super(target);
     }
 
     /**

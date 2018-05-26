@@ -1,6 +1,5 @@
 package com.xy.xsql.core;
 
-
 import com.xy.xsql.core.builder.BaseBuilder;
 import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.core.lambda.Setter;
@@ -38,99 +37,12 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
 
 
     /**
-     * Init List if NULL
-     * @param getter
-     * @param setter
-     * @param <T>
+     * Call setter with each item
+     * @param t Collection
+     * @param setter Item Setter
+     * @param <T> T
      */
-    public static <T> void initList(final Getter<List<T>> getter, final Setter<List<T>> setter) {
-        if(getter.get() == null){
-            setter.set(new ArrayList<>());
-        }
-    }
-
-    /**
-     * Add New element to List
-     * @param supplier
-     * @param getter
-     * @param setter
-     * @param <T>
-     * @return
-     */
-    public static <T> T initNew(final Supplier<? extends T> supplier, final Getter<List<T>> getter, final Setter<List<T>> setter) {
-        if(getter.get() == null){
-            setter.set(new ArrayList<>());
-        }
-        T t = supplier.get();
-        getter.get().add(t);
-
-        return t;
-    }
-
-    public static <T,R extends T> R initNew2(final Supplier<R> supplier, final Getter<List<T>> getter, final Setter<List<T>> setter) {
-        if(getter.get() == null){
-            setter.set(new ArrayList<>());
-        }
-        R r = supplier.get();
-        getter.get().add(r);
-
-        return r;
-    }
-
-
-    /**
-     * Add element to List
-     * @param t
-     * @param getter
-     * @param setter
-     * @param <T>
-     * @return
-     */
-    public static <T> T initAdd(final T t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
-        if(getter.get() == null){
-            setter.set(new ArrayList<>());
-        }
-        if(t != null){
-            getter.get().add(t);
-        }
-
-        return t;
-    }
-
-    /**
-     * Add elements to List
-     * @param t
-     * @param getter
-     * @param setter
-     * @param <T>
-     * @return
-     */
-    public static <T> Collection<T> initAdd(final Collection<T> t, final Getter<List<T>> getter, final Setter<List<T>> setter) {
-        if(t == null) return null;
-        if(getter.get() == null){
-            setter.set(new ArrayList<>());
-        }
-        getter.get().addAll(t);
-
-        return t;
-    }
-
-    public static <T,R extends T> Collection<R> initAdd2(final Getter<List<T>> getter, final Setter<List<T>> setter, final Collection<R> t) {
-        if(t == null) return null;
-        if(getter.get() == null){
-            setter.set(new ArrayList<>());
-        }
-        getter.get().addAll(t);
-
-        return t;
-    }
-
-    /**
-     * Call setter with each element
-     * @param t
-     * @param setter
-     * @param <T>
-     */
+    @SuppressWarnings("unchecked")
     public static <T> void setter(final Collection<T> t, final Setter<T>... setter) {
         final int[] index = {0};
         t.forEach((a)->{
@@ -143,10 +55,11 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
 
     /**
      * Reverse Array to List
-     * @param t
-     * @param <T>
-     * @return
+     * @param t Item
+     * @param <T> T
+     * @return List
      */
+    @SuppressWarnings("unchecked")
     public static <T> List<T> reverse(T... t){
         Iterator<T> reversedStream = Stream
                 .of(t)
@@ -159,11 +72,23 @@ public class ListBuilder<ListType> implements BaseBuilder<Void,List<ListType>> {
                 Collectors.toList());
     }
 
+    /**
+     * Get last item
+     * @param list List
+     * @param <T> T
+     * @return Item
+     */
     public static <T> T getLastItem(List<T> list){
         int index = list.size() - 1;
         return list.get(index);
     }
 
+    /**
+     * Pop last item
+     * @param list List
+     * @param <T> T
+     * @return Item
+     */
     public static <T> T popLastItem(List<T> list){
         int index = list.size() - 1;
         T last = list.get(index);

@@ -1,11 +1,11 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 import com.xy.xsql.tsql.model.statements.alter.table.Set;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * SetBuilder
@@ -13,7 +13,11 @@ import static com.xy.xsql.core.FiledBuilder.initSet;
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class SetBuilder<ParentBuilder>
-        extends CodeTreeBuilder<SetBuilder<ParentBuilder>,ParentBuilder,Set> {
+        extends ParentHoldBuilder<SetBuilder<ParentBuilder>,ParentBuilder,Set> {
+
+    public SetBuilder() {
+        super(new Set());
+    }
 
     public SetBuilder(Set target) {
         super(target);
@@ -112,9 +116,8 @@ public class SetBuilder<ParentBuilder>
      */
     public PartitionBuilder<SetBuilder<ParentBuilder>> $FilestreamOn(){
         return new PartitionBuilder<SetBuilder<ParentBuilder>>
-                (initSet(Partition::new,
-                        target::getFileStreamOn,
-                        target::setFileStreamOn))
+                (object(target::getFileStreamOn, target::setFileStreamOn)
+                        .init(Partition::new))
                 .in(this);
     }
 

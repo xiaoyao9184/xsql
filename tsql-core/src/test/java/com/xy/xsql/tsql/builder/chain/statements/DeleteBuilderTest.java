@@ -123,7 +123,6 @@ public class DeleteBuilderTest {
     public void testExampleB2(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
-                .withFrom(true)
                 .withTableName(t("Production","ProductCostHistory"))
                 .withWhere()
                     .withPredicate()._Between()
@@ -141,7 +140,6 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        assertTrue(delete.isUseForm());
         assertEquals(delete.getTableName().toString(),"Production.ProductCostHistory");
         assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Between.class);
         assertEquals(delete.getWhere().getSearchCondition().getAndOrList().size(), 1);
@@ -329,7 +327,7 @@ public class DeleteBuilderTest {
       WHERE  sp.SalesYTD > 2500000.00
      */
     public Delete exampleD3 = $Delete()
-                .$From("spqh")
+                .$("spqh")
                 .$From()
                     .$()
                         .$(t("Sales","SalesPersonQuotaHistory"))
@@ -525,7 +523,6 @@ public class DeleteBuilderTest {
     public void testExampleF(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
-                .withFrom(true)
                 .withTableName(t("MyLinkServer","AdventureWorks2012","HumanResources","Department"))
                 .withWhere()
                     .withPredicate()._Comparison()
@@ -537,7 +534,6 @@ public class DeleteBuilderTest {
                 .build();
         // @formatter:on
 
-        assertTrue(delete.isUseForm());
         assertEquals(delete.getTableName().toString(),"MyLinkServer.AdventureWorks2012.HumanResources.Department");
         assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
@@ -634,7 +630,7 @@ public class DeleteBuilderTest {
         Delete delete = new DeleteBuilder()
                 .withTableName(t("Sales","ShoppingCartItem"))
                 .withOutput()
-                    .withDmlSelect()
+                    .withOutputDmlSelect()
                         .withColumnName()
                             .withDeleted()
                             .and()
@@ -651,7 +647,7 @@ public class DeleteBuilderTest {
         // @formatter:on
 
         assertEquals(delete.getTableName().toString(),"Sales.ShoppingCartItem");
-        assertEquals(delete.getOutput().getDmlSelectList().size(),1);
+        assertEquals(delete.getOutput().getOutputDmlSelectList().size(),1);
         assertEquals(delete.getWhere().getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 

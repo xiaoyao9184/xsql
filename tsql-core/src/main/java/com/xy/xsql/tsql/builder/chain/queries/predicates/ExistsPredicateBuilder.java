@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.queries.predicates.Exists;
 import com.xy.xsql.tsql.model.queries.Select;
 
@@ -11,14 +11,14 @@ import com.xy.xsql.tsql.model.queries.Select;
  */
 @SuppressWarnings("WeakerAccess")
 public class ExistsPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ExistsPredicateBuilder<ParentBuilder>,ParentBuilder,Exists> {
+        extends ParentHoldBuilder<ExistsPredicateBuilder<ParentBuilder>,ParentBuilder,Exists> {
 
     public ExistsPredicateBuilder() {
         super(new Exists());
     }
 
-    public ExistsPredicateBuilder(Exists predicate) {
-        super(predicate);
+    public ExistsPredicateBuilder(Exists target) {
+        super(target);
     }
 
     /**

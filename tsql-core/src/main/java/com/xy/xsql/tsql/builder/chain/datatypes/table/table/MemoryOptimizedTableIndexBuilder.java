@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
@@ -8,12 +8,10 @@ import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableIndex;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * MemoryOptimizedTableIndexBuilder
@@ -24,14 +22,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
-        extends CodeTreeBuilder<MemoryOptimizedTableIndexBuilder<ParentBuilder>,ParentBuilder,TableIndex> {
-
-    public MemoryOptimizedTableIndexBuilder(TableIndex tableIndex) {
-        super(tableIndex);
-    }
+        extends ParentHoldBuilder<MemoryOptimizedTableIndexBuilder<ParentBuilder>,ParentBuilder,TableIndex> {
 
     public MemoryOptimizedTableIndexBuilder() {
         super(new TableIndex());
+    }
+
+    public MemoryOptimizedTableIndexBuilder(TableIndex target) {
+        super(target);
     }
 
     /**
@@ -142,11 +140,8 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      * @return THIS
      */
     public MemoryOptimizedTableIndexBuilder $Hash(String... columns){
-        initAdd(Stream.of(columns)
-                        .map(PrimaryUnique.Column::new)
-                        .collect(Collectors.toList()),
-                target::getColumnNameList,
-                target::setColumnNameList);
+        list(target::getColumnNameList, target::setColumnNameList)
+                .addAll(Stream.of(columns).map(PrimaryUnique.Column::new));
         return withHash();
     }
 
@@ -156,11 +151,8 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      * @return THIS
      */
     public MemoryOptimizedTableIndexBuilder $(String... columns){
-        initAdd(Stream.of(columns)
-                        .map(PrimaryUnique.Column::new)
-                        .collect(Collectors.toList()),
-                target::getColumnNameList,
-                target::setColumnNameList);
+        list(target::getColumnNameList, target::setColumnNameList)
+                .addAll(Stream.of(columns).map(PrimaryUnique.Column::new));
         return this;
     }
 
@@ -170,9 +162,8 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      */
     public PrimaryUniques.PrimaryUniqueColumnBuilder<MemoryOptimizedTableIndexBuilder> $(String columnName){
         return new PrimaryUniques.PrimaryUniqueColumnBuilder<MemoryOptimizedTableIndexBuilder>
-                (initNew(PrimaryUnique.Column::new,
-                        target::getColumnNameList,
-                        target::setColumnNameList))
+                (list(target::getColumnNameList, target::setColumnNameList)
+                        .addNew(PrimaryUnique.Column::new))
                 .in(this)
                 .withName(columnName);
     }
@@ -202,9 +193,8 @@ public class MemoryOptimizedTableIndexBuilder<ParentBuilder>
      */
     public PartitionBuilder<MemoryOptimizedTableIndexBuilder<ParentBuilder>> $On(){
         return new PartitionBuilder<MemoryOptimizedTableIndexBuilder<ParentBuilder>>
-                (initSet(Partition::new,
-                        target::getPartition,
-                        target::setPartition))
+                (object(target::getPartition, target::setPartition)
+                        .init(Partition::new))
                 .in(this);
     }
 }

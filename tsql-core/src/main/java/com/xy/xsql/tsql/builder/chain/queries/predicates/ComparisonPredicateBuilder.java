@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.predicates.Comparison;
 
@@ -11,14 +11,14 @@ import com.xy.xsql.tsql.model.queries.predicates.Comparison;
  */
 @SuppressWarnings("Duplicates")
 public class ComparisonPredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ComparisonPredicateBuilder<ParentBuilder>,ParentBuilder,Comparison> {
+        extends ParentHoldBuilder<ComparisonPredicateBuilder<ParentBuilder>,ParentBuilder,Comparison> {
 
     public ComparisonPredicateBuilder() {
         super(new Comparison());
     }
 
-    public ComparisonPredicateBuilder(Comparison predicate) {
-        super(predicate);
+    public ComparisonPredicateBuilder(Comparison target) {
+        super(target);
     }
 
     private int index = 0;

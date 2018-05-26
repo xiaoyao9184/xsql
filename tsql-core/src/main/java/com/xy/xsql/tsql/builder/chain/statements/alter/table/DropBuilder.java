@@ -1,13 +1,15 @@
 package com.xy.xsql.tsql.builder.chain.statements.alter.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.core.lambda.Getter;
 import com.xy.xsql.tsql.model.statements.alter.table.Drop;
 import com.xy.xsql.tsql.model.statements.alter.table.DropClusteredConstraintOption;
 
 import java.util.*;
 
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * DropBuilder
@@ -15,7 +17,11 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
  */
 @SuppressWarnings({"WeakerAccess", "unused","TypeParameterHidesVisibleType"})
 public class DropBuilder<ParentBuilder>
-        extends CodeTreeBuilder<DropBuilder<ParentBuilder>,ParentBuilder,Drop> {
+        extends ParentHoldBuilder<DropBuilder<ParentBuilder>,ParentBuilder,Drop> {
+
+    public DropBuilder() {
+        super(new Drop());
+    }
 
     public DropBuilder(Drop target) {
         super(target);
@@ -53,11 +59,9 @@ public class DropBuilder<ParentBuilder>
      * @return DropItemBuilder
      */
     public DropItemBuilder<DropBuilder<ParentBuilder>> $(){
-        return new DropItemBuilder<DropBuilder<ParentBuilder>>
-                ((dropItem) -> initAdd(dropItem,
-                        target::getItems,
-                        target::setItems))
-                .in(this);
+        list(target::getItems, target::setItems).init();
+        return new DropItemBuilder<DropBuilder<ParentBuilder>>()
+                .enter(this, Getter.empty(), target.getItems()::add);
     }
 
 
@@ -66,22 +70,18 @@ public class DropBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public class DropItemBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DropItemBuilder<ParentBuilder>,ParentBuilder,Setter<Drop.DropItem>> {
+            extends ParentHoldLazyConfigBuilder<DropItemBuilder<ParentBuilder>,ParentBuilder,Drop.DropItem> {
 
-        public DropItemBuilder(Setter<Drop.DropItem> target) {
-            super(target);
-        }
+        public DropItemBuilder() {}
 
         /**
          * Confirm type of DropItem
          * @return DropConstraintBuilder
          */
         public DropConstraintBuilder<ParentBuilder> _DropConstraint(){
-            Drop.DropConstraint item = new Drop.DropConstraint();
-            target.set(item);
             return new DropConstraintBuilder<ParentBuilder>
-                    (item)
-                    .in(out());
+                    (object(Drop.DropConstraint::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -89,11 +89,9 @@ public class DropBuilder<ParentBuilder>
          * @return DropColumnBuilder
          */
         public DropColumnBuilder<ParentBuilder> _DropColumn(){
-            Drop.DropColumn item = new Drop.DropColumn();
-            target.set(item);
             return new DropColumnBuilder<ParentBuilder>
-                    (item)
-                    .in(out());
+                    (object(Drop.DropColumn::new).set(this::init))
+                    .in(this.and());
         }
 
         /**
@@ -102,8 +100,8 @@ public class DropBuilder<ParentBuilder>
          */
         public ParentBuilder _PeriodSystemTime(){
             Drop.PeriodSystemTime item = new Drop.PeriodSystemTime();
-            target.set(item);
-            return out();
+            this.init(item);
+            return this.and();
         }
 
 
@@ -145,10 +143,14 @@ public class DropBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class DropConstraintBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DropConstraintBuilder<ParentBuilder>,ParentBuilder,Drop.DropConstraint> {
+            extends ParentHoldBuilder<DropConstraintBuilder<ParentBuilder>,ParentBuilder,Drop.DropConstraint> {
 
-        public DropConstraintBuilder(Drop.DropConstraint tar) {
-            super(tar);
+        public DropConstraintBuilder() {
+            super(new Drop.DropConstraint());
+        }
+        
+        public DropConstraintBuilder(Drop.DropConstraint target) {
+            super(target);
         }
 
         /**
@@ -210,11 +212,12 @@ public class DropBuilder<ParentBuilder>
          * @return THIS
          */
         public ConstraintNameWithOptionOptionBuilder<DropConstraintBuilder<ParentBuilder>> $(String constraintName){
+            Map.Entry<String,List<DropClusteredConstraintOption>> kv =
+                    list(target::getConstraintNameWithOptionList, target::setConstraintNameWithOptionList)
+                    .add(new AbstractMap.SimpleEntry<>(null, null));
             return new ConstraintNameWithOptionOptionBuilder<DropConstraintBuilder<ParentBuilder>>
-                    (constraintName)
-                    .enter(this,r -> initAdd(r,
-                            target::getConstraintNameWithOptionList,
-                            target::setConstraintNameWithOptionList));
+                    (kv)
+                    .in(this);
         }
 
     }
@@ -225,14 +228,14 @@ public class DropBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class DropColumnBuilder<ParentBuilder>
-            extends CodeTreeBuilder<DropColumnBuilder<ParentBuilder>,ParentBuilder,Drop.DropColumn> {
-
-        public DropColumnBuilder(Drop.DropColumn tar) {
-            super(tar);
-        }
-
+            extends ParentHoldBuilder<DropColumnBuilder<ParentBuilder>,ParentBuilder,Drop.DropColumn> {
+        
         public DropColumnBuilder() {
             super(new Drop.DropColumn());
+        }
+        
+        public DropColumnBuilder(Drop.DropColumn target) {
+            super(target);
         }
 
         /**
@@ -296,10 +299,10 @@ public class DropBuilder<ParentBuilder>
      * @param <ParentBuilder>
      */
     public static class ConstraintNameWithOptionOptionBuilder<ParentBuilder>
-            extends CodeTreeBuilder<ConstraintNameWithOptionOptionBuilder<ParentBuilder>,ParentBuilder,Map.Entry<String,List<DropClusteredConstraintOption>>> {
+            extends ParentHoldBuilder<ConstraintNameWithOptionOptionBuilder<ParentBuilder>,ParentBuilder,Map.Entry<String,List<DropClusteredConstraintOption>>> {
 
-        public ConstraintNameWithOptionOptionBuilder(Map.Entry<String,List<DropClusteredConstraintOption>> tar) {
-            super(tar);
+        public ConstraintNameWithOptionOptionBuilder(Map.Entry<String,List<DropClusteredConstraintOption>> target) {
+            super(target);
         }
 
         public ConstraintNameWithOptionOptionBuilder(String constraintName) {
@@ -339,9 +342,8 @@ public class DropBuilder<ParentBuilder>
          */
         public DropClusteredConstraintOptionBuilder<ConstraintNameWithOptionOptionBuilder<ParentBuilder>> $With() {
             return new DropClusteredConstraintOptionBuilder<ConstraintNameWithOptionOptionBuilder<ParentBuilder>>
-                    (initAdd(new DropClusteredConstraintOption(),
-                            target::getValue,
-                            target::setValue))
+                    (list(target::getValue, target::setValue)
+                            .addNew(DropClusteredConstraintOption::new))
                     .in(this);
         }
 

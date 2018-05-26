@@ -1,13 +1,11 @@
 package com.xy.xsql.tsql.builder.chain.elements.expressions;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Coalesce;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.util.CheckUtil;
 
-import java.util.Arrays;
-
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
 
 /**
  * CoalesceBuilder
@@ -15,14 +13,14 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
  */
 @SuppressWarnings("unused")
 public class CoalesceBuilder<ParentBuilder>
-        extends CodeTreeBuilder<CoalesceBuilder<ParentBuilder>,ParentBuilder,Coalesce> {
+        extends ParentHoldBuilder<CoalesceBuilder<ParentBuilder>,ParentBuilder,Coalesce> {
 
     public CoalesceBuilder() {
         super(new Coalesce());
     }
 
-    public CoalesceBuilder(Coalesce tar) {
-        super(tar);
+    public CoalesceBuilder(Coalesce target) {
+        super(target);
     }
 
     /**
@@ -32,9 +30,8 @@ public class CoalesceBuilder<ParentBuilder>
      */
     @Deprecated
     public CoalesceBuilder<ParentBuilder> withExpression(Expression expression) {
-        initAdd(expression,
-                target::getExpressionList,
-                target::setExpressionList);
+        list(target::getExpressionList, target::setExpressionList)
+                .add(expression);
         return this;
     }
 
@@ -47,9 +44,8 @@ public class CoalesceBuilder<ParentBuilder>
         if(CheckUtil.isNullOrEmpty(expressions)){
             return this;
         }
-        initAdd(Arrays.asList(expressions),
-                target::getExpressionList,
-                target::setExpressionList);
+        list(target::getExpressionList, target::setExpressionList)
+                .addAll(expressions);
         return this;
     }
 

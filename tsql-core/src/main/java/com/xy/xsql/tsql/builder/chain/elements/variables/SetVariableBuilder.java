@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.elements.variables;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.operators.Compound;
 import com.xy.xsql.tsql.model.elements.variables.SetVariable;
@@ -11,16 +11,16 @@ import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_
  * SetVariableBuilder
  * Created by xiaoyao9184 on 2017/3/16.
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class SetVariableBuilder<ParentBuilder>
-        extends CodeTreeBuilder<SetVariableBuilder<ParentBuilder>,ParentBuilder,SetVariable> {
-
-
-    public SetVariableBuilder(SetVariable tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<SetVariableBuilder<ParentBuilder>,ParentBuilder,SetVariable> {
 
     public SetVariableBuilder() {
         super(new SetVariable());
+    }
+
+    public SetVariableBuilder(SetVariable target) {
+        super(target);
     }
 
     public SetVariableBuilder<ParentBuilder> withLocalVariable(String variable){

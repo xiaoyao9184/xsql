@@ -1,13 +1,14 @@
 package com.xy.xsql.tsql.builder.chain.queries.predicates;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
-import com.xy.xsql.core.lambda.Setter;
+import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
+import com.xy.xsql.tsql.builder.chain.elements.operators.Operators;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
-import com.xy.xsql.tsql.builder.chain.elements.operators.Operators;
-import com.xy.xsql.tsql.model.queries.predicates.*;
 import com.xy.xsql.tsql.model.queries.Select;
+import com.xy.xsql.tsql.model.queries.predicates.*;
+
+import static com.xy.xsql.core.handler.object.SupplierObjectHandler.object;
 
 /**
  * Abstract Predicate Builder
@@ -15,22 +16,18 @@ import com.xy.xsql.tsql.model.queries.Select;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class PredicateBuilder<ParentBuilder>
-        extends CodeTreeBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,Setter<Predicate>> {
+        extends ParentHoldLazyConfigBuilder<PredicateBuilder<ParentBuilder>,ParentBuilder,Predicate> {
 
-    public PredicateBuilder(Setter<Predicate> setter) {
-        super(setter);
-    }
+    public PredicateBuilder() {}
 
     /**
      * Confirm type of Predicate
      * @return ComparisonPredicateBuilder
      */
     public ComparisonPredicateBuilder<ParentBuilder> _Comparison(){
-        Comparison predicate = new Comparison();
-        target.set(predicate);
         return new ComparisonPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(Comparison::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -38,11 +35,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return LikePredicateBuilder
      */
     public LikePredicateBuilder<ParentBuilder> _Like(){
-        Like predicate = new Like();
-        target.set(predicate);
         return new LikePredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(Like::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -50,11 +45,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return BetweenPredicateBuilder
      */
     public BetweenPredicateBuilder<ParentBuilder> _Between(){
-        Between predicate = new Between();
-        target.set(predicate);
         return new BetweenPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(Between::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -62,11 +55,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return IsNullPredicateBuilder
      */
     public IsNullPredicateBuilder<ParentBuilder> _IsNull(){
-        IsNull predicate = new IsNull();
-        target.set(predicate);
         return new IsNullPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(IsNull::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -74,11 +65,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return ContainsPredicateBuilder
      */
     public ContainsPredicateBuilder<ParentBuilder> _Contains(){
-        Contains predicate = new Contains();
-        target.set(predicate);
         return new ContainsPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(Contains::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -86,11 +75,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return FreeTextPredicateBuilder
      */
     public FreeTextPredicateBuilder<ParentBuilder> _FreeText(){
-        FreeText predicate = new FreeText();
-        target.set(predicate);
         return new FreeTextPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(FreeText::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -98,11 +85,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return InPredicateBuilder
      */
     public InPredicateBuilder<ParentBuilder> _In(){
-        In predicate = new In();
-        target.set(predicate);
         return new InPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(In::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -110,11 +95,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return ComparisonSubQueryPredicateBuilder
      */
     public ComparisonSubQueryPredicateBuilder<ParentBuilder> _ComparisonSubQuery(){
-        ComparisonSubQuery predicate = new ComparisonSubQuery();
-        target.set(predicate);
         return new ComparisonSubQueryPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(ComparisonSubQuery::new).set(this::init))
+                .in(this.and());
     }
 
     /**
@@ -122,11 +105,9 @@ public class PredicateBuilder<ParentBuilder>
      * @return ExistsPredicateBuilder
      */
     public ExistsPredicateBuilder<ParentBuilder> _Exists(){
-        Exists predicate = new Exists();
-        target.set(predicate);
         return new ExistsPredicateBuilder<ParentBuilder>
-                (predicate)
-                .in(out());
+                (object(Exists::new).set(this::init))
+                .in(this.and());
     }
 
 

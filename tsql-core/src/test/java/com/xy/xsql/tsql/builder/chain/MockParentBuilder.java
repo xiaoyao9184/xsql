@@ -1,13 +1,13 @@
 package com.xy.xsql.tsql.builder.chain;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.holder.ParentHolder;
 
 import java.lang.reflect.Constructor;
 
 /**
  * Created by xiaoyao9184 on 2017/3/17.
  */
-public class MockParentBuilder<ChildBuilder extends CodeTreeBuilder,Child> {
+public class MockParentBuilder<ChildBuilder extends ParentHolder,Child> {
 
 
     private MockParent _this;
@@ -31,9 +31,9 @@ public class MockParentBuilder<ChildBuilder extends CodeTreeBuilder,Child> {
             Child child = childClass.newInstance();
             _this.setBuidData(child);
             Constructor constructor = childBuilderClass.getConstructor(childClass);
-            CodeTreeBuilder codeTreeBuilder = (ChildBuilder) constructor.newInstance(child);
-            codeTreeBuilder.in(this._this);
-            return (ChildBuilder) codeTreeBuilder;
+            ParentHolder parentHolder = (ChildBuilder) constructor.newInstance(child);
+            parentHolder.in(this._this);
+            return (ChildBuilder) parentHolder;
         } catch (Exception e) {
             e.printStackTrace();
         }

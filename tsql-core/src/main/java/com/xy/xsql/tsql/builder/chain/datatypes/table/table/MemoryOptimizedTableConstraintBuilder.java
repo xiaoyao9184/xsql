@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.table;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.CheckBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.Foreigns;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.constraint.PrimaryUniques;
@@ -11,7 +11,7 @@ import com.xy.xsql.tsql.model.datatypes.table.constraint.PrimaryUnique;
 import com.xy.xsql.tsql.model.datatypes.table.table.TableConstraint;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 
-import static com.xy.xsql.core.FiledBuilder.initSet2;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * MemoryOptimizedTableConstraintBuilder
@@ -22,14 +22,14 @@ import static com.xy.xsql.core.FiledBuilder.initSet2;
  */
 @SuppressWarnings("unused")
 public class MemoryOptimizedTableConstraintBuilder<ParentBuilder>
-        extends CodeTreeBuilder<MemoryOptimizedTableConstraintBuilder<ParentBuilder>,ParentBuilder,TableConstraint> {
-
-    public MemoryOptimizedTableConstraintBuilder(TableConstraint tar) {
-        super(tar);
-    }
+        extends ParentHoldBuilder<MemoryOptimizedTableConstraintBuilder<ParentBuilder>,ParentBuilder,TableConstraint> {
 
     public MemoryOptimizedTableConstraintBuilder() {
         super(new TableConstraint());
+    }
+
+    public MemoryOptimizedTableConstraintBuilder(TableConstraint target) {
+        super(target);
     }
 
     /**
@@ -74,10 +74,8 @@ public class MemoryOptimizedTableConstraintBuilder<ParentBuilder>
      */
     public PrimaryUniques.HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> $PrimaryKey(){
         return new PrimaryUniques.HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder>
-                (initSet2(
-                        PrimaryUnique::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(PrimaryUnique::new))
                 .in(this.and())
                 .withUsePrimaryKey(true);
     }
@@ -88,10 +86,8 @@ public class MemoryOptimizedTableConstraintBuilder<ParentBuilder>
      */
     public PrimaryUniques.HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder> $Unique(){
         return new PrimaryUniques.HashBucketCountTablePrimaryUniqueBuilder<ParentBuilder>
-                (initSet2(
-                        PrimaryUnique::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(PrimaryUnique::new))
                 .in(this.and())
                 .withUsePrimaryKey(false);
     }
@@ -102,10 +98,8 @@ public class MemoryOptimizedTableConstraintBuilder<ParentBuilder>
      */
     public Foreigns.ReferencesTableForeignBuilder<ParentBuilder> $ForeignKey(){
         return new Foreigns.ReferencesTableForeignBuilder<ParentBuilder>
-                (initSet2(
-                        Foreign::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(Foreign::new))
                 .in(this.and());
     }
 
@@ -116,10 +110,8 @@ public class MemoryOptimizedTableConstraintBuilder<ParentBuilder>
      */
     public ParentBuilder $Check(Expression logicalExpression){
         return new CheckBuilder<ParentBuilder>
-                (initSet2(
-                        Check::new,
-                        target::getConstraint,
-                        target::setConstraint))
+                (object(target::getConstraint, target::setConstraint)
+                        .init(Check::new))
                 .in(this.and())
                 .withLogicalExpression(logicalExpression)
                 .and();

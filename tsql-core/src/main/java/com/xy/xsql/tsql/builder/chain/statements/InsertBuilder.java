@@ -1,25 +1,24 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.OutputBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.TableValueConstructorBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.TopBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.WithBuilder;
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
+import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.queries.Output;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
 import com.xy.xsql.tsql.model.queries.Top;
 import com.xy.xsql.tsql.model.queries.With;
 import com.xy.xsql.tsql.model.queries.hints.TableHintLimited;
-import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
-import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.Insert;
 import com.xy.xsql.util.CheckUtil;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initAdd;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * InsertBuilder
@@ -28,8 +27,8 @@ import static com.xy.xsql.core.ListBuilder.initAdd;
 @SuppressWarnings("unused")
 public class InsertBuilder extends CodeBuilder<Insert> {
 
-    public InsertBuilder(Insert tar) {
-        super(tar);
+    public InsertBuilder(Insert target) {
+        super(target);
     }
 
     public InsertBuilder(){
@@ -52,9 +51,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      */
     public WithBuilder<InsertBuilder> withWith(){
         return new WithBuilder<InsertBuilder>
-                (initSet(With::new,
-                        target::getWith,
-                        target::setWith))
+                (object(target::getWith, target::setWith)
+                        .init(With::new))
                 .in(this);
     }
 
@@ -74,9 +72,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      */
     public TopBuilder<InsertBuilder> withTop(){
         return new TopBuilder<InsertBuilder>
-                (initSet(Top::new,
-                        target::getTop,
-                        target::setTop))
+                (object(target::getTop, target::setTop)
+                        .init(Top::new))
                 .in(this);
     }
 
@@ -115,9 +112,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      * @return THIS
      */
     public InsertBuilder withTableHint(TableHintLimited... tableHintLimiteds){
-        initAdd(Arrays.asList(tableHintLimiteds),
-                target::getTableHintLimitedList,
-                target::setTableHintLimitedList);
+        list(target::getTableHintLimitedList, target::setTableHintLimitedList)
+                .addAll(tableHintLimiteds);
         return this;
     }
 
@@ -127,9 +123,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      * @return THIS
      */
     public InsertBuilder withTableHint(List<TableHintLimited> tableHintLimiteds){
-        initAdd(tableHintLimiteds,
-                target::getTableHintLimitedList,
-                target::setTableHintLimitedList);
+        list(target::getTableHintLimitedList, target::setTableHintLimitedList)
+                .addAll(tableHintLimiteds);
         return this;
     }
 
@@ -142,9 +137,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
         }
-        initAdd(Arrays.asList(columnNames),
-                target::getColumns,
-                target::setColumns);
+        list(target::getColumns, target::setColumns)
+                .addAll(columnNames);
         return this;
     }
 
@@ -157,9 +151,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
         if(CheckUtil.isNullOrEmpty(columnNames)){
             return this;
         }
-        initAdd(columnNames,
-                target::getColumns,
-                target::setColumns);
+        list(target::getColumns, target::setColumns)
+                .addAll(columnNames);
         return this;
     }
 
@@ -179,9 +172,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      */
     public OutputBuilder<InsertBuilder> withOutput() {
         return new OutputBuilder<InsertBuilder>
-                (initSet(Output::new,
-                        target::getOutput,
-                        target::setOutput))
+                (object(target::getOutput, target::setOutput)
+                        .init(Output::new))
                 .in(this);
     }
 
@@ -201,9 +193,8 @@ public class InsertBuilder extends CodeBuilder<Insert> {
      */
     public TableValueConstructorBuilder<InsertBuilder> withValues(){
         return new TableValueConstructorBuilder<InsertBuilder>
-                (initSet(TableValueConstructor::new,
-                        target::getValues,
-                        target::setValues))
+                (object(target::getValues, target::setValues)
+                        .init(TableValueConstructor::new))
                 .in(this);
     }
 

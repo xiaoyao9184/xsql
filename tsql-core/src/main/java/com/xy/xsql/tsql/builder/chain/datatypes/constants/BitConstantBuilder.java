@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.constants;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.constants.BitConstant;
 
 /**
@@ -12,8 +12,8 @@ public class BitConstantBuilder extends CodeBuilder<BitConstant> {
         super(new BitConstant());
     }
 
-    public BitConstantBuilder(BitConstant tar) {
-        super(tar);
+    public BitConstantBuilder(BitConstant target) {
+        super(target);
     }
 
     public BitConstantBuilder withByte(boolean flag) {

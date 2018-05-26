@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.datatypes.table.column;
 
-import com.xy.xsql.core.builder.CodeTreeBuilder;
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.IndexOptionBuilder;
 import com.xy.xsql.tsql.builder.chain.datatypes.table.index.PartitionBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.column.ColumnIndex;
@@ -9,8 +9,8 @@ import com.xy.xsql.tsql.model.datatypes.table.index.Partition;
 
 import java.util.List;
 
-import static com.xy.xsql.core.FiledBuilder.initSet;
-import static com.xy.xsql.core.ListBuilder.initNew;
+import static com.xy.xsql.core.handler.list.ListHandler.list;
+import static com.xy.xsql.core.handler.object.GetterSetterObjectHandler.object;
 
 /**
  * ColumnIndexBuilder
@@ -21,14 +21,14 @@ import static com.xy.xsql.core.ListBuilder.initNew;
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class ColumnIndexBuilder<ParentBuilder>
-        extends CodeTreeBuilder<ColumnIndexBuilder<ParentBuilder>,ParentBuilder,ColumnIndex> {
-
-    public ColumnIndexBuilder(ColumnIndex columnIndex) {
-        super(columnIndex);
-    }
+        extends ParentHoldBuilder<ColumnIndexBuilder<ParentBuilder>,ParentBuilder,ColumnIndex> {
 
     public ColumnIndexBuilder() {
         super(new ColumnIndex());
+    }
+
+    public ColumnIndexBuilder(ColumnIndex target) {
+        super(target);
     }
 
     /**
@@ -120,10 +120,8 @@ public class ColumnIndexBuilder<ParentBuilder>
      */
     public IndexOptionBuilder<ColumnIndexBuilder<ParentBuilder>> $With(){
         return new IndexOptionBuilder<ColumnIndexBuilder<ParentBuilder>>
-                (initNew(
-                        IndexOption::new,
-                        target::getIndexOptionList,
-                        target::setIndexOptionList))
+                (list(target::getIndexOptionList, target::setIndexOptionList)
+                        .addNew(IndexOption::new))
                 .in(this);
     }
 
@@ -133,9 +131,8 @@ public class ColumnIndexBuilder<ParentBuilder>
      */
     public PartitionBuilder<ColumnIndexBuilder<ParentBuilder>> $On(){
         return new PartitionBuilder<ColumnIndexBuilder<ParentBuilder>>
-                (initSet(Partition::new,
-                        target::getPartition,
-                        target::setPartition))
+                (object(target::getPartition, target::setPartition)
+                        .init(Partition::new))
                 .in(this);
     }
 
@@ -145,9 +142,8 @@ public class ColumnIndexBuilder<ParentBuilder>
      */
     public PartitionBuilder<ColumnIndexBuilder<ParentBuilder>> $FilestreamOn(){
         return new PartitionBuilder<ColumnIndexBuilder<ParentBuilder>>
-                (initSet(Partition::new,
-                        target::getFileStreamPartition,
-                        target::setFileStreamPartition))
+                (object(target::getFileStreamPartition, target::setFileStreamPartition)
+                        .init(Partition::new))
                 .in(this);
     }
 
