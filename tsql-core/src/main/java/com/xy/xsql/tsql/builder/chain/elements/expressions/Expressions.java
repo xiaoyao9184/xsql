@@ -454,9 +454,9 @@ public interface Expressions {
 
     /*
     logical operator
-    $ALL,$AND,$ANY,$BETWEEN,EXISTS,IN,LIKE,NOT,OR,SOME
+    ALL,AND,ANY,BETWEEN,EXISTS,IN,LIKE,NOT,OR,SOME
     most of these are not binocular operators but special predicate,
-    like $BETWEEN,EXISTS,IN,LIKE;$ALL,$ANY,SOME.
+    like BETWEEN,EXISTS,IN,LIKE;ALL,ANY,SOME.
     and remain NOT
      */
 
@@ -479,7 +479,7 @@ public interface Expressions {
 //     * @return
 //     */
 //    static BinaryExpression e_all(Expression leftExpression, Expression rightExpression){
-//        return e_binary(leftExpression, Logical.$ALL, rightExpression);
+//        return e_binary(leftExpression, Logical.ALL, rightExpression);
 //    }
 //
 //    /**
@@ -499,7 +499,7 @@ public interface Expressions {
 //     * @return
 //     */
 //    static BinaryExpression e_any(Expression leftExpression, Expression rightExpression){
-//        return e_binary(leftExpression, Logical.$ANY, rightExpression);
+//        return e_binary(leftExpression, Logical.ANY, rightExpression);
 //    }
 
     //unary

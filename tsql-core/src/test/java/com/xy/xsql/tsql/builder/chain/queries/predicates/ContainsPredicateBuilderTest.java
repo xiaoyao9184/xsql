@@ -150,12 +150,12 @@ public class ContainsPredicateBuilderTest {
         // @formatter:off
         Contains contains = new ContainsPredicateBuilder<Void>()
                 .withColumnName("Description")
-                .withContainsSearchCondition("Aluminum $AND spindle")
+                .withContainsSearchCondition("Aluminum AND spindle")
                 .build();
         // @formatter:on
 
         assertEquals(contains.getColumnName().toString(),"Description");
-        assertEquals(contains.getContainsSearchCondition().getString(),"Aluminum $AND spindle");
+        assertEquals(contains.getContainsSearchCondition().getString(),"Aluminum AND spindle");
     }
 
     /**
@@ -169,15 +169,15 @@ public class ContainsPredicateBuilderTest {
         // @formatter:off
         Contains contains = new ContainsPredicateBuilder<Void>()
                 .withColumnName("Comments")
-                .withContainsSearchCondition(" AdventureWorks2008 $AND\n" +
-"     Redmond $AND\n" +
+                .withContainsSearchCondition(" AdventureWorks2008 AND\n" +
+"     Redmond AND\n" +
 "     \"Mountain-200 Silver\" ")
                 .build();
         // @formatter:on
 
         assertEquals(contains.getColumnName().toString(),"Comments");
-        assertEquals(contains.getContainsSearchCondition().getString()," AdventureWorks2008 $AND\n" +
-                "     Redmond $AND\n" +
+        assertEquals(contains.getContainsSearchCondition().getString()," AdventureWorks2008 AND\n" +
+                "     Redmond AND\n" +
                 "     \"Mountain-200 Silver\" ");
     }
 

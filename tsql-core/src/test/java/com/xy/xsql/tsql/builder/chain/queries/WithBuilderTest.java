@@ -319,7 +319,7 @@ public class WithBuilderTest {
      SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
      FROM dbo.MyEmployees
      WHERE ManagerID IS NULL
-     UNION $ALL
+     UNION ALL
      SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
      FROM dbo.MyEmployees AS e
      INNER JOIN DirectReports AS d
@@ -414,7 +414,7 @@ public class WithBuilderTest {
      SELECT ManagerID, EmployeeID, Title, 0 AS EmployeeLevel
      FROM dbo.MyEmployees
      WHERE ManagerID IS NULL
-     UNION $ALL
+     UNION ALL
      SELECT e.ManagerID, e.EmployeeID, e.Title, EmployeeLevel + 1
      FROM dbo.MyEmployees AS e
      INNER JOIN DirectReports AS d
@@ -517,7 +517,7 @@ public class WithBuilderTest {
      CONVERT(varchar(255), e.FirstName + ' ' + e.LastName)
      FROM dbo.MyEmployees AS e
      WHERE e.ManagerID IS NULL
-     UNION $ALL
+     UNION ALL
      SELECT CONVERT(varchar(255), REPLICATE ('|    ' , EmployeeLevel) +
      e.FirstName + ' ' + e.LastName),
      e.Title,
@@ -619,7 +619,7 @@ public class WithBuilderTest {
      SELECT EmployeeID, ManagerID, Title
      FROM dbo.MyEmployees
      WHERE ManagerID IS NOT NULL
-     UNION $ALL
+     UNION ALL
      SELECT cte.EmployeeID, cte.ManagerID, cte.Title
      FROM cte
      JOIN  dbo.MyEmployees AS e
@@ -723,7 +723,7 @@ public class WithBuilderTest {
      FROM Production.BillOfMaterials AS b
      WHERE b.ProductAssemblyID = 800
      $AND b.EndDate IS NULL
-     UNION $ALL
+     UNION ALL
      SELECT bom.ProductAssemblyID, bom.ComponentID, p.PerAssemblyQty,
      bom.EndDate, ComponentLevel + 1
      FROM Production.BillOfMaterials AS bom
@@ -845,12 +845,12 @@ public class WithBuilderTest {
      SELECT Father
      FROM dbo.Person
      WHERE Name = 'Bonnie'
-     UNION $ALL
+     UNION ALL
      -- First recursive member returns male ancestors of the previous generation.
      SELECT Person.Father
      FROM Generation, Person
      WHERE Generation.ID=Person.ID
-     UNION $ALL
+     UNION ALL
      -- Second recursive member returns female ancestors of the previous generation.
      SELECT Person.Mother
      FROM Generation, dbo.Person
@@ -964,7 +964,7 @@ public class WithBuilderTest {
      SELECT itmIDComp, itmID
      FROM @t1
 
-     UNION $ALL
+     UNION ALL
 
      SELECT itmIDComp, itmID
      FROM @t2
@@ -975,9 +975,9 @@ public class WithBuilderTest {
      , NULL AS itmID
      ,CAST(0 AS bigint) AS N
      ,1 AS Lvl
-     FROM (SELECT 1 UNION $ALL SELECT 2 UNION $ALL SELECT 3 UNION $ALL SELECT 4) AS t (itmID)
+     FROM (SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) AS t (itmID)
 
-     UNION $ALL
+     UNION ALL
 
      SELECT t.itmIDComp
      , t.itmID

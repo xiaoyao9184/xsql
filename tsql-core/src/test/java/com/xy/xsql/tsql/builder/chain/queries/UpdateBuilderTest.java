@@ -363,7 +363,7 @@ public class UpdateBuilderTest {
         FROM Production.BillOfMaterials AS b
         WHERE b.ProductAssemblyID = 800
               $AND b.EndDate IS NULL
-        UNION $ALL
+        UNION ALL
         SELECT bom.ProductAssemblyID, bom.ComponentID, p.PerAssemblyQty,
             bom.EndDate, ComponentLevel + 1
         FROM Production.BillOfMaterials AS bom

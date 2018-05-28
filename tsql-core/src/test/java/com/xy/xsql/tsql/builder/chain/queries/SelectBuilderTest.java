@@ -46,7 +46,7 @@ public class SelectBuilderTest {
     }
 
     /**
-     * SELECT $ALL * FROM table
+     * SELECT ALL * FROM table
      */
     @Test
     public void testAllBuild(){
@@ -652,7 +652,7 @@ public class SelectBuilderTest {
      * SELECT p1.ProductModelID
      FROM Production.Product AS p1
      GROUP BY p1.ProductModelID
-     HAVING MAX(p1.ListPrice) >= $ALL
+     HAVING MAX(p1.ListPrice) >= ALL
          (SELECT AVG(p2.ListPrice)
          FROM Production.Product AS p2
          WHERE p1.ProductModelID = p2.ProductModelID)
@@ -1588,10 +1588,10 @@ public class SelectBuilderTest {
     /**
      * SELECT LastName, FirstName, JobTitle
     FROM dbo.EmployeeOne
-    UNION $ALL
+    UNION ALL
     SELECT LastName, FirstName ,JobTitle
     FROM dbo.EmployeeTwo
-    UNION $ALL
+    UNION ALL
     SELECT LastName, FirstName,JobTitle
     FROM dbo.EmployeeThree
      */
@@ -1672,7 +1672,7 @@ public class SelectBuilderTest {
     /**
      * SELECT LastName, FirstName,JobTitle
     FROM dbo.EmployeeOne
-    UNION $ALL
+    UNION ALL
     (
     SELECT LastName, FirstName, JobTitle
     FROM dbo.EmployeeTwo

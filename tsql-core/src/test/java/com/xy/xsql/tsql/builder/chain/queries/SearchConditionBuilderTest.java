@@ -74,7 +74,7 @@ public class SearchConditionBuilderTest {
     // @formatter:on
 
     /**
-     * WHERE CountryRegionCode == $ALL ( subquery ) ;
+     * WHERE CountryRegionCode == ALL ( subquery ) ;
      */
     @Test
     public void testALLSOMEANY(){
@@ -95,7 +95,7 @@ public class SearchConditionBuilderTest {
     }
 
     /**
-     * WHERE CountryRegionCode == $ALL ( subquery ) $AND CountryRegionCode = 20;
+     * WHERE CountryRegionCode == ALL ( subquery ) $AND CountryRegionCode = 20;
      */
     @Test
     public void testAnd(){
@@ -125,7 +125,7 @@ public class SearchConditionBuilderTest {
     }
 
     /**
-     * WHERE CountryRegionCode == $ALL ( subquery ) $AND NOT ( CountryRegionCode > 20 $AND CountryRegionCode < 50);
+     * WHERE CountryRegionCode == ALL ( subquery ) AND NOT ( CountryRegionCode > 20 AND CountryRegionCode < 50);
      */
     @Test
     public void testAndAnd(){
