@@ -11,5 +11,6 @@ include 'entity-spring'
 include 'entity-test'
 include 'dialect-mssql'
 
+include 'tsql-style-constructor'
 include 'benjiql-over-tsql'
 include 'hsweb-ezorm-over-tsql'
