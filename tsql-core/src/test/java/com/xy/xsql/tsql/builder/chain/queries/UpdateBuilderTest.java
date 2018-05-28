@@ -740,7 +740,7 @@ public class UpdateBuilderTest {
                 .withTableName(t("Production","Location"))
                 .withSetItem()._ColumnAssignment()
                     .withColumnName(c("CostRate"))
-                    .withExpression(e_default())
+                    .withUseDefault(true)
                     .and()
                 .withWhere()
                     .withSearchCondition()
@@ -760,7 +760,7 @@ public class UpdateBuilderTest {
         assertEquals(update.getSets().get(0).getClass(), Update.ColumnAssignmentSet.class);
         Update.ColumnAssignmentSet setItem = (Update.ColumnAssignmentSet) update.getSets().get(0);
         assertEquals(setItem.getColumnName().toString(), "CostRate");
-        assertEquals(setItem.getExpression().toString(), "DEFAULT");
+        assertTrue(setItem.isUseDefault());
 
         assertNotNull(update.getWhere());
     }
@@ -870,7 +870,7 @@ public class UpdateBuilderTest {
         Update update = new UpdateBuilder()
                 .withTableName(t("sr"))
                 .withSetItem()._ColumnCompound()
-                    .withColumnName(c("sr","CountryRegionName"))
+                    .withColumnName(c("sr","Name"))
                     .withCompound(Compound.ADD_ASSIGNMENT)
                     .withExpression(e_string(" - tool malfunction"))
                     .and()
@@ -910,7 +910,7 @@ public class UpdateBuilderTest {
 
         assertEquals(update.getSets().get(0).getClass(), Update.ColumnCompoundSet.class);
         Update.ColumnCompoundSet setItem = (Update.ColumnCompoundSet) update.getSets().get(0);
-        assertEquals(setItem.getColumnName().toString(), "sr.CountryRegionName");
+        assertEquals(setItem.getColumnName().toString(), "sr.Name");
         assertTrue(setItem.getExpression() instanceof StringConstant);
         assertEquals(((StringConstant)setItem.getExpression()).getString(), " - tool malfunction");
 

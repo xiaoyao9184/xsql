@@ -1,4 +1,4 @@
-package com.xy.xsql.block.tsql.core.statement.dml;
+package com.xy.xsql.tsql.converter.queries;
 
 import com.xy.xsql.block.core.converter.ModelKeywordBlockConverter;
 import com.xy.xsql.block.core.printer.MetaBlockPrinter;

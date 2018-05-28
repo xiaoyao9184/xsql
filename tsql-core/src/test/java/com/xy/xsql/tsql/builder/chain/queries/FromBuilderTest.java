@@ -11,12 +11,14 @@ import org.junit.Test;
 
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_equals;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
 import static com.xy.xsql.tsql.builder.chain.queries.Queries.$SubQuery;
 import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Holdlock;
 import static com.xy.xsql.tsql.builder.chain.queries.hints.TableHintBuilder.$Tablock;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_equal;
+import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_greater;
 import static org.junit.Assert.*;
 
 /**
@@ -1095,12 +1097,23 @@ public class FromBuilderTest {
 
     // @formatter:off
     /**
-     * FROM DimSalesTerritory
+     * FROM FactInternetSales AS fis
+    INNER JOIN DimProduct AS dp
+    ON dp.ProductKey = fis.ProductKey;
      */
     public From exampleN = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
                 (FromBuilder.class,From.class)
                 .$child()
-                    .$(t("DimSalesTerritory"))
+                    .$()
+                        .$(t("FactInternetSales")).$As("fis")
+                        .$InnerJoin()
+                        .$(t("DimProduct")).$As("dp")
+                        .$On()
+                            .$(p_equal(
+                                    c("dp","ProductKey"),
+                                    c("fis","ProductKey")
+                            )).and()
+                        .and()
                     .and()
                 .get();
     // @formatter:on
@@ -1109,18 +1122,48 @@ public class FromBuilderTest {
     public void testExampleN(){
         // @formatter:off
         From from = new FromBuilder<From>()
-                .withItem()._BaseTime()
-                    .withTableName(t("DimSalesTerritory"))
+                .withItem()._Joined()
+                    .withTableSource()._Base()
+                        .withTableName(t("FactInternetSales"))
+                        .withAs()
+                        .withTableAlias("fis")
+                        .and()
+                    .withJoinType(From.JoinTypeKeywords.INNER_JOIN)
+                    .withTableSource2()._Base()
+                        .withTableName(t("DimProduct"))
+                        .withAs()
+                        .withTableAlias("dp")
+                        .and()
+                    .withSearchCondition()
+                        .withPredicate(p_equal(
+                                    c("dp","ProductKey"),
+                                    c("fis","ProductKey")
+                            ))
+                        .and()
                     .and()
                 .build();
         // @formatter:on
 
-        assertEquals(from.getTableSourceList().size(),1);
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
+        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
 
-        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseWithTimeTable.class);
-        From.BaseWithTimeTable tableSource = (From.BaseWithTimeTable) from.getTableSourceList().get(0);
-        assertEquals(tableSource.getTableName().toString(),"DimSalesTerritory");
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
 
+        assertEquals(tableSource1.getTableName().getFullName(), "FactInternetSales");
+        assertTrue(tableSource1.isUseAs());
+        assertEquals(tableSource1.getTableAlias().toString(),"fis");
+
+        assertEquals(tableSource.getJoinType().getKeywords(),From.JoinTypeKeywords.INNER_JOIN);
+
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
+
+        assertEquals(tableSource2.getTableName().getFullName(), "DimProduct");
+        assertTrue(tableSource2.isUseAs());
+        assertEquals(tableSource2.getTableAlias().toString(),"dp");
+
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(), Comparison.class);
     }
 
     // @formatter:off
@@ -1269,8 +1312,351 @@ public class FromBuilderTest {
     }
 
 
-    //TODO NOPQRSTUV
+
+    // @formatter:off
+    /**
+     * FROM DimSalesTerritory AS dst
+    CROSS JOIN FactInternetSales AS fis
+     */
+    public From exampleQ = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("DimSalesTerritory")).$As("dst")
+                        .$Cross_Join()
+                        .$(t("FactInternetSales")).$As("fis")
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleQ(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Joined()
+                    .withTableSource()._Base()
+                        .withTableName(t("DimSalesTerritory"))
+                        .withAs()
+                        .withTableAlias("dst")
+                        .and()
+                    .withCrossJoin()
+                    .withTableSource2()._Base()
+                        .withTableName(t("FactInternetSales"))
+                        .withAs()
+                        .withTableAlias("fis")
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        assertEquals(from.getTableSourceList().size(),1);
+
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
+        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
+
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
+
+        assertEquals(tableSource1.getTableName().toString(),"DimSalesTerritory");
+        assertEquals(tableSource1.getTableAlias().toString(),"dst");
+
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
+
+        assertEquals(tableSource2.getTableName().toString(),"FactInternetSales");
+        assertEquals(tableSource2.getTableAlias().toString(),"fis");
+    }
 
 
+    // @formatter:off
+    private Select selectR = new SelectBuilder()
+                .$Select()
+                    .$()
+                    .$From()
+                        .$(t("DimCustomer"))
+                        .and()
+                    .$Where()
+                        .$(p_greater(
+                                c("BirthDate"),
+                                e_string("01/01/1970")))
+                        .and()
+                    .and()
+                .build();
+
+    /**
+     * FROM
+   (SELECT * FROM DimCustomer
+    WHERE BirthDate > '01/01/1970') AS DimCustomerDerivedTable
+     */
+    public From exampleR = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(selectR,"DimCustomerDerivedTable")
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleR(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Derived()
+                    .withSubQuery(selectR)
+                    .withAs()
+                    .withTableAlias("DimCustomerDerivedTable")
+                    .and()
+                .build();
+        // @formatter:on
+
+        assertEquals(from.getTableSourceList().size(),1);
+
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.DerivedTable.class);
+        From.DerivedTable tableSource = (From.DerivedTable) from.getTableSourceList().get(0);
+
+        assertEquals(tableSource.getSubQuery(), selectR);
+        assertEquals(tableSource.getTableAlias().toString(),"DimCustomerDerivedTable");
+    }
+
+
+    // @formatter:off
+    private Select selectS = new SelectBuilder()
+                .$Select()
+                    .$(c("fis","SalesOrderNumber"))
+                    .$(c("dp","ProductKey"))
+                    .$(c("dp","EnglishProductName"))
+                    .$From()
+                        .$()
+                            .$(t("DimCustomer"),"dp")
+                            .$InnerReduceJoin()
+                            .$(t("FactInternetSales"),"fis")
+                            .$On()
+                                .$(e_equals(
+                                        c("dp","ProductKey"),
+                                        c("fis","ProductKey")
+                                ))
+                                    .and()
+                                .and()
+                            .and()
+                        .and()
+                    .and()
+                .build();
+
+    /**
+     * FROM
+     (SELECT fis.SalesOrderNumber, dp.ProductKey, dp.EnglishProductName
+     FROM DimProduct AS dp
+     INNER REDUCE JOIN FactInternetSales AS fis
+     ON dp.ProductKey = fis.ProductKey
+     ) AS dTable
+     */
+    public From exampleS = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(selectS,"dTable")
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleS(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Derived()
+                    .withSubQuery(selectR)
+                    .withAs()
+                    .withTableAlias("dTable")
+                    .and()
+                .build();
+        // @formatter:on
+
+        assertEquals(from.getTableSourceList().size(),1);
+
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.DerivedTable.class);
+        From.DerivedTable tableSource = (From.DerivedTable) from.getTableSourceList().get(0);
+
+        assertEquals(tableSource.getSubQuery(), selectR);
+        assertEquals(tableSource.getTableAlias().toString(),"dTable");
+    }
+
+
+    // @formatter:off
+    private Select selectT = new SelectBuilder()
+                .$Select()
+                    .$(c("fis","SalesOrderNumber"))
+                    .$(c("dp","ProductKey"))
+                    .$(c("dp","EnglishProductName"))
+                    .$From()
+                        .$()
+                            .$(t("DimCustomer"),"dp")
+                            .$InnerRedistributeJoin()
+                            .$(t("FactInternetSales"),"fis")
+                            .$On()
+                                .$(e_equals(
+                                        c("dp","ProductKey"),
+                                        c("fis","ProductKey")
+                                ))
+                                    .and()
+                                .and()
+                            .and()
+                        .and()
+                    .and()
+                .build();
+
+    /**
+     * FROM
+     (SELECT fis.SalesOrderNumber, dp.ProductKey, dp.EnglishProductName
+     FROM DimProduct AS dp
+     INNER REDUCE JOIN FactInternetSales AS fis
+     ON dp.ProductKey = fis.ProductKey
+     ) AS dTable
+     */
+    public From exampleT = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(selectS,"dTable")
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleT(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Derived()
+                    .withSubQuery(selectT)
+                    .withAs()
+                    .withTableAlias("dTable")
+                    .and()
+                .build();
+        // @formatter:on
+
+        assertEquals(from.getTableSourceList().size(),1);
+
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.DerivedTable.class);
+        From.DerivedTable tableSource = (From.DerivedTable) from.getTableSourceList().get(0);
+
+        assertEquals(tableSource.getSubQuery(), selectT);
+        assertEquals(tableSource.getTableAlias().toString(),"dTable");
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM DimProduct AS dp
+    INNER REDISTRIBUTE JOIN FactInternetSales AS fis
+    ON dp.ProductKey = fis.ProductKey;
+     */
+    public From exampleU = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$()
+                        .$(t("DimProduct")).$As("dp")
+                        .$InnerRedistributeJoin()
+                        .$(t("FactInternetSales")).$As("fis")
+                        .$On()
+                            .$(p_equal(
+                                    c("dp","ProductKey"),
+                                    c("fis","ProductKey")
+                            )).and()
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleU(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Joined()
+                    .withTableSource()._Base()
+                        .withTableName(t("DimProduct"))
+                        .withAs()
+                        .withTableAlias("dp")
+                        .and()
+                    .withJoinType(From.JoinTypeKeywords.INNER_REDISTRIBUTE_JOIN)
+                    .withTableSource2()._Base()
+                        .withTableName(t("FactInternetSales"))
+                        .withAs()
+                        .withTableAlias("fis")
+                        .and()
+                    .withSearchCondition()
+                        .withPredicate()._Comparison()
+                            .withExpression(c("dp","ProductKey"))
+                            .withOperator(com.xy.xsql.tsql.model.elements.operators.Comparison.EQUAL)
+                            .withExpression(c("fis","ProductKey"))
+                            .and()
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        assertEquals(from.getTableSourceList().size(),1);
+
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.JoinedTable.class);
+        From.JoinedTable tableSource = (From.JoinedTable) from.getTableSourceList().get(0);
+
+        assertEquals(tableSource.getTableSource().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource1 = (From.BaseTable) tableSource.getTableSource();
+
+        assertEquals(tableSource1.getTableName().getFullName(), "DimProduct");
+        assertTrue(tableSource1.isUseAs());
+        assertEquals(tableSource1.getTableAlias().toString(),"dp");
+
+        assertEquals(tableSource.getJoinType().getKeywords(),From.JoinTypeKeywords.INNER_REDISTRIBUTE_JOIN);
+
+        assertEquals(tableSource.getTableSource2().getClass(),From.BaseTable.class);
+        From.BaseTable tableSource2 = (From.BaseTable) tableSource.getTableSource2();
+
+        assertEquals(tableSource2.getTableName().getFullName(), "FactInternetSales");
+        assertTrue(tableSource2.isUseAs());
+        assertEquals(tableSource2.getTableAlias().toString(),"fis");
+
+        assertEquals(tableSource.getSearchCondition().getPredicate().getClass(), Comparison.class);
+    }
+
+
+    // @formatter:off
+    /**
+     * FROM Sales.Customer TABLESAMPLE SYSTEM (10 PERCENT)
+     */
+    public From exampleV = new MockParentBuilder<FromBuilder<MockParent<From>>,From>
+                (FromBuilder.class,From.class)
+                .$child()
+                    .$(t("Sales","Customer"),"")
+                        .$TableSample(true,10,true,false,0)
+                        .and()
+                    .and()
+                .get();
+    // @formatter:on
+
+    @Test
+    public void testExampleV(){
+        // @formatter:off
+        From from = new FromBuilder<From>()
+                .withItem()._Base()
+                    .withTableName(t("Sales","Customer"))
+                    .withTableSample()
+                        .withSystem()
+                        .withSampleNumber(10)
+                        .withPercent()
+                        .and()
+                    .and()
+                .build();
+        // @formatter:on
+
+        assertEquals(from.getTableSourceList().size(),1);
+
+        assertEquals(from.getTableSourceList().get(0).getClass(),From.BaseTable.class);
+        From.BaseTable tableSource = (From.BaseTable) from.getTableSourceList().get(0);
+
+        assertEquals(tableSource.getTableName().getFullName(),"Sales.Customer");
+        assertTrue(tableSource.getTableSample().isUseSystem());
+        assertEquals(tableSource.getTableSample().getSampleNumber().getNumber(),10);
+        assertTrue(tableSource.getTableSample().isUsePercent());
+    }
 
 }

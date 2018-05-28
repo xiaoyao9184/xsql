@@ -168,20 +168,16 @@ public class DeleteBuilderTest {
     public void testExampleC(){
         // @formatter:off
         Delete delete = new DeleteBuilder()
-                .withFrom()
-                    .withItem()._Base()
-                        .withTableName(t("HumanResources","EmployeePayHistory"))
-                        .and()
-                    .and()
+                .withFrom(true)
+                .withTableName(t("HumanResources","EmployeePayHistory"))
                 .withWhere()
                     //TODO support CURRENT OF
                     .and()
                 .build();
         // @formatter:on
 
-        assertEquals(delete.getFrom().getTableSourceList().size(),1);
-        From.BaseTable baseTable = (From.BaseTable) delete.getFrom().getTableSourceList().get(0);
-        assertEquals(baseTable.getTableName().toString(),"HumanResources.EmployeePayHistory");
+        assertTrue(delete.isUseForm());
+        assertEquals(delete.getTableName().getFullName(),"HumanResources.EmployeePayHistory");
     }
 
 

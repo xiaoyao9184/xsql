@@ -212,7 +212,7 @@ public class MergeBuilder extends CodeBuilder<Merge> {
      * @return THIS
      */
     public MergeBuilder withWhenMatchedThen(List<Merge.MatchedWhenThen> whenMatchedThens) {
-        list(target::getNotMatchedWhenThenSourceList, target::setNotMatchedWhenThenSourceList)
+        list(target::getMatchedWhenThenList, target::setMatchedWhenThenList)
                 .addAll(whenMatchedThens);
         return this;
     }

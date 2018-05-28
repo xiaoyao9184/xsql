@@ -333,7 +333,7 @@ public class OrderByBuilder<ParentBuilder>
         public OffsetFetchBuilder<ParentBuilder> withFetch(OrderBy.OffsetFetch fetch) {
             target.setUseFetch(true);
             target.setUseFetchFirst(fetch.isUseFetchFirst());
-            target.setFetchIntegerConstant(fetch.getIntegerConstant());
+            target.setFetchIntegerConstant(fetch.getFetchIntegerConstant());
             target.setFetchOffsetRowCountExpression(fetch.getFetchOffsetRowCountExpression());
             target.setUseFetchRows(fetch.isUseFetchRows());
             return this;

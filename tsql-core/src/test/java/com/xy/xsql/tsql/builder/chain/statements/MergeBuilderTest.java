@@ -2,6 +2,7 @@ package com.xy.xsql.tsql.builder.chain.statements;
 
 import com.xy.xsql.tsql.model.elements.operators.Comparison;
 import com.xy.xsql.tsql.model.queries.TableValueConstructor;
+import com.xy.xsql.tsql.model.queries.Update;
 import com.xy.xsql.tsql.model.statements.Merge;
 import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Test;
@@ -189,7 +190,16 @@ public class MergeBuilderTest {
         assertEquals(exampleA.getTargetTable().toString(),"Production.UnitMeasure");
         assertEquals(exampleA.getTableAlias().toString(),"target");
         assertEquals(exampleA.getMatchedWhenThenList().size(),1);
+
+        assertEquals(exampleA.getMatchedWhenThenList().get(0).getMergeMatched().getSets().size(),1);
+        assertTrue(exampleA.getMatchedWhenThenList().get(0).getMergeMatched().isUseSet());
+        Update.SetItem setItem = exampleA.getMatchedWhenThenList().get(0).getMergeMatched().getSets().get(0);
+        assertEquals(setItem.getClass(),Update.ColumnAssignmentSet.class);
+
         assertNotNull(exampleA.getNotMatchedWhenThenTarget());
+        assertEquals(exampleA.getNotMatchedWhenThenTarget().getMergeNotMatched().getColumns().size(),2);
+        assertEquals(exampleA.getNotMatchedWhenThenTarget().getMergeNotMatched().getValues().getRowValueExpressionListGroup().size(),1);
+        assertEquals(exampleA.getNotMatchedWhenThenTarget().getMergeNotMatched().getValues().getRowValueExpressionListGroup().get(0).size(),2);
     }
 
 

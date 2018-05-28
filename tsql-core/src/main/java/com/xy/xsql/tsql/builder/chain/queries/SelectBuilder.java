@@ -1,8 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
-import com.xy.xsql.core.builder.CodeBuilder;
+import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
-import com.xy.xsql.core.builder.parent.ParentHoldLazyConfigBuilder;
 import com.xy.xsql.tsql.builder.chain.queries.select.*;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;

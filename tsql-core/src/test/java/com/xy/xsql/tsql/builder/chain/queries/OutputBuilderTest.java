@@ -188,26 +188,26 @@ public class OutputBuilderTest {
     public void testExampleC(){
         // @formatter:off
         Output output = new OutputBuilder<Output>()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("BusinessEntityID"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_deleted("VacationHours"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("VacationHours"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("ModifiedDate"))
                     .and()
                 .build();
         // @formatter:on
 
-        assertEquals(output.getDmlSelectList().size(),4);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().size(),4);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(3).getColumnName().isUseInserted(),true);
 
     }
 
@@ -239,38 +239,38 @@ public class OutputBuilderTest {
     public void testExampleD(){
         // @formatter:off
         Output output = new OutputBuilder<Output>()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("BusinessEntityID"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_deleted("VacationHours"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("VacationHours"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withScalarExpression(
                                 e_subtraction(
                                         c_inserted("VacationHours"),
                                         c_deleted("VacationHours")
                                 ))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("ModifiedDate"))
                     .and()
                 .build();
         // @formatter:on
 
-        assertEquals(output.getDmlSelectList().size(),5);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"BusinessEntityID");
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"VacationHours");
-        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"VacationHours");
-        assertNotNull(output.getDmlSelectList().get(3).getScalarExpression());
-        assertEquals(output.getDmlSelectList().get(4).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(4).getColumnName().getColumnName(),"ModifiedDate");
+        assertEquals(output.getOutputDmlSelectList().size(),5);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().getColumnName(),"BusinessEntityID");
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().getColumnName(),"VacationHours");
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnName().getColumnName(),"VacationHours");
+        assertNotNull(output.getOutputDmlSelectList().get(3).getScalarExpression());
+        assertEquals(output.getOutputDmlSelectList().get(4).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(4).getColumnName().getColumnName(),"ModifiedDate");
 
 
         // @formatter:off
@@ -479,7 +479,7 @@ public class OutputBuilderTest {
                 .withDmlSelect()
                     .withColumnName(c_deleted("ProductPhotoID"))
                     .and()
-                .withTableVariable("MyTestVar")
+                .withTableVariable("MyTableVar")
                 .build();
         // @formatter:on
 
@@ -494,8 +494,7 @@ public class OutputBuilderTest {
         assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ProductModelID");
         assertEquals(output.getDmlSelectList().get(3).getColumnName().isUseDeleted(),true);
         assertEquals(output.getDmlSelectList().get(3).getColumnName().getColumnName(),"ProductPhotoID");
-        assertEquals(output.getTableVariable().toString(),"@MyTestVar");
-
+        assertEquals(output.getTableVariable().toString(),"@MyTableVar");
     }
 
 
@@ -521,10 +520,10 @@ public class OutputBuilderTest {
         // @formatter:off
         Output output = new OutputBuilder<Output>()
                 .withDmlSelect()
-                    .withColumnName(c_deleted("ScrapReasonID"))
+                    .withColumnName(c_deleted("DocumentSummary"))
                     .and()
                 .withDmlSelect()
-                    .withColumnName(c_inserted("Name"))
+                    .withColumnName(c_inserted("DocumentSummary"))
                     .and()
                 .withTableVariable("MyTableVar")
                 .build();
@@ -532,9 +531,9 @@ public class OutputBuilderTest {
 
         assertEquals(output.getDmlSelectList().size(),2);
         assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseDeleted(),true);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"DocumentSummary");
         assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
+        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"DocumentSummary");
         assertEquals(output.getTableVariable().toString(),"@MyTableVar");
     }
 
@@ -559,25 +558,25 @@ public class OutputBuilderTest {
     public void testExampleH(){
         // @formatter:off
         Output output = new OutputBuilder<Output>()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("ScrapReasonID"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("Name"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("ModifiedDate"))
                     .and()
                 .build();
         // @formatter:on
 
-        assertEquals(output.getDmlSelectList().size(),3);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
-        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"ModifiedDate");
+        assertEquals(output.getOutputDmlSelectList().size(),3);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().getColumnName(),"ScrapReasonID");
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().getColumnName(),"Name");
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnName().getColumnName(),"ModifiedDate");
     }
 
 
@@ -602,25 +601,25 @@ public class OutputBuilderTest {
     public void testExampleI(){
         // @formatter:off
         Output output = new OutputBuilder<Output>()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("LastName"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("FirstName"))
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_inserted("CurrentSales"))
                     .and()
                 .build();
         // @formatter:on
 
-        assertEquals(output.getDmlSelectList().size(),3);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().getColumnName(),"LastName");
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"FirstName");
-        assertEquals(output.getDmlSelectList().get(2).getColumnName().isUseInserted(),true);
-        assertEquals(output.getDmlSelectList().get(2).getColumnName().getColumnName(),"CurrentSales");
+        assertEquals(output.getOutputDmlSelectList().size(),3);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().getColumnName(),"LastName");
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().getColumnName(),"FirstName");
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnName().isUseInserted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(2).getColumnName().getColumnName(),"CurrentSales");
     }
 
 
@@ -728,21 +727,21 @@ public class OutputBuilderTest {
     public void testExampleK(){
         // @formatter:off
         Output output = new OutputBuilder<Output>()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName()
                         .with$action()
                         .and()
                     .and()
-                .withDmlSelect()
+                .withOutputDmlSelect()
                     .withColumnName(c_deleted("ProductID"))
                     .and()
                 .build();
         // @formatter:on
 
-        assertEquals(output.getDmlSelectList().size(),2);
-        assertEquals(output.getDmlSelectList().get(0).getColumnName().is$action(),true);
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
-        assertEquals(output.getDmlSelectList().get(1).getColumnName().getColumnName(),"ProductID");
+        assertEquals(output.getOutputDmlSelectList().size(),2);
+        assertEquals(output.getOutputDmlSelectList().get(0).getColumnName().is$action(),true);
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().isUseDeleted(),true);
+        assertEquals(output.getOutputDmlSelectList().get(1).getColumnName().getColumnName(),"ProductID");
 
     }
 

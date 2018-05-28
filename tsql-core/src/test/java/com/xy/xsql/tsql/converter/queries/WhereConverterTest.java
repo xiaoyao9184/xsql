@@ -1,4 +1,4 @@
-package com.xy.xsql.block.tsql.core.clause;
+package com.xy.xsql.tsql.converter.queries;
 
 import com.xy.xsql.block.core.printer.MetaBlockPrinter;
 import com.xy.xsql.block.core.printer.ModelMetaBlockPrinter;

@@ -59,6 +59,16 @@ public class OutputBuilder<ParentBuilder>
      * @param tableVariable table variable
      * @return THIS
      */
+    public OutputBuilder<ParentBuilder> withTableVariable(LocalVariable tableVariable){
+        this.target.setTableVariable(tableVariable);
+        return this;
+    }
+
+    /**
+     * set
+     * @param tableVariable table variable
+     * @return THIS
+     */
     public OutputBuilder<ParentBuilder> withTableVariable(String tableVariable){
         this.target.setTableVariable(new LocalVariable(tableVariable));
         return this;

@@ -285,6 +285,15 @@ public class OverBuilder<ParentBuilder>
         }
 
         /**
+         * set
+         * @return THIS
+         */
+        public RowRangeBuilder<ParentBuilder> withWindowFrameExtent(Over.WindowFrameExtent windowFrameExtent){
+            target.setWindowFrameExtent(windowFrameExtent);
+            return this;
+        }
+
+        /**
          * in
          * @return WindowFrameExtentBuilder
          */
@@ -377,6 +386,10 @@ public class OverBuilder<ParentBuilder>
     public static class WindowFrameBetweenBuilder<ParentBuilder>
             extends ParentHoldBuilder<WindowFrameBetweenBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameBetween> {
 
+        public WindowFrameBetweenBuilder() {
+            super(new Over.WindowFrameBetween());
+        }
+
         public WindowFrameBetweenBuilder(Over.WindowFrameBetween target) {
             super(target);
         }
@@ -388,6 +401,15 @@ public class OverBuilder<ParentBuilder>
         public WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>> withBetweenBound(){
             return new WindowFrameBoundBuilder<WindowFrameBetweenBuilder<ParentBuilder>>()
                     .enter(this, Getter.empty(), target::setBetweenBound);
+        }
+
+        /**
+         * set
+         * @return THIS
+         */
+        public WindowFrameBetweenBuilder<ParentBuilder> withAndBound(Over.WindowFrameBound windowFrameBound){
+            target.setAndBound(windowFrameBound);
+            return this;
         }
 
         /**
@@ -508,6 +530,10 @@ public class OverBuilder<ParentBuilder>
     public static class WindowFramePrecedingBuilder<ParentBuilder>
             extends ParentHoldBuilder<WindowFramePrecedingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFramePreceding> {
 
+        public WindowFramePrecedingBuilder() {
+            super(new Over.WindowFramePreceding());
+        }
+
         public WindowFramePrecedingBuilder(Over.WindowFramePreceding target) {
             super(target);
         }
@@ -547,6 +573,10 @@ public class OverBuilder<ParentBuilder>
      */
     public static class WindowFrameFollowingBuilder<ParentBuilder>
             extends ParentHoldBuilder<WindowFrameFollowingBuilder<ParentBuilder>,ParentBuilder,Over.WindowFrameFollowing> {
+
+        public WindowFrameFollowingBuilder() {
+            super(new Over.WindowFrameFollowing());
+        }
 
         public WindowFrameFollowingBuilder(Over.WindowFrameFollowing target) {
             super(target);

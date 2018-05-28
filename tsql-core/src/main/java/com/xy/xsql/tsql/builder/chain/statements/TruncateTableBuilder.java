@@ -1,8 +1,12 @@
 package com.xy.xsql.tsql.builder.chain.statements;
 
+import com.xy.xsql.core.builder.parent.ParentHoldBuilder;
 import com.xy.xsql.core.builder.simple.CodeBuilder;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.statements.TruncateTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.xy.xsql.core.handler.list.ListHandler.list;
 
@@ -13,12 +17,12 @@ import static com.xy.xsql.core.handler.list.ListHandler.list;
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
 
-    public TruncateTableBuilder(TruncateTable target) {
-        super(target);
-    }
-
     public TruncateTableBuilder() {
         super(new TruncateTable());
+    }
+
+    public TruncateTableBuilder(TruncateTable target) {
+        super(target);
     }
 
     /**
@@ -28,6 +32,16 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
      */
     public TruncateTableBuilder withTableName(TableName tableName){
         target.setTableName(tableName);
+        return this;
+    }
+
+    /**
+     * set
+     * @param partitions Partitions
+     * @return THIS
+     */
+    public TruncateTableBuilder withPartitions(List<TruncateTable.Partitions> partitions){
+        target.setPartitionsList(partitions);
         return this;
     }
 
@@ -51,6 +65,18 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
     public TruncateTableBuilder withRange(Integer range,Integer range2){
         list(target::getPartitionsList, target::setPartitionsList)
                 .add(e_range(range,range2));
+        return this;
+    }
+
+    /**
+     * set
+     * @param range range
+     * @param range2 range
+     * @return THIS
+     */
+    public TruncateTableBuilder withRange(TruncateTable.PartitionNumberExpression range, TruncateTable.PartitionNumberExpression range2){
+        list(target::getPartitionsList, target::setPartitionsList)
+                .add(new TruncateTable.Range(range,range2));
         return this;
     }
 
@@ -78,5 +104,27 @@ public class TruncateTableBuilder extends CodeBuilder<TruncateTable> {
      */
     public static TruncateTable.Range e_range(Number number,Number number2){
         return new TruncateTable.Range(e_pn(number),e_pn(number2));
+    }
+
+
+    /**
+     * PartitionsListBuilder
+     * @param <ParentBuilder>
+     */
+    public static class PartitionsListBuilder<ParentBuilder>
+            extends ParentHoldBuilder<PartitionsListBuilder<ParentBuilder>,ParentBuilder, List<TruncateTable.Partitions>> {
+
+        public PartitionsListBuilder(){
+            super(new ArrayList<>());
+        }
+
+        public PartitionsListBuilder(List<TruncateTable.Partitions> target){
+            super(target);
+        }
+
+        public PartitionsListBuilder<ParentBuilder> withItem(TruncateTable.Partitions item){
+            target.add(item);
+            return this;
+        }
     }
 }
