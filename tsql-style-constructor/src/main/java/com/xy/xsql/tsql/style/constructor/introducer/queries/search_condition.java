@@ -24,5 +24,22 @@ public interface search_condition {
             }
         };
     }
+    static b$search_condition NOT(Predicate predicate){
+        return new b$search_condition(){
+            {
+                withNot();
+                withPredicate(predicate);
+            }
+        };
+    }
+
+    static b$search_condition NOT(b$search_condition search_condition){
+        return new b$search_condition(){
+            {
+                withNot();
+                withSearchCondition(search_condition.build());
+            }
+        };
+    }
 
 }

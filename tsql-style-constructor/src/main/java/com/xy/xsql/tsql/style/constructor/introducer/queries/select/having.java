@@ -25,4 +25,22 @@ public interface having {
             }
         };
     }
+
+    static b_HAVING HAVING_NOT(Predicate predicate){
+        return new b_HAVING(){
+            {
+                withNot();
+                withPredicate(predicate);
+            }
+        };
+    }
+
+    static b_HAVING HAVING_NOT(b$search_condition search_condition){
+        return new b_HAVING(){
+            {
+                withNot();
+                withSearchCondition(search_condition.build());
+            }
+        };
+    }
 }

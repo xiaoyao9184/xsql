@@ -26,4 +26,22 @@ public interface where {
         };
     }
 
+    static b_WHERE WHERE_NOT(Predicate predicate){
+        return new b_WHERE(){
+            {
+                withNot();
+                withPredicate(predicate);
+            }
+        };
+    }
+
+    static b_WHERE WHERE_NOT(b$search_condition search_condition){
+        return new b_WHERE(){
+            {
+                withNot();
+                withSearchCondition(search_condition.build());
+            }
+        };
+    }
+
 }
