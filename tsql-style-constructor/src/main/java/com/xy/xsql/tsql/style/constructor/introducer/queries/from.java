@@ -1051,7 +1051,7 @@ public interface from {
                 new From.DateTime(e_string(start_date_time)),
                 new From.DateTime(e_string(end_date_time)));
     }
-//    static FROM.$system_time.$ALL $ALL(){
+//    static FROM.$system_time.ALL ALL(){
 //        return null;
 //    }
 
