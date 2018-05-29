@@ -407,7 +407,7 @@ public class OrderByBuilderTest {
         assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().toString(),"@StartingRowNumber");
         assertTrue(orderBy.getOffsetFetch().isUseRows());
         assertTrue(!orderBy.getOffsetFetch().isUseFetchFirst());
-        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(),"@FetchRows");
+        assertEquals(orderBy.getOffsetFetch().getFetchRowCountExpression().toString(),"@FetchRows");
         assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
@@ -471,7 +471,7 @@ public class OrderByBuilderTest {
 
         assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
         assertTrue(orderBy.getOffsetFetch().isUseRows());
-        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), BinaryExpression.class);
+        assertEquals(orderBy.getOffsetFetch().getFetchRowCountExpression().getClass(), BinaryExpression.class);
         assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
@@ -535,7 +535,7 @@ public class OrderByBuilderTest {
 
         assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().toString(), "@StartingRowNumber");
         assertTrue(orderBy.getOffsetFetch().isUseRows());
-        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), GroupExpression.class);
+        assertEquals(orderBy.getOffsetFetch().getFetchRowCountExpression().getClass(), GroupExpression.class);
         assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 
@@ -589,7 +589,7 @@ public class OrderByBuilderTest {
 
         assertEquals(orderBy.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
         assertTrue(orderBy.getOffsetFetch().isUseRows());
-        assertEquals(orderBy.getOffsetFetch().getFetchOffsetRowCountExpression().toString(), "@RowCountPerPage");
+        assertEquals(orderBy.getOffsetFetch().getFetchRowCountExpression().toString(), "@RowCountPerPage");
         assertTrue(orderBy.getOffsetFetch().isUseFetchRows());
     }
 

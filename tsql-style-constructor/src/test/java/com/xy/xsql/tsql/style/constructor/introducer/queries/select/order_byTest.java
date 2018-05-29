@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 /**
  * Created by xiaoyao9184 on 2018/5/9.
  */
+@SuppressWarnings({"WeakerAccess", "Duplicates"})
 public class order_byTest {
 
     /*
@@ -278,7 +279,7 @@ public class order_byTest {
         assertEquals(example6B.getOffsetFetch().getOffsetRowCountExpression().toString(),"@StartingRowNumber");
         assertTrue(example6B.getOffsetFetch().isUseRows());
         assertTrue(!example6B.getOffsetFetch().isUseFetchFirst());
-        assertEquals(example6B.getOffsetFetch().getFetchOffsetRowCountExpression().toString(),"@FetchRows");
+        assertEquals(example6B.getOffsetFetch().getFetchRowCountExpression().toString(),"@FetchRows");
         assertTrue(example6B.getOffsetFetch().isUseFetchRows());
     }
 
@@ -318,7 +319,7 @@ public class order_byTest {
 
         assertEquals(example6C.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
         assertTrue(example6C.getOffsetFetch().isUseRows());
-        assertEquals(example6C.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), BinaryExpression.class);
+        assertEquals(example6C.getOffsetFetch().getFetchRowCountExpression().getClass(), BinaryExpression.class);
         assertTrue(example6C.getOffsetFetch().isUseFetchRows());
     }
 
@@ -362,7 +363,7 @@ public class order_byTest {
 
         assertEquals(example6D.getOffsetFetch().getOffsetRowCountExpression().toString(), "@StartingRowNumber");
         assertTrue(example6D.getOffsetFetch().isUseRows());
-        assertEquals(example6D.getOffsetFetch().getFetchOffsetRowCountExpression().getClass(), GroupExpression.class);
+        assertEquals(example6D.getOffsetFetch().getFetchRowCountExpression().getClass(), GroupExpression.class);
         assertTrue(example6D.getOffsetFetch().isUseFetchRows());
     }
 
@@ -395,7 +396,7 @@ public class order_byTest {
 
         assertEquals(example6E.getOffsetFetch().getOffsetRowCountExpression().getClass(), BinaryExpression.class);
         assertTrue(example6E.getOffsetFetch().isUseRows());
-        assertEquals(example6E.getOffsetFetch().getFetchOffsetRowCountExpression().toString(), "@RowCountPerPage");
+        assertEquals(example6E.getOffsetFetch().getFetchRowCountExpression().toString(), "@RowCountPerPage");
         assertTrue(example6E.getOffsetFetch().isUseFetchRows());
     }
 

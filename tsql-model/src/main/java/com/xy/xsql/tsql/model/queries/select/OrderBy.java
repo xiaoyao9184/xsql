@@ -150,7 +150,7 @@ public class OrderBy implements Clause {
         private boolean useFetchFirst;
         //TODO use Constant
         private Integer fetchIntegerConstant;
-        private Expression fetchOffsetRowCountExpression;
+        private Expression fetchRowCountExpression;
         private boolean useFetchRows;
 
 
@@ -202,12 +202,12 @@ public class OrderBy implements Clause {
             this.fetchIntegerConstant = fetchIntegerConstant;
         }
 
-        public Expression getFetchOffsetRowCountExpression() {
-            return fetchOffsetRowCountExpression;
+        public Expression getFetchRowCountExpression() {
+            return fetchRowCountExpression;
         }
 
-        public void setFetchOffsetRowCountExpression(Expression fetchOffsetRowCountExpression) {
-            this.fetchOffsetRowCountExpression = fetchOffsetRowCountExpression;
+        public void setFetchRowCountExpression(Expression fetchRowCountExpression) {
+            this.fetchRowCountExpression = fetchRowCountExpression;
         }
 
         public boolean isUseFetchRows() {

@@ -313,7 +313,7 @@ public class OrderByBuilder<ParentBuilder>
          * @return THIS
          */
         public OffsetFetchBuilder<ParentBuilder> withFetchOffsetRowCountExpression(Expression fetchOffsetRowCountExpression) {
-            target.setFetchOffsetRowCountExpression(fetchOffsetRowCountExpression);
+            target.setFetchRowCountExpression(fetchOffsetRowCountExpression);
             return this;
         }
 
@@ -334,7 +334,7 @@ public class OrderByBuilder<ParentBuilder>
             target.setUseFetch(true);
             target.setUseFetchFirst(fetch.isUseFetchFirst());
             target.setFetchIntegerConstant(fetch.getFetchIntegerConstant());
-            target.setFetchOffsetRowCountExpression(fetch.getFetchOffsetRowCountExpression());
+            target.setFetchRowCountExpression(fetch.getFetchRowCountExpression());
             target.setUseFetchRows(fetch.isUseFetchRows());
             return this;
         }
@@ -352,7 +352,7 @@ public class OrderByBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $Row() {
-            if(target.getFetchOffsetRowCountExpression() != null){
+            if(target.getFetchRowCountExpression() != null){
                 target.setUseFetchRows(false);
                 return this.and();
             }
@@ -366,7 +366,7 @@ public class OrderByBuilder<ParentBuilder>
          * @return PARENT
          */
         public ParentBuilder $Rows() {
-            if(target.getFetchOffsetRowCountExpression() != null){
+            if(target.getFetchRowCountExpression() != null){
                 return withUseFetchRows()
                         .and();
             }
