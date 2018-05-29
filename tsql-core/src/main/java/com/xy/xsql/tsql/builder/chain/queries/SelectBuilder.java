@@ -437,6 +437,48 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     (group)
                     .in(this);
         }
+
+
+
+        /**
+         * Quick in
+         * And set UnitItem' queryExpression
+         * @return UnitItemBuilder
+         */
+        public UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>> $Union(){
+            return withUnitItem()
+                    .withOperatorSet(Set.UNION);
+        }
+
+        /**
+         * Quick in
+         * And set UnitItem' queryExpression
+         * @return UnitItemBuilder
+         */
+        public UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>> $UnionAll(){
+            return withUnitItem()
+                    .withOperatorSet(Set.UNION_ALL);
+        }
+
+        /**
+         * Quick in
+         * And set UnitItem' queryExpression
+         * @return UnitItemBuilder
+         */
+        public UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>> $Except(){
+            return withUnitItem()
+                    .withOperatorSet(Set.EXCEPT);
+        }
+
+        /**
+         * Quick in
+         * And set UnitItem' queryExpression
+         * @return UnitItemBuilder
+         */
+        public UnitItemBuilder<QueryExpressionBuilder<ParentBuilder>> $Intersect(){
+            return withUnitItem()
+                    .withOperatorSet(Set.INTERSECT);
+        }
     }
 
 
@@ -506,6 +548,31 @@ public class SelectBuilder extends CodeBuilder<Select> {
                     (object(target::getQueryExpression, target::setQueryExpression)
                             .init(Select.QueryExpression::new))
                     .in(this);
+        }
+
+
+
+
+         /*
+        Quick set
+         */
+
+        /**
+         * Quick in
+         * set querySpecification
+         * @return QuerySpecificationBuilder
+         */
+        public QuerySpecificationBuilder<UnitItemBuilder<ParentBuilder>> $Select(){
+            return withQuerySpecification();
+        }
+
+        /**
+         * Quick in
+         * set queryExpression
+         * @return QueryExpressionBuilder
+         */
+        public QueryExpressionBuilder<UnitItemBuilder<ParentBuilder>> $(){
+            return withQueryExpression();
         }
 
     }

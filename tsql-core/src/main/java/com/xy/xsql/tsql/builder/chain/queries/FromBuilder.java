@@ -145,7 +145,7 @@ public class FromBuilder<ParentBuilder>
      */
     public DerivedTableBuilder<FromBuilder<ParentBuilder>> $(Select.QueryExpression subQuery, String tableAlias) {
         return withItem()._Derived()
-                .withSubQuery(Queries.$SubQuery(subQuery))
+                .withSubQuery($SubQuery(subQuery))
                 .withAs()
                 .withTableAlias(tableAlias);
     }
