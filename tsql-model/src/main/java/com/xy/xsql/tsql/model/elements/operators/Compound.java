@@ -7,26 +7,20 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Compound implements Operator {
 
-    ADD_ASSIGNMENT("+=",Type.Compound),
-    SUBTRACT_ASSIGNMENT("-=",Type.Compound),
-    MULTIPLY_ASSIGNMENT("*=",Type.Compound),
-    DIVIDE_ASSIGNMENT("/=",Type.Compound),
-    MODULO_ASSIGNMENT("%=",Type.Compound),
-    BITWISE_AND_ASSIGNMENT("&=",Type.Compound),
-    BITWISE_EXCLUSIVE_OR_ASSIGNMENT("^=",Type.Compound),
-    BITWISE_OR_ASSIGNMENT("|=",Type.Compound);
+    ADD_ASSIGNMENT("+="),
+    SUBTRACT_ASSIGNMENT("-="),
+    MULTIPLY_ASSIGNMENT("*="),
+    DIVIDE_ASSIGNMENT("/="),
+    MODULO_ASSIGNMENT("%="),
+    BITWISE_AND_ASSIGNMENT("&="),
+    BITWISE_EXCLUSIVE_OR_ASSIGNMENT("^="),
+    BITWISE_OR_ASSIGNMENT("|=");
 
     private String keyword;
-    private Type type;
 
-    Compound(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
 
-    Compound(String keyword, Type type){
+    Compound(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -40,8 +34,4 @@ public enum Compound implements Operator {
         return this.keyword;
     }
 
-    @Override
-    public Type getType(){
-        return this.type;
-    }
 }

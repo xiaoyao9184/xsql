@@ -7,19 +7,12 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Scope_Resolution implements Operator {
 
-    SCOPE_RESOLUTION("::",Type.Scope_Resolution);
+    SCOPE_RESOLUTION("::");
 
     private String keyword;
-    private Type type;
 
-    Scope_Resolution(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
-
-    Scope_Resolution(String keyword, Type type){
+    Scope_Resolution(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -31,11 +24,6 @@ public enum Scope_Resolution implements Operator {
     @Override
     public String getKeyword(){
         return this.keyword;
-    }
-
-    @Override
-    public Type getType(){
-        return this.type;
     }
 
 }

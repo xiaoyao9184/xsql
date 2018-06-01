@@ -6,23 +6,16 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  * Created by xiaoyao9184 on 2017/3/14.
  */
 public enum Arithmetic implements Operator, BinaryOperator {
-    ADDITION("+", Type.Arithmetic),
-    SUBTRACTION("-", Type.Arithmetic),
-    MULTIPLICATION("*", Type.Arithmetic),
-    DIVISION("/", Type.Arithmetic),
-    MODULO("%", Type.Arithmetic);
+    ADDITION("+"),
+    SUBTRACTION("-"),
+    MULTIPLICATION("*"),
+    DIVISION("/"),
+    MODULO("%");
 
     private String keyword;
-    private Type type;
 
-    Arithmetic(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
-
-    Arithmetic(String keyword, Type type){
+    Arithmetic(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -34,11 +27,6 @@ public enum Arithmetic implements Operator, BinaryOperator {
     @Override
     public String getKeyword(){
         return this.keyword;
-    }
-
-    @Override
-    public Type getType(){
-        return this.type;
     }
 
 }

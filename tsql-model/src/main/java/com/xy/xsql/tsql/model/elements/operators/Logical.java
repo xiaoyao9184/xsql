@@ -7,30 +7,22 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Logical implements Operator, BinaryOperator {
 
-    ALL(Keywords.ALL, Type.Logical),
-    AND(Keywords.AND, Type.Logical),
-    ANY(Keywords.ANY, Type.Logical),
-    BETWEEN(Keywords.BETWEEN, Type.Logical),
-    EXISTS(Keywords.EXISTS, Type.Logical),
-    IN(Keywords.IN, Type.Logical),
-    LIKE(Keywords.LIKE, Type.Logical),
-    NOT(Keywords.NOT, Type.Logical),
-    OR(Keywords.OR, Type.Logical),
-    SOME(Keywords.SOME, Type.Logical);
+    ALL(Keywords.ALL),
+    AND(Keywords.AND),
+    ANY(Keywords.ANY),
+    BETWEEN(Keywords.BETWEEN),
+    EXISTS(Keywords.EXISTS),
+    IN(Keywords.IN),
+    LIKE(Keywords.LIKE),
+    NOT(Keywords.NOT),
+    OR(Keywords.OR),
+    SOME(Keywords.SOME);
 
     private String keyword;
-    private Type type;
 
-    Logical(Keywords keyword, Type type){
+    Logical(Keywords keyword){
         this.keyword = keyword.name();
-        this.type = type;
     }
-
-    Logical(String keyword, Type type){
-        this.keyword = keyword;
-        this.type = type;
-    }
-
 
     @Override
     public String toString(){
@@ -42,8 +34,4 @@ public enum Logical implements Operator, BinaryOperator {
         return this.keyword;
     }
 
-    @Override
-    public Type getType(){
-        return this.type;
-    }
 }

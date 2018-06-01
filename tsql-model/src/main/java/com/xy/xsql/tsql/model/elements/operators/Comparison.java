@@ -8,27 +8,20 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Comparison implements Operator, BinaryOperator {
 
-    EQUAL("=",Type.Comparison),
-    GREATER(">",Type.Comparison),
-    LESS("<",Type.Comparison),
-    GREATER_EQUAL(">=",Type.Comparison),
-    LESS_EQUAL("<=",Type.Comparison),
-    NOT_EQUAL("<>",Type.Comparison),
-    NOT_EQUAL_NOT_ISO("!=",Type.Comparison),
-    NOT_LESS_NOT_ISO("!<",Type.Comparison),
-    NOT_GREATER_NOT_ISO("!>",Type.Comparison);
+    EQUAL("="),
+    GREATER(">"),
+    LESS("<"),
+    GREATER_EQUAL(">="),
+    LESS_EQUAL("<="),
+    NOT_EQUAL("<>"),
+    NOT_EQUAL_NOT_ISO("!="),
+    NOT_LESS_NOT_ISO("!<"),
+    NOT_GREATER_NOT_ISO("!>");
 
     private String keyword;
-    private Type type;
 
-    Comparison(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
-
-    Comparison(String keyword, Type type){
+    Comparison(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -40,11 +33,6 @@ public enum Comparison implements Operator, BinaryOperator {
     @Override
     public String getKeyword(){
         return this.keyword;
-    }
-
-    @Override
-    public Type getType(){
-        return this.type;
     }
 
 }

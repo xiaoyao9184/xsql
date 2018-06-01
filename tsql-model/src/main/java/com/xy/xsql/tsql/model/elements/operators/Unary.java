@@ -7,21 +7,14 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Unary implements Operator, BinaryOperator {
 
-    POSITIVE("+",Type.Unary),
-    NEGATIVE("-",Type.Unary),
-    COMPLEMENT("~",Type.Unary);
+    POSITIVE("+"),
+    NEGATIVE("-"),
+    COMPLEMENT("~");
 
     private String keyword;
-    private Type type;
 
-    Unary(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
-
-    Unary(String keyword, Type type){
+    Unary(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -35,8 +28,4 @@ public enum Unary implements Operator, BinaryOperator {
         return this.keyword;
     }
 
-    @Override
-    public Type getType(){
-        return this.type;
-    }
 }

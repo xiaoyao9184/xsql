@@ -7,25 +7,18 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Bitwise implements Operator, BinaryOperator {
 
-    AND("&",Type.Bitwise),
-    AND_EQUALS("&=",Type.Bitwise),
-    OR("|",Type.Bitwise),
-    OR_EQUALS("|=",Type.Bitwise),
-    XOR("^",Type.Bitwise),
-    XOR_EQUALS("^=",Type.Bitwise),
-    NOT("~",Type.Bitwise);
+    AND("&"),
+    AND_EQUALS("&="),
+    OR("|"),
+    OR_EQUALS("|="),
+    XOR("^"),
+    XOR_EQUALS("^="),
+    NOT("~");
 
     private String keyword;
-    private Type type;
 
-    Bitwise(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
-
-    Bitwise(String keyword, Type type){
+    Bitwise(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -39,8 +32,4 @@ public enum Bitwise implements Operator, BinaryOperator {
         return this.keyword;
     }
 
-    @Override
-    public Type getType(){
-        return this.type;
-    }
 }

@@ -7,19 +7,12 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Assignment implements Operator, BinaryOperator {
 
-    ASSIGNMENT("=", Type.Assignment);
+    ASSIGNMENT("=");
 
     private String keyword;
-    private Type type;
 
-    Assignment(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
-
-    Assignment(String keyword, Type type){
+    Assignment(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
     @Override
@@ -30,11 +23,6 @@ public enum Assignment implements Operator, BinaryOperator {
     @Override
     public String getKeyword(){
         return this.keyword;
-    }
-
-    @Override
-    public Type getType(){
-        return this.type;
     }
 
 }

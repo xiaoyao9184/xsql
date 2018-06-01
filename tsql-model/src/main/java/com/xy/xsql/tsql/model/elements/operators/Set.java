@@ -7,22 +7,19 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum Set implements Operator {
 
-    EXCEPT("EXCEPT",Type.Set),
-    INTERSECT("INTERSECT",Type.Set),
-    UNION("UNION",Type.Set),
-    UNION_ALL("UNION ALL",Type.Set);
+    EXCEPT(Keywords.EXCEPT),
+    INTERSECT(Keywords.INTERSECT),
+    UNION(Keywords.UNION),
+    UNION_ALL("UNION ALL");
 
     private String keyword;
-    private Type type;
 
-    Set(Keywords keyword, Type type){
+    Set(Keywords keyword){
         this.keyword = keyword.name();
-        this.type = type;
     }
 
-    Set(String keyword, Type type){
+    Set(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -34,11 +31,6 @@ public enum Set implements Operator {
     @Override
     public String getKeyword(){
         return this.keyword;
-    }
-
-    @Override
-    public Type getType(){
-        return this.type;
     }
 
 }

@@ -21,24 +21,17 @@ import com.xy.xsql.tsql.model.elements.Keywords;
  */
 public enum StringConcatenation implements Operator {
 
-    CONCATENATION("+",Type.String),
-    CONCATENATION_ASSIGNMENT("+=",Type.String),
-    WILDCARD_MATCH_PERCENT("%",Type.String),
-    WILDCARD_MATCH_RANGE("[]",Type.String),
-    WILDCARD_MATCH_NOT("^",Type.String),
-    WILDCARD_MATCH_ONE("_",Type.String);
+    CONCATENATION("+"),
+    CONCATENATION_ASSIGNMENT("+="),
+    WILDCARD_MATCH_PERCENT("%"),
+    WILDCARD_MATCH_RANGE("[]"),
+    WILDCARD_MATCH_NOT("^"),
+    WILDCARD_MATCH_ONE("_");
 
     private String keyword;
-    private Type type;
 
-    StringConcatenation(Keywords keyword, Type type){
-        this.keyword = keyword.name();
-        this.type = type;
-    }
-
-    StringConcatenation(String keyword, Type type){
+    StringConcatenation(String keyword){
         this.keyword = keyword;
-        this.type = type;
     }
 
 
@@ -50,11 +43,6 @@ public enum StringConcatenation implements Operator {
     @Override
     public String getKeyword(){
         return this.keyword;
-    }
-
-    @Override
-    public Type getType(){
-        return this.type;
     }
 
 }
