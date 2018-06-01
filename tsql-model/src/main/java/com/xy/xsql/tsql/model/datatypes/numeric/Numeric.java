@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class Numeric
         extends PrecisionScaleDataType
-        implements KeywordNamed {
+        implements NumericDataType, InternalDataType {
 
     public Numeric(){
         super(18,0);

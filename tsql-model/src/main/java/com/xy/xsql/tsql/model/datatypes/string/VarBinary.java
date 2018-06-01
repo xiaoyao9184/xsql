@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class VarBinary
         extends MaxFixedLengthDataType
-        implements KeywordNamed {
+        implements InternalDataType {
     @Override
     public Keywords keyword() {
         return Keywords.varbinary;

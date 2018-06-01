@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class Geography
         extends SpatialDataType
-        implements KeywordNamed {
+        implements InternalDataType {
     @Override
     public Keywords keyword() {
         return Keywords.geography;

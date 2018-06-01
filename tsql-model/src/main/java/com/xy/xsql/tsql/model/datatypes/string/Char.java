@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class Char
         extends FixedLengthDataType
-        implements KeywordNamed {
+        implements InternalDataType {
     @Override
     public Keywords keyword() {
         return Keywords.char$;

@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class Float
         extends FixedLengthDataType
-        implements KeywordNamed {
+        implements NumericDataType, InternalDataType {
 
     public Float(){
         super(53);

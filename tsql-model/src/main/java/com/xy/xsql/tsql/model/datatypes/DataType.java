@@ -81,9 +81,9 @@ public interface DataType {
     }
 
     /**
-     * use keyword for data_type's name
+     * internal data type
      */
-    interface KeywordNamed extends DataType {
+    interface InternalDataType extends DataType {
 
         @Override
         default String name() {
@@ -93,7 +93,7 @@ public interface DataType {
         Keywords keyword();
 
 
-        static KeywordNamed keyword_type(Keywords keywords){
+        static InternalDataType keyword_type(Keywords keywords){
             return () -> keywords;
         }
     }

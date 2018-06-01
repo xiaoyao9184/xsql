@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class Decimal
         extends PrecisionScaleDataType
-        implements KeywordNamed {
+        implements NumericDataType, InternalDataType {
 
     public Decimal(){
         super(18,0);

@@ -8,7 +8,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class Text
         extends SimpleDataType
-        implements KeywordNamed {
+        implements InternalDataType {
     @Override
     public DataType.Keywords keyword() {
         return DataType.Keywords.text;

@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class TinyInt
         extends SimpleDataType
-        implements KeywordNamed {
+        implements NumericDataType, InternalDataType {
     @Override
     public Keywords keyword() {
         return Keywords.tinyint;

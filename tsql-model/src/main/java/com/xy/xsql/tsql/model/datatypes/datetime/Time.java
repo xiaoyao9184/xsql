@@ -7,7 +7,7 @@ import com.xy.xsql.tsql.model.datatypes.DataType.*;
  */
 public class Time
         extends FractionalSecondsScaleDataType
-        implements KeywordNamed {
+        implements InternalDataType {
 
     @Override
     public Keywords keyword() {
