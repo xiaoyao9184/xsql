@@ -345,7 +345,14 @@ public enum Keywords {
          */
         ONLINE, MAXDOP, MOVE, CHANGE_TRACKING, TRACK_COLUMNS_UPDATED, SWITCH,
         WAIT_AT_LOW_PRIORITY, MAX_DURATION, ABORT_AFTER_WAIT, MINUTES, INFINITE, HISTORY_RETENTION_PERIOD,
-        REBUILD, SORT_IN_TEMPDB, LOCK_ESCALATION, FILETABLE_NAMESPACE, ENABLE, OFF_WITHOUT_DATA_RECOVERY, PAUSED;
+        REBUILD, SORT_IN_TEMPDB, LOCK_ESCALATION, FILETABLE_NAMESPACE, ENABLE, OFF_WITHOUT_DATA_RECOVERY, PAUSED,
+
+        /**
+         * @see com.xy.xsql.tsql.model.functions.analytic.Percentile_Cont;
+         * @see com.xy.xsql.tsql.model.functions.analytic.Percentile_Disc;
+         * @see com.xy.xsql.tsql.model.functions.string.String_Agg;
+         */
+        WITHIN;
 
         @Override
         public String toString(){
