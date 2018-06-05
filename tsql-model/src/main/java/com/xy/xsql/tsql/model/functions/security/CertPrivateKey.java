@@ -12,7 +12,7 @@ public class CertPrivateKey
 
     private Expression certId;
     private StringConstant encryptionPassword;
-    private StringConstant decryptionPassword ;
+    private StringConstant decryptionPassword;
 
     public Expression getCertId() {
         return certId;

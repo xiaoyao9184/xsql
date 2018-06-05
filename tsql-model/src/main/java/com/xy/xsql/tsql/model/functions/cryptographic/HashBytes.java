@@ -38,7 +38,7 @@ public class HashBytes
         this.inputVariable = inputVariable;
     }
 
-    private enum Algorithm {
+    public enum Algorithm {
         MD2,
         MD4,
         MD5,

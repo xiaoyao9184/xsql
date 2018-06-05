@@ -13,7 +13,7 @@ public class Concat_Ws
 
     //separator
     private Expression separator;
-    //expressionToFind , expressionToSearch [ , start_location ]
+    //argument1, argument1 [, argumentN]…
     private List<Expression> argumentList;
 
     public Expression getSeparator() {

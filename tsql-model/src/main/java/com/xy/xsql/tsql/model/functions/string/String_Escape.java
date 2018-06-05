@@ -30,7 +30,7 @@ public class String_Escape
         this.type = type;
     }
 
-    enum Type {
+    public enum Type {
         json
     }
 }
