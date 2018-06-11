@@ -11,16 +11,16 @@ import com.xy.xsql.tsql.model.queries.select.Over;
 public class Lag
         implements AnalyticFunction, Function.InternalFunction {
 
-    private ScalarExpression scalarExpression;
+    private Expression scalarExpression;
     private Expression offset;
     private Expression defaultValue;
     private Over over;
 
-    public ScalarExpression getScalarExpression() {
+    public Expression getScalarExpression() {
         return scalarExpression;
     }
 
-    public void setScalarExpression(ScalarExpression scalarExpression) {
+    public void setScalarExpression(Expression scalarExpression) {
         this.scalarExpression = scalarExpression;
     }
 

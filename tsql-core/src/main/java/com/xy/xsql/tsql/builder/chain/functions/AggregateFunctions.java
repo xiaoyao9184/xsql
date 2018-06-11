@@ -79,7 +79,7 @@ public interface AggregateFunctions {
     }
     static Count f_count(){
         Count f = new Count();
-        f.setUseAll(true);
+        f.setUseAllCount(true);
         return f;
     }
     static Count f_count_all(
@@ -190,7 +190,7 @@ public interface AggregateFunctions {
         return f;
     }
 
-    static Grouping_Id f_grouping(
+    static Grouping_Id f_grouping_id(
             Expression... columnExpression){
         Grouping_Id f = new Grouping_Id();
         f.setColumnExpressionList(Arrays.asList(columnExpression));
@@ -247,50 +247,50 @@ public interface AggregateFunctions {
         return f;
     }
 
-    static StdDev f_dtddev_all(Expression expression){
-        StdDev f = new StdDev();
+    static StDev f_stdev_all(Expression expression){
+        StDev f = new StDev();
         f.setUseAll(true);
         f.setExpression(expression);
         return f;
     }
-    static StdDev f_dtddev_distinct(Expression expression){
-        StdDev f = new StdDev();
+    static StDev f_stdev_distinct(Expression expression){
+        StDev f = new StDev();
         f.setUseDistinct(true);
         f.setExpression(expression);
         return f;
     }
-    static StdDev f_dtddev(Expression expression){
-        StdDev f = new StdDev();
+    static StDev f_stdev(Expression expression){
+        StDev f = new StDev();
         f.setExpression(expression);
         return f;
     }
-    static StdDev f_dtddev(Expression expression, Over over){
-        StdDev f = new StdDev();
+    static StDev f_stdev(Expression expression, Over over){
+        StDev f = new StDev();
         f.setExpression(expression);
         f.setPartitionBy(over.getPartitionBy());
         f.setOrderBy(over.getOrderBy());
         return f;
     }
 
-    static StdDevp f_stddevp_all(Expression expression){
-        StdDevp f = new StdDevp();
+    static StDevp f_stdevp_all(Expression expression){
+        StDevp f = new StDevp();
         f.setUseAll(true);
         f.setExpression(expression);
         return f;
     }
-    static StdDevp f_stddevp_distinct(Expression expression){
-        StdDevp f = new StdDevp();
+    static StDevp f_stdevp_distinct(Expression expression){
+        StDevp f = new StDevp();
         f.setUseDistinct(true);
         f.setExpression(expression);
         return f;
     }
-    static StdDevp f_stddevp(Expression expression){
-        StdDevp f = new StdDevp();
+    static StDevp f_stdevp(Expression expression){
+        StDevp f = new StDevp();
         f.setExpression(expression);
         return f;
     }
-    static StdDevp f_stddevp(Expression expression, Over over){
-        StdDevp f = new StdDevp();
+    static StDevp f_stdevp(Expression expression, Over over){
+        StDevp f = new StDevp();
         f.setExpression(expression);
         f.setPartitionBy(over.getPartitionBy());
         f.setOrderBy(over.getOrderBy());

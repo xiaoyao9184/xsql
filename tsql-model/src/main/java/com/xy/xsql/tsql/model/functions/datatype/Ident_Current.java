@@ -1,6 +1,5 @@
 package com.xy.xsql.tsql.model.functions.datatype;
 
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.Function;
 
@@ -10,13 +9,13 @@ import com.xy.xsql.tsql.model.functions.Function;
 public class Ident_Current
         implements DataTypeFunction, Function.InternalFunction {
 
-    private StringConstant tableName;
+    private Expression tableName;
 
-    public StringConstant getTableName() {
+    public Expression getTableName() {
         return tableName;
     }
 
-    public void setTableName(StringConstant tableName) {
+    public void setTableName(Expression tableName) {
         this.tableName = tableName;
     }
 }

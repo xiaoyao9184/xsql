@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.queries;
 
+import com.xy.xsql.tsql.builder.chain.queries.select.OverBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.queries.AtTimeZone;
 import com.xy.xsql.tsql.model.queries.Select;
@@ -95,6 +96,14 @@ public interface Queries {
      */
     static UpdateBuilder $Update(){
         return new UpdateBuilder();
+    }
+
+    /**
+     * Quick
+     * @return OverBuilder
+     */
+    static OverBuilder<Void> $Over(){
+        return new OverBuilder<>();
     }
 
 }

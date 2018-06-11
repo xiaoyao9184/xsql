@@ -21,19 +21,20 @@ public interface StringFunctions {
         f.setIntegerExpression(integerExpression);
         return f;
     }
-    static CharIndex f_char(Expression expressionToFind, Expression expressionToSearch){
+    static CharIndex f_charindex(Expression expressionToFind, Expression expressionToSearch){
         CharIndex f = new CharIndex();
         f.setExpressionToFind(expressionToFind);
         f.setExpressionToSearch(expressionToSearch);
         return f;
     }
-    static CharIndex f_char(Expression expressionToFind, Expression expressionToSearch, Expression startLocation){
+    static CharIndex f_charindex(Expression expressionToFind, Expression expressionToSearch, Expression startLocation){
         CharIndex f = new CharIndex();
         f.setExpressionToFind(expressionToFind);
         f.setExpressionToSearch(expressionToSearch);
         f.setStartLocation(startLocation);
         return f;
     }
+
     static Concat f_concat(Expression... stringValue){
         Concat f = new Concat();
         f.setStringValueList(Arrays.asList(stringValue));
@@ -142,8 +143,7 @@ public interface StringFunctions {
         return f;
     }
     static Reverse f_reverse(
-            Expression stringExpression,
-            Expression integerExpression){
+            Expression stringExpression){
         Reverse f = new Reverse();
         f.setStringExpression(stringExpression);
         return f;
@@ -216,7 +216,7 @@ public interface StringFunctions {
         f.setOrderBy(orderBy);
         return f;
     }
-    static String_Escape f_string_agg(
+    static String_Escape f_string_escape(
             Expression text,
             String_Escape.Type type){
         String_Escape f = new String_Escape();
@@ -269,6 +269,12 @@ public interface StringFunctions {
             Expression string){
         Trim f = new Trim();
         f.setCharacters(characters);
+        f.setString(string);
+        return f;
+    }
+    static Trim f_trim(
+            Expression string){
+        Trim f = new Trim();
         f.setString(string);
         return f;
     }

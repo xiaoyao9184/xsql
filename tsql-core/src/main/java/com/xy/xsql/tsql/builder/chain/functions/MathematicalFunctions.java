@@ -128,7 +128,7 @@ public interface MathematicalFunctions {
     static Round f_round(
             Expression numericExpression,
             Expression length,
-            Function function){
+            Expression function){
         Round f = new Round();
         f.setNumericExpression(numericExpression);
         f.setLength(length);

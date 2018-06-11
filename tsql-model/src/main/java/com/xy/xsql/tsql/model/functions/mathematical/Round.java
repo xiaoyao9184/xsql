@@ -11,7 +11,7 @@ public class Round
 
     private Expression numericExpression;
     private Expression length;
-    private Function function;
+    private Expression function;
 
     public Expression getNumericExpression() {
         return numericExpression;
@@ -29,11 +29,11 @@ public class Round
         this.length = length;
     }
 
-    public Function getFunction() {
+    public Expression getFunction() {
         return function;
     }
 
-    public void setFunction(Function function) {
+    public void setFunction(Expression function) {
         this.function = function;
     }
 }

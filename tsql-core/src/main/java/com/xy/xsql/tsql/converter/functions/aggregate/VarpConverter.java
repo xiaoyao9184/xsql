@@ -31,6 +31,7 @@ public class VarpConverter
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .sub()
+                        .optional(d -> d.getPartitionBy() == null &&  d.getOrderBy() == null)
                         .sub_keyword(Keywords.OVER)
                         .sub_keyword(Other.GROUP_START)
                         .sub("partition_by_clause")

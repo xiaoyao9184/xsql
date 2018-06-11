@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.functions;
 
 import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.conversion.*;
 
@@ -17,6 +18,14 @@ public interface ConversionFunctions {
         f.setExpression(expression);
         f.setDataType(dataType);
         f.setLength(length);
+        return f;
+    }
+    static Cast f_cast(
+            Expression expression,
+            DataType dataType){
+        Cast f = new Cast();
+        f.setExpression(expression);
+        f.setDataType(dataType);
         return f;
     }
     static Convert f_convert(
@@ -62,11 +71,11 @@ public interface ConversionFunctions {
     static Parse f_parse(
             Expression stringValue,
             DataType dataType,
-            Expression culture){
+            StringConstant culture){
         Parse f = new Parse();
         f.setStringValue(stringValue);
         f.setDataType(dataType);
-        f.setStringValue(culture);
+        f.setCulture(culture);
         return f;
     }
     static Parse f_parse(

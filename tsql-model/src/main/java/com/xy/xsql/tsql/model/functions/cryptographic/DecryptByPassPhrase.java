@@ -1,9 +1,7 @@
 package com.xy.xsql.tsql.model.functions.cryptographic;
 
-import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.datatypes.numeric.Int;
-import com.xy.xsql.tsql.model.datatypes.string.NVarChar;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.tsql.model.functions.Function;
 
@@ -16,9 +14,9 @@ public class DecryptByPassPhrase
     private LocalVariable passphraseVariable;
     private StringConstant ciphertext;
     private LocalVariable ciphertextVariable;
-    private NumberConstant addAuthenticator;
+    private Expression addAuthenticator;
     private LocalVariable addAuthenticatorVariable;
-    private StringConstant authenticator;
+    private Expression authenticator;
     private LocalVariable authenticatorVariable;
 
     public StringConstant getPassphrase() {
@@ -53,11 +51,11 @@ public class DecryptByPassPhrase
         this.ciphertextVariable = ciphertextVariable;
     }
 
-    public NumberConstant getAddAuthenticator() {
+    public Expression getAddAuthenticator() {
         return addAuthenticator;
     }
 
-    public void setAddAuthenticator(NumberConstant addAuthenticator) {
+    public void setAddAuthenticator(Expression addAuthenticator) {
         this.addAuthenticator = addAuthenticator;
     }
 
@@ -69,11 +67,11 @@ public class DecryptByPassPhrase
         this.addAuthenticatorVariable = addAuthenticatorVariable;
     }
 
-    public StringConstant getAuthenticator() {
+    public Expression getAuthenticator() {
         return authenticator;
     }
 
-    public void setAuthenticator(StringConstant authenticator) {
+    public void setAuthenticator(Expression authenticator) {
         this.authenticator = authenticator;
     }
 

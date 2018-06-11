@@ -10,8 +10,7 @@ public interface JsonFunctions {
 
 
     static IsJson f_isjson(
-            Expression expression,
-            String path){
+            Expression expression){
         IsJson f = new IsJson();
         f.setExpression(expression);
         return f;
@@ -22,6 +21,12 @@ public interface JsonFunctions {
         Json_Query f = new Json_Query();
         f.setExpression(expression);
         f.setPath(path);
+        return f;
+    }
+    static Json_Query f_json_query(
+            Expression expression){
+        Json_Query f = new Json_Query();
+        f.setExpression(expression);
         return f;
     }
     static Json_Modify f_json_modify(

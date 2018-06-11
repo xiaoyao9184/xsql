@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.functions;
 
+import com.xy.xsql.tsql.builder.chain.queries.select.OrderByBuilder;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
 import com.xy.xsql.tsql.model.functions.analytic.*;
@@ -12,21 +13,14 @@ import com.xy.xsql.tsql.model.queries.select.Over;
 public interface AnalyticFunctions {
 
     static Cume_Dist f_cume_dist(
-            Over.PartitionBy partitionBy,
-            Over.OrderBy orderBy){
+            Over over){
         Cume_Dist f = new Cume_Dist();
-        f.setPartitionBy(partitionBy);
-        f.setOrderBy(orderBy);
-        return f;
-    }
-    static Cume_Dist f_cume_dist(
-            Over.OrderBy orderBy){
-        Cume_Dist f = new Cume_Dist();
-        f.setOrderBy(orderBy);
+        f.setPartitionBy(over.getPartitionBy());
+        f.setOrderBy(over.getOrderBy());
         return f;
     }
     static First_Value f_first_value(
-            ScalarExpression scalarExpression,
+            Expression scalarExpression,
             Over over){
         First_Value f = new First_Value();
         f.setScalarExpression(scalarExpression);
@@ -40,7 +34,7 @@ public interface AnalyticFunctions {
         return f;
     }
     static Lag f_lag(
-            ScalarExpression scalarExpression,
+            Expression scalarExpression,
             Expression offset,
             Expression defaultValue,
             Over over){
@@ -60,7 +54,7 @@ public interface AnalyticFunctions {
         return f;
     }
     static Last_Value f_last_value(
-            ScalarExpression scalarExpression,
+            Expression scalarExpression,
             Over over){
         Last_Value f = new Last_Value();
         f.setScalarExpression(scalarExpression);
@@ -73,8 +67,8 @@ public interface AnalyticFunctions {
         f.setOver(over);
         return f;
     }
-    static Lead f_Lead(
-            ScalarExpression scalarExpression,
+    static Lead f_lead(
+            Expression scalarExpression,
             Expression offset,
             Expression defaultValue,
             Over over){
@@ -118,5 +112,26 @@ public interface AnalyticFunctions {
         f.setOrderBy(orderBy);
         f.setOver(over);
         return f;
+    }
+
+
+    static OrderBy.Item $Within_Group_Order_By(Expression expression){
+        return new OrderByBuilder.OrderByItemBuilder<Void>()
+                .withExpression(expression)
+                .build();
+    }
+
+    static OrderBy.Item $Within_Group_Order_By_Asc(Expression expression){
+        return new OrderByBuilder.OrderByItemBuilder<Void>()
+                .withExpression(expression)
+                .withAsc()
+                .build();
+    }
+
+    static OrderBy.Item $Within_Group_Order_By_Desc(Expression expression){
+        return new OrderByBuilder.OrderByItemBuilder<Void>()
+                .withExpression(expression)
+                .withDesc()
+                .build();
     }
 }

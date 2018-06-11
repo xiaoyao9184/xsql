@@ -13,7 +13,7 @@ public interface LogicalFunctions {
 
 
     static Choose f_choose(
-            NumberConstant index,
+            Expression index,
             Expression... vals){
         Choose f = new Choose();
         f.setIndex(index);

@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.model.datatypes.constants;
 
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
+import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
 
 /**
  * integer constants
@@ -9,7 +10,7 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
  * Created by xiaoyao9184 on 2016/11/13.
  */
 public class NumberConstant
-        implements Constant, NegativePositive, Expression {
+        implements Constant, NegativePositive, Expression, ScalarExpression {
 
     private Number number;
     private boolean usePositive;

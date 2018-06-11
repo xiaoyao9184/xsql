@@ -1,10 +1,13 @@
 package com.xy.xsql.tsql.builder.chain.functions;
 
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.metadata.*;
 import com.xy.xsql.tsql.model.queries.select.Over;
+
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 /**
  * Created by xiaoyao9184 on 2018/6/1.
@@ -36,6 +39,7 @@ public interface MetaDataFunctions {
         AppLock_Test f = new AppLock_Test();
         f.setDatabasePrincipal(databasePrincipal);
         f.setResourceName(resourceName);
+        f.setLockMode(lockMode);
         f.setLockOwner(lockOwner);
         return f;
     }
@@ -70,7 +74,7 @@ public interface MetaDataFunctions {
         ColumnProperty f = new ColumnProperty();
         f.setId(id);
         f.setColumn(column);
-        f.setColumn(property);
+        f.setProperty(property);
         return f;
     }
     static Database_Principal_Id f_database_principal_id(
@@ -220,7 +224,7 @@ public interface MetaDataFunctions {
         return f;
     }
     static Object_Id f_object_id(
-            TableName objectName,
+            Expression objectName,
             Expression objectType){
         Object_Id f = new Object_Id();
         f.setObjectName(objectName);
@@ -228,7 +232,7 @@ public interface MetaDataFunctions {
         return f;
     }
     static Object_Id f_object_id(
-            TableName objectName){
+            Expression objectName){
         Object_Id f = new Object_Id();
         f.setObjectName(objectName);
         return f;
@@ -337,6 +341,12 @@ public interface MetaDataFunctions {
             Expression typeName){
         Type_Id f = new Type_Id();
         f.setTypeName(typeName);
+        return f;
+    }
+    static Type_Id f_type_id(
+            DataType typeName){
+        Type_Id f = new Type_Id();
+        f.setTypeName(c_string(typeName.name()));
         return f;
     }
     static Type_Name f_type_name(

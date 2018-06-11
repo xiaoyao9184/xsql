@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.functions.analytic;
 
-import com.xy.xsql.tsql.model.elements.expressions.ScalarExpression;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.Function;
 import com.xy.xsql.tsql.model.queries.select.Over;
 
@@ -10,14 +10,14 @@ import com.xy.xsql.tsql.model.queries.select.Over;
 public class First_Value
         implements AnalyticFunction, Function.InternalFunction {
 
-    private ScalarExpression scalarExpression;
+    private Expression scalarExpression;
     private Over over;
 
-    public ScalarExpression getScalarExpression() {
+    public Expression getScalarExpression() {
         return scalarExpression;
     }
 
-    public void setScalarExpression(ScalarExpression scalarExpression) {
+    public void setScalarExpression(Expression scalarExpression) {
         this.scalarExpression = scalarExpression;
     }
 

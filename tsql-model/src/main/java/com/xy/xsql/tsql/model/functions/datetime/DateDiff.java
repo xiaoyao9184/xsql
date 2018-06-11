@@ -9,15 +9,15 @@ import com.xy.xsql.tsql.model.functions.Function;
 public class DateDiff
         implements DateTimeFunction, Function.InternalFunction {
 
-    private Expression datepart;
+    private DatePart.DatePartArgument datepart;
     private Expression startDate;
     private Expression endDate;
 
-    public Expression getDatepart() {
+    public DatePart.DatePartArgument getDatepart() {
         return datepart;
     }
 
-    public void setDatepart(Expression datepart) {
+    public void setDatepart(DatePart.DatePartArgument datepart) {
         this.datepart = datepart;
     }
 

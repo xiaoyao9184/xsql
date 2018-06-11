@@ -11,14 +11,14 @@ import com.xy.xsql.tsql.model.functions.security.SecurityFunction;
 public class Object_Id
         implements MetaDataFunction, Function.InternalFunction {
 
-    private TableName objectName;
+    private Expression objectName;
     private Expression objectType;
 
-    public TableName getObjectName() {
+    public Expression getObjectName() {
         return objectName;
     }
 
-    public void setObjectName(TableName objectName) {
+    public void setObjectName(Expression objectName) {
         this.objectName = objectName;
     }
 

@@ -98,5 +98,13 @@ public interface RowsetFunctions {
         f.setFlags(flags);
         return f;
     }
+    static OpenXml f_openxml(
+            Expression idoc,
+            String rowPattern){
+        OpenXml f = new OpenXml();
+        f.setIdoc(idoc);
+        f.setRowPattern(rowPattern);
+        return f;
+    }
 
 }

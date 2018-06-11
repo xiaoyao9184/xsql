@@ -1,7 +1,6 @@
 package com.xy.xsql.tsql.model.functions.cryptographic;
 
-import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.tsql.model.functions.Function;
 
@@ -11,7 +10,7 @@ import com.xy.xsql.tsql.model.functions.Function;
 public class HashBytes
         implements CryptographicFunction, Function.InternalFunction {
     private Algorithm algorithm;
-    private StringConstant input;
+    private Expression input;
     private LocalVariable inputVariable;
 
     public Algorithm getAlgorithm() {
@@ -22,11 +21,11 @@ public class HashBytes
         this.algorithm = algorithm;
     }
 
-    public StringConstant getInput() {
+    public Expression getInput() {
         return input;
     }
 
-    public void setInput(StringConstant input) {
+    public void setInput(Expression input) {
         this.input = input;
     }
 

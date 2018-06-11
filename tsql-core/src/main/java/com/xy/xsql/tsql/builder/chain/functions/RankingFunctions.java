@@ -9,19 +9,11 @@ import com.xy.xsql.tsql.model.queries.select.Over;
  */
 public interface RankingFunctions {
 
-
     static Dense_Rank f_dense_rank(
-            Over.PartitionBy partitionBy,
-            Over.OrderBy orderBy){
+            Over over){
         Dense_Rank f =  new Dense_Rank();
-        f.setPartitionBy(partitionBy);
-        f.setOrderBy(orderBy);
-        return f;
-    }
-    static Dense_Rank f_dense_rank(
-            Over.OrderBy orderBy){
-        Dense_Rank f =  new Dense_Rank();
-        f.setOrderBy(orderBy);
+        f.setPartitionBy(over.getPartitionBy());
+        f.setOrderBy(over.getOrderBy());
         return f;
     }
     static Ntile f_ntile(
@@ -36,24 +28,18 @@ public interface RankingFunctions {
     }
     static Ntile f_ntile(
             Expression integerExpression,
-            Over.OrderBy orderBy){
+            Over over){
         Ntile f =  new Ntile();
         f.setIntegerExpression(integerExpression);
-        f.setOrderBy(orderBy);
+        f.setPartitionBy(over.getPartitionBy());
+        f.setOrderBy(over.getOrderBy());
         return f;
     }
     static Rank f_rank(
-            Over.PartitionBy partitionBy,
-            Over.OrderBy orderBy){
+            Over over){
         Rank f =  new Rank();
-        f.setPartitionBy(partitionBy);
-        f.setOrderBy(orderBy);
-        return f;
-    }
-    static Rank f_rank(
-            Over.OrderBy orderBy){
-        Rank f =  new Rank();
-        f.setOrderBy(orderBy);
+        f.setPartitionBy(over.getPartitionBy());
+        f.setOrderBy(over.getOrderBy());
         return f;
     }
     static Row_Number f_row_number(
@@ -65,9 +51,10 @@ public interface RankingFunctions {
         return f;
     }
     static Row_Number f_row_number(
-            Over.OrderBy orderBy){
+            Over over){
         Row_Number f =  new Row_Number();
-        f.setOrderBy(orderBy);
+        f.setPartitionBy(over.getPartitionBy());
+        f.setOrderBy(over.getOrderBy());
         return f;
     }
 

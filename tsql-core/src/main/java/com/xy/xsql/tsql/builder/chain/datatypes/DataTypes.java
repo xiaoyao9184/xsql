@@ -375,7 +375,7 @@ public interface DataTypes {
      * Quick build
      * @return Bit
      */
-    static Bit bit(){
+    static Bit _bit(){
         return new Bit();
     }
 
@@ -383,7 +383,7 @@ public interface DataTypes {
      * Quick build
      * @return HierarchyId
      */
-    static HierarchyId hierarchyid(){
+    static HierarchyId _hierarchyid(){
         return new HierarchyId();
     }
 
@@ -391,7 +391,7 @@ public interface DataTypes {
      * Quick build
      * @return RowVersion
      */
-    static RowVersion rowversion(){
+    static RowVersion _rowversion(){
         return new RowVersion();
     }
 
@@ -399,7 +399,7 @@ public interface DataTypes {
      * Quick build
      * @return Sql_Variant
      */
-    static Sql_Variant sql_variant(){
+    static Sql_Variant _sql_variant(){
         return new Sql_Variant();
     }
 
@@ -407,7 +407,7 @@ public interface DataTypes {
      * Quick build
      * @return Uniqueidentifier
      */
-    static Uniqueidentifier uniqueidentifier(){
+    static Uniqueidentifier _uniqueidentifier(){
         return new Uniqueidentifier();
     }
 
@@ -415,12 +415,20 @@ public interface DataTypes {
      * Quick build
      * @return Xml
      */
-    static Xml xml(boolean useContent, boolean useDocument, String xmlSchemaCollection){
+    static Xml _xml(boolean useContent, boolean useDocument, String xmlSchemaCollection){
         Xml t = new Xml();
         t.setUseContent(useContent);
         t.setUseDocument(useDocument);
         t.setXmlSchemaCollection(xmlSchemaCollection);
         return t;
+    }
+
+    /**
+     * Quick build
+     * @return Xml
+     */
+    static Xml _xml(){
+        return new Xml();
     }
 
     /**

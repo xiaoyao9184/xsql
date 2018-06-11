@@ -10,15 +10,15 @@ import com.xy.xsql.tsql.model.functions.mathematical.Exp;
 public class DateAdd
         implements DateTimeFunction, Function.InternalFunction {
 
-    private Expression datepart;
+    private DatePart.DatePartArgument datepart;
     private Expression number;
     private Expression date;
 
-    public Expression getDatepart() {
+    public DatePart.DatePartArgument getDatepart() {
         return datepart;
     }
 
-    public void setDatepart(Expression datepart) {
+    public void setDatepart(DatePart.DatePartArgument datepart) {
         this.datepart = datepart;
     }
 
@@ -37,4 +37,5 @@ public class DateAdd
     public void setDate(Expression date) {
         this.date = date;
     }
+
 }

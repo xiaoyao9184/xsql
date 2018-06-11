@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.functions;
 
+import com.xy.xsql.tsql.model.datatypes.DataType;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.datatype.*;
@@ -17,13 +18,13 @@ public interface DataTypeFunctions {
         return f;
     }
     static Ident_Current f_ident_current(
-            StringConstant tableName){
+            Expression tableName){
         Ident_Current f = new Ident_Current();
         f.setTableName(tableName);
         return f;
     }
     static Ident_Incr f_ident_incr(
-            StringConstant tableOrView){
+            Expression tableOrView){
         Ident_Incr f = new Ident_Incr();
         f.setTableOrView(tableOrView);
         return f;
@@ -35,15 +36,39 @@ public interface DataTypeFunctions {
         return f;
     }
     static Identity f_identity(
-            StringConstant dataType,
-            StringConstant seed,
-            StringConstant increment,
-            StringConstant column_name){
+            DataType dataType,
+            Expression seed,
+            Expression increment,
+            Expression column_name){
         Identity f = new Identity();
         f.setDataType(dataType);
         f.setSeed(seed);
         f.setIncrement(increment);
         f.setColumn_name(column_name);
+        return f;
+    }
+    static Identity f_identity(
+            DataType dataType,
+            Expression seed,
+            Expression increment){
+        Identity f = new Identity();
+        f.setDataType(dataType);
+        f.setSeed(seed);
+        f.setIncrement(increment);
+        return f;
+    }
+    static Identity f_identity(
+            DataType dataType,
+            Expression column_name){
+        Identity f = new Identity();
+        f.setDataType(dataType);
+        f.setColumn_name(column_name);
+        return f;
+    }
+    static Identity f_identity(
+            DataType dataType){
+        Identity f = new Identity();
+        f.setDataType(dataType);
         return f;
     }
     static Sql_Variant_Property f_sql_variant_property(

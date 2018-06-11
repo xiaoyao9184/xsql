@@ -7,43 +7,43 @@ import com.xy.xsql.tsql.model.functions.configuration.$$DbTs;
  */
 public interface ConfigurationFunctions {
 
-    static $$DbTs f_dbts(){
+    static $$DbTs f_$$dbts(){
         return new $$DbTs();
     }
-    static $$DbTs f_langid(){
+    static $$DbTs f_$$langid(){
         return new $$DbTs();
     }
-    static $$DbTs f_language(){
+    static $$DbTs f_$$language(){
         return new $$DbTs();
     }
-    static $$DbTs f_lock_timeout(){
+    static $$DbTs f_$$lock_timeout(){
         return new $$DbTs();
     }
-    static $$DbTs f_max_connections(){
+    static $$DbTs f_$$max_connections(){
         return new $$DbTs();
     }
-    static $$DbTs f_max_precision(){
+    static $$DbTs f_$$max_precision(){
         return new $$DbTs();
     }
-    static $$DbTs f_nestlevel(){
+    static $$DbTs f_$$nestlevel(){
         return new $$DbTs();
     }
-    static $$DbTs f_options(){
+    static $$DbTs f_$$options(){
         return new $$DbTs();
     }
-    static $$DbTs f_servername(){
+    static $$DbTs f_$$servername(){
         return new $$DbTs();
     }
-    static $$DbTs f_servicename(){
+    static $$DbTs f_$$servicename(){
         return new $$DbTs();
     }
-    static $$DbTs f_spid(){
+    static $$DbTs f_$$spid(){
         return new $$DbTs();
     }
-    static $$DbTs f_textsize(){
+    static $$DbTs f_$$textsize(){
         return new $$DbTs();
     }
-    static $$DbTs f_version(){
+    static $$DbTs f_$$version(){
         return new $$DbTs();
     }
 }

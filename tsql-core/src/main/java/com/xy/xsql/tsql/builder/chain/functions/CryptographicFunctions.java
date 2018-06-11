@@ -134,8 +134,8 @@ public interface CryptographicFunctions {
 
     static DecryptByKey f_decryptbykey(
             StringConstant ciphertext,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         DecryptByKey f = new DecryptByKey();
         f.setCiphertext(ciphertext);
         f.setAddAuthenticator(addAuthenticator);
@@ -144,30 +144,10 @@ public interface CryptographicFunctions {
     }
     static DecryptByKey f_decryptbykey(
             StringConstant ciphertext,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         DecryptByKey f = new DecryptByKey();
         f.setCiphertext(ciphertext);
-        f.setAddAuthenticator(addAuthenticator);
-        f.setAuthenticatorVariable(authenticatorVariable);
-        return f;
-    }
-    static DecryptByKey f_decryptbykey(
-            LocalVariable ciphertextVariable,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
-        DecryptByKey f = new DecryptByKey();
-        f.setCiphertextVariable(ciphertextVariable);
-        f.setAddAuthenticator(addAuthenticator);
-        f.setAuthenticator(authenticator);
-        return f;
-    }
-    static DecryptByKey f_decryptbykey(
-            LocalVariable ciphertextVariable,
-            NumberConstant addAuthenticator,
-            LocalVariable authenticatorVariable){
-        DecryptByKey f = new DecryptByKey();
-        f.setCiphertextVariable(ciphertextVariable);
         f.setAddAuthenticator(addAuthenticator);
         f.setAuthenticatorVariable(authenticatorVariable);
         return f;
@@ -176,6 +156,26 @@ public interface CryptographicFunctions {
             StringConstant ciphertext){
         DecryptByKey f = new DecryptByKey();
         f.setCiphertext(ciphertext);
+        return f;
+    }
+    static DecryptByKey f_decryptbykey(
+            LocalVariable ciphertextVariable,
+            Expression addAuthenticator,
+            Expression authenticator){
+        DecryptByKey f = new DecryptByKey();
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticator(addAuthenticator);
+        f.setAuthenticator(authenticator);
+        return f;
+    }
+    static DecryptByKey f_decryptbykey(
+            LocalVariable ciphertextVariable,
+            Expression addAuthenticator,
+            LocalVariable authenticatorVariable){
+        DecryptByKey f = new DecryptByKey();
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticator(addAuthenticator);
+        f.setAuthenticatorVariable(authenticatorVariable);
         return f;
     }
     static DecryptByKey f_decryptbykey(
@@ -217,6 +217,18 @@ public interface CryptographicFunctions {
             Expression akeyId,
             Expression akeyPassword,
             StringConstant ciphertext,
+            NumberConstant addAuthenticator){
+        DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
+        f.setAkeyId(akeyId);
+        f.setAkeyPassword(akeyPassword);
+        f.setCiphertext(ciphertext);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByKeyAutoAsymKey f_decryptbykeyautoasymkey(
+            Expression akeyId,
+            Expression akeyPassword,
+            StringConstant ciphertext,
             LocalVariable addAuthenticatorVariable,
             StringConstant authenticator){
         DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
@@ -244,6 +256,28 @@ public interface CryptographicFunctions {
     static DecryptByKeyAutoAsymKey f_decryptbykeyautoasymkey(
             Expression akeyId,
             Expression akeyPassword,
+            StringConstant ciphertext,
+            LocalVariable authenticatorVariable){
+        DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
+        f.setAkeyId(akeyId);
+        f.setAkeyPassword(akeyPassword);
+        f.setCiphertext(ciphertext);
+        f.setAuthenticatorVariable(authenticatorVariable);
+        return f;
+    }
+    static DecryptByKeyAutoAsymKey f_decryptbykeyautoasymkey(
+            Expression akeyId,
+            Expression akeyPassword,
+            StringConstant ciphertext){
+        DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
+        f.setAkeyId(akeyId);
+        f.setAkeyPassword(akeyPassword);
+        f.setCiphertext(ciphertext);
+        return f;
+    }
+    static DecryptByKeyAutoAsymKey f_decryptbykeyautoasymkey(
+            Expression akeyId,
+            Expression akeyPassword,
             LocalVariable ciphertextVariable,
             NumberConstant addAuthenticator,
             StringConstant authenticator){
@@ -273,6 +307,18 @@ public interface CryptographicFunctions {
             Expression akeyId,
             Expression akeyPassword,
             LocalVariable ciphertextVariable,
+            NumberConstant addAuthenticator){
+        DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
+        f.setAkeyId(akeyId);
+        f.setAkeyPassword(akeyPassword);
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByKeyAutoAsymKey f_decryptbykeyautoasymkey(
+            Expression akeyId,
+            Expression akeyPassword,
+            LocalVariable ciphertextVariable,
             LocalVariable addAuthenticatorVariable,
             StringConstant authenticator){
         DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
@@ -295,6 +341,28 @@ public interface CryptographicFunctions {
         f.setCiphertextVariable(ciphertextVariable);
         f.setAddAuthenticatorVariable(addAuthenticatorVariable);
         f.setAuthenticatorVariable(authenticatorVariable);
+        return f;
+    }
+    static DecryptByKeyAutoAsymKey f_decryptbykeyautoasymkey(
+            Expression akeyId,
+            Expression akeyPassword,
+            LocalVariable addAuthenticatorVariable,
+            LocalVariable authenticatorVariable){
+        DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
+        f.setAkeyId(akeyId);
+        f.setAkeyPassword(akeyPassword);
+        f.setAddAuthenticatorVariable(addAuthenticatorVariable);
+        f.setAuthenticatorVariable(authenticatorVariable);
+        return f;
+    }
+    static DecryptByKeyAutoAsymKey f_decryptbykeyautoasymkey(
+            Expression akeyId,
+            Expression akeyPassword,
+            LocalVariable ciphertextVariable){
+        DecryptByKeyAutoAsymKey f = new DecryptByKeyAutoAsymKey();
+        f.setAkeyId(akeyId);
+        f.setAkeyPassword(akeyPassword);
+        f.setCiphertextVariable(ciphertextVariable);
         return f;
     }
 
@@ -330,6 +398,18 @@ public interface CryptographicFunctions {
             Expression certId,
             Expression certPassword,
             StringConstant ciphertext,
+            NumberConstant addAuthenticator){
+        DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
+        f.setCertId(certId);
+        f.setCertPassword(certPassword);
+        f.setCiphertext(ciphertext);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByKeyAutoCert f_decryptbykeyautocert(
+            Expression certId,
+            Expression certPassword,
+            StringConstant ciphertext,
             LocalVariable addAuthenticatorVariable,
             StringConstant authenticator){
         DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
@@ -357,6 +437,28 @@ public interface CryptographicFunctions {
     static DecryptByKeyAutoCert f_decryptbykeyautocert(
             Expression certId,
             Expression certPassword,
+            StringConstant ciphertext,
+            LocalVariable addAuthenticatorVariable){
+        DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
+        f.setCertId(certId);
+        f.setCertPassword(certPassword);
+        f.setCiphertext(ciphertext);
+        f.setAddAuthenticatorVariable(addAuthenticatorVariable);
+        return f;
+    }
+    static DecryptByKeyAutoCert f_decryptbykeyautocert(
+            Expression certId,
+            Expression certPassword,
+            StringConstant ciphertext){
+        DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
+        f.setCertId(certId);
+        f.setCertPassword(certPassword);
+        f.setCiphertext(ciphertext);
+        return f;
+    }
+    static DecryptByKeyAutoCert f_decryptbykeyautocert(
+            Expression certId,
+            Expression certPassword,
             LocalVariable ciphertextVariable,
             NumberConstant addAuthenticator,
             StringConstant authenticator){
@@ -386,6 +488,18 @@ public interface CryptographicFunctions {
             Expression certId,
             Expression certPassword,
             LocalVariable ciphertextVariable,
+            NumberConstant addAuthenticator){
+        DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
+        f.setCertId(certId);
+        f.setCertPassword(certPassword);
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByKeyAutoCert f_decryptbykeyautocert(
+            Expression certId,
+            Expression certPassword,
+            LocalVariable ciphertextVariable,
             LocalVariable addAuthenticatorVariable,
             StringConstant authenticator){
         DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
@@ -408,14 +522,36 @@ public interface CryptographicFunctions {
         f.setCiphertextVariable(ciphertextVariable);
         f.setAddAuthenticatorVariable(addAuthenticatorVariable);
         f.setAuthenticatorVariable(authenticatorVariable);
+        return f;
+    }
+    static DecryptByKeyAutoCert f_decryptbykeyautocert(
+            Expression certId,
+            Expression certPassword,
+            LocalVariable ciphertextVariable,
+            LocalVariable addAuthenticatorVariable){
+        DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
+        f.setCertId(certId);
+        f.setCertPassword(certPassword);
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticatorVariable(addAuthenticatorVariable);
+        return f;
+    }
+    static DecryptByKeyAutoCert f_decryptbykeyautocert(
+            Expression certId,
+            Expression certPassword,
+            LocalVariable ciphertextVariable){
+        DecryptByKeyAutoCert f = new DecryptByKeyAutoCert();
+        f.setCertId(certId);
+        f.setCertPassword(certPassword);
+        f.setCiphertextVariable(ciphertextVariable);
         return f;
     }
 
     static DecryptByPassPhrase f_decryptbypassphrase(
             StringConstant passphrase,
             StringConstant ciphertext,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCiphertext(ciphertext);
@@ -426,7 +562,7 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             StringConstant passphrase,
             StringConstant ciphertext,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphrase(passphrase);
@@ -438,8 +574,18 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             StringConstant passphrase,
             StringConstant ciphertext,
+            Expression addAuthenticator){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCiphertext(ciphertext);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            StringConstant passphrase,
+            StringConstant ciphertext,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCiphertext(ciphertext);
@@ -461,9 +607,27 @@ public interface CryptographicFunctions {
     }
     static DecryptByPassPhrase f_decryptbypassphrase(
             StringConstant passphrase,
+            StringConstant ciphertext,
+            LocalVariable addAuthenticatorVariable){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCiphertext(ciphertext);
+        f.setAddAuthenticatorVariable(addAuthenticatorVariable);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            StringConstant passphrase,
+            StringConstant ciphertext){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCiphertext(ciphertext);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            StringConstant passphrase,
             LocalVariable ciphertextVariable,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCiphertextVariable(ciphertextVariable);
@@ -474,7 +638,7 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             StringConstant passphrase,
             LocalVariable ciphertextVariable,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphrase(passphrase);
@@ -486,8 +650,18 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             StringConstant passphrase,
             LocalVariable ciphertextVariable,
+            Expression addAuthenticator){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            StringConstant passphrase,
+            LocalVariable ciphertextVariable,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCiphertextVariable(ciphertextVariable);
@@ -508,10 +682,28 @@ public interface CryptographicFunctions {
         return f;
     }
     static DecryptByPassPhrase f_decryptbypassphrase(
+            StringConstant passphrase,
+            LocalVariable ciphertextVariable,
+            LocalVariable addAuthenticatorVariable){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticatorVariable(addAuthenticatorVariable);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            StringConstant passphrase,
+            LocalVariable ciphertextVariable){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCiphertextVariable(ciphertextVariable);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
             LocalVariable passphraseVariable,
             StringConstant ciphertext,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCiphertext(ciphertext);
@@ -522,7 +714,7 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             LocalVariable passphraseVariable,
             StringConstant ciphertext,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
@@ -534,8 +726,18 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             LocalVariable passphraseVariable,
             StringConstant ciphertext,
+            Expression addAuthenticator){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphraseVariable(passphraseVariable);
+        f.setCiphertext(ciphertext);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            LocalVariable passphraseVariable,
+            StringConstant ciphertext,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCiphertext(ciphertext);
@@ -557,9 +759,19 @@ public interface CryptographicFunctions {
     }
     static DecryptByPassPhrase f_decryptbypassphrase(
             LocalVariable passphraseVariable,
+            StringConstant ciphertext,
+            LocalVariable addAuthenticatorVariable){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphraseVariable(passphraseVariable);
+        f.setCiphertext(ciphertext);
+        f.setAddAuthenticatorVariable(addAuthenticatorVariable);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            LocalVariable passphraseVariable,
             LocalVariable ciphertextVariable,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCiphertextVariable(ciphertextVariable);
@@ -570,7 +782,7 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             LocalVariable passphraseVariable,
             LocalVariable ciphertextVariable,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
@@ -582,8 +794,18 @@ public interface CryptographicFunctions {
     static DecryptByPassPhrase f_decryptbypassphrase(
             LocalVariable passphraseVariable,
             LocalVariable ciphertextVariable,
+            Expression addAuthenticator){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphraseVariable(passphraseVariable);
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticator(addAuthenticator);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            LocalVariable passphraseVariable,
+            LocalVariable ciphertextVariable,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         DecryptByPassPhrase f = new DecryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCiphertextVariable(ciphertextVariable);
@@ -601,11 +823,29 @@ public interface CryptographicFunctions {
         f.setCiphertextVariable(ciphertextVariable);
         f.setAddAuthenticatorVariable(addAuthenticatorVariable);
         f.setAuthenticatorVariable(authenticatorVariable);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            LocalVariable passphraseVariable,
+            LocalVariable ciphertextVariable,
+            LocalVariable addAuthenticatorVariable){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphraseVariable(passphraseVariable);
+        f.setCiphertextVariable(ciphertextVariable);
+        f.setAddAuthenticatorVariable(addAuthenticatorVariable);
+        return f;
+    }
+    static DecryptByPassPhrase f_decryptbypassphrase(
+            LocalVariable passphraseVariable,
+            LocalVariable ciphertextVariable){
+        DecryptByPassPhrase f = new DecryptByPassPhrase();
+        f.setPassphraseVariable(passphraseVariable);
+        f.setCiphertextVariable(ciphertextVariable);
         return f;
     }
 
     static EncryptByAsymKey f_encryptbyasymkey(
-            StringConstant asymKeyId,
+            Expression asymKeyId,
             StringConstant plaintext){
         EncryptByAsymKey f = new EncryptByAsymKey();
         f.setAsymKeyId(asymKeyId);
@@ -613,7 +853,7 @@ public interface CryptographicFunctions {
         return f;
     }
     static EncryptByAsymKey f_encryptbyasymkey(
-            StringConstant asymKeyId,
+            Expression asymKeyId,
             LocalVariable plaintextVariable){
         EncryptByAsymKey f = new EncryptByAsymKey();
         f.setAsymKeyId(asymKeyId);
@@ -641,8 +881,8 @@ public interface CryptographicFunctions {
     static EncryptByKey f_encryptbykey(
             Expression keyGUID,
             StringConstant cleartext,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         EncryptByKey f = new EncryptByKey();
         f.setKeyGUID(keyGUID);
         f.setCleartext(cleartext);
@@ -653,7 +893,7 @@ public interface CryptographicFunctions {
     static EncryptByKey f_encryptbykey(
             Expression keyGUID,
             StringConstant cleartext,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         EncryptByKey f = new EncryptByKey();
         f.setKeyGUID(keyGUID);
@@ -666,7 +906,7 @@ public interface CryptographicFunctions {
             Expression keyGUID,
             StringConstant cleartext,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         EncryptByKey f = new EncryptByKey();
         f.setKeyGUID(keyGUID);
         f.setCleartext(cleartext);
@@ -688,9 +928,17 @@ public interface CryptographicFunctions {
     }
     static EncryptByKey f_encryptbykey(
             Expression keyGUID,
+            StringConstant cleartext){
+        EncryptByKey f = new EncryptByKey();
+        f.setKeyGUID(keyGUID);
+        f.setCleartext(cleartext);
+        return f;
+    }
+    static EncryptByKey f_encryptbykey(
+            Expression keyGUID,
             LocalVariable cleartextVariable,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         EncryptByKey f = new EncryptByKey();
         f.setKeyGUID(keyGUID);
         f.setCleartextVariable(cleartextVariable);
@@ -701,7 +949,7 @@ public interface CryptographicFunctions {
     static EncryptByKey f_encryptbykey(
             Expression keyGUID,
             LocalVariable cleartextVariable,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         EncryptByKey f = new EncryptByKey();
         f.setKeyGUID(keyGUID);
@@ -714,7 +962,7 @@ public interface CryptographicFunctions {
             Expression keyGUID,
             LocalVariable cleartextVariable,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         EncryptByKey f = new EncryptByKey();
         f.setKeyGUID(keyGUID);
         f.setCleartextVariable(cleartextVariable);
@@ -732,14 +980,22 @@ public interface CryptographicFunctions {
         f.setCleartextVariable(cleartextVariable);
         f.setAddAuthenticatorVariable(addAuthenticatorVariable);
         f.setAuthenticatorVariable(authenticatorVariable);
+        return f;
+    }
+    static EncryptByKey f_encryptbykey(
+            Expression keyGUID,
+            LocalVariable cleartextVariable){
+        EncryptByKey f = new EncryptByKey();
+        f.setKeyGUID(keyGUID);
+        f.setCleartextVariable(cleartextVariable);
         return f;
     }
 
     static EncryptByPassPhrase f_encryptbypassphrase(
             StringConstant passphrase,
             StringConstant cleartext,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCleartext(cleartext);
@@ -750,7 +1006,7 @@ public interface CryptographicFunctions {
     static EncryptByPassPhrase f_encryptbypassphrase(
             StringConstant passphrase,
             StringConstant cleartext,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphrase(passphrase);
@@ -763,7 +1019,7 @@ public interface CryptographicFunctions {
             StringConstant passphrase,
             StringConstant cleartext,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCleartext(cleartext);
@@ -785,9 +1041,17 @@ public interface CryptographicFunctions {
     }
     static EncryptByPassPhrase f_encryptbypassphrase(
             StringConstant passphrase,
+            StringConstant cleartext){
+        EncryptByPassPhrase f = new EncryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCleartext(cleartext);
+        return f;
+    }
+    static EncryptByPassPhrase f_encryptbypassphrase(
+            StringConstant passphrase,
             LocalVariable cleartextVariable,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCleartextVariable(cleartextVariable);
@@ -798,7 +1062,7 @@ public interface CryptographicFunctions {
     static EncryptByPassPhrase f_encryptbypassphrase(
             StringConstant passphrase,
             LocalVariable cleartextVariable,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphrase(passphrase);
@@ -811,7 +1075,7 @@ public interface CryptographicFunctions {
             StringConstant passphrase,
             LocalVariable cleartextVariable,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphrase(passphrase);
         f.setCleartextVariable(cleartextVariable);
@@ -832,10 +1096,18 @@ public interface CryptographicFunctions {
         return f;
     }
     static EncryptByPassPhrase f_encryptbypassphrase(
+            StringConstant passphrase,
+            LocalVariable cleartextVariable){
+        EncryptByPassPhrase f = new EncryptByPassPhrase();
+        f.setPassphrase(passphrase);
+        f.setCleartextVariable(cleartextVariable);
+        return f;
+    }
+    static EncryptByPassPhrase f_encryptbypassphrase(
             LocalVariable passphraseVariable,
             StringConstant cleartext,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCleartext(cleartext);
@@ -846,7 +1118,7 @@ public interface CryptographicFunctions {
     static EncryptByPassPhrase f_encryptbypassphrase(
             LocalVariable passphraseVariable,
             StringConstant cleartext,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
@@ -859,7 +1131,7 @@ public interface CryptographicFunctions {
             LocalVariable passphraseVariable,
             StringConstant cleartext,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCleartext(cleartext);
@@ -882,8 +1154,8 @@ public interface CryptographicFunctions {
     static EncryptByPassPhrase f_encryptbypassphrase(
             LocalVariable passphraseVariable,
             LocalVariable cleartextVariable,
-            NumberConstant addAuthenticator,
-            StringConstant authenticator){
+            Expression addAuthenticator,
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCleartextVariable(cleartextVariable);
@@ -894,7 +1166,7 @@ public interface CryptographicFunctions {
     static EncryptByPassPhrase f_encryptbypassphrase(
             LocalVariable passphraseVariable,
             LocalVariable cleartextVariable,
-            NumberConstant addAuthenticator,
+            Expression addAuthenticator,
             LocalVariable authenticatorVariable){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
@@ -907,7 +1179,7 @@ public interface CryptographicFunctions {
             LocalVariable passphraseVariable,
             LocalVariable cleartextVariable,
             LocalVariable addAuthenticatorVariable,
-            StringConstant authenticator){
+            Expression authenticator){
         EncryptByPassPhrase f = new EncryptByPassPhrase();
         f.setPassphraseVariable(passphraseVariable);
         f.setCleartextVariable(cleartextVariable);
@@ -930,7 +1202,7 @@ public interface CryptographicFunctions {
 
     static HashBytes f_hashbytes(
             HashBytes.Algorithm algorithm,
-            StringConstant input){
+            Expression input){
         HashBytes f = new HashBytes();
         f.setAlgorithm(algorithm);
         f.setInput(input);

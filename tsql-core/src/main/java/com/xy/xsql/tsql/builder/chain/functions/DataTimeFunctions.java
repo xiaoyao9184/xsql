@@ -16,7 +16,7 @@ public interface DataTimeFunctions {
         return new Current_Timestamp();
     }
     static DateAdd f_dateadd(
-            Expression datepart,
+            DatePart.DatePartArgument datepart,
             Expression number,
             Expression date){
         DateAdd f = new DateAdd();
@@ -26,7 +26,7 @@ public interface DataTimeFunctions {
         return f;
     }
     static DateDiff f_datediff(
-            Expression datepart,
+            DatePart.DatePartArgument datepart,
             Expression startDate,
             Expression endDate){
         DateDiff f = new DateDiff();
@@ -36,7 +36,7 @@ public interface DataTimeFunctions {
         return f;
     }
     static DateDiff_Big f_datediff_big(
-            Expression datepart,
+            DatePart.DatePartArgument datepart,
             Expression startDate,
             Expression endDate){
         DateDiff_Big f = new DateDiff_Big();
@@ -56,7 +56,7 @@ public interface DataTimeFunctions {
         return f;
     }
     static DateName f_datename(
-            Expression datepart,
+            DatePart.DatePartArgument datepart,
             Expression date){
         DateName f = new DateName();
         f.setDatepart(datepart);
@@ -64,7 +64,7 @@ public interface DataTimeFunctions {
         return f;
     }
     static DatePart f_datepart(
-            Expression datepart,
+            DatePart.DatePartArgument datepart,
             Expression date){
         DatePart f = new DatePart();
         f.setDatepart(datepart);
@@ -176,12 +176,7 @@ public interface DataTimeFunctions {
             Expression month,
             Expression day,
             Expression hour,
-            Expression minute,
-            Expression seconds,
-            Expression fractions,
-            Expression hourOffset,
-            Expression minuteOffset,
-            Expression precision){
+            Expression minute){
         SmallDatetimeFromParts f = new SmallDatetimeFromParts();
         f.setYear(year);
         f.setMonth(month);

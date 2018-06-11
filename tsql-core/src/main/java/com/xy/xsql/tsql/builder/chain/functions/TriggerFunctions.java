@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.functions;
 
+import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.trigger.Columns_Updated;
 import com.xy.xsql.tsql.model.functions.trigger.EventData;
@@ -11,13 +12,13 @@ import com.xy.xsql.tsql.model.functions.trigger.Update;
  */
 public interface TriggerFunctions {
 
-    static Columns_Updated f_$columns_updated(){
+    static Columns_Updated f_columns_updated(){
         return new Columns_Updated();
     }
-    static EventData f_$eventdata(){
+    static EventData f_eventdata(){
         return new EventData();
     }
-    static Trigger_NestLevel f_$trigger_nestlevel(
+    static Trigger_NestLevel f_trigger_nestlevel(
             Expression objectId,
             Expression triggerType,
             Expression triggerEventCategory){
@@ -27,11 +28,16 @@ public interface TriggerFunctions {
         f.setTriggerEventCategory(triggerEventCategory);
         return f;
     }
-    static Trigger_NestLevel f_$trigger_nestlevel(){
+    static Trigger_NestLevel f_trigger_nestlevel(){
         Trigger_NestLevel f = new Trigger_NestLevel();
         return f;
     }
-    static Update f_$update(){
+    static Update f_update(ColumnName c){
+        Update f = new Update();
+        f.setColumn(c);
+        return f;
+    }
+    static Update f_update(){
         return new Update();
     }
 }

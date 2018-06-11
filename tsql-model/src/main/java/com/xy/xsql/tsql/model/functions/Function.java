@@ -5,7 +5,7 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 /**
  * Created by xiaoyao9184 on 2018/5/29.
  */
-public interface Function {
+public interface Function extends Expression {
 
 
 

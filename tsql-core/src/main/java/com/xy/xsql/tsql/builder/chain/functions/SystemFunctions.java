@@ -96,12 +96,12 @@ public interface SystemFunctions {
         return new Get_Filestream_Transaction_Context();
     }
 
-    static Getansinull f_getansinull(){
-        Getansinull f = new Getansinull();
+    static GetAnsiNull f_getansinull(){
+        GetAnsiNull f = new GetAnsiNull();
         return f;
     }
-    static Getansinull f_getansinull(StringConstant database){
-        Getansinull f = new Getansinull();
+    static GetAnsiNull f_getansinull(StringConstant database){
+        GetAnsiNull f = new GetAnsiNull();
         f.setDatabase(database);
         return f;
     }

@@ -1,8 +1,7 @@
 package com.xy.xsql.tsql.model.functions.cryptographic;
 
-import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
-import com.xy.xsql.tsql.model.datatypes.numeric.NumericDataType;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.tsql.model.functions.Function;
 
@@ -14,8 +13,8 @@ public class DecryptByKey
 
     private StringConstant ciphertext;
     private LocalVariable ciphertextVariable;
-    private NumberConstant addAuthenticator;
-    private StringConstant authenticator;
+    private Expression addAuthenticator;
+    private Expression authenticator;
     private LocalVariable authenticatorVariable;
 
     public StringConstant getCiphertext() {
@@ -34,19 +33,19 @@ public class DecryptByKey
         this.ciphertextVariable = ciphertextVariable;
     }
 
-    public NumberConstant getAddAuthenticator() {
+    public Expression getAddAuthenticator() {
         return addAuthenticator;
     }
 
-    public void setAddAuthenticator(NumberConstant addAuthenticator) {
+    public void setAddAuthenticator(Expression addAuthenticator) {
         this.addAuthenticator = addAuthenticator;
     }
 
-    public StringConstant getAuthenticator() {
+    public Expression getAuthenticator() {
         return authenticator;
     }
 
-    public void setAuthenticator(StringConstant authenticator) {
+    public void setAuthenticator(Expression authenticator) {
         this.authenticator = authenticator;
     }
 

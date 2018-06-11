@@ -18,7 +18,7 @@ public interface CollationFunctions {
         f.setProperty(property);
         return f;
     }
-    static Tertiary_Weights f_collationproperty(
+    static Tertiary_Weights f_tertiary_weights(
             Expression non_Unicode_character_string_expression
     ){
         Tertiary_Weights f = new Tertiary_Weights();

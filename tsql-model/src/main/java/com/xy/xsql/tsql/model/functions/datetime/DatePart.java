@@ -9,14 +9,14 @@ import com.xy.xsql.tsql.model.functions.Function;
 public class DatePart
         implements DateTimeFunction, Function.InternalFunction {
 
-    private Expression datepart;
+    private DatePartArgument datepart;
     private Expression date;
 
-    public Expression getDatepart() {
+    public DatePartArgument getDatepart() {
         return datepart;
     }
 
-    public void setDatepart(Expression datepart) {
+    public void setDatepart(DatePartArgument datepart) {
         this.datepart = datepart;
     }
 
@@ -26,5 +26,21 @@ public class DatePart
 
     public void setDate(Expression date) {
         this.date = date;
+    }
+
+    public enum DatePartArgument {
+        year,	yy, yyyy,
+        quarter,	qq, q,
+        month,	mm, m,
+        dayofyear,	dy, y,
+        day,	dd, d,
+        week,	wk, ww,
+        weekday,	dw, w,
+        hour,	hh,
+        minute,	mi, n,
+        second,	ss, s,
+        millisecond,	ms,
+        microsecond,	mcs,
+        nanosecond,	ns;
     }
 }

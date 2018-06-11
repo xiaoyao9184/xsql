@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.model.functions.datatype;
 
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.datatypes.DataType;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.Function;
 
 /**
@@ -9,40 +10,40 @@ import com.xy.xsql.tsql.model.functions.Function;
 public class Identity
         implements DataTypeFunction, Function.InternalFunction {
 
-    private StringConstant dataType;
-    private StringConstant seed;
-    private StringConstant increment;
-    private StringConstant column_name;
+    private DataType dataType;
+    private Expression seed;
+    private Expression increment;
+    private Expression column_name;
 
-    public StringConstant getDataType() {
+    public DataType getDataType() {
         return dataType;
     }
 
-    public void setDataType(StringConstant dataType) {
+    public void setDataType(DataType dataType) {
         this.dataType = dataType;
     }
 
-    public StringConstant getSeed() {
+    public Expression getSeed() {
         return seed;
     }
 
-    public void setSeed(StringConstant seed) {
+    public void setSeed(Expression seed) {
         this.seed = seed;
     }
 
-    public StringConstant getIncrement() {
+    public Expression getIncrement() {
         return increment;
     }
 
-    public void setIncrement(StringConstant increment) {
+    public void setIncrement(Expression increment) {
         this.increment = increment;
     }
 
-    public StringConstant getColumn_name() {
+    public Expression getColumn_name() {
         return column_name;
     }
 
-    public void setColumn_name(StringConstant column_name) {
+    public void setColumn_name(Expression column_name) {
         this.column_name = column_name;
     }
 }

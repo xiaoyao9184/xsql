@@ -13,14 +13,14 @@ import java.util.List;
 public class Choose
         implements LogicalFunction, Function.InternalFunction {
 
-    private NumberConstant index;
+    private Expression index;
     private List<Expression> valList;
 
-    public NumberConstant getIndex() {
+    public Expression getIndex() {
         return index;
     }
 
-    public void setIndex(NumberConstant index) {
+    public void setIndex(Expression index) {
         this.index = index;
     }
 
