@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by xiaoyao9184 on 2018/5/29.
  */
-public class Certencoded
+public class CertEncoded
         implements SecurityFunction, Function.InternalFunction {
 
     private Expression certId;

@@ -5,6 +5,7 @@ import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.functions.Function;
 import com.xy.xsql.tsql.model.functions.mathematical.Pi;
 
+import static com.xy.xsql.tsql.converter.functions.FunctionConverters.noParam;
 import static com.xy.xsql.tsql.converter.functions.FunctionConverters.onlyName;
 
 /**
@@ -13,7 +14,7 @@ import static com.xy.xsql.tsql.converter.functions.FunctionConverters.onlyName;
 public class PiConverter
         implements ModelMetaBlockConverter<Pi> {
 
-    public static BlockMeta meta = onlyName(Function.Keywords.PI);
+    public static BlockMeta meta = noParam(Function.Keywords.PI);
 
     @Override
     public BlockMeta meta() {

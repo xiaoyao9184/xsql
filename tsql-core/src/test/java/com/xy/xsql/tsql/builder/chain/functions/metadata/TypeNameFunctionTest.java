@@ -26,7 +26,7 @@ public class TypeNameFunctionTest {
     /**
      * TYPE_NAME(36)
      */
-    public  Type_Name example2 = f_type_name(
+    public Type_Name example2 = f_type_name(
             c_number(36)
     );
 

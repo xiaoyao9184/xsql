@@ -20,7 +20,7 @@ public class FirstValueFunctionTest {
      * FIRST_VALUE(Name) OVER (ORDER BY ListPrice ASC)
      */
     public First_Value exampleA = f_first_value(c("Name"),
-            $Over().$OrderBy(c("ListPrice")).build());
+            $Over().$OrderByAsc(c("ListPrice")).build());
 
     @Test
     public void testExampleA(){
@@ -35,7 +35,7 @@ public class FirstValueFunctionTest {
      )
      */
     public First_Value exampleB = f_first_value(c("LastName"),
-            $Over().$PartitionBy(c("JobTitle")).$OrderBy(c("VacationHours")).$Rows().$UnboundedPreceding().build());
+            $Over().$PartitionBy(c("JobTitle")).$OrderByAsc(c("VacationHours")).$Rows().$UnboundedPreceding().build());
 
     @Test
     public void testExampleB(){

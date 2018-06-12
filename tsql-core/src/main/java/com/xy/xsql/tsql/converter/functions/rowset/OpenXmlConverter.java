@@ -8,6 +8,8 @@ import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.functions.Function;
 import com.xy.xsql.tsql.model.functions.rowset.OpenXml;
 
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
+
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
@@ -25,12 +27,14 @@ public class OpenXmlConverter
                         .and()
                     .sub_keyword(Other.DELIMITER)
                     .sub("rowpattern")
-                        .scope(d -> d.getRowPattern())
+                        .scope(d -> c_string(d.getRowPattern()))
                         .and()
-                    .sub_keyword(Other.DELIMITER)
-                    .sub("flags")
+                    .sub()
                         .optional(d -> d.getFlags() == null)
-                        .scope(d -> d.getFlags())
+                        .sub_keyword(Other.DELIMITER)
+                        .sub("flags")
+                            .scope(d -> d.getFlags())
+                            .and()
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .sub()

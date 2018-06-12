@@ -25,15 +25,13 @@ public class NtileFunctionTest {
     public Ntile exampleA = f_ntile(
             c_number(4),
             $Over()
-                .$PartitionBy(c("i","LocationID"))
-                .$OrderByDesc(c("i","Quantity"))
+                .$OrderByDesc(c("SalesYTD"))
                 .build()
     );
 
     @Test
     public void testExampleA(){
         assertEquals(exampleA.getIntegerExpression().getClass(), NumberConstant.class);
-        assertNotNull(exampleA.getPartitionBy());
         assertNotNull(exampleA.getOrderBy());
     }
 
@@ -69,13 +67,13 @@ public class NtileFunctionTest {
     }
 
     /**
-     * NTILE(2) OVER(PARTITION BY e.SalesTerritoryKey ORDER BY SUM(SalesAmountQuota)
+     * NTILE(2) OVER(PARTITION BY e.SalesTerritoryKey ORDER BY SUM(SalesAmountQuota))
      */
     public Ntile exampleD = f_ntile(
             c_number(2),
             $Over()
                     .$PartitionBy(c("e","SalesTerritoryKey"))
-                    .$OrderByDesc(f_sum(c("SalesAmountQuota")))
+                    .$OrderBy(f_sum(c("SalesAmountQuota")))
                     .build()
     );
 

@@ -21,7 +21,8 @@ public class BinaryChecksumConverter
                     .sub_keyword(Function.Keywords.BINARY_CHECKSUM)
                     .sub_keyword(Other.GROUP_START)
                     .sub()
-                        .czse_keyword(d -> d.getExpressionList() == null, Other.ASTERISK)
+                        .czse_keyword(d -> d.getExpressionList() == null
+                                || d.getExpressionList().isEmpty(), Other.ASTERISK)
                         .czse(d -> d.getExpressionList() != null,"expression")
                             .list()
                             .scope(d -> d.getExpressionList())

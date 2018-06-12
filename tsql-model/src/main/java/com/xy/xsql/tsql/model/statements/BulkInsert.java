@@ -319,6 +319,7 @@ public class BulkInsert implements Statement {
         CODEPAGE,
         DATAFILETYPE,
         DATASOURCE,
+        DATA_SOURCE, //TODO maybe error same as DATASOURCE
         ERRORFILE,
         ERRORFILE_DATASOURCE,
         FIRSTROW,

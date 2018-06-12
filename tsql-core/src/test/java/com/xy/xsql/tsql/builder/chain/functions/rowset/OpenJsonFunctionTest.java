@@ -24,7 +24,7 @@ public class OpenJsonFunctionTest {
     );
 
     /**
-     *  OPENJSON(SalesReasons)
+     * OPENJSON(SalesReasons)
      */
     public OpenJson example3 = f_openjson(
             c("SalesReasons")

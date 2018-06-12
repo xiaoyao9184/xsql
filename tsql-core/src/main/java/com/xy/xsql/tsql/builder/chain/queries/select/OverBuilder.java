@@ -135,6 +135,26 @@ public class OverBuilder<ParentBuilder>
      * @param expressions Expression
      * @return THIS
      */
+    public OverBuilder<ParentBuilder> $OrderByAsc(Expression... expressions){
+        OrderBy.Item[] array = Arrays.stream(expressions)
+                .map((expression -> {
+                    OrderBy.Item orderByItem = new OrderBy.Item();
+                    orderByItem.setOrderByExpression(expression);
+                    orderByItem.setUseAsc(true);
+                    return orderByItem;
+                }))
+                .toArray(OrderBy.Item[]::new);
+        return withOrderBy()
+                .withItems(array)
+                .and();
+    }
+
+    /**
+     * Quick set orderBy
+     * into OrderByBuilder get-out
+     * @param expressions Expression
+     * @return THIS
+     */
     public OverBuilder<ParentBuilder> $OrderByDesc(Expression... expressions){
         OrderBy.Item[] array = Arrays.stream(expressions)
                 .map((expression -> {

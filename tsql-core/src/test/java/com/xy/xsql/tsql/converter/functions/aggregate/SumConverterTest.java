@@ -29,7 +29,7 @@ public class SumConverterTest {
         Assert.assertEquals(writer.toString(),
                 "<SUM> ::=\n" +
                         "SUM ( [ ALL | DISTINCT ] expression )\n" +
-                        "\t[ OVER ( [ partition_by_clause ] order_by_clause ) ]");
+                        "\t[ OVER ( [ partition_by_clause ] [ order_by_clause ] ) ]");
     }
 
     private Map<Sum,String> model2StringMap;

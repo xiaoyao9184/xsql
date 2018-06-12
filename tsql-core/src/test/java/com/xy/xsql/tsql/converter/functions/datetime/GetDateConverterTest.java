@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import java.io.StringWriter;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by xiaoyao9184 on 2018/6/1.
  */

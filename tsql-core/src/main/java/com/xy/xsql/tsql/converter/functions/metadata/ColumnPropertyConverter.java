@@ -27,6 +27,7 @@ public class ColumnPropertyConverter
                     .sub("column")
                         .scope(d -> d.getColumn())
                         .and()
+                    .sub_keyword(Other.DELIMITER)
                     .sub("property")
                         .scope(d -> d.getProperty())
                         .and()

@@ -4,6 +4,9 @@ import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.functions.metadata.NextValueFor;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.functions.MetaDataFunctions.f_nextvaluefor;
@@ -21,19 +24,19 @@ public class NextValueForFunctionTest {
      * NEXT VALUE FOR Test.CountBy1
      */
     public NextValueFor exampleA = f_nextvaluefor(
-            t("Test","CountBy1")
+            "Test","CountBy1"
     );
 
     @Test
     public void testExampleA(){
-        assertEquals(exampleA.getSequenceName().getClass(), TableName.class);
+        assertEquals(exampleA.getSequenceName().size(), 2);
     }
 
     /**
-     *  NEXT VALUE FOR Test.CountBy1 OVER (ORDER BY LastName)
+     * NEXT VALUE FOR Test.CountBy1 OVER (ORDER BY LastName)
      */
     public NextValueFor exampleC = f_nextvaluefor(
-            t("Test","CountBy1"),
+            "Test","CountBy1",
             $Over()
                 .$OrderBy(c("LastName"))
                 .build()
@@ -41,7 +44,7 @@ public class NextValueForFunctionTest {
 
     @Test
     public void testExampleC(){
-        assertEquals(exampleC.getSequenceName().getClass(), TableName.class);
+        assertEquals(exampleC.getSequenceName().size(), 2);
         assertNotNull(exampleC.getOver());
     }
 

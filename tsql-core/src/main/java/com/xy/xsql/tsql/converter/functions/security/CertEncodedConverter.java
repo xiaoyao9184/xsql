@@ -1,26 +1,27 @@
-package com.xy.xsql.tsql.converter.functions.rowset;
+package com.xy.xsql.tsql.converter.functions.security;
 
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.functions.Function;
-import com.xy.xsql.tsql.model.functions.rowset.OpenQuery;
-import com.xy.xsql.tsql.model.functions.rowset.OpenRowSet;
+import com.xy.xsql.tsql.model.functions.security.CertEncoded;
 
 /**
- * Created by xiaoyao9184 on 2017/6/15.
+ * Created by xiaoyao9184 on 2018/6/11.
  */
-public class OpenRowsetConverter
-        implements ModelMetaBlockConverter<OpenRowSet> {
+public class CertEncodedConverter
+        implements ModelMetaBlockConverter<CertEncoded> {
 
     // @formatter:off
     public static BlockMeta meta =
-            new BlockMetaBuilder<Void,OpenRowSet>()
-                    .overall("OPENROWSET")
-                    .sub_keyword(Function.Keywords.OPENROWSET)
+            new BlockMetaBuilder<Void,CertEncoded>()
+                    .overall("CERTENCODED")
+                    .sub_keyword(Function.Keywords.CERTENCODED)
                     .sub_keyword(Other.GROUP_START)
-                    //TODO
+                    .sub("cert_id")
+                        .scope(d -> d.getCertId())
+                        .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();
     // @formatter:on

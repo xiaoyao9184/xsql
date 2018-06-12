@@ -8,6 +8,8 @@ import com.xy.xsql.tsql.model.functions.Function;
 import com.xy.xsql.tsql.model.functions.json.Json_Query;
 import com.xy.xsql.tsql.model.functions.json.Json_Value;
 
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_string;
+
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
@@ -23,10 +25,12 @@ public class JsonQueryConverter
                     .sub("expression")
                         .scope(d -> d.getExpression())
                         .and()
-                    .sub_keyword(Other.DELIMITER)
-                    .sub("path")
+                    .sub()
                         .optional(d -> d.getPath() == null)
-                        .scope(d -> d.getPath())
+                        .sub_keyword(Other.DELIMITER)
+                        .sub("path")
+                            .scope(d -> e_string(d.getPath()))
+                            .and()
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

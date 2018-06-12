@@ -19,6 +19,7 @@ public class EncryptByAsymKeyConverter
             new BlockMetaBuilder<Void,EncryptByAsymKey>()
                     .overall("EncryptByAsymKey")
                     .sub_keyword(Function.Keywords.EncryptByAsymKey)
+                    .sub_keyword(Other.GROUP_START)
                     .sub("Asym_Key_ID")
                         .scope(d -> d.getAsymKeyId())
                         .and()

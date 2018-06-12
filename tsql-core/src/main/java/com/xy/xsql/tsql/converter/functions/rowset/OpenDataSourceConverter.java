@@ -9,6 +9,8 @@ import com.xy.xsql.tsql.model.functions.Function;
 import com.xy.xsql.tsql.model.functions.ranking.Dense_Rank;
 import com.xy.xsql.tsql.model.functions.rowset.OpenDataSource;
 
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
+
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
@@ -26,7 +28,7 @@ public class OpenDataSourceConverter
                         .and()
                     .sub_keyword(Other.DELIMITER)
                     .sub("init_string")
-                        .scope(d -> d.getInitString())
+                        .scope(d -> c_string(d.getInitString()))
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

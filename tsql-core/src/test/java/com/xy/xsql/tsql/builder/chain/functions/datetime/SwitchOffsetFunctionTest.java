@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class SwitchOffsetFunctionTest {
 
-
     /**
      * SWITCHOFFSET (ColDatetimeoffset, '-08:00')
      */

@@ -24,7 +24,7 @@ public class TriggerNestLevelFunctionTest {
 
 
     /**
-     * TRIGGER_NESTLEVEL( OBJECT_ID('xyz') , 'AFTER' , 'DML' ) )
+     * TRIGGER_NESTLEVEL( OBJECT_ID('xyz') , 'AFTER' , 'DML' )
      */
     public Trigger_NestLevel exampleA = f_trigger_nestlevel(
             f_object_id(c_string("xyz")),

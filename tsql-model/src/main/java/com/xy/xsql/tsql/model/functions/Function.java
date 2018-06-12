@@ -68,7 +68,7 @@ public interface Function extends Expression {
         ASYMKEY_ID,
         ASYMKEYPROPERTY,
         CertProperty,
-        Cert_Id,
+        Cert_ID,
         CRYPT_GEN_RANDOM,
         DecryptByAsymKey,
         DecryptByCert,
@@ -186,6 +186,7 @@ public interface Function extends Expression {
         SOUNDEX,
         SPACE,
         STR,
+        STRING_AGG,
         STRING_ESCAPE,
         STRING_SPLIT,
         STUFF,
@@ -287,6 +288,7 @@ public interface Function extends Expression {
         FILE_ID,
         FILE_IDEX,
         FILE_NAME,
+        FILEGROUP_ID,
         FILEGROUP_NAME,
         FILEGROUPPROPERTY,
         FILEPROPERTY,
@@ -311,7 +313,34 @@ public interface Function extends Expression {
         STATS_DATE,
         TYPE_ID,
         TYPE_NAME,
-        TYPEPROPERTY;
+        TYPEPROPERTY,
+
+        //
+        CERTENCODED,
+        CERTPRIVATEKEY,
+        CURRENT_USER,
+        HAS_DBACCESS,
+        HAS_PERMS_BY_NAME,
+        IS_MEMBER,
+        IS_ROLEMEMBER,
+        IS_SRVROLEMEMBER,
+        LOGINPROPERTY,
+        ORIGINAL_LOGIN,
+        PERMISSIONS,
+        PWDENCRYPT,
+        PWDCOMPARE,
+        SESSION_USER,
+        SESSIONPROPERTY,
+        SUSER_ID,
+        SUSER_NAME,
+        SUSER_SID,
+        SUSER_SNAME,
+        SYSTEM_USER,
+        USER,
+        USER_ID,
+        USER_NAME
+
+        ;
 
 
 

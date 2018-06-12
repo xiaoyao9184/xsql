@@ -30,7 +30,7 @@ public interface DataTypeFunctions {
         return f;
     }
     static Ident_Seed f_ident_seed(
-            StringConstant tableOrView){
+            Expression tableOrView){
         Ident_Seed f = new Ident_Seed();
         f.setTableOrView(tableOrView);
         return f;
@@ -45,16 +45,6 @@ public interface DataTypeFunctions {
         f.setSeed(seed);
         f.setIncrement(increment);
         f.setColumn_name(column_name);
-        return f;
-    }
-    static Identity f_identity(
-            DataType dataType,
-            Expression seed,
-            Expression increment){
-        Identity f = new Identity();
-        f.setDataType(dataType);
-        f.setSeed(seed);
-        f.setIncrement(increment);
         return f;
     }
     static Identity f_identity(

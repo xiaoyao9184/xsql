@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.functions.security;
 
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.Function;
 
 /**
@@ -9,13 +9,13 @@ import com.xy.xsql.tsql.model.functions.Function;
 public class SUser_SName
         implements SecurityFunction, Function.InternalFunction {
 
-    private StringConstant serverUserSId;
+    private Expression serverUserSId;
 
-    public StringConstant getServerUserSId() {
+    public Expression getServerUserSId() {
         return serverUserSId;
     }
 
-    public void setServerUserSId(StringConstant serverUserSId) {
+    public void setServerUserSId(Expression serverUserSId) {
         this.serverUserSId = serverUserSId;
     }
 }

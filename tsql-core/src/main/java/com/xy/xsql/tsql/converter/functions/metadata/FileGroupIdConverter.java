@@ -18,7 +18,7 @@ public class FileGroupIdConverter
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,FileGroup_Id>()
                     .overall("FILEGROUP_ID")
-                    .sub_keyword(Function.Keywords.FILE_ID)
+                    .sub_keyword(Function.Keywords.FILEGROUP_ID)
                     .sub_keyword(Other.GROUP_START)
                     .sub("'filegroup_name'")
                         .scope(d -> d.getFilegroupName())

@@ -17,7 +17,7 @@ public class IndexPropertyFunctionTest {
 
 
     /**
-     * IINDEXPROPERTY(OBJECT_ID('HumanResources.Employee'),
+     * INDEXPROPERTY(OBJECT_ID('HumanResources.Employee'),
      'PK_Employee_BusinessEntityID','IsClustered')
      */
     public IndexProperty example1 = f_indexproperty(

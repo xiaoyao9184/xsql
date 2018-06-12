@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by xiaoyao9184 on 2018/6/5.
  */
-public class SymkeyPropertyFunctionTest {
+public class SymKeyPropertyFunctionTest {
 
 
     /**

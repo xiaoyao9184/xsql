@@ -56,7 +56,9 @@ public class LeadFunctionTest {
      */
     public Lead exampleC = f_lead(
             e_multiplication(e_number(2),c("c")),
-            e_multiplication(c("c"),$Query().$(f_min(c("b"))).$From().$(t("T")).and().build()),
+            e_multiplication(
+                    c("b"),
+                    e($Query().$(f_min(c("b"))).$From().$(t("T")).and().build())),
             e_division(e_negative(c("c")), e_number(2.0)),
             $Over().$OrderBy(c("a")).build());
 
@@ -72,7 +74,7 @@ public class LeadFunctionTest {
      * LEAD(SalesAmountQuota,1,0) OVER (ORDER BY CalendarYear, CalendarQuarter)
      */
     public Lead exampleD = f_lead(c("SalesAmountQuota"),e_number(1),e_number(0),
-            $Over().$OrderByDesc(c("CalendarYear"),c("CalendarQuarter")).build());
+            $Over().$OrderBy(c("CalendarYear"),c("CalendarQuarter")).build());
 
     @Test
     public void testExampleD(){

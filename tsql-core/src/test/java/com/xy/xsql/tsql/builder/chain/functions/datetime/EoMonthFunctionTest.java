@@ -17,7 +17,7 @@ public class EoMonthFunctionTest {
 
 
     /**
-     *  EOMONTH ( @date )
+     * EOMONTH ( @date )
      */
     public EoMonth exampleA = f_eomonth(
             e_variable("date")

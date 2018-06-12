@@ -19,7 +19,7 @@ public class ToDatetimeOffsetFunctionTest {
 
 
     /**
-     * TTODATETIMEOFFSET (@todaysDateTime, '-07:00');
+     * TODATETIMEOFFSET (@todaysDateTime, '-07:00')
      */
     public ToDatetimeOffset exampleA = f_todatetimeoffset(
             e_variable("todaysDateTime"),

@@ -15,7 +15,7 @@ public class ChecksumFunctionTest {
 
 
     /**
-     * BINARY_CHECKSUM(*)
+     * CHECKSUM(Name)
      */
     public Checksum example1 = f_checksum(
             c("Name")

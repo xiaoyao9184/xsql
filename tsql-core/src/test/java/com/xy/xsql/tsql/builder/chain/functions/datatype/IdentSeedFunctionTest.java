@@ -1,5 +1,6 @@
 package com.xy.xsql.tsql.builder.chain.functions.datatype;
 
+import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
 import com.xy.xsql.tsql.model.functions.datatype.Ident_Current;
 import com.xy.xsql.tsql.model.functions.datatype.Ident_Seed;
@@ -25,13 +26,13 @@ public class IdentSeedFunctionTest {
 
     @Test
     public void testExampleA(){
-        assertEquals(exampleA.getTableOrView().getString(), "Person.Address");
+        assertEquals(exampleA.getTableOrView().getClass(), StringConstant.class);
     }
 
     /**
      * IDENT_SEED(TABLE_SCHEMA + '.' + TABLE_NAME)
      */
-    public Ident_Current exampleB = f_ident_current(
+    public Ident_Seed exampleB = f_ident_seed(
             e_addition(
                     e_addition(
                             c("TABLE_SCHEMA"),
@@ -42,6 +43,6 @@ public class IdentSeedFunctionTest {
 
     @Test
     public void testExampleB(){
-        assertEquals(exampleB.getTableName().getClass(), BinaryExpression.class);
+        assertEquals(exampleB.getTableOrView().getClass(), BinaryExpression.class);
     }
 }

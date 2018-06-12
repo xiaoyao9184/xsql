@@ -20,7 +20,7 @@ public class RowNumberFunctionTest {
      */
     public Row_Number exampleA1 = f_row_number(
             $Over()
-                .$OrderBy(c("name"))
+                .$OrderByAsc(c("name"))
                 .build()
     );
 
@@ -30,7 +30,7 @@ public class RowNumberFunctionTest {
     public Row_Number exampleA2 = f_row_number(
             $Over()
                     .$PartitionBy(c("recovery_model_desc"))
-                    .$OrderBy(c("name"))
+                    .$OrderByAsc(c("name"))
                     .build()
     );
 

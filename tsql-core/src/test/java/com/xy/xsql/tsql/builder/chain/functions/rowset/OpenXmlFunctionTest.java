@@ -31,7 +31,7 @@ public class OpenXmlFunctionTest {
     }
 
     /**
-     *  OPENXML (@idoc, '/ROOT/Customer/Order/OrderDetail',2)
+     * OPENXML (@idoc, '/ROOT/Customer/Order/OrderDetail',2)
      */
     public OpenXml exampleB = f_openxml(
             e_variable("idoc"),

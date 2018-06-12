@@ -5,7 +5,6 @@ import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.functions.Function;
-import com.xy.xsql.tsql.model.functions.security.Certencoded;
 import com.xy.xsql.tsql.model.functions.security.Has_DBAccess;
 
 /**

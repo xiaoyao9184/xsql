@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.converter.functions.conversion;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.DataTypeConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.functions.Function;
@@ -26,7 +27,9 @@ public class ParseConverter
                         .and()
                     .sub_keyword(Keywords.AS)
                     .sub("data_type")
+                        .ref(DataTypeConverter.class)
                         .scope(d -> d.getDataType())
+                        .syntax_reference_remove()
                         .and()
                     .sub()
                         .optional(d -> d.getCulture() == null)

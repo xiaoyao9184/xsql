@@ -33,7 +33,7 @@ public class SubStringFunctionTest {
     }
 
     /**
-     *  SUBSTRING(logo, 1, 10)
+     * SUBSTRING(logo, 1, 10)
      */
     public SubString exampleB1 = f_substring(
             c("logo"),
@@ -47,7 +47,7 @@ public class SubStringFunctionTest {
     public SubString exampleB2 = f_substring(
             c("pr","pr_info"),
             c_number(1),
-            c_number(10)
+            c_number(35)
     );
 
     @Test

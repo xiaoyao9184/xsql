@@ -16,7 +16,7 @@ public class DateNameFunctionTest {
 
 
     /**
-     * DATENAME(datepart,'2007-10-30 12:15:32.1234567 +05:10');
+     * DATENAME(yyyy,'2007-10-30 12:15:32.1234567 +05:10')
      */
     public DateName example1 = f_datename(
             DatePart.DatePartArgument.yyyy,

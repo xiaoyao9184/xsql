@@ -15,7 +15,7 @@ public class TranslateFunctionTest {
 
 
     /**
-     * TRANSLATE('2*[3+4]/{7-2}', '[]{}', '()()');
+     * TRANSLATE('2*[3+4]/{7-2}', '[]{}', '()()')
      */
     public Translate exampleA = f_translate(
             c_string("2*[3+4]/{7-2}"),
@@ -31,7 +31,7 @@ public class TranslateFunctionTest {
     }
 
     /**
-     *  TRANSLATE('[137.4, 72.3]' , '[,]', '( )')
+     * TRANSLATE('[137.4, 72.3]' , '[,]', '( )')
      */
     public Translate exampleB1 = f_translate(
             c_string("[137.4, 72.3]"),

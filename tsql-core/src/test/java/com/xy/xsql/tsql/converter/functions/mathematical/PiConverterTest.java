@@ -7,8 +7,6 @@ import org.junit.Test;
 
 import java.io.StringWriter;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by xiaoyao9184 on 2018/5/31.
  */
@@ -23,7 +21,7 @@ public class PiConverterTest {
         System.out.println(writer);
         Assert.assertEquals(writer.toString(),
                 "<PI> ::=\n" +
-                        "PI");
+                        "PI ( )");
     }
 
 }

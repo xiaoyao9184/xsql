@@ -28,7 +28,7 @@ public class OpenQueryFunctionTest {
     }
 
     /**
-     *  OPENQUERY (OracleSvr, 'SELECT name FROM joe.titles')
+     * OPENQUERY (OracleSvr, 'SELECT name FROM joe.titles')
      */
     public OpenQuery exampleB = f_openquery(
             "OracleSvr",
@@ -42,7 +42,7 @@ public class OpenQueryFunctionTest {
     }
 
     /**
-     *  OPENQUERY (OracleSvr, 'SELECT name FROM joe.titles WHERE name = ''NewTitle''')
+     * OPENQUERY (OracleSvr, 'SELECT name FROM joe.titles WHERE name = ''NewTitle''')
      */
     public OpenQuery exampleC = f_openquery(
             "OracleSvr",

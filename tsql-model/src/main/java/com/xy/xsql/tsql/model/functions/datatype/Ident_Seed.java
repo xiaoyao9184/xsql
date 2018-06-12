@@ -1,6 +1,6 @@
 package com.xy.xsql.tsql.model.functions.datatype;
 
-import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.Function;
 
 /**
@@ -9,13 +9,13 @@ import com.xy.xsql.tsql.model.functions.Function;
 public class Ident_Seed
         implements DataTypeFunction, Function.InternalFunction {
 
-    private StringConstant tableOrView;
+    private Expression tableOrView;
 
-    public StringConstant getTableOrView() {
+    public Expression getTableOrView() {
         return tableOrView;
     }
 
-    public void setTableOrView(StringConstant tableOrView) {
+    public void setTableOrView(Expression tableOrView) {
         this.tableOrView = tableOrView;
     }
 }

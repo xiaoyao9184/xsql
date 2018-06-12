@@ -42,13 +42,13 @@ public class ObjectPropertyFunctionTest {
             f_object_id(
                     c_string("dbo.ufnGetProductDealerPrice")
             ),
-            c("IsDeterministic")
+            c_string("IsDeterministic")
     );
 
     @Test
     public void testExampleB(){
         assertEquals(exampleB.getId().getClass(), Object_Id.class);
-        assertEquals(exampleB.getProperty().getClass(), ColumnName.class);
+        assertEquals(exampleB.getProperty().getClass(), StringConstant.class);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ObjectPropertyFunctionTest {
      */
     public ObjectProperty exampleC = f_objectproperty(
             c("object_id"),
-            c_n_string("dbo.SchemaId")
+            c_n_string("SchemaId")
     );
 
     @Test
@@ -72,13 +72,13 @@ public class ObjectPropertyFunctionTest {
             f_object_id(
                     c_n_string("dbo.DimReseller")
             ),
-            c("ISTABLE")
+            c_string("ISTABLE")
     );
 
     @Test
     public void testExampleD(){
         assertEquals(exampleD.getId().getClass(), Object_Id.class);
-        assertEquals(exampleD.getProperty().getClass(), ColumnName.class);
+        assertEquals(exampleD.getProperty().getClass(), StringConstant.class);
     }
 
 }

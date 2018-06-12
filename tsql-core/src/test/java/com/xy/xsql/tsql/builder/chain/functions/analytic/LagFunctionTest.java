@@ -11,6 +11,7 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.*;
 import static com.xy.xsql.tsql.builder.chain.functions.AggregateFunctions.f_min;
 import static com.xy.xsql.tsql.builder.chain.functions.AnalyticFunctions.f_lag;
+import static com.xy.xsql.tsql.builder.chain.functions.DataTimeFunctions.f_year;
 import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Over;
 import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
 import static org.junit.Assert.assertEquals;
@@ -26,7 +27,7 @@ public class LagFunctionTest {
      * LAG(SalesQuota, 1,0) OVER (ORDER BY YEAR(QuotaDate))
      */
     public Lag exampleA = f_lag(c("SalesQuota"),e_number(1),e_number(0),
-            $Over().$OrderBy(c("QuotaDate")).build());
+            $Over().$OrderBy(f_year(c("QuotaDate"))).build());
 
     @Test
     public void testExampleA(){
@@ -55,7 +56,9 @@ public class LagFunctionTest {
      */
     public Lag exampleC = f_lag(
             e_multiplication(e_number(2),c("c")),
-            e_multiplication(c("c"),$Query().$(f_min(c("b"))).$From().$(t("T")).and().build()),
+            e_multiplication(
+                    c("b"),
+                    e($Query().$(f_min(c("b"))).$From().$(t("T")).and().build())),
             e_division(e_negative(c("c")), e_number(2.0)),
             $Over().$OrderBy(c("a")).build());
 
@@ -71,7 +74,7 @@ public class LagFunctionTest {
      * LAG(SalesAmountQuota,1,0) OVER (ORDER BY CalendarYear, CalendarQuarter)
      */
     public Lag exampleD = f_lag(c("SalesAmountQuota"),e_number(1),e_number(0),
-            $Over().$OrderByDesc(c("CalendarYear"),c("CalendarQuarter")).build());
+            $Over().$OrderBy(c("CalendarYear"),c("CalendarQuarter")).build());
 
     @Test
     public void testExampleD(){

@@ -7,6 +7,8 @@ import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.metadata.*;
 import com.xy.xsql.tsql.model.queries.select.Over;
 
+import java.util.Arrays;
+
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 /**
@@ -176,6 +178,16 @@ public interface MetaDataFunctions {
             Expression indexId,
             Expression keyId){
         Index_Col f = new Index_Col();
+        f.setTableName(c_string(tableName.getFullName()));
+        f.setIndexId(indexId);
+        f.setKeyId(keyId);
+        return f;
+    }
+    static Index_Col f_index_col(
+            StringConstant tableName,
+            Expression indexId,
+            Expression keyId){
+        Index_Col f = new Index_Col();
         f.setTableName(tableName);
         f.setIndexId(indexId);
         f.setKeyId(keyId);
@@ -204,17 +216,51 @@ public interface MetaDataFunctions {
         return f;
     }
     static NextValueFor f_nextvaluefor(
-            TableName sequenceName,
+            String databaseName,
+            String schemaName,
+            String sequenceName,
             Over over){
         NextValueFor f = new NextValueFor();
-        f.setSequenceName(sequenceName);
+        f.setSequenceName(Arrays.asList(databaseName,schemaName,sequenceName));
         f.setOver(over);
         return f;
     }
     static NextValueFor f_nextvaluefor(
-            TableName sequenceName){
+            String databaseName,
+            String schemaName,
+            String sequenceName){
         NextValueFor f = new NextValueFor();
-        f.setSequenceName(sequenceName);
+        f.setSequenceName(Arrays.asList(databaseName,schemaName,sequenceName));
+        return f;
+    }
+    static NextValueFor f_nextvaluefor(
+            String schemaName,
+            String sequenceName,
+            Over over){
+        NextValueFor f = new NextValueFor();
+        f.setSequenceName(Arrays.asList(schemaName,sequenceName));
+        f.setOver(over);
+        return f;
+    }
+    static NextValueFor f_nextvaluefor(
+            String schemaName,
+            String sequenceName){
+        NextValueFor f = new NextValueFor();
+        f.setSequenceName(Arrays.asList(schemaName,sequenceName));
+        return f;
+    }
+    static NextValueFor f_nextvaluefor(
+            String sequenceName,
+            Over over){
+        NextValueFor f = new NextValueFor();
+        f.setSequenceName(Arrays.asList(sequenceName));
+        f.setOver(over);
+        return f;
+    }
+    static NextValueFor f_nextvaluefor(
+            String sequenceName){
+        NextValueFor f = new NextValueFor();
+        f.setSequenceName(Arrays.asList(sequenceName));
         return f;
     }
     static Object_Definition f_object_definition(

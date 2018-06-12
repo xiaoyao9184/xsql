@@ -1,5 +1,12 @@
 package com.xy.xsql.tsql.converter.functions.system;
 
+import com.xy.xsql.block.core.printer.MetaBlockPrinter;
+import com.xy.xsql.block.model.BlockMeta;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.StringWriter;
+
 import static org.junit.Assert.*;
 
 /**
@@ -7,4 +14,15 @@ import static org.junit.Assert.*;
  */
 public class PackReceivedConverterTest {
 
+    @Test
+    public void testMetaPrint() throws Exception {
+        BlockMeta b = PackReceivedConverter.meta;
+
+        StringWriter writer = MetaBlockPrinter.print(b);
+
+        System.out.println(writer);
+        Assert.assertEquals(writer.toString(),
+                "<@@PACK_RECEIVED> ::=\n" +
+                        "@@PACK_RECEIVED");
+    }
 }

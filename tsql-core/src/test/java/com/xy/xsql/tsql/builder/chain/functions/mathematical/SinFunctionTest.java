@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class SinFunctionTest {
 
     /**
-     * SIGN(@value)
+     * SIN(@value)
      */
     public Sin example1 = f_sin(
             e_variable("value")

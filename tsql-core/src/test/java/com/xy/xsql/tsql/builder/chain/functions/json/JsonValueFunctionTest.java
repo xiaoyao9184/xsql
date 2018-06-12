@@ -42,7 +42,7 @@ public class JsonValueFunctionTest {
      * JSON_VALUE(jsonContent, '$.address[0].longitude')
      */
     public Json_Value example2 = f_json_value(
-            c("jsonInfo"),
+            c("jsonContent"),
             "$.address[0].longitude"
     );
 

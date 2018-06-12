@@ -4,8 +4,12 @@ import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 import com.xy.xsql.tsql.model.elements.expressions.Expression;
 import com.xy.xsql.tsql.model.functions.rowset.*;
+import com.xy.xsql.tsql.model.statements.BulkInsert;
 
+import java.util.Arrays;
 import java.util.List;
+
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 
 /**
  * Created by xiaoyao9184 on 2018/6/1.
@@ -62,7 +66,68 @@ public interface RowsetFunctions {
         return f;
     }
 
-    //TODO OpenRowset
+    static OpenRowSet f_openrowset(
+            StringConstant providerName,
+            StringConstant providerString,
+            StringConstant query){
+        OpenRowSet f = new OpenRowSet();
+        f.setProviderName(providerName);
+        f.setProvider_string(providerString);
+        f.setQuery(query);
+        return f;
+    }
+    static OpenRowSet f_openrowset(
+            StringConstant providerName,
+            StringConstant providerString,
+            String... object){
+        OpenRowSet f = new OpenRowSet();
+        f.setProviderName(providerName);
+        f.setProvider_string(providerString);
+        f.setObject(Arrays.asList(object));
+        return f;
+    }
+    static OpenRowSet f_openrowset(
+            StringConstant providerName,
+            String datasource,
+            String user_id,
+            String password,
+            StringConstant query){
+        OpenRowSet f = new OpenRowSet();
+        f.setProviderName(providerName);
+        f.setDatasource(c_string(datasource));
+        f.setUserId(c_string(user_id));
+        f.setPassword(c_string(password));
+        f.setQuery(query);
+        return f;
+    }
+    static OpenRowSet f_openrowset(
+            StringConstant providerName,
+            String datasource,
+            String user_id,
+            String password,
+            String... object){
+        OpenRowSet f = new OpenRowSet();
+        f.setProviderName(providerName);
+        f.setDatasource(c_string(datasource));
+        f.setUserId(c_string(user_id));
+        f.setPassword(c_string(password));
+        f.setObject(Arrays.asList(object));
+        return f;
+    }
+    static OpenRowSet f_openrowset(
+            BulkInsert bulkInsert,
+            OpenRowSet.Single single){
+        OpenRowSet f = new OpenRowSet();
+        f.setBulkInsert(bulkInsert);
+        f.setSingle(single);
+        return f;
+    }
+    static OpenRowSet f_openrowset(
+            BulkInsert bulkInsert){
+        OpenRowSet f = new OpenRowSet();
+        f.setBulkInsert(bulkInsert);
+        return f;
+    }
 
     static OpenXml f_openxml(
             Expression idoc,

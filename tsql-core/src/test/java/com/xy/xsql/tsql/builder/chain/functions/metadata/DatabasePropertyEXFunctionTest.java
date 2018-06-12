@@ -15,7 +15,7 @@ public class DatabasePropertyEXFunctionTest {
 
 
     /**
-     * DATABASEPROPERTYEX('AdventureWorks2014', 'IsAutoShrink');
+     * DATABASEPROPERTYEX('AdventureWorks2014', 'IsAutoShrink')
      */
     public DatabasePropertyEX exampleB = f_databasepropertyex(
             c_string("AdventureWorks2014"),

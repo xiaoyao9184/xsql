@@ -25,7 +25,7 @@ public class PercentileContFunctionTest {
     public Percentile_Cont exampleA = f_percentile_cont(
             e_number(0.5),
             $Within_Group_Order_By(c("ph","Rate")),
-            $Over().$PartitionBy(c("Department")).$OrderBy(c("Rate")).build());
+            $Over().$PartitionBy(c("Name")).build());
 
     @Test
     public void testExampleA(){

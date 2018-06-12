@@ -11,7 +11,7 @@ import com.xy.xsql.tsql.model.functions.system.DeCompress;
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
-public class DecompressConverter
+public class DeCompressConverter
         implements ModelMetaBlockConverter<DeCompress> {
 
     // @formatter:off

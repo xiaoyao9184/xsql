@@ -18,7 +18,7 @@ public class CertIdConverter
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,Cert_Id>()
                     .overall("Cert_ID")
-                    .sub_keyword(Function.Keywords.Cert_Id)
+                    .sub_keyword(Function.Keywords.Cert_ID)
                     .sub_keyword(Other.GROUP_START)
                     .sub("'cert_name'")
                         .scope(d -> d.getCertName())

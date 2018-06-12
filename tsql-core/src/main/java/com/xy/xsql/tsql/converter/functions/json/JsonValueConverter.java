@@ -8,6 +8,8 @@ import com.xy.xsql.tsql.model.functions.Function;
 import com.xy.xsql.tsql.model.functions.json.IsJson;
 import com.xy.xsql.tsql.model.functions.json.Json_Value;
 
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
+
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
@@ -25,7 +27,7 @@ public class JsonValueConverter
                         .and()
                     .sub_keyword(Other.DELIMITER)
                     .sub("path")
-                        .scope(d -> d.getPath())
+                        .scope(d -> c_string(d.getPath()))
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

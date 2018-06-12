@@ -19,7 +19,7 @@ public class DbNameFunctionTest {
     /**
      * DB_NAME()
      */
-    public Db_Name example1 = f_db_name();
+    public Db_Name exampleA = f_db_name();
 
     /**
      * DB_NAME(3)

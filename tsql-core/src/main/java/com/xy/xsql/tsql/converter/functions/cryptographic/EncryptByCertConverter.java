@@ -19,6 +19,7 @@ public class EncryptByCertConverter
             new BlockMetaBuilder<Void,EncryptByCert>()
                     .overall("EncryptByCert")
                     .sub_keyword(Function.Keywords.EncryptByCert)
+                    .sub_keyword(Other.GROUP_START)
                     .sub("certificate_ID")
                         .scope(d -> d.getCertificateId())
                         .and()

@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.builder.chain.functions.datetime;
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
 import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.expressions.BinaryExpression;
+import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.tsql.model.functions.aggregate.Min;
 import com.xy.xsql.tsql.model.functions.datetime.*;
@@ -14,6 +15,7 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_number;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_addition;
 import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e_variable;
 import static com.xy.xsql.tsql.builder.chain.functions.AggregateFunctions.f_max;
@@ -85,25 +87,25 @@ public class DateDiffFunctionTest {
      */
     public DateDiff exampleD = f_datediff(
             DatePart.DatePartArgument.day,
-            $Query()
+            e($Query()
                 .$(f_min(c("OrderDate")))
                 .$From()
                     .$(t("Sales","SalesOrderHeader"))
                     .and()
-                .build(),
-            $Query()
+                .build()),
+            e($Query()
                     .$(f_max(c("OrderDate")))
                     .$From()
                         .$(t("Sales","SalesOrderHeader"))
                         .and()
-                    .build()
+                    .build())
     );
 
     @Test
     public void testExampleD(){
         assertEquals(exampleD.getDatepart(), DatePart.DatePartArgument.day);
-        assertEquals(exampleD.getStartDate().getClass(), Select.QuerySpecification.class);
-        assertEquals(exampleD.getEndDate().getClass(), Select.QuerySpecification.class);
+        assertEquals(exampleD.getStartDate().getClass(), GroupExpression.class);
+        assertEquals(exampleD.getEndDate().getClass(), GroupExpression.class);
     }
 
     /**
@@ -152,7 +154,7 @@ public class DateDiffFunctionTest {
     }
 
     /**
-     * DDATEDIFF(day,ROW_NUMBER() OVER (ORDER BY
+     * DATEDIFF(day,ROW_NUMBER() OVER (ORDER BY
      a.PostalCode),SYSDATETIME())
      */
     public DateDiff exampleG = f_datediff(

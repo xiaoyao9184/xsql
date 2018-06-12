@@ -3,6 +3,7 @@ package com.xy.xsql.tsql.converter.functions.datatype;
 import com.xy.xsql.block.core.converter.ModelMetaBlockConverter;
 import com.xy.xsql.block.meta.BlockMetaBuilder;
 import com.xy.xsql.block.model.BlockMeta;
+import com.xy.xsql.tsql.converter.datatypes.DataTypeConverter;
 import com.xy.xsql.tsql.model.elements.Keywords;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.functions.Function;
@@ -22,6 +23,7 @@ public class IdentityConverter
                     .sub_keyword(Function.Keywords.IDENTITY)
                     .sub_keyword(Other.GROUP_START)
                     .sub("data_type")
+                        .ref(DataTypeConverter.class)
                         .scope(d -> d.getDataType())
                         .and()
                     .sub()

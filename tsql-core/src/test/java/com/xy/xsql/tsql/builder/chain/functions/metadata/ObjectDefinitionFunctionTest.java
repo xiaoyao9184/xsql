@@ -20,7 +20,7 @@ public class ObjectDefinitionFunctionTest {
      */
     public Object_Definition exampleA = f_object_definition(
             f_object_id(
-                    c_n_string("HumanResources.uAddress"))
+                    c_n_string("Person.uAddress"))
     );
 
     @Test

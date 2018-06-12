@@ -17,7 +17,7 @@ public class CeilingFunctionTest {
      * CEILING($123.45)
      */
     public Ceiling example1 = f_ceiling(
-            c_money(123.45)
+            c_money("$",123.45)
     );
 
     @Test

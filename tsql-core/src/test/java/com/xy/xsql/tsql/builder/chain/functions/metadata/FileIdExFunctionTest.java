@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.functions.metadata;
 
 import com.xy.xsql.tsql.model.datatypes.constants.StringConstant;
+import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.functions.metadata.File_IdEx;
 import com.xy.xsql.tsql.model.queries.Select;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_number;
 import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.ColumnNameFactory.c;
 import static com.xy.xsql.tsql.builder.chain.datatypes.table.TableNameFactory.t;
+import static com.xy.xsql.tsql.builder.chain.elements.expressions.Expressions.e;
 import static com.xy.xsql.tsql.builder.chain.functions.MetaDataFunctions.f_file_idex;
 import static com.xy.xsql.tsql.builder.chain.queries.Queries.$Query;
 import static com.xy.xsql.tsql.builder.chain.queries.predicates.Predicates.p_equal;
@@ -36,7 +38,7 @@ public class FileIdExFunctionTest {
      * FILE_IDEX((SELECT TOP (1) name FROM sys.database_files WHERE type = 1))
      */
     public File_IdEx exampleB = f_file_idex(
-            $Query()
+            e($Query()
                 .$Top()
                     .$(c_number(1))
                     .and()
@@ -50,19 +52,19 @@ public class FileIdExFunctionTest {
                             c_number(1)
                     ))
                     .and()
-                .build()
+                .build())
     );
 
     @Test
     public void testExampleB(){
-        assertEquals(exampleB.getFileName().getClass(), Select.QuerySpecification.class);
+        assertEquals(exampleB.getFileName().getClass(), GroupExpression.class);
     }
 
     /**
      * FILE_IDEX((SELECT name FROM sys.master_files WHERE type = 4))
      */
     public File_IdEx exampleC = f_file_idex(
-            $Query()
+            e($Query()
                 .$(c("name"))
                 .$From()
                     .$(t("sys","master_files"))
@@ -73,12 +75,12 @@ public class FileIdExFunctionTest {
                             c_number(4)
                     ))
                     .and()
-                .build()
+                .build())
     );
 
     @Test
     public void testExampleC(){
-        assertEquals(exampleC.getFileName().getClass(), Select.QuerySpecification.class);
+        assertEquals(exampleC.getFileName().getClass(), GroupExpression.class);
     }
 
 }

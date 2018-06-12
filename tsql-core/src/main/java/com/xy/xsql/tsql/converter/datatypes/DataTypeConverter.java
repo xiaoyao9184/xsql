@@ -75,7 +75,7 @@ public class DataTypeConverter
         // @formatter:off
         public static BlockMeta meta =
                 new BlockMetaBuilder<Void,DataType.SimpleDataType>()
-                        .description("type")
+                        .description("type_name")
                         .sub()
                             .description("type name")
                             .scope(d -> d.name())

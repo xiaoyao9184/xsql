@@ -15,7 +15,7 @@ public class AppLockTestFunctionTest {
 
 
     /**
-     * APPLOCK_TEST('public', 'Form1', 'Shared', 'Transaction');
+     * APPLOCK_TEST('public', 'Form1', 'Shared', 'Transaction')
      */
     public AppLock_Test example1 = f_applock_test(
             c_string("public"),

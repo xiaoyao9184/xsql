@@ -39,6 +39,7 @@ public class SumConverter
                             .scope(d -> d.getPartitionBy())
                             .and()
                         .sub("order_by_clause")
+                            .optional(d -> d.getOrderBy() == null)
                             .scope(d -> d.getOrderBy())
                             .and()
                         .sub_keyword(Other.GROUP_END)

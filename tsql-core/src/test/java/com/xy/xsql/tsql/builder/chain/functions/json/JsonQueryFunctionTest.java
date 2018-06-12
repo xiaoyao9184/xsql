@@ -58,8 +58,8 @@ public class JsonQueryFunctionTest {
     /**
      * JSON_VALUE(jsonContent, '$.address[0].longitude')
      */
-    public Json_Value example2 = f_json_value(
-            c("jsonInfo"),
+    public Json_Query example2 = f_json_query(
+            c("jsonContent"),
             "$.address[0].longitude"
     );
 

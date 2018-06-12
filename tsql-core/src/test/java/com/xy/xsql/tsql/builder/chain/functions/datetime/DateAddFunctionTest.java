@@ -1,6 +1,7 @@
 package com.xy.xsql.tsql.builder.chain.functions.datetime;
 
 import com.xy.xsql.tsql.model.datatypes.constants.NumberConstant;
+import com.xy.xsql.tsql.model.elements.expressions.GroupExpression;
 import com.xy.xsql.tsql.model.elements.expressions.UnaryExpression;
 import com.xy.xsql.tsql.model.elements.variables.LocalVariable;
 import com.xy.xsql.tsql.model.functions.aggregate.Sum;
@@ -50,9 +51,9 @@ public class DateAddFunctionTest {
      * DATEADD(day, @days, @datetime)
      */
     public DateAdd exampleC = f_dateadd(
-            DatePart.DatePartArgument.year,
+            DatePart.DatePartArgument.day,
             e_variable("days"),
-            e_variable("datetime2")
+            e_variable("datetime")
     );
 
     /**
@@ -70,20 +71,20 @@ public class DateAddFunctionTest {
      */
     public DateAdd exampleC3 = f_dateadd(
             DatePart.DatePartArgument.month,
-            $Query()
+            e($Query()
                 .$Top().$(e_number(1))
                     .and()
                 .$(c("BusinessEntityID"))
                 .$From()
                     .$(t("Person","Person"))
                     .and()
-                .build(),
-            $Query()
+                .build()),
+            e($Query()
                     .$(f_max(c("ModifiedDate")))
                     .$From()
                         .$(t("Person","Person"))
                         .and()
-                    .build()
+                    .build())
     );
 
     /**
@@ -91,8 +92,8 @@ public class DateAddFunctionTest {
      */
     public DateAdd exampleC4 = f_dateadd(
             DatePart.DatePartArgument.month,
-            e_negative(
-                    e_division(e_number(10),e_number(2))),
+            e_negative(e(
+                    e_division(e_number(10),e_number(2)))),
             f_sysdatetime()
     );
 
@@ -118,15 +119,15 @@ public class DateAddFunctionTest {
 
     @Test
     public void testExampleC(){
-        assertEquals(exampleC.getDatepart(), DatePart.DatePartArgument.year);
+        assertEquals(exampleC.getDatepart(), DatePart.DatePartArgument.day);
         assertEquals(exampleC.getNumber().getClass(), LocalVariable.class);
         assertEquals(exampleC.getDate().getClass(), LocalVariable.class);
         assertEquals(exampleC2.getDatepart(), DatePart.DatePartArgument.month);
         assertEquals(exampleC2.getNumber().getClass(), NumberConstant.class);
         assertEquals(exampleC2.getDate().getClass(), SysDatetime.class);
         assertEquals(exampleC3.getDatepart(), DatePart.DatePartArgument.month);
-        assertEquals(exampleC3.getNumber().getClass(), Select.QuerySpecification.class);
-        assertEquals(exampleC3.getDate().getClass(), Select.QuerySpecification.class);
+        assertEquals(exampleC3.getNumber().getClass(), GroupExpression.class);
+        assertEquals(exampleC3.getDate().getClass(), GroupExpression.class);
         assertEquals(exampleC4.getDatepart(), DatePart.DatePartArgument.month);
         assertEquals(exampleC4.getNumber().getClass(), UnaryExpression.class);
         assertEquals(exampleC4.getDate().getClass(), SysDatetime.class);

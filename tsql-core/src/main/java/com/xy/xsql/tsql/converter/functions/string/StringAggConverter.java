@@ -20,7 +20,7 @@ public class StringAggConverter
     public static BlockMeta meta =
             new BlockMetaBuilder<Void,String_Agg>()
                     .overall("STRING_AGG")
-                    .sub_keyword(Function.Keywords.STR)
+                    .sub_keyword(Function.Keywords.STRING_AGG)
                     .sub_keyword(Other.GROUP_START)
                     .sub("expression")
                         .scope(d -> d.getExpression())

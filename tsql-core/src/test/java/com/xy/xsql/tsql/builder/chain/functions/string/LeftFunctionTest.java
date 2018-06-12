@@ -37,7 +37,7 @@ public class LeftFunctionTest {
      */
     public Left exampleB = f_left(
             c_string("abcdefg"),
-            c_number(5)
+            c_number(2)
     );
 
     @Test

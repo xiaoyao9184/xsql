@@ -22,6 +22,7 @@ public class LoginPropertyConverter
                     .sub("'login_name'")
                         .scope(d-> d.getLoginName())
                         .and()
+                    .sub_keyword(Other.DELIMITER)
                     .sub("'property_name'")
                         .scope(d-> d.getPropertyName())
                         .and()

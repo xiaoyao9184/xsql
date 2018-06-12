@@ -17,14 +17,14 @@ public class MonthFunctionTest {
 
 
     /**
-     *  MONTH('2007-04-30T01:01:01.1234567 -07:00')
+     * MONTH('2007-04-30T01:01:01.1234567 -07:00')
      */
     public Month example1 = f_month(
             c_string("2007-04-30T01:01:01.1234567 -07:00")
     );
 
     /**
-     *  MONTH('2007-04-30T01:01:01.1234567 -07:00')
+     * MONTH(0)
      */
     public Month example2 = f_month(
             c_number(0)

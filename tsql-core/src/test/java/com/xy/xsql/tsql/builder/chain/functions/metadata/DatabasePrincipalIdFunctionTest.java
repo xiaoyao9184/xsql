@@ -15,7 +15,7 @@ public class DatabasePrincipalIdFunctionTest {
 
 
     /**
-     * DATABASE_PRINCIPAL_ID('db_owner');
+     * DATABASE_PRINCIPAL_ID('db_owner')
      */
     public Database_Principal_Id exampleB = f_database_principal_id(
             c_string("db_owner")

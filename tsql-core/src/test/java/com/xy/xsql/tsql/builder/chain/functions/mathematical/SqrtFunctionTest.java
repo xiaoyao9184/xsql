@@ -18,7 +18,7 @@ public class SqrtFunctionTest {
      * SQRT(@myvalue)
      */
     public Sqrt example1 = f_sqrt(
-            e_variable("value")
+            e_variable("myvalue")
     );
 
     /**

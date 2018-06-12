@@ -9,10 +9,6 @@ public class Float
         extends FixedLengthDataType
         implements NumericDataType, InternalDataType {
 
-    public Float(){
-        super(53);
-    }
-
     @Override
     public Keywords keyword() {
         return Keywords.float$;

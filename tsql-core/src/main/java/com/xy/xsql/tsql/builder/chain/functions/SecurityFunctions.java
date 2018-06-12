@@ -9,9 +9,9 @@ import com.xy.xsql.tsql.model.functions.security.*;
  */
 public interface SecurityFunctions {
 
-    static Certencoded f_certencoded(
+    static CertEncoded f_certencoded(
             Expression certId){
-        Certencoded f = new Certencoded();
+        CertEncoded f = new CertEncoded();
         f.setCertId(certId);
         return f;
     }
@@ -173,7 +173,7 @@ public interface SecurityFunctions {
         return f;
     }
     static SUser_Name f_suser_name(
-            StringConstant serverUserId){
+            Expression serverUserId){
         SUser_Name f = new SUser_Name();
         f.setServerUserId(serverUserId);
         return f;
@@ -184,10 +184,16 @@ public interface SecurityFunctions {
     }
     static SUser_SId f_suser_sid(
             StringConstant login,
-            StringConstant param2){
+            Expression param2){
         SUser_SId f = new SUser_SId();
         f.setLogin(login);
         f.setParam2(param2);
+        return f;
+    }
+    static SUser_SId f_suser_sid(
+            StringConstant login){
+        SUser_SId f = new SUser_SId();
+        f.setLogin(login);
         return f;
     }
     static SUser_SId f_suser_sid(){
@@ -195,9 +201,13 @@ public interface SecurityFunctions {
         return f;
     }
     static SUser_SName f_suser_sname(
-            StringConstant serverUserSId){
+            Expression serverUserSId){
         SUser_SName f = new SUser_SName();
         f.setServerUserSId(serverUserSId);
+        return f;
+    }
+    static SUser_SName f_suser_sname(){
+        SUser_SName f = new SUser_SName();
         return f;
     }
     static System_User f_system_user(){
@@ -217,7 +227,7 @@ public interface SecurityFunctions {
         return f;
     }
     static User_Name f_user_name(
-            StringConstant id){
+            Expression id){
         User_Name f = new User_Name();
         f.setId(id);
         return f;

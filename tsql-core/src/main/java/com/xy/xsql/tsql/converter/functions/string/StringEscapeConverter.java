@@ -8,6 +8,8 @@ import com.xy.xsql.tsql.model.functions.Function;
 import com.xy.xsql.tsql.model.functions.string.Replace;
 import com.xy.xsql.tsql.model.functions.string.String_Escape;
 
+import static com.xy.xsql.tsql.builder.chain.datatypes.Constants.c_string;
+
 /**
  * Created by xiaoyao9184 on 2017/6/15.
  */
@@ -25,7 +27,7 @@ public class StringEscapeConverter
                         .and()
                     .sub_keyword(Other.DELIMITER)
                     .sub("type")
-                        .scope(d -> d.getType())
+                        .scope(d -> c_string(d.getType().name()))
                         .and()
                     .sub_keyword(Other.GROUP_END)
                     .build();

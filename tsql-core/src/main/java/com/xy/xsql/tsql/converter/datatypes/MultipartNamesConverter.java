@@ -7,6 +7,9 @@ import com.xy.xsql.tsql.model.datatypes.table.ColumnName;
 import com.xy.xsql.tsql.model.elements.Other;
 import com.xy.xsql.tsql.model.datatypes.table.TableName;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by xiaoyao9184 on 2017/6/21.
  */
@@ -105,4 +108,77 @@ public class MultipartNamesConverter {
         }
 
     }
+
+    // @formatter:off
+    public static BlockMeta metaSequenceName =
+            new BlockMetaBuilder<Void,List<String>>()
+                    .description("[ database_name . ] [ schema_name . ]  sequence_name")
+                    .sub()
+                        .description("database_name.")
+                        .optional(d -> {
+                            Collections.reverse(d);
+                            return d.size() != 3;
+                        })
+                        .sub("database_name")
+                            .scope(d -> d.get(2))
+                            .and()
+                        .sub_keyword(Other.POINT)
+                        .sub_format_empty_delimiter()
+                        .and()
+                    .sub()
+                        .description("schema_name.")
+                        .optional(d -> d.size() < 2)
+                        .sub("schema_name")
+                            .scope(d -> d.get(1))
+                            .and()
+                        .sub_keyword(Other.POINT)
+                        .sub_format_empty_delimiter()
+                        .and()
+                    .sub("sequence_name")
+                        .scope(d -> d.get(0))
+                        .and()
+                    .sub_format_empty_delimiter()
+                    .build();
+    // @formatter:on
+
+
+    // @formatter:off
+    public static BlockMeta metaObjectName =
+            new BlockMetaBuilder<Void,List<String>>()
+                    .description("[ database_name . [ schema_name ] . | schema_name . ] object_name")
+                    .sub()
+                        .description("database_name.schema_name. / schema_name.")
+                        .optional(d -> {
+                            Collections.reverse(d);
+                            return d.size() != 3 && d.size() != 2;
+                        })
+                        .czse(d -> d.size() == 3, "[ database_name . [ schema_name ] .")
+                            .description("database_name.schema_name.")
+                            .sub("database_name")
+                                .scope(d -> d.get(2))
+                                .and()
+                            .sub_keyword(Other.POINT)
+                            .sub("schema_name")
+                                .scope(d -> d.get(1))
+                                .and()
+                            .sub_keyword(Other.POINT)
+                            .sub_format_empty_delimiter()
+                            .and()
+                        .czse(d -> d.size() == 2,"schema_name .")
+                            .description("schema_name.")
+                            .sub("schema_name")
+                                .scope(d -> d.get(1))
+                                .and()
+                            .sub_keyword(Other.POINT)
+                            .sub_format_empty_delimiter()
+                            .and()
+                        .and()
+                    .sub("object_name")
+                        .scope(d -> d.get(0))
+                        .and()
+                    .sub_format_empty_delimiter()
+                    .build();
+    // @formatter:on
+
+
 }

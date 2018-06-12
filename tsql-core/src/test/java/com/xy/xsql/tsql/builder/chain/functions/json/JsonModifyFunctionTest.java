@@ -171,7 +171,7 @@ public class JsonModifyFunctionTest {
     }
 
     /**
-     * JSON_MODIFY(jsonCol,"$.info.address.town",'London')
+     * JSON_MODIFY(jsonCol,'$.info.address.town','London')
      */
     public Json_Modify example9 = f_json_modify(
             c("jsonCol"),
